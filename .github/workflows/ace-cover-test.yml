@@ -86,6 +86,8 @@ jobs:
           git -C "$ACE_DIR" checkout -q "$ACE_COMMIT"
           (cd "$ACE_DIR" && UV_PROJECT_ENVIRONMENT="$ACE_VENV" uv sync --frozen --python 3.12)
           uv pip install -q --python "$ACE_VENV/bin/python" librosa mido
+          # The judge's own code; its torch and other needs are already there.
+          uv pip install -q --no-deps --python "$ACE_VENV/bin/python" audiobox_aesthetics
           uv cache clean
           "$ACE_VENV/bin/python" -c "import torch, acestep.inference, acestep.handler; print('torch', torch.__version__)"
           df -h "$WORK"

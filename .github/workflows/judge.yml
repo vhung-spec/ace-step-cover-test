@@ -1,0 +1,56 @@
+# Rates the takes of earlier test runs with judge.py (Meta's Audiobox
+# Aesthetics: production quality, enjoyment, usefulness, complexity), without
+# making anything new. Start it by hand with the run ids (from the runs'
+# addresses), e.g. "40357924382 40351644370".
+name: Judge earlier takes
+run-name: 'Judge runs ${{ inputs.run_ids }}'
+
+on:
+  workflow_dispatch:
+    inputs:
+      run_ids:
+        description: 'Run ids, separated by spaces'
+        required: true
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  judge:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 60
+    env:
+      RUN_IDS: ${{ inputs.run_ids }}
+      GH_TOKEN: ${{ github.token }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: astral-sh/setup-uv@v6
+
+      - name: Judge's tools (CPU only)
+        run: |
+          uv venv -q --python 3.12 "$RUNNER_TEMP/venv"
+          uv pip install -q --python "$RUNNER_TEMP/venv/bin/python" torch torchaudio \
+            --index-url https://download.pytorch.org/whl/cpu
+          uv pip install -q --python "$RUNNER_TEMP/venv/bin/python" librosa audiobox_aesthetics
+
+      - name: Takes of the earlier runs
+        run: |
+          for id in $RUN_IDS; do
+            gh run download "$id" --repo "$GITHUB_REPOSITORY" --name ace-cover-test --dir "runs/$id"
+          done
+          find runs -name '*.mp3' | sort
+
+      - name: Judge
+        run: |
+          "$RUNNER_TEMP/venv/bin/python" judge.py runs | tee judged.txt
+          { echo "### Audiobox Aesthetics (1-10)"; sed -n '/^| file/,$p' judged.txt; } >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Keep the ratings
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: judged
+          path: judged.txt
+          retention-days: 30

@@ -20,6 +20,8 @@ compared moment by moment:
   Christmas holiday music";
 - reference: for covers made with reference audio, CLAP similarity of the
   source and of the cover to the reference;
+- PQ/CE: production quality and enjoyment (1-10) by Meta's Audiobox
+  Aesthetics model (judge.py), of the source and of the cover;
 - level: peak level, clipped samples, near-silent stretches.
 A lego entry (a new part mixed with its source) gets a second row for the
 new part alone.
@@ -170,7 +172,7 @@ def spectrograms(images: list[tuple[str, np.ndarray]], path: Path) -> None:
 
 def score(name: str, entry: dict, settings: dict, run: Path, take: Path, melody: list | None,
           clap: "Clap | None", labels: np.ndarray | None, christmas: np.ndarray | None,
-          out: Path, first: bool) -> dict:
+          aesthetics, out: Path, first: bool) -> dict:
     """One take against its source; `first` also prints how the measures rate
     the source itself."""
     source_path = run / "source.wav"
@@ -208,6 +210,10 @@ def score(name: str, entry: dict, settings: dict, run: Path, take: Path, melody:
             reference_emb = clap.audio(run / "reference.wav")
             row["like_reference_source"] = round(float(source_emb @ reference_emb), 3)
             row["like_reference_cover"] = round(float(cover_emb @ reference_emb), 3)
+    if aesthetics is not None:
+        row["aes_source"], row["aes_cover"] = aesthetics.rate(source_path), aesthetics.rate(take)
+        if first:
+            print(f"Audiobox Aesthetics of the source: {row['aes_source']}")
     image = name.replace(" (new part only)", "-part")
     try:
         spectrograms([("source", source), (name, cover)], out / f"{image}.png")
@@ -245,6 +251,13 @@ def main(out_dir: str) -> int:
     except Exception as err:  # the scores without CLAP still say a lot
         print(f"CLAP unavailable: {err}")
         clap = labels = christmas = None
+    try:
+        from judge import Aesthetics
+
+        aesthetics = Aesthetics()
+    except Exception as err:
+        print(f"Audiobox Aesthetics unavailable: {err}")
+        aesthetics = None
 
     melody_file = out / MELODY_FILE
     melody = json.loads(melody_file.read_text()) if melody_file.is_file() else None
@@ -264,21 +277,23 @@ def main(out_dir: str) -> int:
             takes.append((f"{entry['name']} (new part only)", run / "stem_01.wav"))
         for name, take in takes:
             scores.append(score(name, entry, settings, run, take, melody, clap, labels, christmas,
-                                out, first=not any("harmony" in r for r in scores)))
+                                aesthetics, out, first=not any("harmony" in r for r in scores)))
 
     (out / "scores.json").write_text(json.dumps(scores, indent=2, ensure_ascii=False))
     lines = ["| run | how | time (s) | melody % (chance) | harmony | key shift | rhythm | "
-             "tempo src→cover | sound change | style src→cover | closest style | peak dBFS | "
-             "clipped % | silent % |",
-             "|---|---|---|---|---|---|---|---|---|---|---|---|---|---|"]
+             "tempo src→cover | sound change | style src→cover | closest style | "
+             "quality PQ / enjoy CE src→cover | peak dBFS | clipped % | silent % |",
+             "|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|"]
     for r in scores:
         if r.get("reference_piece"):
             lines.append(f"| {r['name']} | reference piece ({'made' if r['ok'] else 'FAILED'}) |"
-                         + " |" * 12)
+                         + " |" * 13)
             continue
         if not r["ok"]:
-            lines.append(f"| {r['name']} | FAILED |" + " |" * 12)
+            lines.append(f"| {r['name']} | FAILED |" + " |" * 13)
             continue
+        aes = (f"{r['aes_source']['PQ']} / {r['aes_source']['CE']} → "
+               f"{r['aes_cover']['PQ']} / {r['aes_cover']['CE']}" if "aes_cover" in r else "n/a")
         style = (f"{r['style_source']}→{r['style_cover']}" if "style_cover" in r else "n/a")
         if "christmas_cover" in r:
             style += f" (Christmas {r['christmas_source']}→{r['christmas_cover']})"
@@ -289,7 +304,7 @@ def main(out_dir: str) -> int:
             f"{r.get('melody_pct', 'n/a')} ({r.get('melody_chance_pct', 'n/a')}) | "
             f"{r['harmony']} | {r['key_shift']} | {r['rhythm']} | "
             f"{r['tempo_source']}→{r['tempo_cover']} | {r['sound_change']} | {style} | "
-            f"{r.get('label_cover', 'n/a')} | {r['peak_dbfs']} | {r['clipped_pct']} | "
+            f"{r.get('label_cover', 'n/a')} | {aes} | {r['peak_dbfs']} | {r['clipped_pct']} | "
             f"{r['near_silent_pct']} |")
     report = "\n".join(lines)
     (out / "report.md").write_text(report + "\n")
