@@ -16,6 +16,8 @@ compared moment by moment:
 - sound change: distance between average timbres (MFCC), 0 = same sound;
 - style: CLAP (laion/clap-htsat-unfused) similarity to the caption, against
   the source's, and the closest of a few style labels;
+- Christmas: CLAP similarity of the source and of the cover to "festive
+  Christmas holiday music";
 - reference: for covers made with reference audio, CLAP similarity of the
   source and of the cover to the reference;
 - level: peak level, clipped samples, near-silent stretches.
@@ -33,10 +35,14 @@ SR = 22050
 HOP = 1024
 CLAP_MODEL = "laion/clap-htsat-unfused"
 MELODY_FILE = Path("source") / "melody.json"
+CHRISTMAS = "festive Christmas holiday music"
 STYLE_LABELS = [
     "solo piano",
     "jazz piano trio with upright bass and brushed drums",
     "orchestral music with strings and bells",
+    "festive Christmas music with sleigh bells",
+    "music box lullaby",
+    "church organ and handbells",
     "rock band with electric guitars",
     "electronic dance music",
     "choir singing",
@@ -170,6 +176,7 @@ def main(out_dir: str) -> int:
     try:
         clap = Clap()
         labels = clap.text(STYLE_LABELS)
+        christmas = clap.text([CHRISTMAS])[0]
     except Exception as err:  # the scores without CLAP still say a lot
         print(f"CLAP unavailable: {err}")
         clap = labels = None
@@ -215,6 +222,8 @@ def main(out_dir: str) -> int:
                 "style_cover": round(float(cover_emb @ caption), 3),
                 "label_source": STYLE_LABELS[int(np.argmax(labels @ source_emb))],
                 "label_cover": STYLE_LABELS[int(np.argmax(labels @ cover_emb))],
+                "christmas_source": round(float(source_emb @ christmas), 3),
+                "christmas_cover": round(float(cover_emb @ christmas), 3),
             })
             if (run / "reference.wav").is_file():
                 reference_emb = clap.audio(run / "reference.wav")
@@ -241,6 +250,8 @@ def main(out_dir: str) -> int:
             lines.append(f"| {r['name']} | FAILED |" + " |" * 12)
             continue
         style = (f"{r['style_source']}→{r['style_cover']}" if "style_cover" in r else "n/a")
+        if "christmas_cover" in r:
+            style += f" (Christmas {r['christmas_source']}→{r['christmas_cover']})"
         if "like_reference_cover" in r:
             style += f" (like ref {r['like_reference_source']}→{r['like_reference_cover']})"
         lines.append(
