@@ -21,6 +21,8 @@ compared moment by moment:
 - reference: for covers made with reference audio, CLAP similarity of the
   source and of the cover to the reference;
 - level: peak level, clipped samples, near-silent stretches.
+A lego entry (a new part mixed with its source) gets a second row for the
+new part alone.
 """
 
 import json
@@ -166,6 +168,69 @@ def spectrograms(images: list[tuple[str, np.ndarray]], path: Path) -> None:
     plt.close(fig)
 
 
+def score(name: str, entry: dict, settings: dict, run: Path, take: Path, melody: list | None,
+          clap: "Clap | None", labels: np.ndarray | None, christmas: np.ndarray | None,
+          out: Path, first: bool) -> dict:
+    """One take against its source; `first` also prints how the measures rate
+    the source itself."""
+    source_path = run / "source.wav"
+    source = librosa.load(source_path, sr=SR, mono=True)[0]
+    cover = librosa.load(take, sr=SR, mono=True)[0]
+    if melody and first:
+        print(f"Melody notes found in the source itself: {melody_hits(source, melody)} %; "
+              f"in the source played backwards: {melody_hits(source[::-1], melody)} %")
+    row = {"name": name, "ok": True, "how": how(settings), "strength": entry.get("strength"),
+           "noise": entry.get("noise", 0), "caption": entry["caption"],
+           "steps_following_source": settings.get("steps_following_source"),
+           "steps_run": settings.get("steps_run", 8),
+           "cover_seconds": entry["seconds"],
+           "take_seconds": (settings.get("takes") or [{}])[0].get("generation_seconds"),
+           **harmony(source, cover), **rhythm(source, cover), **sound_change(source, cover),
+           **level(take)}
+    if melody:
+        row["melody_pct"] = melody_hits(cover, melody, row["key_shift"])
+        row["melody_chance_pct"] = melody_hits(cover[::-1], melody, row["key_shift"])
+    if clap is not None:
+        caption = clap.text([entry["caption"]])[0]
+        source_emb, cover_emb = clap.audio(source_path), clap.audio(take)
+        if first:  # does CLAP tell styles apart?
+            print("CLAP, source vs labels: " + ", ".join(
+                f"{label} {float(sim):.3f}" for label, sim in zip(STYLE_LABELS, labels @ source_emb)))
+        row.update({
+            "style_source": round(float(source_emb @ caption), 3),
+            "style_cover": round(float(cover_emb @ caption), 3),
+            "label_source": STYLE_LABELS[int(np.argmax(labels @ source_emb))],
+            "label_cover": STYLE_LABELS[int(np.argmax(labels @ cover_emb))],
+            "christmas_source": round(float(source_emb @ christmas), 3),
+            "christmas_cover": round(float(cover_emb @ christmas), 3),
+        })
+        if (run / "reference.wav").is_file():
+            reference_emb = clap.audio(run / "reference.wav")
+            row["like_reference_source"] = round(float(source_emb @ reference_emb), 3)
+            row["like_reference_cover"] = round(float(cover_emb @ reference_emb), 3)
+    image = name.replace(" (new part only)", "-part")
+    try:
+        spectrograms([("source", source), (name, cover)], out / f"{image}.png")
+    except Exception as err:
+        print(f"No spectrogram for {name}: {err}")
+    print(json.dumps(row, ensure_ascii=False), flush=True)
+    return row
+
+
+def how(settings: dict) -> str:
+    """Model and task in a few words, e.g. "turbo 6/6" (steps that follow the
+    source / steps run) or "base lego strings on lego-piano"."""
+    model = settings.get("model", "acestep-v15-turbo").replace("acestep-v15-", "")
+    task = settings.get("task", "cover")
+    if task == "lego":
+        text = f"{model} lego {settings['track']}"
+    elif task == "complete":
+        text = f"{model} complete {'+'.join(settings['tracks'])}"
+    else:
+        text = f"{model} {settings.get('steps_following_source')}/{settings.get('steps_run', 8)}"
+    return text + (f" on {settings['source_from']}" if settings.get("source_from") else "")
+
+
 def main(out_dir: str) -> int:
     out = Path(out_dir)
     plan_file = out / "plan_results.json"
@@ -179,7 +244,7 @@ def main(out_dir: str) -> int:
         christmas = clap.text([CHRISTMAS])[0]
     except Exception as err:  # the scores without CLAP still say a lot
         print(f"CLAP unavailable: {err}")
-        clap = labels = None
+        clap = labels = christmas = None
 
     melody_file = out / MELODY_FILE
     melody = json.loads(melody_file.read_text()) if melody_file.is_file() else None
@@ -193,51 +258,16 @@ def main(out_dir: str) -> int:
         if not entry["ok"] or take is None or not take.is_file():
             scores.append({"name": entry["name"], "ok": False})
             continue
-        source_path = run / "source.wav"
-        source = librosa.load(source_path, sr=SR, mono=True)[0]
-        cover = librosa.load(take, sr=SR, mono=True)[0]
         settings = json.loads((run / "settings.json").read_text())
-        if melody and not any("harmony" in r for r in scores):  # once: the measure on the source itself
-            print(f"Melody notes found in the source itself: {melody_hits(source, melody)} %; "
-                  f"in the source played backwards: {melody_hits(source[::-1], melody)} %")
-        row = {"name": entry["name"], "ok": True, "strength": entry["strength"],
-               "noise": entry.get("noise", 0), "caption": entry["caption"],
-               "steps_following_source": settings.get("steps_following_source"),
-               "steps_run": settings.get("steps_run", 8),
-               "cover_seconds": entry["seconds"],
-               "take_seconds": (settings.get("takes") or [{}])[0].get("generation_seconds"),
-               **harmony(source, cover), **rhythm(source, cover), **sound_change(source, cover),
-               **level(take)}
-        if melody:
-            row["melody_pct"] = melody_hits(cover, melody, row["key_shift"])
-            row["melody_chance_pct"] = melody_hits(cover[::-1], melody, row["key_shift"])
-        if clap is not None:
-            caption = clap.text([entry["caption"]])[0]
-            source_emb, cover_emb = clap.audio(source_path), clap.audio(take)
-            if not any("style_cover" in r for r in scores):  # once: does CLAP tell styles apart?
-                print("CLAP, source vs labels: " + ", ".join(
-                    f"{label} {float(sim):.3f}" for label, sim in zip(STYLE_LABELS, labels @ source_emb)))
-            row.update({
-                "style_source": round(float(source_emb @ caption), 3),
-                "style_cover": round(float(cover_emb @ caption), 3),
-                "label_source": STYLE_LABELS[int(np.argmax(labels @ source_emb))],
-                "label_cover": STYLE_LABELS[int(np.argmax(labels @ cover_emb))],
-                "christmas_source": round(float(source_emb @ christmas), 3),
-                "christmas_cover": round(float(cover_emb @ christmas), 3),
-            })
-            if (run / "reference.wav").is_file():
-                reference_emb = clap.audio(run / "reference.wav")
-                row["like_reference_source"] = round(float(source_emb @ reference_emb), 3)
-                row["like_reference_cover"] = round(float(cover_emb @ reference_emb), 3)
-        try:
-            spectrograms([("source", source), (entry["name"], cover)], out / f"{entry['name']}.png")
-        except Exception as err:
-            print(f"No spectrogram for {entry['name']}: {err}")
-        scores.append(row)
-        print(json.dumps(row, ensure_ascii=False), flush=True)
+        takes = [(entry["name"], take)]
+        if (run / "stem_01.wav").is_file():
+            takes.append((f"{entry['name']} (new part only)", run / "stem_01.wav"))
+        for name, take in takes:
+            scores.append(score(name, entry, settings, run, take, melody, clap, labels, christmas,
+                                out, first=not any("harmony" in r for r in scores)))
 
     (out / "scores.json").write_text(json.dumps(scores, indent=2, ensure_ascii=False))
-    lines = ["| run | steps followed/run | time (s) | melody % (chance) | harmony | key shift | rhythm | "
+    lines = ["| run | how | time (s) | melody % (chance) | harmony | key shift | rhythm | "
              "tempo src→cover | sound change | style src→cover | closest style | peak dBFS | "
              "clipped % | silent % |",
              "|---|---|---|---|---|---|---|---|---|---|---|---|---|---|"]
@@ -255,7 +285,7 @@ def main(out_dir: str) -> int:
         if "like_reference_cover" in r:
             style += f" (like ref {r['like_reference_source']}→{r['like_reference_cover']})"
         lines.append(
-            f"| {r['name']} | {r['steps_following_source']}/{r['steps_run']} | {r['take_seconds']} | "
+            f"| {r['name']} | {r['how']} | {r['take_seconds']} | "
             f"{r.get('melody_pct', 'n/a')} ({r.get('melody_chance_pct', 'n/a')}) | "
             f"{r['harmony']} | {r['key_shift']} | {r['rhythm']} | "
             f"{r['tempo_source']}→{r['tempo_cover']} | {r['sound_change']} | {style} | "

@@ -4,6 +4,7 @@
 # (score_covers.py). Start it by hand: Actions > ACE-Step cover test > Run
 # workflow. Results: the run's summary and its "ace-cover-test" artifact.
 name: ACE-Step cover test
+run-name: 'Covers: ${{ inputs.model }}, source ${{ inputs.arrangement }} (${{ inputs.soundfont }})'
 
 on:
   workflow_dispatch:
@@ -12,6 +13,21 @@ on:
         description: 'Test plan as JSON (empty: plan.json)'
         required: false
         default: ''
+      model:
+        description: 'ACE-Step model: turbo (the app''s), sft (slower, finer) or base (lego and complete)'
+        type: choice
+        options: [acestep-v15-turbo, acestep-v15-sft, acestep-v15-base]
+        default: acestep-v15-turbo
+      arrangement:
+        description: 'Source arrangement: v2 (played like a person) or v1 (plain)'
+        type: choice
+        options: [v2, v1]
+        default: v2
+      soundfont:
+        description: 'Instrument sounds for the source'
+        type: choice
+        options: [GeneralUser-GS, FluidR3]
+        default: GeneralUser-GS
 
 permissions:
   contents: read
@@ -22,7 +38,11 @@ jobs:
     timeout-minutes: 180
     env:
       ACE_COMMIT: ca1e85fe9430179831e6bc6be790c332190a3866
+      GUGS_COMMIT: 684543d5e5efaef08d02be50dcda8d552478fa60  # GeneralUser GS v2.0.3
       PLAN: ${{ inputs.plan }}
+      MODEL: ${{ inputs.model }}
+      ARRANGEMENT: ${{ inputs.arrangement }}
+      SOUNDFONT: ${{ inputs.soundfont }}
     steps:
       - uses: actions/checkout@v4
 
@@ -73,11 +93,22 @@ jobs:
       - name: Download the models
         run: |
           "$ACE_VENV/bin/acestep-download" --dir "$ACESTEP_CHECKPOINTS_DIR"
+          if [ "$MODEL" != acestep-v15-turbo ]; then
+            "$ACE_VENV/bin/acestep-download" --model "$MODEL" --dir "$ACESTEP_CHECKPOINTS_DIR"
+          fi
           du -sh "$ACESTEP_CHECKPOINTS_DIR"/*
           df -h "$WORK"
 
       - name: Source (public-domain carol)
-        run: '"$ACE_VENV/bin/python" make_source.py out/source'
+        run: |
+          soundfont=/usr/share/sounds/sf2/FluidR3_GM.sf2
+          if [ "$SOUNDFONT" = GeneralUser-GS ]; then
+            # Only the soundfont file, at a pinned commit of its author's repository.
+            git clone -q --filter=blob:none --no-checkout https://github.com/mrbumpy409/GeneralUser-GS.git "$WORK/gugs"
+            git -C "$WORK/gugs" checkout -q "$GUGS_COMMIT" -- GeneralUser-GS.sf2
+            soundfont="$WORK/gugs/GeneralUser-GS.sf2"
+          fi
+          "$ACE_VENV/bin/python" make_source.py out/source --arrangement "$ARRANGEMENT" --soundfont "$soundfont"
 
       - name: Covers
         timeout-minutes: 120
@@ -85,7 +116,7 @@ jobs:
           cd "$ACE_DIR"
           "$ACE_VENV/bin/python" "$GITHUB_WORKSPACE/cover.py" \
             --source "$GITHUB_WORKSPACE/out/source/source.wav" --out "$GITHUB_WORKSPACE/out" \
-            --plan "$PLAN"
+            --model "$MODEL" --plan "$PLAN"
 
       - name: Scores
         if: always()
