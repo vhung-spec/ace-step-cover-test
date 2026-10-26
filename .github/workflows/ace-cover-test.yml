@@ -14,9 +14,10 @@ on:
         required: false
         default: ''
       model:
-        description: 'ACE-Step model: turbo (the app''s), sft (slower, finer) or base (lego and complete)'
+        description: 'ACE-Step model: turbo (the app''s), sft (slower, finer), base (lego and complete); xl: the 4B versions'
         type: choice
-        options: [acestep-v15-turbo, acestep-v15-sft, acestep-v15-base]
+        options: [acestep-v15-turbo, acestep-v15-sft, acestep-v15-base,
+                  acestep-v15-xl-turbo, acestep-v15-xl-sft, acestep-v15-xl-base]
         default: acestep-v15-turbo
       arrangement:
         description: 'Source arrangement: v2 (played like a person) or v1 (plain)'
@@ -57,7 +58,13 @@ jobs:
           if [ "$mnt_free" -gt "$root_free" ]; then work=/mnt/work; else work=$HOME/work; fi
           sudo mkdir -p "$work" && sudo chown "$USER" "$work"
           sudo swapoff -a
-          sudo fallocate -l 16G "$work/swap"
+          # An XL model (4B, float32 on CPU) needs about 20 GB beside the rest;
+          # about 45 GB of the disk stays free for the models and tools.
+          case "$MODEL" in *xl*) swap=28;; *) swap=16;; esac
+          free=$(df --output=avail -BG "$work" | tail -1 | tr -dc 0-9)
+          if [ $((free - 45)) -lt "$swap" ]; then swap=$((free - 45 > 8 ? free - 45 : 8)); fi
+          echo "Swap: ${swap} GB"
+          sudo fallocate -l "${swap}G" "$work/swap"
           sudo chmod 600 "$work/swap" && sudo mkswap "$work/swap" && sudo swapon "$work/swap"
           {
             echo "WORK=$work"
