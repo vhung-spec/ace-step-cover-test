@@ -17,6 +17,10 @@ on:
         description: 'Also rate the source rendered each way'
         type: boolean
         default: false
+      remix:
+        description: 'Mix the new parts of lego runs at several levels and rate the mixes (remix.py)'
+        type: boolean
+        default: false
 
 permissions:
   contents: read
@@ -41,7 +45,7 @@ jobs:
           uv venv -q --python 3.12 "$RUNNER_TEMP/venv"
           uv pip install -q --python "$RUNNER_TEMP/venv/bin/python" torch torchaudio \
             --index-url https://download.pytorch.org/whl/cpu
-          uv pip install -q --python "$RUNNER_TEMP/venv/bin/python" librosa mido audiobox_aesthetics
+          uv pip install -q --python "$RUNNER_TEMP/venv/bin/python" librosa mido audiobox_aesthetics transformers
 
       - name: The source rendered each way
         if: inputs.sources
@@ -76,7 +80,14 @@ jobs:
           done
           find runs -name '*.mp3' -o -name '*.wav' | sort
 
+      - name: Remix the new parts
+        if: inputs.remix
+        run: |
+          "$RUNNER_TEMP/venv/bin/python" remix.py runs/* | tee remixed.txt
+          { echo "### New parts mixed at several levels"; sed -n '/^| part/,$p' remixed.txt; } >> "$GITHUB_STEP_SUMMARY"
+
       - name: Judge
+        if: '!inputs.remix'
         run: |
           "$RUNNER_TEMP/venv/bin/python" judge.py runs | tee judged.txt
           { echo "### Audiobox Aesthetics (1-10)"; sed -n '/^| file/,$p' judged.txt; } >> "$GITHUB_STEP_SUMMARY"
@@ -86,5 +97,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: judged
-          path: judged.txt
+          path: |
+            judged.txt
+            remixed.txt
           retention-days: 30
