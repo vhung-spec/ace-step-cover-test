@@ -29,8 +29,13 @@ RATE = 48000
 
 
 def mix(source: np.ndarray, part: np.ndarray, level: float) -> np.ndarray:
-    n = max(len(source), len(part))
-    source, part = (np.pad(x, (0, n - len(x))) for x in (source, part))
+    """As the app and cover.py mix a new part into a piece: in stereo, the
+    part at `level` times the piece's loudness (RMS over both channels),
+    peaking at -1 dBFS. Arrays are (channels, samples), as librosa loads them."""
+    source, part = (np.atleast_2d(x) for x in (source, part))
+    source, part = (np.repeat(x, 2, axis=0) if x.shape[0] == 1 else x for x in (source, part))
+    n = max(source.shape[1], part.shape[1])
+    source, part = (np.pad(x, ((0, 0), (0, n - x.shape[1]))) for x in (source, part))
 
     def rms(x: np.ndarray) -> float:
         return float(np.sqrt(np.mean(x ** 2))) + 1e-9
@@ -50,17 +55,18 @@ def main(folders: list[str]) -> int:
                 earlier = settings.get("source_from")
                 source_file = (folder / "covers" / earlier / "take_01.mp3" if earlier
                                else folder / "source" / "source.mp3")
-                source = librosa.load(source_file, sr=RATE, mono=True)[0]
-                part = librosa.load(stem, sr=RATE, mono=True)[0]
+                source = librosa.load(source_file, sr=RATE, mono=False)[0]
+                part = librosa.load(stem, sr=RATE, mono=False)[0]
+                source_mono = librosa.resample(np.atleast_2d(source).mean(axis=0), orig_sr=RATE, target_sr=SR)
                 melody_file = folder / MELODY_FILE
                 melody = json.loads(melody_file.read_text()) if melody_file.is_file() else None
                 caption = clap.text([settings["caption"]])[0]
                 for level in LEVELS:
                     path = Path(work) / f"{stem.parent.name}-{level}.wav"
-                    sf.write(path, mix(source, part, level), RATE)
+                    sf.write(path, mix(source, part, level).T, RATE)
                     emb = clap.audio(path)
                     mixed = librosa.load(path, sr=SR, mono=True)[0]
-                    kept = harmony(librosa.resample(source, orig_sr=RATE, target_sr=SR), mixed)
+                    kept = harmony(source_mono, mixed)
                     rows.append({
                         "part": f"{folder.name}/{stem.parent.name}", "level": level,
                         "melody": melody_hits(mixed, melody) if melody else None,
