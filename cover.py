@@ -24,8 +24,8 @@ instruments around the source; its output is the take. "source_from" (the
 name of an earlier entry) uses that entry's take as the source, to stack
 layers.
 
-Every entry may set "seed" (default 1), "steps" (default 8 on turbo
-models, 50 on the others), "shift" (default 3 on turbo, 1 on the others),
+Every entry may set "seed" (default 1), "steps" (8 on turbo models, at
+most; default 50 on the others), "shift" (default 3 on turbo, 1 on the others),
 on the others "guidance" (default 7), and the music's "bpm", "keyscale"
 (e.g. "C major") and "timesignature" (e.g. "3" for 3/4), which ACE-Step
 otherwise leaves unknown. The app's covers use the turbo
@@ -146,7 +146,7 @@ def main() -> int:
         lyrics = entry.get("lyrics", "")
         steps = int(entry.get("steps", 8 if turbo else 50))
         if turbo:
-            steps = min(steps, 20)  # ACE-Step runs turbo models for at most 20 steps
+            steps = min(steps, 8)  # ACE-Step (this version) runs turbo models for at most 8 steps
         shift = float(entry.get("shift", 3.0 if turbo else 1.0))
         guidance = None if turbo else float(entry.get("guidance", 7.0))
         seed = int(entry.get("seed", SEED))
