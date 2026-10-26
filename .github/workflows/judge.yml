@@ -1,7 +1,8 @@
 # Rates the takes of earlier test runs with judge.py (Meta's Audiobox
 # Aesthetics: production quality, enjoyment, usefulness, complexity), without
 # making anything new. Start it by hand with the run ids (from the runs'
-# addresses), e.g. "40357924382 40351644370".
+# addresses), e.g. "40357924382 40351644370". With "sources" on, it also rates
+# the source rendered each way (arrangement v1/v2, FluidR3/GeneralUser GS).
 name: Judge earlier takes
 run-name: 'Judge runs ${{ inputs.run_ids }}'
 
@@ -10,7 +11,12 @@ on:
     inputs:
       run_ids:
         description: 'Run ids, separated by spaces'
-        required: true
+        required: false
+        default: ''
+      sources:
+        description: 'Also rate the source rendered each way'
+        type: boolean
+        default: false
 
 permissions:
   contents: read
@@ -22,6 +28,8 @@ jobs:
     timeout-minutes: 60
     env:
       RUN_IDS: ${{ inputs.run_ids }}
+      SOURCES: ${{ inputs.sources }}
+      GUGS_COMMIT: 684543d5e5efaef08d02be50dcda8d552478fa60  # GeneralUser GS v2.0.3
       GH_TOKEN: ${{ github.token }}
     steps:
       - uses: actions/checkout@v4
@@ -33,14 +41,33 @@ jobs:
           uv venv -q --python 3.12 "$RUNNER_TEMP/venv"
           uv pip install -q --python "$RUNNER_TEMP/venv/bin/python" torch torchaudio \
             --index-url https://download.pytorch.org/whl/cpu
-          uv pip install -q --python "$RUNNER_TEMP/venv/bin/python" librosa audiobox_aesthetics
+          uv pip install -q --python "$RUNNER_TEMP/venv/bin/python" librosa mido audiobox_aesthetics
+
+      - name: The source rendered each way
+        if: inputs.sources
+        timeout-minutes: 15
+        run: |
+          apt_opts="-o Acquire::Retries=3 -o Acquire::http::Timeout=30 -o DPkg::Lock::Timeout=120"
+          sudo apt-get $apt_opts update -q
+          sudo apt-get $apt_opts install -y -q ffmpeg fluidsynth fluid-soundfont-gm
+          git clone -q --filter=blob:none --no-checkout https://github.com/mrbumpy409/GeneralUser-GS.git "$RUNNER_TEMP/gugs"
+          git -C "$RUNNER_TEMP/gugs" checkout -q "$GUGS_COMMIT" -- GeneralUser-GS.sf2
+          for arrangement in v1 v2; do
+            for soundfont in /usr/share/sounds/sf2/FluidR3_GM.sf2 "$RUNNER_TEMP/gugs/GeneralUser-GS.sf2"; do
+              name=$(basename "$soundfont" .sf2)
+              "$RUNNER_TEMP/venv/bin/python" make_source.py "runs/sources/$arrangement-$name" \
+                --arrangement "$arrangement" --soundfont "$soundfont"
+              rm "runs/sources/$arrangement-$name/source.mp3"  # rate the WAV
+            done
+          done
 
       - name: Takes of the earlier runs
         run: |
+          mkdir -p runs
           for id in $RUN_IDS; do
             gh run download "$id" --repo "$GITHUB_REPOSITORY" --name ace-cover-test --dir "runs/$id"
           done
-          find runs -name '*.mp3' | sort
+          find runs -name '*.mp3' -o -name '*.wav' | sort
 
       - name: Judge
         run: |
