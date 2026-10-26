@@ -191,6 +191,7 @@ def main(out_dir: str) -> int:
         row = {"name": entry["name"], "ok": True, "strength": entry["strength"],
                "noise": entry.get("noise", 0), "caption": entry["caption"],
                "steps_following_source": settings.get("steps_following_source"),
+               "steps_run": settings.get("steps_run", 8),
                "cover_seconds": entry["seconds"],
                "take_seconds": (settings.get("takes") or [{}])[0].get("generation_seconds"),
                **harmony(source, cover), **rhythm(source, cover), **sound_change(source, cover),
@@ -218,7 +219,7 @@ def main(out_dir: str) -> int:
         print(json.dumps(row, ensure_ascii=False), flush=True)
 
     (out / "scores.json").write_text(json.dumps(scores, indent=2, ensure_ascii=False))
-    lines = ["| run | steps | time (s) | melody % (chance) | harmony | key shift | rhythm | "
+    lines = ["| run | steps followed/run | time (s) | melody % (chance) | harmony | key shift | rhythm | "
              "tempo src→cover | sound change | style src→cover | closest style | peak dBFS | "
              "clipped % | silent % |",
              "|---|---|---|---|---|---|---|---|---|---|---|---|---|---|"]
@@ -228,7 +229,7 @@ def main(out_dir: str) -> int:
             continue
         style = (f"{r['style_source']}→{r['style_cover']}" if "style_cover" in r else "n/a")
         lines.append(
-            f"| {r['name']} | {r['steps_following_source']}/8 | {r['take_seconds']} | "
+            f"| {r['name']} | {r['steps_following_source']}/{r['steps_run']} | {r['take_seconds']} | "
             f"{r.get('melody_pct', 'n/a')} ({r.get('melody_chance_pct', 'n/a')}) | "
             f"{r['harmony']} | {r['key_shift']} | {r['rhythm']} | "
             f"{r['tempo_source']}→{r['tempo_cover']} | {r['sound_change']} | {style} | "
