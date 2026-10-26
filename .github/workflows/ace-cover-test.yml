@@ -84,12 +84,15 @@ jobs:
       - name: System tools
         timeout-minutes: 20
         run: |
-          # A package mirror sometimes stalls: each try has its own time limit.
+          # The package mirror is sometimes slow (150 kB/s): only FluidSynth comes
+          # from it, plus the 130 MB FluidR3 soundfont when that one is chosen;
+          # ffmpeg comes from PyPI below. Each try has its own time limit.
+          pkgs=fluidsynth
+          if [ "$SOUNDFONT" = FluidR3 ]; then pkgs="$pkgs fluid-soundfont-gm"; fi
           apt_opts="-o Acquire::Retries=3 -o Acquire::http::Timeout=30 -o DPkg::Lock::Timeout=120"
           for try in 1 2 3; do
             if timeout 240 sudo apt-get $apt_opts update -q &&
-               timeout 360 sudo apt-get $apt_opts install -y -q --no-install-recommends \
-                 ffmpeg fluidsynth fluid-soundfont-gm; then
+               timeout 480 sudo apt-get $apt_opts install -y -q --no-install-recommends $pkgs; then
               break
             fi
             echo "Package install, try $try failed"
@@ -98,6 +101,14 @@ jobs:
           done
 
       - uses: astral-sh/setup-uv@v6
+
+      - name: ffmpeg (static build from PyPI)
+        run: |
+          uv venv -q "$WORK/venv-tools"
+          uv pip install -q --python "$WORK/venv-tools/bin/python" imageio-ffmpeg
+          sudo ln -sf "$("$WORK/venv-tools/bin/python" -c 'import imageio_ffmpeg; print(imageio_ffmpeg.get_ffmpeg_exe())')" \
+            /usr/local/bin/ffmpeg
+          ffmpeg -hide_banner -version | head -1
 
       - name: Install ACE-Step
         run: |
