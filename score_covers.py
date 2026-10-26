@@ -135,13 +135,18 @@ class Clap:
                                f"e.g. {info['missing_keys'][:3]}")
         self.processor = ClapProcessor.from_pretrained(CLAP_MODEL)
 
+    @staticmethod
+    def _array(features) -> np.ndarray:
+        # transformers 5 returns an output object with the embeddings as pooler_output
+        return getattr(features, "pooler_output", features).numpy()
+
     def audio(self, path: Path) -> np.ndarray:
         y, _ = librosa.load(path, sr=48000, mono=True)
         step = 10 * 48000
         chunks = [y[i:i + step] for i in range(0, max(len(y) - step // 2, 1), step)]
         with self.torch.no_grad():
             inputs = self.processor.feature_extractor(chunks, sampling_rate=48000, return_tensors="pt")
-            emb = self.model.get_audio_features(**inputs).numpy()
+            emb = self._array(self.model.get_audio_features(**inputs))
         emb = emb / np.linalg.norm(emb, axis=1, keepdims=True)
         mean = emb.mean(axis=0)
         return mean / np.linalg.norm(mean)
@@ -149,7 +154,7 @@ class Clap:
     def text(self, texts: list[str]) -> np.ndarray:
         with self.torch.no_grad():
             inputs = self.processor.tokenizer(texts, padding=True, return_tensors="pt")
-            emb = self.model.get_text_features(**inputs).numpy()
+            emb = self._array(self.model.get_text_features(**inputs))
         return emb / np.linalg.norm(emb, axis=1, keepdims=True)
 
 
