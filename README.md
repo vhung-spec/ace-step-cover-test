@@ -22,7 +22,8 @@ của GitHub (không có GPU), rồi tự chấm điểm từng bản cover.
 ## Cách chạy
 
 **Actions → ACE-Step cover test → Run workflow.** Chọn mô hình (*model*), bản phối (*arrangement*),
-bộ âm thanh (*soundfont*) và bài (*song*). Ô *plan* để trống thì dùng `plan.json`. Muốn thử kế hoạch khác thì
+bộ âm thanh (*soundfont*) và bài (*song*). Muốn dùng một bản của lần chạy trước làm bản gốc (ví dụ
+thêm bè dây cho một bản cover), điền mã lần chạy đó vào *source_run* và tên bản vào *source_take*. Ô *plan* để trống thì dùng `plan.json`. Muốn thử kế hoạch khác thì
 dán một danh sách JSON, ví dụ:
 
 ```json

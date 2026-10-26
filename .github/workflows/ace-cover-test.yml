@@ -4,7 +4,7 @@
 # (score_covers.py). Start it by hand: Actions > ACE-Step cover test > Run
 # workflow. Results: the run's summary and its "ace-cover-test" artifact.
 name: ACE-Step cover test
-run-name: 'Covers: ${{ inputs.model }}, ${{ inputs.song }} ${{ inputs.arrangement }} (${{ inputs.soundfont }})'
+run-name: 'Covers: ${{ inputs.model }}, ${{ inputs.song }} ${{ inputs.arrangement }} (${{ inputs.soundfont }}) ${{ inputs.source_take }}'
 
 on:
   workflow_dispatch:
@@ -34,9 +34,18 @@ on:
         type: choice
         options: [wish, silent-night]
         default: wish
+      source_run:
+        description: 'Instead of the carol: a take of an earlier run as the source; that run''s id'
+        required: false
+        default: ''
+      source_take:
+        description: 'With source_run: the take''s name in that run (covers/<name>)'
+        required: false
+        default: ''
 
 permissions:
   contents: read
+  actions: read  # source_run: the earlier run's artifact
 
 jobs:
   covers:
@@ -50,6 +59,9 @@ jobs:
       ARRANGEMENT: ${{ inputs.arrangement }}
       SOUNDFONT: ${{ inputs.soundfont }}
       SONG: ${{ inputs.song }}
+      SOURCE_RUN: ${{ inputs.source_run }}
+      SOURCE_TAKE: ${{ inputs.source_take }}
+      GH_TOKEN: ${{ github.token }}
       # ACE-Step stops a take after 10 minutes; on CPU, 50 steps with guidance
       # (SFT, base) take longer than that.
       ACESTEP_GENERATION_TIMEOUT: '5400'
@@ -139,6 +151,18 @@ jobs:
 
       - name: Source (public-domain carol)
         run: |
+          if [ -n "$SOURCE_RUN" ]; then
+            # An earlier take: covers/<take>/take_01.mp3 of that run, scored
+            # against the melody of the carol it came from.
+            gh run download "$SOURCE_RUN" --repo "$GITHUB_REPOSITORY" --name ace-cover-test --dir "$WORK/earlier"
+            mkdir -p out/source
+            ffmpeg -y -loglevel error -i "$WORK/earlier/covers/$SOURCE_TAKE/take_01.mp3" -ac 2 -ar 48000 \
+              out/source/source.wav
+            cp "$WORK/earlier/source/melody.json" out/source/
+            cp "$WORK/earlier/covers/$SOURCE_TAKE/take_01.mp3" out/source/source.mp3
+            echo "Source: take $SOURCE_TAKE of run $SOURCE_RUN"
+            exit 0
+          fi
           soundfont=/usr/share/sounds/sf2/FluidR3_GM.sf2
           if [ "$SOUNDFONT" = GeneralUser-GS ]; then
             # Only the soundfont file, at a pinned commit of its author's repository.
