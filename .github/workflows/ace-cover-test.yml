@@ -44,6 +44,9 @@ jobs:
       MODEL: ${{ inputs.model }}
       ARRANGEMENT: ${{ inputs.arrangement }}
       SOUNDFONT: ${{ inputs.soundfont }}
+      # ACE-Step stops a take after 10 minutes; on CPU, 50 steps with guidance
+      # (SFT, base) take longer than that.
+      ACESTEP_GENERATION_TIMEOUT: '5400'
     steps:
       - uses: actions/checkout@v4
 
