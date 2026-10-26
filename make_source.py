@@ -1,11 +1,13 @@
 """Writes the test's source: "We Wish You a Merry Christmas" (a traditional
 carol, public domain), first verse twice, arranged here for piano, as MIDI
-and as the 48 kHz stereo WAV ACE-Step covers (rendered with FluidSynth):
+and as the 48 kHz stereo WAV ACE-Step covers (rendered with FluidSynth),
+plus melody.json, the melody's notes and times, for scoring:
 
     python make_source.py out/source [--soundfont /usr/share/sounds/sf2/FluidR3_GM.sf2]
 """
 
 import argparse
+import json
 import subprocess
 from pathlib import Path
 
@@ -39,10 +41,12 @@ BARS = [
 ]
 
 
-def write_carol(path: Path, verses: int = 2) -> Path:
-    """Piano: the melody over a waltz left hand (bass on 1, chord on 2 and 3)."""
+def write_carol(path: Path, verses: int = 2) -> list[tuple[int, int, int]]:
+    """Piano: the melody over a waltz left hand (bass on 1, chord on 2 and 3).
+    Returns the melody as (note, tick, length in ticks)."""
     eighth, bar = TICKS // 2, TICKS * 3
     events = []  # (tick, note, velocity, length)
+    melody_notes = []
     melody_start = TICKS * 2  # the pickup is the last beat of an empty first bar
     for verse in range(verses):
         start = melody_start + verse * 8 * bar
@@ -52,6 +56,7 @@ def write_carol(path: Path, verses: int = 2) -> Path:
         tick = start
         for note, eighths in melody:
             events.append((tick, note, 88, eighths * eighth - 20))
+            melody_notes.append((note, tick, eighths * eighth))
             tick += eighths * eighth
         for index, chords in enumerate(BARS):
             bar_tick = start + TICKS + index * bar
@@ -82,7 +87,7 @@ def write_carol(path: Path, verses: int = 2) -> Path:
     track.append(mido.MetaMessage("end_of_track", time=TICKS * 3))  # let it ring
     path.parent.mkdir(parents=True, exist_ok=True)
     midi.save(path)
-    return path
+    return melody_notes
 
 
 def main() -> None:
@@ -90,7 +95,12 @@ def main() -> None:
     parser.add_argument("out", type=Path)
     parser.add_argument("--soundfont", default="/usr/share/sounds/sf2/FluidR3_GM.sf2")
     args = parser.parse_args()
-    midi = write_carol(args.out / "source.mid")
+    midi = args.out / "source.mid"
+    seconds_per_tick = 60 / BPM / TICKS
+    melody = [{"pitch": note, "start": round(tick * seconds_per_tick, 3),
+               "end": round((tick + length) * seconds_per_tick, 3)}
+              for note, tick, length in write_carol(midi)]
+    (args.out / "melody.json").write_text(json.dumps(melody))
     raw = args.out / "source-fluidsynth.wav"
     subprocess.run(["fluidsynth", "-ni", "-g", "0.6", "-r", "48000", "-F", str(raw),
                     args.soundfont, str(midi)], check=True, capture_output=True)

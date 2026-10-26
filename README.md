@@ -31,6 +31,7 @@ chạy mất khoảng một đến vài giờ.
 
 | Điểm | Ý nghĩa |
 |---|---|
+| melody % (chance) | Phần trăm nốt giai điệu của bản gốc còn nghe rõ đúng lúc trong bản cover. Chính bản gốc được khoảng 90 % (mức trần của cách đo); số trong ngoặc là mức đoán bừa (bản cover phát ngược) |
 | harmony | Giữ hoà âm và giai điệu: 1 là trùng khớp, 0 là ngang bản gốc phát ngược (đúng nốt, sai thời điểm) |
 | key shift | Bản cover lệch tông bao nhiêu nửa cung (0 là cùng tông) |
 | rhythm | Giữ nhịp: tương quan của các điểm bắt đầu nốt theo thời gian (1 là trùng khớp) |
