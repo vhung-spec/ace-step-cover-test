@@ -12,7 +12,8 @@ của GitHub (không có GPU), rồi tự chấm điểm từng bản cover.
    phối v2 chơi như người thật (mở đầu nhẹ, hợp âm rải, lần hai đầy hơn, có pedal, to nhỏ theo
    câu nhạc); v3 giống v2 nhưng bỏ pedal và các nốt chồng quãng tám phía dưới cho đỡ đục;
    v1 là bản phối đơn giản của các lượt đầu. Tiếng đàn lấy từ bộ âm thanh GeneralUser GS
-   (mặc định) hoặc FluidR3.
+   (mặc định) hoặc FluidR3. Chọn *song* `silent-night` thì bản gốc là *Silent Night* (Franz
+   Gruber, 1818, đã hết bản quyền), một lượt, chỉ có bản phối đơn giản v1.
 3. Cover bản gốc theo từng dòng trong `plan.json`: mỗi dòng có một câu mô tả phong cách
    (`caption`) và một mức bám theo bản gốc (`strength`). Mặc định giống chức năng cover của
    app: mô hình turbo, 8 bước, shift 3, không dùng mô hình ngôn ngữ, không nén INT8.
@@ -20,8 +21,8 @@ của GitHub (không có GPU), rồi tự chấm điểm từng bản cover.
 
 ## Cách chạy
 
-**Actions → ACE-Step cover test → Run workflow.** Chọn mô hình (*model*), bản phối (*arrangement*)
-và bộ âm thanh (*soundfont*). Ô *plan* để trống thì dùng `plan.json`. Muốn thử kế hoạch khác thì
+**Actions → ACE-Step cover test → Run workflow.** Chọn mô hình (*model*), bản phối (*arrangement*),
+bộ âm thanh (*soundfont*) và bài (*song*). Ô *plan* để trống thì dùng `plan.json`. Muốn thử kế hoạch khác thì
 dán một danh sách JSON, ví dụ:
 
 ```json
@@ -39,7 +40,7 @@ Mỗi dòng có thể đặt thêm:
 | `seed` | Hạt giống ngẫu nhiên (mặc định 1); đổi hạt giống để có bản khác với cùng cài đặt |
 | `reference` | Tên một dòng trước đó; bản của dòng đó làm âm sắc mẫu |
 | `task: "text2music"` | Sáng tác một đoạn mới từ câu mô tả (`duration` giây), ví dụ để làm âm sắc mẫu |
-| `task: "lego"`, `track` | Chỉ mô hình base: tạo riêng bè của một nhạc cụ (`strings`, `percussion`, `woodwinds`…) chơi cùng bản gốc. Bè mới lưu riêng (`stem_01`) và được trộn với bản gốc thành bản nghe (`take_01`) |
+| `task: "lego"`, `track` | Chỉ mô hình base: tạo riêng bè của một nhạc cụ (`strings`, `percussion`, `woodwinds`…) chơi cùng bản gốc. Bè mới lưu riêng (`stem_01`) và được trộn với bản gốc thành bản nghe (`take_01`), to bằng `level` (mặc định 0,7) lần bản gốc |
 | `task: "complete"`, `tracks` | Chỉ mô hình base: phối thêm cả nhóm nhạc cụ quanh bản gốc |
 | `source_from` | Tên một dòng trước đó; bản của dòng đó làm bản gốc, để chồng thêm bè |
 

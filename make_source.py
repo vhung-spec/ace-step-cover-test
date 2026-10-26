@@ -4,6 +4,10 @@ and as the 48 kHz stereo WAV ACE-Step covers (rendered with FluidSynth),
 plus melody.json, the melody's notes and times, for scoring:
 
     python make_source.py out/source [--arrangement v1|v2|v3] [--soundfont path.sf2]
+        [--song wish|silent-night]
+
+--song silent-night is "Silent Night" (Franz Gruber, 1818; public domain)
+instead, its verse once, in the plain arrangement only (v1).
 
 Arrangement v1 is plain (even loudness, an oom-pah-pah left hand). v2 plays it
 like a person: a soft intro, flowing broken chords, a fuller second verse,
@@ -48,6 +52,26 @@ BARS = [
     [(36, (60, 64, 67))],
 ]
 
+SILENT_NIGHT_BPM = 96
+# Silent Night in C major, 3/4: (MIDI note, length in eighths), a bar per line.
+SILENT_NIGHT = [
+    (67, 3), (69, 1), (67, 2), (64, 6),  # Silent night
+    (67, 3), (69, 1), (67, 2), (64, 6),  # holy night
+    (74, 4), (74, 2), (71, 6),  # all is calm
+    (72, 4), (72, 2), (67, 6),  # all is bright
+    (69, 4), (69, 2), (72, 3), (71, 1), (69, 2),  # round yon virgin
+    (67, 3), (69, 1), (67, 2), (64, 6),  # mother and child
+    (69, 4), (69, 2), (72, 3), (71, 1), (69, 2),  # holy infant so
+    (67, 3), (69, 1), (67, 2), (64, 6),  # tender and mild
+    (74, 4), (74, 2), (77, 3), (74, 1), (71, 2),  # sleep in heavenly
+    (72, 6), (76, 6),  # peace
+    (72, 2), (67, 2), (64, 2), (67, 3), (65, 1), (62, 2),  # sleep in heavenly
+    (60, 12),  # peace
+]
+# A chord per bar, and each chord as (bass note, chord tones under the melody).
+SILENT_NIGHT_BARS = "C C C C G G C C F F C C F F C C G G C C C G C C".split()
+SILENT_NIGHT_CHORDS = {"C": (36, (52, 55, 60)), "F": (41, (53, 57, 60)), "G": (43, (53, 55, 59))}
+
 
 def write_carol(path: Path, verses: int = 2) -> list[tuple[int, int, int]]:
     """Piano: the melody over a waltz left hand (bass on 1, chord on 2 and 3).
@@ -78,23 +102,7 @@ def write_carol(path: Path, verses: int = 2) -> list[tuple[int, int, int]]:
                 events.append((bar_tick, bass1, 64, TICKS - 20))
                 events.append((bar_tick + TICKS, bass2, 60, TICKS - 20))
                 events += [(bar_tick + 2 * TICKS, n, 52, TICKS - 40) for n in tones2]
-    messages = []
-    for tick, note, velocity, length in events:
-        messages.append((tick + length, 0, mido.Message("note_off", note=note, velocity=0)))
-        messages.append((tick, 1, mido.Message("note_on", note=note, velocity=velocity)))
-    midi = mido.MidiFile(ticks_per_beat=TICKS)
-    track = mido.MidiTrack()
-    midi.tracks.append(track)
-    track.append(mido.MetaMessage("set_tempo", tempo=mido.bpm2tempo(BPM)))
-    track.append(mido.MetaMessage("time_signature", numerator=3, denominator=4))
-    track.append(mido.Message("program_change", program=0))
-    now = 0
-    for tick, _, message in sorted(messages, key=lambda m: (m[0], m[1])):
-        track.append(message.copy(time=tick - now))
-        now = tick
-    track.append(mido.MetaMessage("end_of_track", time=TICKS * 3))  # let it ring
-    path.parent.mkdir(parents=True, exist_ok=True)
-    midi.save(path)
+    save_midi(path, events, BPM, ring=TICKS * 3)
     return melody_notes
 
 
@@ -191,6 +199,37 @@ def write_carol_v2(path: Path, clean: bool = False) -> list[tuple[int, int, int]
             pedal.append((bar_tick + 20, 127))
             pedal.append((bar_tick + bar - 15, 0))
 
+    save_midi(path, events, BPM_V2, ring=TICKS * 4, pedal=pedal)
+    return sorted(melody_notes, key=lambda n: n[1])
+
+
+def write_silent_night(path: Path) -> list[tuple[int, int, int]]:
+    """Silent Night's verse, played plainly as v1: the melody over a waltz
+    left hand (bass on 1, chord on 2 and 3), then a held last chord. Returns
+    the melody as (note, tick, length in ticks)."""
+    eighth, bar = TICKS // 2, TICKS * 3
+    events, melody_notes = [], []
+    tick = 0
+    for note, eighths in SILENT_NIGHT:
+        events.append((tick, note, 88, eighths * eighth - 20))
+        melody_notes.append((note, tick, eighths * eighth))
+        tick += eighths * eighth
+    for index, name in enumerate(SILENT_NIGHT_BARS):
+        bass, tones = SILENT_NIGHT_CHORDS[name]
+        bar_tick = index * bar
+        if index == len(SILENT_NIGHT_BARS) - 1:
+            events += [(bar_tick, note, 56, bar) for note in (bass, *tones)]
+        else:
+            events.append((bar_tick, bass, 64, TICKS - 20))
+            for beat in (1, 2):
+                events += [(bar_tick + beat * TICKS, note, 52, TICKS - 40) for note in tones]
+    save_midi(path, events, SILENT_NIGHT_BPM, ring=TICKS * 3)
+    return melody_notes
+
+
+def save_midi(path: Path, events: list, bpm: int, ring: int, pedal: list = ()) -> None:
+    """A piano MIDI file in 3/4 from (tick, note, velocity, length) notes and
+    (tick, value) sustain pedal changes, with `ring` ticks to let it ring."""
     messages = []
     for tick, note, velocity, length in events:
         messages.append((tick + length, 0, mido.Message("note_off", note=note, velocity=0)))
@@ -201,17 +240,16 @@ def write_carol_v2(path: Path, clean: bool = False) -> list[tuple[int, int, int]
     midi = mido.MidiFile(ticks_per_beat=TICKS)
     track = mido.MidiTrack()
     midi.tracks.append(track)
-    track.append(mido.MetaMessage("set_tempo", tempo=mido.bpm2tempo(BPM_V2)))
+    track.append(mido.MetaMessage("set_tempo", tempo=mido.bpm2tempo(bpm)))
     track.append(mido.MetaMessage("time_signature", numerator=3, denominator=4))
     track.append(mido.Message("program_change", program=0))
     now = 0
     for tick, _, message in sorted(messages, key=lambda m: (m[0], m[1])):
         track.append(message.copy(time=tick - now))
         now = tick
-    track.append(mido.MetaMessage("end_of_track", time=TICKS * 4))  # let it ring
+    track.append(mido.MetaMessage("end_of_track", time=ring))
     path.parent.mkdir(parents=True, exist_ok=True)
     midi.save(path)
-    return sorted(melody_notes, key=lambda n: n[1])
 
 
 def main() -> None:
@@ -219,10 +257,16 @@ def main() -> None:
     parser.add_argument("out", type=Path)
     parser.add_argument("--arrangement", choices=("v1", "v2", "v3"), default="v2")
     parser.add_argument("--soundfont", default="/usr/share/sounds/sf2/FluidR3_GM.sf2")
+    parser.add_argument("--song", choices=("wish", "silent-night"), default="wish")
     args = parser.parse_args()
     midi = args.out / "source.mid"
-    write, bpm = {"v1": (write_carol, BPM), "v2": (write_carol_v2, BPM_V2),
-                  "v3": (lambda path: write_carol_v2(path, clean=True), BPM_V2)}[args.arrangement]
+    if args.song == "silent-night":
+        if args.arrangement != "v1":
+            parser.error("Silent Night has the plain arrangement only: --arrangement v1")
+        write, bpm = write_silent_night, SILENT_NIGHT_BPM
+    else:
+        write, bpm = {"v1": (write_carol, BPM), "v2": (write_carol_v2, BPM_V2),
+                      "v3": (lambda path: write_carol_v2(path, clean=True), BPM_V2)}[args.arrangement]
     seconds_per_tick = 60 / bpm / TICKS
     melody = [{"pitch": note, "start": round(tick * seconds_per_tick, 3),
                "end": round((tick + length) * seconds_per_tick, 3)}
@@ -237,7 +281,7 @@ def main() -> None:
     subprocess.run(["ffmpeg", "-y", "-loglevel", "error", "-i", str(wav), "-q:a", "2",
                     str(args.out / "source.mp3")], check=True)
     raw.unlink()
-    print(f"Source ({args.arrangement}, {Path(args.soundfont).name}): {wav} "
+    print(f"Source ({args.song} {args.arrangement}, {Path(args.soundfont).name}): {wav} "
           f"({mido.MidiFile(midi).length:.1f} s)")
 
 

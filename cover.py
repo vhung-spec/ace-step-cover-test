@@ -19,7 +19,7 @@ with "task": "text2music" makes a new piece from its caption instead
 Base model only: "task": "lego" with "track" (one of ACE-Step's track names,
 e.g. "strings", "percussion") makes that one instrument's part to play along
 with the source; the part is kept as stem_01.wav and mixed with the source
-into take_01.wav. "task": "complete" with "tracks" (a list) arranges those
+into take_01.wav, at "level" (default 0.7) times the source's loudness. "task": "complete" with "tracks" (a list) arranges those
 instruments around the source; its output is the take. "source_from" (the
 name of an earlier entry) uses that entry's take as the source, to stack
 layers.
@@ -65,8 +65,8 @@ def cover_steps(strength: float, noise: float, steps: int = 8, shift: float = 3.
     return int(len(schedule) * strength), len(schedule)
 
 
-def mix(source: Path, part: Path, out: Path) -> None:
-    """The source plus a new part at LAYER_LEVEL of the source's loudness,
+def mix(source: Path, part: Path, out: Path, level: float = LAYER_LEVEL) -> None:
+    """The source plus a new part at `level` times the source's loudness,
     peaking at -1 dBFS."""
     a, rate = sf.read(source, always_2d=True)
     b, part_rate = sf.read(part, always_2d=True)
@@ -79,7 +79,7 @@ def mix(source: Path, part: Path, out: Path) -> None:
     def rms(x: np.ndarray) -> float:
         return float(np.sqrt(np.mean(x ** 2))) + 1e-9
 
-    mixed = a + b * min(LAYER_LEVEL * rms(a) / rms(b), 4.0)  # capped: a near-silent part stays quiet
+    mixed = a + b * min(level * rms(a) / rms(b), 4.0)  # capped: a near-silent part stays quiet
     sf.write(out, mixed * 10 ** (-1 / 20) / (np.abs(mixed).max() + 1e-9), rate)
 
 
@@ -244,7 +244,7 @@ def main() -> int:
                     stem = run / "stem_01.wav"
                     shutil.move(result.audios[0]["path"], stem)
                     mp3(stem)
-                    mix(run / "source.wav", stem, take)
+                    mix(run / "source.wav", stem, take, float(entry.get("level", LAYER_LEVEL)))
                 else:
                     shutil.move(result.audios[0]["path"], take)
                 mp3(take)

@@ -4,7 +4,7 @@
 # (score_covers.py). Start it by hand: Actions > ACE-Step cover test > Run
 # workflow. Results: the run's summary and its "ace-cover-test" artifact.
 name: ACE-Step cover test
-run-name: 'Covers: ${{ inputs.model }}, source ${{ inputs.arrangement }} (${{ inputs.soundfont }})'
+run-name: 'Covers: ${{ inputs.model }}, ${{ inputs.song }} ${{ inputs.arrangement }} (${{ inputs.soundfont }})'
 
 on:
   workflow_dispatch:
@@ -29,6 +29,11 @@ on:
         type: choice
         options: [GeneralUser-GS, FluidR3]
         default: GeneralUser-GS
+      song:
+        description: 'Carol (public domain): We Wish You a Merry Christmas, or Silent Night (plain arrangement v1 only)'
+        type: choice
+        options: [wish, silent-night]
+        default: wish
 
 permissions:
   contents: read
@@ -44,6 +49,7 @@ jobs:
       MODEL: ${{ inputs.model }}
       ARRANGEMENT: ${{ inputs.arrangement }}
       SOUNDFONT: ${{ inputs.soundfont }}
+      SONG: ${{ inputs.song }}
       # ACE-Step stops a take after 10 minutes; on CPU, 50 steps with guidance
       # (SFT, base) take longer than that.
       ACESTEP_GENERATION_TIMEOUT: '5400'
@@ -140,7 +146,8 @@ jobs:
             git -C "$WORK/gugs" checkout -q "$GUGS_COMMIT" -- GeneralUser-GS.sf2
             soundfont="$WORK/gugs/GeneralUser-GS.sf2"
           fi
-          "$ACE_VENV/bin/python" make_source.py out/source --arrangement "$ARRANGEMENT" --soundfont "$soundfont"
+          "$ACE_VENV/bin/python" make_source.py out/source --arrangement "$ARRANGEMENT" --soundfont "$soundfont" \
+            --song "$SONG"
 
       - name: Covers
         timeout-minutes: 120
