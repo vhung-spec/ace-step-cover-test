@@ -79,11 +79,20 @@ jobs:
           free -h
 
       - name: System tools
-        timeout-minutes: 10  # a stuck package mirror once hung this for 40 minutes
+        timeout-minutes: 20
         run: |
+          # A package mirror sometimes stalls: each try has its own time limit.
           apt_opts="-o Acquire::Retries=3 -o Acquire::http::Timeout=30 -o DPkg::Lock::Timeout=120"
-          sudo apt-get $apt_opts update -q
-          sudo apt-get $apt_opts install -y -q ffmpeg fluidsynth fluid-soundfont-gm
+          for try in 1 2 3; do
+            if timeout 240 sudo apt-get $apt_opts update -q &&
+               timeout 360 sudo apt-get $apt_opts install -y -q --no-install-recommends \
+                 ffmpeg fluidsynth fluid-soundfont-gm; then
+              break
+            fi
+            echo "Package install, try $try failed"
+            [ "$try" = 3 ] && exit 1
+            sleep 15
+          done
 
       - uses: astral-sh/setup-uv@v6
 

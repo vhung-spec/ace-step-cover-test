@@ -45,11 +45,18 @@ jobs:
 
       - name: The source rendered each way
         if: inputs.sources
-        timeout-minutes: 15
+        timeout-minutes: 25
         run: |
           apt_opts="-o Acquire::Retries=3 -o Acquire::http::Timeout=30 -o DPkg::Lock::Timeout=120"
-          sudo apt-get $apt_opts update -q
-          sudo apt-get $apt_opts install -y -q ffmpeg fluidsynth fluid-soundfont-gm
+          for try in 1 2 3; do  # a package mirror sometimes stalls
+            if timeout 240 sudo apt-get $apt_opts update -q &&
+               timeout 360 sudo apt-get $apt_opts install -y -q --no-install-recommends \
+                 ffmpeg fluidsynth fluid-soundfont-gm; then
+              break
+            fi
+            [ "$try" = 3 ] && exit 1
+            sleep 15
+          done
           git clone -q --filter=blob:none --no-checkout https://github.com/mrbumpy409/GeneralUser-GS.git "$RUNNER_TEMP/gugs"
           git -C "$RUNNER_TEMP/gugs" checkout -q "$GUGS_COMMIT" -- GeneralUser-GS.sf2
           for arrangement in v1 v2 v3; do
