@@ -20,9 +20,9 @@ on:
                   acestep-v15-xl-turbo, acestep-v15-xl-sft, acestep-v15-xl-base]
         default: acestep-v15-turbo
       arrangement:
-        description: 'Source arrangement: v2 (played like a person) or v1 (plain)'
+        description: 'Source arrangement: v2 (played like a person), v3 (v2 without pedal and low doublings) or v1 (plain)'
         type: choice
-        options: [v2, v1]
+        options: [v2, v3, v1]
         default: v2
       soundfont:
         description: 'Instrument sounds for the source'

@@ -2,7 +2,7 @@
 # Aesthetics: production quality, enjoyment, usefulness, complexity), without
 # making anything new. Start it by hand with the run ids (from the runs'
 # addresses), e.g. "40357924382 40351644370". With "sources" on, it also rates
-# the source rendered each way (arrangement v1/v2, FluidR3/GeneralUser GS).
+# the source rendered each way (arrangement v1/v2/v3, FluidR3/GeneralUser GS).
 name: Judge earlier takes
 run-name: 'Judge runs ${{ inputs.run_ids }}'
 
@@ -52,7 +52,7 @@ jobs:
           sudo apt-get $apt_opts install -y -q ffmpeg fluidsynth fluid-soundfont-gm
           git clone -q --filter=blob:none --no-checkout https://github.com/mrbumpy409/GeneralUser-GS.git "$RUNNER_TEMP/gugs"
           git -C "$RUNNER_TEMP/gugs" checkout -q "$GUGS_COMMIT" -- GeneralUser-GS.sf2
-          for arrangement in v1 v2; do
+          for arrangement in v1 v2 v3; do
             for soundfont in /usr/share/sounds/sf2/FluidR3_GM.sf2 "$RUNNER_TEMP/gugs/GeneralUser-GS.sf2"; do
               name=$(basename "$soundfont" .sf2)
               "$RUNNER_TEMP/venv/bin/python" make_source.py "runs/sources/$arrangement-$name" \

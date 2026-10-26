@@ -3,12 +3,13 @@ carol, public domain), first verse twice, arranged here for piano, as MIDI
 and as the 48 kHz stereo WAV ACE-Step covers (rendered with FluidSynth),
 plus melody.json, the melody's notes and times, for scoring:
 
-    python make_source.py out/source [--arrangement v2] [--soundfont path.sf2]
+    python make_source.py out/source [--arrangement v1|v2|v3] [--soundfont path.sf2]
 
 Arrangement v1 is plain (even loudness, an oom-pah-pah left hand). v2 plays it
 like a person: a soft intro, flowing broken chords, a fuller second verse,
 sustain pedal, phrase dynamics, small timing and loudness variations, and a
-slower last bar.
+slower last bar. v3 is v2 without what can blur it: no sustain pedal and no
+doubling an octave below (in the bass, under the melody, in the last chord).
 """
 
 import argparse
@@ -97,11 +98,12 @@ def write_carol(path: Path, verses: int = 2) -> list[tuple[int, int, int]]:
     return melody_notes
 
 
-def write_carol_v2(path: Path) -> list[tuple[int, int, int]]:
+def write_carol_v2(path: Path, clean: bool = False) -> list[tuple[int, int, int]]:
     """Expressive piano: intro (the last phrase, an octave up, soft), verse 1
     over flowing broken chords, verse 2 with the melody in octaves over octave
-    bass and full chords, a held last note. Returns the melody as (note,
-    tick, length in ticks)."""
+    bass and full chords, a held last note. `clean` (arrangement v3) leaves
+    out the sustain pedal and the doublings an octave below. Returns the
+    melody as (note, tick, length in ticks)."""
     rng = random.Random(7)
     eighth, bar = TICKS // 2, TICKS * 3
     events, melody_notes, pedal = [], [], []
@@ -132,16 +134,19 @@ def write_carol_v2(path: Path) -> list[tuple[int, int, int]]:
         if len(chords) == 1:
             (bass, tones), = chords
             play(bar_tick, bass, velocity + 8, bar - 40)
-            play(bar_tick, bass - 12, velocity + 4, bar - 40)
+            if not clean:
+                play(bar_tick, bass - 12, velocity + 4, bar - 40)
             for beat in (1, 2):
                 for note in tones:
                     play(bar_tick + beat * TICKS, note, velocity, TICKS - 60)
         else:
             (bass1, tones1), (bass2, tones2) = chords
             play(bar_tick, bass1, velocity + 8, TICKS - 20)
-            play(bar_tick, bass1 - 12, velocity + 4, TICKS - 20)
+            if not clean:
+                play(bar_tick, bass1 - 12, velocity + 4, TICKS - 20)
             play(bar_tick + TICKS, bass2, velocity + 8, TICKS * 2 - 40)
-            play(bar_tick + TICKS, bass2 - 12, velocity + 4, TICKS * 2 - 40)
+            if not clean:
+                play(bar_tick + TICKS, bass2 - 12, velocity + 4, TICKS * 2 - 40)
             for note in tones2:
                 play(bar_tick + 2 * TICKS, note, velocity, TICKS - 60)
 
@@ -168,7 +173,8 @@ def write_carol_v2(path: Path) -> list[tuple[int, int, int]]:
                 play(tick, note, int(60 + 14 * shape), eighths * eighth - 20, melody=True)
             else:
                 play(tick, note, int(84 + 14 * shape), eighths * eighth - 20, melody=True)
-                play(tick, note - 12, int(70 + 12 * shape), eighths * eighth - 20)
+                if not clean:
+                    play(tick, note - 12, int(70 + 12 * shape), eighths * eighth - 20)
             tick += eighths * eighth
         for index, chords in enumerate(BARS):
             bar_tick = start + TICKS + index * bar
@@ -177,12 +183,13 @@ def write_carol_v2(path: Path) -> list[tuple[int, int, int]]:
             elif index < 7:
                 full_chords(bar_tick, chords, 56 + 2 * min(index, 7 - index))
             else:  # last bar: one long C major chord
-                for note in (24, 36, 48, 55, 60, 64, 67):
+                for note in (36, 48, 55, 60, 64, 67) if clean else (24, 36, 48, 55, 60, 64, 67):
                     play(bar_tick, note, 62, bar * 2)
     end = max(t + length for t, _, _, length in events)  # after the held last note
-    for bar_tick in range(0, end, bar):  # pedal down just after each bar starts
-        pedal.append((bar_tick + 20, 127))
-        pedal.append((bar_tick + bar - 15, 0))
+    if not clean:
+        for bar_tick in range(0, end, bar):  # pedal down just after each bar starts
+            pedal.append((bar_tick + 20, 127))
+            pedal.append((bar_tick + bar - 15, 0))
 
     messages = []
     for tick, note, velocity, length in events:
@@ -210,11 +217,12 @@ def write_carol_v2(path: Path) -> list[tuple[int, int, int]]:
 def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument("out", type=Path)
-    parser.add_argument("--arrangement", choices=("v1", "v2"), default="v2")
+    parser.add_argument("--arrangement", choices=("v1", "v2", "v3"), default="v2")
     parser.add_argument("--soundfont", default="/usr/share/sounds/sf2/FluidR3_GM.sf2")
     args = parser.parse_args()
     midi = args.out / "source.mid"
-    write, bpm = (write_carol, BPM) if args.arrangement == "v1" else (write_carol_v2, BPM_V2)
+    write, bpm = {"v1": (write_carol, BPM), "v2": (write_carol_v2, BPM_V2),
+                  "v3": (lambda path: write_carol_v2(path, clean=True), BPM_V2)}[args.arrangement]
     seconds_per_tick = 60 / bpm / TICKS
     melody = [{"pitch": note, "start": round(tick * seconds_per_tick, 3),
                "end": round((tick + length) * seconds_per_tick, 3)}

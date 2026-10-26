@@ -10,8 +10,9 @@ của GitHub (không có GPU), rồi tự chấm điểm từng bản cover.
 2. Tạo bản gốc: *We Wish You a Merry Christmas*, bài hát truyền thống đã hết bản quyền. Bài được
    phối cho piano ngay trong `make_source.py`, rồi phát thành âm thanh bằng FluidSynth. Bản
    phối v2 chơi như người thật (mở đầu nhẹ, hợp âm rải, lần hai đầy hơn, có pedal, to nhỏ theo
-   câu nhạc); v1 là bản phối đơn giản của các lượt đầu. Tiếng đàn lấy từ bộ âm thanh
-   GeneralUser GS (mặc định) hoặc FluidR3.
+   câu nhạc); v3 giống v2 nhưng bỏ pedal và các nốt chồng quãng tám phía dưới cho đỡ đục;
+   v1 là bản phối đơn giản của các lượt đầu. Tiếng đàn lấy từ bộ âm thanh GeneralUser GS
+   (mặc định) hoặc FluidR3.
 3. Cover bản gốc theo từng dòng trong `plan.json`: mỗi dòng có một câu mô tả phong cách
    (`caption`) và một mức bám theo bản gốc (`strength`). Mặc định giống chức năng cover của
    app: mô hình turbo, 8 bước, shift 3, không dùng mô hình ngôn ngữ, không nén INT8.
