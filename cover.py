@@ -25,8 +25,10 @@ name of an earlier entry) uses that entry's take as the source, to stack
 layers.
 
 Every entry may set "seed" (default 1), "steps" (default 8 on turbo
-models, 50 on the others), "shift" (default 3 on turbo, 1 on the others)
-and, on the others, "guidance" (default 7). The app's covers use the turbo
+models, 50 on the others), "shift" (default 3 on turbo, 1 on the others),
+on the others "guidance" (default 7), and the music's "bpm", "keyscale"
+(e.g. "C major") and "timesignature" (e.g. "3" for 3/4), which ACE-Step
+otherwise leaves unknown. The app's covers use the turbo
 model, 8 steps, shift 3, no language model, no INT8 quantization. Each
 cover goes to <out>/covers/<name>/ (source.wav, take_01.wav/.mp3,
 settings.json); <out>/plan_results.json lists them all.
@@ -161,6 +163,7 @@ def main() -> int:
             use_cot_caption=False,
             use_cot_language=False,
             **({} if guidance is None else {"guidance_scale": guidance}),
+            **{key: entry[key] for key in ("bpm", "keyscale", "timesignature") if key in entry},
         )
         if task == "text2music":  # a new piece, e.g. a reference for later covers
             following, steps_run = 0, steps
