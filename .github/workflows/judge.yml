@@ -118,4 +118,5 @@ jobs:
             judged.txt
             remixed.txt
             stacked.txt
+            stacked/**/*.mp3
           retention-days: 30

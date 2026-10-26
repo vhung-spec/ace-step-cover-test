@@ -2,7 +2,8 @@
 is added to a mix: each part, made against the piece itself, joins the mix so
 far at its level times that mix's loudness. Rates the piece and every step as
 remix.py does (melody kept and harmony against the piece, CLAP's closest style
-label and Christmas score, Audiobox Aesthetics):
+label and Christmas score, Audiobox Aesthetics), and keeps every step as an
+MP3 in stacked/<id>/ to listen to:
 
     python stack.py runs/<id> <part>:<level> [<part>:<level> ...]
 
@@ -33,14 +34,19 @@ def main(folder: str, parts: list[str]) -> int:
     clap, judge = Clap(), Aesthetics()
     labels, christmas = clap.text(STYLE_LABELS), clap.text([CHRISTMAS])[0]
     mixed, name, rows = mix(piece, piece, 0.0), "the piece", []  # level 0: the piece alone
+    keep = Path("stacked") / run.name
+    keep.mkdir(parents=True, exist_ok=True)
+    file_name = "piece"
     with tempfile.TemporaryDirectory() as work:
         for step, spec in enumerate([None, *parts]):
             if spec:
                 path, level = spec.rsplit(":", 1)
                 mixed = mix(mixed, librosa.load(path, sr=RATE, mono=False)[0], float(level))
                 name += f" + {Path(path).parent.name} at {level}"
+                file_name += f"+{Path(path).parent.name}-{level}"
             file = Path(work) / f"step{step}.wav"
             sf.write(file, mixed.T, RATE)
+            sf.write(keep / f"{file_name}.mp3", mixed.T, RATE)
             mono = librosa.load(file, sr=SR, mono=True)[0]
             emb = clap.audio(file)
             rows.append({"mix": name, "melody": melody_hits(mono, melody),
