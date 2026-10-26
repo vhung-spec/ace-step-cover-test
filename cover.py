@@ -24,12 +24,12 @@ instruments around the source; its output is the take. "source_from" (the
 name of an earlier entry) uses that entry's take as the source, to stack
 layers.
 
-Every entry may set "steps" (default 8 on turbo models, 50 on the others),
-"shift" (default 3 on turbo, 1 on the others) and, on the others,
-"guidance" (default 7). The app's covers use the turbo model, 8 steps,
-shift 3, no language model, no INT8 quantization. Each cover goes to
-<out>/covers/<name>/ (source.wav, take_01.wav/.mp3, settings.json);
-<out>/plan_results.json lists them all.
+Every entry may set "seed" (default 1), "steps" (default 8 on turbo
+models, 50 on the others), "shift" (default 3 on turbo, 1 on the others)
+and, on the others, "guidance" (default 7). The app's covers use the turbo
+model, 8 steps, shift 3, no language model, no INT8 quantization. Each
+cover goes to <out>/covers/<name>/ (source.wav, take_01.wav/.mp3,
+settings.json); <out>/plan_results.json lists them all.
 """
 
 import argparse
@@ -147,13 +147,14 @@ def main() -> int:
             steps = min(steps, 20)  # ACE-Step runs turbo models for at most 20 steps
         shift = float(entry.get("shift", 3.0 if turbo else 1.0))
         guidance = None if turbo else float(entry.get("guidance", 7.0))
+        seed = int(entry.get("seed", SEED))
         common = dict(
             caption=entry["caption"],
             lyrics=lyrics or "[Instrumental]",
             instrumental=not lyrics,
             vocal_language=entry.get("language", "en"),
             inference_steps=steps,
-            seed=SEED,
+            seed=seed,
             shift=shift,
             thinking=False,
             use_cot_metas=False,
@@ -223,7 +224,7 @@ def main() -> int:
                     **common,
                     **flow_edit,
                 )
-        config = GenerationConfig(batch_size=1, use_random_seed=False, seeds=[SEED],
+        config = GenerationConfig(batch_size=1, use_random_seed=False, seeds=[seed],
                                   audio_format="wav")
         take_started = time.time()
         try:
@@ -248,7 +249,7 @@ def main() -> int:
                 ok, error = False, f"{type(err).__name__}: {err}"
         shutil.rmtree(run / ".ace", ignore_errors=True)
         (run / "settings.json").write_text(json.dumps(
-            {**entry, "model": args.model, "seed": SEED, "steps": steps, "shift": shift,
+            {**entry, "model": args.model, "seed": seed, "steps": steps, "shift": shift,
              "guidance": guidance, "steps_following_source": following, "steps_run": steps_run,
              "takes": [{"generation_seconds": seconds}] if ok else [], "error": error},
             indent=2, ensure_ascii=False))
