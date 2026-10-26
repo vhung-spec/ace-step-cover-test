@@ -1,14 +1,14 @@
 [
-  {"name": "jazz-5of8", "strength": 0.625,
-   "caption": "instrumental Christmas jazz, warm piano trio, upright bass, brushed drums, cozy, warm vintage recording"},
   {"name": "jazz-6of8", "strength": 0.75,
    "caption": "instrumental Christmas jazz, warm piano trio, upright bass, brushed drums, cozy, warm vintage recording"},
-  {"name": "jazz-7of8", "strength": 0.875,
+  {"name": "jazz-6of8-nofsq", "strength": 0.75, "task": "cover-nofsq",
    "caption": "instrumental Christmas jazz, warm piano trio, upright bass, brushed drums, cozy, warm vintage recording"},
-  {"name": "jazz-8of8", "strength": 1.0,
+  {"name": "jazz-6of8-flowedit", "strength": 0.75, "flow_edit_source_caption": "solo piano, Christmas carol, instrumental",
    "caption": "instrumental Christmas jazz, warm piano trio, upright bass, brushed drums, cozy, warm vintage recording"},
-  {"name": "orchestra-6of8", "strength": 0.75,
+  {"name": "jazz-8of8-noise02", "strength": 1.0, "noise": 0.2,
+   "caption": "instrumental Christmas jazz, warm piano trio, upright bass, brushed drums, cozy, warm vintage recording"},
+  {"name": "orchestra-6of8-nofsq", "strength": 0.75, "task": "cover-nofsq",
    "caption": "instrumental orchestral Christmas, lush strings, celesta, glockenspiel, sleigh bells, French horn, warm and magical"},
-  {"name": "orchestra-7of8", "strength": 0.875,
+  {"name": "orchestra-6of8-flowedit", "strength": 0.75, "flow_edit_source_caption": "solo piano, Christmas carol, instrumental",
    "caption": "instrumental orchestral Christmas, lush strings, celesta, glockenspiel, sleigh bells, French horn, warm and magical"}
 ]

@@ -6,9 +6,13 @@ code and settings there), with $ACESTEP_CHECKPOINTS_DIR set:
         --source out/source/source.wav --out out [--plan '[{...}]']
 
 Plan entries: {"name", "caption", "strength", "noise" (optional),
-"lyrics" (optional; none: instrumental)}. The settings are the ones the
-app uses for covers: turbo model, 8 steps, shift 3, no language model, no
-INT8 quantization. Each cover goes to <out>/covers/<name>/ (source.wav,
+"lyrics" (optional; none: instrumental), "task" (optional: "cover", the
+app's, or "cover-nofsq", which conditions on the source without FSQ
+quantization), "flow_edit_source_caption" (optional: turns on ACE-Step's
+flow-edit overlay, which paints the source toward the caption; this text
+describes the source)}. The other settings are the ones the app uses for
+covers: turbo model, 8 steps, shift 3, no language model, no INT8
+quantization. Each cover goes to <out>/covers/<name>/ (source.wav,
 take_01.wav/.mp3, settings.json); <out>/plan_results.json lists them all.
 """
 
@@ -89,11 +93,16 @@ def main() -> int:
         lyrics = entry.get("lyrics", "")
         noise = float(entry.get("noise", 0))
         following, steps = cover_steps(entry["strength"], noise)
-        print(f"\n=== {entry['name']}: strength {entry['strength']} ({following} of {steps} "
-              f"steps follow the source), noise {noise}\n    {entry['caption']}", flush=True)
+        task = entry.get("task", "cover")
+        flow_edit = ({"flow_edit_morph": True,
+                      "flow_edit_source_caption": entry["flow_edit_source_caption"]}
+                     if entry.get("flow_edit_source_caption") else {})
+        print(f"\n=== {entry['name']}: {task}{' + flow edit' if flow_edit else ''}, strength "
+              f"{entry['strength']} ({following} of {steps} steps follow the source), noise {noise}"
+              f"\n    {entry['caption']}", flush=True)
         params = GenerationParams(
-            task_type="cover",
-            instruction=TASK_INSTRUCTIONS["cover"],
+            task_type=task,
+            instruction=TASK_INSTRUCTIONS[task],
             src_audio=str(run / "source.wav"),
             reference_audio=None,
             caption=entry["caption"],
@@ -109,6 +118,7 @@ def main() -> int:
             use_cot_metas=False,
             use_cot_caption=False,
             use_cot_language=False,
+            **flow_edit,
         )
         config = GenerationConfig(batch_size=1, use_random_seed=False, seeds=[SEED],
                                   audio_format="wav")
