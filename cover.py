@@ -10,7 +10,11 @@ Plan entries: {"name", "caption", "strength", "noise" (optional),
 app's, or "cover-nofsq", which conditions on the source without FSQ
 quantization), "flow_edit_source_caption" (optional: turns on ACE-Step's
 flow-edit overlay, which paints the source toward the caption; this text
-describes the source)}. The other settings are the ones the app uses for
+describes the source), "reference" (optional: the name of an earlier entry
+whose take is the cover's reference audio, the sound to follow)}. An entry
+with "task": "text2music" makes a new piece from its caption instead
+("duration" in seconds, default 30), e.g. a reference for later covers.
+The other settings are the ones the app uses for
 covers: turbo model, 8 steps, shift 3, no language model, no INT8
 quantization. Each cover goes to <out>/covers/<name>/ (source.wav,
 take_01.wav/.mp3, settings.json); <out>/plan_results.json lists them all.
@@ -89,28 +93,13 @@ def main() -> int:
     for entry in plan:
         run = out / "covers" / entry["name"]
         run.mkdir(parents=True, exist_ok=True)
-        shutil.copy(source, run / "source.wav")
-        lyrics = entry.get("lyrics", "")
-        noise = float(entry.get("noise", 0))
-        following, steps = cover_steps(entry["strength"], noise)
         task = entry.get("task", "cover")
-        flow_edit = ({"flow_edit_morph": True,
-                      "flow_edit_source_caption": entry["flow_edit_source_caption"]}
-                     if entry.get("flow_edit_source_caption") else {})
-        print(f"\n=== {entry['name']}: {task}{' + flow edit' if flow_edit else ''}, strength "
-              f"{entry['strength']} ({following} of {steps} steps follow the source), noise {noise}"
-              f"\n    {entry['caption']}", flush=True)
-        params = GenerationParams(
-            task_type=task,
-            instruction=TASK_INSTRUCTIONS[task],
-            src_audio=str(run / "source.wav"),
-            reference_audio=None,
+        lyrics = entry.get("lyrics", "")
+        common = dict(
             caption=entry["caption"],
             lyrics=lyrics or "[Instrumental]",
             instrumental=not lyrics,
             vocal_language=entry.get("language", "en"),
-            audio_cover_strength=entry["strength"],
-            cover_noise_strength=noise,
             inference_steps=STEPS,
             seed=SEED,
             shift=SHIFT,
@@ -118,8 +107,44 @@ def main() -> int:
             use_cot_metas=False,
             use_cot_caption=False,
             use_cot_language=False,
-            **flow_edit,
         )
+        if task == "text2music":  # a new piece, e.g. a reference for later covers
+            following, steps = 0, STEPS
+            print(f"\n=== {entry['name']}: text2music, {entry.get('duration', 30)} s"
+                  f"\n    {entry['caption']}", flush=True)
+            params = GenerationParams(task_type=task, duration=float(entry.get("duration", 30)),
+                                      **common)
+        else:
+            shutil.copy(source, run / "source.wav")
+            reference = None
+            if entry.get("reference"):
+                reference_take = out / "covers" / entry["reference"] / "take_01.wav"
+                if not reference_take.is_file():
+                    print(f"=== {entry['name']}: FAILED: no reference {entry['reference']}", flush=True)
+                    results.append({**entry, "ok": False, "seconds": 0, "run_dir": str(run),
+                                    "error": f"no reference {entry['reference']}"})
+                    continue
+                reference = run / "reference.wav"
+                shutil.copy(reference_take, reference)
+            noise = float(entry.get("noise", 0))
+            following, steps = cover_steps(entry["strength"], noise)
+            flow_edit = ({"flow_edit_morph": True,
+                          "flow_edit_source_caption": entry["flow_edit_source_caption"]}
+                         if entry.get("flow_edit_source_caption") else {})
+            print(f"\n=== {entry['name']}: {task}{' + flow edit' if flow_edit else ''}"
+                  f"{' + reference ' + entry['reference'] if reference else ''}, strength "
+                  f"{entry['strength']} ({following} of {steps} steps follow the source), "
+                  f"noise {noise}\n    {entry['caption']}", flush=True)
+            params = GenerationParams(
+                task_type=task,
+                instruction=TASK_INSTRUCTIONS[task],
+                src_audio=str(run / "source.wav"),
+                reference_audio=str(reference) if reference else None,
+                audio_cover_strength=entry["strength"],
+                cover_noise_strength=noise,
+                **common,
+                **flow_edit,
+            )
         config = GenerationConfig(batch_size=1, use_random_seed=False, seeds=[SEED],
                                   audio_format="wav")
         take_started = time.time()
