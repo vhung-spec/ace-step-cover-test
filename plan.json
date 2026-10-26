@@ -1,0 +1,8 @@
+[
+  {"name": "jazz-4of8", "strength": 0.5,
+   "caption": "instrumental Christmas jazz, warm piano trio, upright bass, brushed drums, cozy, warm vintage recording"},
+  {"name": "jazz-6of8", "strength": 0.75,
+   "caption": "instrumental Christmas jazz, warm piano trio, upright bass, brushed drums, cozy, warm vintage recording"},
+  {"name": "orchestra-5of8", "strength": 0.625,
+   "caption": "instrumental orchestral Christmas, lush strings, celesta, glockenspiel, sleigh bells, French horn, warm and magical"}
+]

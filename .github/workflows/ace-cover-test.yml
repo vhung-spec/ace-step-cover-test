@@ -1,0 +1,108 @@
+# Real ACE-Step 1.5 covers on a GitHub machine (no GPU): installs ACE-Step at
+# a pinned commit, writes a public-domain source, covers it once per entry of
+# the plan (plan.json, or the "plan" input) and scores every cover
+# (score_covers.py). Start it by hand: Actions > ACE-Step cover test > Run
+# workflow. Results: the run's summary and its "ace-cover-test" artifact.
+name: ACE-Step cover test
+
+on:
+  workflow_dispatch:
+    inputs:
+      plan:
+        description: 'Test plan as JSON (empty: plan.json)'
+        required: false
+        default: ''
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ace-cover-test
+
+jobs:
+  covers:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 180
+    env:
+      ACE_COMMIT: ca1e85fe9430179831e6bc6be790c332190a3866
+      PLAN: ${{ inputs.plan }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Room for ACE-Step (disk and swap)
+        run: |
+          echo "CPU: $(nproc) x$(grep -m1 'model name' /proc/cpuinfo | cut -d: -f2)"
+          sudo rm -rf /usr/share/dotnet /usr/local/lib/android /opt/ghc /opt/hostedtoolcache/CodeQL
+          df -h / /mnt
+          # Everything big goes on the disk with the most room.
+          root_free=$(df --output=avail -BG / | tail -1 | tr -dc 0-9)
+          mnt_free=$(df --output=avail -BG /mnt | tail -1 | tr -dc 0-9)
+          if [ "$mnt_free" -gt "$root_free" ]; then work=/mnt/work; else work=$HOME/work; fi
+          sudo mkdir -p "$work" && sudo chown "$USER" "$work"
+          sudo swapoff -a
+          sudo fallocate -l 16G "$work/swap"
+          sudo chmod 600 "$work/swap" && sudo mkswap "$work/swap" && sudo swapon "$work/swap"
+          {
+            echo "WORK=$work"
+            echo "ACE_DIR=$work/ACE-Step-1.5"
+            echo "ACE_VENV=$work/venv-ace"
+            echo "ACESTEP_CHECKPOINTS_DIR=$work/checkpoints"
+            echo "ACESTEP_PROJECT_ROOT=$work/ACE-Step-1.5"
+            echo "UV_CACHE_DIR=$work/uv-cache"
+            echo "UV_LINK_MODE=copy"
+            echo "HF_HOME=$work/hf"
+          } >> "$GITHUB_ENV"
+          free -h
+
+      - name: System tools
+        run: |
+          sudo apt-get update -q
+          sudo apt-get install -y -q ffmpeg fluidsynth fluid-soundfont-gm
+
+      - uses: astral-sh/setup-uv@v6
+
+      - name: Install ACE-Step
+        run: |
+          git clone -q https://github.com/ACE-Step/ACE-Step-1.5.git "$ACE_DIR"
+          git -C "$ACE_DIR" checkout -q "$ACE_COMMIT"
+          (cd "$ACE_DIR" && UV_PROJECT_ENVIRONMENT="$ACE_VENV" uv sync --frozen --python 3.12)
+          uv pip install -q --python "$ACE_VENV/bin/python" librosa mido
+          uv cache clean
+          "$ACE_VENV/bin/python" -c "import torch, acestep.inference, acestep.handler; print('torch', torch.__version__)"
+          df -h "$WORK"
+
+      - name: Download the models
+        run: |
+          "$ACE_VENV/bin/acestep-download" --dir "$ACESTEP_CHECKPOINTS_DIR"
+          du -sh "$ACESTEP_CHECKPOINTS_DIR"/*
+          df -h "$WORK"
+
+      - name: Source (public-domain carol)
+        run: '"$ACE_VENV/bin/python" make_source.py out/source'
+
+      - name: Covers
+        timeout-minutes: 120
+        run: |
+          cd "$ACE_DIR"
+          "$ACE_VENV/bin/python" "$GITHUB_WORKSPACE/cover.py" \
+            --source "$GITHUB_WORKSPACE/out/source/source.wav" --out "$GITHUB_WORKSPACE/out" \
+            --plan "$PLAN"
+
+      - name: Scores
+        if: always()
+        run: |
+          "$ACE_VENV/bin/python" score_covers.py out
+          if [ -f out/report.md ]; then cat out/report.md >> "$GITHUB_STEP_SUMMARY"; fi
+
+      - name: Keep the results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: ace-cover-test
+          path: |
+            out/**/*.mp3
+            out/**/*.png
+            out/**/*.md
+            out/**/*.json
+            out/**/*.mid
+          retention-days: 30
