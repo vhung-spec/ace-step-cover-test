@@ -21,6 +21,10 @@ on:
         description: 'Mix the new parts of lego runs at several levels and rate the mixes (remix.py)'
         type: boolean
         default: false
+      stack:
+        description: 'Add new parts to a piece one after the other, as the app does, and rate each step: stack.py arguments, several separated by ";"'
+        required: false
+        default: ''
 
 permissions:
   contents: read
@@ -88,8 +92,19 @@ jobs:
           "$RUNNER_TEMP/venv/bin/python" remix.py runs/* | tee remixed.txt
           { echo "### New parts mixed at several levels"; sed -n '/^| part/,$p' remixed.txt; } >> "$GITHUB_STEP_SUMMARY"
 
+      - name: Stack new parts
+        if: inputs.stack != ''
+        env:
+          STACK: ${{ inputs.stack }}
+        run: |
+          IFS=';' read -ra stacks <<< "$STACK"
+          for args in "${stacks[@]}"; do
+            "$RUNNER_TEMP/venv/bin/python" stack.py $args | tee -a stacked.txt
+          done
+          { echo "### New parts added one after the other"; grep '^|' stacked.txt; } >> "$GITHUB_STEP_SUMMARY"
+
       - name: Judge
-        if: '!inputs.remix'
+        if: ${{ !inputs.remix && inputs.stack == '' }}
         run: |
           "$RUNNER_TEMP/venv/bin/python" judge.py runs | tee judged.txt
           { echo "### Audiobox Aesthetics (1-10)"; sed -n '/^| file/,$p' judged.txt; } >> "$GITHUB_STEP_SUMMARY"
@@ -102,4 +117,5 @@ jobs:
           path: |
             judged.txt
             remixed.txt
+            stacked.txt
           retention-days: 30
