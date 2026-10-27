@@ -21,6 +21,8 @@ mixes them into one piece per folder:
 import argparse
 import json
 import subprocess
+import time
+from concurrent.futures import ThreadPoolExecutor
 from pathlib import Path
 
 import numpy as np
@@ -48,19 +50,24 @@ def at_volume(sfz: Path, db: float) -> Path:
 
 
 def render_part(sfizz: str, sfz: Path, midi: Path, wav: Path) -> np.ndarray:
+    """Plays one part; rendering stops at the MIDI file's end of track (8 beats
+    after its last event): without that, sfizz_render waits for full silence,
+    which some instruments never reach."""
     db = 0.0
     for attempt in range(5):
+        started = time.time()
         subprocess.run([sfizz, "--sfz", str(at_volume(sfz, db)), "--midi", str(midi), "--wav", str(wav),
-                        "--samplerate", str(RATE), "--polyphony", "256", "--quality", "3"],
-                       check=True, capture_output=True)
+                        "--samplerate", str(RATE), "--polyphony", "256", "--quality", "3", "--use-eot"],
+                       check=True, capture_output=True, timeout=600)
+        print(f"    {midi.stem} at {db:+g} dB: {time.time() - started:.0f} s", flush=True)
         audio, rate = sf.read(wav, always_2d=True, dtype="float32")
         if rate != RATE:
             raise ValueError(f"{wav}: {rate} Hz")
         peak = 20 * np.log10(np.abs(audio).max() + 1e-12)
         if peak > -0.1:  # clipped
             db -= 12
-        elif peak < -20 and attempt < 4:
-            db += round(-8 - peak)
+        elif peak < -20 and attempt < 4 and db < 30:
+            db = min(30, db + round(-8 - peak))
         else:
             break
     else:
@@ -132,13 +139,18 @@ def fade_tail(audio: np.ndarray, seconds: float = 3.0) -> np.ndarray:
 
 def mix_folder(folder: Path, sfizz: str, libraries: dict, ir: np.ndarray, keep_parts: bool) -> Path:
     sheet = json.loads((folder / "mix.json").read_text())
-    parts = {}
-    for entry in sheet:
+
+    def render(entry: dict) -> np.ndarray:
         sfz = libraries[entry["library"]] / entry["sfz"]
-        audio = render_part(sfizz, sfz, folder / f"{entry['part']}.mid", folder / f"{entry['part']}.wav")
+        return render_part(sfizz, sfz, folder / f"{entry['part']}.mid", folder / f"{entry['part']}.wav")
+
+    with ThreadPoolExecutor(max_workers=4) as pool:  # one sfizz_render per CPU
+        audios = list(pool.map(render, sheet))
+    parts = {}
+    for entry, audio in zip(sheet, audios):
         parts[entry["part"]] = (entry, audio)
         peak = 20 * np.log10(np.abs(audio).max() + 1e-12)
-        print(f"  {entry['part']}: {audio.shape[1] / RATE:.1f} s, peak {peak:.1f} dBFS")
+        print(f"  {entry['part']}: {audio.shape[1] / RATE:.1f} s, peak {peak:.1f} dBFS", flush=True)
     melody = [playing_db(a) for e, a in parts.values() if e["role"] in ("melody", "piano")]
     reference = float(np.mean(melody)) if melody else -20.0
     n = max(a.shape[1] for _, a in parts.values()) + ir.shape[1]
@@ -161,7 +173,7 @@ def mix_folder(folder: Path, sfizz: str, libraries: dict, ir: np.ndarray, keep_p
     subprocess.run(["ffmpeg", "-y", "-loglevel", "error", "-i", str(out), "-b:a", "256k",
                     str(out.with_suffix(".mp3"))], check=True)
     print(f"{folder.name}: {mixed.shape[1] / RATE:.0f} s, {meter.integrated_loudness(mixed.T):.1f} LUFS, "
-          f"peak {20 * np.log10(np.abs(mixed).max()):.1f} dBFS -> {out.with_suffix('.mp3')}")
+          f"peak {20 * np.log10(np.abs(mixed).max()):.1f} dBFS -> {out.with_suffix('.mp3')}", flush=True)
     return out
 
 
@@ -176,7 +188,7 @@ def main() -> None:
     args = parser.parse_args()
     ir = hall_ir()
     for folder in sorted(p for p in args.out.iterdir() if (p / "mix.json").is_file()):
-        print(f"== {folder.name}")
+        print(f"== {folder.name}", flush=True)
         libraries = {"vsco": args.vsco, "vcsl": args.vcsl, "salamander": args.salamander}
         mix_folder(folder, args.sfizz, libraries, ir, args.keep_parts)
 

@@ -360,7 +360,7 @@ def write_part(part: Part, tempos: list, path: Path) -> None:
     for tick, _, message in sorted(messages, key=lambda m: (m[0], m[1])):
         track.append(message.copy(time=tick - now))
         now = tick
-    track.append(mido.MetaMessage("end_of_track", time=TICKS))
+    track.append(mido.MetaMessage("end_of_track", time=8 * TICKS))  # where rendering stops: time to ring
     midi.save(path)
 
 
