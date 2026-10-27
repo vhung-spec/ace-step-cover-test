@@ -90,9 +90,9 @@ INSTRUMENTS = {
 # rustle) turned off (dB); and the stereo width (0 mono, 1 as recorded), narrower
 # for instruments whose samples, note by note, lean far to one side (a
 # vibraphone note 17 dB to the left), so a melody does not hop between ears.
-# The VSCO strings and flute are cut lower: above 6-8 kHz their samples hold
-# mostly the hiss of the recording (a violin note's 4-16 kHz is as loud as
-# the sample's silent tail).
+# The VSCO strings and horns are cut steeply where their samples' sound
+# sinks into the hiss of the recording: a violin note is 10-17 dB above it
+# from 8 kHz up, a horn note 6-10 dB from 2 kHz up.
 TONES = {
     "piano": {"release_db": -60},
     "chimes": {"shelf": [5000, -3], "width": 0.3},
@@ -102,12 +102,12 @@ TONES = {
     "sleigh": {"shelf": [6000, -6], "width": 0.6},
     "tubular": {"lowpass": 8000, "shelf": [4000, -3], "width": 0.5},
     "flute": {"lowpass": 8000, "shelf": [6000, -2], "width": 0.5},
-    "violins": {"lowpass": 8000, "shelf": [6000, -2], "width": 0.8},
-    "violas": {"highpass": 80, "lowpass": 7000, "shelf": [5000, -3], "width": 0.8},
-    "cellos": {"highpass": 40, "lowpass": 6000, "shelf": [4000, -3], "width": 0.8},
-    "basses": {"highpass": 30, "lowpass": 5000, "width": 0.7},
+    "violins": {"lowpass": 6500, "lowpass_order": 4, "shelf": [5000, -2], "width": 0.8},
+    "violas": {"highpass": 80, "lowpass": 6000, "lowpass_order": 4, "shelf": [4000, -2], "width": 0.8},
+    "cellos": {"highpass": 40, "lowpass": 5000, "lowpass_order": 4, "shelf": [3500, -2], "width": 0.8},
+    "basses": {"highpass": 30, "lowpass": 4000, "lowpass_order": 4, "width": 0.7},
     "basses-pizz": {"highpass": 30, "lowpass": 5000, "width": 0.7},
-    "horns": {"highpass": 60, "lowpass": 7000, "width": 0.7},
+    "horns": {"highpass": 60, "lowpass": 3000, "lowpass_order": 4, "width": 0.7},
     "timpani": {"highpass": 35, "width": 0.7},
 }
 # How loud each kind of part sits against the melody (dB of its loudness when playing).

@@ -121,11 +121,13 @@ def high_shelf(freq: float, db: float) -> tuple:
 
 
 def apply_tone(audio: np.ndarray, tone: dict) -> np.ndarray:
-    """A part's tone: a high-pass and a low-pass (Hz), a high shelf (Hz, dB)."""
+    """A part's tone: a high-pass and a low-pass (Hz; the low-pass 12 dB an
+    octave, or steeper as lowpass_order asks), a high shelf (Hz, dB)."""
     if tone.get("highpass"):
         audio = sosfilt(butter(2, tone["highpass"], "high", fs=RATE, output="sos"), audio, axis=-1)
     if tone.get("lowpass"):
-        audio = sosfilt(butter(2, tone["lowpass"], "low", fs=RATE, output="sos"), audio, axis=-1)
+        order = tone.get("lowpass_order", 2)
+        audio = sosfilt(butter(order, tone["lowpass"], "low", fs=RATE, output="sos"), audio, axis=-1)
     if tone.get("shelf"):
         audio = lfilter(*high_shelf(*tone["shelf"]), audio, axis=-1)
     return audio
