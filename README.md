@@ -81,8 +81,9 @@ runs/<mã khác>/covers/lego-woodwinds/stem_01.mp3:0.7` (nhiều lượt cách n
 
 **Actions → Real-sample arrangements → Run workflow.** Không có mô hình AI nào tạo âm thanh ở đây:
 
-1. `arrange.py` phối hai bài carol thành nhiều bè MIDI, mỗi nhạc cụ một file, theo ba kiểu: `piano`
-   (giai điệu có to nhỏ theo câu, tay trái rải hợp âm, pedal), `bells` (glockenspiel, chuông tay,
+1. `arrange.py` phối hai bài carol thành nhiều bè MIDI, mỗi nhạc cụ một file, theo các kiểu: `piano`
+   (giai điệu có to nhỏ theo câu, tay trái rải hợp âm, pedal; đàn Steinway B), `salamander` (như trên,
+   trên đàn Salamander Grand Piano), `bells` (glockenspiel, chuông tay,
    vibraphone, harp, chuông gió, chuông lắc) và `orchestra` (sáo rồi violin hát giai điệu; viola, cello,
    contrabass, harp, horn đệm; glockenspiel, chuông lắc, timpani, chuông ống). Mọi bè đi theo cùng một
    hợp âm từng phách nên luôn khớp nhau; mỗi kiểu có đoạn mở đầu, hai lượt (lượt hai đầy hơn) và hợp âm
@@ -110,4 +111,6 @@ GitHub của tác giả ở một commit cố định, không chép vào kho nà
 Hai thư viện mẫu âm thanh [VSCO 2 Community Edition](https://github.com/sgossner/VSCO-2-CE) và
 [VCSL](https://github.com/sgossner/VCSL) của Versilian Studios theo giấy phép CC0 (dùng tự do, kể cả
 thương mại, không cần ghi nguồn); bài test tải chúng ở commit cố định, không chép vào kho này.
+[Salamander Grand Piano V3](https://github.com/sfzinstruments/SalamanderGrandPiano) của Alexander Holm
+theo giấy phép CC-BY 3.0: dùng được cho thương mại nhưng phải ghi tên tác giả (ví dụ trong mô tả video).
 sfizz theo giấy phép BSD 2-Clause.

@@ -2,13 +2,14 @@
 model: one MIDI file per instrument, in three styles, plus mix.json (the
 instrument, role and stereo position of each part) for render_samples.py:
 
-    python arrange.py out/sampled [--songs wish silent-night] [--styles piano bells orchestra]
+    python arrange.py out/sampled [--songs wish silent-night] [--styles piano salamander bells orchestra]
 
 The carols are the public-domain melodies and chords of make_source.py. Every
 style plays an intro (the last phrase, an octave up), two verses (the second
 fuller) and a held last chord, slowing down over the last two bars. The parts
 are written from the same chords, beat by beat, so they always agree:
-- piano: the melody over a flowing left hand, with sustain pedal; in the
+- piano (VCSL's Steinway B; "salamander": the Salamander Grand Piano, CC-BY
+  3.0, by Alexander Holm): the melody over a flowing left hand, with sustain pedal; in the
   second verse a chord tone a third to a sixth under the longer notes sings
   with the melody;
 - bells: glockenspiel, then hand chimes and vibraphone on the melody, over a
@@ -41,6 +42,7 @@ CHORDS = {"C": (0, (0, 4, 7)), "F": (5, (0, 4, 7)), "G": (7, (0, 4, 7)), "G7": (
 # Sample libraries: (library, SFZ file in it).
 INSTRUMENTS = {
     "piano": ("vcsl", "Chordophones/Zithers/Grand Piano, Steinway B.sfz"),
+    "salamander": ("salamander", "Salamander Grand Piano V3.sfz"),
     "glock": ("vcsl", "Idiophones/Struck Idiophones/Glockenspiel.sfz"),
     "chimes": ("vcsl", "Idiophones/Struck Idiophones/Hand Chimes.sfz"),
     "vibes": ("vcsl", "Idiophones/Struck Idiophones/Vibraphone - Soft Mallets.sfz"),
@@ -224,8 +226,8 @@ def pedal_by_chord(arr: Arrangement, part: Part, start: int, end: int) -> None:
         part.pedal.append((tick + length - 25, 0))
 
 
-def arrange_piano(arr: Arrangement) -> None:
-    piano = arr.part("piano", "piano", "piano", 0.0, reverb=0.25)
+def arrange_piano(arr: Arrangement, instrument: str = "piano") -> None:
+    piano = arr.part("piano", instrument, "piano", 0.0, reverb=0.25)
     for tick, note, length, verse, position in arr.melody():
         if verse < 0:
             velocity = 52 + 6 * position
@@ -244,7 +246,7 @@ def arrange_piano(arr: Arrangement) -> None:
     pedal_by_chord(arr, piano, 0, arr.end)
     for note, velocity in ((36, 60), (48, 54), (55, 50), (64, 50), (72, 46)):  # the last chord, rolled
         piano.add(arr.end + (note - 36) * 3, note, velocity, BAR * 2)
-    piano.pedal.append((arr.end + 20, 127))
+    piano.pedal += [(arr.end + 20, 127), (arr.end + 2 * BAR, 0)]  # held, then let go
 
 
 def arrange_bells(arr: Arrangement) -> None:
@@ -321,7 +323,8 @@ def arrange_orchestra(arr: Arrangement) -> None:
     effects(arr, sleigh_from=arr.verses[1])
 
 
-STYLES = {"piano": arrange_piano, "bells": arrange_bells, "orchestra": arrange_orchestra}
+STYLES = {"piano": arrange_piano, "salamander": lambda arr: arrange_piano(arr, "salamander"),
+          "bells": arrange_bells, "orchestra": arrange_orchestra}
 
 
 def tempo_map(arr: Arrangement) -> list:

@@ -13,8 +13,8 @@ on:
         description: 'Carols: wish (We Wish You a Merry Christmas), silent-night'
         default: 'wish silent-night'
       styles:
-        description: 'Styles: piano, bells, orchestra'
-        default: 'piano bells orchestra'
+        description: 'Styles: piano (Steinway B), salamander (the same on the Salamander Grand Piano), bells, orchestra'
+        default: 'piano salamander bells orchestra'
       rate:
         description: 'Rate the pieces (Audiobox Aesthetics, CLAP)'
         type: boolean
@@ -72,7 +72,7 @@ jobs:
       - name: Play and mix
         run: |
           "$RUNNER_TEMP/venv/bin/python" render_samples.py out/sampled --sfizz ~/sfizz/sfizz_render \
-            --vsco "$RUNNER_TEMP/libs/vsco" --vcsl "$RUNNER_TEMP/libs/vcsl"
+            --vsco "$RUNNER_TEMP/libs/vsco" --vcsl "$RUNNER_TEMP/libs/vcsl" --salamander "$RUNNER_TEMP/libs/salamander"
 
       - name: Rate
         if: inputs.rate

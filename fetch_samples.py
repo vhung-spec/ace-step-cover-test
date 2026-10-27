@@ -5,7 +5,9 @@ from the two CC0 sample libraries, and makes their SFZ files readable on Linux
     python fetch_samples.py out/sampled libs
 
 libs/vsco is VS Chamber Orchestra 2 Community Edition (SFZ branch), libs/vcsl
-the Versilian Community Sample Library (sfz branch), both by Versilian Studios.
+the Versilian Community Sample Library (sfz branch), both by Versilian Studios
+(CC0); libs/salamander the Salamander Grand Piano V3 by Alexander Holm (CC-BY
+3.0, SFZ by kinwie).
 """
 
 import json
@@ -14,9 +16,13 @@ import subprocess
 import sys
 from pathlib import Path, PurePosixPath
 
+# Library: (repository, commit, folders always fetched: for SFZ files that
+# #include their regions, whose sample paths this script does not follow).
 LIBRARIES = {
-    "vsco": ("https://github.com/sgossner/VSCO-2-CE", "6dd651d55dde97fd4028699be9d4481f26917891"),
-    "vcsl": ("https://github.com/sgossner/VCSL", "dfcf4a4918771eee884b96ad4493de82ef84daf6"),
+    "vsco": ("https://github.com/sgossner/VSCO-2-CE", "6dd651d55dde97fd4028699be9d4481f26917891", ()),
+    "vcsl": ("https://github.com/sgossner/VCSL", "dfcf4a4918771eee884b96ad4493de82ef84daf6", ()),
+    "salamander": ("https://github.com/sfzinstruments/SalamanderGrandPiano",
+                   "3382bf9496bba2486f5ab0de55a264d1dfc38404", ("Data", "Samples")),
 }
 
 
@@ -41,7 +47,7 @@ def main(out: str, libs: str) -> int:
         for entry in json.loads(sheet.read_text()):
             needed.setdefault(entry["library"], set()).add(entry["sfz"])
     for name, sfz_files in sorted(needed.items()):
-        url, commit = LIBRARIES[name]
+        url, commit, always = LIBRARIES[name]
         dest = Path(libs) / name
         dest.mkdir(parents=True, exist_ok=True)
         git(dest, "init", "-q")
@@ -52,7 +58,7 @@ def main(out: str, libs: str) -> int:
         patterns.write_text("".join(f"/{f}\n" for f in sorted(sfz_files)))
         git(dest, "fetch", "-q", "--depth", "1", "--filter=blob:none", "origin", commit)
         git(dest, "checkout", "-q", "FETCH_HEAD")
-        folders = set()
+        folders = set(always)
         for sfz in sfz_files:
             folders |= sample_folders(dest / sfz, dest)
         with patterns.open("a") as f:  # then the samples they play
@@ -61,12 +67,12 @@ def main(out: str, libs: str) -> int:
         for sfz in sfz_files:  # Windows paths in the SFZ files
             path = dest / sfz
             path.write_text(path.read_text(errors="replace").replace("\\", "/"))
-        wavs = list(dest.rglob("*.wav"))
+        wavs = list(dest.rglob("*.wav")) + list(dest.rglob("*.flac"))
         pointers = [w for w in wavs if w.stat().st_size < 200 and w.read_bytes().startswith(b"version https://git-lfs")]
         if pointers:
             git(dest, "lfs", "install", "--local")
             git(dest, "lfs", "pull")
-        size = sum(w.stat().st_size for w in dest.rglob("*.wav"))
+        size = sum(w.stat().st_size for w in wavs)
         print(f"{name}: {len(sfz_files)} instruments, {len(folders)} sample folders, "
               f"{len(wavs)} samples, {size / 1e6:.0f} MB")
     return 0
