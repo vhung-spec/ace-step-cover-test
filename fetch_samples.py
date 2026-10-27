@@ -44,7 +44,7 @@ def sample_folders(sfz: Path, root: Path) -> set:
 def main(out: str, libs: str) -> int:
     needed = {}
     for sheet in Path(out).glob("*/mix.json"):
-        for entry in json.loads(sheet.read_text()):
+        for entry in json.loads(sheet.read_text())["parts"]:
             needed.setdefault(entry["library"], set()).add(entry["sfz"])
     for name, sfz_files in sorted(needed.items()):
         url, commit, always = LIBRARIES[name]

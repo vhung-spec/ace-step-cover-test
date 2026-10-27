@@ -81,18 +81,29 @@ runs/<mã khác>/covers/lego-woodwinds/stem_01.mp3:0.7` (nhiều lượt cách n
 
 **Actions → Real-sample arrangements → Run workflow.** Không có mô hình AI nào tạo âm thanh ở đây:
 
-1. `arrange.py` phối hai bài carol thành nhiều bè MIDI, mỗi nhạc cụ một file, theo các kiểu: `piano`
-   (giai điệu có to nhỏ theo câu, tay trái rải hợp âm, pedal; đàn Steinway B), `salamander` (như trên,
-   trên đàn Salamander Grand Piano), `bells` (glockenspiel, chuông tay,
-   vibraphone, harp, chuông gió, chuông lắc) và `orchestra` (sáo rồi violin hát giai điệu; viola, cello,
-   contrabass, harp, horn đệm; glockenspiel, chuông lắc, timpani, chuông ống). Mọi bè đi theo cùng một
-   hợp âm từng phách nên luôn khớp nhau; mỗi kiểu có đoạn mở đầu, hai lượt (lượt hai đầy hơn) và hợp âm
-   cuối chậm dần.
+1. `arrange.py` phối hai bài carol thành nhiều bè MIDI, mỗi nhạc cụ một file, theo các kiểu:
+   - `piano`: giai điệu có to nhỏ theo câu, tay trái rải hợp âm, pedal; đàn Steinway B.
+   - `chill`: cũng đàn đó nhưng chậm hơn khoảng 18 % và nhẹ hơn. Tay trái rải hợp âm thưa, giai điệu
+     hơi trễ nhịp, nghỉ lấy hơi dài hơn ở cuối câu, tiếng tối hơn, vang rộng hơn. Bài ngắn được chơi ba
+     lượt, lượt giữa cao lên một quãng tám như hộp nhạc.
+   - `bells`: chuông tay rồi vibraphone hát giai điệu, gõ nhẹ và ở đúng cao độ của bài. Glockenspiel chỉ
+     điểm vào câu cuối. Đệm bằng harp, lượt cuối có thêm dây đệm khẽ.
+   - `orchestra`: sáo rồi violin hát giai điệu, sáo bè cao ở lượt cuối. Viola và cello giữ hợp âm,
+     contrabass gảy rồi kéo vĩ, horn vào từ giữa lượt cuối. Có harp lướt phím ở chỗ chuyển và một hồi
+     timpani khẽ ở hợp âm cuối.
+   - `salamander`: như `piano` nhưng trên đàn Salamander Grand Piano (không chạy mặc định).
+
+   Mọi bè đi theo cùng một hợp âm từng phách nên luôn khớp nhau. Bè ngân giữ nguyên nốt chung giữa hai
+   hợp âm, nốt khác đi tới nốt gần nhất, và to nhỏ theo từng câu (CC11). Hai nốt cùng phím không bao giờ
+   chồng lên nhau: nếu chồng, lệnh tắt nốt trước sẽ cắt luôn nốt sau thành một tiếng vĩ cụt.
 2. `fetch_samples.py` tải đúng các nhạc cụ cần dùng từ hai thư viện mẫu âm thanh CC0 của Versilian
    Studios: VS Chamber Orchestra 2 Community Edition và Versilian Community Sample Library.
-3. `render_samples.py` phát từng bè bằng [sfizz](https://sfz.tools/sfizz/) (`sfizz_render`), cân độ to
-   của từng bè theo vai trò, xếp vị trí trái/phải, thêm vang phòng hoà nhạc (tự tạo, không cần bản
-   quyền) và đưa cả bài về -16 LUFS.
+3. `render_samples.py` phát từng bè bằng [sfizz](https://sfz.tools/sfizz/) (`sfizz_render`). Sau đó:
+   - chỉnh âm sắc từng bè: chuông và bè ngân bớt chói và bớt tiếng ồn nền của bản thu; tiếng giảm âm
+     của piano khi nhả phím được vặn nhỏ;
+   - cân độ to của từng bè theo vai trò và xếp vị trí trái/phải;
+   - thêm vang phòng hoà nhạc tự tạo (không cần bản quyền): dải cao tắt nhanh nên đuôi vang ấm, không xì;
+   - đưa cả bài về -16 LUFS.
 4. `rate.py` chấm điểm như các phần trên.
 
 Kết quả: artifact **sampled** (MP3 của từng bài và kiểu, các file MIDI, `rated.txt`).

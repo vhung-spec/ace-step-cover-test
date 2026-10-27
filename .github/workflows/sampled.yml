@@ -13,8 +13,8 @@ on:
         description: 'Carols: wish (We Wish You a Merry Christmas), silent-night'
         default: 'wish silent-night'
       styles:
-        description: 'Styles: piano (Steinway B), salamander (the same on the Salamander Grand Piano), bells, orchestra'
-        default: 'piano salamander bells orchestra'
+        description: 'Styles: piano (Steinway B), chill (the same, slower and softer), bells, orchestra, salamander (piano on the Salamander Grand Piano)'
+        default: 'piano chill bells orchestra'
       rate:
         description: 'Rate the pieces (Audiobox Aesthetics, CLAP)'
         type: boolean
