@@ -2,9 +2,11 @@
 # any sound: arrange.py writes one MIDI file per instrument, fetch_samples.py
 # fetches the CC0 instruments it uses, render_samples.py plays them with
 # sfizz and mixes them (balance, stereo, hall reverb, loudness), and rate.py
-# rates the pieces. Results: the "sampled" artifact (MP3, MIDI, ratings);
-# the MP3s are also pushed to the "renders" branch (replaced each run), for
-# analysis where artifacts cannot be downloaded.
+# rates the pieces. Each carol is played by a job of its own, side by side.
+# Results: an artifact per carol ("sampled-<carol>": MP3, MIDI, ratings) and
+# all of them together ("sampled"); smaller MP3s of every piece are pushed to
+# the "renders" branch (replaced each run), for analysis where artifacts
+# cannot be downloaded.
 name: Real-sample arrangements
 run-name: 'Sampled: ${{ inputs.songs }} / ${{ inputs.styles }}'
 
@@ -12,11 +14,11 @@ on:
   workflow_dispatch:
     inputs:
       songs:
-        description: 'Carols: wish (We Wish You a Merry Christmas), silent-night'
-        default: 'wish silent-night'
+        description: 'Carols: wish (We Wish You a Merry Christmas), silent-night, first-noel, joy (Joy to the World), o-holy-night, jingle-bells, deck-the-halls'
+        default: 'wish silent-night first-noel joy o-holy-night jingle-bells deck-the-halls'
       styles:
-        description: 'Styles: piano (Steinway B); gentle pianos: chill, lullaby, flowing, hymn, piano-strings, felt, felt-noise; bells; orchestra; salamander (piano on the Salamander Grand Piano)'
-        default: 'piano chill lullaby flowing hymn piano-strings felt felt-noise bells orchestra'
+        description: 'Styles: piano (Steinway B); gentle pianos: chill, lullaby, flowing, hymn, piano-strings, felt, felt-noise; ballad, pulse (free intro, high tune); bells; orchestra; salamander (piano on the Salamander Grand Piano)'
+        default: 'piano chill lullaby flowing hymn piano-strings felt felt-noise ballad pulse bells orchestra'
       rate:
         description: 'Rate the pieces (Audiobox Aesthetics, CLAP)'
         type: boolean
@@ -26,11 +28,26 @@ permissions:
   contents: write  # the renders branch
 
 jobs:
-  sampled:
+  plan:
     runs-on: ubuntu-24.04
-    timeout-minutes: 90
+    outputs:
+      songs: ${{ steps.list.outputs.songs }}
+    steps:
+      - id: list
+        env:
+          SONGS: ${{ inputs.songs }}
+        run: echo "songs=$(python3 -c 'import json, sys; print(json.dumps(sys.argv[1:]))' $SONGS)" >> "$GITHUB_OUTPUT"
+
+  sampled:
+    needs: plan
+    runs-on: ubuntu-24.04
+    timeout-minutes: 120
+    strategy:
+      fail-fast: false
+      matrix:
+        song: ${{ fromJSON(needs.plan.outputs.songs) }}
     env:
-      SONGS: ${{ inputs.songs }}
+      SONG: ${{ matrix.song }}
       STYLES: ${{ inputs.styles }}
       SFIZZ_VERSION: '1.2.3'
       PYTHONUNBUFFERED: '1'  # the log shows each part as it is played
@@ -68,7 +85,7 @@ jobs:
           ~/sfizz/sfizz_render --help | head -3
 
       - name: Arrangements (MIDI)
-        run: '"$RUNNER_TEMP/venv/bin/python" arrange.py out/sampled --songs $SONGS --styles $STYLES'
+        run: '"$RUNNER_TEMP/venv/bin/python" arrange.py out/sampled --songs "$SONG" --styles $STYLES'
 
       - name: Instruments (CC0 samples)
         run: '"$RUNNER_TEMP/venv/bin/python" fetch_samples.py out/sampled "$RUNNER_TEMP/libs"'
@@ -78,6 +95,13 @@ jobs:
           "$RUNNER_TEMP/venv/bin/python" render_samples.py out/sampled --sfizz ~/sfizz/sfizz_render \
             --vsco "$RUNNER_TEMP/libs/vsco" --vcsl "$RUNNER_TEMP/libs/vcsl" --salamander "$RUNNER_TEMP/libs/salamander"
 
+      - name: Smaller copies for the renders branch
+        run: |
+          mkdir -p out/preview
+          for wav in out/sampled/*.wav; do
+            ffmpeg -loglevel error -i "$wav" -c:a libmp3lame -b:a 128k "out/preview/$(basename "${wav%.wav}").mp3"
+          done
+
       - name: Rate
         if: inputs.rate
         run: |
@@ -85,27 +109,65 @@ jobs:
             --index-url https://download.pytorch.org/whl/cpu
           # transformers as pinned by ACE-Step: CLAP's API changed in 5.x
           uv pip install -q --python "$RUNNER_TEMP/venv/bin/python" librosa audiobox_aesthetics transformers==4.57.6
-          "$RUNNER_TEMP/venv/bin/python" rate.py out/sampled | tee out/sampled/rated.txt
-          { echo "### Pieces rated"; sed -n '/^| piece/,$p' out/sampled/rated.txt; } >> "$GITHUB_STEP_SUMMARY"
-
-      - name: Pieces on the renders branch
-        if: always()
-        run: |
-          cd out/sampled
-          git init -q -b renders
-          git add ./*.mp3 && git add rated.txt 2>/dev/null || true
-          git -c user.name="github-actions[bot]" -c user.email="41898282+github-actions[bot]@users.noreply.github.com" \
-            commit -q -m "Renders of run $GITHUB_RUN_ID ($SONGS / $STYLES)"
-          git push -q -f "https://x-access-token:${{ github.token }}@github.com/$GITHUB_REPOSITORY" renders
+          "$RUNNER_TEMP/venv/bin/python" rate.py out/sampled | tee "out/sampled/rated-$SONG.txt"
+          cp "out/sampled/rated-$SONG.txt" out/preview/
+          { echo "### $SONG rated"; sed -n '/^| piece/,$p' "out/sampled/rated-$SONG.txt"; } >> "$GITHUB_STEP_SUMMARY"
 
       - name: Keep the pieces
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: sampled
+          name: sampled-${{ matrix.song }}
           path: |
             out/sampled/*.mp3
             out/sampled/**/*.mid
             out/sampled/**/mix.json
-            out/sampled/rated.txt
+            out/sampled/rated-*.txt
           retention-days: 30
+
+      - name: Keep the smaller copies
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: preview-${{ matrix.song }}
+          path: out/preview
+          retention-days: 1
+
+  collect:
+    needs: sampled
+    if: always()
+    runs-on: ubuntu-24.04
+    env:
+      SONGS: ${{ inputs.songs }}
+      STYLES: ${{ inputs.styles }}
+    steps:
+      - name: Every carol's pieces
+        uses: actions/download-artifact@v4
+        with:
+          pattern: sampled-*
+          path: all
+          merge-multiple: true
+
+      - name: All the pieces in one artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: sampled
+          path: all
+          retention-days: 30
+
+      - name: The smaller copies
+        uses: actions/download-artifact@v4
+        with:
+          pattern: preview-*
+          path: preview
+          merge-multiple: true
+
+      - name: Pieces on the renders branch
+        run: |
+          cd preview
+          cat rated-*.txt > rated.txt 2>/dev/null || true
+          git init -q -b renders
+          git add ./*.mp3 && git add rated.txt 2>/dev/null || true
+          git -c user.name="github-actions[bot]" -c user.email="41898282+github-actions[bot]@users.noreply.github.com" \
+            commit -q -m "Renders of run $GITHUB_RUN_ID ($SONGS / $STYLES), 128 kbit/s"
+          git push -q -f "https://x-access-token:${{ github.token }}@github.com/$GITHUB_REPOSITORY" renders

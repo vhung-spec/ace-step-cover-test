@@ -81,7 +81,11 @@ runs/<mã khác>/covers/lego-woodwinds/stem_01.mp3:0.7` (nhiều lượt cách n
 
 **Actions → Real-sample arrangements → Run workflow.** Không có mô hình AI nào tạo âm thanh ở đây:
 
-1. `arrange.py` phối hai bài carol thành nhiều bè MIDI, mỗi nhạc cụ một file, theo các kiểu:
+1. `arrange.py` phối bảy bài carol đã hết bản quyền thành nhiều bè MIDI, mỗi nhạc cụ một file:
+   `wish` (We Wish You a Merry Christmas), `silent-night`, `first-noel`, `joy` (Joy to the World),
+   `o-holy-night`, `jingle-bells`, `deck-the-halls`. Bài nhịp 3, nhịp 2, nhịp 4 hay nhịp 12/8 đều được, mỗi
+   bài ở giọng riêng. Giai điệu và hợp âm của The First Noel, Joy to the World và O Holy Night lấy từ bản
+   nhạc gốc đã hết bản quyền của Mutopia Project (xem `carols.py`). Mỗi bài được phối theo các kiểu:
    - `piano`: giai điệu có to nhỏ theo câu, tay trái rải hợp âm, pedal; đàn Steinway B.
    - Các kiểu piano nhẹ nhàng: cùng tiếng đàn với `piano` nhưng chậm hơn, đánh nhẹ hơn. Giai điệu hơi trễ
      nhịp, nghỉ lấy hơi dài hơn ở cuối câu. Bài ngắn được chơi ba lượt.
@@ -93,6 +97,13 @@ runs/<mã khác>/covers/lego-woodwinds/stem_01.mp3:0.7` (nhiều lượt cách n
      - `felt`: tiếng piano tối và tròn như đàn búa nỉ (lọc bỏ dải cao từ 900 Hz), theo bản ru ngủ mẫu.
        Tay trái rải đều từng nốt móc đơn ngay từ đầu.
      - `felt-noise`: như `felt`, có thêm lớp tiếng rì (pink noise) rất khẽ như nhạc ru ngủ cho em bé.
+   - `ballad` và `pulse`: theo kiểu piano Giáng sinh thư giãn. Mở đầu tự do: chỉ có hợp âm của mấy ô nhịp
+     cuối, rải chậm từ nốt trầm, có thêm quãng chín cho có màu, chơi chậm và ngân ở cuối mỗi ô nhịp. Sau đó
+     giai điệu vào ở quãng cao, lượt cuối được nhân đôi quãng tám. Tiếng vang dài hơn.
+     - `ballad` (khoảng 74 nhịp/phút): tay trái rải đều từng nốt móc đơn lên xuống hai quãng tám ở quãng
+       giữa, nốt trầm ở đầu mỗi ô nhịp.
+     - `pulse` (khoảng 88 nhịp/phút): tiếng đệm nảy đều như nhịp tim, mỗi nốt móc đơn một quãng năm (thêm
+       quãng ba ở đầu phách), nốt trầm ở đầu mỗi ô nhịp.
    - `bells`: vibraphone cùng chuông tay hát giai điệu, cao hơn bài một quãng tám, nơi chuông ngân hay
      nhất. Glockenspiel lấp lánh ở các nốt dài; nhạc cụ này vang cao hơn phím một quãng tám. Đệm bằng
      harp và nền dây khẽ. Chuông ống ngân nhẹ ở đầu mỗi lượt.
@@ -119,7 +130,8 @@ runs/<mã khác>/covers/lego-woodwinds/stem_01.mp3:0.7` (nhiều lượt cách n
      Nhật ký ghi lại bài bị hạ đỉnh bao nhiêu và độ cân bằng trái/phải.
 4. `rate.py` chấm điểm như các phần trên.
 
-Kết quả: artifact **sampled** (MP3 của từng bài và kiểu, các file MIDI, `rated.txt`).
+Mỗi bài chạy trên một máy riêng, cùng lúc với các bài khác. Kết quả: artifact **sampled-<bài>** cho từng
+bài và **sampled** gồm tất cả (MP3 của từng bài và kiểu, các file MIDI, điểm chấm `rated-<bài>.txt`).
 
 ## Giấy phép
 
