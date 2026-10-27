@@ -102,12 +102,17 @@ TONES = {
     # left, from 2.5 to 6 kHz in the slow quiet pieces, is hushed in the quiet
     # moments (dehiss: 9-10 dB less hiss there, the brighter moments as they are).
     "piano": {"release_db": -60, "lowpass": 6000, "dehiss": True},
+    # The bells' samples, note against the hiss of their own quiet tail: the hand
+    # chimes are clean; the soft-mallet vibraphone sounds almost a pure tone, so
+    # from 2 kHz up it holds little but hiss (a note 7-20 dB over it); the harp
+    # turns to hiss from 5 kHz up, the glockenspiel from 8 kHz, and the tubular
+    # bells, the noisiest (hiss only 52-69 dB under the note), from 4 kHz.
     "chimes": {"shelf": [5000, -3], "width": 0.3},
-    "vibes": {"shelf": [6000, -2], "width": 0.3},
-    "glock": {"lowpass": 9000, "shelf": [5000, -5], "width": 0.4},
-    "harp": {"shelf": [8000, -2], "width": 0.7},
+    "vibes": {"lowpass": 2500, "lowpass_order": 4, "width": 0.3, "dehiss": True},
+    "glock": {"lowpass": 8000, "lowpass_order": 4, "shelf": [5000, -5], "width": 0.4, "dehiss": True},
+    "harp": {"lowpass": 5000, "lowpass_order": 4, "width": 0.7, "dehiss": True},
     "sleigh": {"shelf": [6000, -6], "width": 0.6},
-    "tubular": {"lowpass": 8000, "shelf": [4000, -3], "width": 0.5},
+    "tubular": {"lowpass": 4000, "lowpass_order": 4, "width": 0.5, "dehiss": True},
     "flute": {"lowpass": 8000, "shelf": [6000, -2], "width": 0.5},
     "violins": {"lowpass": 6500, "lowpass_order": 4, "shelf": [5000, -2], "width": 0.8, "dehiss": True},
     "violas": {"highpass": 80, "lowpass": 6000, "lowpass_order": 4, "shelf": [4000, -2], "width": 0.8, "dehiss": True},
