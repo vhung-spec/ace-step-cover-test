@@ -4,6 +4,11 @@ hall, and each part's instrument, role, stereo position and tone) for
 render_samples.py:
 
     python arrange.py out/sampled [--songs wish silent-night first-noel ...] [--styles piano chill ...]
+        [--pianos piano knight yamaha]
+
+The piano styles can be played on VCSL's Steinway B grand (piano, the
+default) or on its two uprights, softer and closer (knight, yamaha; those
+pieces' names end in -knight or -yamaha).
 
 The carols are public-domain melodies and chords: We Wish You a Merry
 Christmas and Silent Night (make_source.py), The First Noel, Joy to the
@@ -33,7 +38,7 @@ same chords, beat by beat, so they always agree:
 - ballad and pulse, in the manner of the slow pop Christmas pianos: an intro
   in free time of the tune's last chords alone, rolled from a deep bass with
   an added ninth (or the seventh), then the tune an octave up, doubled at the
-  octave in the last verse, in a longer hall:
+  octave in the last verse, played evenly, in a longer hall:
   - ballad (about 74 bpm): the left hand in eighths up and down two octaves
     of each chord from the middle of the keyboard, its root deep under each bar;
   - pulse (about 88 bpm): a heartbeat of lightly detached eighths, the root
@@ -96,6 +101,8 @@ CHORDS = ChordBook()
 INSTRUMENTS = {
     "piano": ("vcsl", "Chordophones/Zithers/Grand Piano, Steinway B.sfz"),
     "salamander": ("salamander", "Salamander Grand Piano V3.sfz"),
+    "knight": ("vcsl", "Chordophones/Zithers/Upright Piano, Knight.sfz"),  # two softer, closer uprights
+    "yamaha": ("vcsl", "Chordophones/Zithers/Upright Piano, Yamaha.sfz"),
     "chimes": ("vcsl", "Idiophones/Struck Idiophones/Hand Chimes.sfz"),
     "vibes": ("vcsl", "Idiophones/Struck Idiophones/Vibraphone - Soft Mallets.sfz"),
     "glock": ("vcsl", "Idiophones/Struck Idiophones/Glockenspiel.sfz"),
@@ -130,6 +137,13 @@ TONES = {
     # left, from 2.5 to 6 kHz in the slow quiet pieces, is hushed in the quiet
     # moments (dehiss: 9-10 dB less hiss there, the brighter moments as they are).
     "piano": {"release_db": -60, "lowpass": 6000, "dehiss": True},
+    # The Knight upright's soft samples hiss a little (69-75 dB under the note),
+    # so it is treated as the Steinway; its pedal's thumps are left out. The
+    # Yamaha upright's soft samples are dark and clean (hiss 107-115 dB under
+    # the note), but some were recorded with their channels in opposite
+    # polarity (fetch_samples.py turns one over).
+    "knight": {"release_db": -60, "pedal_noise": False, "lowpass": 6000, "dehiss": True},
+    "yamaha": {"release_db": -60},
     # The bells' samples, note against the hiss of their own quiet tail: the hand
     # chimes are clean; the soft-mallet vibraphone sounds almost a pure tone, so
     # from 2 kHz up it holds little but hiss (a note 7-20 dB over it); the harp
@@ -236,8 +250,8 @@ class Arrangement:
     """The timeline every part follows: intro, verses, the last chord, and its tempo."""
 
     def __init__(self, song: Song, verses: int = 2, tempo: float = 1.0, breath: float = 0.92, seed: int = 7,
-                 free_intro: bool = False):
-        self.song, self.rng = song, random.Random(seed)
+                 free_intro: bool = False, piano: str = "piano"):
+        self.song, self.rng, self.piano = song, random.Random(seed), piano  # piano: the instrument playing piano
         self.bpm = song.bpm * tempo
         self.beat = song.beat_eighths * EIGHTH  # a quarter note, or a dotted quarter in 6/8 and 12/8
         self.bar = song.beats * self.beat
@@ -544,8 +558,8 @@ def held_keys(notes: list, tick: int) -> set:
     return {n for t, n, _, l in notes if t <= tick < t + l}
 
 
-def arrange_piano(arr: Arrangement, instrument: str = "piano") -> None:
-    piano = arr.part("piano", instrument, "piano", 0.0, reverb=0.25)
+def arrange_piano(arr: Arrangement, instrument: str | None = None) -> None:
+    piano = arr.part("piano", instrument or arr.piano, "piano", 0.0, reverb=0.25)
     for tick, note, length, verse, position in arr.melody():
         if verse < 0:
             velocity = 52 + 6 * position
@@ -573,10 +587,10 @@ def arrange_piano(arr: Arrangement, instrument: str = "piano") -> None:
 
 
 def gentle_melody(arr: Arrangement, piano: Part, soft: int, loud: int, up: tuple = (), late: int = 8,
-                  harmony: bool = True, intro: bool = True, octaves: bool = False) -> list:
+                  harmony: bool = True, intro: bool = True, octaves: bool = False, swell: float = 10) -> list:
     """The tune for the gentle piano styles, a little behind the beat
     (unhurried), growing from soft in the first verse to loud in the last, each
-    verse rising to its middle; the verses in up an octave higher, light as a
+    verse rising to its middle (by swell); the verses in up an octave higher, light as a
     music box; in the last verse a chord tone a third to a sixth under the
     longer notes, struck just before the tune (with octaves, the tune's own
     note an octave down instead, fuller). Without intro the tune waits for the
@@ -587,12 +601,12 @@ def gentle_melody(arr: Arrangement, piano: Part, soft: int, loud: int, up: tuple
         if verse < 0:
             velocity = soft - 4 + 4 * position
         else:
-            velocity = soft + (loud - soft) * verse / max(1, arr.last) + 10 * shape(position)
+            velocity = soft + (loud - soft) * verse / max(1, arr.last) + swell * shape(position)
         note += 12 if verse in up else 0
         at = tick + late + arr.jitter(6)
         piano.add(at, note, velocity + arr.rng.randint(-2, 2), length - 10)
         if octaves and verse == arr.last and length >= arr.beat:
-            piano.add(at - 12, note - 12, velocity - 16, length - 10)
+            piano.add(at - 12, note - 12, velocity - 20, length - 10)
         elif harmony and verse == arr.last and (length >= arr.beat or tick % arr.bar == 0):
             second = harmony_below(arr.chord_at(tick), note)
             if second is not None:
@@ -661,7 +675,7 @@ def gentle_end(arr: Arrangement, piano: Part, tune: list, velocity: int) -> None
 
 
 def gentle_piano(arr: Arrangement) -> Part:
-    return arr.part("piano", "piano", "piano", 0.0, reverb=0.25)
+    return arr.part("piano", arr.piano, "piano", 0.0, reverb=0.25)
 
 
 def arrange_chill(arr: Arrangement) -> None:
@@ -790,21 +804,24 @@ def pulse(arr: Arrangement, part: Part, start: int, end: int, velocity: int, avo
             part.add(at - 6, root, velocity + 8, arr.bar)
 
 
+# ballad and pulse play evenly, as the reference recordings do (their level
+# holds within 3-5 dB): the tune grows little from verse to verse and swells
+# little within one, and the free intro is nearly as loud as what follows.
 def arrange_ballad(arr: Arrangement) -> None:
-    piano = arr.part("piano", "piano", "piano", 0.0, reverb=0.32)
-    tune = gentle_melody(arr, piano, 52, 62, up=tuple(range(len(arr.verses))), harmony=False, intro=False,
-                         octaves=True)
-    free_intro(arr, piano, 44)
+    piano = arr.part("piano", arr.piano, "piano", 0.0, reverb=0.32)
+    tune = gentle_melody(arr, piano, 56, 60, up=tuple(range(len(arr.verses))), harmony=False, intro=False,
+                         octaves=True, swell=4)
+    free_intro(arr, piano, 50)
     ballad_hand(arr, piano, arr.verses[0], arr.end, 38, avoid=tune)
     pedal_by_chord(arr, piano, 0, arr.end)
     gentle_end(arr, piano, tune, 50)
 
 
 def arrange_pulse(arr: Arrangement) -> None:
-    piano = arr.part("piano", "piano", "piano", 0.0, reverb=0.32)
-    tune = gentle_melody(arr, piano, 54, 64, up=tuple(range(len(arr.verses))), harmony=False, intro=False,
-                         octaves=True)
-    free_intro(arr, piano, 44)
+    piano = arr.part("piano", arr.piano, "piano", 0.0, reverb=0.32)
+    tune = gentle_melody(arr, piano, 56, 60, up=tuple(range(len(arr.verses))), harmony=False, intro=False,
+                         octaves=True, swell=4)
+    free_intro(arr, piano, 50)
     pedal_by_chord(arr, piano, 0, arr.verses[0])  # the rolled chords ring; the pulse is played without pedal
     pulse(arr, piano, arr.verses[0], arr.end, 34, avoid=tune)
     gentle_end(arr, piano, tune, 50)
@@ -993,34 +1010,38 @@ def main() -> None:
     parser.add_argument("--songs", nargs="+", default=list(SONGS), choices=list(SONGS))
     parser.add_argument("--styles", nargs="+", default=[s for s in STYLES if s != "salamander"],
                         choices=list(STYLES))
+    parser.add_argument("--pianos", nargs="+", default=["piano"], choices=["piano", "knight", "yamaha"],
+                        help="the instruments the piano styles are played on (one piece each; "
+                             "the Steinway's pieces keep their names, the others' end in -knight or -yamaha)")
     args = parser.parse_args()
-    for name in args.songs:
-        for style_name in args.styles:
-            song, style = SONGS[name], STYLES[style_name]
-            verses = style.verses or song.verses or (3 if style.repeat_short and song.seconds() < 40 else 2)
-            tempo = min(1.0, style.bpm / song.bpm) if style.bpm else style.tempo
-            arr = Arrangement(song, verses, tempo, style.breath, free_intro=style.free_intro)
-            style.arrange(arr)
-            if style.piano_tone:
-                arr.parts["piano"].tone.update(style.piano_tone)
-            if style.piano_reverb is not None:
-                arr.parts["piano"].reverb = style.piano_reverb
-            folder = args.out / f"{name}-{style_name}"
-            folder.mkdir(parents=True, exist_ok=True)
-            sheet, untangled = [], 0
-            for part_name, part in arr.parts.items():
-                untangled += write_part(part, arr.tempos, folder / f"{part_name}.mid", arr.meter)
-                library, sfz = INSTRUMENTS[part.instrument]
-                sheet.append({"part": part_name, "library": library, "sfz": sfz, "role": part.role,
-                              "gain_db": ROLES[part.role], "pan": part.pan, "reverb": part.reverb,
-                              "tone": part.tone, "notes": len(part.notes)})
-            mix = {"hall": {"rt60": style.hall}, "parts": sheet, "master": style.master}
-            if style.noise_db is not None:
-                mix["noise"] = {"db": style.noise_db}
-            (folder / "mix.json").write_text(json.dumps(mix, indent=2))
-            print(f"{folder.name}: {arr.bpm:.0f} bpm, {len(arr.verses)} verses, {len(sheet)} parts "
-                  f"({', '.join(p['part'] for p in sheet)}), {arr.seconds(0, arr.end + 2 * arr.bar):.0f} s, "
-                  f"{untangled} repeated notes untangled")
+    for piano, name, style_name in itertools.product(args.pianos, args.songs, args.styles):
+        song, style = SONGS[name], STYLES[style_name]
+        verses = style.verses or song.verses or (3 if style.repeat_short and song.seconds() < 40 else 2)
+        tempo = min(1.0, style.bpm / song.bpm) if style.bpm else style.tempo
+        arr = Arrangement(song, verses, tempo, style.breath, free_intro=style.free_intro, piano=piano)
+        style.arrange(arr)
+        if piano != "piano" and all(p.instrument != piano for p in arr.parts.values()):
+            continue  # a style without a piano (bells, orchestra) is played once
+        if style.piano_tone:
+            arr.parts["piano"].tone.update(style.piano_tone)
+        if style.piano_reverb is not None:
+            arr.parts["piano"].reverb = style.piano_reverb
+        folder = args.out / (f"{name}-{style_name}" + (f"-{piano}" if piano != "piano" else ""))
+        folder.mkdir(parents=True, exist_ok=True)
+        sheet, untangled = [], 0
+        for part_name, part in arr.parts.items():
+            untangled += write_part(part, arr.tempos, folder / f"{part_name}.mid", arr.meter)
+            library, sfz = INSTRUMENTS[part.instrument]
+            sheet.append({"part": part_name, "library": library, "sfz": sfz, "role": part.role,
+                          "gain_db": ROLES[part.role], "pan": part.pan, "reverb": part.reverb,
+                          "tone": part.tone, "notes": len(part.notes)})
+        mix = {"hall": {"rt60": style.hall}, "parts": sheet, "master": style.master}
+        if style.noise_db is not None:
+            mix["noise"] = {"db": style.noise_db}
+        (folder / "mix.json").write_text(json.dumps(mix, indent=2))
+        print(f"{folder.name}: {arr.bpm:.0f} bpm, {len(arr.verses)} verses, {len(sheet)} parts "
+              f"({', '.join(p['part'] for p in sheet)}), {arr.seconds(0, arr.end + 2 * arr.bar):.0f} s, "
+              f"{untangled} repeated notes untangled")
 
 
 if __name__ == "__main__":

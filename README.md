@@ -112,6 +112,11 @@ runs/<mã khác>/covers/lego-woodwinds/stem_01.mp3:0.7` (nhiều lượt cách n
      timpani khẽ ở hợp âm cuối.
    - `salamander`: như `piano` nhưng trên đàn Salamander Grand Piano (không chạy mặc định).
 
+   Các kiểu piano có thể chơi trên đàn khác (ô *pianos* khi chạy): `piano` (Steinway B grand, mặc định),
+   `knight` (đàn upright Knight) hay `yamaha` (đàn upright Yamaha), tiếng mềm và gần gũi hơn, kiểu piano
+   thư giãn. Bản trên đàn upright có đuôi `-knight` hoặc `-yamaha`. Vài mẫu thu của đàn Yamaha bị ngược pha
+   giữa hai kênh; `fetch_samples.py` tự sửa lại.
+
    Mọi bè đi theo cùng một hợp âm từng phách nên luôn khớp nhau. Bè ngân giữ nguyên nốt chung giữa hai
    hợp âm, nốt khác đi tới nốt gần nhất, và to nhỏ theo từng câu (CC11). Hai nốt cùng phím không bao giờ
    chồng lên nhau: nếu chồng, lệnh tắt nốt trước sẽ cắt luôn nốt sau thành một tiếng vĩ cụt.

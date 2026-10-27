@@ -74,7 +74,9 @@ def sfz_copy(sfz: Path, part: str, db: float, tone: dict) -> Path:
     global_volume opcode), its release samples, if any, by the tone's
     release_db, and, if the tone says halo false, a piano's samples recorded
     with the pedal down (all strings free to ring along) left out: every note
-    plays its pedal-up sample, the pedal still holding it."""
+    plays its pedal-up sample, the pedal still holding it; with pedal_noise
+    false, the pedal's own thump and squeak (played as it goes down and up)
+    are left out too."""
     text = sfz.read_text(errors="replace")
     line = f"global_volume={db:g}"
     if "<global>" in text:
@@ -86,6 +88,8 @@ def sfz_copy(sfz: Path, part: str, db: float, tone: dict) -> Path:
         text = re.sub(r"trigger=release\b", f"trigger=release\namplitude={amplitude:.3f}", text)
     if tone.get("halo") is False:
         text = "".join(g for g in re.split(r"(?=<group>)", text) if "locc64=65" not in g).replace("hicc64=64", "hicc64=127")
+    if tone.get("pedal_noise") is False:
+        text = "".join(g for g in re.split(r"(?=<group>)", text) if "on_locc64" not in g)
     copy = sfz.with_name(f".{sfz.stem}.{part}.{db:+g}dB.sfz")
     copy.write_text(text)
     return copy

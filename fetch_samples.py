@@ -16,6 +16,9 @@ import subprocess
 import sys
 from pathlib import Path, PurePosixPath
 
+import numpy as np
+import soundfile as sf
+
 # Library: (repository, commit, folders always fetched: for SFZ files that
 # #include their regions, whose sample paths this script does not follow).
 LIBRARIES = {
@@ -24,6 +27,24 @@ LIBRARIES = {
     "salamander": ("https://github.com/sfzinstruments/SalamanderGrandPiano",
                    "3382bf9496bba2486f5ab0de55a264d1dfc38404", ("Data", "Samples")),
 }
+
+
+# Instruments some of whose samples were recorded with one microphone's
+# polarity inverted, so their two channels run opposite (summed, they cancel):
+# the right channel of such a sample is turned over.
+FLIP_POLARITY = {"Chordophones/Zithers/Upright Piano, Yamaha.sfz"}
+
+
+def flip_polarity(root: Path, folders: set) -> int:
+    flipped = 0
+    for folder in folders:
+        for wav in sorted((root / folder).glob("*.wav")):
+            audio, rate = sf.read(wav, always_2d=True)
+            if audio.shape[1] == 2 and np.corrcoef(audio[: 2 * rate, 0], audio[: 2 * rate, 1])[0, 1] < 0:
+                audio[:, 1] *= -1
+                sf.write(wav, audio, rate, subtype=sf.info(wav).subtype)
+                flipped += 1
+    return flipped
 
 
 def git(dest: Path, *args: str) -> None:
@@ -72,6 +93,9 @@ def main(out: str, libs: str) -> int:
         if pointers:
             git(dest, "lfs", "install", "--local")
             git(dest, "lfs", "pull")
+        for sfz in sorted(sfz_files & FLIP_POLARITY):
+            print(f"{sfz}: {flip_polarity(dest, sample_folders(dest / sfz, dest))} samples' right channel "
+                  f"turned over (it ran opposite the left)")
         size = sum(w.stat().st_size for w in wavs)
         print(f"{name}: {len(sfz_files)} instruments, {len(folders)} sample folders, "
               f"{len(wavs)} samples, {size / 1e6:.0f} MB")
