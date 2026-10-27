@@ -83,11 +83,19 @@ runs/<mã khác>/covers/lego-woodwinds/stem_01.mp3:0.7` (nhiều lượt cách n
 
 1. `arrange.py` phối hai bài carol thành nhiều bè MIDI, mỗi nhạc cụ một file, theo các kiểu:
    - `piano`: giai điệu có to nhỏ theo câu, tay trái rải hợp âm, pedal; đàn Steinway B.
-   - `chill`: cũng đàn đó nhưng chậm hơn khoảng 18 % và nhẹ hơn. Tay trái rải hợp âm thưa, giai điệu
-     hơi trễ nhịp, nghỉ lấy hơi dài hơn ở cuối câu, tiếng tối hơn, vang rộng hơn. Bài ngắn được chơi ba
-     lượt, lượt giữa cao lên một quãng tám như hộp nhạc.
-   - `bells`: chuông tay rồi vibraphone hát giai điệu, gõ nhẹ và ở đúng cao độ của bài. Glockenspiel chỉ
-     điểm vào câu cuối. Đệm bằng harp, lượt cuối có thêm dây đệm khẽ.
+   - Các kiểu piano nhẹ nhàng: cùng tiếng đàn với `piano` nhưng chậm hơn, đánh nhẹ hơn. Giai điệu hơi trễ
+     nhịp, nghỉ lấy hơi dài hơn ở cuối câu. Bài ngắn được chơi ba lượt.
+     - `chill`: tay trái rải hợp âm thưa; lượt giữa (khi có ba lượt) cao lên một quãng tám.
+     - `lullaby`: ru ngủ, chậm nhất. Giai điệu cao một quãng tám như hộp nhạc, tay trái đưa nôi.
+     - `flowing`: tay trái rải liên tục từng nốt móc đơn, lên rồi xuống.
+     - `hymn`: hợp âm khẽ dưới giai điệu, như đánh thánh ca.
+     - `piano-strings`: như `chill`, có nền dây rất khẽ.
+     - `felt`: tiếng piano tối và tròn như đàn búa nỉ (lọc bỏ dải cao từ 900 Hz), theo bản ru ngủ mẫu.
+       Tay trái rải đều từng nốt móc đơn ngay từ đầu.
+     - `felt-noise`: như `felt`, có thêm lớp tiếng rì (pink noise) rất khẽ như nhạc ru ngủ cho em bé.
+   - `bells`: vibraphone cùng chuông tay hát giai điệu, cao hơn bài một quãng tám, nơi chuông ngân hay
+     nhất. Glockenspiel lấp lánh ở các nốt dài; nhạc cụ này vang cao hơn phím một quãng tám. Đệm bằng
+     harp và nền dây khẽ. Chuông ống ngân nhẹ ở đầu mỗi lượt.
    - `orchestra`: sáo rồi violin hát giai điệu, sáo bè cao ở lượt cuối. Viola và cello giữ hợp âm,
      contrabass gảy rồi kéo vĩ, horn vào từ giữa lượt cuối. Có harp lướt phím ở chỗ chuyển và một hồi
      timpani khẽ ở hợp âm cuối.
@@ -101,9 +109,13 @@ runs/<mã khác>/covers/lego-woodwinds/stem_01.mp3:0.7` (nhiều lượt cách n
 3. `render_samples.py` phát từng bè bằng [sfizz](https://sfz.tools/sfizz/) (`sfizz_render`). Sau đó:
    - chỉnh âm sắc từng bè: chuông và bè ngân bớt chói và bớt tiếng ồn nền của bản thu; tiếng giảm âm
      của piano khi nhả phím được vặn nhỏ;
-   - cân độ to của từng bè theo vai trò và xếp vị trí trái/phải;
+   - cân độ to của từng bè theo vai trò và xếp vị trí trái/phải. Trước đó, mỗi bè được đưa về chính giữa,
+     vì nhiều mẫu thu lệch hẳn sang một bên (có nốt vibraphone lệch 17 dB). Các nhạc cụ có nốt lệch nhiều
+     còn được thu hẹp âm trường, để giai điệu không nhảy qua lại giữa hai tai;
    - thêm vang phòng hoà nhạc tự tạo (không cần bản quyền): dải cao tắt nhanh nên đuôi vang ấm, không xì;
-   - đưa cả bài về -16 LUFS.
+   - đưa cả bài về -16 LUFS. Bộ hạn chế đỉnh âm hạ âm lượng từ từ, không giật (giật sẽ gây tiếng tách).
+     Mỗi đỉnh bị hạ tối đa 3 dB; bài nào cần hạ nhiều hơn thì để nhỏ hơn một chút (tối đa -19 LUFS).
+     Nhật ký ghi lại bài bị hạ đỉnh bao nhiêu và độ cân bằng trái/phải.
 4. `rate.py` chấm điểm như các phần trên.
 
 Kết quả: artifact **sampled** (MP3 của từng bài và kiểu, các file MIDI, `rated.txt`).

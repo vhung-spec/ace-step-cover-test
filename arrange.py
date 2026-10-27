@@ -1,9 +1,9 @@
 """Arranges the test's carols for real instrument samples, without any AI
-model: one MIDI file per instrument, in four styles, plus mix.json (the hall,
-and each part's instrument, role, stereo position and tone) for
+model: one MIDI file per instrument, in several styles, plus mix.json (the
+hall, and each part's instrument, role, stereo position and tone) for
 render_samples.py:
 
-    python arrange.py out/sampled [--songs wish silent-night] [--styles piano chill bells orchestra]
+    python arrange.py out/sampled [--songs wish silent-night] [--styles piano chill lullaby ...]
 
 The carols are the public-domain melodies and chords of make_source.py. Every
 style plays an intro (the last phrase, an octave up), the verses (the last one
@@ -13,13 +13,23 @@ are written from the same chords, beat by beat, so they always agree:
   3.0, by Alexander Holm): the melody over a flowing left hand, with sustain
   pedal; in the last verse a chord tone a third to a sixth under the longer
   notes sings with the melody;
-- chill: the Steinway slower and softer, for quiet listening: open broken
-  chords that leave room, the melody a little behind the beat, longer breaths
-  at the phrase ends, a darker tone and a larger hall; a short tune is played
-  three times, the middle time an octave up;
-- bells: hand chimes, then vibraphone on the melody, soft and at the tune's
-  own pitch, a glockenspiel only over the last phrase, on a harp and, in the
-  last verse, a soft string pad;
+- the gentle piano styles, slower and softer than piano, with its sound, the
+  melody a little behind the beat and longer breaths at the phrase ends (a
+  short tune is played three times):
+  - chill: open broken chords that leave room, the middle time (of three) an
+    octave up;
+  - lullaby: the tune an octave up throughout, like a music box, over a
+    rocking left hand, slowest of all;
+  - flowing: the left hand rolling in eighths, up an open chord and back;
+  - hymn: soft chords under the tune, as a hymn is played;
+  - piano-strings: chill, on a bed of soft strings;
+  - felt: the tone of the soft sleep-music pianos (a low-pass at 900 Hz, as
+    a felt-hammered piano sounds), the melody at its own pitch over a steady
+    left hand rolling in eighths from the first bar; felt-noise: the same on
+    a soft hush of pink noise, as baby-sleep recordings have;
+- bells: the vibraphone with hand chimes an octave up, where bells sing, a
+  glockenspiel glinting on the longer notes (it sounds an octave above its
+  keys), a harp, a soft string bed, a tubular bell tolling each verse in;
 - orchestra: flute, then violins on the melody, a flute descant over the last
   verse, on a harp and a string pad, basses plucked then bowed, horns from the
   middle of the last verse, a soft timpani roll under the last chord.
@@ -63,7 +73,8 @@ INSTRUMENTS = {
     "glock": ("vcsl", "Idiophones/Struck Idiophones/Glockenspiel.sfz"),
     "harp": ("vcsl", "Chordophones/Composite Chordophones/Concert Harp.sfz"),
     "sleigh": ("vcsl", "Idiophones/Struck Idiophones/Sleigh Bells.sfz"),
-    "flute": ("vsco", "FluteSusVib.sfz"),
+    "tubular": ("vcsl", "Idiophones/Struck Idiophones/Tubular Bells 1.sfz"),
+    "flute": ("vsco", "FluteSusNV.sfz"),  # without vibrato: the vibrato samples wobble on long notes
     "violins": ("vsco", "ViolinEnsSusVib.sfz"),
     "violas": ("vsco", "ViolaEnsSusVib.sfz"),
     "cellos": ("vsco", "CelloEnsSusVib.sfz"),
@@ -74,28 +85,31 @@ INSTRUMENTS = {
 }
 # Each instrument's tone, for render_samples.py: a high-pass and a low-pass
 # (Hz), a high shelf (Hz, dB): the bells and the sustained parts lose some
-# edge and the hiss of their recordings; and the piano's release samples (the
+# edge and the hiss of their recordings; the piano's release samples (the
 # dampers' sound as keys are let go, all at once when the pedal lifts)
-# turned down (dB).
+# turned down (dB); and the stereo width (0 mono, 1 as recorded), narrower
+# for instruments whose samples, note by note, lean far to one side (a
+# vibraphone note 17 dB to the left), so a melody does not hop between ears.
 TONES = {
     "piano": {"release_db": -15},
-    "chimes": {"shelf": [5000, -4]},
-    "vibes": {"shelf": [6000, -3]},
-    "glock": {"lowpass": 9000, "shelf": [5000, -5]},
-    "harp": {"shelf": [8000, -2]},
-    "sleigh": {"shelf": [6000, -6]},
-    "flute": {"lowpass": 12000, "shelf": [8000, -2]},
-    "violins": {"lowpass": 12000, "shelf": [7000, -2]},
-    "violas": {"highpass": 80, "lowpass": 10000, "shelf": [6000, -3]},
-    "cellos": {"highpass": 40, "lowpass": 9000, "shelf": [5000, -3]},
-    "basses": {"highpass": 30, "lowpass": 6000},
-    "basses-pizz": {"highpass": 30, "lowpass": 6000},
-    "horns": {"highpass": 60, "lowpass": 8000},
-    "timpani": {"highpass": 35},
+    "chimes": {"shelf": [5000, -3], "width": 0.3},
+    "vibes": {"shelf": [6000, -2], "width": 0.3},
+    "glock": {"lowpass": 9000, "shelf": [5000, -5], "width": 0.4},
+    "harp": {"shelf": [8000, -2], "width": 0.7},
+    "sleigh": {"shelf": [6000, -6], "width": 0.6},
+    "tubular": {"lowpass": 8000, "shelf": [4000, -3], "width": 0.5},
+    "flute": {"lowpass": 12000, "shelf": [8000, -2], "width": 0.5},
+    "violins": {"lowpass": 12000, "shelf": [7000, -2], "width": 0.8},
+    "violas": {"highpass": 80, "lowpass": 10000, "shelf": [6000, -3], "width": 0.8},
+    "cellos": {"highpass": 40, "lowpass": 9000, "shelf": [5000, -3], "width": 0.8},
+    "basses": {"highpass": 30, "lowpass": 6000, "width": 0.7},
+    "basses-pizz": {"highpass": 30, "lowpass": 6000, "width": 0.7},
+    "horns": {"highpass": 60, "lowpass": 8000, "width": 0.7},
+    "timpani": {"highpass": 35, "width": 0.7},
 }
 # How loud each kind of part sits against the melody (dB of its loudness when playing).
 ROLES = {"melody": 0.0, "piano": 0.0, "descant": -9.0, "harp": -4.0, "pad": -10.0, "bass": -8.0,
-         "low": -12.0, "sparkle": -16.0, "drum": -17.0}
+         "bells": -8.0, "bed": -13.0, "low": -12.0, "toll": -14.0, "sparkle": -16.0, "drum": -17.0}
 
 
 @dataclass
@@ -385,11 +399,11 @@ def gliss(arr: Arrangement, harp: Part, tick: int, length: int, chord: str, low:
         harp.add(tick + i * length // len(notes), note, velocity + 8 * i // len(notes), BAR)
 
 
-def strings(arr: Arrangement, start: int, end: int, velocity: int) -> None:
+def strings(arr: Arrangement, start: int, end: int, velocity: int, roles: tuple = ("bass", "pad")) -> None:
     """Held chords: the root in the cellos, two more tones in the violas, each
     chord voiced from the one before."""
-    cellos = arr.part("cellos", "cellos", "bass", 0.35, reverb=0.35)
-    violas = arr.part("violas", "violas", "pad", 0.15, reverb=0.35)
+    cellos = arr.part("cellos", "cellos", roles[0], 0.35, reverb=0.35)
+    violas = arr.part("violas", "violas", roles[1], 0.15, reverb=0.35)
     for tick, length, chord in arr.chord_spans(start, end):
         cellos.add(tick + arr.jitter(6), bass_note(chord), velocity + 4, length + 20, tie=True)
         violas.voicing = voice_lead(violas.voicing, chord, 52, 67)
@@ -443,64 +457,173 @@ def arrange_piano(arr: Arrangement, instrument: str = "piano") -> None:
     piano.pedal += [(arr.end + 20, 127), (arr.end + 2 * BAR, 0)]  # held, then let go
 
 
-def arrange_chill(arr: Arrangement) -> None:
-    piano = arr.part("piano", "piano", "piano", 0.0, reverb=0.32)
-    piano.tone["shelf"] = [5000, -3]  # a softer, darker tone
+def gentle_melody(arr: Arrangement, piano: Part, soft: int, loud: int, up: tuple = (), late: int = 8,
+                  harmony: bool = True) -> list:
+    """The tune for the gentle piano styles, a little behind the beat
+    (unhurried), growing from soft in the first verse to loud in the last, each
+    verse rising to its middle; the verses in up an octave higher, light as a
+    music box; in the last verse a chord tone a third to a sixth under the
+    longer notes, struck just before the tune. Returns the notes, whose keys
+    the left hand leaves alone."""
     for tick, note, length, verse, position in arr.melody():
-        lift = shape(position)
         if verse < 0:
-            velocity = 40 + 6 * position
-        elif verse < arr.last:
-            velocity = 46 + 10 * lift
-            if verse > 0:  # the middle time of three: an octave up, light as a music box
-                note, velocity = note + 12, velocity - 4
+            velocity = soft - 4 + 4 * position
         else:
-            velocity = 50 + 12 * lift
-        at = tick + 10 + arr.jitter(6)  # a little behind the beat: unhurried
+            velocity = soft + (loud - soft) * verse / max(1, arr.last) + 10 * shape(position)
+        note += 12 if verse in up else 0
+        at = tick + late + arr.jitter(6)
         piano.add(at, note, velocity + arr.rng.randint(-2, 2), length - 10)
-        if verse == arr.last and (length >= TICKS or tick % BAR == 0):
+        if harmony and verse == arr.last and (length >= TICKS or tick % BAR == 0):
             second = harmony_below(arr.chord_at(tick), note)
             if second is not None:
-                piano.add(at - 12, second, velocity - 16, length - 10)  # just before the tune: gently rolled
-    tune = list(piano.notes)
-    for tick, length, chord in arr.chord_spans(0, arr.verses[0]):  # the intro: open chords, slowly rolled
+                piano.add(at - 12, second, velocity - 14, length - 10)
+    return list(piano.notes)
+
+
+def rolled_intro(arr: Arrangement, piano: Part, tune: list, velocity: int) -> None:
+    """The intro's chords, open and slowly rolled, under the tune's last phrase."""
+    for tick, length, chord in arr.chord_spans(0, arr.verses[0]):
         for i, note in enumerate(open_chord(chord)):
             if not busy(tune, note, tick + i * 40, length):
-                piano.add(tick + i * 40 + arr.jitter(4), note, 36 - 2 * i, length)
-    broken_chords(arr, piano, arr.verses[0], arr.verses[-1], 38, avoid=tune)
-    rolling(arr, piano, arr.verses[-1], arr.end, 34, avoid=tune)
-    pedal_by_chord(arr, piano, 0, arr.end)
-    held = held_keys(tune, arr.end + 100)  # the melody's last note
-    for i, (note, velocity) in enumerate(((36, 46), (43, 42), (52, 40), (60, 40), (64, 38), (67, 36))):
-        if note not in held:  # the last chord, rolled slowly
-            piano.add(arr.end + i * 50, note, velocity, 3 * BAR)
-    piano.add(arr.end + TICKS + 40, 84, 30, 2 * BAR)  # and a high C, soft as a far bell
+                piano.add(tick + i * 40 + arr.jitter(4), note, velocity - 2 * i, length)
+
+
+def rocking(arr: Arrangement, part: Part, start: int, end: int, velocity: int, avoid: list = ()) -> None:
+    """A cradle's rocking: on each beat one tone of its chord, rising through the
+    bar, the root, the tenth, the twelfth (or the seventh), left to ring."""
+    for tick in range(start, end, TICKS):
+        chord, beat = arr.chord_at(tick), tick % BAR // TICKS
+        root, _, tenth = open_chord(chord)
+        intervals = CHORDS[chord][1]
+        top = root + 12 + intervals[3] if len(intervals) == 4 else root + 19
+        note, at = (root, tenth, top)[beat], tick + arr.jitter(5)
+        velocity_now = velocity - 3 * beat + arr.rng.randint(-2, 2)
+        if not busy(avoid, note, at, 2 * TICKS):
+            part.add(at, note, velocity_now, 2 * TICKS)
+
+
+def chord_end(arr: Arrangement, tick: int) -> int:
+    """Where the chord sounding at a tick gives way to the next (or its bar ends)."""
+    return next(t + l for t, l, _ in arr.chord_spans(tick - tick % BAR, tick - tick % BAR + BAR) if t <= tick < t + l)
+
+
+def hymn_voices(arr: Arrangement, piano: Part, velocity: int, avoid: list) -> None:
+    """Harmony as a hymn is played: on every melody note that falls on a beat (or
+    lasts a beat), two chord tones under it, each a third to a sixth below the
+    voice above (alto, then tenor), and the root of each chord in the bass."""
+    for tick, note, length, verse, _ in arr.melody():
+        if verse < 0 or (tick % TICKS and length < TICKS):
+            continue  # the intro and the passing notes go alone
+        chord, above = arr.chord_at(tick), note
+        span = min(length, chord_end(arr, tick) - tick)
+        for i, floor in enumerate((55, 48)):
+            options = chord_notes(chord, max(floor, above - 9), above - 3)
+            if not options:
+                break
+            above = options[-1]
+            if not busy(avoid, above, tick, span):
+                piano.add(tick - 4 * i + arr.jitter(4), above, velocity - 4 * i + arr.rng.randint(-2, 2), span - 10)
+    for tick, length, chord in arr.chord_spans(arr.verses[0], arr.end):
+        if not busy(avoid, bass_note(chord), tick, length):
+            piano.add(tick + arr.jitter(4), bass_note(chord), velocity + 2, length - 10)
+
+
+def gentle_end(arr: Arrangement, piano: Part, tune: list, velocity: int) -> None:
+    """The last chord, open and rolled slowly up from the bass, the pedal held,
+    then a high C, soft as a far bell; keys the tune still holds are left to it."""
+    held = held_keys(tune, arr.end + 100)
+    for i, (note, softer) in enumerate(((36, 0), (43, 4), (52, 6), (60, 6), (64, 8), (67, 10), (84, 14))):
+        if note not in held:
+            piano.add(arr.end + (i * 50 if note < 84 else TICKS + 40), note, velocity - softer, 3 * BAR)
     piano.pedal += [(arr.end + 20, 127), (arr.end + 3 * BAR, 0)]
 
 
+def gentle_piano(arr: Arrangement) -> Part:
+    return arr.part("piano", "piano", "piano", 0.0, reverb=0.25)
+
+
+def arrange_chill(arr: Arrangement) -> None:
+    piano = gentle_piano(arr)
+    tune = gentle_melody(arr, piano, 54, 60, up=tuple(range(1, arr.last)))
+    rolled_intro(arr, piano, tune, 40)
+    broken_chords(arr, piano, arr.verses[0], arr.verses[-1], 40, avoid=tune)
+    rolling(arr, piano, arr.verses[-1], arr.end, 38, avoid=tune)
+    pedal_by_chord(arr, piano, 0, arr.end)
+    gentle_end(arr, piano, tune, 50)
+
+
+def arrange_lullaby(arr: Arrangement) -> None:
+    piano = gentle_piano(arr)
+    tune = gentle_melody(arr, piano, 50, 54, up=tuple(range(len(arr.verses))))
+    rolled_intro(arr, piano, tune, 38)
+    rocking(arr, piano, arr.verses[0], arr.end, 38, avoid=tune)
+    pedal_by_chord(arr, piano, 0, arr.end)
+    gentle_end(arr, piano, tune, 46)
+
+
+def arrange_flowing(arr: Arrangement) -> None:
+    piano = gentle_piano(arr)
+    tune = gentle_melody(arr, piano, 56, 62)
+    rolled_intro(arr, piano, tune, 40)
+    rolling(arr, piano, arr.verses[0], arr.end, 40, avoid=tune)
+    pedal_by_chord(arr, piano, 0, arr.end)
+    gentle_end(arr, piano, tune, 52)
+
+
+def arrange_hymn(arr: Arrangement) -> None:
+    piano = gentle_piano(arr)
+    tune = gentle_melody(arr, piano, 58, 62, harmony=False)
+    rolled_intro(arr, piano, tune, 40)
+    hymn_voices(arr, piano, 44, avoid=tune)
+    pedal_by_chord(arr, piano, 0, arr.end)
+    gentle_end(arr, piano, tune, 50)
+
+
+def arrange_piano_strings(arr: Arrangement) -> None:
+    arrange_chill(arr)
+    strings(arr, arr.verses[0], arr.verses[-1], 36, roles=("bed", "bed"))
+    strings(arr, arr.verses[-1], arr.end + 2 * BAR, 44, roles=("bed", "bed"))
+    for name in ("cellos", "violas"):
+        breathe(arr, arr.parts[name], 84, 112, start=arr.verses[0])
+
+
+def arrange_felt(arr: Arrangement) -> None:
+    piano = gentle_piano(arr)
+    piano.tone["lowpass"] = 900  # the dark, round tone of felt hammers
+    tune = gentle_melody(arr, piano, 50, 52)
+    rolling(arr, piano, 0, arr.end, 36, avoid=tune)
+    pedal_by_chord(arr, piano, 0, arr.end)
+    gentle_end(arr, piano, tune, 46)
+
+
 def arrange_bells(arr: Arrangement) -> None:
-    chimes = arr.part("chimes", "chimes", "melody", 0.2, reverb=0.4)
-    vibes = arr.part("vibes", "vibes", "melody", -0.2, reverb=0.4)
-    glock = arr.part("glock", "glock", "sparkle", 0.3, reverb=0.45)
-    harp = arr.part("harp", "harp", "harp", -0.4, reverb=0.35)
+    vibes = arr.part("vibes", "vibes", "melody", 0.0, reverb=0.4)
+    chimes = arr.part("chimes", "chimes", "bells", 0.1, reverb=0.4)
+    glock = arr.part("glock", "glock", "sparkle", 0.15, reverb=0.45)
     for tick, note, length, verse, position in arr.melody():
-        lift = shape(position)
-        if verse < 0 or verse == arr.last:  # the intro (an octave up already) and the last verse: vibraphone
-            vibes.add(tick + arr.jitter(4), note, (46 if verse < 0 else 54) + 10 * lift, length)
-            if verse == arr.last and tick >= arr.end - arr.phrase:  # a glint over the last phrase
-                glock.add(tick + arr.jitter(4), note + 12, 40 + 6 * lift, length)
-        else:
-            chimes.add(tick + arr.jitter(4), note, 58 + 10 * lift, length)
+        high = note + (0 if verse < 0 else 12)  # where bells sing (the intro is an octave up already)
+        lift, at = shape(position), tick + arr.jitter(4)
+        vibes.add(at, high, (48 if verse < 0 else 54 if verse < arr.last else 58) + 8 * lift, length)
+        chimes.add(at, high, 54 + 8 * lift, length)
+        if verse >= 0 and length >= TICKS:  # a glint on the longer notes, two octaves over the tune
+            glock.add(at, high, 36 + 6 * lift, length)
+    harp = arr.part("harp", "harp", "harp", -0.35, reverb=0.35)
     flowing_bass(arr, harp, 0, arr.verses[0], 48)
     flowing_bass(arr, harp, arr.verses[0], arr.verses[-1], 54)
     flowing_bass(arr, harp, arr.verses[-1], arr.end, 50)
     gliss(arr, harp, arr.verses[-1] - TICKS, TICKS, arr.chord_at(arr.verses[-1] - TICKS), 55, 84, 46)
-    strings(arr, arr.verses[-1], arr.end + 2 * BAR, 42)
+    strings(arr, arr.verses[0], arr.verses[-1], 38, roles=("bed", "bed"))
+    strings(arr, arr.verses[-1], arr.end + 2 * BAR, 46, roles=("bed", "bed"))
     for name in ("cellos", "violas"):
-        breathe(arr, arr.parts[name], 84, 112, start=arr.verses[-1])
+        breathe(arr, arr.parts[name], 84, 112, start=arr.verses[0])
+    tubular = arr.part("tubular", "tubular", "toll", 0.2, reverb=0.45)
+    for tick in (0, *arr.verses, arr.end):  # a soft toll at the start, each verse and the last chord
+        tubular.add(tick + arr.jitter(4), 60, 46, 2 * BAR)
     tonic = arr.chord_at(arr.end)
-    for i, note in enumerate(chord_notes(tonic, 60, 72)):  # the end: a soft chord on the hand chimes
-        chimes.add(arr.end + i * 60, note, 50, 2 * BAR)
+    held = held_keys(chimes.notes, arr.end + 100)
+    for i, note in enumerate(chord_notes(tonic, 72, 84)):  # the end: a soft chord on the hand chimes
+        if note not in held:
+            chimes.add(arr.end + i * 60, note, 50, 2 * BAR)
     harp.add(arr.end, bass_note(tonic), 56, 2 * BAR)
     gliss(arr, harp, arr.end + TICKS, 2 * TICKS, tonic, 60, 96, 40)
 
@@ -564,12 +687,19 @@ class Style:
     breath: float = 0.92  # the tempo of the last beat of each phrase, times the tempo
     hall: float = 2.2  # the hall's reverb time (s)
     repeat_short: bool = False  # play a short tune (eight bars or fewer) three times
+    noise_db: float | None = None  # a hush of pink noise under the music, this far under the melody
 
 
 STYLES = {
     "piano": Style(arrange_piano),
     "salamander": Style(lambda arr: arrange_piano(arr, "salamander")),
-    "chill": Style(arrange_chill, tempo=0.82, breath=0.86, hall=2.6, repeat_short=True),
+    "chill": Style(arrange_chill, tempo=0.8, breath=0.88, repeat_short=True),
+    "lullaby": Style(arrange_lullaby, tempo=0.7, breath=0.85, repeat_short=True),
+    "flowing": Style(arrange_flowing, tempo=0.85, breath=0.9, repeat_short=True),
+    "hymn": Style(arrange_hymn, tempo=0.75, breath=0.85, repeat_short=True),
+    "piano-strings": Style(arrange_piano_strings, tempo=0.8, breath=0.88, hall=2.4, repeat_short=True),
+    "felt": Style(arrange_felt, tempo=0.8, breath=0.9, repeat_short=True),
+    "felt-noise": Style(arrange_felt, tempo=0.8, breath=0.9, repeat_short=True, noise_db=-22),
     "bells": Style(arrange_bells, hall=2.6),
     "orchestra": Style(arrange_orchestra, hall=2.4),
 }
@@ -629,7 +759,7 @@ def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument("out", type=Path)
     parser.add_argument("--songs", nargs="+", default=list(SONGS), choices=list(SONGS))
-    parser.add_argument("--styles", nargs="+", default=["piano", "chill", "bells", "orchestra"],
+    parser.add_argument("--styles", nargs="+", default=[s for s in STYLES if s != "salamander"],
                         choices=list(STYLES))
     args = parser.parse_args()
     for name in args.songs:
@@ -647,7 +777,10 @@ def main() -> None:
                 sheet.append({"part": part_name, "library": library, "sfz": sfz, "role": part.role,
                               "gain_db": ROLES[part.role], "pan": part.pan, "reverb": part.reverb,
                               "tone": part.tone, "notes": len(part.notes)})
-            (folder / "mix.json").write_text(json.dumps({"hall": {"rt60": style.hall}, "parts": sheet}, indent=2))
+            mix = {"hall": {"rt60": style.hall}, "parts": sheet}
+            if style.noise_db is not None:
+                mix["noise"] = {"db": style.noise_db}
+            (folder / "mix.json").write_text(json.dumps(mix, indent=2))
             print(f"{folder.name}: {arr.bpm:.0f} bpm, {len(arr.verses)} verses, {len(sheet)} parts "
                   f"({', '.join(p['part'] for p in sheet)}), {arr.seconds(0, arr.end + 2 * BAR):.0f} s, "
                   f"{untangled} repeated notes untangled")
