@@ -98,8 +98,10 @@ TONES = {
     # dozen of them sound at once: a light rustle heard in every piece with the
     # piano at full range (felt, bells and orchestra had none). Of five
     # listening tests only the one cut above 6 kHz was all but free of it
-    # (without the pedal-down samples, or cut at 8 kHz, it stayed).
-    "piano": {"release_db": -60, "lowpass": 6000},
+    # (without the pedal-down samples, or cut at 8 kHz, it stayed); what was
+    # left, from 2.5 to 6 kHz in the slow quiet pieces, is hushed in the quiet
+    # moments (dehiss: 9-10 dB less hiss there, the brighter moments as they are).
+    "piano": {"release_db": -60, "lowpass": 6000, "dehiss": True},
     "chimes": {"shelf": [5000, -3], "width": 0.3},
     "vibes": {"shelf": [6000, -2], "width": 0.3},
     "glock": {"lowpass": 9000, "shelf": [5000, -5], "width": 0.4},
@@ -107,9 +109,9 @@ TONES = {
     "sleigh": {"shelf": [6000, -6], "width": 0.6},
     "tubular": {"lowpass": 8000, "shelf": [4000, -3], "width": 0.5},
     "flute": {"lowpass": 8000, "shelf": [6000, -2], "width": 0.5},
-    "violins": {"lowpass": 6500, "lowpass_order": 4, "shelf": [5000, -2], "width": 0.8},
-    "violas": {"highpass": 80, "lowpass": 6000, "lowpass_order": 4, "shelf": [4000, -2], "width": 0.8},
-    "cellos": {"highpass": 40, "lowpass": 5000, "lowpass_order": 4, "shelf": [3500, -2], "width": 0.8},
+    "violins": {"lowpass": 6500, "lowpass_order": 4, "shelf": [5000, -2], "width": 0.8, "dehiss": True},
+    "violas": {"highpass": 80, "lowpass": 6000, "lowpass_order": 4, "shelf": [4000, -2], "width": 0.8, "dehiss": True},
+    "cellos": {"highpass": 40, "lowpass": 5000, "lowpass_order": 4, "shelf": [3500, -2], "width": 0.8, "dehiss": True},
     "basses": {"highpass": 30, "lowpass": 4000, "lowpass_order": 4, "width": 0.7},
     "basses-pizz": {"highpass": 30, "lowpass": 5000, "width": 0.7},
     "horns": {"highpass": 60, "lowpass": 3000, "lowpass_order": 4, "width": 0.7},

@@ -13,7 +13,8 @@ mixes them into one piece per folder:
   grainy when a quiet part is turned up afterwards. A piano's release samples
   (the dampers, which all sound at once when the pedal lifts) can be turned
   down;
-- each part gets its tone (high-pass, low-pass, high shelf), and its loudness
+- each part gets its tone (high-pass, low-pass, high shelf; hissing parts
+  have their highs hushed in their quiet moments), and its loudness
   while it plays is set against the melody's by its role (arrange.ROLES), so
   libraries recorded at different levels still sit right; its stereo image is
   narrowed as asked and centred (samples recorded with spaced microphones
@@ -50,7 +51,7 @@ import numpy as np
 import pyloudnorm
 import soundfile as sf
 from scipy.ndimage import maximum_filter1d, uniform_filter1d
-from scipy.signal import butter, fftconvolve, lfilter, sosfilt, welch
+from scipy.signal import butter, fftconvolve, lfilter, sosfilt, sosfiltfilt, welch
 
 RATE = 44100  # the samples' own rate
 TARGET_LUFS = -16.0
@@ -120,9 +121,31 @@ def high_shelf(freq: float, db: float) -> tuple:
     return b / den[0], den / den[0]
 
 
+def dehiss(audio: np.ndarray, split: float = 2500, most_db: float = 10.0, over_db: float = 10.0,
+           release: float = 0.12) -> np.ndarray:
+    """Hushes a part's highs in its quiet moments, where they hold little but the
+    hiss of its samples (a dozen voices of it at once under a piano's pedal):
+    above split Hz, whenever their level comes within over_db of their quiet
+    floor (the tenth percentile while the part sounds), they are turned down,
+    by up to most_db; brighter moments pass untouched. The gain opens at once
+    (smoothed over 5 ms, centred, so it is open by an attack) and closes over
+    the release time."""
+    low = sosfiltfilt(butter(4, split, "low", fs=RATE, output="sos"), audio, axis=-1)  # no phase shift
+    high = audio - low
+    level = np.sqrt(np.maximum(uniform_filter1d((high ** 2).mean(axis=0), int(0.01 * RATE)), 0) + 1e-20)
+    sounding = level > level.max() * 10 ** (-60 / 20)
+    floor = np.percentile(level[sounding], 10)
+    gain = np.clip(level / (floor * 10 ** (over_db / 20)), 10 ** (-most_db / 20), 1)
+    step = 1 / (release * RATE)
+    n = np.arange(len(gain))
+    gain = np.minimum(1, np.exp(np.maximum.accumulate(np.log(gain) + n * step) - n * step))
+    return low + high * uniform_filter1d(gain, int(0.005 * RATE))
+
+
 def apply_tone(audio: np.ndarray, tone: dict) -> np.ndarray:
     """A part's tone: a high-pass and a low-pass (Hz; the low-pass 12 dB an
-    octave, or steeper as lowpass_order asks), a high shelf (Hz, dB)."""
+    octave, or steeper as lowpass_order asks), a high shelf (Hz, dB), and its
+    highs hushed in its quiet moments if it hisses (dehiss)."""
     if tone.get("highpass"):
         audio = sosfilt(butter(2, tone["highpass"], "high", fs=RATE, output="sos"), audio, axis=-1)
     if tone.get("lowpass"):
@@ -130,6 +153,8 @@ def apply_tone(audio: np.ndarray, tone: dict) -> np.ndarray:
         audio = sosfilt(butter(order, tone["lowpass"], "low", fs=RATE, output="sos"), audio, axis=-1)
     if tone.get("shelf"):
         audio = lfilter(*high_shelf(*tone["shelf"]), audio, axis=-1)
+    if tone.get("dehiss"):
+        audio = dehiss(audio)
     return audio
 
 
