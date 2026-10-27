@@ -94,7 +94,12 @@ INSTRUMENTS = {
 # sinks into the hiss of the recording: a violin note is 10-17 dB above it
 # from 8 kHz up, a horn note 6-10 dB from 2 kHz up.
 TONES = {
-    "piano": {"release_db": -60},
+    # The Steinway's samples each carry a faint hiss, and with the pedal down a
+    # dozen of them sound at once: a light rustle heard in every piece with the
+    # piano at full range (felt, bells and orchestra had none). Of five
+    # listening tests only the one cut above 6 kHz was all but free of it
+    # (without the pedal-down samples, or cut at 8 kHz, it stayed).
+    "piano": {"release_db": -60, "lowpass": 6000},
     "chimes": {"shelf": [5000, -3], "width": 0.3},
     "vibes": {"shelf": [6000, -2], "width": 0.3},
     "glock": {"lowpass": 9000, "shelf": [5000, -5], "width": 0.4},
@@ -706,15 +711,6 @@ STYLES = {
     "piano-strings": Style(arrange_piano_strings, tempo=0.8, breath=0.88, hall=2.4, repeat_short=True),
     "felt": Style(arrange_felt, tempo=0.8, breath=0.9, repeat_short=True),
     "felt-noise": Style(arrange_felt, tempo=0.8, breath=0.9, repeat_short=True, noise_db=-22),
-    # Listening tests for the light rustle: Silent Night's first verse, chill,
-    # as it is (a), with no hall (b), without its highs above 6 kHz (c),
-    # without the samples recorded with the pedal down (d), all of it milder (e).
-    "test-a": Style(arrange_chill, tempo=0.8, breath=0.88, verses=1),
-    "test-b": Style(arrange_chill, tempo=0.8, breath=0.88, verses=1, piano_reverb=0.0),
-    "test-c": Style(arrange_chill, tempo=0.8, breath=0.88, verses=1, piano_tone={"lowpass": 6000}),
-    "test-d": Style(arrange_chill, tempo=0.8, breath=0.88, verses=1, piano_tone={"halo": False}),
-    "test-e": Style(arrange_chill, tempo=0.8, breath=0.88, verses=1, piano_reverb=0.15,
-                    piano_tone={"lowpass": 8000, "halo": False}),
     "bells": Style(arrange_bells, hall=2.6),
     "orchestra": Style(arrange_orchestra, hall=2.4),
 }
@@ -774,7 +770,7 @@ def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument("out", type=Path)
     parser.add_argument("--songs", nargs="+", default=list(SONGS), choices=list(SONGS))
-    parser.add_argument("--styles", nargs="+", default=[s for s in STYLES if s != "salamander" and not s.startswith("test-")],
+    parser.add_argument("--styles", nargs="+", default=[s for s in STYLES if s != "salamander"],
                         choices=list(STYLES))
     args = parser.parse_args()
     for name in args.songs:
