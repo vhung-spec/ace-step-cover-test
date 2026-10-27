@@ -3,10 +3,12 @@
 # fetches the CC0 instruments it uses, render_samples.py plays them with
 # sfizz and mixes them (balance, stereo, hall reverb, loudness), and rate.py
 # rates the pieces. Each carol is played by a job of its own, side by side.
-# Results: an artifact per carol ("sampled-<carol>": MP3, MIDI, ratings) and
-# all of them together ("sampled"); smaller MP3s of every piece are pushed to
-# the "renders" branch (replaced each run), for analysis where artifacts
-# cannot be downloaded.
+# Every mix is mastered toward two reference recordings (master.py).
+# Results: an artifact per carol ("sampled-<carol>": MP3, MIDI, ratings), all
+# of them together ("sampled"), and pairs of pieces before and after their
+# master ("so-sanh-master"); smaller MP3s of every piece are pushed to the
+# "renders" branch (replaced each run), for analysis where artifacts cannot
+# be downloaded.
 name: Real-sample arrangements
 run-name: 'Sampled: ${{ inputs.songs }} / ${{ inputs.styles }}'
 
@@ -93,7 +95,8 @@ jobs:
       - name: Play and mix
         run: |
           "$RUNNER_TEMP/venv/bin/python" render_samples.py out/sampled --sfizz ~/sfizz/sfizz_render \
-            --vsco "$RUNNER_TEMP/libs/vsco" --vcsl "$RUNNER_TEMP/libs/vcsl" --salamander "$RUNNER_TEMP/libs/salamander"
+            --vsco "$RUNNER_TEMP/libs/vsco" --vcsl "$RUNNER_TEMP/libs/vcsl" --salamander "$RUNNER_TEMP/libs/salamander" \
+            --premaster out/premaster
 
       - name: Smaller copies for the renders branch
         run: |
@@ -133,6 +136,14 @@ jobs:
           path: out/preview
           retention-days: 1
 
+      - name: Keep the pieces before their master
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: premaster-${{ matrix.song }}
+          path: out/premaster
+          retention-days: 3
+
   collect:
     needs: sampled
     if: always()
@@ -153,6 +164,33 @@ jobs:
         with:
           name: sampled
           path: all
+          retention-days: 30
+
+      - name: Every carol's pieces before their master
+        uses: actions/download-artifact@v4
+        with:
+          pattern: premaster-*
+          path: premaster
+          merge-multiple: true
+
+      - name: Before and after the master, side by side
+        run: |
+          mkdir -p compare
+          for piece in wish-ballad silent-night-ballad first-noel-ballad joy-ballad o-holy-night-ballad \
+              jingle-bells-ballad deck-the-halls-ballad wish-chill silent-night-piano silent-night-pulse \
+              wish-orchestra silent-night-bells; do
+            if [ -f "premaster/$piece.mp3" ] && [ -f "all/$piece.mp3" ]; then
+              cp "premaster/$piece.mp3" "compare/$piece - 1 truoc master.mp3"
+              cp "all/$piece.mp3" "compare/$piece - 2 sau master.mp3"
+            fi
+          done
+          ls compare
+
+      - name: The pairs in one artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: so-sanh-master
+          path: compare
           retention-days: 30
 
       - name: The smaller copies

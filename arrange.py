@@ -56,7 +56,7 @@ import itertools
 import json
 import math
 import random
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Callable
 
@@ -821,7 +821,7 @@ def arrange_bells(arr: Arrangement) -> None:
         chimes.add(at, high, 54 + 8 * lift, length)
         if verse >= 0 and length >= arr.beat:  # a glint on the longer notes, two octaves over the tune
             glock.add(at, high, 36 + 6 * lift, length)
-    harp = arr.part("harp", "harp", "harp", -0.35, reverb=0.35)
+    harp = arr.part("harp", "harp", "harp", -0.25, reverb=0.35)
     flowing_bass(arr, harp, 0, arr.verses[0], 48)
     flowing_bass(arr, harp, arr.verses[0], arr.verses[-1], 54)
     flowing_bass(arr, harp, arr.verses[-1], arr.end, 50)
@@ -854,7 +854,7 @@ def arrange_orchestra(arr: Arrangement) -> None:
             violins.add(tick + arr.jitter(4), note, 52 + 20 * lift, length + 20)
             if tick >= arr.end - arr.phrase:
                 glock.add(tick + arr.jitter(4), note + 12, 40, length)
-    harp = arr.part("harp", "harp", "harp", -0.45, reverb=0.35)
+    harp = arr.part("harp", "harp", "harp", -0.3, reverb=0.35)
     flowing_bass(arr, harp, 0, arr.verses[0], 48, octave=12)
     flowing_bass(arr, harp, arr.verses[0], arr.verses[-1], 52)
     flowing_bass(arr, harp, arr.verses[-1], arr.end, 44, octave=12)
@@ -907,6 +907,16 @@ class Style:
     piano_reverb: float | None = None  # the piano part's reverb send instead of its own (tests)
     bpm: float | None = None  # this tempo, when slower than the carol's own (else tempo)
     free_intro: bool = False  # open with the chords alone, in free time
+    master: dict = field(default_factory=lambda: dict(MASTER))  # how strongly master.py works on it
+
+
+# The master's steps (master.py), each from 0 (off) to 1: the piano styles go
+# all the way toward the reference pianos; felt keeps its dark tone; bells and
+# orchestra keep their own highs (no air: bells sound bright enough) and are
+# moved toward the pianos' tone only half way.
+MASTER = {"tone": 1.0, "air": 1.0, "width": 1.0, "level": 1.0}
+FELT_MASTER = {"tone": 0.0, "air": 0.0, "width": 1.0, "level": 1.0}
+BAND_MASTER = {"tone": 0.5, "air": 0.0, "width": 1.0, "level": 1.0}
 
 
 STYLES = {
@@ -917,12 +927,12 @@ STYLES = {
     "flowing": Style(arrange_flowing, tempo=0.85, breath=0.9, repeat_short=True),
     "hymn": Style(arrange_hymn, tempo=0.75, breath=0.85, repeat_short=True),
     "piano-strings": Style(arrange_piano_strings, tempo=0.8, breath=0.88, hall=2.4, repeat_short=True),
-    "felt": Style(arrange_felt, tempo=0.8, breath=0.9, repeat_short=True),
-    "felt-noise": Style(arrange_felt, tempo=0.8, breath=0.9, repeat_short=True, noise_db=-22),
+    "felt": Style(arrange_felt, tempo=0.8, breath=0.9, repeat_short=True, master=FELT_MASTER),
+    "felt-noise": Style(arrange_felt, tempo=0.8, breath=0.9, repeat_short=True, noise_db=-22, master=FELT_MASTER),
     "ballad": Style(arrange_ballad, bpm=74, breath=0.86, hall=2.8, repeat_short=True, free_intro=True),
     "pulse": Style(arrange_pulse, bpm=88, breath=0.88, hall=2.8, repeat_short=True, free_intro=True),
-    "bells": Style(arrange_bells, hall=2.6),
-    "orchestra": Style(arrange_orchestra, hall=2.4),
+    "bells": Style(arrange_bells, hall=2.6, master=BAND_MASTER),
+    "orchestra": Style(arrange_orchestra, hall=2.4, master=BAND_MASTER),
 }
 
 
@@ -1005,7 +1015,7 @@ def main() -> None:
                 sheet.append({"part": part_name, "library": library, "sfz": sfz, "role": part.role,
                               "gain_db": ROLES[part.role], "pan": part.pan, "reverb": part.reverb,
                               "tone": part.tone, "notes": len(part.notes)})
-            mix = {"hall": {"rt60": style.hall}, "parts": sheet}
+            mix = {"hall": {"rt60": style.hall}, "parts": sheet, "master": style.master}
             if style.noise_db is not None:
                 mix["noise"] = {"db": style.noise_db}
             (folder / "mix.json").write_text(json.dumps(mix, indent=2))

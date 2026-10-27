@@ -125,6 +125,18 @@ runs/<mã khác>/covers/lego-woodwinds/stem_01.mp3:0.7` (nhiều lượt cách n
      vì nhiều mẫu thu lệch hẳn sang một bên (có nốt vibraphone lệch 17 dB). Các nhạc cụ có nốt lệch nhiều
      còn được thu hẹp âm trường, để giai điệu không nhảy qua lại giữa hai tai;
    - thêm vang phòng hoà nhạc tự tạo (không cần bản quyền): dải cao tắt nhanh nên đuôi vang ấm, không xì;
+   - master (`master.py`) cho bài ra chất giống hai bản piano Giáng sinh mẫu. Chỉ đo âm thanh của bản mẫu,
+     không lấy nhạc của chúng. Các bước:
+     - cân lại trái/phải nếu bài lệch quá 1 dB;
+     - chỉnh âm sắc dần về đường cong của bản mẫu: bớt bass rất sâu, thêm độ ấm. Mỗi dải chỉnh tối đa 3 dB.
+       Không tăng dải trên 2 kHz, vì tiếng xì nằm ở đó;
+     - tạo lại độ "sáng" ở dải cao từ chính tiếng đàn, chỉ lúc nhạc chơi to. Lúc nhạc lặng không thêm gì;
+     - chỉnh độ rộng âm thanh như bản mẫu;
+     - làm đều độ to như bản mẫu (lên xuống chỉ vài dB), rồi hạ thêm tiếng xì ở những chỗ lặng vừa được
+       nâng lên.
+
+     Kiểu `felt` giữ âm sắc tối riêng của nó. Chuông và dàn nhạc không thêm độ sáng và chỉ chỉnh âm sắc một
+     nửa;
    - đưa cả bài về -16 LUFS. Bộ hạn chế đỉnh âm hạ âm lượng từ từ, không giật (giật sẽ gây tiếng tách).
      Mỗi đỉnh bị hạ tối đa 3 dB; bài nào cần hạ nhiều hơn thì để nhỏ hơn một chút (tối đa -19 LUFS).
      Nhật ký ghi lại bài bị hạ đỉnh bao nhiêu và độ cân bằng trái/phải.
@@ -132,6 +144,7 @@ runs/<mã khác>/covers/lego-woodwinds/stem_01.mp3:0.7` (nhiều lượt cách n
 
 Mỗi bài chạy trên một máy riêng, cùng lúc với các bài khác. Kết quả: artifact **sampled-<bài>** cho từng
 bài và **sampled** gồm tất cả (MP3 của từng bài và kiểu, các file MIDI, điểm chấm `rated-<bài>.txt`).
+Artifact **so-sanh-master** chứa vài bài ở hai bản, trước và sau master, cùng độ to, để so bằng tai.
 
 ## Giấy phép
 

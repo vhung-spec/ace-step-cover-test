@@ -27,6 +27,10 @@ mixes them into one piece per folder:
   and bow noise do not ring on as a hiss;
 - a style may lay a soft hush (dark pink noise) under the music, as sleep
   music does;
+- the mix is mastered toward the sound of two reference recordings (master.py:
+  left-right balance, tone, air, width, a slow leveller), as strongly as its
+  style asks (mix.json); with --premaster, the piece before its master is saved
+  as well, as loud, to compare;
 - the piece loses its rumble below 30 Hz and is brought to -16 LUFS (YouTube
   plays music at about -14), a look-ahead limiter keeping peaks below -1.5
   dBFS; its gain glides, never jumps (a jump clicks), and it takes at most
@@ -52,6 +56,9 @@ import pyloudnorm
 import soundfile as sf
 from scipy.ndimage import maximum_filter1d, uniform_filter1d
 from scipy.signal import butter, fftconvolve, lfilter, sosfilt, sosfiltfilt, welch
+
+import master
+from master import dehiss
 
 RATE = 44100  # the samples' own rate
 TARGET_LUFS = -16.0
@@ -119,27 +126,6 @@ def high_shelf(freq: float, db: float) -> tuple:
     den = np.array([(a + 1) - (a - 1) * cos + 2 * np.sqrt(a) * alpha, 2 * ((a - 1) - (a + 1) * cos),
                     (a + 1) - (a - 1) * cos - 2 * np.sqrt(a) * alpha])
     return b / den[0], den / den[0]
-
-
-def dehiss(audio: np.ndarray, split: float = 2500, most_db: float = 10.0, over_db: float = 10.0,
-           release: float = 0.12) -> np.ndarray:
-    """Hushes a part's highs in its quiet moments, where they hold little but the
-    hiss of its samples (a dozen voices of it at once under a piano's pedal):
-    above split Hz, whenever their level comes within over_db of their quiet
-    floor (the tenth percentile while the part sounds), they are turned down,
-    by up to most_db; brighter moments pass untouched. The gain opens at once
-    (smoothed over 5 ms, centred, so it is open by an attack) and closes over
-    the release time."""
-    low = sosfiltfilt(butter(4, split, "low", fs=RATE, output="sos"), audio, axis=-1)  # no phase shift
-    high = audio - low
-    level = np.sqrt(np.maximum(uniform_filter1d((high ** 2).mean(axis=0), int(0.01 * RATE)), 0) + 1e-20)
-    sounding = level > level.max() * 10 ** (-60 / 20)
-    floor = np.percentile(level[sounding], 10)
-    gain = np.clip(level / (floor * 10 ** (over_db / 20)), 10 ** (-most_db / 20), 1)
-    step = 1 / (release * RATE)
-    n = np.arange(len(gain))
-    gain = np.minimum(1, np.exp(np.maximum.accumulate(np.log(gain) + n * step) - n * step))
-    return low + high * uniform_filter1d(gain, int(0.005 * RATE))
 
 
 def apply_tone(audio: np.ndarray, tone: dict) -> np.ndarray:
@@ -289,7 +275,32 @@ def fade_tail(audio: np.ndarray, seconds: float = 3.0) -> np.ndarray:
     return audio
 
 
-def mix_folder(folder: Path, sfizz: str, libraries: dict, keep_parts: bool) -> Path:
+def finish(mixed: np.ndarray) -> tuple[np.ndarray, float, float]:
+    """The piece at TARGET_LUFS, limited by at most MOST_LIMITING_DB, or quieter
+    (down to QUIETEST_LUFS) rather than limited harder: the limited piece, the
+    most it took off a peak (dB) and how much of the time it took over 1 dB."""
+    meter = pyloudnorm.Meter(RATE)
+    loudness = meter.integrated_loudness(mixed.T)
+    over = 20 * np.log10(np.abs(mixed).max()) + TARGET_LUFS - loudness - CEILING_DB - MOST_LIMITING_DB
+    target = max(QUIETEST_LUFS, TARGET_LUFS - max(0.0, over))  # quieter rather than limited hard
+    gain_db = target - loudness
+    for _ in range(4):  # limiting lowers the loudness a little: measure again
+        limited, worst, share = limit(mixed * 10 ** (gain_db / 20))
+        error = target - meter.integrated_loudness(limited.T)
+        if abs(error) < 0.05:
+            break
+        gain_db += error
+    return limited, worst, share
+
+
+def save(audio: np.ndarray, wav: Path) -> None:
+    """Writes a piece as 24-bit WAV and as MP3 (LAME, 320 kbit/s) beside it."""
+    sf.write(wav, audio.T, RATE, subtype="PCM_24")
+    subprocess.run(["ffmpeg", "-y", "-loglevel", "error", "-i", str(wav), "-c:a", "libmp3lame", "-b:a", "320k",
+                    str(wav.with_suffix(".mp3"))], check=True)
+
+
+def mix_folder(folder: Path, sfizz: str, libraries: dict, keep_parts: bool, premaster: Path | None = None) -> Path:
     sheet = json.loads((folder / "mix.json").read_text())
     ir = hall_ir(sheet["hall"]["rt60"])
 
@@ -325,26 +336,23 @@ def mix_folder(folder: Path, sfizz: str, libraries: dict, keep_parts: bool) -> P
     if sheet.get("noise"):  # a hush under the music, so many dB under the melody
         mixed += noise_bed(mixed.shape[1]) * 10 ** ((reference + sheet["noise"]["db"]) / 20)
         print(f"  a hush under it all, {-sheet['noise']['db']:g} dB under the melody", flush=True)
+    unmastered = mixed
+    if sheet.get("master"):
+        steps = sheet["master"]
+        mixed, report = master.master(mixed, steps["tone"], steps["air"], steps["width"], steps["level"])
+        print(f"  master: {report}", flush=True)
     meter = pyloudnorm.Meter(RATE)
-    loudness = meter.integrated_loudness(mixed.T)
-    over = 20 * np.log10(np.abs(mixed).max()) + TARGET_LUFS - loudness - CEILING_DB - MOST_LIMITING_DB
-    target = max(QUIETEST_LUFS, TARGET_LUFS - max(0.0, over))  # quieter rather than limited hard
-    gain_db = target - loudness
-    for _ in range(4):  # limiting lowers the loudness a little: measure again
-        limited, worst, share = limit(mixed * 10 ** (gain_db / 20))
-        error = target - meter.integrated_loudness(limited.T)
-        if abs(error) < 0.05:
-            break
-        gain_db += error
-    mixed = limited
+    mixed, worst, share = finish(mixed)
     quarters = [balance(q) for q in np.array_split(mixed, 4, axis=1)]
     print(f"  limiter: at most {-worst:.1f} dB, {100 * share:.1f} % of the time over 1 dB; left-right balance "
           f"{balance(mixed):+.1f} dB (quarters {', '.join(f'{q:+.1f}' for q in quarters)}); hiss {hiss(mixed):.0f} dB",
           flush=True)
     out = folder.with_suffix(".wav")
-    sf.write(out, mixed.T, RATE, subtype="PCM_24")
-    subprocess.run(["ffmpeg", "-y", "-loglevel", "error", "-i", str(out), "-c:a", "libmp3lame", "-b:a", "320k",
-                    str(out.with_suffix(".mp3"))], check=True)
+    save(mixed, out)
+    if premaster is not None:  # the same piece before its master, as loud, to compare
+        premaster.mkdir(parents=True, exist_ok=True)
+        save(finish(unmastered)[0], premaster / out.name)
+        (premaster / out.name).unlink()
     print(f"{folder.name}: {mixed.shape[1] / RATE:.0f} s, hall {sheet['hall']['rt60']} s, "
           f"{meter.integrated_loudness(mixed.T):.1f} LUFS, peak {20 * np.log10(np.abs(mixed).max()):.1f} dBFS "
           f"-> {out.with_suffix('.mp3')}", flush=True)
@@ -359,11 +367,12 @@ def main() -> None:
     parser.add_argument("--vcsl", type=Path, required=True)
     parser.add_argument("--salamander", type=Path, help="needed for the salamander style")
     parser.add_argument("--keep-parts", action="store_true", help="keep each part's WAV")
+    parser.add_argument("--premaster", type=Path, help="also save each piece before its master here (MP3)")
     args = parser.parse_args()
     libraries = {"vsco": args.vsco, "vcsl": args.vcsl, "salamander": args.salamander}
     for folder in sorted(p for p in args.out.iterdir() if (p / "mix.json").is_file()):
         print(f"== {folder.name}", flush=True)
-        mix_folder(folder, args.sfizz, libraries, args.keep_parts)
+        mix_folder(folder, args.sfizz, libraries, args.keep_parts, args.premaster)
 
 
 if __name__ == "__main__":
