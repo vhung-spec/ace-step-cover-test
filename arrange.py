@@ -86,25 +86,28 @@ INSTRUMENTS = {
 # Each instrument's tone, for render_samples.py: a high-pass and a low-pass
 # (Hz), a high shelf (Hz, dB): the bells and the sustained parts lose some
 # edge and the hiss of their recordings; the piano's release samples (the
-# dampers' sound as keys are let go, all at once when the pedal lifts)
-# turned down (dB); and the stereo width (0 mono, 1 as recorded), narrower
+# dampers' sound as keys are let go, all at once when the pedal lifts: a
+# rustle) turned off (dB); and the stereo width (0 mono, 1 as recorded), narrower
 # for instruments whose samples, note by note, lean far to one side (a
 # vibraphone note 17 dB to the left), so a melody does not hop between ears.
+# The VSCO strings and flute are cut lower: above 6-8 kHz their samples hold
+# mostly the hiss of the recording (a violin note's 4-16 kHz is as loud as
+# the sample's silent tail).
 TONES = {
-    "piano": {"release_db": -15},
+    "piano": {"release_db": -60},
     "chimes": {"shelf": [5000, -3], "width": 0.3},
     "vibes": {"shelf": [6000, -2], "width": 0.3},
     "glock": {"lowpass": 9000, "shelf": [5000, -5], "width": 0.4},
     "harp": {"shelf": [8000, -2], "width": 0.7},
     "sleigh": {"shelf": [6000, -6], "width": 0.6},
     "tubular": {"lowpass": 8000, "shelf": [4000, -3], "width": 0.5},
-    "flute": {"lowpass": 12000, "shelf": [8000, -2], "width": 0.5},
-    "violins": {"lowpass": 12000, "shelf": [7000, -2], "width": 0.8},
-    "violas": {"highpass": 80, "lowpass": 10000, "shelf": [6000, -3], "width": 0.8},
-    "cellos": {"highpass": 40, "lowpass": 9000, "shelf": [5000, -3], "width": 0.8},
-    "basses": {"highpass": 30, "lowpass": 6000, "width": 0.7},
-    "basses-pizz": {"highpass": 30, "lowpass": 6000, "width": 0.7},
-    "horns": {"highpass": 60, "lowpass": 8000, "width": 0.7},
+    "flute": {"lowpass": 8000, "shelf": [6000, -2], "width": 0.5},
+    "violins": {"lowpass": 8000, "shelf": [6000, -2], "width": 0.8},
+    "violas": {"highpass": 80, "lowpass": 7000, "shelf": [5000, -3], "width": 0.8},
+    "cellos": {"highpass": 40, "lowpass": 6000, "shelf": [4000, -3], "width": 0.8},
+    "basses": {"highpass": 30, "lowpass": 5000, "width": 0.7},
+    "basses-pizz": {"highpass": 30, "lowpass": 5000, "width": 0.7},
+    "horns": {"highpass": 60, "lowpass": 7000, "width": 0.7},
     "timpani": {"highpass": 35, "width": 0.7},
 }
 # How loud each kind of part sits against the melody (dB of its loudness when playing).

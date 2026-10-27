@@ -4,8 +4,11 @@ mixes them into one piece per folder:
     python render_samples.py out/sampled --sfizz path/to/sfizz_render --vsco <VSCO-2-CE> --vcsl <VCSL>
         [--salamander <SalamanderGrandPiano>]
 
-- each part is played by sfizz_render from its SFZ instrument (mix.json),
-  then played again louder or quieter until its peaks sit between -20 and
+- each part is played by sfizz_render from its SFZ instrument (mix.json), at
+  the samples' own rate (44.1 kHz: no resampling for a note at a sampled
+  pitch) with sfizz's best interpolation (a 72-point windowed sinc, its own
+  choice for offline work), then played again louder or quieter until its
+  peaks sit between -20 and
   -1 dBFS: sfizz writes 16-bit WAV, which clips above full scale and turns
   grainy when a quiet part is turned up afterwards. A piano's release samples
   (the dampers, which all sound at once when the pedal lifts) can be turned
@@ -17,9 +20,10 @@ mixes them into one piece per folder:
   lean to one side, some notes far more than others), then it is placed in
   the stereo field;
 - a hall reverb: a synthetic impulse response (noise in bands, each dying at
-  its own rate, the highs soonest and quietest, building up over the first
-  30 ms, with no single echo standing out), so no recording of a real hall
-  and no licence is needed;
+  its own rate, the highs soonest and quietest, the highs also building up
+  slowest, with no single echo standing out), so no recording of a real hall
+  and no licence is needed; what goes into it is cut above 6 kHz, so hammer
+  and bow noise do not ring on as a hiss;
 - a style may lay a soft hush (dark pink noise) under the music, as sleep
   music does;
 - the piece loses its rumble below 30 Hz and is brought to -16 LUFS (YouTube
@@ -27,8 +31,10 @@ mixes them into one piece per folder:
   dBFS; its gain glides, never jumps (a jump clicks), and it takes at most
   3 dB off a peak: a piece that would need more is left a little quieter
   (down to -19 LUFS). The last notes fade out over the reverb's tail; the
-  piece is saved as <folder>.wav and <folder>.mp3, and the log shows how
-  much was limited and how the left and right sides balance.
+  piece is saved as <folder>.wav and <folder>.mp3 (LAME, 320 kbit/s), and
+  the log shows how much was limited, how the left and right sides balance
+  and how much hiss shows (each part's, and the piece's, in its quietest
+  moments).
 """
 
 import argparse
@@ -44,9 +50,9 @@ import numpy as np
 import pyloudnorm
 import soundfile as sf
 from scipy.ndimage import maximum_filter1d, uniform_filter1d
-from scipy.signal import butter, fftconvolve, lfilter, sosfilt
+from scipy.signal import butter, fftconvolve, lfilter, sosfilt, welch
 
-RATE = 48000
+RATE = 44100  # the samples' own rate
 TARGET_LUFS = -16.0
 QUIETEST_LUFS = -19.0  # a piece with strong peaks may be this quiet rather than limited hard
 CEILING_DB = -1.5  # peaks rise a little in MP3 encoding
@@ -78,7 +84,7 @@ def render_part(sfizz: str, sfz: Path, part: str, midi: Path, wav: Path, release
     for attempt in range(5):
         started = time.time()
         subprocess.run([sfizz, "--sfz", str(sfz_copy(sfz, part, db, release_db)), "--midi", str(midi),
-                        "--wav", str(wav), "--samplerate", str(RATE), "--polyphony", "256", "--quality", "3",
+                        "--wav", str(wav), "--samplerate", str(RATE), "--polyphony", "256", "--quality", "10",
                         "--use-eot"], check=True, capture_output=True, timeout=600)
         print(f"    {part} at {db:+g} dB: {time.time() - started:.0f} s", flush=True)
         audio, rate = sf.read(wav, always_2d=True, dtype="float32")
@@ -131,6 +137,23 @@ def image(audio: np.ndarray, width: float) -> tuple[np.ndarray, float]:
     return np.stack([left / g, right * g]), float(lean)
 
 
+def hiss(audio: np.ndarray) -> float:
+    """How much hiss shows when the music is quiet: the level from 4 to 16 kHz
+    over the quietest tenth of the 50 ms moments where it sounds (within 50 dB
+    of its loudest; the last 5 s, the fade, left out), under the median level
+    of those moments (dB)."""
+    mono = audio.mean(axis=0)
+    mono = mono[: max(RATE, len(mono) - 5 * RATE)]
+    high = sosfilt(butter(4, [4000, 16000], "band", fs=RATE, output="sos"), mono)
+    frame = RATE // 20
+    n = len(mono) // frame
+    level = 10 * np.log10(np.mean(mono[: n * frame].reshape(n, frame) ** 2, axis=1) + 1e-20)
+    sounding = level > level.max() - 50
+    quiet = sounding & (level <= np.percentile(level[sounding], 10))
+    high_level = np.mean(high[: n * frame].reshape(n, frame)[quiet] ** 2)
+    return float(10 * np.log10(high_level + 1e-20) - np.median(level[sounding]))
+
+
 def balance(audio: np.ndarray) -> float:
     """How much louder the left side is than the right (dB)."""
     return float(20 * np.log10((np.sqrt(np.mean(audio[0] ** 2)) + 1e-12) / (np.sqrt(np.mean(audio[1] ** 2)) + 1e-12)))
@@ -166,8 +189,9 @@ HALL = np.array([(63, 1.15, -9), (125, 1.1, -4), (250, 1.05, -1), (500, 1.0, 0),
 @lru_cache
 def hall_ir(rt60: float, seconds: float = 4.0, predelay: float = 0.025, seed: int = 1) -> np.ndarray:
     """Stereo impulse response of a warm hall: noise in third-octave bands, each
-    dying at its own rate (HALL), building up over the first 30 ms with no
-    single echo standing out; a different noise on each side, so the hall is
+    dying at its own rate (HALL) and building up over 30 ms (the lows) to 80
+    ms (the highs), so a note's attack does not set off a burst of hiss; no
+    single echo stands out; a different noise on each side, so the hall is
     wide, each band equally loud on both, so it leans to neither."""
     rng = np.random.default_rng(seed)
     n = int(seconds * RATE)
@@ -178,10 +202,11 @@ def hall_ir(rt60: float, seconds: float = 4.0, predelay: float = 0.025, seed: in
     for centre in 1000 * 2 ** (np.arange(-14, 14) / 3):  # 40 Hz to 20 kHz
         band = (freqs >= centre * 2 ** (-1 / 6)) & (freqs < centre * 2 ** (1 / 6))
         decay, level = (np.interp(np.log2(centre), np.log2(HALL[:, 0]), HALL[:, k]) for k in (1, 2))
+        onset = np.interp(np.log2(centre), np.log2([250, 8000]), [0.03, 0.08])
         tail = np.fft.irfft(spectrum * band, n=n, axis=-1) * np.exp(-6.91 * t / (rt60 * decay))
+        tail *= 1 - np.exp(-t / onset)  # the reflections build up
         tail /= np.sqrt(np.mean(tail ** 2, axis=-1, keepdims=True))  # every band as loud, on both sides
         ir += tail * 10 ** (level / 20)
-    ir *= 1 - np.exp(-t / 0.03)  # the reflections build up
     ir = np.concatenate([np.zeros((2, int(predelay * RATE))), ir], axis=1)
     return ir / np.sqrt(np.sum(ir ** 2) / 2)
 
@@ -247,7 +272,7 @@ def mix_folder(folder: Path, sfizz: str, libraries: dict, keep_parts: bool) -> P
         peak = 20 * np.log10(np.abs(audio).max() + 1e-12)
         audio, lean = image(apply_tone(audio, entry["tone"]), entry["tone"].get("width", 1.0))
         print(f"  {entry['part']}: {audio.shape[1] / RATE:.1f} s, peak {peak:.1f} dBFS, recorded "
-              f"{abs(lean):.1f} dB to the {'left' if lean > 0 else 'right'}", flush=True)
+              f"{abs(lean):.1f} dB to the {'left' if lean > 0 else 'right'}, hiss {hiss(audio):.0f} dB", flush=True)
         parts[entry["part"]] = (entry, audio)
     melody = [playing_db(a) for e, a in parts.values() if e["role"] in ("melody", "piano")]
     reference = float(np.mean(melody)) if melody else -20.0
@@ -260,6 +285,7 @@ def mix_folder(folder: Path, sfizz: str, libraries: dict, keep_parts: bool) -> P
         send[:, : placed.shape[1]] += placed * entry["reverb"]
         if not keep_parts:
             (folder / f"{name}.wav").unlink()
+    send = sosfilt(butter(2, 6000, "low", fs=RATE, output="sos"), send, axis=-1)  # no hiss into the hall
     wet = np.stack([fftconvolve(send[c], ir[c])[:n] for c in range(2)])
     rumble = butter(2, 30, "high", fs=RATE, output="sos")
     mixed = fade_tail(sosfilt(rumble, dry + wet, axis=-1))
@@ -280,10 +306,11 @@ def mix_folder(folder: Path, sfizz: str, libraries: dict, keep_parts: bool) -> P
     mixed = limited
     quarters = [balance(q) for q in np.array_split(mixed, 4, axis=1)]
     print(f"  limiter: at most {-worst:.1f} dB, {100 * share:.1f} % of the time over 1 dB; left-right balance "
-          f"{balance(mixed):+.1f} dB (quarters {', '.join(f'{q:+.1f}' for q in quarters)})", flush=True)
+          f"{balance(mixed):+.1f} dB (quarters {', '.join(f'{q:+.1f}' for q in quarters)}); hiss {hiss(mixed):.0f} dB",
+          flush=True)
     out = folder.with_suffix(".wav")
     sf.write(out, mixed.T, RATE, subtype="PCM_24")
-    subprocess.run(["ffmpeg", "-y", "-loglevel", "error", "-i", str(out), "-b:a", "256k",
+    subprocess.run(["ffmpeg", "-y", "-loglevel", "error", "-i", str(out), "-c:a", "libmp3lame", "-b:a", "320k",
                     str(out.with_suffix(".mp3"))], check=True)
     print(f"{folder.name}: {mixed.shape[1] / RATE:.0f} s, hall {sheet['hall']['rt60']} s, "
           f"{meter.integrated_loudness(mixed.T):.1f} LUFS, peak {20 * np.log10(np.abs(mixed).max()):.1f} dBFS "

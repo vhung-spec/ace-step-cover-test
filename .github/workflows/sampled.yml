@@ -2,7 +2,9 @@
 # any sound: arrange.py writes one MIDI file per instrument, fetch_samples.py
 # fetches the CC0 instruments it uses, render_samples.py plays them with
 # sfizz and mixes them (balance, stereo, hall reverb, loudness), and rate.py
-# rates the pieces. Results: the "sampled" artifact (MP3, MIDI, ratings).
+# rates the pieces. Results: the "sampled" artifact (MP3, MIDI, ratings);
+# the MP3s are also pushed to the "renders" branch (replaced each run), for
+# analysis where artifacts cannot be downloaded.
 name: Real-sample arrangements
 run-name: 'Sampled: ${{ inputs.songs }} / ${{ inputs.styles }}'
 
@@ -21,7 +23,7 @@ on:
         default: true
 
 permissions:
-  contents: read
+  contents: write  # the renders branch
 
 jobs:
   sampled:
@@ -43,6 +45,7 @@ jobs:
           uv pip install -q --python "$RUNNER_TEMP/venv/bin/python" numpy scipy soundfile mido pyloudnorm imageio-ffmpeg
           sudo ln -sf "$("$RUNNER_TEMP/venv/bin/python" -c 'import imageio_ffmpeg; print(imageio_ffmpeg.get_ffmpeg_exe())')" \
             /usr/local/bin/ffmpeg
+          ffmpeg -hide_banner -encoders | grep -i mp3
 
       - name: sfizz from the cache
         id: sfizz
@@ -84,6 +87,16 @@ jobs:
           uv pip install -q --python "$RUNNER_TEMP/venv/bin/python" librosa audiobox_aesthetics transformers==4.57.6
           "$RUNNER_TEMP/venv/bin/python" rate.py out/sampled | tee out/sampled/rated.txt
           { echo "### Pieces rated"; sed -n '/^| piece/,$p' out/sampled/rated.txt; } >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Pieces on the renders branch
+        if: always()
+        run: |
+          cd out/sampled
+          git init -q -b renders
+          git add ./*.mp3 && git add rated.txt 2>/dev/null || true
+          git -c user.name="github-actions[bot]" -c user.email="41898282+github-actions[bot]@users.noreply.github.com" \
+            commit -q -m "Renders of run $GITHUB_RUN_ID ($SONGS / $STYLES)"
+          git push -q -f "https://x-access-token:${{ github.token }}@github.com/$GITHUB_REPOSITORY" renders
 
       - name: Keep the pieces
         if: always()
