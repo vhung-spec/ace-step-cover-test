@@ -8,8 +8,9 @@ The carols are the public-domain melodies and chords of make_source.py. Every
 style plays an intro (the last phrase, an octave up), two verses (the second
 fuller) and a held last chord, slowing down over the last two bars. The parts
 are written from the same chords, beat by beat, so they always agree:
-- piano: the melody over a flowing left hand, with sustain pedal; the second
-  verse doubles the melody an octave below;
+- piano: the melody over a flowing left hand, with sustain pedal; in the
+  second verse a chord tone a third to a sixth under the longer notes sings
+  with the melody;
 - bells: glockenspiel, then hand chimes and vibraphone on the melody, over a
   harp, a soft string pad in the second verse, mark tree and sleigh bells;
 - orchestra: flute, then violins on the melody, over violas, cellos, harp,
@@ -184,6 +185,12 @@ def triad_notes(chord: str, low: int, high: int) -> list:
     return [n for n in range(low, high + 1) if n % 12 in classes]
 
 
+def harmony_below(chord: str, note: int) -> int | None:
+    """The chord tone a third to a sixth under a melody note, to sing with it."""
+    below = [n for n in chord_notes(chord, note - 9, note - 3)]
+    return below[-1] if below and below[-1] >= 59 else None
+
+
 def shape(position: float) -> float:
     """Phrase dynamics: 0 at the start and end of a verse, 1 in the middle."""
     return 1 - abs(position - 0.5) * 2
@@ -227,8 +234,10 @@ def arrange_piano(arr: Arrangement) -> None:
         else:
             velocity = 80 + 14 * shape(position)
         piano.add(tick + arr.jitter(5), note, velocity + arr.rng.randint(-3, 3), length - 15)
-        if verse == 1 and note - 12 >= 57:  # the second verse: the melody in octaves
-            piano.add(tick + arr.jitter(5), note - 12, velocity - 16, length - 15)
+        if verse == 1 and (length >= TICKS or tick % BAR == 0):  # the second verse sings in thirds and sixths
+            second = harmony_below(arr.chord_at(tick), note)
+            if second is not None:
+                piano.add(tick + arr.jitter(5), second, velocity - 18, length - 15)
     flowing_bass(arr, piano, 0, arr.verses[0], 40)
     flowing_bass(arr, piano, arr.verses[0], arr.verses[1], 48)
     flowing_bass(arr, piano, arr.verses[1], arr.end, 56)
@@ -316,13 +325,19 @@ STYLES = {"piano": arrange_piano, "bells": arrange_bells, "orchestra": arrange_o
 
 
 def tempo_map(arr: Arrangement) -> list:
-    """(tick, bpm): steady, then slowing over the last two bars to the held chord."""
+    """(tick, bpm): a little breath on the last beat of every four-bar phrase,
+    as a player would take, and slowing over the last two bars to the held chord."""
     bpm = arr.song.bpm
     changes = [(0, bpm)]
     slow_from = arr.end - 2 * BAR
+    for downbeat in arr.verses:
+        for bar in range(3, len(arr.song.chords), 4):
+            last_beat = downbeat + bar * BAR + 2 * TICKS
+            if last_beat + TICKS <= slow_from:
+                changes += [(last_beat, bpm * 0.92), (last_beat + TICKS, bpm)]
     for beat in range(7):
         changes.append((slow_from + beat * TICKS, bpm * (1 - 0.05 * (beat + 1))))
-    return changes
+    return sorted(changes)
 
 
 def write_part(part: Part, tempos: list, path: Path) -> None:
