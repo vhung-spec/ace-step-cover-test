@@ -691,6 +691,9 @@ class Style:
     hall: float = 2.2  # the hall's reverb time (s)
     repeat_short: bool = False  # play a short tune (eight bars or fewer) three times
     noise_db: float | None = None  # a hush of pink noise under the music, this far under the melody
+    verses: int | None = None  # this many verses, whatever the tune's length
+    piano_tone: dict | None = None  # changes to the piano part's tone (tests)
+    piano_reverb: float | None = None  # the piano part's reverb send instead of its own (tests)
 
 
 STYLES = {
@@ -703,6 +706,15 @@ STYLES = {
     "piano-strings": Style(arrange_piano_strings, tempo=0.8, breath=0.88, hall=2.4, repeat_short=True),
     "felt": Style(arrange_felt, tempo=0.8, breath=0.9, repeat_short=True),
     "felt-noise": Style(arrange_felt, tempo=0.8, breath=0.9, repeat_short=True, noise_db=-22),
+    # Listening tests for the light rustle: Silent Night's first verse, chill,
+    # as it is (a), with no hall (b), without its highs above 6 kHz (c),
+    # without the samples recorded with the pedal down (d), all of it milder (e).
+    "test-a": Style(arrange_chill, tempo=0.8, breath=0.88, verses=1),
+    "test-b": Style(arrange_chill, tempo=0.8, breath=0.88, verses=1, piano_reverb=0.0),
+    "test-c": Style(arrange_chill, tempo=0.8, breath=0.88, verses=1, piano_tone={"lowpass": 6000}),
+    "test-d": Style(arrange_chill, tempo=0.8, breath=0.88, verses=1, piano_tone={"halo": False}),
+    "test-e": Style(arrange_chill, tempo=0.8, breath=0.88, verses=1, piano_reverb=0.15,
+                    piano_tone={"lowpass": 8000, "halo": False}),
     "bells": Style(arrange_bells, hall=2.6),
     "orchestra": Style(arrange_orchestra, hall=2.4),
 }
@@ -762,15 +774,19 @@ def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument("out", type=Path)
     parser.add_argument("--songs", nargs="+", default=list(SONGS), choices=list(SONGS))
-    parser.add_argument("--styles", nargs="+", default=[s for s in STYLES if s != "salamander"],
+    parser.add_argument("--styles", nargs="+", default=[s for s in STYLES if s != "salamander" and not s.startswith("test-")],
                         choices=list(STYLES))
     args = parser.parse_args()
     for name in args.songs:
         for style_name in args.styles:
             song, style = SONGS[name], STYLES[style_name]
-            verses = 3 if style.repeat_short and len(song.chords) <= 8 else 2
+            verses = style.verses or (3 if style.repeat_short and len(song.chords) <= 8 else 2)
             arr = Arrangement(song, verses, style.tempo, style.breath)
             style.arrange(arr)
+            if style.piano_tone:
+                arr.parts["piano"].tone.update(style.piano_tone)
+            if style.piano_reverb is not None:
+                arr.parts["piano"].reverb = style.piano_reverb
             folder = args.out / f"{name}-{style_name}"
             folder.mkdir(parents=True, exist_ok=True)
             sheet, untangled = [], 0

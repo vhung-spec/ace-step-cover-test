@@ -59,31 +59,37 @@ CEILING_DB = -1.5  # peaks rise a little in MP3 encoding
 MOST_LIMITING_DB = 3.0
 
 
-def sfz_copy(sfz: Path, part: str, db: float, release_db: float | None = None) -> Path:
+def sfz_copy(sfz: Path, part: str, db: float, tone: dict) -> Path:
     """A copy of an SFZ file for one part, next to it (its sample paths are
     relative), with every region turned up or down by db (sfizz's
-    global_volume opcode) and its release samples, if any, by release_db."""
+    global_volume opcode), its release samples, if any, by the tone's
+    release_db, and, if the tone says halo false, a piano's samples recorded
+    with the pedal down (all strings free to ring along) left out: every note
+    plays its pedal-up sample, the pedal still holding it."""
     text = sfz.read_text(errors="replace")
     line = f"global_volume={db:g}"
     if "<global>" in text:
         text = text.replace("<global>", f"<global>\n{line}", 1)
     else:
         text = f"<global>\n{line}\n{text}"
-    if release_db is not None:
-        text = re.sub(r"trigger=release\b", f"trigger=release\namplitude={100 * 10 ** (release_db / 20):.1f}", text)
+    if tone.get("release_db") is not None:
+        amplitude = 100 * 10 ** (tone["release_db"] / 20)
+        text = re.sub(r"trigger=release\b", f"trigger=release\namplitude={amplitude:.3f}", text)
+    if tone.get("halo") is False:
+        text = "".join(g for g in re.split(r"(?=<group>)", text) if "locc64=65" not in g).replace("hicc64=64", "hicc64=127")
     copy = sfz.with_name(f".{sfz.stem}.{part}.{db:+g}dB.sfz")
     copy.write_text(text)
     return copy
 
 
-def render_part(sfizz: str, sfz: Path, part: str, midi: Path, wav: Path, release_db: float | None) -> np.ndarray:
+def render_part(sfizz: str, sfz: Path, part: str, midi: Path, wav: Path, tone: dict) -> np.ndarray:
     """Plays one part; rendering stops at the MIDI file's end of track (8 beats
     after its last event): without that, sfizz_render waits for full silence,
     which some instruments never reach."""
     db = 0.0
     for attempt in range(5):
         started = time.time()
-        subprocess.run([sfizz, "--sfz", str(sfz_copy(sfz, part, db, release_db)), "--midi", str(midi),
+        subprocess.run([sfizz, "--sfz", str(sfz_copy(sfz, part, db, tone)), "--midi", str(midi),
                         "--wav", str(wav), "--samplerate", str(RATE), "--polyphony", "256", "--quality", "10",
                         "--use-eot"], check=True, capture_output=True, timeout=600)
         print(f"    {part} at {db:+g} dB: {time.time() - started:.0f} s", flush=True)
@@ -263,7 +269,7 @@ def mix_folder(folder: Path, sfizz: str, libraries: dict, keep_parts: bool) -> P
     def render(entry: dict) -> np.ndarray:
         sfz = libraries[entry["library"]] / entry["sfz"]
         return render_part(sfizz, sfz, entry["part"], folder / f"{entry['part']}.mid",
-                           folder / f"{entry['part']}.wav", entry["tone"].get("release_db"))
+                           folder / f"{entry['part']}.wav", entry["tone"])
 
     with ThreadPoolExecutor(max_workers=4) as pool:  # one sfizz_render per CPU
         audios = list(pool.map(render, sheet["parts"]))
