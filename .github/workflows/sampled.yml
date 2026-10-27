@@ -1,0 +1,97 @@
+# The carols arranged for real instrument samples, with no AI model making
+# any sound: arrange.py writes one MIDI file per instrument, fetch_samples.py
+# fetches the CC0 instruments it uses, render_samples.py plays them with
+# sfizz and mixes them (balance, stereo, hall reverb, loudness), and rate.py
+# rates the pieces. Results: the "sampled" artifact (MP3, MIDI, ratings).
+name: Real-sample arrangements
+run-name: 'Sampled: ${{ inputs.songs }} / ${{ inputs.styles }}'
+
+on:
+  workflow_dispatch:
+    inputs:
+      songs:
+        description: 'Carols: wish (We Wish You a Merry Christmas), silent-night'
+        default: 'wish silent-night'
+      styles:
+        description: 'Styles: piano, bells, orchestra'
+        default: 'piano bells orchestra'
+      rate:
+        description: 'Rate the pieces (Audiobox Aesthetics, CLAP)'
+        type: boolean
+        default: true
+
+permissions:
+  contents: read
+
+jobs:
+  sampled:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 90
+    env:
+      SONGS: ${{ inputs.songs }}
+      STYLES: ${{ inputs.styles }}
+      SFIZZ_VERSION: '1.2.3'
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: astral-sh/setup-uv@v6
+
+      - name: Python tools and ffmpeg
+        run: |
+          uv venv -q --python 3.12 "$RUNNER_TEMP/venv"
+          uv pip install -q --python "$RUNNER_TEMP/venv/bin/python" numpy scipy soundfile mido pyloudnorm imageio-ffmpeg
+          sudo ln -sf "$("$RUNNER_TEMP/venv/bin/python" -c 'import imageio_ffmpeg; print(imageio_ffmpeg.get_ffmpeg_exe())')" \
+            /usr/local/bin/ffmpeg
+
+      - name: sfizz from the cache
+        id: sfizz
+        uses: actions/cache@v4
+        with:
+          path: ~/sfizz
+          key: sfizz-render-${{ env.SFIZZ_VERSION }}-ubuntu-24.04
+
+      - name: Build sfizz_render
+        if: steps.sfizz.outputs.cache-hit != 'true'
+        run: |
+          git clone -q --recursive --depth 1 --shallow-submodules --branch "$SFIZZ_VERSION" \
+            https://github.com/sfztools/sfizz.git "$RUNNER_TEMP/sfizz"
+          cmake -S "$RUNNER_TEMP/sfizz" -B "$RUNNER_TEMP/sfizz/build" -DCMAKE_BUILD_TYPE=Release -DENABLE_LTO=OFF \
+            -DSFIZZ_JACK=OFF -DSFIZZ_RENDER=ON -DSFIZZ_SHARED=OFF -DSFIZZ_TESTS=OFF -DSFIZZ_DEMOS=OFF \
+            -DSFIZZ_DEVTOOLS=OFF -DSFIZZ_BENCHMARKS=OFF
+          cmake --build "$RUNNER_TEMP/sfizz/build" -j4 --target sfizz_render
+          mkdir -p ~/sfizz
+          find "$RUNNER_TEMP/sfizz/build" -name sfizz_render -type f -exec cp {} ~/sfizz/ \;
+          ~/sfizz/sfizz_render --help | head -3
+
+      - name: Arrangements (MIDI)
+        run: '"$RUNNER_TEMP/venv/bin/python" arrange.py out/sampled --songs $SONGS --styles $STYLES'
+
+      - name: Instruments (CC0 samples)
+        run: '"$RUNNER_TEMP/venv/bin/python" fetch_samples.py out/sampled "$RUNNER_TEMP/libs"'
+
+      - name: Play and mix
+        run: |
+          "$RUNNER_TEMP/venv/bin/python" render_samples.py out/sampled --sfizz ~/sfizz/sfizz_render \
+            --vsco "$RUNNER_TEMP/libs/vsco" --vcsl "$RUNNER_TEMP/libs/vcsl"
+
+      - name: Rate
+        if: inputs.rate
+        run: |
+          uv pip install -q --python "$RUNNER_TEMP/venv/bin/python" torch torchaudio \
+            --index-url https://download.pytorch.org/whl/cpu
+          # transformers as pinned by ACE-Step: CLAP's API changed in 5.x
+          uv pip install -q --python "$RUNNER_TEMP/venv/bin/python" librosa audiobox_aesthetics transformers==4.57.6
+          "$RUNNER_TEMP/venv/bin/python" rate.py out/sampled | tee out/sampled/rated.txt
+          { echo "### Pieces rated"; sed -n '/^| piece/,$p' out/sampled/rated.txt; } >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Keep the pieces
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: sampled
+          path: |
+            out/sampled/*.mp3
+            out/sampled/**/*.mid
+            out/sampled/**/mix.json
+            out/sampled/rated.txt
+          retention-days: 30

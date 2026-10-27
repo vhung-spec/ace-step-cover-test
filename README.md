@@ -77,6 +77,25 @@ và chấm từng bước, ví dụ `runs/<mã> runs/<mã>/covers/lego-strings/s
 runs/<mã khác>/covers/lego-woodwinds/stem_01.mp3:0.7` (nhiều lượt cách nhau bằng dấu `;`). Mỗi bước
 được lưu thành MP3 để nghe, trong artifact **judged** (thư mục `stacked/`).
 
+## Phối bằng tiếng nhạc cụ thật (không dùng AI)
+
+**Actions → Real-sample arrangements → Run workflow.** Không có mô hình AI nào tạo âm thanh ở đây:
+
+1. `arrange.py` phối hai bài carol thành nhiều bè MIDI, mỗi nhạc cụ một file, theo ba kiểu: `piano`
+   (giai điệu có to nhỏ theo câu, tay trái rải hợp âm, pedal), `bells` (glockenspiel, chuông tay,
+   vibraphone, harp, chuông gió, chuông lắc) và `orchestra` (sáo rồi violin hát giai điệu; viola, cello,
+   contrabass, harp, horn đệm; glockenspiel, chuông lắc, timpani, chuông ống). Mọi bè đi theo cùng một
+   hợp âm từng phách nên luôn khớp nhau; mỗi kiểu có đoạn mở đầu, hai lượt (lượt hai đầy hơn) và hợp âm
+   cuối chậm dần.
+2. `fetch_samples.py` tải đúng các nhạc cụ cần dùng từ hai thư viện mẫu âm thanh CC0 của Versilian
+   Studios: VS Chamber Orchestra 2 Community Edition và Versilian Community Sample Library.
+3. `render_samples.py` phát từng bè bằng [sfizz](https://sfz.tools/sfizz/) (`sfizz_render`), cân độ to
+   của từng bè theo vai trò, xếp vị trí trái/phải, thêm vang phòng hoà nhạc (tự tạo, không cần bản
+   quyền) và đưa cả bài về -16 LUFS.
+4. `rate.py` chấm điểm như các phần trên.
+
+Kết quả: artifact **sampled** (MP3 của từng bài và kiểu, các file MIDI, `rated.txt`).
+
 ## Giấy phép
 
 Mã ACE-Step theo giấy phép MIT; xem giấy phép của trọng số mô hình trên
@@ -87,3 +106,8 @@ mô hình Audiobox Aesthetics (`facebook/audiobox-aesthetics`) theo giấy phép
 Bộ âm thanh [GeneralUser GS](https://schristiancollins.com/generaluser.php) v2.0.3 là của
 S. Christian Collins, được dùng tự do để làm nhạc, kể cả thương mại. Bài test tải nó từ kho
 GitHub của tác giả ở một commit cố định, không chép vào kho này.
+
+Hai thư viện mẫu âm thanh [VSCO 2 Community Edition](https://github.com/sgossner/VSCO-2-CE) và
+[VCSL](https://github.com/sgossner/VCSL) của Versilian Studios theo giấy phép CC0 (dùng tự do, kể cả
+thương mại, không cần ghi nguồn); bài test tải chúng ở commit cố định, không chép vào kho này.
+sfizz theo giấy phép BSD 2-Clause.
