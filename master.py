@@ -25,7 +25,11 @@ loudness. In order:
   moments it lifts would bring up the samples' faint hiss with them, so the
   piece's highs are then hushed in its quietest moments (dehiss, by up to 8 dB).
 
-Each step takes a strength from 0 (off) to 1 (as described).
+Each step takes a strength from 0 (off) to 1 (as described); balance is
+always on. Heard against the same pieces unmastered, the mastered ones
+sounded rough and less good (the made air most of all: a saturation of
+whole chords brings tones that are not the notes' overtones), so arrange.py
+turns every step off but balance.
 """
 
 import numpy as np

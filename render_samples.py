@@ -27,10 +27,11 @@ mixes them into one piece per folder:
   and bow noise do not ring on as a hiss;
 - a style may lay a soft hush (dark pink noise) under the music, as sleep
   music does;
-- the mix is mastered toward the sound of two reference recordings (master.py:
-  left-right balance, tone, air, width, a slow leveller), as strongly as its
-  style asks (mix.json); with --premaster, the piece before its master is saved
-  as well, as loud, to compare;
+- the mix is mastered (master.py): a piece leaning more than 1 dB to one side
+  is evened out, and the steps toward two reference recordings' sound (tone,
+  air, width, a slow leveller) work as strongly as its style asks (mix.json;
+  all off for now); with --premaster, the piece before its master is saved as
+  well, as loud, to compare;
 - the piece loses its rumble below 30 Hz and is brought to -16 LUFS (YouTube
   plays music at about -14), a look-ahead limiter keeping peaks below -1.5
   dBFS; its gain glides, never jumps (a jump clicks), and it takes at most

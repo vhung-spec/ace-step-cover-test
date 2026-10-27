@@ -910,13 +910,12 @@ class Style:
     master: dict = field(default_factory=lambda: dict(MASTER))  # how strongly master.py works on it
 
 
-# The master's steps (master.py), each from 0 (off) to 1: the piano styles go
-# all the way toward the reference pianos; felt keeps its dark tone; bells and
-# orchestra keep their own highs (no air: bells sound bright enough) and are
-# moved toward the pianos' tone only half way.
-MASTER = {"tone": 1.0, "air": 1.0, "width": 1.0, "level": 1.0}
-FELT_MASTER = {"tone": 0.0, "air": 0.0, "width": 1.0, "level": 1.0}
-BAND_MASTER = {"tone": 0.5, "air": 0.0, "width": 1.0, "level": 1.0}
+# The master's steps (master.py), each from 0 (off) to 1. All are off: heard
+# against the same pieces unmastered, the mastered ones sounded rough ("re")
+# and less good, the made air above all (a saturation's overtones of whole
+# chords). Only its balance, always on, still evens out a piece leaning more
+# than 1 dB to one side.
+MASTER = {"tone": 0.0, "air": 0.0, "width": 0.0, "level": 0.0}
 
 
 STYLES = {
@@ -927,12 +926,12 @@ STYLES = {
     "flowing": Style(arrange_flowing, tempo=0.85, breath=0.9, repeat_short=True),
     "hymn": Style(arrange_hymn, tempo=0.75, breath=0.85, repeat_short=True),
     "piano-strings": Style(arrange_piano_strings, tempo=0.8, breath=0.88, hall=2.4, repeat_short=True),
-    "felt": Style(arrange_felt, tempo=0.8, breath=0.9, repeat_short=True, master=FELT_MASTER),
-    "felt-noise": Style(arrange_felt, tempo=0.8, breath=0.9, repeat_short=True, noise_db=-22, master=FELT_MASTER),
+    "felt": Style(arrange_felt, tempo=0.8, breath=0.9, repeat_short=True),
+    "felt-noise": Style(arrange_felt, tempo=0.8, breath=0.9, repeat_short=True, noise_db=-22),
     "ballad": Style(arrange_ballad, bpm=74, breath=0.86, hall=2.8, repeat_short=True, free_intro=True),
     "pulse": Style(arrange_pulse, bpm=88, breath=0.88, hall=2.8, repeat_short=True, free_intro=True),
-    "bells": Style(arrange_bells, hall=2.6, master=BAND_MASTER),
-    "orchestra": Style(arrange_orchestra, hall=2.4, master=BAND_MASTER),
+    "bells": Style(arrange_bells, hall=2.6),
+    "orchestra": Style(arrange_orchestra, hall=2.4),
 }
 
 
