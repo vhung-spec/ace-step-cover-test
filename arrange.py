@@ -1208,18 +1208,24 @@ def arrange_bells(arr: Arrangement) -> None:
     gliss(arr, harp, arr.end + arr.beat, 2 * arr.beat, tonic, 60, 96, 40)
 
 
-def arrange_orchestra(arr: Arrangement) -> None:
+def arrange_orchestra(arr: Arrangement, turns: bool = False) -> None:
+    """Flute, then violins on the tune (with turns, in a longer piece, the two
+    take it by turns in the middle verses), a flute descant over the last
+    verse, on a harp and a string pad, basses plucked then bowed, horns from
+    the middle of the last verse, a soft timpani roll under the last chord."""
     flute = arr.part("flute", "flute", "melody", -0.1, reverb=0.35)
     violins = arr.part("violins", "violins", "melody", -0.35, reverb=0.35)
     glock = arr.part("glock", "glock", "sparkle", 0.3, reverb=0.45)
     for tick, note, length, verse, position in arr.melody():
         lift = shape(position)
-        if verse < arr.last:  # the intro (an octave up already) and the first verse: the flute, softly
-            flute.add(tick + arr.jitter(4), note, (48 if verse < 0 else 52) + 8 * lift, length - 10)
-        else:  # the violins, from their soft layer into the full one at the height of the verse
+        if verse == arr.last:  # the violins, from their soft layer into the full one at the height of the verse
             violins.add(tick + arr.jitter(4), note, 52 + 20 * lift, length + 20)
             if tick >= arr.end - arr.phrase:
                 glock.add(tick + arr.jitter(4), note + 12, 40, length)
+        elif turns and verse > 0 and verse % 2 == 1:  # every other middle verse: the violins, softly
+            violins.add(tick + arr.jitter(4), note, 48 + 12 * lift, length + 20)
+        else:  # the intro (an octave up already), the first verse and every other one: the flute, softly
+            flute.add(tick + arr.jitter(4), note, (48 if verse < 0 else 52) + 8 * lift, length - 10)
     harp = arr.part("harp", "harp", "harp", -0.3, reverb=0.35)
     flowing_bass(arr, harp, 0, arr.verses[0], 48, octave=12)
     flowing_bass(arr, harp, arr.verses[0], arr.verses[-1], 52)
@@ -1252,7 +1258,7 @@ def arrange_orchestra(arr: Arrangement) -> None:
     harp.add(arr.end, bass_note(tonic), 58, 2 * arr.bar)
     gliss(arr, harp, arr.end + arr.beat, 2 * arr.beat, tonic, 60, 96, 42)
     breathe(arr, flute, 100, 120)
-    breathe(arr, violins, 100, 120, start=arr.verses[-1])
+    breathe(arr, violins, 100, 120, start=arr.verses[min(1, arr.last) if turns else -1])
     breathe(arr, flute_descant, 84, 112, start=arr.verses[-1] + arr.phrase)
     for name in ("cellos", "violas"):
         breathe(arr, arr.parts[name], 86, 116)
@@ -1270,6 +1276,7 @@ class Style:
     repeat_short: bool = False  # play a short tune (under 40 s at its own tempo) three times
     noise_db: float | None = None  # a hush of pink noise under the music, this far under the melody
     verses: int | None = None  # this many verses, whatever the tune's length
+    seconds: float | None = None  # as many verses (2 to 6) as last about this long
     piano_tone: dict | None = None  # changes to the piano part's tone
     piano_reverb: float | None = None  # the piano part's reverb send instead of its own (tests)
     bpm: float | None = None  # this tempo, when slower than the carol's own (else tempo)
@@ -1304,6 +1311,14 @@ STYLES = {
     "piano-strings": Style(arrange_piano_strings, tempo=0.8, breath=0.88, hall=2.4, repeat_short=True,
                            piano=GENTLE_PIANO),
     "felt": Style(arrange_felt, tempo=0.8, breath=0.9, repeat_short=True, piano=GENTLE_PIANO),
+    # felt brighter, as the user asked: its low-pass opened from 900 Hz to 2 or
+    # 4 kHz, or taken away
+    "felt-2k": Style(arrange_felt, tempo=0.8, breath=0.9, repeat_short=True, piano=GENTLE_PIANO,
+                     piano_tone={"lowpass": 2000}),
+    "felt-4k": Style(arrange_felt, tempo=0.8, breath=0.9, repeat_short=True, piano=GENTLE_PIANO,
+                     piano_tone={"lowpass": 4000}),
+    "felt-open": Style(arrange_felt, tempo=0.8, breath=0.9, repeat_short=True, piano=GENTLE_PIANO,
+                       piano_tone={"lowpass": None}),
     "felt-noise": Style(arrange_felt, tempo=0.8, breath=0.9, repeat_short=True, noise_db=-22, piano=GENTLE_PIANO),
     # ballad and pulse in a small room (0.8 s), with little of it: the user hears
     # the references "very close to the ear", and ours in a 2.8 s hall "as if in
@@ -1334,6 +1349,9 @@ STYLES = {
                          repeat_short=True, free_intro=True, piano="grand", piano_tone=CLEAR_TONE),
     "bells": Style(arrange_bells, hall=2.6),
     "orchestra": Style(arrange_orchestra, hall=2.4),
+    # orchestra longer, as the user asked: verses enough for about two and a
+    # half minutes, the flute and the violins taking the tune by turns
+    "orchestra-long": Style(lambda arr: arrange_orchestra(arr, turns=True), hall=2.4, seconds=150),
 }
 
 
@@ -1404,8 +1422,10 @@ def main() -> None:
         song, style = SONGS[name], STYLES[style_name]
         song = reharmonize(song) if style.reharm else song
         piano = piano_choice or style.piano
-        verses = style.verses or song.verses or (3 if style.repeat_short and song.seconds() < 40 else 2)
         tempo = min(1.0, style.bpm / song.bpm) if style.bpm else style.tempo
+        verses = style.verses or song.verses or (
+            max(2, min(6, math.ceil(style.seconds / (song.seconds() / tempo)))) if style.seconds
+            else 3 if style.repeat_short and song.seconds() < 40 else 2)
         arr = Arrangement(song, verses, tempo, style.breath, free_intro=style.free_intro, piano=piano,
                           intro=style.intro)
         style.arrange(arr)

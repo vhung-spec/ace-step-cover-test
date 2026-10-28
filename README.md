@@ -97,6 +97,8 @@ runs/<mã khác>/covers/lego-woodwinds/stem_01.mp3:0.7` (nhiều lượt cách n
      - `felt`: tiếng piano tối và tròn như đàn búa nỉ (lọc bỏ dải cao từ 900 Hz), theo bản ru ngủ mẫu.
        Tay trái rải đều từng nốt móc đơn ngay từ đầu.
      - `felt-noise`: như `felt`, có thêm lớp tiếng rì (pink noise) rất khẽ như nhạc ru ngủ cho em bé.
+     - `felt-2k`, `felt-4k`, `felt-open`: `felt` sáng hơn, theo ý bạn. Bộ lọc dải cao nới từ 900 Hz lên
+       2 kHz, 4 kHz, hoặc bỏ hẳn.
    - `ballad` và `pulse`: làm theo hai bản mẫu piano Giáng sinh thư giãn của bạn (chỉ đo âm thanh và
      cách chơi, không chép gì của họ). Đây là hai kiểu chạy mặc định. Đo so với hai bản mẫu, bản cũ trên đàn
      Yamaha thiếu khoảng 20 dB tiếng trầm và 25–30 dB độ sáng, tay trái lại thưa. Hai bản mẫu là một cây
@@ -160,6 +162,8 @@ runs/<mã khác>/covers/lego-woodwinds/stem_01.mp3:0.7` (nhiều lượt cách n
    - `orchestra`: sáo rồi violin hát giai điệu, sáo bè cao ở lượt cuối. Viola và cello giữ hợp âm,
      contrabass gảy rồi kéo vĩ, horn vào từ giữa lượt cuối. Có harp lướt phím ở chỗ chuyển và một hồi
      timpani khẽ ở hợp âm cuối.
+   - `orchestra-long`: `orchestra` dài hơn, theo ý bạn. Bài được chơi nhiều lượt hơn (2–6 lượt), đủ khoảng
+     2 phút rưỡi; sáo và violin thay nhau hát giai điệu ở các lượt giữa.
    - `salamander`: như `piano` nhưng trên đàn Salamander Grand Piano (không chạy mặc định).
 
    Các kiểu piano nhẹ nhàng (chill, lullaby, flowing, hymn, piano-strings, felt, felt-noise) chơi trên đàn
