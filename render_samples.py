@@ -263,14 +263,20 @@ HALL = np.array([(63, 1.15, -9), (125, 1.1, -4), (250, 1.05, -1), (500, 1.0, 0),
 
 
 @lru_cache
-def hall_ir(rt60: float, seconds: float = 4.0, predelay: float = 0.025, seed: int = 1) -> np.ndarray:
+def hall_ir(rt60: float, seconds: float = 4.0, predelay: float = 0.025, seed: int = 1,
+            together: float = 0.0) -> np.ndarray:
     """Stereo impulse response of a warm hall: noise in third-octave bands, each
     dying at its own rate (HALL) and building up over 30 ms (the lows) to 80
     ms (the highs), so a note's attack does not set off a burst of hiss; no
     single echo stands out; a different noise on each side, so the hall is
     wide, each band equally loud on both, so it leans to neither. A smaller
     room (rt60 under 2.2 s) answers sooner: its predelay and build-up shrink
-    with its rt60."""
+    with its rt60. With together (Hz), the two sides share their noise below
+    that frequency, less and less up to twice it, as two microphones close
+    together hear a hall: a held low tone's echo then sounds alike on both
+    sides (with a different noise on each, an organ's held notes echoed in
+    phase on one side and opposite on the other, note by note, and played on
+    one speaker some lows doubled and some vanished)."""
     small = min(1.0, rt60 / 2.2)
     predelay *= small
     rng = np.random.default_rng(seed)
@@ -278,6 +284,9 @@ def hall_ir(rt60: float, seconds: float = 4.0, predelay: float = 0.025, seed: in
     t = np.arange(n) / RATE
     spectrum = np.fft.rfft(rng.standard_normal((2, n)), axis=-1)
     freqs = np.fft.rfftfreq(n, 1 / RATE)
+    if together:  # the sides' noise shared below `together`, apart above twice it
+        shared = np.clip(np.log2(2 * together / np.maximum(freqs, 1)), 0, 1)
+        spectrum[1] = shared * spectrum[0] + np.sqrt(1 - shared ** 2) * spectrum[1]
     ir = np.zeros((2, n))
     for centre in 1000 * 2 ** (np.arange(-14, 14) / 3):  # 40 Hz to 20 kHz
         band = (freqs >= centre * 2 ** (-1 / 6)) & (freqs < centre * 2 ** (1 / 6))
@@ -365,7 +374,9 @@ def mix_folder(folder: Path, sfizz: str, libraries: dict, keep_parts: bool, prem
                fluidsynth: str = "fluidsynth") -> Path:
     sheet = json.loads((folder / "mix.json").read_text())
     rt60 = sheet["hall"]["rt60"]
-    ir = hall_ir(rt60, 4.0, 0.025) if rt60 <= 2.8 else hall_ir(rt60, 1.5 * rt60, 0.045)  # a cathedral's longer
+    together = sheet["hall"].get("together", 0.0)
+    ir = (hall_ir(rt60, 4.0, 0.025, together=together) if rt60 <= 2.8  # a cathedral's longer
+          else hall_ir(rt60, 1.5 * rt60, 0.045, together=together))
     wet_level = sheet["hall"].get("wet", 1.0)  # every part's send into it, times this
 
     def render(entry: dict) -> np.ndarray:

@@ -1352,9 +1352,13 @@ def arrange_orchestra(arr: Arrangement, turns: bool = False, calm: bool = False,
         breathe(arr, horns, 80, 112, start=middle, fade=fade)
 
 
-# The church styles. A hymn is sung and played legato, every voice holding
+# The church styles. Their hall's two sides share their echo below 250 Hz
+# (render_samples.hall_ir), so an organ's held low notes, nearly pure tones,
+# echo alike on both sides instead of in phase for one note and opposite for
+# the next. A hymn is sung and played legato, every voice holding
 # its note while it repeats it, and breathing where a phrase ends: there the
 # voices let go a little before the tune's next phrase begins.
+TOGETHER = 250.0  # Hz
 BREATH = 100  # ticks
 ORGAN_SECONDS = 10.0  # the church organ's samples last about 12 s
 CHAMBER_SECONDS = 6.0  # the Renaissance organ's about 6.5 s
@@ -1552,6 +1556,7 @@ class Style:
     wet: float = 1.0  # every part's send into it, times this: less, and the sound is closer
     repeat_short: bool = False  # play a short tune (under 40 s at its own tempo) three times
     noise_db: float | None = None  # a hush of pink noise under the music, this far under the melody
+    together: float = 0.0  # the hall's two sides alike below this (Hz): render_samples.hall_ir
     verses: int | None = None  # this many verses, whatever the tune's length
     seconds: float | None = None  # as many verses (2 to 6) as last about this long
     piano_tone: dict | None = None  # changes to the piano part's tone
@@ -1644,16 +1649,17 @@ STYLES = {
     "orchestra-flat": Style(lambda arr: arrange_orchestra(arr, turns=True, calm=True, build=0.0), hall=2.4,
                             seconds=150),
     # a carol as a church sings it (arrange_church), in a cathedral's 4.5 s hall
+    # whose lows sound alike on both sides (TOGETHER)
     "church-organ": Style(lambda arr: arrange_church(arr, bell="tubular"), tempo=0.8, breath=0.85, hall=4.5,
-                          seconds=150, harmony="chorale"),
+                          seconds=150, harmony="chorale", together=TOGETHER),
     "church-organ-plain": Style(lambda arr: arrange_church(arr, bell="tubular"), tempo=0.8, breath=0.85, hall=4.5,
-                                seconds=150),
+                                seconds=150, together=TOGETHER),
     "church-choir": Style(lambda arr: arrange_church(arr, choir="choir"), tempo=0.8, breath=0.85, hall=4.5,
-                          seconds=150, harmony="chorale"),
+                          seconds=150, harmony="chorale", together=TOGETHER),
     "church-festive": Style(lambda arr: arrange_church(arr, choir="choir", festive=True), tempo=0.8, breath=0.85,
-                            hall=4.5, seconds=150, harmony="chorale"),
+                            hall=4.5, seconds=150, harmony="chorale", together=TOGETHER),
     "chapel": Style(lambda arr: arrange_church(arr, choir="oohs", chapel=True, bell=None), tempo=0.75, breath=0.85,
-                    hall=2.6, seconds=150, harmony="chorale"),
+                    hall=2.6, seconds=150, harmony="chorale", together=TOGETHER),
 }
 
 
@@ -1755,7 +1761,8 @@ def main() -> None:
             sheet.append({"part": part_name, "library": library, "sfz": sfz, "role": part.role,
                           "gain_db": ROLES[part.role], "pan": part.pan, "reverb": part.reverb,
                           "tone": part.tone, "notes": len(part.notes)})
-        hall = {"rt60": style.hall} | ({"wet": style.wet} if style.wet != 1.0 else {})
+        hall = ({"rt60": style.hall} | ({"wet": style.wet} if style.wet != 1.0 else {})
+                | ({"together": style.together} if style.together else {}))
         mix = {"hall": hall, "parts": sheet, "master": style.master}
         if style.noise_db is not None:
             mix["noise"] = {"db": style.noise_db}
