@@ -20,6 +20,7 @@ def main() -> None:
     parser.add_argument("out", type=Path)
     parser.add_argument("--sfizz", default="sfizz_render")
     parser.add_argument("--libs", type=Path, required=True)
+    parser.add_argument("--keep-parts", action="store_true", help="keep each part's WAV (to check a part alone)")
     args = parser.parse_args()
     libraries = {name: args.libs / name for name in ("vcsl", "vsco", "jrhodes", "freepats", "smolken", "swirly",
                                                       "meatbass", "rusty", "iowa")}
@@ -32,7 +33,7 @@ def main() -> None:
                       flush=True)
                 entry.update({k: entry["fallback"][k] for k in ("library", "sfz", "tone")})
         (folder / "mix.json").write_text(json.dumps(sheet, indent=2, ensure_ascii=False))
-        render_samples.mix_folder(folder, args.sfizz, libraries, keep_parts=False)
+        render_samples.mix_folder(folder, args.sfizz, libraries, keep_parts=args.keep_parts)
 
 
 if __name__ == "__main__":

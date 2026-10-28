@@ -97,7 +97,7 @@ jobs:
           "$RUNNER_TEMP/venv/bin/python" bossa/fetch_bossa.py out/bossa "$RUNNER_TEMP/libs"
 
       - name: Play and mix
-        run: '"$RUNNER_TEMP/venv/bin/python" bossa/render_bossa.py out/bossa --sfizz ~/sfizz/sfizz_render --libs "$RUNNER_TEMP/libs" | tee out/bossa/log.txt'
+        run: '"$RUNNER_TEMP/venv/bin/python" bossa/render_bossa.py out/bossa --sfizz ~/sfizz/sfizz_render --libs "$RUNNER_TEMP/libs" --keep-parts | tee out/bossa/log.txt'
 
       - name: Smaller copies
         run: |
@@ -107,6 +107,11 @@ jobs:
           done
           cp out/bossa/log.txt out/preview/
           cp out/bossa/iowa-summary.json out/preview/ 2>/dev/null || true
+          mkdir -p out/preview/parts  # each piece's guitar and bass alone, to check them
+          for part in out/bossa/*/guitar.wav out/bossa/*/bass.wav; do
+            [ -f "$part" ] && ffmpeg -loglevel error -i "$part" -c:a libmp3lame -b:a 96k \
+              "out/preview/parts/$(basename "$(dirname "$part")")-$(basename "${part%.wav}").mp3"
+          done
           for sheet in out/bossa/*/mix.json; do cp "$sheet" "out/preview/$(basename "$(dirname "$sheet")").json"; done
 
       - name: Keep the pieces

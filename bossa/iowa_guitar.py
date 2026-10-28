@@ -87,39 +87,58 @@ def describe(stem: str) -> dict:
     """Dynamic, string and range from a file name like Guitar.ff.sulA.A2Ab3.stereo."""
     dynamic = next((d for d in re.split(r"[._ ]", stem) if d in DYNAMICS), None)
     string = re.search(r"sul_?[A-G]", stem)
-    span = re.search(r"\.([A-G][b#]?\d)([A-G][b#]?\d)(?:\.|$)", stem)
-    lo, hi = (note_number(span.group(1)), note_number(span.group(2))) if span else (None, None)
+    span = re.search(r"\.([A-G][b#]?\d)([A-G][b#]?\d)?(?:\.|$)", stem)  # "C3B3", or one note: "B3"
+    lo = note_number(span.group(1)) if span else None
+    hi = note_number(span.group(2)) if span and span.group(2) else lo
     return {"dynamic": dynamic, "string": string.group(0) if string else None, "lo": lo, "hi": hi}
 
 
-def notes_in(audio: np.ndarray, rate: int) -> list[tuple[int, int]]:
-    """(start, end) samples of each note: an onset where the level (10 ms)
-    jumps by 12 dB or more within 60 ms, at least 0.25 s after the last."""
+def notes_in(audio: np.ndarray, rate: int, count: int | None = None) -> list[tuple[int, int]]:
+    """(start, end) samples of each note. The level is smoothed over 50 ms
+    (a low string's waveform ripples within each period, and a 10 ms level
+    took those ripples for plucks: the first run cut a file of 12 notes into
+    hundreds of pieces); a note starts where the level rises 15 dB over its
+    lowest of the 300 ms before, the next not before 1.2 s later. When the
+    file name says how many notes it holds, the strongest rises are kept."""
     mono = np.abs(audio).max(axis=1)
-    hop = max(1, rate // 200)  # 5 ms
-    level = 20 * np.log10(uniform_filter1d(mono, size=rate // 100)[::hop] + 1e-9)
+    hop = max(1, rate // 100)  # 10 ms
+    level = 20 * np.log10(uniform_filter1d(mono, size=max(1, rate // 20))[::hop] + 1e-9)
     peak = level.max()
-    onsets, last = [], -10 ** 9
-    for i in range(1, len(level) - 12):
-        before = level[max(0, i - 4): i].min() if i >= 4 else level[0]
-        if level[i: i + 12].max() - before >= 12 and level[i: i + 12].max() > peak - 50 and i - last > 50:
-            onsets.append(i)
-            last = i
+    found, i = [], 30
+    while i < len(level) - 10:
+        floor = level[i - 30: i].min()
+        if level[i] - floor >= 15 and level[i: i + 10].max() > peak - 45:
+            start = i
+            while start > i - 30 and level[start - 1] > floor + 3:  # back to where the rise begins
+                start -= 1
+            found.append((start, float(level[i: i + 10].max() - floor)))
+            i += 120  # 1.2 s
+        else:
+            i += 1
+    if count is not None and len(found) > count:
+        strongest = sorted(sorted(found, key=lambda f: -f[1])[:count])
+        found = strongest
     spans = []
-    for k, i in enumerate(onsets):
-        start = max(0, i * hop - int(0.003 * rate))
-        end = onsets[k + 1] * hop - int(0.01 * rate) if k + 1 < len(onsets) else len(mono)
+    for k, (i, _) in enumerate(found):
+        start = max(0, i * hop - int(0.005 * rate))
+        end = found[k + 1][0] * hop - int(0.01 * rate) if k + 1 < len(found) else len(mono)
         spans.append((start, end))
     return spans
 
 
-def pitch_of(audio: np.ndarray, rate: int) -> float | None:
+def pitch_of(audio: np.ndarray, rate: int, lo: int | None = None, hi: int | None = None) -> float | None:
+    """The note's pitch (MIDI, fractional) by pYIN over 50-800 ms after its
+    onset, searched near the file's range when it is known (a low bound of
+    70 Hz let the first run read noise and subharmonics as C#2)."""
     mono = audio.mean(axis=1)
-    part = mono[int(0.03 * rate): int(0.6 * rate)]
+    part = mono[int(0.05 * rate): int(0.8 * rate)]
     if len(part) < rate // 10:
         return None
     small = librosa.resample(part, orig_sr=rate, target_sr=22050)
-    f0, voiced, _ = librosa.pyin(small, fmin=70, fmax=1300, sr=22050, frame_length=2048)
+    # a range at least two octaves and a half wide (pYIN's pitch tracking needs it)
+    fmin = librosa.midi_to_hz(lo - 7) if lo is not None else 75
+    fmax = librosa.midi_to_hz(max(hi + 7, lo + 24)) if lo is not None and hi is not None else 1300
+    f0, voiced, _ = librosa.pyin(small, fmin=fmin, fmax=fmax, sr=22050, frame_length=2048)
     f0 = f0[voiced]
     return float(librosa.hz_to_midi(np.median(f0))) if len(f0) >= 3 else None
 
@@ -180,16 +199,18 @@ def main(dest: str, downloads: str, summary_path: str | None = None) -> int:
             print(f"  {path.name}: no dynamic or string in its name, left out")
             continue
         audio, rate = sf.read(path, always_2d=True, dtype="float32")
-        spans = notes_in(audio, rate)
         expected = list(range(info["lo"], info["hi"] + 1)) if info["lo"] is not None and info["hi"] else None
+        spans = notes_in(audio, rate, len(expected) if expected else None)
+        measured_all = [pitch_of(audio[s:e], rate, info["lo"], info["hi"]) for s, e in spans]
         counted = expected is not None and len(expected) == len(spans)
-        agree = 0
+        agree = sum(1 for k, m in enumerate(measured_all) if counted and m is not None and abs(m - expected[k]) < 0.6)
+        if counted and agree < 0.7 * len(spans):  # the count fits but the pitches do not: trust pYIN
+            counted = False
         for k, (start, end) in enumerate(spans):
             note = audio[start:end]
-            measured = pitch_of(note, rate)
+            measured = measured_all[k]
             if counted:
                 midi = expected[k]
-                agree += measured is not None and abs(measured - midi) < 0.5
             elif measured is not None and abs(measured - round(measured)) < 0.35:
                 midi = int(round(measured))
             else:
@@ -234,15 +255,19 @@ def main(dest: str, downloads: str, summary_path: str | None = None) -> int:
     for key in range(low, high + 1):
         for dynamic in dynamics:
             lovel, hivel = ranges[dynamic]
-            here = [r for r in rows if r[0] == dynamic]
-            # the nearest pitch sampled (the key's own, else within two half steps)
-            pitches = sorted({r[2] for r in here}, key=lambda p: (abs(p - key), p))
-            if not pitches or abs(pitches[0] - key) > 2:
-                continue
-            pitch = pitches[0]
-            takes = sorted((r for r in here if r[2] == pitch), key=lambda r: pitch - open_note[r[1]])
-            takes = [r for r in takes if pitch - open_note[r[1]] >= 0][:2]
-            if not takes:
+            # this dynamic's takes, else the nearest dynamic's (a note one of them missed)
+            for source in sorted(dynamics, key=lambda d: abs(DYNAMICS.index(d) - DYNAMICS.index(dynamic))):
+                here = [r for r in rows if r[0] == source]
+                # the nearest pitch sampled (the key's own, else within two half steps)
+                pitches = sorted({r[2] for r in here}, key=lambda p: (abs(p - key), p))
+                if not pitches or abs(pitches[0] - key) > 2:
+                    continue
+                pitch = pitches[0]
+                takes = sorted((r for r in here if r[2] == pitch), key=lambda r: pitch - open_note[r[1]])
+                takes = [r for r in takes if pitch - open_note[r[1]] >= 0][:2]
+                if takes:
+                    break
+            else:
                 continue
             shares = [(0.0, 1.0)] if len(takes) == 1 else [(0.0, 0.65), (0.65, 1.0)]
             for row, (lo_r, hi_r) in zip(takes, shares):
