@@ -174,7 +174,9 @@ runs/<mã khác>/covers/lego-woodwinds/stem_01.mp3:0.7` (nhiều lượt cách n
      hay chuông lắc. `flat` đều như các lượt giữa: không có cả bè sáo cao.
    - Các kiểu nhà thờ: bài hát như ở nhà thờ, bốn bè theo lối sách thánh ca (`chorale.py`: soprano là giai
      điệu, thêm alto, tenor, bass; mỗi phách một hợp âm, bè bass đi qua các thế đảo). Chơi trên đàn organ
-     ống (bộ mẫu của Simon Dalzell, Ivy Audio, trong VCSL: bàn phím tiếng nhỏ và bàn đạp bass), trong tiếng
+     ống (bộ mẫu của Simon Dalzell, Ivy Audio, trong VCSL: bàn phím tiếng nhỏ và bàn đạp bass; bàn phím chỉ
+     dùng tiếng micro bên trái, vì hai micro đặt cách nhau làm nhiều nốt organ lệch pha, cộng lại thì triệt
+     tiêu), trong tiếng
      vang dài của thánh đường (4,5 giây). Các bè ngắt hơi ở cuối mỗi câu. Sau lượt cuối có câu "A-men" (hợp
      âm IV rồi I). Chuông ngân trước phần dạo đầu và sau tiếng "A-men".
      - `church-organ`: chỉ có organ, lượt cuối đầy hơn một chút (bàn phím và bàn đạp tiếng to vào nhẹ),

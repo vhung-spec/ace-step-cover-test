@@ -255,10 +255,15 @@ TONES = {
     "basses-pizz": {"highpass": 30, "lowpass": 5000, "width": 0.7},
     "horns": {"highpass": 60, "lowpass": 3000, "lowpass_order": 4, "width": 0.7},
     "timpani": {"highpass": 35, "width": 0.7},
-    # the organ's manual samples are very wide (their two sides hardly
-    # related): narrowed, so the voices do not wander between the ears
-    "organ": {"width": 0.6},
-    "organ-loud": {"width": 0.6},
+    # The organs' manual samples were recorded by two microphones set apart:
+    # for a pipe's nearly pure tone the two sides arrive a millisecond or two
+    # apart, in phase for one note and out of phase for the next (summed, some
+    # notes lost 10 dB and more, and the organ's lows ran out of phase in the
+    # mix). Only the left microphone is used; the hall gives the width. The
+    # pedals' long waves stay in phase, so they keep both sides.
+    "organ": {"channel": "left"},
+    "organ-loud": {"channel": "left"},
+    "chamber-organ": {"channel": "left"},
     "pedal": {"width": 0.6},
     "pedal-loud": {"width": 0.6},
     "trumpets": {"highpass": 80, "lowpass": 6000, "lowpass_order": 4, "width": 0.7, "dehiss": True},
