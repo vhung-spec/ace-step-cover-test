@@ -676,6 +676,36 @@ def build_pho2(sk: Sketch) -> None:
     g.gain_db, k.gain_db, b.gain_db, d.gain_db = 1.0, -14.0, -2.0, -10.0
 
 
+def build_pho3(sk: Sketch, rhodes: bool = False) -> None:
+    """Round 5, clearer: the user heard round 4 as muddy and cluttered, and
+    against the references it had 2-3 dB more at 120-500 Hz, 6 dB less bass
+    at 60-120 Hz and 6-13 dB less air above 8 kHz. So the guitar's thumb is
+    gone (the bass has the low notes), every part but the bass is cut below
+    its own range, nothing is darkened, no notes under the melody, the bass
+    louder, the kit a little louder; the Rhodes, if at all, only a held chord
+    a bar high up; the room hears nothing under 300 Hz (mix.json)."""
+    tune = sk.melody()
+    g = sk.part("guitar", "nylon", "guitar", -0.2, 0.3, {"highpass": 160, "width": 0.4})
+    m = sk.part("melody", "yamaha", "melody", 0.15, 0.3, TONES["yamaha"] | {"highpass": 180})
+    b = sk.part("bass", "upright", "bass", 0.0, 0.0, {"highpass": 38, "lowpass": 3000, "width": 0.0})
+    d = sk.part("drums", "brushes", "drums", 0.1, 0.2, TONES["brushes"] | {"highpass": 60, "width": 0.6})
+    guitar_batida(sk, g, "offbeats", 72, tune, 0, sk.end, thumb=False, ring=1.4, spread=14)
+    upright_bass(sk, b, 86, sk.intro, sk.end)
+    bossa_kit(sk, d, 66, sk.intro, sk.end)
+    play_melody(sk, m, tune, 66)
+    if rhodes:
+        k = sk.part("keys", "ep", "comp", 0.35, 0.35, TONES["ep"] | {"highpass": 260, "chorus": 0.7})
+        previous = None
+        for bar_tick in range(sk.intro, sk.end, sk.bar):
+            name = sk.chord_at(bar_tick)
+            previous = voice_lead(previous, name, 3, 64, 79, 71)
+            for note in previous:
+                k.add(bar_tick + 20 + sk.rng.randint(0, 10), note, 40 + sk.rng.randint(-3, 3), sk.bar - 40)
+        k.gain_db = -15.0
+    ending(sk, sk.parts, 66)
+    g.gain_db, b.gain_db, d.gain_db = 0.0, 1.0, -8.0
+
+
 def build_dem(sk: Sketch) -> None:
     """After the third reference: guitar and piano, the Rhodes behind, the
     bass; the kit barely there; nearly mono, a long room."""
@@ -711,6 +741,14 @@ STYLES = {
                          "Vòng 4: guitar gảy nghịch phách, to ngang piano, ngân dài hơn; trống rõ hơn chút. Phòng 2,6 giây."),
     "chieu-pho-2-gan": Style("Chiều Phố 2 (gần)", "chieu-pho", 117, 2, 1.0, 0.5, build_pho2,
                              "Như Chiều Phố 2, phòng nhỏ, nghe gần tai."),
+    "chieu-pho-3": Style("Chiều Phố 3", "chieu-pho", 117, 2, 2.0, 0.45, build_pho3,
+                         "Vòng 5, trong hơn: guitar, piano, bass, trống; bớt chồng tiếng ở vùng trầm-giữa, bass rõ, sáng thoáng hơn.",
+                         extra={"hall_highpass": 300}),
+    "chieu-pho-3-gan": Style("Chiều Phố 3 (gần)", "chieu-pho", 117, 2, 1.0, 0.4, build_pho3,
+                             "Như Chiều Phố 3, phòng nhỏ.", extra={"hall_highpass": 300}),
+    "chieu-pho-3-rhodes": Style("Chiều Phố 3 + Rhodes", "chieu-pho", 117, 2, 2.0, 0.45,
+                                lambda sk: build_pho3(sk, rhodes=True),
+                                "Như Chiều Phố 3, thêm Rhodes ngân nhẹ ở trên cao.", extra={"hall_highpass": 300}),
     "guitar-cafe-near": Style("Guitar café (mix theo mẫu)", "cafe", 128, 1, 1.2, 0.6, build_guitar_cafe_near,
                               "Như Guitar café, nhưng trộn theo bài mẫu: bass sâu hơn, tiếng tối ấm hơn, trống chổi nhỏ."),
 }
@@ -732,7 +770,10 @@ def make(style_name: str, out: Path, seed: int = 7) -> Path:
         library, sfz = INSTRUMENTS[part.instrument]
         sheet.append({"part": name, "library": library, "sfz": sfz, "role": part.role, "gain_db": ROLES[part.role] if part.gain_db is None else part.gain_db,
                       "pan": part.pan, "reverb": part.reverb, "tone": part.tone, "notes": len(part.notes)})
-    mix = {"hall": {"rt60": style.rt60, "wet": style.wet}, "parts": sheet,
+    hall = {"rt60": style.rt60, "wet": style.wet}
+    if style.extra.get("hall_highpass"):
+        hall["highpass"] = style.extra["hall_highpass"]
+    mix = {"hall": hall, "parts": sheet,
            "about": {"title": style.title, "tune": tune.title, "tune_about": tune.about, "bpm": style.bpm,
                      "text": style.about}}
     (folder / "mix.json").write_text(json.dumps(mix, indent=2, ensure_ascii=False))

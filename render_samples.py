@@ -373,6 +373,8 @@ def mix_folder(folder: Path, sfizz: str, libraries: dict, keep_parts: bool, prem
         if not keep_parts:
             (folder / f"{name}.wav").unlink()
     send = sosfilt(butter(2, 6000, "low", fs=RATE, output="sos"), send, axis=-1)  # no hiss into the hall
+    if sheet["hall"].get("highpass"):  # no low-mid mud into it either, if the style asks
+        send = sosfilt(butter(2, sheet["hall"]["highpass"], "high", fs=RATE, output="sos"), send, axis=-1)
     wet = np.stack([fftconvolve(send[c], ir[c])[:n] for c in range(2)])
     rumble = butter(2, 30, "high", fs=RATE, output="sos")
     mixed = fade_tail(sosfilt(rumble, dry + wet, axis=-1))
