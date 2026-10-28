@@ -18,9 +18,9 @@ piano's name).
 The carols are public-domain melodies and chords: We Wish You a Merry
 Christmas and Silent Night (make_source.py), The First Noel, Joy to the
 World, O Holy Night, Jingle Bells and Deck the Halls (carols.py), in 3/4,
-2/4, 4/4 and 12/8, each in its own key. Every style plays an intro (the last
-phrase, an octave up), the verses (the last one fuller) and a held last
-chord, slowing down over the last two bars. The parts are written from the
+2/4, 4/4 and 12/8, each in its own key. Every style but pulse plays an
+intro (the last phrase, an octave up), then the verses (the last one fuller)
+and a held last chord, slowing down over the last two bars. The parts are written from the
 same chords, beat by beat, so they always agree:
 - piano (VCSL's Steinway B; "salamander": the Salamander Grand Piano, CC-BY
   3.0, by Alexander Holm): the melody over a flowing left hand, with sustain
@@ -63,9 +63,11 @@ same chords, beat by beat, so they always agree:
     (layered 6 or 12 dB under the Yamaha instead, the Rhodes changed little);
     the Rhodes, recorded straight from the instrument and nearly mono, widened
     by a stereo chorus, as the reference is wide from each note's attack;
-  - pulse (about 88 bpm): an intro in free time, the tune's last chords
-    rolled from the deep bass to a slow top line; then a heartbeat of eighths,
-    each chord's root and fifth (the octave on the beats), the bass struck
+  - pulse (about 88 bpm): straight into the tune, its pickup alone (the user
+    wanted its 10 s intro gone: the tune's last chords in free time, rolled
+    from the deep bass to a slow top line, which pulse-clear keeps); a
+    heartbeat of eighths, each chord's root and fifth (the octave on the
+    beats), the bass struck
     as each chord comes and its fifth halfway through the bar; and the first
     reference's other instruments: in the first verse a glockenspiel softly
     doubling the tune (the user chose it over the piano alone), then a flute
@@ -357,7 +359,7 @@ class Arrangement:
     """The timeline every part follows: intro, verses, the last chord, and its tempo."""
 
     def __init__(self, song: Song, verses: int = 2, tempo: float = 1.0, breath: float = 0.92, seed: int = 7,
-                 free_intro: bool = False, piano: str = "piano"):
+                 free_intro: bool = False, piano: str = "piano", intro: bool = True):
         self.song, self.rng, self.piano = song, random.Random(seed), piano  # piano: the instrument playing piano
         self.bpm = song.bpm * tempo
         self.beat = song.beat_eighths * EIGHTH  # a quarter note, or a dotted quarter in 6/8 and 12/8
@@ -366,11 +368,12 @@ class Arrangement:
         tonic = CHORDS[song.chords[0][0]][0]
         self.scale = {(tonic + step) % 12 for step in (0, 2, 4, 5, 7, 9, 11)}  # the carols are in major keys
         # A free intro (chords alone, in rubato) runs over the tune's last bars,
-        # twice as many while that is under 8 s.
-        self.free_intro, self.intro_bars = free_intro, song.intro_bars
-        while free_intro and 2 * self.intro_bars <= len(song.chords) and self.seconds_at(self.intro_bars) < 8:
+        # twice as many while that is under 8 s. With no intro the first verse
+        # starts at once, its pickup (if any) alone before the first downbeat.
+        self.free_intro, self.intro_bars = free_intro, song.intro_bars if intro else 0
+        while free_intro and intro and 2 * self.intro_bars <= len(song.chords) and self.seconds_at(self.intro_bars) < 8:
             self.intro_bars *= 2
-        self.intro = self.intro_bars * self.bar
+        self.intro = self.intro_bars * self.bar if intro else round(song.pickup * EIGHTH)
         self.verse = len(song.chords) * self.bar
         self.phrase = 4 * self.bar
         self.verses = [self.intro + k * self.verse for k in range(verses)]  # each verse's first downbeat
@@ -428,6 +431,8 @@ class Arrangement:
         ring-out after the last verse the first chord (the tonic)."""
         bars = self.song.chords
         if tick < self.intro:
+            if not self.intro_bars:  # no intro: the first verse's pickup, over its first chord
+                return bars[0][0]
             bar = len(bars) - self.intro_bars + tick // self.bar
         elif tick >= self.end:
             return bars[0][0]
@@ -1149,12 +1154,13 @@ def arrange_ballad(arr: Arrangement, clear: bool = False) -> None:
 
 
 def arrange_pulse(arr: Arrangement, clear: bool = False) -> None:
-    """After the first reference: rolled chords in free time, then the verses
-    over the deep bass and the pulse, with its glockenspiel, flute, harp,
-    vibraphone and strings (band)."""
+    """After the first reference: the verses (with a free intro, after rolled
+    chords in free time) over the deep bass and the pulse, with its
+    glockenspiel, flute, harp, vibraphone and strings (band)."""
     piano = arr.part("piano", arr.piano, "piano", 0.0, reverb=0.32)
     tune = cover_melody(arr, piano, BRIGHT + 8, intro=False, aside=band_sections(arr))
-    free_intro(arr, piano, BRIGHT - 4, tune[0][1] if tune else 76)
+    if arr.free_intro:
+        free_intro(arr, piano, BRIGHT - 4, tune[0][1] if tune else 76)
     deep_bass(arr, piano, arr.verses[0], arr.end, BRIGHT + 4, hold=arr.beat if clear else None)
     pulse_hand(arr, piano, arr.verses[0], arr.end, 50, tune, length=EIGHTH - 40 if clear else EIGHTH)
     if clear:
@@ -1264,6 +1270,7 @@ class Style:
     piano_reverb: float | None = None  # the piano part's reverb send instead of its own (tests)
     bpm: float | None = None  # this tempo, when slower than the carol's own (else tempo)
     free_intro: bool = False  # open with the chords alone, in free time
+    intro: bool = True  # an intro before the first verse; without one the tune starts at once
     master: dict = field(default_factory=lambda: dict(MASTER))  # how strongly master.py works on it
     piano: str = "piano"  # the instrument its piano part is played on
     reharm: bool = False  # the carol's chords coloured as the pop ballads colour them (reharmonize)
@@ -1300,7 +1307,9 @@ STYLES = {
     # the closer (ballad either, with or without the Rhodes' chorus).
     "ballad": Style(arrange_ballad, bpm=72, breath=0.9, hall=0.8, wet=0.45, repeat_short=True, piano="ep",
                     reharm=True),
-    "pulse": Style(arrange_pulse, bpm=88, breath=0.9, hall=0.8, wet=0.45, repeat_short=True, free_intro=True,
+    # pulse goes straight into the tune: the user wanted its 10 s of rolled
+    # chords in free time, the intro pulse-clear keeps, gone.
+    "pulse": Style(arrange_pulse, bpm=88, breath=0.9, hall=0.8, wet=0.45, repeat_short=True, intro=False,
                    piano=GENTLE_PIANO),
     "ballad-clear": Style(lambda arr: arrange_ballad(arr, clear=True), bpm=72, breath=0.9, hall=2.8,
                           repeat_short=True, piano="grand", piano_tone=CLEAR_TONE),
@@ -1380,7 +1389,8 @@ def main() -> None:
         piano = piano_choice or style.piano
         verses = style.verses or song.verses or (3 if style.repeat_short and song.seconds() < 40 else 2)
         tempo = min(1.0, style.bpm / song.bpm) if style.bpm else style.tempo
-        arr = Arrangement(song, verses, tempo, style.breath, free_intro=style.free_intro, piano=piano)
+        arr = Arrangement(song, verses, tempo, style.breath, free_intro=style.free_intro, piano=piano,
+                          intro=style.intro)
         style.arrange(arr)
         if piano != style.piano and all(p.instrument != piano for p in arr.parts.values()):
             continue  # a style without a piano (bells, orchestra) is played once

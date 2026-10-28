@@ -133,8 +133,9 @@ runs/<mã khác>/covers/lego-woodwinds/stem_01.mp3:0.7` (nhiều lượt cách n
        (mỗi bên tai nghe một bản trễ 10 hoặc 14 ms, lắc nhẹ 0,5 lần/giây), cách người chơi Rhodes hay dùng:
        rộng mà không thêm tiếng vang phòng. Đo thì đây là bản có không gian gần bản mẫu thứ hai nhất; bạn
        nghe có hay không có chorus đều ổn.
-     - `pulse` (khoảng 88 nhịp/phút): mở đầu tự do bằng hợp âm của mấy ô nhịp cuối, rải từ bass trầm lên
-       một nốt cao đi thành giai điệu riêng; sau đó tiếng đệm nảy đều như nhịp tim, mỗi nốt móc đơn một
+     - `pulse` (khoảng 88 nhịp/phút): vào thẳng giai điệu, không dạo đầu. Bạn muốn bỏ 10 giây piano dạo ở
+       đầu: hợp âm của mấy ô nhịp cuối rải tự do từ bass trầm lên một nốt cao (`pulse-clear` vẫn giữ đoạn
+       này). Tiếng đệm nảy đều như nhịp tim, mỗi nốt móc đơn một
        quãng năm (thêm quãng tám ở đầu phách), bass trầm ở đầu hợp âm và quãng năm ở giữa ô nhịp. Thêm các
        nhạc cụ nghe được trong bản mẫu thứ nhất: lượt đầu có glockenspiel đánh đôi giai điệu thật khẽ, rồi sáo
        hát giai điệu (có vibrato nhẹ 5,2 lần/giây như sáo trong bản mẫu) trong khi piano đi theo khẽ, đoạn cuối
