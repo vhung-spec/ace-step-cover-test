@@ -109,7 +109,10 @@ runs/<mã khác>/covers/lego-woodwinds/stem_01.mp3:0.7` (nhiều lượt cách n
      - bass trầm (từ La1 tới Son#2) đánh mỗi lần đổi hợp âm, thỉnh thoảng đi bằng nốt ba của hợp âm cho
        đường bass liền mạch (Đô – Son/Si – La thứ); giai điệu cao một quãng tám; lượt giữa có bè quãng ba
        hoặc quãng sáu dưới các nốt dài, lượt cuối nhân đôi quãng tám; cuối câu có vài nốt rải nhẹ lên trên
-       nốt ngân; hợp âm cuối rải từ nốt trầm. Tiếng vang dài hơn.
+       nốt ngân; hợp âm cuối rải từ nốt trầm.
+     - tiếng vang của một phòng nhỏ (0,8 giây), ít vang, để nghe gần như hai bản mẫu. Bạn nghe hai bản mẫu
+       "rất gần tai", còn bản cũ với tiếng vang dài 2,8 giây "như trong phòng lớn". Đã nghe thử 1,2 giây (lượng
+       vang 0,6 lần) và 0,8 giây (0,45 lần); bạn chọn mức gần hơn.
      - `ballad` (khoảng 72 nhịp/phút): mở đầu bằng câu cuối của bài; bass đi từng phách (gốc, năm, tám,
        năm); quãng giữa mỗi nốt móc đơn hai nốt của hợp âm, thấp cao xen kẽ; một lớp pad synth rất khẽ ở dưới
        như bản mẫu thứ hai (tự tạo bằng bộ dao động của sfizz, `instruments/pad.sfz`, không cần mẫu thu nào).
@@ -125,29 +128,25 @@ runs/<mã khác>/covers/lego-woodwinds/stem_01.mp3:0.7` (nhiều lượt cách n
        mẫu 0,05; Yamaha 0,30–0,42), và "tiếng chuông" cũng có ở khoảng 10% số nốt. Bạn nghe thấy "khá gần bản
        mẫu". Đã thử và bỏ: Rhodes trộn nhỏ hơn 6 hoặc 12 dB dưới tiếng Yamaha (gần như không đổi gì). Bản
        Rhodes tối hơn bản mẫu (dải 2–6 kHz thấp hơn khoảng 20 dB). Muốn nghe `ballad` trên Yamaha thì điền
-       `yamaha` vào ô *pianos*.
+       `yamaha` vào ô *pianos*. Mẫu Rhodes thu thẳng từ đàn nên gần như mono: bớt vang thì tiếng đàn dồn vào
+       giữa, còn bản mẫu rộng sang hai bên ngay từ lúc nốt vang lên. Nên tiếng Rhodes có thêm chorus stereo
+       (mỗi bên tai nghe một bản trễ 10 hoặc 14 ms, lắc nhẹ 0,5 lần/giây), cách người chơi Rhodes hay dùng:
+       rộng mà không thêm tiếng vang phòng. Đo thì đây là bản có không gian gần bản mẫu thứ hai nhất; bạn
+       nghe có hay không có chorus đều ổn.
      - `pulse` (khoảng 88 nhịp/phút): mở đầu tự do bằng hợp âm của mấy ô nhịp cuối, rải từ bass trầm lên
        một nốt cao đi thành giai điệu riêng; sau đó tiếng đệm nảy đều như nhịp tim, mỗi nốt móc đơn một
        quãng năm (thêm quãng tám ở đầu phách), bass trầm ở đầu hợp âm và quãng năm ở giữa ô nhịp. Thêm các
        nhạc cụ nghe được trong bản mẫu thứ nhất: lượt đầu có glockenspiel đánh đôi giai điệu thật khẽ, rồi sáo
        hát giai điệu (có vibrato nhẹ 5,2 lần/giây như sáo trong bản mẫu) trong khi piano đi theo khẽ, đoạn cuối
-       vibraphone đánh đôi giai điệu trên tiếng harp rải và dàn dây khẽ. Ở lượt đầu, glockenspiel đánh đôi
-       giai điệu thật khẽ (bạn chọn cách này; `pulse-plain`: lượt đầu chỉ có piano). Đã thử và bỏ vì nghe không
-       hay: mark tree
-       (chùm thanh kim loại gạt lướt) ở đầu bài; chuông lắc (sleigh bells) lắc theo nhịp kèm một nốt chuông
-       "ding" mỗi hai ô nhịp (soi kỹ thì bản mẫu có kiểu lấp lánh này, nhưng mẫu tiếng của mình nghe thô).
+       vibraphone đánh đôi giai điệu trên tiếng harp rải và dàn dây khẽ. Nghe so với lượt đầu chỉ có piano,
+       bạn chọn có glockenspiel. Đã thử và bỏ vì nghe không hay: mark tree (chùm thanh kim loại gạt lướt) ở
+       đầu bài; chuông lắc (sleigh bells) lắc theo nhịp kèm một nốt chuông "ding" mỗi hai ô nhịp (soi kỹ thì
+       bản mẫu có kiểu lấp lánh này, nhưng mẫu tiếng của mình nghe thô).
      - Các nhạc cụ này được nhận ra bằng hai mô hình nhận diện âm thanh (PaSST, huấn luyện trên AudioSet) nghe
        từng đoạn 5–10 giây của hai bản mẫu, so với các bản chỉ có piano của mình, cùng với đo bồi âm và độ rung
        (vibrato) của giai điệu.
-     - `ballad-near`, `pulse-near`, `ballad-close`, `pulse-close` (đang thử): bạn nghe hai bản mẫu "rất gần
-       tai", còn bản của mình "như trong phòng lớn". Đo thì bản mẫu rộng (stereo) ngay từ lúc nốt vang lên,
-       còn bản của mình tiếng đàn hẹp và tiếng vang dài 2,8 giây như hội trường. Nên ở đây tiếng vang là của
-       một phòng nhỏ hơn, đến sớm hơn và nhỏ hơn: 1,2 giây và lượng vang 0,6 lần (`-near`); 0,8 giây và 0,45
-       lần (`-close`). Tiếng Rhodes cũng được mở rộng (hiệu ứng chorus sẵn trong mẫu thu, gấp đôi). Bớt vang
-       thì tiếng Rhodes (thu thẳng từ đàn, gần như mono) dồn vào giữa, còn bản mẫu rộng ngay từ đầu nốt; nên
-       `ballad-wide` là `ballad-close` có thêm chorus stereo (mỗi bên tai nghe một bản trễ 10 hoặc 14 ms, lắc
-       nhẹ 0,5 lần/giây), cách người chơi Rhodes hay dùng: rộng mà không thêm tiếng vang phòng.
-     - `ballad-clear`, `pulse-clear`: như trên nhưng rõ từng nốt hơn và sáng hơn. Nghe gần, tiếng đệm của
+     - `ballad-clear`, `pulse-clear` (trên đàn Steinway, tiếng vang hội trường cũ 2,8 giây): rõ từng nốt hơn
+       và sáng hơn. Nghe gần, tiếng đệm của
        hai bản mẫu nở ra rồi tắt theo từng phách, còn ở `ballad`/`pulse` pedal giữ cả hợp âm nên tiếng ngân
        liền một mảng. Nên ở đây pedal được thay mỗi phách, bass giữ một phách, tay giữa nhấc lên sau mỗi nốt
        móc đơn, và dải cao của đàn được nâng (+8 dB từ 6 kHz).

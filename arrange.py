@@ -46,8 +46,10 @@ same chords, beat by beat, so they always agree:
   the middle of the keyboard moving in eighths under the pedal; the tune an
   octave up, in a middle verse with a third or sixth under its longer notes,
   in the last doubled an octave down; a few tones rising over a phrase's last
-  held note; the last chord rolled from the deep bass, in a longer hall
-  (2.8 s):
+  held note; the last chord rolled from the deep bass; all in a small room
+  (0.8 s) with little of it, as the references sound close by (the user:
+  "very close to the ear"; in a 2.8 s hall ours sounded "as if in a big
+  room"):
   - ballad (about 72 bpm): the tune's last phrase as the intro; the bass
     walking the chord a beat at a time; the middle hand two tones an eighth,
     low and high by turns, up and down the chord from C3-B3; a faint synth pad
@@ -59,24 +61,21 @@ same chords, beat by beat, so they always agree:
     times its pitch (the Yamaha's partials fall smoothly), and on the Rhodes
     the tagger hears the piece as it hears the reference, barely as a piano
     (layered 6 or 12 dB under the Yamaha instead, the Rhodes changed little);
+    the Rhodes, recorded straight from the instrument and nearly mono, widened
+    by a stereo chorus, as the reference is wide from each note's attack;
   - pulse (about 88 bpm): an intro in free time, the tune's last chords
     rolled from the deep bass to a slow top line; then a heartbeat of eighths,
     each chord's root and fifth (the octave on the beats), the bass struck
     as each chord comes and its fifth halfway through the bar; and the first
     reference's other instruments: in the first verse a glockenspiel softly
-    doubling the tune (pulse-plain: the piano alone), then a flute singing it
-    (with a gentle vibrato) while the piano follows softly, then a vibraphone
-    doubling it over a harp and soft strings;
-  - ballad-near, pulse-near, ballad-close, pulse-close: the same in a smaller
-    room with less of it (1.2 s and 0.8 s, sends at 0.6 and 0.45 times), as
-    the references sound close by rather than across a hall (the user: they
-    are "very close to the ear", ours "in a big room"); ballad-wide:
-    ballad-close with the Rhodes widened by a stereo chorus (the references
-    are wide from each note's attack; without the hall the Rhodes is narrow);
-  - ballad-clear, pulse-clear: the same, each beat's notes blooming and
-    fading as the references' do (the pedal taken again on every beat, the
-    bass held a beat, the middle hand lifted after its eighth), and brighter
-    (the piano's highs raised from 6 kHz);
+    doubling the tune (the user chose it over the piano alone), then a flute
+    singing it (with a gentle vibrato) while the piano follows softly, then a
+    vibraphone doubling it over a harp and soft strings;
+  - ballad-clear, pulse-clear (on the Steinway grand, in the 2.8 s hall): the
+    same, each beat's notes blooming and fading as the references' do (the
+    pedal taken again on every beat, the bass held a beat, the middle hand
+    lifted after its eighth), and brighter (the piano's highs raised from
+    6 kHz);
 - bells: the vibraphone with hand chimes an octave up, where bells sing, a
   glockenspiel glinting on the longer notes (it sounds an octave above its
   keys), a harp, a soft string bed, a tubular bell tolling each verse in;
@@ -201,11 +200,11 @@ TONES = {
     "harp": {"lowpass": 5000, "lowpass_order": 4, "width": 0.7, "dehiss": True},
     "sleigh": {"shelf": [6000, -6], "width": 0.6},
     # The Rhodes' samples are clean (above 4 kHz 125 dB under the note); its
-    # harder layers bark, so its highs are eased from 7 kHz. Its samples carry
-    # a mild chorus in their stereo, which its mod wheel widens (0.5: as
-    # recorded, 1: three times): the references are wide from each note's
-    # attack, a mono Rhodes narrow.
-    "ep": {"highpass": 60, "lowpass": 7000, "set_cc": {"1": 0.75}},
+    # harder layers bark, so its highs are eased from 7 kHz. It was recorded
+    # straight from the instrument, nearly mono, while the references are wide
+    # from each note's attack: its samples' own mild chorus is widened (its mod
+    # wheel: 0.5 as recorded, 1 three times), and a stereo chorus is added.
+    "ep": {"highpass": 60, "lowpass": 7000, "set_cc": {"1": 0.75}, "chorus": 0.7},
     "tubular": {"lowpass": 4000, "lowpass_order": 4, "width": 0.5, "dehiss": True},
     "flute": {"lowpass": 8000, "shelf": [6000, -2], "width": 0.5},
     "violins": {"lowpass": 6500, "lowpass_order": 4, "shelf": [5000, -2], "width": 0.8, "dehiss": True},
@@ -1090,15 +1089,16 @@ def vibrato(arr: Arrangement, part: Part, tick: int, length: int, delay: float =
 # glockenspiel's note every second bar (run 19: "the ding does not fit, the
 # sleigh bells a little coarse"), though close up the first reference's
 # sparkle sounds like those; the glockenspiel softly doubling the tune (run
-# 18, the arrangement liked) stays, and pulse-plain leaves the verse to the piano.
-def band(arr: Arrangement, bells: bool = True) -> None:
-    """The first reference's other instruments around the piano: with bells, a
+# 18, the arrangement liked) stays: heard against the piano alone in the
+# first verse (run 20), the user chose it.
+def band(arr: Arrangement) -> None:
+    """The first reference's other instruments around the piano: a
     glockenspiel (it sounds an octave over its keys) doubling the tune softly
     in the first verse; from `flute` the flute singing the tune; from `close`
     the vibraphone doubling the tune, a harp breaking the chords in eighths and
     soft strings holding them."""
     flute_from, close_from = band_sections(arr)
-    glock = arr.part("glock", "glock", "shimmer", 0.2, reverb=0.45) if bells else None
+    glock = arr.part("glock", "glock", "shimmer", 0.2, reverb=0.45)
     flute = arr.part("flute", "flute", "melody", -0.1, reverb=0.38)
     vibes = arr.part("vibes", "vibes", "shimmer", -0.2, reverb=0.4)
     for tick, note, length, verse, position in arr.melody():
@@ -1106,8 +1106,7 @@ def band(arr: Arrangement, bells: bool = True) -> None:
             continue
         at, high = tick + 4 + arr.jitter(3), note + 12  # the tune an octave up, as the piano sings it
         if tick < flute_from:
-            if glock:
-                glock.add(at, high, 42 + 6 * shape(position), min(length, arr.bar))
+            glock.add(at, high, 42 + 6 * shape(position), min(length, arr.bar))
         elif tick < close_from:
             flute.add(at, high, 56 + 12 * shape(position), length + 20)
             vibrato(arr, flute, at, length)
@@ -1149,10 +1148,10 @@ def arrange_ballad(arr: Arrangement, clear: bool = False) -> None:
     breathe(arr, pad, 76, 108)
 
 
-def arrange_pulse(arr: Arrangement, clear: bool = False, bells: bool = True) -> None:
+def arrange_pulse(arr: Arrangement, clear: bool = False) -> None:
     """After the first reference: rolled chords in free time, then the verses
-    over the deep bass and the pulse, with its glockenspiel (if bells), flute,
-    harp, vibraphone and strings (band)."""
+    over the deep bass and the pulse, with its glockenspiel, flute, harp,
+    vibraphone and strings (band)."""
     piano = arr.part("piano", arr.piano, "piano", 0.0, reverb=0.32)
     tune = cover_melody(arr, piano, BRIGHT + 8, intro=False, aside=band_sections(arr))
     free_intro(arr, piano, BRIGHT - 4, tune[0][1] if tune else 76)
@@ -1164,7 +1163,7 @@ def arrange_pulse(arr: Arrangement, clear: bool = False, bells: bool = True) -> 
     else:
         pedal_by_chord(arr, piano, 0, arr.end)
     cover_end(arr, piano, tune, BRIGHT)
-    band(arr, bells)
+    band(arr)
 
 
 def arrange_bells(arr: Arrangement) -> None:
@@ -1295,21 +1294,14 @@ STYLES = {
                            piano=GENTLE_PIANO),
     "felt": Style(arrange_felt, tempo=0.8, breath=0.9, repeat_short=True, piano=GENTLE_PIANO),
     "felt-noise": Style(arrange_felt, tempo=0.8, breath=0.9, repeat_short=True, noise_db=-22, piano=GENTLE_PIANO),
-    "ballad": Style(arrange_ballad, bpm=72, breath=0.9, hall=2.8, repeat_short=True, piano="ep", reharm=True),
-    "ballad-near": Style(arrange_ballad, bpm=72, breath=0.9, hall=1.2, wet=0.6, repeat_short=True, piano="ep",
-                         reharm=True),
-    "ballad-close": Style(arrange_ballad, bpm=72, breath=0.9, hall=0.8, wet=0.45, repeat_short=True, piano="ep",
-                          reharm=True),
-    "ballad-wide": Style(arrange_ballad, bpm=72, breath=0.9, hall=0.8, wet=0.45, repeat_short=True, piano="ep",
-                         reharm=True, piano_tone={"chorus": 0.7}),
-    "pulse": Style(arrange_pulse, bpm=88, breath=0.9, hall=2.8, repeat_short=True, free_intro=True,
+    # ballad and pulse in a small room (0.8 s), with little of it: the user hears
+    # the references "very close to the ear", and ours in a 2.8 s hall "as if in
+    # a big room"; of 1.2 s at 0.6 times the sends and 0.8 s at 0.45, they chose
+    # the closer (ballad either, with or without the Rhodes' chorus).
+    "ballad": Style(arrange_ballad, bpm=72, breath=0.9, hall=0.8, wet=0.45, repeat_short=True, piano="ep",
+                    reharm=True),
+    "pulse": Style(arrange_pulse, bpm=88, breath=0.9, hall=0.8, wet=0.45, repeat_short=True, free_intro=True,
                    piano=GENTLE_PIANO),
-    "pulse-near": Style(arrange_pulse, bpm=88, breath=0.9, hall=1.2, wet=0.6, repeat_short=True, free_intro=True,
-                        piano=GENTLE_PIANO),
-    "pulse-close": Style(arrange_pulse, bpm=88, breath=0.9, hall=0.8, wet=0.45, repeat_short=True,
-                         free_intro=True, piano=GENTLE_PIANO),
-    "pulse-plain": Style(lambda arr: arrange_pulse(arr, bells=False), bpm=88, breath=0.9, hall=2.8,
-                         repeat_short=True, free_intro=True, piano=GENTLE_PIANO),
     "ballad-clear": Style(lambda arr: arrange_ballad(arr, clear=True), bpm=72, breath=0.9, hall=2.8,
                           repeat_short=True, piano="grand", piano_tone=CLEAR_TONE),
     "pulse-clear": Style(lambda arr: arrange_pulse(arr, clear=True), bpm=88, breath=0.9, hall=2.8,
