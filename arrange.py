@@ -62,7 +62,8 @@ same chords, beat by beat, so they always agree:
     the tagger hears the piece as it hears the reference, barely as a piano
     (layered 6 or 12 dB under the Yamaha instead, the Rhodes changed little);
     the Rhodes, recorded straight from the instrument and nearly mono, widened
-    by a stereo chorus, as the reference is wide from each note's attack;
+    by a stereo chorus, as the reference is wide from each note's attack
+    (ballad-plain: without it; the user keeps both);
   - pulse (about 88 bpm): straight into the tune, its pickup alone (the user
     wanted its 10 s intro gone: the tune's last chords in free time, rolled
     from the deep bass to a slow top line, which pulse-clear keeps); a
@@ -1269,7 +1270,7 @@ class Style:
     repeat_short: bool = False  # play a short tune (under 40 s at its own tempo) three times
     noise_db: float | None = None  # a hush of pink noise under the music, this far under the melody
     verses: int | None = None  # this many verses, whatever the tune's length
-    piano_tone: dict | None = None  # changes to the piano part's tone (tests)
+    piano_tone: dict | None = None  # changes to the piano part's tone
     piano_reverb: float | None = None  # the piano part's reverb send instead of its own (tests)
     bpm: float | None = None  # this tempo, when slower than the carol's own (else tempo)
     free_intro: bool = False  # open with the chords alone, in free time
@@ -1310,6 +1311,10 @@ STYLES = {
     # the closer (ballad either, with or without the Rhodes' chorus).
     "ballad": Style(arrange_ballad, bpm=72, breath=0.9, hall=0.8, wet=0.45, repeat_short=True, piano="ep",
                     reharm=True),
+    # the user keeps the Rhodes ballad both with its chorus and without (the
+    # listening page's 11 and 10)
+    "ballad-plain": Style(arrange_ballad, bpm=72, breath=0.9, hall=0.8, wet=0.45, repeat_short=True, piano="ep",
+                          reharm=True, piano_tone={"chorus": 0}),
     # pulse goes straight into the tune: the user wanted its 10 s of rolled
     # chords in free time, the intro pulse-clear keeps, gone. Of its versions
     # the user keeps four for the channel (the listening page's 9, 8, 7, 6):
