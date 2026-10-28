@@ -1,0 +1,85 @@
+{
+  "hall": {
+    "rt60": 0.9,
+    "wet": 0.4,
+    "highpass": 300
+  },
+  "parts": [
+    {
+      "part": "guitar",
+      "library": "iowa",
+      "sfz": "iowa_guitar.sfz",
+      "role": "guitar",
+      "fallback": {
+        "library": "freepats",
+        "sfz": "SpanishClassicalGuitar-bossa.sfz",
+        "tone": {
+          "highpass": 90,
+          "shelf": [
+            7000,
+            -2
+          ],
+          "width": 0.5
+        }
+      },
+      "gain_db": 0.0,
+      "pan": -0.2,
+      "reverb": 0.35,
+      "tone": {
+        "highpass": 90,
+        "width": 0.5
+      },
+      "notes": 616
+    },
+    {
+      "part": "melody",
+      "library": "vcsl",
+      "sfz": "Chordophones/Zithers/Upright Piano, Yamaha.sfz",
+      "role": "melody",
+      "gain_db": 0.0,
+      "pan": 0.15,
+      "reverb": 0.3,
+      "tone": {
+        "release_db": -60,
+        "highpass": 180
+      },
+      "notes": 105
+    },
+    {
+      "part": "bass",
+      "library": "meatbass",
+      "sfz": "bossa_meatbass_pizz.sfz",
+      "role": "bass",
+      "gain_db": 0.0,
+      "pan": 0.0,
+      "reverb": 0.0,
+      "tone": {
+        "highpass": 38,
+        "lowpass": 3500,
+        "width": 0.0
+      },
+      "notes": 65
+    },
+    {
+      "part": "drums",
+      "library": "rusty",
+      "sfz": "bossa_rusty_kit.sfz",
+      "role": "drums",
+      "gain_db": -9.0,
+      "pan": 0.1,
+      "reverb": 0.2,
+      "tone": {
+        "highpass": 45,
+        "width": 0.6
+      },
+      "notes": 465
+    }
+  ],
+  "about": {
+    "title": "Chiều Phố · Brasil (gần)",
+    "tune": "Chiều Phố",
+    "tune_about": "original (Bokin sketches, 2026), C major",
+    "bpm": 117,
+    "text": "Như Brasil, phòng nhỏ, nghe gần tai."
+  }
+}

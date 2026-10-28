@@ -1,0 +1,84 @@
+{
+ "strings": {
+  "sulE": {
+   "open": 41,
+   "highest": 59,
+   "notes": {
+    "pp": 7,
+    "mf": 14,
+    "ff": 16
+   }
+  },
+  "sulA": {
+   "open": 46,
+   "highest": 64,
+   "notes": {
+    "pp": 12,
+    "mf": 14,
+    "ff": 17
+   }
+  },
+  "sulD": {
+   "open": 51,
+   "highest": 67,
+   "notes": {
+    "pp": 7,
+    "mf": 10,
+    "ff": 14
+   }
+  },
+  "sulG": {
+   "open": 56,
+   "highest": 73,
+   "notes": {
+    "pp": 6,
+    "mf": 14,
+    "ff": 14
+   }
+  },
+  "sulB": {
+   "open": 61,
+   "highest": 77,
+   "notes": {
+    "pp": 8,
+    "mf": 12,
+    "ff": 14
+   }
+  },
+  "sul_E": {
+   "open": 64,
+   "highest": 82,
+   "notes": {
+    "pp": 4,
+    "mf": 14,
+    "ff": 13
+   }
+  }
+ },
+ "dynamics": {
+  "pp": {
+   "notes": 44,
+   "median_peak_db": -25.4,
+   "median_tail_db": -70.8,
+   "median_seconds": 6.46
+  },
+  "mf": {
+   "notes": 78,
+   "median_peak_db": -18.8,
+   "median_tail_db": -66.0,
+   "median_seconds": 7.05
+  },
+  "ff": {
+   "notes": 88,
+   "median_peak_db": -12.6,
+   "median_tail_db": -62.8,
+   "median_seconds": 7.08
+  }
+ },
+ "keys": [
+  41,
+  82
+ ],
+ "regions_mapped": 126,
+ "samples": 210
+}

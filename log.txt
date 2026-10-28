@@ -1,0 +1,56 @@
+== brasil
+    bass at +0 dB: 1 s
+    melody at +0 dB: 2 s
+    guitar at +0 dB: 4 s
+    melody at +16 dB: 2 s
+    guitar at +16 dB: 3 s
+    drums at +0 dB: 9 s
+    drums at +16 dB: 6 s
+  guitar: 74.1 s, peak -7.7 dBFS, recorded 0.0 dB to the right, hiss -39 dB
+  melody: 73.9 s, peak -8.1 dBFS, recorded 1.8 dB to the right, hiss -47 dB
+  bass: 73.9 s, peak -15.0 dBFS, recorded 0.0 dB to the right, hiss -60 dB
+  drums: 70.4 s, peak -8.1 dBFS, recorded 0.6 dB to the left, hiss -19 dB
+  limiter: at most 0.2 dB, 0.0 % of the time over 1 dB; left-right balance +0.0 dB (quarters +0.1, +0.0, -0.0, -0.1); hiss -31 dB
+brasil: 74 s, hall 1.8 s (sends x0.45), -16.0 LUFS, peak -1.5 dBFS -> out/bossa/brasil.mp3
+== brasil-choi
+    bass at +0 dB: 1 s
+    melody at +0 dB: 2 s
+    melody at +17 dB: 2 s
+    guitar at +0 dB: 5 s
+    guitar at +16 dB: 3 s
+    drums at +0 dB: 9 s
+    drums at +16 dB: 7 s
+  guitar: 74.1 s, peak -7.7 dBFS, recorded 0.0 dB to the right, hiss -39 dB
+  melody: 73.9 s, peak -7.9 dBFS, recorded 1.7 dB to the right, hiss -53 dB
+  bass: 73.9 s, peak -15.0 dBFS, recorded 0.0 dB to the right, hiss -60 dB
+  drums: 72.6 s, peak -8.4 dBFS, recorded 0.5 dB to the left, hiss -12 dB
+  limiter: at most 0.9 dB, 0.0 % of the time over 1 dB; left-right balance +0.0 dB (quarters +0.2, -0.1, -0.1, +0.1); hiss -28 dB
+brasil-choi: 74 s, hall 1.8 s (sends x0.45), -16.0 LUFS, peak -1.5 dBFS -> out/bossa/brasil-choi.mp3
+== brasil-gan
+    bass at +0 dB: 1 s
+    melody at +0 dB: 2 s
+    melody at +16 dB: 1 s
+    guitar at +0 dB: 5 s
+    guitar at +16 dB: 3 s
+    drums at +0 dB: 8 s
+    drums at +16 dB: 6 s
+  guitar: 74.1 s, peak -7.7 dBFS, recorded 0.0 dB to the right, hiss -39 dB
+  melody: 73.9 s, peak -8.1 dBFS, recorded 1.8 dB to the right, hiss -47 dB
+  bass: 73.9 s, peak -15.0 dBFS, recorded 0.0 dB to the right, hiss -59 dB
+  drums: 70.4 s, peak -8.1 dBFS, recorded 0.6 dB to the left, hiss -19 dB
+  limiter: at most 0.8 dB, 0.0 % of the time over 1 dB; left-right balance +0.2 dB (quarters +0.4, -0.0, +0.2, +0.0); hiss -33 dB
+brasil-gan: 74 s, hall 0.9 s (sends x0.4), -16.0 LUFS, peak -1.5 dBFS -> out/bossa/brasil-gan.mp3
+== cafe-brasil
+    bass at +0 dB: 1 s
+    melody at +0 dB: 2 s
+    melody at +16 dB: 1 s
+    guitar at +0 dB: 5 s
+    drums at +0 dB: 8 s
+    guitar at +15 dB: 3 s
+    drums at +16 dB: 6 s
+  guitar: 72.2 s, peak -8.1 dBFS, recorded 0.1 dB to the right, hiss -43 dB
+  melody: 67.7 s, peak -7.6 dBFS, recorded 0.8 dB to the right, hiss -50 dB
+  bass: 72.1 s, peak -15.0 dBFS, recorded 0.0 dB to the right, hiss -78 dB
+  drums: 68.6 s, peak -7.8 dBFS, recorded 0.6 dB to the left, hiss -18 dB
+  limiter: at most 0.4 dB, 0.0 % of the time over 1 dB; left-right balance -0.0 dB (quarters +0.1, -0.0, -0.2, +0.1); hiss -33 dB
+cafe-brasil: 72 s, hall 1.8 s (sends x0.45), -16.0 LUFS, peak -1.5 dBFS -> out/bossa/cafe-brasil.mp3
