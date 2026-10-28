@@ -51,7 +51,12 @@ same chords, beat by beat, so they always agree:
     under it all (instruments/pad.sfz, sfizz's own oscillators), as the second
     reference lays one; the carol's chords coloured as that reference's are
     (reharmonize: vi7 for some tonic bars, ii7 for some subdominant ones, ii7
-    opening a dominant bar, where the tune allows);
+    opening a dominant bar, where the tune allows); ballad-ep, ballad-ep-soft:
+    the same with a Rhodes electric piano doubling the piano's notes from C3
+    up, 6 or 12 dB under it, as a keyboard's layered sound plays both (some of
+    that reference's notes carry a Rhodes tine's lone partial, 7.2 times their
+    pitch, and the tagger hears its opening as electric piano and piano at
+    once); ballad-rhodes: the piano's notes played on the Rhodes alone;
   - pulse (about 88 bpm): an intro in free time, the tune's last chords
     rolled from the deep bass to a slow top line; then a heartbeat of eighths,
     each chord's root and fifth (the octave on the beats), the bass struck
@@ -74,7 +79,9 @@ Sustained parts hold the tones two chords share, move their other tones to
 the nearest tone of the next chord, and swell with each phrase (expression,
 CC11). Instruments come from two CC0 sample libraries: VS Chamber Orchestra 2
 Community Edition ("vsco", SFZ branch) and the Versilian Community Sample
-Library ("vcsl", sfz branch).
+Library ("vcsl", sfz branch); the Rhodes from jRhodes3d by Jeff Learman
+("jrhodes": free to use in music; its samples, CC BY-NC 4.0 to pass on, are
+fetched when rendering and never kept here).
 """
 
 import argparse
@@ -119,7 +126,8 @@ CHORDS = ChordBook()
 
 # Sample libraries: (library, SFZ file in it). The softer sample layers end at
 # velocity 62 (strings, flute), 65 (piano), 83 (vibraphone, glockenspiel), 100
-# (harp) and 41 (horns, the two softest); hand chimes and sleigh bells have one.
+# (harp) and 41 (horns, the two softest); hand chimes and sleigh bells have one;
+# the Rhodes has five, crossfaded, the softest to 60.
 INSTRUMENTS = {
     "piano": ("vcsl", "Chordophones/Zithers/Grand Piano, Steinway B.sfz"),
     "grand": ("vcsl", "Chordophones/Zithers/Grand Piano, Steinway B.sfz"),  # the same, its highs open
@@ -132,6 +140,7 @@ INSTRUMENTS = {
     "harp": ("vcsl", "Chordophones/Composite Chordophones/Concert Harp.sfz"),
     "sleigh": ("vcsl", "Idiophones/Struck Idiophones/Sleigh Bells.sfz"),
     "pad": ("local", "pad.sfz"),  # our own synth pad (instruments/pad.sfz), sfizz's oscillators
+    "ep": ("jrhodes", "jRhodes3d-st.sfz"),  # a 1977 Rhodes Mark I, a mild chorus in its stereo samples
     "tubular": ("vcsl", "Idiophones/Struck Idiophones/Tubular Bells 1.sfz"),
     "flute": ("vsco", "FluteSusNV.sfz"),  # without vibrato: the vibrato samples wobble on long notes
     "violins": ("vsco", "ViolinEnsSusVib.sfz"),
@@ -183,6 +192,9 @@ TONES = {
     "glock": {"lowpass": 8000, "lowpass_order": 4, "shelf": [5000, -5], "width": 0.4, "dehiss": True},
     "harp": {"lowpass": 5000, "lowpass_order": 4, "width": 0.7, "dehiss": True},
     "sleigh": {"shelf": [6000, -6], "width": 0.6},
+    # The Rhodes' samples are clean (above 4 kHz 125 dB under the note); its
+    # harder layers bark, so its highs are eased from 7 kHz.
+    "ep": {"highpass": 60, "lowpass": 7000, "width": 0.8},
     "tubular": {"lowpass": 4000, "lowpass_order": 4, "width": 0.5, "dehiss": True},
     "flute": {"lowpass": 8000, "shelf": [6000, -2], "width": 0.5},
     "violins": {"lowpass": 6500, "lowpass_order": 4, "shelf": [5000, -2], "width": 0.8, "dehiss": True},
@@ -195,7 +207,7 @@ TONES = {
 }
 # How loud each kind of part sits against the melody (dB of its loudness when playing).
 ROLES = {"melody": 0.0, "piano": 0.0, "descant": -9.0, "harp": -4.0, "pad": -10.0, "bass": -8.0, "shimmer": -12.0,
-         "arp": -7.0, "jingle": -18.0, "haze": -20.0,
+         "arp": -7.0, "jingle": -18.0, "haze": -20.0, "layer": -6.0, "under": -12.0,
          "bells": -8.0, "bed": -13.0, "low": -12.0, "toll": -14.0, "sparkle": -16.0, "drum": -17.0}
 
 
@@ -1109,16 +1121,32 @@ def pad_chords(arr: Arrangement, part: Part, start: int, end: int, velocity: int
             part.add(tick + arr.jitter(6), note, velocity, length + 30, tie=True)
 
 
-def arrange_ballad(arr: Arrangement, clear: bool = False) -> None:
+def layer(arr: Arrangement, source: Part, name: str, instrument: str, role: str, low: int = 48,
+          softer: int = 8) -> Part:
+    """A second instrument doubling a part's notes from `low` up, `softer`
+    velocity lower, under the same pedal, as a keyboard's layered sound plays
+    two at once."""
+    part = arr.part(name, instrument, role, source.pan, reverb=source.reverb)
+    for tick, note, velocity, length in source.notes:
+        if note >= low:
+            part.add(tick, note, velocity - softer, length)
+    part.pedal = list(source.pedal)
+    return part
+
+
+def arrange_ballad(arr: Arrangement, clear: bool = False, ep: str | None = None) -> None:
     """After the second reference: the tune's last phrase as the intro, then
     the verses over the deep bass and the rolling pairs, a synth pad under it
-    all, swelling with each phrase."""
+    all, swelling with each phrase; with ep (a role), the Rhodes doubling the
+    piano."""
     piano = arr.part("piano", arr.piano, "piano", 0.0, reverb=0.32)
     tune = cover_melody(arr, piano, BRIGHT + 8)
     deep_bass(arr, piano, 0, arr.end, BRIGHT + 4, walk=True, hold=arr.beat if clear else None)
     rolling_pairs(arr, piano, 0, arr.end, 54, tune, length=EIGHTH if clear else 2 * EIGHTH)
     (pedal_by_beat if clear else pedal_by_chord)(arr, piano, 0, arr.end)
     cover_end(arr, piano, tune, BRIGHT)
+    if ep:
+        layer(arr, piano, "ep", "ep", ep)
     # the pad far under the piano: at its first level (the role pad) it tagged
     # Synthesizer 0.18 and Ambient 0.35 against the reference's 0.03 and 0.07
     pad = arr.part("pad", "pad", "haze", 0.0, reverb=0.4)
@@ -1273,6 +1301,12 @@ STYLES = {
     "felt-noise": Style(arrange_felt, tempo=0.8, breath=0.9, repeat_short=True, noise_db=-22, piano=GENTLE_PIANO),
     "ballad": Style(arrange_ballad, bpm=72, breath=0.9, hall=2.8, repeat_short=True, piano=GENTLE_PIANO,
                     reharm=True),
+    "ballad-ep": Style(lambda arr: arrange_ballad(arr, ep="layer"), bpm=72, breath=0.9, hall=2.8,
+                       repeat_short=True, piano=GENTLE_PIANO, reharm=True),
+    "ballad-ep-soft": Style(lambda arr: arrange_ballad(arr, ep="under"), bpm=72, breath=0.9, hall=2.8,
+                            repeat_short=True, piano=GENTLE_PIANO, reharm=True),
+    "ballad-rhodes": Style(arrange_ballad, bpm=72, breath=0.9, hall=2.8, repeat_short=True, piano="ep",
+                           reharm=True),
     "pulse": Style(arrange_pulse, bpm=88, breath=0.9, hall=2.8, repeat_short=True, free_intro=True,
                    piano=GENTLE_PIANO),
     "pulse-plain": Style(lambda arr: arrange_pulse(arr, bells=False), bpm=88, breath=0.9, hall=2.8,

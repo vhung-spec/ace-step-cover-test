@@ -1,5 +1,5 @@
 """Fetches, at pinned commits, only the instruments that arrange.py's parts use
-from the two CC0 sample libraries, and makes their SFZ files readable on Linux
+from the sample libraries, and makes their SFZ files readable on Linux
 (forward slashes in the sample paths):
 
     python fetch_samples.py out/sampled libs
@@ -7,7 +7,9 @@ from the two CC0 sample libraries, and makes their SFZ files readable on Linux
 libs/vsco is VS Chamber Orchestra 2 Community Edition (SFZ branch), libs/vcsl
 the Versilian Community Sample Library (sfz branch), both by Versilian Studios
 (CC0); libs/salamander the Salamander Grand Piano V3 by Alexander Holm (CC-BY
-3.0, SFZ by kinwie).
+3.0, SFZ by kinwie); libs/jrhodes jRhodes3d, a 1977 Rhodes Mark I by Jeff
+Learman (free to use in music, CC0; the samples themselves CC BY-NC 4.0 to
+pass on, so they are fetched here and never kept in this repository).
 """
 
 import json
@@ -29,6 +31,7 @@ LIBRARIES = {
     "vcsl": ("https://github.com/sgossner/VCSL", "dfcf4a4918771eee884b96ad4493de82ef84daf6", ()),
     "salamander": ("https://github.com/sfzinstruments/SalamanderGrandPiano",
                    "3382bf9496bba2486f5ab0de55a264d1dfc38404", ("Data", "Samples")),
+    "jrhodes": ("https://github.com/sfzinstruments/jlearman.jRhodes3d", "aea5b8d3e11e2f7102593789a4e0a0e41b30271a", ()),
 }
 
 
@@ -143,9 +146,12 @@ def main(out: str, libs: str) -> int:
         with patterns.open("a") as f:  # then the samples they play
             f.writelines(f"/{folder}/\n" for folder in sorted(folders))
         git(dest, "sparse-checkout", "reapply")
-        for sfz in sfz_files:  # Windows paths in the SFZ files
+        for sfz in sfz_files:  # Windows paths in the SFZ files; a stray first line (jRhodes3d's) made a comment
             path = dest / sfz
-            path.write_text(path.read_text(errors="replace").replace("\\", "/"))
+            first, _, rest = path.read_text(errors="replace").replace("\\", "/").partition("\n")
+            if first.strip() and not first.lstrip().startswith(("//", "<", "#")) and "=" not in first:
+                first = f"// {first}"
+            path.write_text(f"{first}\n{rest}")
         wavs = list(dest.rglob("*.wav")) + list(dest.rglob("*.flac"))
         pointers = [w for w in wavs if w.stat().st_size < 200 and w.read_bytes().startswith(b"version https://git-lfs")]
         if pointers:

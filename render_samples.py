@@ -2,7 +2,7 @@
 mixes them into one piece per folder:
 
     python render_samples.py out/sampled --sfizz path/to/sfizz_render --vsco <VSCO-2-CE> --vcsl <VCSL>
-        [--salamander <SalamanderGrandPiano>]
+        [--salamander <SalamanderGrandPiano>] [--jrhodes <jRhodes3d>]
 
 (instruments of our own, such as the synth pad, are in instruments/)
 
@@ -373,10 +373,11 @@ def main() -> None:
     parser.add_argument("--vsco", type=Path, required=True)
     parser.add_argument("--vcsl", type=Path, required=True)
     parser.add_argument("--salamander", type=Path, help="needed for the salamander style")
+    parser.add_argument("--jrhodes", type=Path, help="needed for the Rhodes (ballad-ep, ballad-rhodes)")
     parser.add_argument("--keep-parts", action="store_true", help="keep each part's WAV")
     parser.add_argument("--premaster", type=Path, help="also save each piece before its master here (MP3)")
     args = parser.parse_args()
-    libraries = {"vsco": args.vsco, "vcsl": args.vcsl, "salamander": args.salamander,
+    libraries = {"vsco": args.vsco, "vcsl": args.vcsl, "salamander": args.salamander, "jrhodes": args.jrhodes,
                  "local": Path(__file__).parent / "instruments"}  # our own instruments (sfizz's oscillators)
     for folder in sorted(p for p in args.out.iterdir() if (p / "mix.json").is_file()):
         print(f"== {folder.name}", flush=True)

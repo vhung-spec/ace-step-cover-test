@@ -17,10 +17,10 @@ on:
         description: 'Carols: wish (We Wish You a Merry Christmas), silent-night, first-noel, joy (Joy to the World), o-holy-night, jingle-bells, deck-the-halls'
         default: 'wish silent-night first-noel joy o-holy-night jingle-bells deck-the-halls'
       styles:
-        description: 'Styles: ballad, pulse (after the two reference recordings, on the Steinway grand with its highs open), ballad-clear, pulse-clear (the same, note by note and brighter); the earlier ones: piano (Steinway B), the gentle pianos chill, lullaby, flowing, hymn, piano-strings, felt, felt-noise (Yamaha upright), bells, orchestra, salamander'
+        description: 'Styles: ballad, pulse (after the two reference recordings, on the Yamaha upright), pulse-plain (no glockenspiel), ballad-ep, ballad-ep-soft (a Rhodes doubling the piano, 6 or 12 dB under it), ballad-rhodes (the Rhodes alone), ballad-clear, pulse-clear (on the Steinway grand, note by note and brighter); the earlier ones: piano (Steinway B), the gentle pianos chill, lullaby, flowing, hymn, piano-strings, felt, felt-noise (Yamaha upright), bells, orchestra, salamander'
         default: 'ballad pulse'
       pianos:
-        description: 'To compare, play the piano styles on these instead of their own, a piece each: grand (Steinway B, highs open), piano (Steinway B, highs cut), knight (Knight upright), yamaha (Yamaha upright). Empty: each its own (ballad and pulse the grand, the gentle styles the Yamaha upright, piano the Steinway)'
+        description: 'To compare, play the piano styles on these instead of their own, a piece each: grand (Steinway B, highs open), piano (Steinway B, highs cut), knight (Knight upright), yamaha (Yamaha upright). Empty: each its own (ballad, pulse and the gentle styles the Yamaha upright, ballad-clear and pulse-clear the grand, piano the Steinway)'
         default: ''
       rate:
         description: 'Rate the pieces (Audiobox Aesthetics, CLAP)'
@@ -97,7 +97,8 @@ jobs:
       - name: Play and mix
         run: |
           "$RUNNER_TEMP/venv/bin/python" render_samples.py out/sampled --sfizz ~/sfizz/sfizz_render \
-            --vsco "$RUNNER_TEMP/libs/vsco" --vcsl "$RUNNER_TEMP/libs/vcsl" --salamander "$RUNNER_TEMP/libs/salamander"
+            --vsco "$RUNNER_TEMP/libs/vsco" --vcsl "$RUNNER_TEMP/libs/vcsl" --salamander "$RUNNER_TEMP/libs/salamander" \
+            --jrhodes "$RUNNER_TEMP/libs/jrhodes"
 
       - name: Smaller copies for the renders branch
         run: |

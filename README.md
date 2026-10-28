@@ -117,6 +117,13 @@ runs/<mã khác>/covers/lego-woodwinds/stem_01.mp3:0.7` (nhiều lượt cách n
        hai thành hợp âm bậc vi thứ bảy (Đô thành La thứ 7, vẫn chứa đủ nốt của Đô); chuỗi hợp âm bậc IV thì ô
        thứ hai thành ii thứ bảy (Fa thành Rê thứ 7); ô hợp âm át (V) mở đầu bằng ii thứ bảy. Chỉ đổi ở chỗ các
        nốt giai điệu vẫn là nốt của hợp âm mới (Silent Night: 10/24 ô nhịp, từ 0% lên 33% phách là hợp âm thứ).
+     - `ballad-ep`, `ballad-ep-soft`, `ballad-rhodes` (đang thử): soi từng nốt của bản mẫu thứ hai, một số nốt
+       có một bồi âm đứng riêng ở khoảng 7,2 lần cao độ của nốt. Đó là tiếng "chuông" của thanh rung (tine)
+       trong đàn piano điện Rhodes; đàn Yamaha không có tiếng này. Mô hình nhận diện cũng nghe đoạn mở đầu bản
+       mẫu vừa là piano điện vừa là piano. Nên ở đây một cây Rhodes (bộ mẫu jRhodes3d của Jeff Learman, đàn
+       Rhodes Mark I đời 1977) đánh đôi các nốt của piano từ Đô3 trở lên, như tiếng "layer" piano + Rhodes của
+       đàn phím điện tử: nhỏ hơn piano 6 dB (`ballad-ep`) hoặc 12 dB (`ballad-ep-soft`); `ballad-rhodes` chỉ
+       có Rhodes, không có piano.
      - `pulse` (khoảng 88 nhịp/phút): mở đầu tự do bằng hợp âm của mấy ô nhịp cuối, rải từ bass trầm lên
        một nốt cao đi thành giai điệu riêng; sau đó tiếng đệm nảy đều như nhịp tim, mỗi nốt móc đơn một
        quãng năm (thêm quãng tám ở đầu phách), bass trầm ở đầu hợp âm và quãng năm ở giữa ô nhịp. Thêm các
@@ -143,8 +150,9 @@ runs/<mã khác>/covers/lego-woodwinds/stem_01.mp3:0.7` (nhiều lượt cách n
 
    Các kiểu piano nhẹ nhàng (chill, lullaby, flowing, hymn, piano-strings, felt, felt-noise) chơi trên đàn
    upright Yamaha: tiếng mềm, ấm, gần gũi (đã nghe so với Steinway và upright Knight). Kiểu `piano` chơi
-   trên đàn Steinway B grand có cắt dải cao; `ballad` và `pulse` chơi trên cùng cây Steinway nhưng mở dải cao
-   (`grand`). Các kiểu cũ vẫn còn trong mã nhưng không chạy mặc định nữa: muốn chạy thì điền tên vào ô
+   trên đàn Steinway B grand có cắt dải cao; `ballad` và `pulse` cũng chơi trên đàn Yamaha (bạn chọn), còn
+   `ballad-clear` và `pulse-clear` chơi trên cây Steinway mở dải cao (`grand`). Các kiểu cũ vẫn còn trong mã
+   nhưng không chạy mặc định nữa: muốn chạy thì điền tên vào ô
    *styles*. Muốn so đàn, điền ô *pianos* khi chạy (`piano`, `grand`, `knight`, `yamaha`): bản chơi trên đàn
    khác đàn của kiểu đó có đuôi là tên đàn. Vài mẫu thu của đàn Yamaha bị ngược pha giữa hai kênh;
    `fetch_samples.py` tự sửa lại.
@@ -153,7 +161,8 @@ runs/<mã khác>/covers/lego-woodwinds/stem_01.mp3:0.7` (nhiều lượt cách n
    hợp âm, nốt khác đi tới nốt gần nhất, và to nhỏ theo từng câu (CC11). Hai nốt cùng phím không bao giờ
    chồng lên nhau: nếu chồng, lệnh tắt nốt trước sẽ cắt luôn nốt sau thành một tiếng vĩ cụt.
 2. `fetch_samples.py` tải đúng các nhạc cụ cần dùng từ hai thư viện mẫu âm thanh CC0 của Versilian
-   Studios: VS Chamber Orchestra 2 Community Edition và Versilian Community Sample Library. Mẫu tiếng của
+   Studios: VS Chamber Orchestra 2 Community Edition và Versilian Community Sample Library (đàn Rhodes thì
+   từ bộ jRhodes3d, xem phần Giấy phép). Mẫu tiếng của
    đàn Steinway có tiếng xì đều ở dải cao (từ 4 kHz): nốt nhẹ chỉ to hơn tiếng xì 16–26 dB, và khi giữ pedal
    cả chục nốt cùng ngân thì thành tiếng "xào". Nên với từng mẫu, ngay khi nốt đã tắt dần xuống tới mức
    tiếng xì thì dải cao được giảm dần đi (tới 50 dB). Tiếng búa gõ và tiếng ngân của nốt giữ nguyên. Dải
@@ -194,4 +203,8 @@ Hai thư viện mẫu âm thanh [VSCO 2 Community Edition](https://github.com/sg
 thương mại, không cần ghi nguồn); bài test tải chúng ở commit cố định, không chép vào kho này.
 [Salamander Grand Piano V3](https://github.com/sfzinstruments/SalamanderGrandPiano) của Alexander Holm
 theo giấy phép CC-BY 3.0: dùng được cho thương mại nhưng phải ghi tên tác giả (ví dụ trong mô tả video).
+Bộ mẫu đàn Rhodes [jRhodes3d](https://github.com/sfzinstruments/jlearman.jRhodes3d) của Jeff Learman:
+tác giả cho phép dùng tự do để làm nhạc (CC0 cho người làm nhạc, kể cả thương mại); còn chính các file mẫu
+thì chỉ được chia sẻ lại phi thương mại (CC BY-NC 4.0). Vì vậy bài test chỉ tải chúng về lúc dựng nhạc, ở
+commit cố định, không chép vào kho này.
 sfizz theo giấy phép BSD 2-Clause.
