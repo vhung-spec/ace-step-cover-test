@@ -360,7 +360,8 @@ def save(audio: np.ndarray, wav: Path) -> None:
 
 def mix_folder(folder: Path, sfizz: str, libraries: dict, keep_parts: bool, premaster: Path | None = None) -> Path:
     sheet = json.loads((folder / "mix.json").read_text())
-    ir = hall_ir(sheet["hall"]["rt60"], seconds=max(4.0, 1.5 * sheet["hall"]["rt60"]))  # a long hall rings out
+    rt60 = sheet["hall"]["rt60"]
+    ir = hall_ir(rt60, seconds=4.0 if rt60 <= 2.8 else 1.5 * rt60)  # a longer hall rings out in full, as in the app
     wet_level = sheet["hall"].get("wet", 1.0)  # every part's send into it, times this
 
     def render(entry: dict) -> np.ndarray:
