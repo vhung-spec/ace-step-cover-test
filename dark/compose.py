@@ -23,8 +23,12 @@ A piece is a short score, the shape an AI composer is asked to write:
 - bass_low: the lowest note the left hand's bass may take (33, A1; 40, E2,
   keeps the piano out of the deep bass); piano_tone changes the piano's tone
   for render_samples.py (lowpass, lowpass_order, width: above 1 widens it);
+- hold: the longest (beats) an accompanying note is held; pedal_beats: the
+  pedal taken again this often within a chord (else once a chord); lh_soft:
+  the left hand this much softer (velocity), all to keep it light and clear;
 - texture, the piano's left hand: arp (broken chords in eighths, up and
-  back from a deep bass), ostinato (three tones of the chord circling in
+  back from a deep bass), flow (lighter: a bass held under two tones above
+  it, rocking in eighths), ostinato (three tones of the chord circling in
   eighths in the middle of the keyboard, a low toll on each bar), blocks (the
   chord rolled from a deep octave and held), sparse (a deep note, a soft
   rolled chord after it, an inner tone later in the bar), pulse (a low
@@ -242,7 +246,8 @@ def left_hand(piece: Piece, piano: Part) -> None:
     for tick, length, name in piece.spans:
         section = piece.section_at(tick)
         texture, dyn = section.get("texture", "arp"), section.get("dyn", 0.4)
-        velocity = 30 + 34 * dyn
+        velocity = 30 + 34 * dyn - piece.score.get("lh_soft", 0)
+        hold = round(piece.score.get("hold", 99) * TICKS)  # the longest an accompanying note is held
         bass, tones, _ = chord(name)
         tune = piece.tune_between(tick, tick + length)
         ceiling = (min(tune) - 2) if tune else 72
@@ -255,7 +260,15 @@ def left_hand(piece: Piece, piano: Part) -> None:
                 step = order[k % len(order)] % len(ladder)
                 accent = 8 if k == 0 else (3 if k % 2 == 0 else 0)
                 piano.add(tick + k * EIGHTH + piece.jitter(), ladder[step], velocity + accent - 4 * (step > 2),
-                          length - k * EIGHTH)
+                          min(hold, length - k * EIGHTH))
+        elif texture == "flow":
+            ladder = [n for n in range(low + 5, low + 18) if n % 12 in tones and n < ceiling]
+            ladder = [low] + [n for k, n in enumerate(ladder) if k == 0 or n - ladder[k - 1] >= 3][:2]
+            order = [0, 1, 2, 1] if piece.beats % 2 == 0 else [0, 1, 2]
+            for k in range(length // EIGHTH):
+                step = order[k % len(order)] % len(ladder)
+                piano.add(tick + k * EIGHTH + piece.jitter(), ladder[step], velocity + (6 if k == 0 else 0) - 3 * step,
+                          length if k == 0 else min(hold, length - k * EIGHTH))
         elif texture == "ostinato":
             middle = voice(previous, tones, 52, min(72, ceiling))
             previous = middle
@@ -303,8 +316,10 @@ def voice(previous: list, tones: list, low: int, high: int, count: int = 3) -> l
 
 
 def pedal(piece: Piece, piano: Part) -> None:
+    step = round(piece.score.get("pedal_beats", 99) * TICKS)  # pedal taken again this often within a chord
     for tick, length, _ in piece.spans:
-        piano.pedal += [(tick - 15, 0), (tick + 40, 100)]
+        for at in range(tick, tick + length, step):
+            piano.pedal += [(at - 15, 0), (at + 40, 100)]
     piano.pedal.append((piece.end + piece.bar, 0))
 
 
