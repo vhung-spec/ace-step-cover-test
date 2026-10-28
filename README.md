@@ -99,6 +99,8 @@ runs/<mã khác>/covers/lego-woodwinds/stem_01.mp3:0.7` (nhiều lượt cách n
      - `felt-noise`: như `felt`, có thêm lớp tiếng rì (pink noise) rất khẽ như nhạc ru ngủ cho em bé.
      - `felt-2k`, `felt-4k`, `felt-open`: `felt` sáng hơn, theo ý bạn. Bộ lọc dải cao nới từ 900 Hz lên
        2 kHz, 4 kHz, hoặc bỏ hẳn.
+     - `felt-bright`: sáng hơn nữa: không lọc, và giai điệu đánh mạnh tay hơn một chút để đàn dùng lớp
+       tiếng sáng của nó.
    - `ballad` và `pulse`: làm theo hai bản mẫu piano Giáng sinh thư giãn của bạn (chỉ đo âm thanh và
      cách chơi, không chép gì của họ). Đây là hai kiểu chạy mặc định. Đo so với hai bản mẫu, bản cũ trên đàn
      Yamaha thiếu khoảng 20 dB tiếng trầm và 25–30 dB độ sáng, tay trái lại thưa. Hai bản mẫu là một cây

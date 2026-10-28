@@ -838,13 +838,16 @@ def arrange_piano_strings(arr: Arrangement) -> None:
         breathe(arr, arr.parts[name], 84, 112, start=arr.verses[0])
 
 
-def arrange_felt(arr: Arrangement) -> None:
+def arrange_felt(arr: Arrangement, bright: bool = False) -> None:
+    """With bright, the tune is struck a little harder, into the Yamaha's
+    brighter layer of samples (from velocity 66) at the height of each phrase,
+    the left hand and the last chord a little harder too."""
     piano = gentle_piano(arr)
     piano.tone["lowpass"] = 900  # the dark, round tone of felt hammers
-    tune = gentle_melody(arr, piano, 50, 52)
-    rolling(arr, piano, 0, arr.end, 36, avoid=tune)
+    tune = gentle_melody(arr, piano, *((64, 66) if bright else (50, 52)))
+    rolling(arr, piano, 0, arr.end, 42 if bright else 36, avoid=tune)
     pedal_by_chord(arr, piano, 0, arr.end)
-    gentle_end(arr, piano, tune, 46)
+    gentle_end(arr, piano, tune, 56 if bright else 46)
 
 
 # ballad and pulse follow the user's two reference recordings, slow pop piano
@@ -1319,6 +1322,10 @@ STYLES = {
                      piano_tone={"lowpass": 4000}),
     "felt-open": Style(arrange_felt, tempo=0.8, breath=0.9, repeat_short=True, piano=GENTLE_PIANO,
                        piano_tone={"lowpass": None}),
+    # brighter still: the soft samples are dark however open the filter (2-4
+    # kHz some 37 dB under 200-1000 Hz), so the tune reaches the bright layer
+    "felt-bright": Style(lambda arr: arrange_felt(arr, bright=True), tempo=0.8, breath=0.9, repeat_short=True,
+                         piano=GENTLE_PIANO, piano_tone={"lowpass": None}),
     "felt-noise": Style(arrange_felt, tempo=0.8, breath=0.9, repeat_short=True, noise_db=-22, piano=GENTLE_PIANO),
     # ballad and pulse in a small room (0.8 s), with little of it: the user hears
     # the references "very close to the ear", and ours in a 2.8 s hall "as if in
