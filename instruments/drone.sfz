@@ -1,0 +1,32 @@
+// A dark drone (dark piano pieces' low tonic and fifth), made by sfizz's own
+// oscillators, so no recording and no licence is needed: a sine, two
+// sawtooths a few cents apart, one to each side, deep under a low-pass, and a
+// soft triangle an octave up; it swells in over four seconds and fades over five.
+<global>
+ampeg_attack=4.0
+ampeg_sustain=100
+ampeg_release=5.0
+fil_type=lpf_2p
+cutoff=420
+fil_keytrack=30
+
+<region>
+sample=*sine
+volume=-2
+
+<region>
+sample=*saw
+tune=-7
+pan=-60
+volume=-16
+
+<region>
+sample=*saw
+tune=7
+pan=60
+volume=-16
+
+<region>
+sample=*triangle
+transpose=12
+volume=-14

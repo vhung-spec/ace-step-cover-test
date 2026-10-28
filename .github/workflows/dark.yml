@@ -1,0 +1,102 @@
+# Dark piano sketches (dark/): dark/compose.py arranges the pieces written as
+# data in dark/pieces/, fetch_samples.py fetches the CC0 instruments they use,
+# render_samples.py plays and mixes them. Runs on every push to the
+# dark-piano branch (or by hand); 128 kbit/s previews are pushed to the
+# dark-renders branch (replaced each run), the full pieces kept as an artifact.
+name: Dark piano
+run-name: 'Dark piano: ${{ inputs.pieces || github.event.head_commit.message }}'
+
+on:
+  push:
+    branches: [dark-piano]
+    paths: ['dark/**', 'instruments/**', 'render_samples.py', 'fetch_samples.py', '.github/workflows/dark.yml']
+  workflow_dispatch:
+    inputs:
+      pieces:
+        description: 'Pieces (names in dark/pieces, without .json); empty: all'
+        default: ''
+
+permissions:
+  contents: write  # the dark-renders branch
+
+concurrency:
+  group: dark-piano
+  cancel-in-progress: true
+
+jobs:
+  dark:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 90
+    env:
+      PIECES: ${{ inputs.pieces }}
+      SFIZZ_VERSION: '1.2.3'
+      PYTHONUNBUFFERED: '1'
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: astral-sh/setup-uv@v6
+
+      - name: Python tools and ffmpeg
+        run: |
+          uv venv -q --python 3.12 "$RUNNER_TEMP/venv"
+          uv pip install -q --python "$RUNNER_TEMP/venv/bin/python" numpy scipy soundfile mido pyloudnorm imageio-ffmpeg
+          sudo ln -sf "$("$RUNNER_TEMP/venv/bin/python" -c 'import imageio_ffmpeg; print(imageio_ffmpeg.get_ffmpeg_exe())')" \
+            /usr/local/bin/ffmpeg
+
+      - name: sfizz from the cache
+        id: sfizz
+        uses: actions/cache@v4
+        with:
+          path: ~/sfizz
+          key: sfizz-render-${{ env.SFIZZ_VERSION }}-ubuntu-24.04
+
+      - name: Build sfizz_render
+        if: steps.sfizz.outputs.cache-hit != 'true'
+        run: |
+          git clone -q --recursive --depth 1 --shallow-submodules --branch "$SFIZZ_VERSION" \
+            https://github.com/sfztools/sfizz.git "$RUNNER_TEMP/sfizz"
+          cmake -S "$RUNNER_TEMP/sfizz" -B "$RUNNER_TEMP/sfizz/build" -DCMAKE_BUILD_TYPE=Release -DENABLE_LTO=OFF \
+            -DSFIZZ_JACK=OFF -DSFIZZ_RENDER=ON -DSFIZZ_SHARED=OFF -DSFIZZ_TESTS=OFF -DSFIZZ_DEMOS=OFF \
+            -DSFIZZ_DEVTOOLS=OFF -DSFIZZ_BENCHMARKS=OFF
+          cmake --build "$RUNNER_TEMP/sfizz/build" -j4 --target sfizz_render
+          mkdir -p ~/sfizz
+          find "$RUNNER_TEMP/sfizz/build" -name sfizz_render -type f -exec cp {} ~/sfizz/ \;
+
+      - name: Arrangements (MIDI)
+        run: '"$RUNNER_TEMP/venv/bin/python" dark/compose.py out/dark ${PIECES:+--pieces $PIECES}'
+
+      - name: Instruments (CC0 samples)
+        run: '"$RUNNER_TEMP/venv/bin/python" fetch_samples.py out/dark "$RUNNER_TEMP/libs"'
+
+      - name: Play and mix
+        run: |
+          "$RUNNER_TEMP/venv/bin/python" render_samples.py out/dark --sfizz ~/sfizz/sfizz_render \
+            --vsco "$RUNNER_TEMP/libs/vsco" --vcsl "$RUNNER_TEMP/libs/vcsl"
+
+      - name: Smaller copies
+        run: |
+          mkdir -p out/preview
+          for wav in out/dark/*.wav; do
+            ffmpeg -loglevel error -i "$wav" -c:a libmp3lame -b:a 128k "out/preview/$(basename "${wav%.wav}").mp3"
+          done
+          cp dark/pieces/*.json out/preview/
+
+      - name: Keep the pieces
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: dark
+          path: |
+            out/dark/*.mp3
+            out/dark/**/*.mid
+            out/dark/**/mix.json
+          retention-days: 30
+
+      - name: Previews on the dark-renders branch
+        run: |
+          cd out/preview
+          git init -q -b dark-renders
+          git add .
+          git -c user.name="github-actions[bot]" -c user.email="41898282+github-actions[bot]@users.noreply.github.com" \
+            commit -q -m "Dark piano renders of run $GITHUB_RUN_ID (${PIECES:-all}), 128 kbit/s"
+          git push -q -f "https://x-access-token:${{ github.token }}@github.com/$GITHUB_REPOSITORY" dark-renders
