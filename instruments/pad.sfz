@@ -1,0 +1,32 @@
+// A soft synth pad (ballad, after the second reference recording, which lays
+// one under its piano), made by sfizz's own oscillators, so no recording and no
+// licence is needed: two sawtooths a few cents apart, one to each side, and a
+// sine an octave down, through a gentle low-pass that opens a little with the
+// key and the velocity; it swells in over a second and fades over two and a half.
+<global>
+ampeg_attack=1.2
+ampeg_decay=1.5
+ampeg_sustain=80
+ampeg_release=2.5
+amp_veltrack=50
+fil_type=lpf_2p
+cutoff=1100
+fil_keytrack=50
+fil_veltrack=1200
+
+<region>
+sample=*saw
+tune=-8
+pan=-70
+volume=-8
+
+<region>
+sample=*saw
+tune=8
+pan=70
+volume=-8
+
+<region>
+sample=*sine
+transpose=-12
+volume=-3

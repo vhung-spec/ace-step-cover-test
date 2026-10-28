@@ -47,11 +47,17 @@ same chords, beat by beat, so they always agree:
   held note; the last chord rolled from the deep bass, in a longer hall:
   - ballad (about 72 bpm): the tune's last phrase as the intro; the bass
     walking the chord a beat at a time; the middle hand two tones an eighth,
-    low and high by turns, up and down the chord from C3-B3;
+    low and high by turns, up and down the chord from C3-B3; a soft synth pad
+    under it all (instruments/pad.sfz, sfizz's own oscillators), as the second
+    reference lays one;
   - pulse (about 88 bpm): an intro in free time, the tune's last chords
     rolled from the deep bass to a slow top line; then a heartbeat of eighths,
     each chord's root and fifth (the octave on the beats), the bass struck
-    as each chord comes and its fifth halfway through the bar;
+    as each chord comes and its fifth halfway through the bar; and the first
+    reference's other instruments: a glockenspiel doubling the tune softly
+    in the first verse, then a flute singing it (with a gentle vibrato) while
+    the piano follows softly, then a vibraphone doubling it over a harp and
+    soft strings; a mark tree's run as each section begins;
   - ballad-clear, pulse-clear: the same, each beat's notes blooming and
     fading as the references' do (the pedal taken again on every beat, the
     bass held a beat, the middle hand lifted after its eighth), and brighter
@@ -122,6 +128,8 @@ INSTRUMENTS = {
     "glock": ("vcsl", "Idiophones/Struck Idiophones/Glockenspiel.sfz"),
     "harp": ("vcsl", "Chordophones/Composite Chordophones/Concert Harp.sfz"),
     "sleigh": ("vcsl", "Idiophones/Struck Idiophones/Sleigh Bells.sfz"),
+    "marktree": ("vcsl", "Idiophones/Struck Idiophones/Mark Trees.sfz"),  # keys 60-65: runs up and down
+    "pad": ("local", "pad.sfz"),  # our own synth pad (instruments/pad.sfz), sfizz's oscillators
     "tubular": ("vcsl", "Idiophones/Struck Idiophones/Tubular Bells 1.sfz"),
     "flute": ("vsco", "FluteSusNV.sfz"),  # without vibrato: the vibrato samples wobble on long notes
     "violins": ("vsco", "ViolinEnsSusVib.sfz"),
@@ -173,6 +181,7 @@ TONES = {
     "glock": {"lowpass": 8000, "lowpass_order": 4, "shelf": [5000, -5], "width": 0.4, "dehiss": True},
     "harp": {"lowpass": 5000, "lowpass_order": 4, "width": 0.7, "dehiss": True},
     "sleigh": {"shelf": [6000, -6], "width": 0.6},
+    "marktree": {"shelf": [8000, -3], "width": 0.8, "dehiss": True},  # its recordings' tails hiss 45-59 dB under
     "tubular": {"lowpass": 4000, "lowpass_order": 4, "width": 0.5, "dehiss": True},
     "flute": {"lowpass": 8000, "shelf": [6000, -2], "width": 0.5},
     "violins": {"lowpass": 6500, "lowpass_order": 4, "shelf": [5000, -2], "width": 0.8, "dehiss": True},
@@ -184,7 +193,8 @@ TONES = {
     "timpani": {"highpass": 35, "width": 0.7},
 }
 # How loud each kind of part sits against the melody (dB of its loudness when playing).
-ROLES = {"melody": 0.0, "piano": 0.0, "descant": -9.0, "harp": -4.0, "pad": -10.0, "bass": -8.0,
+ROLES = {"melody": 0.0, "piano": 0.0, "descant": -9.0, "harp": -4.0, "pad": -10.0, "bass": -8.0, "shimmer": -12.0,
+         "arp": -9.0,
          "bells": -8.0, "bed": -13.0, "low": -12.0, "toll": -14.0, "sparkle": -16.0, "drum": -17.0}
 
 
@@ -248,7 +258,7 @@ class Part:
         self.instrument, self.role, self.pan, self.reverb = instrument, role, pan, reverb
         self.tone = dict(TONES.get(instrument, {}))
         self.fits = fits  # whether a note held from one tick to another stays within its sample
-        self.notes, self.pedal, self.expression, self.voicing = [], [], [], []
+        self.notes, self.pedal, self.expression, self.voicing, self.bends = [], [], [], [], []
         self.latest = {}  # key: index of its latest note
 
     def add(self, tick: int, note: int, velocity: int, length: int, tie: bool = False) -> None:
@@ -859,14 +869,17 @@ def pulse_hand(arr: Arrangement, part: Part, start: int, end: int, velocity: int
         under_tune(arr, part, tune, tick + arr.jitter(3), notes, velocity + accent, length)
 
 
-def cover_melody(arr: Arrangement, piano: Part, velocity: int, intro: bool = True) -> list:
+def cover_melody(arr: Arrangement, piano: Part, velocity: int, intro: bool = True,
+                 aside: tuple = (0, 0)) -> list:
     """The tune an octave up (the intro's, the last phrase, is already), sung
     out evenly: each verse a little fuller than the one before, rising a little
     to its middle; in a middle verse its longer notes sung with a chord tone a
     third to a sixth under them, in the last (from its middle, if it is the
     only one) doubled an octave down. Where a phrase ends on a note held two
     beats or more, a few tones of the chord rise softly over it in eighths, as
-    a pianist fills the breath. Returns the tune's notes."""
+    a pianist fills the breath. Between the ticks `aside` another instrument
+    sings the tune, and the piano only follows it, softly and alone. Returns
+    the tune's notes."""
     fills = []
     for tick, note, length, verse, position in arr.melody():
         if verse < 0 and not intro:
@@ -874,6 +887,9 @@ def cover_melody(arr: Arrangement, piano: Part, velocity: int, intro: bool = Tru
         note += 0 if verse < 0 else 12
         sung = velocity - (6 if verse < 0 else 0) + 3 * min(max(verse, 0), 2) + 5 * shape(position)
         at = tick + 4 + arr.jitter(4)
+        if aside[0] <= tick < aside[1]:
+            piano.add(at, note, sung - 18 + arr.rng.randint(-2, 2), length - 10)
+            continue
         piano.add(at, note, sung + arr.rng.randint(-2, 2), length - 10)
         long = length >= arr.beat
         if verse == arr.last and long and (verse > 0 or position >= 0.5):
@@ -894,11 +910,13 @@ def cover_melody(arr: Arrangement, piano: Part, velocity: int, intro: bool = Tru
     return tune
 
 
-def free_intro(arr: Arrangement, piano: Part, velocity: int, top: int) -> None:
+def free_intro(arr: Arrangement, piano: Part, velocity: int, top: int) -> list:
     """An intro in free time, as a pianist opens a carol: no tune yet, only the
     chords of its last bars, each rolled up from a deep bass (A1 to G#2)
     through an open chord to a top tone high up that moves to the nearest tone
-    of the next chord (a slow tune of its own, from top), left to ring."""
+    of the next chord (a slow tune of its own, from top), left to ring.
+    Returns that top line: (tick, note, length)."""
+    line = []
     for tick, length, chord in arr.chord_spans(0, arr.verses[0]):
         root, up = bass_note(chord, DEEP), third(chord)
         top = min(chord_notes(chord, 74, 88), key=lambda n: abs(n - top))
@@ -906,6 +924,8 @@ def free_intro(arr: Arrangement, piano: Part, velocity: int, top: int) -> None:
         for i, note in enumerate(voicing):
             loud = velocity + (8 if i == 0 else 6 if note == top else -2 * i)
             piano.add(tick + i * 45 + arr.jitter(4), note, loud + arr.rng.randint(-2, 2), length)
+        line.append((tick + (len(voicing) - 1) * 45, top, length))
+    return line
 
 
 def cover_end(arr: Arrangement, piano: Part, tune: list, velocity: int) -> None:
@@ -943,23 +963,118 @@ def pedal_by_beat(arr: Arrangement, part: Part, start: int, end: int) -> None:
 CLEAR_TONE = {"shelf": [6000, 8]}
 
 
+# The instruments the two references play besides their piano, as two
+# AudioSet taggers (PaSST, two checkpoints) heard them window by window,
+# against our piano-only pieces (Piano 0.21-0.38 there, 0.05 in the
+# references), with the notes' overtones and the tune's vibrato measured:
+# - the first (pulse): a glockenspiel-like bell doubling the tune, with a
+#   tinkle, in its first half (Glockenspiel 0.06-0.21, "Jingle, tinkle"
+#   0.04-0.14; ours 0.001-0.003); a flute singing the tune in the middle
+#   (Flute 0.06-0.21; held notes with a 5.2 Hz, +-9 cent vibrato); harp and
+#   vibraphone at the end (0.04-0.12), faint strings;
+# - the second (ballad): a softer, purer piano tone (Electric piano 0.65 on
+#   its opening notes) over a synth pad (Synthesizer 0.04-0.18; ours 0.005-0.026).
+VIBRATO = (5.2, 9.0)  # Hz, cents
+
+
+def band_sections(arr: Arrangement) -> tuple:
+    """Where the first reference's colours change (ticks, on bar lines): from
+    the first the flute sings the tune (before it, the glockenspiel doubles
+    it), from the second the harp, vibraphone and strings join. With three
+    verses or more, the middle ones are the flute's and the last the close;
+    with two, the second's first half is the flute's; with one, its third quarter."""
+    verses, bars = arr.verses, lambda ticks: arr.bar * round(ticks / arr.bar)
+    if len(verses) >= 3:
+        return verses[1], verses[-1]
+    if len(verses) == 2:
+        return verses[1], verses[1] + bars(arr.verse / 2)
+    return verses[0] + bars(arr.verse / 2), verses[0] + bars(3 * arr.verse / 4)
+
+
+def vibrato(arr: Arrangement, part: Part, tick: int, length: int, delay: float = 0.25, ramp: float = 0.3) -> None:
+    """A flautist's vibrato on a held note, as pitch bends (sfizz bends +-2
+    semitones): none for its first quarter second, then growing over 0.3 s to
+    the reference flute's (VIBRATO); back to true pitch as it ends."""
+    per_second = arr.bpm * TICKS / 60  # ticks a second, near enough
+    if length / per_second < delay + 0.2:
+        return
+    rate, cents = VIBRATO
+    full, start = cents / 200 * 8191, tick + int(delay * per_second)
+    for at in range(start, tick + length - 20, 12):
+        seconds = (at - start) / per_second
+        part.bends.append((at, round(full * min(1.0, seconds / ramp) * math.sin(2 * math.pi * rate * seconds))))
+    part.bends.append((tick + length - 10, 0))
+
+
+def band(arr: Arrangement, intro_line: list) -> None:
+    """The first reference's other instruments around the piano: a glockenspiel
+    (it sounds an octave over its keys) doubling the intro's top line and the
+    tune up to `flute`, softly; the flute singing the tune from there; from
+    `close` the vibraphone doubling the tune, a harp breaking the chords in
+    eighths and soft strings holding them; a run of the mark tree as the
+    intro, each section and the last chord begin."""
+    flute_from, close_from = band_sections(arr)
+    glock = arr.part("glock", "glock", "shimmer", 0.2, reverb=0.45)
+    flute = arr.part("flute", "flute", "melody", -0.1, reverb=0.38)
+    vibes = arr.part("vibes", "vibes", "shimmer", -0.2, reverb=0.4)
+    for tick, note, length in intro_line:
+        glock.add(tick + arr.jitter(4), note, 44, length)
+    for tick, note, length, verse, position in arr.melody():
+        if verse < 0:
+            continue
+        at, high = tick + 4 + arr.jitter(3), note + 12  # the tune an octave up, as the piano sings it
+        if tick < flute_from:
+            glock.add(at, high, 42 + 6 * shape(position), min(length, arr.bar))
+        elif tick < close_from:
+            flute.add(at, high, 56 + 12 * shape(position), length + 20)
+            vibrato(arr, flute, at, length)
+        else:
+            vibes.add(at, high, 48 + 8 * shape(position), length)
+    harp = arr.part("harp", "harp", "arp", -0.3, reverb=0.35)
+    flowing_bass(arr, harp, close_from, arr.end, 50, octave=12)
+    tonic = arr.chord_at(arr.end)
+    harp.add(arr.end, bass_note(tonic) + 12, 54, 2 * arr.bar)
+    gliss(arr, harp, arr.end + arr.beat, 2 * arr.beat, tonic, 60, 96, 42)
+    glock.add(arr.end + arr.beat + 60, bass_note(tonic) + 36, 40, 2 * arr.bar)
+    strings(arr, close_from, arr.end + 2 * arr.bar, 40, roles=("bed", "bed"))
+    for name in ("cellos", "violas"):
+        breathe(arr, arr.parts[name], 84, 110, start=close_from)
+    marktree = arr.part("marktree", "marktree", "sparkle", 0.3, reverb=0.45)
+    for i, tick in enumerate((0, arr.verses[0], flute_from, close_from, arr.end)):
+        marktree.add(tick + arr.jitter(6), (60, 64, 61, 64, 65)[i], 50, 2 * arr.bar)
+
+
+def pad_chords(arr: Arrangement, part: Part, start: int, end: int, velocity: int) -> None:
+    """The second reference's pad: each chord held in three tones between G3 and
+    C5, each moving to the nearest tone of the next (tones two chords share held on)."""
+    for tick, length, chord in arr.chord_spans(start, end):
+        part.voicing = voice_lead(part.voicing, chord, 55, 72, count=3)
+        for note in part.voicing:
+            part.add(tick + arr.jitter(6), note, velocity, length + 30, tie=True)
+
+
 def arrange_ballad(arr: Arrangement, clear: bool = False) -> None:
     """After the second reference: the tune's last phrase as the intro, then
-    the verses over the deep bass and the rolling pairs."""
+    the verses over the deep bass and the rolling pairs, a synth pad under it
+    all, swelling with each phrase."""
     piano = arr.part("piano", arr.piano, "piano", 0.0, reverb=0.32)
     tune = cover_melody(arr, piano, BRIGHT + 8)
     deep_bass(arr, piano, 0, arr.end, BRIGHT + 4, walk=True, hold=arr.beat if clear else None)
     rolling_pairs(arr, piano, 0, arr.end, 54, tune, length=EIGHTH if clear else 2 * EIGHTH)
     (pedal_by_beat if clear else pedal_by_chord)(arr, piano, 0, arr.end)
     cover_end(arr, piano, tune, BRIGHT)
+    pad = arr.part("pad", "pad", "pad", 0.0, reverb=0.4)
+    pad_chords(arr, pad, 0, arr.end + 2 * arr.bar, 56)
+    breathe(arr, pad, 76, 108)
 
 
 def arrange_pulse(arr: Arrangement, clear: bool = False) -> None:
     """After the first reference: rolled chords in free time, then the verses
-    over the deep bass and the pulse."""
+    over the deep bass and the pulse, with its bells, flute, harp, vibraphone
+    and strings (band)."""
     piano = arr.part("piano", arr.piano, "piano", 0.0, reverb=0.32)
-    tune = cover_melody(arr, piano, BRIGHT + 8, intro=False)
-    free_intro(arr, piano, BRIGHT - 4, tune[0][1] if tune else 76)
+    tune = cover_melody(arr, piano, BRIGHT + 8, intro=False, aside=band_sections(arr))
+    line = free_intro(arr, piano, BRIGHT - 4, tune[0][1] if tune else 76)
     deep_bass(arr, piano, arr.verses[0], arr.end, BRIGHT + 4, hold=arr.beat if clear else None)
     pulse_hand(arr, piano, arr.verses[0], arr.end, 50, tune, length=EIGHTH - 40 if clear else EIGHTH)
     if clear:
@@ -968,6 +1083,7 @@ def arrange_pulse(arr: Arrangement, clear: bool = False) -> None:
     else:
         pedal_by_chord(arr, piano, 0, arr.end)
     cover_end(arr, piano, tune, BRIGHT)
+    band(arr, line)
 
 
 def arrange_bells(arr: Arrangement) -> None:
@@ -1142,6 +1258,8 @@ def write_part(part: Part, tempos: list, path: Path, meter: tuple = (3, 2)) -> i
         messages.append((max(0, tick), 1, mido.Message("control_change", control=64, value=value)))
     for tick, value in part.expression:
         messages.append((max(0, tick), 1, mido.Message("control_change", control=11, value=value)))
+    for tick, value in part.bends:
+        messages.append((max(0, tick), 1, mido.Message("pitchwheel", pitch=value)))
     for tick, bpm in tempos:
         messages.append((tick, -1, mido.MetaMessage("set_tempo", tempo=mido.bpm2tempo(bpm))))
     midi = mido.MidiFile(ticks_per_beat=TICKS)

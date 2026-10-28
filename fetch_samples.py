@@ -124,6 +124,8 @@ def main(out: str, libs: str) -> int:
         for entry in json.loads(sheet.read_text())["parts"]:
             needed.setdefault(entry["library"], set()).add(entry["sfz"])
     for name, sfz_files in sorted(needed.items()):
+        if name not in LIBRARIES:  # "local": our own instruments, in instruments/
+            continue
         url, commit, always = LIBRARIES[name]
         dest = Path(libs) / name
         dest.mkdir(parents=True, exist_ok=True)

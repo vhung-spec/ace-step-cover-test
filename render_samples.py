@@ -4,6 +4,8 @@ mixes them into one piece per folder:
     python render_samples.py out/sampled --sfizz path/to/sfizz_render --vsco <VSCO-2-CE> --vcsl <VCSL>
         [--salamander <SalamanderGrandPiano>]
 
+(instruments of our own, such as the synth pad, are in instruments/)
+
 - each part is played by sfizz_render from its SFZ instrument (mix.json), at
   the samples' own rate (44.1 kHz: no resampling for a note at a sampled
   pitch) with sfizz's best interpolation (a 72-point windowed sinc, its own
@@ -374,7 +376,8 @@ def main() -> None:
     parser.add_argument("--keep-parts", action="store_true", help="keep each part's WAV")
     parser.add_argument("--premaster", type=Path, help="also save each piece before its master here (MP3)")
     args = parser.parse_args()
-    libraries = {"vsco": args.vsco, "vcsl": args.vcsl, "salamander": args.salamander}
+    libraries = {"vsco": args.vsco, "vcsl": args.vcsl, "salamander": args.salamander,
+                 "local": Path(__file__).parent / "instruments"}  # our own instruments (sfizz's oscillators)
     for folder in sorted(p for p in args.out.iterdir() if (p / "mix.json").is_file()):
         print(f"== {folder.name}", flush=True)
         mix_folder(folder, args.sfizz, libraries, args.keep_parts, args.premaster)
