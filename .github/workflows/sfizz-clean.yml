@@ -1,0 +1,64 @@
+# Builds sfizz_render on a clean Ubuntu 24.04, given only the packages
+# build-essential, cmake, pkg-config, git and ffmpeg, as a fresh Ubuntu
+# under WSL2 would have them, and plays a short MIDI file through a synth
+# SFZ (sfizz's own oscillators): does that list suffice to build and run it?
+name: sfizz on a clean Ubuntu
+
+on:
+  push:
+    branches: [main]
+    paths: ['.github/workflows/sfizz-clean.yml']
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: ubuntu-24.04
+    container: ubuntu:24.04
+    timeout-minutes: 40
+    env:
+      SFIZZ_VERSION: '1.2.3'
+    steps:
+      - name: Only the listed packages
+        run: |
+          apt-get update -qq
+          DEBIAN_FRONTEND=noninteractive apt-get install -y -qq build-essential cmake pkg-config git ffmpeg \
+            ca-certificates python3-venv >/dev/null
+
+      - name: Build sfizz_render
+        run: |
+          git clone -q --recursive --depth 1 --shallow-submodules --branch "$SFIZZ_VERSION" \
+            https://github.com/sfztools/sfizz.git /tmp/sfizz
+          cmake -S /tmp/sfizz -B /tmp/sfizz/build -DCMAKE_BUILD_TYPE=Release -DENABLE_LTO=OFF \
+            -DSFIZZ_JACK=OFF -DSFIZZ_RENDER=ON -DSFIZZ_SHARED=OFF -DSFIZZ_TESTS=OFF -DSFIZZ_DEMOS=OFF \
+            -DSFIZZ_DEVTOOLS=OFF -DSFIZZ_BENCHMARKS=OFF
+          cmake --build /tmp/sfizz/build -j"$(nproc)" --target sfizz_render
+          find /tmp/sfizz/build -name sfizz_render -type f -perm -u+x -exec cp {} /usr/local/bin/sfizz_render \;
+          sfizz_render --help | head -3
+
+      - name: Play a few notes
+        run: |
+          python3 -m venv /tmp/venv
+          /tmp/venv/bin/pip install -q mido soundfile numpy
+          printf '<region>\nsample=*saw\nampeg_release=0.5\n' > /tmp/saw.sfz
+          /tmp/venv/bin/python - <<'EOF'
+          import mido
+          midi = mido.MidiFile(ticks_per_beat=480)
+          track = mido.MidiTrack()
+          midi.tracks.append(track)
+          for note in (60, 64, 67, 72):
+              track.append(mido.Message("note_on", note=note, velocity=80, time=0))
+              track.append(mido.Message("note_off", note=note, velocity=0, time=480))
+          track.append(mido.MetaMessage("end_of_track", time=960))
+          midi.save("/tmp/notes.mid")
+          EOF
+          sfizz_render --sfz /tmp/saw.sfz --midi /tmp/notes.mid --wav /tmp/notes.wav --samplerate 44100 \
+            --polyphony 256 --quality 10 --use-eot
+          /tmp/venv/bin/python -c "
+          import numpy as np, soundfile as sf
+          audio, rate = sf.read('/tmp/notes.wav')
+          peak = np.abs(audio).max()
+          print(f'{len(audio) / rate:.1f} s at {rate} Hz, peak {20 * np.log10(peak):.1f} dBFS')
+          assert rate == 44100 and peak > 0.01"
