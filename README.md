@@ -166,6 +166,9 @@ runs/<mã khác>/covers/lego-woodwinds/stem_01.mp3:0.7` (nhiều lượt cách n
      timpani khẽ ở hợp âm cuối.
    - `orchestra-long`: `orchestra` dài hơn, theo ý bạn. Bài được chơi nhiều lượt hơn (2–6 lượt), đủ khoảng
      2 phút rưỡi; sáo và violin thay nhau hát giai điệu ở các lượt giữa.
+   - `orchestra-long-calm`: như `orchestra-long`, đoạn kết lắng xuống thay vì "lên cao rồi tắt": không
+     glockenspiel, bè sáo cao không vượt La5, đàn hạc rải hợp âm cuối đi xuống về nốt trầm, các bè ngân
+     nhỏ dần thay vì dừng.
    - `salamander`: như `piano` nhưng trên đàn Salamander Grand Piano (không chạy mặc định).
 
    Các kiểu piano nhẹ nhàng (chill, lullaby, flowing, hymn, piano-strings, felt, felt-noise) chơi trên đàn

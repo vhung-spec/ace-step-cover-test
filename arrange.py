@@ -616,10 +616,11 @@ def voice_lead(previous: list, chord: str, low: int, high: int, count: int = 2) 
     return best or previous
 
 
-def breathe(arr: Arrangement, part: Part, low: int, high: int, start: int = 0) -> None:
+def breathe(arr: Arrangement, part: Part, low: int, high: int, start: int = 0, fade: int | None = None) -> None:
     """Expression (CC11), an eighth at a time from start: rising to the middle of
     each phrase (the intro is one) and falling at its end, as players breathe
-    with the tune; over the last chord it swells a little and dies away."""
+    with the tune; over the last chord it swells a little and dies away (with
+    fade, it only dies away, from low down to fade: the chord ends softly)."""
     for tick in range(start, arr.end, EIGHTH):
         if tick < arr.intro:
             begin, length = 0, arr.intro
@@ -628,8 +629,11 @@ def breathe(arr: Arrangement, part: Part, low: int, high: int, start: int = 0) -
         part.expression.append((tick, round(low + (high - low) * math.sin(math.pi * (tick - begin) / length))))
     steps = 2 * arr.bar // EIGHTH
     for i in range(steps):
-        x = 0.25 + 0.75 * i / (steps - 1)
-        part.expression.append((arr.end + i * EIGHTH, round(low + (high - low) * math.sin(math.pi * x))))
+        if fade is None:
+            x = 0.25 + 0.75 * i / (steps - 1)
+            part.expression.append((arr.end + i * EIGHTH, round(low + (high - low) * math.sin(math.pi * x))))
+        else:
+            part.expression.append((arr.end + i * EIGHTH, round(low + (fade - low) * (i / (steps - 1)) ** 0.7)))
 
 
 def gliss(arr: Arrangement, harp: Part, tick: int, length: int, chord: str, low: int, high: int,
@@ -653,14 +657,14 @@ def strings(arr: Arrangement, start: int, end: int, velocity: int, roles: tuple 
             violas.add(tick + arr.jitter(6), note, velocity, length + 20, tie=True)
 
 
-def descant(arr: Arrangement, part: Part, start: int, end: int, velocity: int) -> None:
+def descant(arr: Arrangement, part: Part, start: int, end: int, velocity: int, ceiling: int = 86) -> None:
     """A slow line over the tune: one chord tone per chord, at least a minor third
-    above the melody sounding with it, moving to the nearest tone."""
+    above the melody sounding with it, moving to the nearest tone, none over ceiling."""
     tune = [(t, n, l) for t, n, l, verse, _ in arr.melody() if verse == arr.last]
     previous = None
     for tick, length, chord in arr.chord_spans(start, end):
         top = max((n for t, n, l in tune if t < tick + length and tick < t + l), default=67)
-        options = chord_notes(chord, max(72, top + 3), 86)
+        options = chord_notes(chord, max(72, top + 3), ceiling)
         if not options:
             previous = None
             continue
@@ -1211,19 +1215,24 @@ def arrange_bells(arr: Arrangement) -> None:
     gliss(arr, harp, arr.end + arr.beat, 2 * arr.beat, tonic, 60, 96, 40)
 
 
-def arrange_orchestra(arr: Arrangement, turns: bool = False) -> None:
+def arrange_orchestra(arr: Arrangement, turns: bool = False, calm: bool = False) -> None:
     """Flute, then violins on the tune (with turns, in a longer piece, the two
     take it by turns in the middle verses), a flute descant over the last
     verse, on a harp and a string pad, basses plucked then bowed, horns from
-    the middle of the last verse, a soft timpani roll under the last chord."""
+    the middle of the last verse, a soft timpani roll under the last chord.
+    The last phrase sparkles with a glockenspiel and the harp sweeps up to the
+    top of its range over the last chord; calm, as the user asked ("not going
+    up so high, then off"), ends low instead: no glockenspiel, the descant
+    kept under A5, the harp breaking the last chord downwards into the deep
+    tonic, and every held part dying away over it rather than stopping."""
     flute = arr.part("flute", "flute", "melody", -0.1, reverb=0.35)
     violins = arr.part("violins", "violins", "melody", -0.35, reverb=0.35)
-    glock = arr.part("glock", "glock", "sparkle", 0.3, reverb=0.45)
+    glock = None if calm else arr.part("glock", "glock", "sparkle", 0.3, reverb=0.45)
     for tick, note, length, verse, position in arr.melody():
         lift = shape(position)
         if verse == arr.last:  # the violins, from their soft layer into the full one at the height of the verse
             violins.add(tick + arr.jitter(4), note, 52 + 20 * lift, length + 20)
-            if tick >= arr.end - arr.phrase:
+            if glock and tick >= arr.end - arr.phrase:
                 glock.add(tick + arr.jitter(4), note + 12, 40, length)
         elif turns and verse > 0 and verse % 2 == 1:  # every other middle verse: the violins, softly
             violins.add(tick + arr.jitter(4), note, 48 + 12 * lift, length + 20)
@@ -1250,7 +1259,7 @@ def arrange_orchestra(arr: Arrangement, turns: bool = False) -> None:
         for note in horns.voicing:
             horns.add(tick + arr.jitter(6), note, 40, length + 20, tie=True)
     flute_descant = arr.part("descant", "flute", "descant", 0.15, reverb=0.4)
-    descant(arr, flute_descant, arr.verses[-1] + arr.phrase, arr.end, 50)
+    descant(arr, flute_descant, arr.verses[-1] + arr.phrase, arr.end, 50, ceiling=81 if calm else 86)
     timpani = arr.part("timpani", "timpani", "drum", 0.0, reverb=0.4)
     timpani.add(arr.end, bass_note(arr.chord_at(arr.end)) + 12, 46, 2 * arr.bar)  # a soft roll under the last chord
     if arr.song.lively:  # a sleigh ride for a lively tune: one shake a bar in the last verse
@@ -1258,15 +1267,22 @@ def arrange_orchestra(arr: Arrangement, turns: bool = False) -> None:
         for tick in range(arr.verses[-1], arr.end, arr.bar):
             sleigh.add(tick + arr.jitter(6), 60, 46, arr.beat)
     tonic = arr.chord_at(arr.end)
-    harp.add(arr.end, bass_note(tonic), 58, 2 * arr.bar)
-    gliss(arr, harp, arr.end + arr.beat, 2 * arr.beat, tonic, 60, 96, 42)
-    breathe(arr, flute, 100, 120)
-    breathe(arr, violins, 100, 120, start=arr.verses[min(1, arr.last) if turns else -1])
-    breathe(arr, flute_descant, 84, 112, start=arr.verses[-1] + arr.phrase)
+    if calm:  # the chord's tones from the middle of the keyboard down, an eighth apart, into the deep tonic
+        falling = chord_notes(tonic, 55, 76)[::-1]
+        for i, note in enumerate(falling):
+            harp.add(arr.end + i * EIGHTH, note, 50 - 2 * i, 2 * arr.bar)
+        harp.add(arr.end + len(falling) * EIGHTH, bass_note(tonic), 46, 2 * arr.bar)
+    else:
+        harp.add(arr.end, bass_note(tonic), 58, 2 * arr.bar)
+        gliss(arr, harp, arr.end + arr.beat, 2 * arr.beat, tonic, 60, 96, 42)
+    fade = 24 if calm else None
+    breathe(arr, flute, 100, 120, fade=fade)
+    breathe(arr, violins, 100, 120, start=arr.verses[min(1, arr.last) if turns else -1], fade=fade)
+    breathe(arr, flute_descant, 84, 112, start=arr.verses[-1] + arr.phrase, fade=fade)
     for name in ("cellos", "violas"):
-        breathe(arr, arr.parts[name], 86, 116)
-    breathe(arr, basses, 86, 116, start=arr.verses[-1])
-    breathe(arr, horns, 80, 112, start=middle)
+        breathe(arr, arr.parts[name], 86, 116, fade=fade)
+    breathe(arr, basses, 86, 116, start=arr.verses[-1], fade=fade)
+    breathe(arr, horns, 80, 112, start=middle, fade=fade)
 
 
 @dataclass
@@ -1359,6 +1375,9 @@ STYLES = {
     # orchestra longer, as the user asked: verses enough for about two and a
     # half minutes, the flute and the violins taking the tune by turns
     "orchestra-long": Style(lambda arr: arrange_orchestra(arr, turns=True), hall=2.4, seconds=150),
+    # the user keeps the longer orchestra, but not its ending ("going up so
+    # high, then off"): it now ends low and dies away (calm)
+    "orchestra-long-calm": Style(lambda arr: arrange_orchestra(arr, turns=True, calm=True), hall=2.4, seconds=150),
 }
 
 
