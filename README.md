@@ -223,7 +223,9 @@ runs/<mã khác>/covers/lego-woodwinds/stem_01.mp3:0.7` (nhiều lượt cách n
      dội đầu tiên tới sau 45 ms. Ở các kiểu nhà thờ, phần trầm của tiếng vang (dưới 250 Hz) giống nhau ở
      hai bên, như hai micro đặt sát nhau nghe thấy: nốt organ ngân dài gần như một tần số thuần, nếu hai
      bên vang khác nhau thì nốt này cùng pha, nốt kia ngược pha, nghe bằng một loa thì có nốt to vọt, có
-     nốt gần mất;
+     nốt gần mất. Tiếng đi vào phần vang còn được cho dao động cao độ rất nhẹ và chậm (8 cent, 3 giây một
+     lần), như các máy tạo vang vẫn làm: nốt organ ngân đứng yên thì có nốt làm thánh đường "cộng hưởng"
+     to hơn nốt khác tới 10 dB;
    - cân trái/phải: bài nào lệch quá 1 dB về một bên thì được cân lại (`master.py`). Các bước master khác
      (chỉnh âm sắc, tạo độ sáng, độ rộng, làm đều độ to theo hai bản mẫu) đã thử và đang tắt: nghe thử thấy
      bị rè và không hay bằng bản không master;

@@ -34,7 +34,10 @@ soundfont, played by FluidSynth)
   (a shorter rt60: it answers sooner) and send less into it (wet), for a
   sound close by rather than across a hall, or for a larger one (over 2.8
   s, a cathedral: its response 1.5 times its rt60 long, so the tail is not
-  cut, and its first reflections 45 ms after the sound);
+  cut, and its first reflections 45 ms after the sound); and it may sway
+  what goes into the hall slowly in pitch, as reverberators' modulation
+  does (an organ's held, nearly pure tones would each ring the hall at
+  their own strength, some notes 10 dB over others);
 - a style may lay a soft hush (dark pink noise) under the music, as sleep
   music does;
 - the mix is mastered (master.py): a piece leaning more than 1 dB to one side
@@ -300,6 +303,19 @@ def hall_ir(rt60: float, seconds: float = 4.0, predelay: float = 0.025, seed: in
     return ir / np.sqrt(np.sum(ir ** 2) / 2)
 
 
+def sway(audio: np.ndarray, depth: float, rate: float = 0.31) -> np.ndarray:
+    """The audio through a delay line swept slowly (depth seconds, rate Hz),
+    alike on both sides: a held tone glides a few cents up and down (2.5 ms
+    at 0.31 Hz: 8 cents). Fed to the hall, a held tone rings it over a
+    range of frequencies rather than at one, so the hall answers every note
+    about as strongly (with a still tone, a hall of noise answers some
+    notes far more than their neighbours, as a room's modes do)."""
+    n = audio.shape[1]
+    index = np.arange(n)
+    lag = depth * (1 + np.sin(2 * np.pi * rate * index / RATE)) * RATE
+    return np.stack([np.interp(index - lag, index, side, left=0.0, right=0.0) for side in audio])
+
+
 def noise_bed(n: int, seed: int = 2) -> np.ndarray:
     """A soft, dark hush (pink noise between 120 and 1200 Hz, a different noise
     on each side), as the sleep-music recordings lay under their piano; fading
@@ -410,6 +426,8 @@ def mix_folder(folder: Path, sfizz: str, libraries: dict, keep_parts: bool, prem
         if not keep_parts:
             (folder / f"{name}.wav").unlink()
     send = sosfilt(butter(2, 6000, "low", fs=RATE, output="sos"), send, axis=-1)  # no hiss into the hall
+    if sheet["hall"].get("sway"):
+        send = sway(send, sheet["hall"]["sway"])
     wet = np.stack([fftconvolve(send[c], ir[c])[:n] for c in range(2)])
     rumble = butter(2, 30, "high", fs=RATE, output="sos")
     mixed = fade_tail(sosfilt(rumble, dry + wet, axis=-1))

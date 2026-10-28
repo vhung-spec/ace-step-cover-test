@@ -1355,10 +1355,16 @@ def arrange_orchestra(arr: Arrangement, turns: bool = False, calm: bool = False,
 # The church styles. Their hall's two sides share their echo below 250 Hz
 # (render_samples.hall_ir), so an organ's held low notes, nearly pure tones,
 # echo alike on both sides instead of in phase for one note and opposite for
-# the next. A hymn is sung and played legato, every voice holding
+# the next; and what goes into it sways slowly in pitch (render_samples.sway,
+# SWAY), so the hall answers every held note about as strongly: still, a few
+# rang it 10 dB over the rest (Silent Night's levels spread over 12 dB, its
+# dry organ over 5; swayed, 6). Each part sends less into it than at first
+# (SEND: the hall had stood 7 dB over the dry organ). A hymn is sung and played legato, every voice holding
 # its note while it repeats it, and breathing where a phrase ends: there the
 # voices let go a little before the tune's next phrase begins.
 TOGETHER = 250.0  # Hz
+SWAY = 0.0025  # s
+SEND = 0.4  # each church part's send into the hall
 BREATH = 100  # ticks
 ORGAN_SECONDS = 10.0  # the church organ's samples last about 12 s
 CHAMBER_SECONDS = 6.0  # the Renaissance organ's about 6.5 s
@@ -1502,18 +1508,18 @@ def arrange_church(arr: Arrangement, choir: str | None = None, festive: bool = F
     longest = CHAMBER_SECONDS if chapel else ORGAN_SECONDS
     pickup = math.ceil(round(arr.song.pickup * EIGHTH) / arr.beat) * arr.beat  # a verse begins with its pickup
     sung = arr.verses[min(1, arr.last)] - pickup if choir else arr.end
-    lead = arr.part("organ", organ, "melody", 0.0, reverb=0.55)
-    pedal = arr.part("pedal", organ if chapel else "pedal", "bass", 0.0, reverb=0.55)
+    lead = arr.part("organ", organ, "melody", 0.0, reverb=SEND)
+    pedal = arr.part("pedal", organ if chapel else "pedal", "bass", 0.0, reverb=SEND)
     sing(arr, lead, beats, points, 0, sung, (1, 2), 80, longest=longest)
     sing(arr, pedal, beats, points, 0, sung, (3,), 80, tune=False, longest=longest)
     under = [(lead, (0, 1, 2), 80, longest), (pedal, (3,), 80, longest)]
     if choir:
-        high = arr.part("choir-high", choir, "melody", -0.2, reverb=0.55)
-        low = arr.part("choir-low", choir, "voices", 0.2, reverb=0.55)
+        high = arr.part("choir-high", choir, "melody", -0.2, reverb=SEND)
+        low = arr.part("choir-low", choir, "voices", 0.2, reverb=SEND)
         sing(arr, high, beats, points, sung, arr.end, (1,), 84)
         sing(arr, low, beats, points, sung, arr.end, (2, 3), 80, tune=False)
-        soft = arr.part("organ-soft", organ, "bed", 0.0, reverb=0.55)
-        soft_pedal = arr.part("pedal-soft", organ if chapel else "pedal", "low", 0.0, reverb=0.55)
+        soft = arr.part("organ-soft", organ, "bed", 0.0, reverb=SEND)
+        soft_pedal = arr.part("pedal-soft", organ if chapel else "pedal", "low", 0.0, reverb=SEND)
         sing(arr, soft, beats, points, sung, arr.end, (1, 2), 80, longest=longest)
         sing(arr, soft_pedal, beats, points, sung, arr.end, (3,), 80, tune=False, longest=longest)
         under = [(soft, (0, 1, 2), 80, longest), (soft_pedal, (3,), 80, longest),
@@ -1522,8 +1528,8 @@ def arrange_church(arr: Arrangement, choir: str | None = None, festive: bool = F
             breathe(arr, part, low_level, 118, start=sung, fade=56)
     last = arr.verses[-1] - pickup
     if not chapel:  # the last verse a little fuller
-        full = arr.part("organ-loud", "organ-loud", "pad" if festive else "bed", 0.0, reverb=0.55)
-        full_pedal = arr.part("pedal-loud", "pedal-loud", "low", 0.0, reverb=0.55)
+        full = arr.part("organ-loud", "organ-loud", "pad" if festive else "bed", 0.0, reverb=SEND)
+        full_pedal = arr.part("pedal-loud", "pedal-loud", "low", 0.0, reverb=SEND)
         sing(arr, full, beats, points, last, arr.end, (1, 2), 80, longest=longest)
         sing(arr, full_pedal, beats, points, last, arr.end, (3,), 80, tune=False, longest=longest)
         under += [(full, (0, 1, 2), 80, longest), (full_pedal, (3,), 80, longest)]
@@ -1557,6 +1563,7 @@ class Style:
     repeat_short: bool = False  # play a short tune (under 40 s at its own tempo) three times
     noise_db: float | None = None  # a hush of pink noise under the music, this far under the melody
     together: float = 0.0  # the hall's two sides alike below this (Hz): render_samples.hall_ir
+    sway: float = 0.0  # what goes into the hall swayed slowly in pitch, this deep (s): render_samples.sway
     verses: int | None = None  # this many verses, whatever the tune's length
     seconds: float | None = None  # as many verses (2 to 6) as last about this long
     piano_tone: dict | None = None  # changes to the piano part's tone
@@ -1651,15 +1658,15 @@ STYLES = {
     # a carol as a church sings it (arrange_church), in a cathedral's 4.5 s hall
     # whose lows sound alike on both sides (TOGETHER)
     "church-organ": Style(lambda arr: arrange_church(arr, bell="tubular"), tempo=0.8, breath=0.85, hall=4.5,
-                          seconds=150, harmony="chorale", together=TOGETHER),
+                          seconds=150, harmony="chorale", together=TOGETHER, sway=SWAY),
     "church-organ-plain": Style(lambda arr: arrange_church(arr, bell="tubular"), tempo=0.8, breath=0.85, hall=4.5,
-                                seconds=150, together=TOGETHER),
+                                seconds=150, together=TOGETHER, sway=SWAY),
     "church-choir": Style(lambda arr: arrange_church(arr, choir="choir"), tempo=0.8, breath=0.85, hall=4.5,
-                          seconds=150, harmony="chorale", together=TOGETHER),
+                          seconds=150, harmony="chorale", together=TOGETHER, sway=SWAY),
     "church-festive": Style(lambda arr: arrange_church(arr, choir="choir", festive=True), tempo=0.8, breath=0.85,
-                            hall=4.5, seconds=150, harmony="chorale", together=TOGETHER),
+                            hall=4.5, seconds=150, harmony="chorale", together=TOGETHER, sway=SWAY),
     "chapel": Style(lambda arr: arrange_church(arr, choir="oohs", chapel=True, bell=None), tempo=0.75, breath=0.85,
-                    hall=2.6, seconds=150, harmony="chorale", together=TOGETHER),
+                    hall=2.6, seconds=150, harmony="chorale", together=TOGETHER, sway=SWAY),
 }
 
 
@@ -1762,7 +1769,8 @@ def main() -> None:
                           "gain_db": ROLES[part.role], "pan": part.pan, "reverb": part.reverb,
                           "tone": part.tone, "notes": len(part.notes)})
         hall = ({"rt60": style.hall} | ({"wet": style.wet} if style.wet != 1.0 else {})
-                | ({"together": style.together} if style.together else {}))
+                | ({"together": style.together} if style.together else {})
+                | ({"sway": style.sway} if style.sway else {}))
         mix = {"hall": hall, "parts": sheet, "master": style.master}
         if style.noise_db is not None:
             mix["noise"] = {"db": style.noise_db}
