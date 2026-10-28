@@ -112,15 +112,20 @@ runs/<mã khác>/covers/lego-woodwinds/stem_01.mp3:0.7` (nhiều lượt cách n
      - `ballad` (khoảng 72 nhịp/phút): mở đầu bằng câu cuối của bài; bass đi từng phách (gốc, năm, tám,
        năm); quãng giữa mỗi nốt móc đơn hai nốt của hợp âm, thấp cao xen kẽ; một lớp pad synth rất khẽ ở dưới
        như bản mẫu thứ hai (tự tạo bằng bộ dao động của sfizz, `instruments/pad.sfz`, không cần mẫu thu nào).
+       Hợp âm được tô màu kiểu pop ballad như bản mẫu thứ hai (vòng ii–V–I–vi, khoảng hai phần năm là hợp âm
+       thứ; hợp âm gốc của các bài carol gần như toàn trưởng): trong một chuỗi ô nhịp hợp âm chủ, cứ ô thứ
+       hai thành hợp âm bậc vi thứ bảy (Đô thành La thứ 7, vẫn chứa đủ nốt của Đô); chuỗi hợp âm bậc IV thì ô
+       thứ hai thành ii thứ bảy (Fa thành Rê thứ 7); ô hợp âm át (V) mở đầu bằng ii thứ bảy. Chỉ đổi ở chỗ các
+       nốt giai điệu vẫn là nốt của hợp âm mới (Silent Night: 10/24 ô nhịp, từ 0% lên 33% phách là hợp âm thứ).
      - `pulse` (khoảng 88 nhịp/phút): mở đầu tự do bằng hợp âm của mấy ô nhịp cuối, rải từ bass trầm lên
        một nốt cao đi thành giai điệu riêng; sau đó tiếng đệm nảy đều như nhịp tim, mỗi nốt móc đơn một
        quãng năm (thêm quãng tám ở đầu phách), bass trầm ở đầu hợp âm và quãng năm ở giữa ô nhịp. Thêm các
        nhạc cụ nghe được trong bản mẫu thứ nhất: lượt đầu có glockenspiel đánh đôi giai điệu thật khẽ, rồi sáo
        hát giai điệu (có vibrato nhẹ 5,2 lần/giây như sáo trong bản mẫu) trong khi piano đi theo khẽ, đoạn cuối
-       vibraphone đánh đôi giai điệu trên tiếng harp rải và dàn dây khẽ. Tiếng lấp lánh ở lượt đầu là chuông
-       lắc (sleigh bells) lắc khẽ theo nhịp từng nốt móc đơn, và một nốt glockenspiel cao mỗi hai ô nhịp, như
-       bản mẫu (soi kỹ: những tiếng leng keng ngắn ở 5–7,5 kHz cách nhau 0,33–0,66 giây); bản trước dùng
-       mark tree (chùm thanh kim loại gạt lướt) nghe không hay nên đã bỏ.
+       vibraphone đánh đôi giai điệu trên tiếng harp rải và dàn dây khẽ. Ở lượt đầu, glockenspiel đánh đôi
+       giai điệu thật khẽ (`pulse-plain`: lượt đầu chỉ có piano). Đã thử và bỏ vì nghe không hay: mark tree
+       (chùm thanh kim loại gạt lướt) ở đầu bài; chuông lắc (sleigh bells) lắc theo nhịp kèm một nốt chuông
+       "ding" mỗi hai ô nhịp (soi kỹ thì bản mẫu có kiểu lấp lánh này, nhưng mẫu tiếng của mình nghe thô).
      - Các nhạc cụ này được nhận ra bằng hai mô hình nhận diện âm thanh (PaSST, huấn luyện trên AudioSet) nghe
        từng đoạn 5–10 giây của hai bản mẫu, so với các bản chỉ có piano của mình, cùng với đo bồi âm và độ rung
        (vibrato) của giai điệu.

@@ -47,17 +47,19 @@ same chords, beat by beat, so they always agree:
   held note; the last chord rolled from the deep bass, in a longer hall:
   - ballad (about 72 bpm): the tune's last phrase as the intro; the bass
     walking the chord a beat at a time; the middle hand two tones an eighth,
-    low and high by turns, up and down the chord from C3-B3; a soft synth pad
+    low and high by turns, up and down the chord from C3-B3; a faint synth pad
     under it all (instruments/pad.sfz, sfizz's own oscillators), as the second
-    reference lays one;
+    reference lays one; the carol's chords coloured as that reference's are
+    (reharmonize: vi7 for some tonic bars, ii7 for some subdominant ones, ii7
+    opening a dominant bar, where the tune allows);
   - pulse (about 88 bpm): an intro in free time, the tune's last chords
     rolled from the deep bass to a slow top line; then a heartbeat of eighths,
     each chord's root and fifth (the octave on the beats), the bass struck
     as each chord comes and its fifth halfway through the bar; and the first
-    reference's other instruments: in the first verse sleigh bells shaken
-    softly in time and a glockenspiel's note every second bar, then a flute
-    singing the tune (with a gentle vibrato) while the piano follows softly,
-    then a vibraphone doubling it over a harp and soft strings;
+    reference's other instruments: in the first verse a glockenspiel softly
+    doubling the tune (pulse-plain: the piano alone), then a flute singing it
+    (with a gentle vibrato) while the piano follows softly, then a vibraphone
+    doubling it over a harp and soft strings;
   - ballad-clear, pulse-clear: the same, each beat's notes blooming and
     fading as the references' do (the pedal taken again on every beat, the
     bass held a beat, the middle hand lifted after its eighth), and brighter
@@ -76,6 +78,7 @@ Library ("vcsl", sfz branch).
 """
 
 import argparse
+import dataclasses
 import itertools
 import json
 import math
@@ -224,6 +227,61 @@ def per_beat(names: str, beats: int = 3) -> list:
         assert beats % len(split) == 0, bar
         bars.append([name for name in split for _ in range(beats // len(split))])
     return bars
+
+
+PITCH_NAMES = ("C", "Db", "D", "Eb", "E", "F", "F#", "G", "Ab", "A", "Bb", "B")
+
+
+def reharmonize(song: "Song") -> "Song":
+    """The carol's chords coloured as the slow pop ballads colour them (the
+    second reference moves ii-V-I-vi, about two chords in five minor; the
+    carols' own, Silent Night's all major): in a run of bars on the tonic every
+    second becomes the sixth's minor seventh (vi7 holds all the tonic's tones:
+    C -> Am7); in a run on the subdominant every second becomes the second's
+    minor seventh (ii7: F -> Dm7); a bar on the dominant after one that is not
+    ii7 opens with ii7 for its first half (its first beat in 3/4), each only
+    where the tune's notes there (those on a beat, or a beat long) are its
+    tones. The first bar and the last two stay as they are."""
+    tonic = CHORDS[song.chords[0][0]][0]
+    vi7, ii7 = PITCH_NAMES[(tonic + 9) % 12] + "m7", PITCH_NAMES[(tonic + 2) % 12] + "m7"
+    bar_eighths = song.beats * song.beat_eighths
+    tune, at = [], -song.pickup
+    for note, eighths in song.melody:
+        if note is not None:
+            tune.append((at, note % 12, eighths))
+        at += eighths
+
+    def fits(name: str, start: float, end: float) -> bool:
+        tones = {(CHORDS[name][0] + i) % 12 for i in CHORDS[name][1]}
+        beats = [start + k * song.beat_eighths for k in range(round((end - start) / song.beat_eighths))]
+        for begin, pc, length in tune:
+            on_beat = any(begin <= b < begin + length for b in beats)
+            if (on_beat or (start <= begin < end and length >= song.beat_eighths)) and pc not in tones:
+                return False
+        return True
+
+    def role(name: str) -> str:
+        root, intervals = CHORDS[name]
+        if intervals[1] != 4:
+            return "minor"
+        return {0: "I", 5: "IV", 7: "V"}.get((root - tonic) % 12, "other")
+
+    chords, run = [list(bar) for bar in song.chords], {"I": 0, "IV": 0}
+    for b in range(1, len(chords) - 2):
+        bar = chords[b]
+        kind = role(bar[0]) if len(set(bar)) == 1 else "moving"
+        for name in run:
+            run[name] = run[name] + 1 if kind == name else 0
+        start = b * bar_eighths
+        if kind == "I" and run["I"] % 2 == 0 and fits(vi7, start, start + bar_eighths):
+            chords[b] = [vi7] * song.beats
+        elif kind == "IV" and run["IV"] % 2 == 0 and fits(ii7, start, start + bar_eighths):
+            chords[b] = [ii7] * song.beats
+        elif kind == "V" and chords[b - 1][-1] != ii7:
+            half = max(1, song.beats // 2)
+            if fits(ii7, start, start + half * song.beat_eighths):
+                chords[b] = [ii7] * half + bar[half:]
+    return dataclasses.replace(song, chords=chords)
 
 
 SONGS = {
@@ -1004,47 +1062,30 @@ def vibrato(arr: Arrangement, part: Part, tick: int, length: int, delay: float =
     part.bends.append((tick + length - 10, 0))
 
 
-# The first reference's sparkle, heard close up: not a run of bells (the
-# mark tree's sweep, which the user did not like) but sleigh bells shaken
-# softly in time, short bursts at 5-7.5 kHz every eighth or quarter (29 in 13
-# s), and a high bell note on the downbeat of every second bar. Sleigh bells
-# by eighths, each meter's bar: 2 the downbeat (the brighter hit, key 63), 1 a
-# soft hit (key 60, two round robins), 0 a rest.
-JINGLES = {(3, 2): (2, 0, 1, 1, 1, 0), (4, 2): (2, 0, 1, 1, 1, 0, 1, 1), (2, 2): (2, 0, 1, 1),
-           (4, 3): (2, 0, 0, 1, 0, 1, 1, 0, 0, 1, 0, 1), (2, 3): (2, 0, 0, 1, 0, 1)}
-
-
-def jingles(arr: Arrangement, part: Part, start: int, end: int, velocity: int) -> None:
-    for tick in range(start, end, EIGHTH):
-        kind = JINGLES[arr.meter][tick % arr.bar // EIGHTH]
-        if kind:
-            part.add(tick + arr.jitter(5), 63 if kind == 2 else 60,
-                     velocity + (6 if kind == 2 else 0) + arr.rng.randint(-3, 3), EIGHTH)
-
-
-def band(arr: Arrangement, intro_line: list) -> None:
-    """The first reference's other instruments around the piano: in the first
-    verse sleigh bells shaken softly in time and, on the downbeat of every
-    second bar, a glockenspiel's note of the chord (it sounds an octave over
-    its keys, C6-B6); from `flute` the flute singing the tune; from `close` the
-    vibraphone doubling the tune, a harp breaking the chords in eighths and soft
-    strings holding them. (intro_line, the free intro's top line, is the
-    piano's own.)"""
+# The first verse's sparkle, by the user's ear: a mark tree's sweep as the
+# piece began (run 18) did not please, nor sleigh bells shaken in time with a
+# glockenspiel's note every second bar (run 19: "the ding does not fit, the
+# sleigh bells a little coarse"), though close up the first reference's
+# sparkle sounds like those; the glockenspiel softly doubling the tune (run
+# 18, the arrangement liked) stays, and pulse-plain leaves the verse to the piano.
+def band(arr: Arrangement, bells: bool = True) -> None:
+    """The first reference's other instruments around the piano: with bells, a
+    glockenspiel (it sounds an octave over its keys) doubling the tune softly
+    in the first verse; from `flute` the flute singing the tune; from `close`
+    the vibraphone doubling the tune, a harp breaking the chords in eighths and
+    soft strings holding them."""
     flute_from, close_from = band_sections(arr)
-    glock = arr.part("glock", "glock", "shimmer", 0.2, reverb=0.45)
+    glock = arr.part("glock", "glock", "shimmer", 0.2, reverb=0.45) if bells else None
     flute = arr.part("flute", "flute", "melody", -0.1, reverb=0.38)
     vibes = arr.part("vibes", "vibes", "shimmer", -0.2, reverb=0.4)
-    sleigh = arr.part("sleigh", "sleigh", "jingle", 0.3, reverb=0.3)
-    jingles(arr, sleigh, arr.verses[0], flute_from, 40)
-    for downbeat in range(arr.verses[0], flute_from, 2 * arr.bar):
-        chord = arr.chord_at(downbeat)
-        key = min(chord_notes(chord, 72, 83), key=lambda n: abs(n - 76))
-        glock.add(downbeat + arr.jitter(4), key, 44 + arr.rng.randint(-2, 2), 2 * arr.bar)
     for tick, note, length, verse, position in arr.melody():
-        if verse < 0 or tick < flute_from:
+        if verse < 0:
             continue
         at, high = tick + 4 + arr.jitter(3), note + 12  # the tune an octave up, as the piano sings it
-        if tick < close_from:
+        if tick < flute_from:
+            if glock:
+                glock.add(at, high, 42 + 6 * shape(position), min(length, arr.bar))
+        elif tick < close_from:
             flute.add(at, high, 56 + 12 * shape(position), length + 20)
             vibrato(arr, flute, at, length)
         else:
@@ -1054,7 +1095,6 @@ def band(arr: Arrangement, intro_line: list) -> None:
     tonic = arr.chord_at(arr.end)
     harp.add(arr.end, bass_note(tonic) + 12, 54, 2 * arr.bar)
     gliss(arr, harp, arr.end + arr.beat, 2 * arr.beat, tonic, 60, 96, 42)
-    glock.add(arr.end + arr.beat + 60, bass_note(tonic) + 36, 40, 2 * arr.bar)
     strings(arr, close_from, arr.end + 2 * arr.bar, 40, roles=("bed", "bed"))
     for name in ("cellos", "violas"):
         breathe(arr, arr.parts[name], 84, 110, start=close_from)
@@ -1086,13 +1126,13 @@ def arrange_ballad(arr: Arrangement, clear: bool = False) -> None:
     breathe(arr, pad, 76, 108)
 
 
-def arrange_pulse(arr: Arrangement, clear: bool = False) -> None:
+def arrange_pulse(arr: Arrangement, clear: bool = False, bells: bool = True) -> None:
     """After the first reference: rolled chords in free time, then the verses
-    over the deep bass and the pulse, with its bells, flute, harp, vibraphone
-    and strings (band)."""
+    over the deep bass and the pulse, with its glockenspiel (if bells), flute,
+    harp, vibraphone and strings (band)."""
     piano = arr.part("piano", arr.piano, "piano", 0.0, reverb=0.32)
     tune = cover_melody(arr, piano, BRIGHT + 8, intro=False, aside=band_sections(arr))
-    line = free_intro(arr, piano, BRIGHT - 4, tune[0][1] if tune else 76)
+    free_intro(arr, piano, BRIGHT - 4, tune[0][1] if tune else 76)
     deep_bass(arr, piano, arr.verses[0], arr.end, BRIGHT + 4, hold=arr.beat if clear else None)
     pulse_hand(arr, piano, arr.verses[0], arr.end, 50, tune, length=EIGHTH - 40 if clear else EIGHTH)
     if clear:
@@ -1101,7 +1141,7 @@ def arrange_pulse(arr: Arrangement, clear: bool = False) -> None:
     else:
         pedal_by_chord(arr, piano, 0, arr.end)
     cover_end(arr, piano, tune, BRIGHT)
-    band(arr, line)
+    band(arr, bells)
 
 
 def arrange_bells(arr: Arrangement) -> None:
@@ -1203,6 +1243,7 @@ class Style:
     free_intro: bool = False  # open with the chords alone, in free time
     master: dict = field(default_factory=lambda: dict(MASTER))  # how strongly master.py works on it
     piano: str = "piano"  # the instrument its piano part is played on
+    reharm: bool = False  # the carol's chords coloured as the pop ballads colour them (reharmonize)
 
 
 # The gentle styles are played on the Yamaha upright: of the three pianos
@@ -1230,9 +1271,12 @@ STYLES = {
                            piano=GENTLE_PIANO),
     "felt": Style(arrange_felt, tempo=0.8, breath=0.9, repeat_short=True, piano=GENTLE_PIANO),
     "felt-noise": Style(arrange_felt, tempo=0.8, breath=0.9, repeat_short=True, noise_db=-22, piano=GENTLE_PIANO),
-    "ballad": Style(arrange_ballad, bpm=72, breath=0.9, hall=2.8, repeat_short=True, piano=GENTLE_PIANO),
+    "ballad": Style(arrange_ballad, bpm=72, breath=0.9, hall=2.8, repeat_short=True, piano=GENTLE_PIANO,
+                    reharm=True),
     "pulse": Style(arrange_pulse, bpm=88, breath=0.9, hall=2.8, repeat_short=True, free_intro=True,
                    piano=GENTLE_PIANO),
+    "pulse-plain": Style(lambda arr: arrange_pulse(arr, bells=False), bpm=88, breath=0.9, hall=2.8,
+                         repeat_short=True, free_intro=True, piano=GENTLE_PIANO),
     "ballad-clear": Style(lambda arr: arrange_ballad(arr, clear=True), bpm=72, breath=0.9, hall=2.8,
                           repeat_short=True, piano="grand", piano_tone=CLEAR_TONE),
     "pulse-clear": Style(lambda arr: arrange_pulse(arr, clear=True), bpm=88, breath=0.9, hall=2.8,
@@ -1307,6 +1351,7 @@ def main() -> None:
     args = parser.parse_args()
     for piano_choice, name, style_name in itertools.product(args.pianos or [None], args.songs, args.styles):
         song, style = SONGS[name], STYLES[style_name]
+        song = reharmonize(song) if style.reharm else song
         piano = piano_choice or style.piano
         verses = style.verses or song.verses or (3 if style.repeat_short and song.seconds() < 40 else 2)
         tempo = min(1.0, style.bpm / song.bpm) if style.bpm else style.tempo
