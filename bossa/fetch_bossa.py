@@ -37,6 +37,7 @@ KIT = {
     36: ("cajon_kick", r"cajon_kick_vl(\d+)_rr(\d+)_front\.wav", "loop_mode=one_shot"),
     37: ("snare_edge", r"snare_edge_vl(\d+)_rr(\d+)_top\.wav", "loop_mode=one_shot"),
     38: ("snare_main", r"snare_hit_vl(\d+)_rr(\d+)_top\.wav", "loop_mode=one_shot"),
+    42: ("hat_closed", r"hh_closed_vl(\d+)_rr(\d+)\.wav", "loop_mode=one_shot"),
     44: ("hat_foot", r"hh_foot_vl(\d+)_rr(\d+)\.wav", "loop_mode=one_shot"),
     47: ("snare_stir", r"stir_dl4_rr(\d+)\.wav", "ampeg_release=0.3"),
     48: ("snare_stir", r"stir_dl3_rr(\d+)\.wav", "ampeg_release=0.3"),

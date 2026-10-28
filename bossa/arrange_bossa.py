@@ -47,11 +47,12 @@ EIGHTH = TICKS // 2
 
 class Part:
     """The notes of one instrument, (tick, note, velocity, length), and how it
-    sits in the mix."""
+    sits in the mix (gain_db: its level against the melody, if not its role's)."""
 
     def __init__(self, instrument: str, role: str, pan: float, reverb: float, tone: dict):
         self.instrument, self.role, self.pan, self.reverb, self.tone = instrument, role, pan, reverb, dict(tone)
         self.notes = []
+        self.gain_db = None
 
     def add(self, tick: int, note: int, velocity: int, length: int) -> None:
         self.notes.append((max(0, int(tick)), int(note), max(1, min(127, int(velocity))), max(30, int(length))))
@@ -100,14 +101,15 @@ KINDS = {"": (0, 4, 7), "m": (0, 3, 7), "maj7": (0, 4, 7, 11), "maj9": (0, 4, 7,
          "69": (0, 4, 7, 9, 14), "m7": (0, 3, 7, 10), "m9": (0, 3, 7, 10, 14), "m6": (0, 3, 7, 9),
          "m69": (0, 3, 7, 9, 14), "m7b5": (0, 3, 6, 10), "dim7": (0, 3, 6, 9), "7": (0, 4, 7, 10),
          "9": (0, 4, 7, 10, 14), "13": (0, 4, 7, 10, 14, 21), "7b9": (0, 4, 7, 10, 13),
-         "7b13": (0, 4, 7, 10, 20), "7#11": (0, 4, 7, 10, 18), "7sus4": (0, 5, 7, 10), "9sus4": (0, 5, 7, 10, 14)}
+         "7b13": (0, 4, 7, 10, 20), "7#11": (0, 4, 7, 10, 18), "7sus4": (0, 5, 7, 10), "9sus4": (0, 5, 7, 10, 14), "sus4": (0, 5, 7)}
 # The tones the comping plays over the bass, by kind: the third and seventh
 # (the chord's quality) and its colour; a fourth voice for the keyboards.
 COLOURS = {"": (4, 7, 0, 12), "m": (3, 7, 0, 12), "maj7": (4, 11, 7, 14), "maj9": (4, 11, 14, 7),
            "6": (4, 9, 7, 14), "69": (4, 9, 14, 7), "m7": (3, 10, 7, 14), "m9": (3, 10, 14, 7),
            "m6": (3, 9, 7, 14), "m69": (3, 9, 14, 7), "m7b5": (3, 10, 6, 0), "dim7": (3, 9, 6, 0),
            "7": (4, 10, 7, 14), "9": (4, 10, 14, 7), "13": (4, 10, 21, 14), "7b9": (4, 10, 13, 7),
-           "7b13": (4, 10, 20, 14), "7#11": (4, 10, 18, 14), "7sus4": (5, 10, 7, 14), "9sus4": (5, 10, 14, 7)}
+           "7b13": (4, 10, 20, 14), "7#11": (4, 10, 18, 14), "7sus4": (5, 10, 7, 14), "9sus4": (5, 10, 14, 7),
+           "sus4": (5, 7, 0, 14)}
 
 
 def parse(name: str) -> tuple[int, str]:
@@ -332,7 +334,7 @@ def upright_bass(sk: Sketch, part: Part, velocity: int, start: int, end: int, su
 
 
 # The brush kit's keys (fetch_bossa.py writes its SFZ from Swirly Drums' samples).
-KICK, RIM, SNARE, HAT_FOOT, STIR = 36, 37, 38, 44, 47
+KICK, RIM, SNARE, HAT, HAT_FOOT, STIR = 36, 37, 38, 42, 44, 47
 
 
 def brushes(sk: Sketch, part: Part, velocity: int, start: int, end: int, kick: bool = True) -> None:
@@ -351,6 +353,41 @@ def brushes(sk: Sketch, part: Part, velocity: int, start: int, end: int, kick: b
         if kick:
             for at, v in ((0, -10), (3 * EIGHTH, -22), (4 * EIGHTH, -6)):
                 part.add(bar_tick + at, KICK, velocity + v, EIGHTH)
+
+
+def half_time(sk: Sketch, part: Part, velocity: int, start: int, end: int) -> None:
+    """The first reference's soft kit, half-time: the hi-hat closed on every
+    beat (the push and pull of the eighths in its velocity), a brush tap on the
+    snare on 3, a soft kick on 1 and leading into 3, the rim on the clave's
+    last stroke; no stir (heard as hiss)."""
+    for bar_tick in range(start, end, sk.bar):
+        cycle = ((bar_tick - sk.intro) // sk.bar) % 2
+        for beat in range(4):
+            part.add(sk.lay_back(bar_tick + beat * TICKS, 0), HAT, velocity - (4 if beat % 2 else 12), EIGHTH)
+            part.add(sk.lay_back(bar_tick + beat * TICKS + EIGHTH, 10), HAT, velocity - 24, EIGHTH)
+        part.add(bar_tick + 2 * TICKS + sk.rng.randint(-4, 4), SNARE, velocity - 6, EIGHTH)
+        for at, v in ((0, -4), (3 * EIGHTH, -18)):
+            part.add(bar_tick + at, KICK, velocity + v, EIGHTH)
+        if cycle == 1:
+            part.add(sk.lay_back(bar_tick + 5 * EIGHTH, 8), RIM, velocity - 14, EIGHTH)
+
+
+def string_pad(sk: Sketch, upper: Part, low: Part, velocity: int, start: int, end: int, tune_notes: list) -> None:
+    """Held strings: three voice-led tones in the violas, the root in the
+    cellos, a chord at a time (a new bow on each change), under the tune."""
+    previous = None
+    tick = start
+    while tick < end:
+        name, length = sk.chord_at(tick), TICKS
+        while tick + length < end and sk.chord_at(tick + length) == name and length < 2 * sk.bar:
+            length += TICKS
+        ceiling = melody_ceiling(tune_notes, tick, length)
+        chord = voice_lead(previous, name, 3, 53, 70, 60, ceiling)
+        previous = chord
+        for note in chord:
+            upper.add(tick + sk.rng.randint(0, 20), note, velocity + sk.rng.randint(-4, 2), length - 15)
+        low.add(tick, nearest(parse(name)[0], 43, 36, 50), velocity - 4, length - 15)
+        tick += length
 
 
 def shaker(sk: Sketch, part: Part, velocity: int, start: int, end: int) -> None:
@@ -402,6 +439,9 @@ INSTRUMENTS = {
     "vibes": ("vcsl", "Idiophones/Struck Idiophones/Vibraphone - Soft Mallets.sfz"),
     "ep": ("jrhodes", "jRhodes3d-st.sfz"),
     "flute": ("vsco", "FluteSusNV.sfz"),
+    "violins": ("vsco", "ViolinEnsSusVib.sfz"),
+    "violas": ("vsco", "ViolaEnsSusVib.sfz"),
+    "cellos": ("vsco", "CelloEnsSusVib.sfz"),
 }
 TONES = {
     "nylon": {"highpass": 70, "shelf": [7000, -2], "width": 0.6},
@@ -412,7 +452,30 @@ TONES = {
     "vibes": {"lowpass": 2500, "lowpass_order": 4, "width": 0.3, "dehiss": True},
     "ep": {"highpass": 60, "lowpass": 7000, "set_cc": {"1": 0.75}, "chorus": 0.5},
     "flute": {"lowpass": 8000, "shelf": [6000, -2], "width": 0.5},
+    "violins": {"lowpass": 6500, "lowpass_order": 4, "shelf": [5000, -2], "width": 0.8, "dehiss": True},
+    "violas": {"highpass": 80, "lowpass": 6000, "lowpass_order": 4, "shelf": [4000, -2], "width": 0.8, "dehiss": True},
+    "cellos": {"highpass": 40, "lowpass": 5000, "lowpass_order": 4, "shelf": [3500, -2], "width": 0.8, "dehiss": True},
 }
+# The mix the references measured (docs: bokin bossa research): the bass
+# carries most of the energy and is mono and dry; the top is dark (spectral
+# centroid ~1.1-1.2 kHz against our first sketches' 2.0-2.4); brush noise and
+# shaker, which a tagger heard as "steam" and "hiss", far down.
+NEAR_REFS = {
+    "bass": dict(gain_db=-1.0, reverb=0.03, tone={"highpass": 35, "lowpass": 2500, "width": 0.0}),
+    "drums": dict(gain_db=-21.0),
+    "shaker": dict(gain_db=-29.0),
+    "guitar": dict(tone={"highpass": 90, "lowpass": 6000, "shelf": [3000, -4], "width": 0.4}),
+}
+
+
+def near_refs(sk: Sketch) -> None:
+    """Applies the references' balance (NEAR_REFS) to a sketch's parts."""
+    for name, change in NEAR_REFS.items():
+        if name in sk.parts:
+            part = sk.parts[name]
+            part.gain_db = change.get("gain_db", part.gain_db)
+            part.reverb = change.get("reverb", part.reverb)
+            part.tone.update(change.get("tone", {}))
 
 
 @dataclass
@@ -498,6 +561,50 @@ def build_xmas(sk: Sketch) -> None:
     ending(sk, sk.parts, 68)
 
 
+def build_sang_em(sk: Sketch) -> None:
+    """After the first reference: the Rhodes holding the chords, the Yamaha
+    upright singing, a soft half-time kit, the bass deep and dry."""
+    tune = sk.melody()
+    k = sk.part("keys", "ep", "comp", -0.1, 0.45, TONES["ep"] | {"chorus": 0.8, "lowpass": 4500})
+    m = sk.part("melody", "yamaha", "melody", 0.05, 0.4, TONES["yamaha"] | {"shelf": [4000, -3]})
+    b = sk.part("bass", "upright", "bass", 0.0, 0.2, TONES["upright"])
+    d = sk.part("drums", "brushes", "drums", 0.1, 0.3, TONES["brushes"] | {"lowpass": 7000, "width": 0.4})
+    keys_comp(sk, k, 52, tune, 0, sk.end, "lazy", held=True)
+    upright_bass(sk, b, 84, sk.intro, sk.end)
+    half_time(sk, d, 60, sk.intro, sk.end)
+    play_melody(sk, m, sk.melody([0]), 66)
+    play_melody(sk, m, sk.melody([1]), 70, 12, under=True)
+    ending(sk, sk.parts, 62)
+    near_refs(sk)
+    sk.parts["drums"].gain_db = -18.0
+
+
+def build_day_am(sk: Sketch) -> None:
+    """After the second reference: the violins sing over held violas and
+    cellos, the guitar's batida soft underneath, the bass; no drums."""
+    tune = sk.melody()
+    v = sk.part("melody", "violins", "melody", 0.15, 0.5, TONES["violins"])
+    va = sk.part("violas", "violas", "pad", -0.2, 0.5, TONES["violas"])
+    vc = sk.part("cellos", "cellos", "pad", 0.2, 0.45, TONES["cellos"])
+    g = sk.part("guitar", "nylon", "guitar", -0.3, 0.3, TONES["nylon"])
+    b = sk.part("bass", "upright", "bass", 0.0, 0.2, TONES["upright"])
+    string_pad(sk, va, vc, 50, sk.intro, sk.end, tune)
+    guitar_batida(sk, g, "batida", 64, tune, 0, sk.end)
+    upright_bass(sk, b, 80, sk.intro, sk.end)
+    play_melody(sk, v, sk.melody([0]), 64)
+    play_melody(sk, v, sk.melody([1]), 72, 12)
+    ending(sk, sk.parts, 62)
+    near_refs(sk)
+    va.gain_db = vc.gain_db = -9.0
+    g.gain_db = -6.0
+
+
+def build_guitar_cafe_near(sk: Sketch) -> None:
+    """Guitar café mixed as the references: deeper bass, darker, quieter brushes."""
+    build_guitar_cafe(sk)
+    near_refs(sk)
+
+
 STYLES = {
     "guitar-cafe": Style("Guitar café", "cafe", 128, 1, 0.8, 0.6, build_guitar_cafe,
                          "Guitar nylon đệm batida, contrabass, trống chổi, shaker; sáo hát giai điệu. Phòng nhỏ, rất gần."),
@@ -507,9 +614,15 @@ STYLES = {
                            "Rhodes giữ hợp âm, vibraphone hát, contrabass, trống chổi. Phòng rộng hơn một chút."),
     "bossa-noel": Style("Bossa Noel", "jingle", 132, 2, 0.9, 0.6, build_xmas,
                         "Jingle Bells kiểu bossa: guitar batida, contrabass, trống chổi; piano rồi sáo hát."),
+    "sang-em": Style("Sáng Êm", "sang-em", 140, 2, 1.6, 0.8, build_sang_em,
+                     "Theo bài mẫu 1: Rhodes giữ hợp âm, piano hát, trống nhẹ nửa nhịp, bass sâu. Phòng 1,6 giây."),
+    "day-am": Style("Dây Ấm", "day-am", 136, 2, 1.6, 0.8, build_day_am,
+                    "Theo bài mẫu 2: violin hát trên nền viola, cello; guitar nylon đệm nhẹ, contrabass; không trống."),
+    "guitar-cafe-near": Style("Guitar café (mix theo mẫu)", "cafe", 128, 1, 1.2, 0.6, build_guitar_cafe_near,
+                              "Như Guitar café, nhưng trộn theo bài mẫu: bass sâu hơn, tiếng tối ấm hơn, trống chổi nhỏ."),
 }
 # How loud each kind of part sits against the melody (dB of its loudness while it plays).
-ROLES = {"melody": 0.0, "melody2": 0.0, "comp": -6.0, "guitar": -9.0, "bass": -7.0, "drums": -15.0,
+ROLES = {"melody": 0.0, "melody2": 0.0, "pad": -8.0, "comp": -6.0, "guitar": -9.0, "bass": -7.0, "drums": -15.0,
          "shaker": -21.0}
 
 
@@ -524,7 +637,7 @@ def make(style_name: str, out: Path, seed: int = 7) -> Path:
     for name, part in sk.parts.items():
         write_part(part, sk.tempos(), folder / f"{name}.mid", tune.beats)
         library, sfz = INSTRUMENTS[part.instrument]
-        sheet.append({"part": name, "library": library, "sfz": sfz, "role": part.role, "gain_db": ROLES[part.role],
+        sheet.append({"part": name, "library": library, "sfz": sfz, "role": part.role, "gain_db": ROLES[part.role] if part.gain_db is None else part.gain_db,
                       "pan": part.pan, "reverb": part.reverb, "tone": part.tone, "notes": len(part.notes)})
     mix = {"hall": {"rt60": style.rt60, "wet": style.wet}, "parts": sheet,
            "about": {"title": style.title, "tune": tune.title, "tune_about": tune.about, "bpm": style.bpm,

@@ -111,6 +111,29 @@ Bb4:2 Bb4:2 Bb4:3 Bb4:1 | Bb4:2 A4:2 A4:2 A4:1 A4:1 | C5:2 C5:2 Bb4:2 G4:2 | F4:
     bpm=132, about="James Lord Pierpont, 1857 (public domain); the chords are our own",
     sections=[(0, "chorus")])
 
-TUNES = {t.name: t for t in (CAFE, CHUVA, JINGLE)}
+# Round 2, after the user's references (soft, dark, keys- or strings-led,
+# simple diatonic harmony). Both original.
+SANG_EM = Tune(
+    "sang-em", "Sáng Êm",
+    melody("""
+E5:6 D5:2 | B4:4 G4:4 | G4:4 B4:4 | C5:6 A4:2 | A4:4 C5:4 | E5:8 | D5:8 | r:8 |
+C5:6 A4:2 | E5:8 | D5:4 B4:4 | C5:4 E5:4 | F5:4 E5:4 | Ab4:8 | G4:8 | r:8 |"""),
+    chords(["Cmaj7", "Cmaj7", "Em7", "Am7", "Dm9", "Dm9", "G9sus4", "G9sus4",
+            "Fmaj7", "Fmaj7", "Em7", "Am7", "Dm7", "Fm6", "G7sus4", "G7sus4"]),
+    bpm=140, about="original (Bokin sketches, 2026), C major, half-time feel",
+    sections=[(0, "A"), (8, "A'")])
+
+DAY_AM = Tune(
+    "day-am", "Dây Ấm",
+    melody("""
+B4:4 F#5:4 | E5:6 D5:2 | B4:4 E5:4 | D5:2 G5:2 F#5:4 | E5:3 C5:1 A4:4 | B4:3 G4:1 E4:4 |
+F#4:2 E4:2 F#4:4 | D#5:6 r:2 | E5:3 F#5:1 G5:4 | G5:3 E5:1 B4:4 | D5:4 E5:4 | G5:4 F#5:4 |
+A5:3 G5:1 E5:4 | E5:4 F#5:4 | E5:4 D#5:4 | E5:8 |"""),
+    chords(["Em9", "Cmaj7", "G6", "Dsus4 D", "Am7", "Cmaj7", "Bsus4", "B7",
+            "Em9", "Cmaj7", "G6", "Dsus4 D", "Am7", "Cmaj7 D", "Bsus4 B7", "Em9"]),
+    bpm=136, about="original (Bokin sketches, 2026), E minor",
+    sections=[(0, "A"), (8, "A'")])
+
+TUNES = {t.name: t for t in (CAFE, CHUVA, JINGLE, SANG_EM, DAY_AM)}
 for _tune in TUNES.values():
     check(_tune)
