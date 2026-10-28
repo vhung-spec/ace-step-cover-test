@@ -1,6 +1,6 @@
 {
   "title": "Mùa lá rụng",
-  "about": "muffled solo piano (after the user's references: a fixed low-pass near 1.1 kHz, 24 dB an octave, for loud and soft notes alike; no deep bass; very wide; a long hall), flowing eighths, one chord a bar",
+  "about": "muffled solo piano (after the user's references: a fixed low-pass near 1.1 kHz falling 20-24 dB an octave above it, for loud and soft notes alike; no deep bass; wide (left and right correlate 0.24-0.41); a long hall), flowing eighths, one chord a bar",
   "bpm": 116,
   "beats": 4,
   "piano": "upright",
@@ -10,9 +10,9 @@
     "wet": 1.0
   },
   "piano_tone": {
-    "lowpass": 1100,
-    "lowpass_order": 4,
-    "width": 2.0
+    "lowpass": 1000,
+    "lowpass_order": 2,
+    "width": 1.0
   },
   "piano_reverb": 0.45,
   "sections": [
@@ -20,35 +20,35 @@
       "bars": 2,
       "chords": "Bm | Em",
       "texture": "arp",
-      "dyn": 0.35
+      "dyn": 0.25
     },
     {
       "bars": 8,
       "chords": "Bm | Em | A | D | G | C#m7b5 | F# | Bm",
       "melody": "D5:2 C#5:1 B4:1 | E5:3 G5:1 | F#5:2 E5:1 C#5:1 | D5:3 r:1 | B4:1 D5:1 G5:2 | G5:1.5 F#5:0.5 E5:2 | A#4:2 C#5:2 | B4:3 r:1",
       "texture": "arp",
-      "dyn": 0.45
+      "dyn": 0.35
     },
     {
       "bars": 8,
       "chords": "Bm | Em | A | D | G | C#m7b5 | F# | Bm",
       "melody": "F#5:3 E5:0.5 D5:0.5 | G5:2 B5:2 | A5:2 G5:1 E5:1 | F#5:3 r:1 | D5:1 G5:1 B5:2 | A5:2 G5:1 E5:1 | F#5:2 E5:1 C#5:1 | D5:4",
       "texture": "arp",
-      "dyn": 0.6
+      "dyn": 0.75
     },
     {
       "bars": 8,
       "chords": "Bm | Em | A | D | G | C#m7b5 | F# | Bm",
       "melody": "D5:2 C#5:1 B4:1 | E5:3 G5:1 | F#5:2 E5:1 C#5:1 | D5:3 r:1 | B4:1 D5:1 G5:2 | G5:1.5 F#5:0.5 E5:2 | A#4:2 C#5:2 | B4:4",
       "texture": "arp",
-      "dyn": 0.45
+      "dyn": 0.35
     },
     {
       "bars": 2,
       "chords": "G | Bm",
       "melody": "D5:4 | B4:4",
       "texture": "arp",
-      "dyn": 0.3
+      "dyn": 0.2
     }
   ]
 }
