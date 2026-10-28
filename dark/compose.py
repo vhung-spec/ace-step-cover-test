@@ -78,6 +78,8 @@ INSTRUMENTS = {
     "felt": ("vcsl", "Chordophones/Zithers/Upright Piano, Yamaha.sfz", TONES["yamaha"] | {"lowpass": 1100}),
     # the Steinway B, its highs open (fetch_samples.py hushes its hiss)
     "grand": ("vcsl", "Chordophones/Zithers/Grand Piano, Steinway B.sfz", dict(TONES["grand"])),
+    # VCSL's Kawai grand, warmer than the Steinway
+    "kawai": ("vcsl", "Chordophones/Zithers/Grand Piano, Kawai.sfz", {"release_db": -60}),
     "cellos": ("vsco", "CelloEnsSusVib-Quiet.sfz", dict(TONES["cellos"])),
     "violas": ("vsco", "ViolaEnsSusVib-Quiet.sfz", dict(TONES["violas"])),
     "basses": ("vsco", "ContrabassSusVB-Quiet.sfz", dict(TONES["basses"])),

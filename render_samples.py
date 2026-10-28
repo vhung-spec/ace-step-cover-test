@@ -82,7 +82,8 @@ def sfz_copy(sfz: Path, part: str, db: float, tone: dict) -> Path:
     plays its pedal-up sample, the pedal still holding it; with pedal_noise
     false, the pedal's own thump and squeak (played as it goes down and up)
     are left out too. The tone's set_cc ({controller: 0-1}) sets where the
-    instrument's controllers start (the Rhodes' stereo width is its mod wheel)."""
+    instrument's controllers start (the Rhodes' stereo width is its mod wheel);
+    its attack (s), if any, softens every note's strike (sfizz's ampeg_attack)."""
     text = sfz.read_text(errors="replace")
     for cc, value in tone.get("set_cc", {}).items():
         setting = f"set_hdcc{cc}={value:g}"
@@ -97,6 +98,10 @@ def sfz_copy(sfz: Path, part: str, db: float, tone: dict) -> Path:
         text = text.replace("<global>", f"<global>\n{line}", 1)
     else:
         text = f"<global>\n{line}\n{text}"
+    if tone.get("attack"):  # a softer strike: every note fades in over this many seconds, at least
+        softer = lambda m: f"ampeg_attack={max(float(m.group(1)), tone['attack']):g}"
+        text = re.sub(r"\bampeg_attack=([\d.]+)", softer, text)
+        text = text.replace("<global>", f"<global>\nampeg_attack={tone['attack']:g}", 1)
     if tone.get("release_db") is not None:
         amplitude = 100 * 10 ** (tone["release_db"] / 20)
         text = re.sub(r"trigger=release\b", f"trigger=release\namplitude={amplitude:.3f}", text)
@@ -158,9 +163,22 @@ def apply_tone(audio: np.ndarray, tone: dict) -> np.ndarray:
         audio = sosfilt(butter(order, tone["lowpass"], "low", fs=RATE, output="sos"), audio, axis=-1)
     if tone.get("shelf"):
         audio = lfilter(*high_shelf(*tone["shelf"]), audio, axis=-1)
+    if tone.get("eq"):
+        audio = eq_curve(audio, tone["eq"], tone.get("eq_amount", 1.0))
     if tone.get("dehiss"):
         audio = dehiss(audio)
     return audio
+
+
+def eq_curve(audio: np.ndarray, points: list, amount: float = 1.0) -> np.ndarray:
+    """A part through a zero-phase EQ drawn as (Hz, dB) points, joined
+    smoothly on a log-frequency scale and held flat beyond the first and
+    last; amount scales every point (0.5: half as strong)."""
+    n = audio.shape[-1]
+    freqs = np.fft.rfftfreq(n, 1 / RATE)
+    at, db = np.log2([p[0] for p in points]), np.array([p[1] for p in points]) * amount
+    gain = 10 ** (np.interp(np.log2(np.maximum(freqs, 1.0)), at, db) / 20)
+    return np.fft.irfft(np.fft.rfft(audio, axis=-1) * gain, n=n, axis=-1)
 
 
 def image(audio: np.ndarray, width: float) -> tuple[np.ndarray, float]:
