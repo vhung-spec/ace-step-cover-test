@@ -1,0 +1,54 @@
+{
+  "title": "Thư cuối",
+  "about": "muffled solo piano (after the user's references: a fixed low-pass near 1.1 kHz, 24 dB an octave, for loud and soft notes alike; no deep bass; very wide; a long hall), flowing eighths, one chord a bar",
+  "bpm": 112,
+  "beats": 4,
+  "piano": "upright",
+  "bass_low": 40,
+  "room": {
+    "rt60": 4.5,
+    "wet": 1.0
+  },
+  "piano_tone": {
+    "lowpass": 1100,
+    "lowpass_order": 4,
+    "width": 2.0
+  },
+  "piano_reverb": 0.45,
+  "sections": [
+    {
+      "bars": 2,
+      "chords": "Cm | Ab",
+      "texture": "arp",
+      "dyn": 0.35
+    },
+    {
+      "bars": 8,
+      "chords": "Cm | Fm | G | Cm | Ab | Fm | G | G",
+      "melody": "Eb5:3 D5:0.5 C5:0.5 | C5:2 Ab4:2 | B4:1 D5:1 G5:2 | Eb5:3 r:1 | C5:2 Eb5:1 Ab5:1 | G5:2 F5:1 Eb5:1 | D5:2 F5:1 Eb5:1 | D5:3 r:1",
+      "texture": "arp",
+      "dyn": 0.45
+    },
+    {
+      "bars": 8,
+      "chords": "Ab | Eb | Fm | Cm | Ab | Bb | G | G",
+      "melody": "Ab5:2 G5:1 F5:1 | G5:3 Eb5:1 | F5:1.5 G5:0.5 Ab5:2 | G5:3 r:1 | Eb5:2 C5:1 Eb5:1 | D5:2 F5:2 | G5:2 F5:1 D5:1 | B4:3 r:1",
+      "texture": "arp",
+      "dyn": 0.6
+    },
+    {
+      "bars": 8,
+      "chords": "Cm | Fm | G | Cm | Ab | Fm | G | Cm",
+      "melody": "G5:3 Eb5:0.5 D5:0.5 | C5:2 F5:2 | D5:1.5 Eb5:0.5 D5:1 B4:1 | C5:4 | Eb5:2 Ab5:2 | G5:1.5 F5:0.5 Eb5:2 | D5:2 B4:2 | C5:4",
+      "texture": "arp",
+      "dyn": 0.45
+    },
+    {
+      "bars": 2,
+      "chords": "Ab | Cm",
+      "melody": "Eb5:4 | C5:4",
+      "texture": "arp",
+      "dyn": 0.3
+    }
+  ]
+}

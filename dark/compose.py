@@ -7,7 +7,7 @@ carols:
 
 A piece is a short score, the shape an AI composer is asked to write:
 
-    {"title": "...", "bpm": 66, "beats": 4, "piano": "felt",
+    {"title": "...", "bpm": 66, "beats": 4, "piano": "felt", "bass_low": 33,
      "room": {"rt60": 1.0, "wet": 0.5}, "noise_db": -30,
      "sections": [{"bars": 8, "chords": "Dm | Bb | F | C/E | ...",
                    "melody": "r:1 A4:1 D5:1.5 E5:0.5 | F5:3 ...",
@@ -20,6 +20,9 @@ A piece is a short score, the shape an AI composer is asked to write:
 - melody: notes (A4, Bb3, F#5; C4 is middle C) or rests (r), each with its
   length in beats; `+` joins notes struck together (D5+F5:2); | between bars
   is checked against the bar's length;
+- bass_low: the lowest note the left hand's bass may take (33, A1; 40, E2,
+  keeps the piano out of the deep bass); piano_tone changes the piano's tone
+  for render_samples.py (lowpass, lowpass_order, width: above 1 widens it);
 - texture, the piano's left hand: arp (broken chords in eighths, up and
   back from a deep bass), ostinato (three tones of the chord circling in
   eighths in the middle of the keyboard, a low toll on each bar), blocks (the
@@ -243,7 +246,7 @@ def left_hand(piece: Piece, piano: Part) -> None:
         bass, tones, _ = chord(name)
         tune = piece.tune_between(tick, tick + length)
         ceiling = (min(tune) - 2) if tune else 72
-        low = bass_note(name, 33)
+        low = bass_note(name, piece.score.get("bass_low", 33))
         if texture == "arp":
             ladder = [low] + [n for n in range(low + 5, low + 24) if n % 12 in tones and n < ceiling]
             ladder = [ladder[0]] + [n for k, n in enumerate(ladder[1:]) if k == 0 or n - ladder[k] >= 3][:4]
@@ -261,7 +264,7 @@ def left_hand(piece: Piece, piano: Part) -> None:
                 piano.add(tick + k * EIGHTH + piece.jitter(5), middle[order[k % len(order)]],
                           velocity - 4 + (5 if k % 2 == 0 else 0), EIGHTH * 2)
             if tick % piece.bar == 0:
-                deep = bass_note(name, 28)
+                deep = bass_note(name, piece.score.get("bass_low", 33) - 5)
                 piano.add(tick + piece.jitter(4), deep, velocity + 4, piece.bar)
                 piano.add(tick + piece.jitter(4), deep + 12, velocity - 4, piece.bar)
         elif texture in ("blocks", "sparse"):
@@ -344,7 +347,7 @@ def ending(piece: Piece, piano: Part) -> None:
     """The last chord rolled from the deep bass, held a bar longer."""
     tick, length, name = piece.spans[-1]
     bass, tones, _ = chord(name)
-    low = above(bass, 28)
+    low = above(bass, piece.score.get("bass_low", 33) - 5)
     roll = [low, low + 12] + [n for n in range(low + 13, low + 32) if n % 12 in tones][:4]
     piano.notes = [n for n in piano.notes if n[0] < tick]
     for k, n in enumerate(roll):
