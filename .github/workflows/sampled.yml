@@ -20,8 +20,8 @@ on:
         description: 'Styles: piano (Steinway B); gentle pianos: chill, lullaby, flowing, hymn, piano-strings, felt, felt-noise; ballad, pulse (free intro, high tune); bells; orchestra; salamander (piano on the Salamander Grand Piano)'
         default: 'piano chill lullaby flowing hymn piano-strings felt felt-noise ballad pulse bells orchestra'
       pianos:
-        description: 'Pianos the piano styles are played on, a piece each: piano (Steinway B grand), knight (Knight upright), yamaha (Yamaha upright)'
-        default: 'piano'
+        description: 'To compare, play the piano styles on these instead of their own, a piece each: piano (Steinway B grand), knight (Knight upright), yamaha (Yamaha upright). Empty: each its own (the gentle styles the Yamaha upright, piano the Steinway)'
+        default: ''
       rate:
         description: 'Rate the pieces (Audiobox Aesthetics, CLAP)'
         type: boolean
@@ -89,7 +89,7 @@ jobs:
           ~/sfizz/sfizz_render --help | head -3
 
       - name: Arrangements (MIDI)
-        run: '"$RUNNER_TEMP/venv/bin/python" arrange.py out/sampled --songs "$SONG" --styles $STYLES --pianos $PIANOS'
+        run: '"$RUNNER_TEMP/venv/bin/python" arrange.py out/sampled --songs "$SONG" --styles $STYLES ${PIANOS:+--pianos $PIANOS}'
 
       - name: Instruments (CC0 samples)
         run: '"$RUNNER_TEMP/venv/bin/python" fetch_samples.py out/sampled "$RUNNER_TEMP/libs"'

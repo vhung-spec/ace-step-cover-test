@@ -6,9 +6,10 @@ render_samples.py:
     python arrange.py out/sampled [--songs wish silent-night first-noel ...] [--styles piano chill ...]
         [--pianos piano knight yamaha]
 
-The piano styles can be played on VCSL's Steinway B grand (piano, the
-default) or on its two uprights, softer and closer (knight, yamaha; those
-pieces' names end in -knight or -yamaha).
+The gentle piano styles are played on VCSL's Yamaha upright, softer and
+closer; piano on its Steinway B grand. --pianos plays them on others to
+compare (the Steinway grand: piano, the Knight upright: knight; such pieces'
+names end in the piano's name).
 
 The carols are public-domain melodies and chords: We Wish You a Merry
 Christmas and Silent Night (make_source.py), The First Noel, Joy to the
@@ -925,6 +926,13 @@ class Style:
     bpm: float | None = None  # this tempo, when slower than the carol's own (else tempo)
     free_intro: bool = False  # open with the chords alone, in free time
     master: dict = field(default_factory=lambda: dict(MASTER))  # how strongly master.py works on it
+    piano: str = "piano"  # the instrument its piano part is played on
+
+
+# The gentle styles are played on the Yamaha upright: of the three pianos
+# (the Steinway grand, the Knight and Yamaha uprights), the user heard it as
+# the softest and best for relaxing piano; piano keeps the Steinway grand.
+GENTLE_PIANO = "yamaha"
 
 
 # The master's steps (master.py), each from 0 (off) to 1. All are off: heard
@@ -938,15 +946,18 @@ MASTER = {"tone": 0.0, "air": 0.0, "width": 0.0, "level": 0.0}
 STYLES = {
     "piano": Style(arrange_piano),
     "salamander": Style(lambda arr: arrange_piano(arr, "salamander")),
-    "chill": Style(arrange_chill, tempo=0.8, breath=0.88, repeat_short=True),
-    "lullaby": Style(arrange_lullaby, tempo=0.7, breath=0.85, repeat_short=True),
-    "flowing": Style(arrange_flowing, tempo=0.85, breath=0.9, repeat_short=True),
-    "hymn": Style(arrange_hymn, tempo=0.75, breath=0.85, repeat_short=True),
-    "piano-strings": Style(arrange_piano_strings, tempo=0.8, breath=0.88, hall=2.4, repeat_short=True),
-    "felt": Style(arrange_felt, tempo=0.8, breath=0.9, repeat_short=True),
-    "felt-noise": Style(arrange_felt, tempo=0.8, breath=0.9, repeat_short=True, noise_db=-22),
-    "ballad": Style(arrange_ballad, bpm=74, breath=0.86, hall=2.8, repeat_short=True, free_intro=True),
-    "pulse": Style(arrange_pulse, bpm=88, breath=0.88, hall=2.8, repeat_short=True, free_intro=True),
+    "chill": Style(arrange_chill, tempo=0.8, breath=0.88, repeat_short=True, piano=GENTLE_PIANO),
+    "lullaby": Style(arrange_lullaby, tempo=0.7, breath=0.85, repeat_short=True, piano=GENTLE_PIANO),
+    "flowing": Style(arrange_flowing, tempo=0.85, breath=0.9, repeat_short=True, piano=GENTLE_PIANO),
+    "hymn": Style(arrange_hymn, tempo=0.75, breath=0.85, repeat_short=True, piano=GENTLE_PIANO),
+    "piano-strings": Style(arrange_piano_strings, tempo=0.8, breath=0.88, hall=2.4, repeat_short=True,
+                           piano=GENTLE_PIANO),
+    "felt": Style(arrange_felt, tempo=0.8, breath=0.9, repeat_short=True, piano=GENTLE_PIANO),
+    "felt-noise": Style(arrange_felt, tempo=0.8, breath=0.9, repeat_short=True, noise_db=-22, piano=GENTLE_PIANO),
+    "ballad": Style(arrange_ballad, bpm=74, breath=0.86, hall=2.8, repeat_short=True, free_intro=True,
+                    piano=GENTLE_PIANO),
+    "pulse": Style(arrange_pulse, bpm=88, breath=0.88, hall=2.8, repeat_short=True, free_intro=True,
+                   piano=GENTLE_PIANO),
     "bells": Style(arrange_bells, hall=2.6),
     "orchestra": Style(arrange_orchestra, hall=2.4),
 }
@@ -1010,23 +1021,24 @@ def main() -> None:
     parser.add_argument("--songs", nargs="+", default=list(SONGS), choices=list(SONGS))
     parser.add_argument("--styles", nargs="+", default=[s for s in STYLES if s != "salamander"],
                         choices=list(STYLES))
-    parser.add_argument("--pianos", nargs="+", default=["piano"], choices=["piano", "knight", "yamaha"],
-                        help="the instruments the piano styles are played on (one piece each; "
-                             "the Steinway's pieces keep their names, the others' end in -knight or -yamaha)")
+    parser.add_argument("--pianos", nargs="+", choices=["piano", "knight", "yamaha"],
+                        help="play the piano styles on these instead of each style's own (a piece each; one "
+                             "on another piano than its style's ends in -piano, -knight or -yamaha)")
     args = parser.parse_args()
-    for piano, name, style_name in itertools.product(args.pianos, args.songs, args.styles):
+    for piano_choice, name, style_name in itertools.product(args.pianos or [None], args.songs, args.styles):
         song, style = SONGS[name], STYLES[style_name]
+        piano = piano_choice or style.piano
         verses = style.verses or song.verses or (3 if style.repeat_short and song.seconds() < 40 else 2)
         tempo = min(1.0, style.bpm / song.bpm) if style.bpm else style.tempo
         arr = Arrangement(song, verses, tempo, style.breath, free_intro=style.free_intro, piano=piano)
         style.arrange(arr)
-        if piano != "piano" and all(p.instrument != piano for p in arr.parts.values()):
+        if piano != style.piano and all(p.instrument != piano for p in arr.parts.values()):
             continue  # a style without a piano (bells, orchestra) is played once
         if style.piano_tone:
             arr.parts["piano"].tone.update(style.piano_tone)
         if style.piano_reverb is not None:
             arr.parts["piano"].reverb = style.piano_reverb
-        folder = args.out / (f"{name}-{style_name}" + (f"-{piano}" if piano != "piano" else ""))
+        folder = args.out / (f"{name}-{style_name}" + (f"-{piano}" if piano != style.piano else ""))
         folder.mkdir(parents=True, exist_ok=True)
         sheet, untangled = [], 0
         for part_name, part in arr.parts.items():
