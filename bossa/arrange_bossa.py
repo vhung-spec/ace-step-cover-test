@@ -183,6 +183,9 @@ PATTERNS = {
     "batida": [0, 2, 3, 5, 7, 9, 10, 12, 14],
     # the bossa clave (3-2): sparser, the rim click's figure
     "clave": [0, 3, 6, 10, 13],
+    # every off-beat eighth: what the user's bossa references measure (their
+    # comping strongest on the "and"s, the 4& most of all)
+    "offbeats": [1, 3, 5, 7, 9, 11, 13, 15],
     # a lazy café figure: on 1, the "and" of 2, and anticipating the next bar
     "lazy": [0, 3, 7, 8, 11, 15],
 }
@@ -251,7 +254,7 @@ def melody_ceiling(tune_notes: list, tick: int, length: int) -> int | None:
 
 
 def guitar_batida(sk: Sketch, part: Part, pattern: str, velocity: int, tune_notes: list, start: int, end: int,
-                  thumb: bool = True) -> None:
+                  thumb: bool = True, ring: float | None = None, spread: int = 6) -> None:
     """The nylon guitar: the thumb's bass on 1 and 3 (root, then the fifth
     when the chord holds), the fingers' three-tone chords on the pattern, a
     pluck just before a chord change playing the coming chord."""
@@ -280,9 +283,10 @@ def guitar_batida(sk: Sketch, part: Part, pattern: str, velocity: int, tune_note
             previous = chord
             at = sk.lay_back(tick)
             accent = 6 if hit in (0, 3, 10) else 0
-            length = int(EIGHTH * (1.7 if hit % 8 in (3, 7) else 0.9))  # some held, most damped
+            length = int(EIGHTH * (ring or (1.7 if hit % 8 in (3, 7) else 0.9)))  # some held, most damped
+            accent = 8 if ring and hit % 8 == 7 else accent  # the 4&, anticipating the next bar
             for i, note in enumerate(chord):  # plucked together, the lowest a hair first
-                part.add(at + 6 * i, note, velocity + accent - 2 * i + sk.rng.randint(-4, 4), length)
+                part.add(at + spread * i, note, velocity + accent - 2 * i + sk.rng.randint(-4, 4), length)
 
 
 def keys_comp(sk: Sketch, part: Part, velocity: int, tune_notes: list, start: int, end: int,
@@ -651,6 +655,27 @@ def build_pho(sk: Sketch) -> None:
     g.gain_db, k.gain_db, b.gain_db, d.gain_db = -3.0, -12.0, -2.0, -13.0
 
 
+def build_pho2(sk: Sketch) -> None:
+    """Round 4: as build_pho, but the guitar plucks every off-beat (the 4&
+    strongest) and rings longer, as loud as the piano, which plays softer;
+    the Rhodes off the beat too; the kit a little louder."""
+    tune = sk.melody()
+    g = sk.part("guitar", "nylon", "guitar", -0.15, 0.3,
+                TONES["nylon"] | {"highpass": 80, "lowpass": 7000, "shelf": [3000, -2], "width": 0.35})
+    m = sk.part("melody", "yamaha", "melody", 0.1, 0.35, TONES["yamaha"] | {"shelf": [4000, -3]})
+    k = sk.part("keys", "ep", "comp", 0.3, 0.4, TONES["ep"] | {"chorus": 0.5, "lowpass": 5000})
+    b = sk.part("bass", "upright", "bass", 0.0, 0.03, {"highpass": 35, "lowpass": 2500, "width": 0.0})
+    d = sk.part("drums", "brushes", "drums", 0.1, 0.25, TONES["brushes"] | {"lowpass": 9000, "width": 0.5})
+    guitar_batida(sk, g, "offbeats", 72, tune, 0, sk.end, ring=1.6, spread=14)
+    keys_comp(sk, k, 44, tune, sk.intro, sk.end, "offbeats")
+    upright_bass(sk, b, 84, sk.intro, sk.end)
+    bossa_kit(sk, d, 64, sk.intro, sk.end)
+    play_melody(sk, m, sk.melody([0]), 64)
+    play_melody(sk, m, sk.melody(list(range(1, sk.passes))), 66, under=True)
+    ending(sk, sk.parts, 66)
+    g.gain_db, k.gain_db, b.gain_db, d.gain_db = 1.0, -14.0, -2.0, -10.0
+
+
 def build_dem(sk: Sketch) -> None:
     """After the third reference: guitar and piano, the Rhodes behind, the
     bass; the kit barely there; nearly mono, a long room."""
@@ -682,6 +707,10 @@ STYLES = {
                       "Theo bài mẫu thứ 3: guitar, piano, Rhodes, bass, trống rất nhẹ; gần như mono, phòng dài."),
     "cafe-pho": Style("Café Phố", "cafe", 117, 1, 2.6, 0.7, build_pho,
                       "Giai điệu Café da Tarde chơi theo kiểu Chiều Phố."),
+    "chieu-pho-2": Style("Chiều Phố 2", "chieu-pho", 117, 2, 2.6, 0.7, build_pho2,
+                         "Vòng 4: guitar gảy nghịch phách, to ngang piano, ngân dài hơn; trống rõ hơn chút. Phòng 2,6 giây."),
+    "chieu-pho-2-gan": Style("Chiều Phố 2 (gần)", "chieu-pho", 117, 2, 1.0, 0.5, build_pho2,
+                             "Như Chiều Phố 2, phòng nhỏ, nghe gần tai."),
     "guitar-cafe-near": Style("Guitar café (mix theo mẫu)", "cafe", 128, 1, 1.2, 0.6, build_guitar_cafe_near,
                               "Như Guitar café, nhưng trộn theo bài mẫu: bass sâu hơn, tiếng tối ấm hơn, trống chổi nhỏ."),
 }
