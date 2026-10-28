@@ -339,6 +339,93 @@ def upright_bass(sk: Sketch, part: Part, velocity: int, start: int, end: int, su
 
 # The brush kit's keys (fetch_bossa.py writes its SFZ from Swirly Drums' samples).
 KICK, RIM, SNARE, HAT, HAT_FOOT, STIR = 36, 37, 38, 42, 44, 47
+# and the bossa kit's from Big Rusty Drums: the cross-stick (woody; brighter),
+# the hi-hat played with a brush, the ride with a brush
+XSTICK, XSTICK_BRIGHT, HAT_BRUSH, RIDE_BRUSH = 37, 39, 46, 51
+
+# What the user's three bossa references measure, folded on two bars of
+# eighths (docs: bossa research, round 6), as the arranger plays it:
+# - the guitar's fingers on nearly every off-beat, the 2& and the 4& the
+#   strongest, lighter plucks on beats 2 and 4; the thumb on 1 and 3;
+# - the bass strongest on the anticipations, the "and" of 2 (held over 3)
+#   and the "and" of 4 (held over the bar line), the downbeat it ties into
+#   not struck again;
+# - the kick on 1, the "and" of 2, 3 and the "and" of 4 (the surdo's figure),
+#   the anticipations a little louder; the hi-hat on every eighth, the beats
+#   a little louder; the cross-stick on the bossa clave.
+BATIDA = {1: 0, 2: -18, 3: 6, 5: 0, 6: -18, 7: 6, 9: 0, 10: -18, 11: 6, 13: -6, 14: -12, 15: 6}
+SURDO = ((0, -10), (3, -2), (4, -14), (7, 0))  # (eighth, velocity)
+
+
+def guitar_brasil(sk: Sketch, part: Part, velocity: int, thumb: int, tune_notes: list, start: int, end: int) -> None:
+    """The batida as the references play it (BATIDA): the thumb's bass on 1
+    and 3 (the root, then the fifth while the chord holds), the fingers'
+    three tones ringing to the next pluck, a light pluck only the top two,
+    a pluck just before a chord change playing the coming chord."""
+    ticks = []
+    for bar_tick in range(start, end, sk.bar):
+        cycle = ((bar_tick - sk.intro) // sk.bar) % 2
+        ticks += [(bar_tick + (h % 8) * EIGHTH, BATIDA[h]) for h in sorted(BATIDA) if h // 8 == cycle]
+        for beat in (0, 2):
+            tick = bar_tick + beat * TICKS
+            name = sk.chord_at(tick)
+            same = beat == 2 and sk.chord_at(tick - 2 * TICKS) == name
+            note = nearest(parse(name)[0] + (fifth(name) if same else 0), 45, 40, 52)
+            part.add(sk.lay_back(tick, 0), note, thumb + sk.rng.randint(-4, 4), int(TICKS * 1.6))
+    ticks = [(t, a) for t, a in ticks if t < end]
+    previous = None
+    for (tick, accent), (following, _) in zip(ticks, ticks[1:] + [(end, 0)]):
+        ahead = sk.chord_at(tick + EIGHTH)
+        name = ahead if (tick % TICKS) and ahead != sk.chord_at(tick) else sk.chord_at(tick)
+        chord = voice_lead(previous, name, 3, 55, 72, 63, melody_ceiling(tune_notes, tick, EIGHTH))
+        previous = chord
+        notes = chord[1:] if accent <= -12 else chord
+        length = max(EIGHTH // 2, min(following - tick - 25, 2 * EIGHTH))
+        at = sk.lay_back(tick, 10)
+        for i, note in enumerate(notes):  # p-i-m-a nearly together, the lowest a hair first
+            part.add(at + 9 * i, note, velocity + accent - 2 * i + sk.rng.randint(-4, 4), length)
+
+
+def bass_brasil(sk: Sketch, part: Part, velocity: int, start: int, end: int) -> None:
+    """The bass as the references play it: the root on the first downbeat,
+    then the "and" of 2 (the fifth, or the coming chord's root) and the "and"
+    of 4 (the next bar's root), each held over the beat it anticipates."""
+    previous = 38
+    for bar_tick in range(start, end, sk.bar):
+        name = sk.chord_at(bar_tick)
+        if bar_tick == start:
+            previous = nearest(parse(name)[0], previous, 28, 50)
+            part.add(bar_tick, previous, velocity - 6, 3 * EIGHTH - 30)
+        third = sk.chord_at(bar_tick + 2 * TICKS)
+        tone = parse(third)[0] if third != name else parse(name)[0] + fifth(name)
+        previous = nearest(tone, previous, 28, 50)
+        part.add(bar_tick + 3 * EIGHTH + 8, previous, velocity + sk.rng.randint(-3, 3), 4 * EIGHTH - 30)
+        if bar_tick + sk.bar < end:  # the last bar's is the ending's own note
+            previous = nearest(parse(sk.chord_at(bar_tick + sk.bar))[0], previous, 28, 50)
+            part.add(bar_tick + 7 * EIGHTH + 8, previous, velocity + sk.rng.randint(-3, 3), 4 * EIGHTH - 30)
+
+
+def kit_brasil(sk: Sketch, part: Part, velocity: int, start: int, end: int, hat: int = HAT,
+               stir: bool = False) -> None:
+    """The kit as the references play it: the hi-hat (stick, or brush) on every
+    eighth, the cross-stick on the bossa clave, the kick on the surdo's
+    figure; with stir, a brush stirring the snare under it all."""
+    sk.stir = stir
+    for bar_tick in range(start, end, sk.bar):
+        cycle = ((bar_tick - sk.intro) // sk.bar) % 2
+        for e in range(8):
+            v = velocity - (12 if e % 2 else 4) + sk.rng.randint(-5, 5)
+            part.add(sk.lay_back(bar_tick + e * EIGHTH, 6), hat, v, EIGHTH)
+        for hit in CLAVE:
+            if hit // 8 == cycle:
+                part.add(sk.lay_back(bar_tick + (hit % 8) * EIGHTH, 6), XSTICK, velocity - 2 + sk.rng.randint(-5, 3),
+                         EIGHTH)
+        for eighth, v in SURDO:
+            part.add(bar_tick + eighth * EIGHTH + (8 if eighth % 2 else 0), KICK, velocity + v + sk.rng.randint(-3, 3),
+                     EIGHTH)
+        if stir:
+            for half in (0, 2 * TICKS):
+                part.add(bar_tick + half, STIR, velocity - 16 + sk.rng.randint(-4, 4), 2 * TICKS)
 
 
 def brushes(sk: Sketch, part: Part, velocity: int, start: int, end: int, kick: bool = True) -> None:
@@ -467,6 +554,9 @@ INSTRUMENTS = {
     "vibes": ("vcsl", "Idiophones/Struck Idiophones/Vibraphone - Soft Mallets.sfz"),
     "ep": ("jrhodes", "jRhodes3d-st.sfz"),
     "flute": ("vsco", "FluteSusNV.sfz"),
+    "iowa-nylon": ("iowa", "iowa_guitar.sfz"),  # written by iowa_guitar.py
+    "meatbass": ("meatbass", "bossa_meatbass_pizz.sfz"),  # written by fetch_bossa.py
+    "rusty": ("rusty", "bossa_rusty_kit.sfz"),  # written by fetch_bossa.py
     "violins": ("vsco", "ViolinEnsSusVib.sfz"),
     "violas": ("vsco", "ViolaEnsSusVib.sfz"),
     "cellos": ("vsco", "CelloEnsSusVib.sfz"),
@@ -484,6 +574,10 @@ TONES = {
     "violas": {"highpass": 80, "lowpass": 6000, "lowpass_order": 4, "shelf": [4000, -2], "width": 0.8, "dehiss": True},
     "cellos": {"highpass": 40, "lowpass": 5000, "lowpass_order": 4, "shelf": [3500, -2], "width": 0.8, "dehiss": True},
 }
+# If an instrument cannot be fetched (the Iowa guitar comes from the
+# university's own site), the sketch is played on this one instead.
+FALLBACK = {"iowa-nylon": "nylon"}
+
 # The mix the references measured (docs: bokin bossa research): the bass
 # carries most of the energy and is mono and dry; the top is dark (spectral
 # centroid ~1.1-1.2 kHz against our first sketches' 2.0-2.4); brush noise and
@@ -706,6 +800,27 @@ def build_pho3(sk: Sketch, rhodes: bool = False) -> None:
     g.gain_db, b.gain_db, d.gain_db = 0.0, 1.0, -8.0
 
 
+def build_brasil(sk: Sketch, hat: int = HAT, stir: bool = False) -> None:
+    """Round 6: the instruments the user asked for, closer to Brazilian bossa
+    nova, played as their references measure: the University of Iowa's
+    nylon-string guitar (each string sampled at pp, mf, ff), Meatbass's
+    double bass (four velocity layers, four round robins), Big Rusty
+    Drums' cross-stick, hi-hat and kick (or brushes); the Yamaha sings. The
+    clear mix of round 5: every part but the bass cut below its range, the
+    room fed nothing under 300 Hz."""
+    tune = sk.melody()
+    g = sk.part("guitar", "iowa-nylon", "guitar", -0.2, 0.35, {"highpass": 90, "width": 0.5})
+    m = sk.part("melody", "yamaha", "melody", 0.15, 0.3, TONES["yamaha"] | {"highpass": 180})
+    b = sk.part("bass", "meatbass", "bass", 0.0, 0.0, {"highpass": 38, "lowpass": 3500, "width": 0.0})
+    d = sk.part("drums", "rusty", "drums", 0.1, 0.2, {"highpass": 45, "width": 0.6})
+    guitar_brasil(sk, g, 70, 58, tune, 0, sk.end)
+    bass_brasil(sk, b, 88, sk.intro, sk.end)
+    kit_brasil(sk, d, 64, sk.intro, sk.end, hat, stir)
+    play_melody(sk, m, tune, 66)
+    ending(sk, sk.parts, 66)
+    g.gain_db, b.gain_db, d.gain_db = 0.0, 0.0, -9.0
+
+
 def build_dem(sk: Sketch) -> None:
     """After the third reference: guitar and piano, the Rhodes behind, the
     bass; the kit barely there; nearly mono, a long room."""
@@ -749,6 +864,17 @@ STYLES = {
     "chieu-pho-3-rhodes": Style("Chiều Phố 3 + Rhodes", "chieu-pho", 117, 2, 2.0, 0.45,
                                 lambda sk: build_pho3(sk, rhodes=True),
                                 "Như Chiều Phố 3, thêm Rhodes ngân nhẹ ở trên cao.", extra={"hall_highpass": 300}),
+    "brasil": Style("Chiều Phố · Brasil", "chieu-pho", 117, 2, 1.8, 0.45, build_brasil,
+                    "Vòng 6: guitar nylon Iowa, contrabass Meatbass, trống Big Rusty (gõ vành trống, hi-hat, kick kiểu surdo); "
+                    "chơi theo nhịp đo từ 3 bài mẫu.", extra={"hall_highpass": 300}),
+    "brasil-gan": Style("Chiều Phố · Brasil (gần)", "chieu-pho", 117, 2, 0.9, 0.4, build_brasil,
+                        "Như Brasil, phòng nhỏ, nghe gần tai.", extra={"hall_highpass": 300}),
+    "brasil-choi": Style("Chiều Phố · Brasil (chổi)", "chieu-pho", 117, 2, 1.8, 0.45,
+                         lambda sk: build_brasil(sk, hat=HAT_BRUSH, stir=True),
+                         "Như Brasil, trống đánh bằng chổi: hi-hat chổi, chổi xoay trên mặt trống.",
+                         extra={"hall_highpass": 300}),
+    "cafe-brasil": Style("Café da Tarde · Brasil", "cafe", 120, 1, 1.8, 0.45, build_brasil,
+                         "Giai điệu Café da Tarde chơi kiểu Brasil.", extra={"hall_highpass": 300}),
     "guitar-cafe-near": Style("Guitar café (mix theo mẫu)", "cafe", 128, 1, 1.2, 0.6, build_guitar_cafe_near,
                               "Như Guitar café, nhưng trộn theo bài mẫu: bass sâu hơn, tiếng tối ấm hơn, trống chổi nhỏ."),
 }
@@ -768,7 +894,12 @@ def make(style_name: str, out: Path, seed: int = 7) -> Path:
     for name, part in sk.parts.items():
         write_part(part, sk.tempos(), folder / f"{name}.mid", tune.beats)
         library, sfz = INSTRUMENTS[part.instrument]
-        sheet.append({"part": name, "library": library, "sfz": sfz, "role": part.role, "gain_db": ROLES[part.role] if part.gain_db is None else part.gain_db,
+        backup = {}
+        if part.instrument in FALLBACK:
+            spare = FALLBACK[part.instrument]
+            backup = {"fallback": {"library": INSTRUMENTS[spare][0], "sfz": INSTRUMENTS[spare][1],
+                                   "tone": TONES.get(spare, {}) | part.tone}}
+        sheet.append({"part": name, "library": library, "sfz": sfz, "role": part.role, **backup, "gain_db": ROLES[part.role] if part.gain_db is None else part.gain_db,
                       "pan": part.pan, "reverb": part.reverb, "tone": part.tone, "notes": len(part.notes)})
     hall = {"rt60": style.rt60, "wet": style.wet}
     if style.extra.get("hall_highpass"):

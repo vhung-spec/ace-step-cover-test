@@ -41,7 +41,7 @@ jobs:
       - name: Python tools and ffmpeg
         run: |
           uv venv -q --python 3.12 "$RUNNER_TEMP/venv"
-          uv pip install -q --python "$RUNNER_TEMP/venv/bin/python" numpy scipy soundfile mido pyloudnorm imageio-ffmpeg
+          uv pip install -q --python "$RUNNER_TEMP/venv/bin/python" numpy scipy soundfile mido pyloudnorm imageio-ffmpeg librosa
           sudo ln -sf "$("$RUNNER_TEMP/venv/bin/python" -c 'import imageio_ffmpeg; print(imageio_ffmpeg.get_ffmpeg_exe())')" \
             /usr/local/bin/ffmpeg
 
@@ -69,6 +69,28 @@ jobs:
           STYLES="${STYLES:-$(cat bossa/render.txt 2>/dev/null)}"  # on a push: the styles being worked on
           "$RUNNER_TEMP/venv/bin/python" bossa/arrange_bossa.py out/bossa ${STYLES:+--styles $STYLES}
 
+      - name: The Iowa guitar's downloads from the cache
+        uses: actions/cache@v4
+        with:
+          path: ${{ runner.temp }}/iowa-downloads
+          key: iowa-guitar-downloads-v1
+
+      - name: The Iowa guitar, mapped, from the cache
+        id: iowa
+        uses: actions/cache@v4
+        with:
+          path: ${{ runner.temp }}/libs/iowa
+          key: iowa-guitar-${{ hashFiles('bossa/iowa_guitar.py') }}
+
+      - name: The Iowa guitar (from the University of Iowa's MIS, once)
+        if: steps.iowa.outputs.cache-hit != 'true'
+        continue-on-error: true  # without it the sketches fall back to the FreePats guitar
+        run: |
+          if grep -q '"iowa"' out/bossa/*/mix.json; then
+            "$RUNNER_TEMP/venv/bin/python" bossa/iowa_guitar.py "$RUNNER_TEMP/libs/iowa" "$RUNNER_TEMP/iowa-downloads" \
+              out/bossa/iowa-summary.json
+          fi
+
       - name: Instruments (free samples)
         run: |
           "$RUNNER_TEMP/venv/bin/python" fetch_samples.py out/bossa "$RUNNER_TEMP/libs"
@@ -84,6 +106,7 @@ jobs:
             ffmpeg -loglevel error -i "$wav" -c:a libmp3lame -b:a 128k "out/preview/$(basename "${wav%.wav}").mp3"
           done
           cp out/bossa/log.txt out/preview/
+          cp out/bossa/iowa-summary.json out/preview/ 2>/dev/null || true
           for sheet in out/bossa/*/mix.json; do cp "$sheet" "out/preview/$(basename "$(dirname "$sheet")").json"; done
 
       - name: Keep the pieces

@@ -16,6 +16,12 @@ and puts 128 kbit/s MP3s on the `bossa-renders` branch.
   Spanish Classical Guitar (CC0), D. Smolken's Double Bass (CC0), Karoryfer's
   Swirly Drums (brushes, CC0). The rest (VCSL, VSCO-2-CE, jRhodes3d) come
   from `../fetch_samples.py`.
+- `iowa_guitar.py`: the University of Iowa's nylon-string guitar (MIS:
+  a Raimundo 118, each string at pp, mf and ff; free for any project without
+  restrictions), downloaded once by the workflow (and cached), cut into
+  notes and mapped as `iowa_guitar.sfz`. Meatbass (double bass) and Big
+  Rusty Drums (cross-stick, hi-hat, kick, brushes), both Karoryfer and CC0,
+  come from `fetch_bossa.py`.
 - `render_bossa.py`: plays and mixes them with `../render_samples.py`.
 
 No recording, melody or arrangement of anyone else's copyrighted song is
