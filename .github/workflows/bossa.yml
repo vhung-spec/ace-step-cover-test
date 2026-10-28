@@ -1,0 +1,106 @@
+# Bossa nova sketches on real instrument samples (bossa/): arrange_bossa.py
+# writes one MIDI file per instrument, fetch_samples.py and fetch_bossa.py
+# fetch the free instruments they use (CC0: VCSL, VSCO-2-CE, FreePats'
+# nylon guitar, D. Smolken's double bass, Karoryfer's Swirly Drums; and the
+# jRhodes3d Rhodes, free to use in music), bossa/render_bossa.py plays and
+# mixes them. 128 kbit/s MP3s of every piece go to the bossa-renders branch
+# (replaced each run); the full pieces and their MIDI are kept as an artifact.
+name: Bossa nova sketches
+run-name: 'Bossa: ${{ inputs.styles || github.event.head_commit.message }}'
+
+on:
+  push:
+    branches: [bossa-nova]
+    paths: ['bossa/**', '.github/workflows/bossa.yml']
+  workflow_dispatch:
+    inputs:
+      styles:
+        description: 'Styles (empty: all): guitar-cafe piano-bossa rhodes-lounge bossa-noel'
+        default: ''
+
+permissions:
+  contents: write  # the bossa-renders branch
+
+concurrency:
+  group: bossa
+  cancel-in-progress: true
+
+jobs:
+  bossa:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 90
+    env:
+      STYLES: ${{ inputs.styles }}
+      SFIZZ_VERSION: '1.2.3'
+      PYTHONUNBUFFERED: '1'
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: astral-sh/setup-uv@v6
+
+      - name: Python tools and ffmpeg
+        run: |
+          uv venv -q --python 3.12 "$RUNNER_TEMP/venv"
+          uv pip install -q --python "$RUNNER_TEMP/venv/bin/python" numpy scipy soundfile mido pyloudnorm imageio-ffmpeg
+          sudo ln -sf "$("$RUNNER_TEMP/venv/bin/python" -c 'import imageio_ffmpeg; print(imageio_ffmpeg.get_ffmpeg_exe())')" \
+            /usr/local/bin/ffmpeg
+
+      - name: sfizz from the cache
+        id: sfizz
+        uses: actions/cache@v4
+        with:
+          path: ~/sfizz
+          key: sfizz-render-${{ env.SFIZZ_VERSION }}-ubuntu-24.04
+
+      - name: Build sfizz_render
+        if: steps.sfizz.outputs.cache-hit != 'true'
+        run: |
+          git clone -q --recursive --depth 1 --shallow-submodules --branch "$SFIZZ_VERSION" \
+            https://github.com/sfztools/sfizz.git "$RUNNER_TEMP/sfizz"
+          cmake -S "$RUNNER_TEMP/sfizz" -B "$RUNNER_TEMP/sfizz/build" -DCMAKE_BUILD_TYPE=Release -DENABLE_LTO=OFF \
+            -DSFIZZ_JACK=OFF -DSFIZZ_RENDER=ON -DSFIZZ_SHARED=OFF -DSFIZZ_TESTS=OFF -DSFIZZ_DEMOS=OFF \
+            -DSFIZZ_DEVTOOLS=OFF -DSFIZZ_BENCHMARKS=OFF
+          cmake --build "$RUNNER_TEMP/sfizz/build" -j4 --target sfizz_render
+          mkdir -p ~/sfizz
+          find "$RUNNER_TEMP/sfizz/build" -name sfizz_render -type f -exec cp {} ~/sfizz/ \;
+
+      - name: Arrangements (MIDI)
+        run: '"$RUNNER_TEMP/venv/bin/python" bossa/arrange_bossa.py out/bossa ${STYLES:+--styles $STYLES}'
+
+      - name: Instruments (free samples)
+        run: |
+          "$RUNNER_TEMP/venv/bin/python" fetch_samples.py out/bossa "$RUNNER_TEMP/libs"
+          "$RUNNER_TEMP/venv/bin/python" bossa/fetch_bossa.py out/bossa "$RUNNER_TEMP/libs"
+
+      - name: Play and mix
+        run: '"$RUNNER_TEMP/venv/bin/python" bossa/render_bossa.py out/bossa --sfizz ~/sfizz/sfizz_render --libs "$RUNNER_TEMP/libs" | tee out/bossa/log.txt'
+
+      - name: Smaller copies
+        run: |
+          mkdir -p out/preview
+          for wav in out/bossa/*.wav; do
+            ffmpeg -loglevel error -i "$wav" -c:a libmp3lame -b:a 128k "out/preview/$(basename "${wav%.wav}").mp3"
+          done
+          cp out/bossa/log.txt out/preview/
+          for sheet in out/bossa/*/mix.json; do cp "$sheet" "out/preview/$(basename "$(dirname "$sheet")").json"; done
+
+      - name: Keep the pieces
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: bossa
+          path: |
+            out/bossa/*.mp3
+            out/bossa/**/*.mid
+            out/bossa/**/mix.json
+            out/bossa/log.txt
+          retention-days: 30
+
+      - name: Pieces on the bossa-renders branch
+        run: |
+          cd out/preview
+          git init -q -b bossa-renders
+          git add .
+          git -c user.name="github-actions[bot]" -c user.email="41898282+github-actions[bot]@users.noreply.github.com" \
+            commit -q -m "Bossa renders of run $GITHUB_RUN_ID (${STYLES:-all styles}), 128 kbit/s"
+          git push -q -f "https://x-access-token:${{ github.token }}@github.com/$GITHUB_REPOSITORY" bossa-renders
