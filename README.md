@@ -169,6 +169,9 @@ runs/<mã khác>/covers/lego-woodwinds/stem_01.mp3:0.7` (nhiều lượt cách n
    - `orchestra-long-calm`: như `orchestra-long`, đoạn kết lắng xuống thay vì "lên cao rồi tắt": không
      glockenspiel, bè sáo cao không vượt La5, đàn hạc rải hợp âm cuối đi xuống về nốt trầm, các bè ngân
      nhỏ dần thay vì dừng.
+   - `orchestra-gentle`, `orchestra-flat`: như `orchestra-long-calm`, lượt cuối bớt cao trào theo ý bạn.
+     `gentle` chỉ dâng nhẹ: violin không lên lớp tiếng to, không có kèn horn, đàn hạc lướt phím, timpani
+     hay chuông lắc. `flat` đều như các lượt giữa: không có cả bè sáo cao.
    - `salamander`: như `piano` nhưng trên đàn Salamander Grand Piano (không chạy mặc định).
 
    Các kiểu piano nhẹ nhàng (chill, lullaby, flowing, hymn, piano-strings, felt, felt-noise) chơi trên đàn

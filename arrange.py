@@ -1215,7 +1215,7 @@ def arrange_bells(arr: Arrangement) -> None:
     gliss(arr, harp, arr.end + arr.beat, 2 * arr.beat, tonic, 60, 96, 40)
 
 
-def arrange_orchestra(arr: Arrangement, turns: bool = False, calm: bool = False) -> None:
+def arrange_orchestra(arr: Arrangement, turns: bool = False, calm: bool = False, build: float = 1.0) -> None:
     """Flute, then violins on the tune (with turns, in a longer piece, the two
     take it by turns in the middle verses), a flute descant over the last
     verse, on a harp and a string pad, basses plucked then bowed, horns from
@@ -1224,48 +1224,62 @@ def arrange_orchestra(arr: Arrangement, turns: bool = False, calm: bool = False)
     top of its range over the last chord; calm, as the user asked ("not going
     up so high, then off"), ends low instead: no glockenspiel, the descant
     kept under A5, the harp breaking the last chord downwards into the deep
-    tonic, and every held part dying away over it rather than stopping."""
+    tonic, and every held part dying away over it rather than stopping.
+    build (0 to 1) is how far the last verse rises over the others: 1, the
+    whole orchestra (the violins into their loud layer, a fuller string pad,
+    horns, the descant, a harp glissando into it, timpani and, for a lively
+    tune, sleigh bells); less, as the user asked ("still too much of a climax
+    near the end"), the violins, the pad, the basses and the descant grow only
+    that much, and under 0.75 the horns, the glissando, the timpani and the
+    bells stay out, at 0 the descant too."""
     flute = arr.part("flute", "flute", "melody", -0.1, reverb=0.35)
     violins = arr.part("violins", "violins", "melody", -0.35, reverb=0.35)
     glock = None if calm else arr.part("glock", "glock", "sparkle", 0.3, reverb=0.45)
     for tick, note, length, verse, position in arr.melody():
         lift = shape(position)
         if verse == arr.last:  # the violins, from their soft layer into the full one at the height of the verse
-            violins.add(tick + arr.jitter(4), note, 52 + 20 * lift, length + 20)
+            violins.add(tick + arr.jitter(4), note, 48 + 4 * build + (12 + 8 * build) * lift, length + 20)
             if glock and tick >= arr.end - arr.phrase:
                 glock.add(tick + arr.jitter(4), note + 12, 40, length)
         elif turns and verse > 0 and verse % 2 == 1:  # every other middle verse: the violins, softly
             violins.add(tick + arr.jitter(4), note, 48 + 12 * lift, length + 20)
         else:  # the intro (an octave up already), the first verse and every other one: the flute, softly
             flute.add(tick + arr.jitter(4), note, (48 if verse < 0 else 52) + 8 * lift, length - 10)
+    full = build >= 0.75
     harp = arr.part("harp", "harp", "harp", -0.3, reverb=0.35)
     flowing_bass(arr, harp, 0, arr.verses[0], 48, octave=12)
     flowing_bass(arr, harp, arr.verses[0], arr.verses[-1], 52)
     flowing_bass(arr, harp, arr.verses[-1], arr.end, 44, octave=12)
-    gliss(arr, harp, arr.verses[-1] - arr.beat, arr.beat, arr.chord_at(arr.verses[-1] - arr.beat), 55, 86, 48)
+    if full:
+        gliss(arr, harp, arr.verses[-1] - arr.beat, arr.beat, arr.chord_at(arr.verses[-1] - arr.beat), 55, 86, 48)
     strings(arr, 0, arr.verses[-1], 40)
-    strings(arr, arr.verses[-1], arr.end + 2 * arr.bar, 54)
+    strings(arr, arr.verses[-1], arr.end + 2 * arr.bar, round(40 + 14 * build))
     pizz = arr.part("basses-pizz", "basses-pizz", "low", 0.45, reverb=0.3)
     for tick, _, chord in arr.chord_spans(arr.verses[0], arr.verses[-1]):
         if tick % arr.bar == 0:  # plucked on the downbeats of the first verse
             pizz.add(tick + arr.jitter(4), low_bass(chord), 54, arr.beat)
     basses = arr.part("basses", "basses", "low", 0.45, reverb=0.35)
     for tick, length, chord in arr.chord_spans(arr.verses[-1], arr.end + 2 * arr.bar):
-        basses.add(tick + arr.jitter(6), low_bass(chord), 60, length + 20, tie=True)
-    horns = arr.part("horns", "horns", "pad", 0.2, reverb=0.4)
-    middle = arr.verses[-1] + arr.verse // 2
-    for tick, length, chord in arr.chord_spans(middle, arr.end + 2 * arr.bar):
-        horns.voicing = voice_lead(horns.voicing, chord, 53, 65)
-        for note in horns.voicing:
-            horns.add(tick + arr.jitter(6), note, 40, length + 20, tie=True)
-    flute_descant = arr.part("descant", "flute", "descant", 0.15, reverb=0.4)
-    descant(arr, flute_descant, arr.verses[-1] + arr.phrase, arr.end, 50, ceiling=81 if calm else 86)
-    timpani = arr.part("timpani", "timpani", "drum", 0.0, reverb=0.4)
-    timpani.add(arr.end, bass_note(arr.chord_at(arr.end)) + 12, 46, 2 * arr.bar)  # a soft roll under the last chord
-    if arr.song.lively:  # a sleigh ride for a lively tune: one shake a bar in the last verse
-        sleigh = arr.part("sleigh", "sleigh", "drum", 0.4, reverb=0.25)
-        for tick in range(arr.verses[-1], arr.end, arr.bar):
-            sleigh.add(tick + arr.jitter(6), 60, 46, arr.beat)
+        basses.add(tick + arr.jitter(6), low_bass(chord), round(52 + 8 * build), length + 20, tie=True)
+    horns, middle = None, arr.verses[-1] + arr.verse // 2
+    if full:
+        horns = arr.part("horns", "horns", "pad", 0.2, reverb=0.4)
+        for tick, length, chord in arr.chord_spans(middle, arr.end + 2 * arr.bar):
+            horns.voicing = voice_lead(horns.voicing, chord, 53, 65)
+            for note in horns.voicing:
+                horns.add(tick + arr.jitter(6), note, 40, length + 20, tie=True)
+    flute_descant = None
+    if build > 0:
+        flute_descant = arr.part("descant", "flute", "descant", 0.15, reverb=0.4)
+        descant(arr, flute_descant, arr.verses[-1] + arr.phrase, arr.end, round(40 + 10 * build),
+                ceiling=81 if calm else 86)
+    if full:
+        timpani = arr.part("timpani", "timpani", "drum", 0.0, reverb=0.4)
+        timpani.add(arr.end, bass_note(arr.chord_at(arr.end)) + 12, 46, 2 * arr.bar)  # a soft roll under the last chord
+        if arr.song.lively:  # a sleigh ride for a lively tune: one shake a bar in the last verse
+            sleigh = arr.part("sleigh", "sleigh", "drum", 0.4, reverb=0.25)
+            for tick in range(arr.verses[-1], arr.end, arr.bar):
+                sleigh.add(tick + arr.jitter(6), 60, 46, arr.beat)
     tonic = arr.chord_at(arr.end)
     if calm:  # the chord's tones from the middle of the keyboard down, an eighth apart, into the deep tonic
         falling = chord_notes(tonic, 55, 76)[::-1]
@@ -1278,11 +1292,13 @@ def arrange_orchestra(arr: Arrangement, turns: bool = False, calm: bool = False)
     fade = 24 if calm else None
     breathe(arr, flute, 100, 120, fade=fade)
     breathe(arr, violins, 100, 120, start=arr.verses[min(1, arr.last) if turns else -1], fade=fade)
-    breathe(arr, flute_descant, 84, 112, start=arr.verses[-1] + arr.phrase, fade=fade)
+    if flute_descant:
+        breathe(arr, flute_descant, 84, 112, start=arr.verses[-1] + arr.phrase, fade=fade)
     for name in ("cellos", "violas"):
         breathe(arr, arr.parts[name], 86, 116, fade=fade)
     breathe(arr, basses, 86, 116, start=arr.verses[-1], fade=fade)
-    breathe(arr, horns, 80, 112, start=middle, fade=fade)
+    if horns:
+        breathe(arr, horns, 80, 112, start=middle, fade=fade)
 
 
 @dataclass
@@ -1378,6 +1394,12 @@ STYLES = {
     # the user keeps the longer orchestra, but not its ending ("going up so
     # high, then off"): it now ends low and dies away (calm)
     "orchestra-long-calm": Style(lambda arr: arrange_orchestra(arr, turns=True, calm=True), hall=2.4, seconds=150),
+    # still "too much of a climax near the end": the last verse rising only a
+    # little (gentle), or no more than the others (flat)
+    "orchestra-gentle": Style(lambda arr: arrange_orchestra(arr, turns=True, calm=True, build=0.4), hall=2.4,
+                              seconds=150),
+    "orchestra-flat": Style(lambda arr: arrange_orchestra(arr, turns=True, calm=True, build=0.0), hall=2.4,
+                            seconds=150),
 }
 
 
