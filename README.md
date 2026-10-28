@@ -114,6 +114,10 @@ runs/<mã khác>/covers/lego-woodwinds/stem_01.mp3:0.7` (nhiều lượt cách n
      - `pulse` (khoảng 88 nhịp/phút): mở đầu tự do bằng hợp âm của mấy ô nhịp cuối, rải từ bass trầm lên
        một nốt cao đi thành giai điệu riêng; sau đó tiếng đệm nảy đều như nhịp tim, mỗi nốt móc đơn một
        quãng năm (thêm quãng tám ở đầu phách), bass trầm ở đầu hợp âm và quãng năm ở giữa ô nhịp.
+     - `ballad-clear`, `pulse-clear`: như trên nhưng rõ từng nốt hơn và sáng hơn. Nghe gần, tiếng đệm của
+       hai bản mẫu nở ra rồi tắt theo từng phách, còn ở `ballad`/`pulse` pedal giữ cả hợp âm nên tiếng ngân
+       liền một mảng. Nên ở đây pedal được thay mỗi phách, bass giữ một phách, tay giữa nhấc lên sau mỗi nốt
+       móc đơn, và dải cao của đàn được nâng (+8 dB từ 6 kHz).
    - `bells`: vibraphone cùng chuông tay hát giai điệu, cao hơn bài một quãng tám, nơi chuông ngân hay
      nhất. Glockenspiel lấp lánh ở các nốt dài; nhạc cụ này vang cao hơn phím một quãng tám. Đệm bằng
      harp và nền dây khẽ. Chuông ống ngân nhẹ ở đầu mỗi lượt.
