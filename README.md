@@ -103,22 +103,24 @@ runs/<mã khác>/covers/lego-woodwinds/stem_01.mp3:0.7` (nhiều lượt cách n
      đàn grand đánh vừa tay, có bass trầm và mạnh mỗi lần đổi hợp âm, quãng giữa đi đều từng nốt móc đơn
      (2–3 nốt một lúc) dưới pedal, giai điệu ở trên cao. Hợp âm của họ chính là hợp âm của bài, không thêm
      màu nhiều. Nên giờ:
-     - đàn Steinway grand, mở dải cao (mẫu tiếng đã được lọc xì, xem bước 2), giai điệu và bass đánh ở lớp
-       mẫu sáng hơn (vừa tay, không đánh quá nhẹ);
+     - đàn upright Yamaha (bạn nghe so với Steinway grand mở dải cao và chọn Yamaha; muốn so thì điền
+       `grand` vào ô *pianos*), giai điệu và bass đánh vừa tay, không đánh quá nhẹ;
      - bass trầm (từ La1 tới Son#2) đánh mỗi lần đổi hợp âm, thỉnh thoảng đi bằng nốt ba của hợp âm cho
        đường bass liền mạch (Đô – Son/Si – La thứ); giai điệu cao một quãng tám; lượt giữa có bè quãng ba
        hoặc quãng sáu dưới các nốt dài, lượt cuối nhân đôi quãng tám; cuối câu có vài nốt rải nhẹ lên trên
        nốt ngân; hợp âm cuối rải từ nốt trầm. Tiếng vang dài hơn.
      - `ballad` (khoảng 72 nhịp/phút): mở đầu bằng câu cuối của bài; bass đi từng phách (gốc, năm, tám,
-       năm); quãng giữa mỗi nốt móc đơn hai nốt của hợp âm, thấp cao xen kẽ; một lớp pad synth êm ở dưới như
-       bản mẫu thứ hai (tự tạo bằng bộ dao động của sfizz, `instruments/pad.sfz`, không cần mẫu thu nào).
+       năm); quãng giữa mỗi nốt móc đơn hai nốt của hợp âm, thấp cao xen kẽ; một lớp pad synth rất khẽ ở dưới
+       như bản mẫu thứ hai (tự tạo bằng bộ dao động của sfizz, `instruments/pad.sfz`, không cần mẫu thu nào).
      - `pulse` (khoảng 88 nhịp/phút): mở đầu tự do bằng hợp âm của mấy ô nhịp cuối, rải từ bass trầm lên
        một nốt cao đi thành giai điệu riêng; sau đó tiếng đệm nảy đều như nhịp tim, mỗi nốt móc đơn một
        quãng năm (thêm quãng tám ở đầu phách), bass trầm ở đầu hợp âm và quãng năm ở giữa ô nhịp. Thêm các
        nhạc cụ nghe được trong bản mẫu thứ nhất: lượt đầu có glockenspiel đánh đôi giai điệu thật khẽ, rồi sáo
        hát giai điệu (có vibrato nhẹ 5,2 lần/giây như sáo trong bản mẫu) trong khi piano đi theo khẽ, đoạn cuối
-       vibraphone đánh đôi giai điệu trên tiếng harp rải và dàn dây khẽ; mark tree (chuông thanh) leng keng ở
-       đầu mỗi đoạn.
+       vibraphone đánh đôi giai điệu trên tiếng harp rải và dàn dây khẽ. Tiếng lấp lánh ở lượt đầu là chuông
+       lắc (sleigh bells) lắc khẽ theo nhịp từng nốt móc đơn, và một nốt glockenspiel cao mỗi hai ô nhịp, như
+       bản mẫu (soi kỹ: những tiếng leng keng ngắn ở 5–7,5 kHz cách nhau 0,33–0,66 giây); bản trước dùng
+       mark tree (chùm thanh kim loại gạt lướt) nghe không hay nên đã bỏ.
      - Các nhạc cụ này được nhận ra bằng hai mô hình nhận diện âm thanh (PaSST, huấn luyện trên AudioSet) nghe
        từng đoạn 5–10 giây của hai bản mẫu, so với các bản chỉ có piano của mình, cùng với đo bồi âm và độ rung
        (vibrato) của giai điệu.

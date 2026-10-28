@@ -6,10 +6,10 @@ render_samples.py:
     python arrange.py out/sampled [--songs wish silent-night first-noel ...] [--styles ballad pulse ...]
         [--pianos grand piano knight yamaha]
 
-ballad and pulse, the styles after the user's two reference recordings, are
-played on VCSL's Steinway B grand with its highs open ("grand"); the gentle
-piano styles on its Yamaha upright, softer and closer; piano on the Steinway
-with its highs cut. --pianos plays them on others to compare (the Steinway:
+ballad and pulse, the styles after the user's two reference recordings, and
+the gentle piano styles are played on VCSL's Yamaha upright, softer and
+closer (heard against the Steinway B grand with its highs open, "grand", the
+user preferred it); piano on the Steinway with its highs cut. --pianos plays them on others to compare (the Steinway:
 piano or grand, the Knight upright: knight, the Yamaha: yamaha; such pieces'
 names end in the piano's name).
 
@@ -54,10 +54,10 @@ same chords, beat by beat, so they always agree:
     rolled from the deep bass to a slow top line; then a heartbeat of eighths,
     each chord's root and fifth (the octave on the beats), the bass struck
     as each chord comes and its fifth halfway through the bar; and the first
-    reference's other instruments: a glockenspiel doubling the tune softly
-    in the first verse, then a flute singing it (with a gentle vibrato) while
-    the piano follows softly, then a vibraphone doubling it over a harp and
-    soft strings; a mark tree's run as each section begins;
+    reference's other instruments: in the first verse sleigh bells shaken
+    softly in time and a glockenspiel's note every second bar, then a flute
+    singing the tune (with a gentle vibrato) while the piano follows softly,
+    then a vibraphone doubling it over a harp and soft strings;
   - ballad-clear, pulse-clear: the same, each beat's notes blooming and
     fading as the references' do (the pedal taken again on every beat, the
     bass held a beat, the middle hand lifted after its eighth), and brighter
@@ -128,7 +128,6 @@ INSTRUMENTS = {
     "glock": ("vcsl", "Idiophones/Struck Idiophones/Glockenspiel.sfz"),
     "harp": ("vcsl", "Chordophones/Composite Chordophones/Concert Harp.sfz"),
     "sleigh": ("vcsl", "Idiophones/Struck Idiophones/Sleigh Bells.sfz"),
-    "marktree": ("vcsl", "Idiophones/Struck Idiophones/Mark Trees.sfz"),  # keys 60-65: runs up and down
     "pad": ("local", "pad.sfz"),  # our own synth pad (instruments/pad.sfz), sfizz's oscillators
     "tubular": ("vcsl", "Idiophones/Struck Idiophones/Tubular Bells 1.sfz"),
     "flute": ("vsco", "FluteSusNV.sfz"),  # without vibrato: the vibrato samples wobble on long notes
@@ -181,7 +180,6 @@ TONES = {
     "glock": {"lowpass": 8000, "lowpass_order": 4, "shelf": [5000, -5], "width": 0.4, "dehiss": True},
     "harp": {"lowpass": 5000, "lowpass_order": 4, "width": 0.7, "dehiss": True},
     "sleigh": {"shelf": [6000, -6], "width": 0.6},
-    "marktree": {"shelf": [8000, -3], "width": 0.8, "dehiss": True},  # its recordings' tails hiss 45-59 dB under
     "tubular": {"lowpass": 4000, "lowpass_order": 4, "width": 0.5, "dehiss": True},
     "flute": {"lowpass": 8000, "shelf": [6000, -2], "width": 0.5},
     "violins": {"lowpass": 6500, "lowpass_order": 4, "shelf": [5000, -2], "width": 0.8, "dehiss": True},
@@ -194,7 +192,7 @@ TONES = {
 }
 # How loud each kind of part sits against the melody (dB of its loudness when playing).
 ROLES = {"melody": 0.0, "piano": 0.0, "descant": -9.0, "harp": -4.0, "pad": -10.0, "bass": -8.0, "shimmer": -12.0,
-         "arp": -9.0,
+         "arp": -7.0, "jingle": -18.0, "haze": -20.0,
          "bells": -8.0, "bed": -13.0, "low": -12.0, "toll": -14.0, "sparkle": -16.0, "drum": -17.0}
 
 
@@ -1006,26 +1004,47 @@ def vibrato(arr: Arrangement, part: Part, tick: int, length: int, delay: float =
     part.bends.append((tick + length - 10, 0))
 
 
+# The first reference's sparkle, heard close up: not a run of bells (the
+# mark tree's sweep, which the user did not like) but sleigh bells shaken
+# softly in time, short bursts at 5-7.5 kHz every eighth or quarter (29 in 13
+# s), and a high bell note on the downbeat of every second bar. Sleigh bells
+# by eighths, each meter's bar: 2 the downbeat (the brighter hit, key 63), 1 a
+# soft hit (key 60, two round robins), 0 a rest.
+JINGLES = {(3, 2): (2, 0, 1, 1, 1, 0), (4, 2): (2, 0, 1, 1, 1, 0, 1, 1), (2, 2): (2, 0, 1, 1),
+           (4, 3): (2, 0, 0, 1, 0, 1, 1, 0, 0, 1, 0, 1), (2, 3): (2, 0, 0, 1, 0, 1)}
+
+
+def jingles(arr: Arrangement, part: Part, start: int, end: int, velocity: int) -> None:
+    for tick in range(start, end, EIGHTH):
+        kind = JINGLES[arr.meter][tick % arr.bar // EIGHTH]
+        if kind:
+            part.add(tick + arr.jitter(5), 63 if kind == 2 else 60,
+                     velocity + (6 if kind == 2 else 0) + arr.rng.randint(-3, 3), EIGHTH)
+
+
 def band(arr: Arrangement, intro_line: list) -> None:
-    """The first reference's other instruments around the piano: a glockenspiel
-    (it sounds an octave over its keys) doubling the intro's top line and the
-    tune up to `flute`, softly; the flute singing the tune from there; from
-    `close` the vibraphone doubling the tune, a harp breaking the chords in
-    eighths and soft strings holding them; a run of the mark tree as the
-    intro, each section and the last chord begin."""
+    """The first reference's other instruments around the piano: in the first
+    verse sleigh bells shaken softly in time and, on the downbeat of every
+    second bar, a glockenspiel's note of the chord (it sounds an octave over
+    its keys, C6-B6); from `flute` the flute singing the tune; from `close` the
+    vibraphone doubling the tune, a harp breaking the chords in eighths and soft
+    strings holding them. (intro_line, the free intro's top line, is the
+    piano's own.)"""
     flute_from, close_from = band_sections(arr)
     glock = arr.part("glock", "glock", "shimmer", 0.2, reverb=0.45)
     flute = arr.part("flute", "flute", "melody", -0.1, reverb=0.38)
     vibes = arr.part("vibes", "vibes", "shimmer", -0.2, reverb=0.4)
-    for tick, note, length in intro_line:
-        glock.add(tick + arr.jitter(4), note, 44, length)
+    sleigh = arr.part("sleigh", "sleigh", "jingle", 0.3, reverb=0.3)
+    jingles(arr, sleigh, arr.verses[0], flute_from, 40)
+    for downbeat in range(arr.verses[0], flute_from, 2 * arr.bar):
+        chord = arr.chord_at(downbeat)
+        key = min(chord_notes(chord, 72, 83), key=lambda n: abs(n - 76))
+        glock.add(downbeat + arr.jitter(4), key, 44 + arr.rng.randint(-2, 2), 2 * arr.bar)
     for tick, note, length, verse, position in arr.melody():
-        if verse < 0:
+        if verse < 0 or tick < flute_from:
             continue
         at, high = tick + 4 + arr.jitter(3), note + 12  # the tune an octave up, as the piano sings it
-        if tick < flute_from:
-            glock.add(at, high, 42 + 6 * shape(position), min(length, arr.bar))
-        elif tick < close_from:
+        if tick < close_from:
             flute.add(at, high, 56 + 12 * shape(position), length + 20)
             vibrato(arr, flute, at, length)
         else:
@@ -1039,9 +1058,6 @@ def band(arr: Arrangement, intro_line: list) -> None:
     strings(arr, close_from, arr.end + 2 * arr.bar, 40, roles=("bed", "bed"))
     for name in ("cellos", "violas"):
         breathe(arr, arr.parts[name], 84, 110, start=close_from)
-    marktree = arr.part("marktree", "marktree", "sparkle", 0.3, reverb=0.45)
-    for i, tick in enumerate((0, arr.verses[0], flute_from, close_from, arr.end)):
-        marktree.add(tick + arr.jitter(6), (60, 64, 61, 64, 65)[i], 50, 2 * arr.bar)
 
 
 def pad_chords(arr: Arrangement, part: Part, start: int, end: int, velocity: int) -> None:
@@ -1063,7 +1079,9 @@ def arrange_ballad(arr: Arrangement, clear: bool = False) -> None:
     rolling_pairs(arr, piano, 0, arr.end, 54, tune, length=EIGHTH if clear else 2 * EIGHTH)
     (pedal_by_beat if clear else pedal_by_chord)(arr, piano, 0, arr.end)
     cover_end(arr, piano, tune, BRIGHT)
-    pad = arr.part("pad", "pad", "pad", 0.0, reverb=0.4)
+    # the pad far under the piano: at its first level (the role pad) it tagged
+    # Synthesizer 0.18 and Ambient 0.35 against the reference's 0.03 and 0.07
+    pad = arr.part("pad", "pad", "haze", 0.0, reverb=0.4)
     pad_chords(arr, pad, 0, arr.end + 2 * arr.bar, 56)
     breathe(arr, pad, 76, 108)
 
@@ -1212,8 +1230,9 @@ STYLES = {
                            piano=GENTLE_PIANO),
     "felt": Style(arrange_felt, tempo=0.8, breath=0.9, repeat_short=True, piano=GENTLE_PIANO),
     "felt-noise": Style(arrange_felt, tempo=0.8, breath=0.9, repeat_short=True, noise_db=-22, piano=GENTLE_PIANO),
-    "ballad": Style(arrange_ballad, bpm=72, breath=0.9, hall=2.8, repeat_short=True, piano="grand"),
-    "pulse": Style(arrange_pulse, bpm=88, breath=0.9, hall=2.8, repeat_short=True, free_intro=True, piano="grand"),
+    "ballad": Style(arrange_ballad, bpm=72, breath=0.9, hall=2.8, repeat_short=True, piano=GENTLE_PIANO),
+    "pulse": Style(arrange_pulse, bpm=88, breath=0.9, hall=2.8, repeat_short=True, free_intro=True,
+                   piano=GENTLE_PIANO),
     "ballad-clear": Style(lambda arr: arrange_ballad(arr, clear=True), bpm=72, breath=0.9, hall=2.8,
                           repeat_short=True, piano="grand", piano_tone=CLEAR_TONE),
     "pulse-clear": Style(lambda arr: arrange_pulse(arr, clear=True), bpm=88, breath=0.9, hall=2.8,
