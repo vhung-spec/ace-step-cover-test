@@ -70,9 +70,11 @@ same chords, beat by beat, so they always agree:
     beats), the bass struck
     as each chord comes and its fifth halfway through the bar; and the first
     reference's other instruments: in the first verse a glockenspiel softly
-    doubling the tune (the user chose it over the piano alone), then a flute
+    doubling the tune (pulse-hall-plain: the piano alone), then a flute
     singing it (with a gentle vibrato) while the piano follows softly, then a
-    vibraphone doubling it over a harp and soft strings;
+    vibraphone doubling it over a harp and soft strings; the user keeps four
+    versions of it: pulse (the small room), pulse-near (a 1.2 s room, sends
+    at 0.6 times), pulse-hall and pulse-hall-plain (the 2.8 s hall);
   - ballad-clear, pulse-clear (on the Steinway grand, in the 2.8 s hall): the
     same, each beat's notes blooming and fading as the references' do (the
     pedal taken again on every beat, the bass held a beat, the middle hand
@@ -1095,15 +1097,15 @@ def vibrato(arr: Arrangement, part: Part, tick: int, length: int, delay: float =
 # sleigh bells a little coarse"), though close up the first reference's
 # sparkle sounds like those; the glockenspiel softly doubling the tune (run
 # 18, the arrangement liked) stays: heard against the piano alone in the
-# first verse (run 20), the user chose it.
-def band(arr: Arrangement) -> None:
-    """The first reference's other instruments around the piano: a
+# first verse (run 20), the user chose it, and keeps both for the channel.
+def band(arr: Arrangement, bells: bool = True) -> None:
+    """The first reference's other instruments around the piano: with bells, a
     glockenspiel (it sounds an octave over its keys) doubling the tune softly
     in the first verse; from `flute` the flute singing the tune; from `close`
     the vibraphone doubling the tune, a harp breaking the chords in eighths and
     soft strings holding them."""
     flute_from, close_from = band_sections(arr)
-    glock = arr.part("glock", "glock", "shimmer", 0.2, reverb=0.45)
+    glock = arr.part("glock", "glock", "shimmer", 0.2, reverb=0.45) if bells else None
     flute = arr.part("flute", "flute", "melody", -0.1, reverb=0.38)
     vibes = arr.part("vibes", "vibes", "shimmer", -0.2, reverb=0.4)
     for tick, note, length, verse, position in arr.melody():
@@ -1111,7 +1113,8 @@ def band(arr: Arrangement) -> None:
             continue
         at, high = tick + 4 + arr.jitter(3), note + 12  # the tune an octave up, as the piano sings it
         if tick < flute_from:
-            glock.add(at, high, 42 + 6 * shape(position), min(length, arr.bar))
+            if glock:
+                glock.add(at, high, 42 + 6 * shape(position), min(length, arr.bar))
         elif tick < close_from:
             flute.add(at, high, 56 + 12 * shape(position), length + 20)
             vibrato(arr, flute, at, length)
@@ -1153,10 +1156,10 @@ def arrange_ballad(arr: Arrangement, clear: bool = False) -> None:
     breathe(arr, pad, 76, 108)
 
 
-def arrange_pulse(arr: Arrangement, clear: bool = False) -> None:
+def arrange_pulse(arr: Arrangement, clear: bool = False, bells: bool = True) -> None:
     """After the first reference: the verses (with a free intro, after rolled
     chords in free time) over the deep bass and the pulse, with its
-    glockenspiel, flute, harp, vibraphone and strings (band)."""
+    glockenspiel (if bells), flute, harp, vibraphone and strings (band)."""
     piano = arr.part("piano", arr.piano, "piano", 0.0, reverb=0.32)
     tune = cover_melody(arr, piano, BRIGHT + 8, intro=False, aside=band_sections(arr))
     if arr.free_intro:
@@ -1169,7 +1172,7 @@ def arrange_pulse(arr: Arrangement, clear: bool = False) -> None:
     else:
         pedal_by_chord(arr, piano, 0, arr.end)
     cover_end(arr, piano, tune, BRIGHT)
-    band(arr)
+    band(arr, bells)
 
 
 def arrange_bells(arr: Arrangement) -> None:
@@ -1308,9 +1311,18 @@ STYLES = {
     "ballad": Style(arrange_ballad, bpm=72, breath=0.9, hall=0.8, wet=0.45, repeat_short=True, piano="ep",
                     reharm=True),
     # pulse goes straight into the tune: the user wanted its 10 s of rolled
-    # chords in free time, the intro pulse-clear keeps, gone.
+    # chords in free time, the intro pulse-clear keeps, gone. Of its versions
+    # the user keeps four for the channel (the listening page's 9, 8, 7, 6):
+    # the small room, the 1.2 s room, and the old 2.8 s hall with the
+    # glockenspiel or with the piano alone in the first verse.
     "pulse": Style(arrange_pulse, bpm=88, breath=0.9, hall=0.8, wet=0.45, repeat_short=True, intro=False,
                    piano=GENTLE_PIANO),
+    "pulse-near": Style(arrange_pulse, bpm=88, breath=0.9, hall=1.2, wet=0.6, repeat_short=True, intro=False,
+                        piano=GENTLE_PIANO),
+    "pulse-hall": Style(arrange_pulse, bpm=88, breath=0.9, hall=2.8, repeat_short=True, intro=False,
+                        piano=GENTLE_PIANO),
+    "pulse-hall-plain": Style(lambda arr: arrange_pulse(arr, bells=False), bpm=88, breath=0.9, hall=2.8,
+                              repeat_short=True, intro=False, piano=GENTLE_PIANO),
     "ballad-clear": Style(lambda arr: arrange_ballad(arr, clear=True), bpm=72, breath=0.9, hall=2.8,
                           repeat_short=True, piano="grand", piano_tone=CLEAR_TONE),
     "pulse-clear": Style(lambda arr: arrange_pulse(arr, clear=True), bpm=88, breath=0.9, hall=2.8,

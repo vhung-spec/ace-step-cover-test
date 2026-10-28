@@ -139,8 +139,10 @@ runs/<mã khác>/covers/lego-woodwinds/stem_01.mp3:0.7` (nhiều lượt cách n
        quãng năm (thêm quãng tám ở đầu phách), bass trầm ở đầu hợp âm và quãng năm ở giữa ô nhịp. Thêm các
        nhạc cụ nghe được trong bản mẫu thứ nhất: lượt đầu có glockenspiel đánh đôi giai điệu thật khẽ, rồi sáo
        hát giai điệu (có vibrato nhẹ 5,2 lần/giây như sáo trong bản mẫu) trong khi piano đi theo khẽ, đoạn cuối
-       vibraphone đánh đôi giai điệu trên tiếng harp rải và dàn dây khẽ. Nghe so với lượt đầu chỉ có piano,
-       bạn chọn có glockenspiel. Đã thử và bỏ vì nghe không hay: mark tree (chùm thanh kim loại gạt lướt) ở
+       vibraphone đánh đôi giai điệu trên tiếng harp rải và dàn dây khẽ. Bạn giữ bốn bản của kiểu này để dùng
+       sau này (bản 9, 8, 7, 6 trên trang nghe): `pulse` (phòng nhỏ 0,8 giây, mặc định), `pulse-near` (phòng
+       1,2 giây), `pulse-hall` (vang hội trường 2,8 giây) và `pulse-hall-plain` (vang hội trường, lượt đầu chỉ
+       có piano, không có glockenspiel). Đã thử và bỏ vì nghe không hay: mark tree (chùm thanh kim loại gạt lướt) ở
        đầu bài; chuông lắc (sleigh bells) lắc theo nhịp kèm một nốt chuông "ding" mỗi hai ô nhịp (soi kỹ thì
        bản mẫu có kiểu lấp lánh này, nhưng mẫu tiếng của mình nghe thô).
      - Các nhạc cụ này được nhận ra bằng hai mô hình nhận diện âm thanh (PaSST, huấn luyện trên AudioSet) nghe
