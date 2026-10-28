@@ -91,22 +91,31 @@ INSTRUMENTS = {
     "violin": ("vsco", "SViolinVib-Quiet.sfz", dict(TONES["violins"]) | {"width": 0.5}),
     "drone": ("local", "drone.sfz", {"highpass": 30}),
 }
-# The tone the user chose for the muffled pieces (C3, the fourth round): the
+# The tone the user chose for the muffled pieces: C3 of the fourth round (the
 # references' average spectrum against the plain upright's (B2), smoothed: a
-# warmer middle, falling from 1.2 kHz (Hz, dB; render_samples.py's eq).
-EQ_DEM_DIU = [
+# warmer middle, falling from 1.2 kHz), then D2 of the fifth ("bớt chói": 1-4 dB
+# less from 630 Hz up) (Hz, dB; render_samples.py's eq). EQ_C3 is the first.
+EQ_C3 = [
     (62, 0), (79, 0), (99, 0), (125, -2.4), (157, -2.3), (198, -1.9), (250, -1.3),
     (315, 3.1), (397, 4.6), (500, 0.2), (630, -3.3), (794, -1), (1000, 1.2), (1260, -3.9),
     (1587, -10.9), (2000, -16.3), (2520, -20.7), (3175, -23.8), (4000, -24), (5040, -24),
 ]
+EQ_DEM_DIU = [
+    (62, 0), (79, 0), (99, 0), (125, -2.4), (157, -2.3), (198, -1.9), (250, -1.3),
+    (315, 3.1), (397, 4.6), (500, 0.2), (630, -4.3), (794, -3), (1000, -1.8), (1260, -7.9),
+    (1587, -14.9), (2000, -20.3), (2520, -24.7), (3175, -27.8), (4000, -28), (5040, -28),
+]
 # Named styles: a piece's "style" fills in every setting it does not give itself.
 STYLES = {
-    # "Đêm dịu", the user's choice of the fourth round (C3): slow (72-84 bpm), a
-    # light left hand (a bass held under two tones rocking in eighths, let go after
-    # a beat, the pedal taken every two beats, softer than the tune), the Yamaha
-    # upright with a softer strike (25 ms) and the references' tone, a 2.8 s hall
-    # at 0.8; the bass above E2.
+    # "Đêm dịu", the user's choice: C3 of the fourth round, as D2 of the fifth
+    # ("D2 ổn"): slow (70-84 bpm), a light left hand (a bass held under two
+    # tones rocking in eighths, let go after a beat, the pedal taken every two
+    # beats, softer than the tune), the tune struck softly (38-60, never above
+    # 64: the Yamaha upright's softest samples), a softer strike (25 ms) and the
+    # references' tone a little darker, a 2.8 s hall at 0.8; the bass above E2.
+    # The app plays it the same way (bokin_music/dark on the app's branch).
     "dem-diu": {"piano": "upright", "bass_low": 40, "texture": "flow", "hold": 1.0, "pedal_beats": 2, "lh_soft": 6,
+                 "melody_velocity": [38, 60], "velocity_cap": 64,
                  "room": {"rt60": 2.8, "wet": 0.8}, "piano_reverb": 0.35,
                  "piano_tone": {"attack": 0.025, "eq": [list(p) for p in EQ_DEM_DIU]}},
 }
