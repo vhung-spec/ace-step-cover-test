@@ -23,6 +23,11 @@ A piece is a short score, the shape an AI composer is asked to write:
 - bass_low: the lowest note the left hand's bass may take (33, A1; 40, E2,
   keeps the piano out of the deep bass); piano_tone changes the piano's tone
   for render_samples.py (lowpass, lowpass_order, width: above 1 widens it);
+- style: a named style (STYLES) giving every setting the piece leaves out;
+  dem-diu, the user's choice for slow, muffled pieces;
+- melody_velocity: how hard the tune is struck at dyn 0 and at dyn 1 (40,
+  82); velocity_cap: no key struck harder (64 keeps the Yamaha upright on its
+  softest, darkest samples, which end at 65);
 - hold: the longest (beats) an accompanying note is held; pedal_beats: the
   pedal taken again this often within a chord (else once a chord); lh_soft:
   the left hand this much softer (velocity), all to keep it light and clear;
@@ -86,6 +91,25 @@ INSTRUMENTS = {
     "violin": ("vsco", "SViolinVib-Quiet.sfz", dict(TONES["violins"]) | {"width": 0.5}),
     "drone": ("local", "drone.sfz", {"highpass": 30}),
 }
+# The tone the user chose for the muffled pieces (C3, the fourth round): the
+# references' average spectrum against the plain upright's (B2), smoothed: a
+# warmer middle, falling from 1.2 kHz (Hz, dB; render_samples.py's eq).
+EQ_DEM_DIU = [
+    (62, 0), (79, 0), (99, 0), (125, -2.4), (157, -2.3), (198, -1.9), (250, -1.3),
+    (315, 3.1), (397, 4.6), (500, 0.2), (630, -3.3), (794, -1), (1000, 1.2), (1260, -3.9),
+    (1587, -10.9), (2000, -16.3), (2520, -20.7), (3175, -23.8), (4000, -24), (5040, -24),
+]
+# Named styles: a piece's "style" fills in every setting it does not give itself.
+STYLES = {
+    # "Đêm dịu", the user's choice of the fourth round (C3): slow (72-84 bpm), a
+    # light left hand (a bass held under two tones rocking in eighths, let go after
+    # a beat, the pedal taken every two beats, softer than the tune), the Yamaha
+    # upright with a softer strike (25 ms) and the references' tone, a 2.8 s hall
+    # at 0.8; the bass above E2.
+    "dem-diu": {"piano": "upright", "bass_low": 40, "texture": "flow", "hold": 1.0, "pedal_beats": 2, "lh_soft": 6,
+                 "room": {"rt60": 2.8, "wet": 0.8}, "piano_reverb": 0.35,
+                 "piano_tone": {"attack": 0.025, "eq": [list(p) for p in EQ_DEM_DIU]}},
+}
 # How loud each part sits against the piano (dB while it plays).
 ROLES = {"piano": 0.0, "bass": -9.0, "melody2": -6.0, "pad": -12.0, "low": -13.0, "drone": -15.0}
 
@@ -119,9 +143,10 @@ class Part:
         self.instrument, self.role, self.pan, self.reverb = instrument, role, pan, reverb
         self.tone = dict(INSTRUMENTS[instrument][2])
         self.notes, self.pedal, self.expression, self.bends = [], [], [], []
+        self.cap = 127  # the hardest a key is struck
 
     def add(self, tick: float, note: int, velocity: float, length: float) -> None:
-        self.notes.append((max(0, int(tick)), int(note), max(1, min(127, int(velocity))), max(30, int(length))))
+        self.notes.append((max(0, int(tick)), int(note), max(1, min(self.cap, int(velocity))), max(30, int(length))))
 
 
 class Piece:
@@ -231,7 +256,8 @@ def play_melody(piece: Piece, piano: Part) -> None:
     for tick, notes, length in piece.tune:
         section = piece.section_at(tick)
         position = (tick % (4 * piece.bar)) / (4 * piece.bar)
-        velocity = 40 + 42 * section.get("dyn", 0.4) + 6 * phrase_shape(position) + piece.jitter(3)
+        soft, loud = piece.score.get("melody_velocity", (40, 82))  # at dyn 0 and 1
+        velocity = soft + (loud - soft) * section.get("dyn", 0.4) + 6 * phrase_shape(position) + piece.jitter(3)
         late = 10 + piece.jitter(6)  # a little behind the beat, as a player lingers
         for k, note in enumerate(sorted(notes, reverse=True)):
             piano.add(tick + late + 12 * k, note, velocity - 6 * k, length)
@@ -247,7 +273,7 @@ def left_hand(piece: Piece, piano: Part) -> None:
     previous = [57, 60, 64]
     for tick, length, name in piece.spans:
         section = piece.section_at(tick)
-        texture, dyn = section.get("texture", "arp"), section.get("dyn", 0.4)
+        texture, dyn = section.get("texture", piece.score.get("texture", "arp")), section.get("dyn", 0.4)
         velocity = 30 + 34 * dyn - piece.score.get("lh_soft", 0)
         hold = round(piece.score.get("hold", 99) * TICKS)  # the longest an accompanying note is held
         bass, tones, _ = chord(name)
@@ -375,8 +401,10 @@ def ending(piece: Piece, piano: Part) -> None:
 
 
 def compose(score: dict, folder: Path) -> str:
+    score = STYLES.get(score.get("style"), {}) | score  # the piece's own settings win
     piece = Piece(score)
     piano = piece.part("piano", score.get("piano", "upright"), "piano", 0.0, reverb=score.get("piano_reverb", 0.35))
+    piano.cap = score.get("velocity_cap", 127)
     if score.get("piano_tone"):
         piano.tone.update(score["piano_tone"])
     play_melody(piece, piano)
