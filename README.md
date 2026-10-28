@@ -97,13 +97,23 @@ runs/<mã khác>/covers/lego-woodwinds/stem_01.mp3:0.7` (nhiều lượt cách n
      - `felt`: tiếng piano tối và tròn như đàn búa nỉ (lọc bỏ dải cao từ 900 Hz), theo bản ru ngủ mẫu.
        Tay trái rải đều từng nốt móc đơn ngay từ đầu.
      - `felt-noise`: như `felt`, có thêm lớp tiếng rì (pink noise) rất khẽ như nhạc ru ngủ cho em bé.
-   - `ballad` và `pulse`: theo kiểu piano Giáng sinh thư giãn. Mở đầu tự do: chỉ có hợp âm của mấy ô nhịp
-     cuối, rải chậm từ nốt trầm, có thêm quãng chín cho có màu, chơi chậm và ngân ở cuối mỗi ô nhịp. Sau đó
-     giai điệu vào ở quãng cao, lượt cuối được nhân đôi quãng tám. Tiếng vang dài hơn.
-     - `ballad` (khoảng 74 nhịp/phút): tay trái rải đều từng nốt móc đơn lên xuống hai quãng tám ở quãng
-       giữa, nốt trầm ở đầu mỗi ô nhịp.
-     - `pulse` (khoảng 88 nhịp/phút): tiếng đệm nảy đều như nhịp tim, mỗi nốt móc đơn một quãng năm (thêm
-       quãng ba ở đầu phách), nốt trầm ở đầu mỗi ô nhịp.
+   - `ballad` và `pulse`: làm theo hai bản mẫu piano Giáng sinh thư giãn của bạn (chỉ đo âm thanh và
+     cách chơi, không chép gì của họ). Đây là hai kiểu chạy mặc định. Đo so với hai bản mẫu, bản cũ trên đàn
+     Yamaha thiếu khoảng 20 dB tiếng trầm và 25–30 dB độ sáng, tay trái lại thưa. Hai bản mẫu là một cây
+     đàn grand đánh vừa tay, có bass trầm và mạnh mỗi lần đổi hợp âm, quãng giữa đi đều từng nốt móc đơn
+     (2–3 nốt một lúc) dưới pedal, giai điệu ở trên cao. Hợp âm của họ chính là hợp âm của bài, không thêm
+     màu nhiều. Nên giờ:
+     - đàn Steinway grand, mở dải cao (mẫu tiếng đã được lọc xì, xem bước 2), giai điệu và bass đánh ở lớp
+       mẫu sáng hơn (vừa tay, không đánh quá nhẹ);
+     - bass trầm (từ La1 tới Son#2) đánh mỗi lần đổi hợp âm, thỉnh thoảng đi bằng nốt ba của hợp âm cho
+       đường bass liền mạch (Đô – Son/Si – La thứ); giai điệu cao một quãng tám; lượt giữa có bè quãng ba
+       hoặc quãng sáu dưới các nốt dài, lượt cuối nhân đôi quãng tám; cuối câu có vài nốt rải nhẹ lên trên
+       nốt ngân; hợp âm cuối rải từ nốt trầm. Tiếng vang dài hơn.
+     - `ballad` (khoảng 72 nhịp/phút): mở đầu bằng câu cuối của bài; bass đi từng phách (gốc, năm, tám,
+       năm); quãng giữa mỗi nốt móc đơn hai nốt của hợp âm, thấp cao xen kẽ.
+     - `pulse` (khoảng 88 nhịp/phút): mở đầu tự do bằng hợp âm của mấy ô nhịp cuối, rải từ bass trầm lên
+       một nốt cao đi thành giai điệu riêng; sau đó tiếng đệm nảy đều như nhịp tim, mỗi nốt móc đơn một
+       quãng năm (thêm quãng tám ở đầu phách), bass trầm ở đầu hợp âm và quãng năm ở giữa ô nhịp.
    - `bells`: vibraphone cùng chuông tay hát giai điệu, cao hơn bài một quãng tám, nơi chuông ngân hay
      nhất. Glockenspiel lấp lánh ở các nốt dài; nhạc cụ này vang cao hơn phím một quãng tám. Đệm bằng
      harp và nền dây khẽ. Chuông ống ngân nhẹ ở đầu mỗi lượt.
@@ -112,17 +122,24 @@ runs/<mã khác>/covers/lego-woodwinds/stem_01.mp3:0.7` (nhiều lượt cách n
      timpani khẽ ở hợp âm cuối.
    - `salamander`: như `piano` nhưng trên đàn Salamander Grand Piano (không chạy mặc định).
 
-   Các kiểu piano nhẹ nhàng (chill, lullaby, flowing, hymn, piano-strings, felt, felt-noise, ballad, pulse)
-   chơi trên đàn upright Yamaha: tiếng mềm, ấm, gần gũi, kiểu piano thư giãn (đã nghe so với Steinway và
-   upright Knight). Kiểu `piano` vẫn chơi trên đàn Steinway B grand. Muốn so, điền ô *pianos* khi chạy
-   (`piano`, `knight`, `yamaha`): bản chơi trên đàn khác đàn của kiểu đó có đuôi là tên đàn. Vài mẫu thu
-   của đàn Yamaha bị ngược pha giữa hai kênh; `fetch_samples.py` tự sửa lại.
+   Các kiểu piano nhẹ nhàng (chill, lullaby, flowing, hymn, piano-strings, felt, felt-noise) chơi trên đàn
+   upright Yamaha: tiếng mềm, ấm, gần gũi (đã nghe so với Steinway và upright Knight). Kiểu `piano` chơi
+   trên đàn Steinway B grand có cắt dải cao; `ballad` và `pulse` chơi trên cùng cây Steinway nhưng mở dải cao
+   (`grand`). Các kiểu cũ vẫn còn trong mã nhưng không chạy mặc định nữa: muốn chạy thì điền tên vào ô
+   *styles*. Muốn so đàn, điền ô *pianos* khi chạy (`piano`, `grand`, `knight`, `yamaha`): bản chơi trên đàn
+   khác đàn của kiểu đó có đuôi là tên đàn. Vài mẫu thu của đàn Yamaha bị ngược pha giữa hai kênh;
+   `fetch_samples.py` tự sửa lại.
 
    Mọi bè đi theo cùng một hợp âm từng phách nên luôn khớp nhau. Bè ngân giữ nguyên nốt chung giữa hai
    hợp âm, nốt khác đi tới nốt gần nhất, và to nhỏ theo từng câu (CC11). Hai nốt cùng phím không bao giờ
    chồng lên nhau: nếu chồng, lệnh tắt nốt trước sẽ cắt luôn nốt sau thành một tiếng vĩ cụt.
 2. `fetch_samples.py` tải đúng các nhạc cụ cần dùng từ hai thư viện mẫu âm thanh CC0 của Versilian
-   Studios: VS Chamber Orchestra 2 Community Edition và Versilian Community Sample Library.
+   Studios: VS Chamber Orchestra 2 Community Edition và Versilian Community Sample Library. Mẫu tiếng của
+   đàn Steinway có tiếng xì đều ở dải cao (từ 4 kHz): nốt nhẹ chỉ to hơn tiếng xì 16–26 dB, và khi giữ pedal
+   cả chục nốt cùng ngân thì thành tiếng "xào". Nên với từng mẫu, ngay khi nốt đã tắt dần xuống tới mức
+   tiếng xì thì dải cao được giảm dần đi (tới 50 dB). Tiếng búa gõ và tiếng ngân của nốt giữ nguyên. Dải
+   trên cùng của nốt nhẹ chỉ toàn tiếng xì nên bỏ hẳn. Thử với 12 nốt giữ pedal: lúc ngân, tiếng xì trên 6 kHz
+   nhỏ đi 22–45 dB.
 3. `render_samples.py` phát từng bè bằng [sfizz](https://sfz.tools/sfizz/) (`sfizz_render`). Sau đó:
    - chỉnh âm sắc từng bè: mẫu thu nào cũng có chút tiếng xì nền. Dải cao nơi mẫu chỉ còn tiếng xì được
      cắt hẳn (piano từ 6 kHz, vibraphone từ 2,5 kHz, chuông ống từ 4 kHz, đàn hạc từ 5 kHz…), và lúc nhạc

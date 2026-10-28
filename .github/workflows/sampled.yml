@@ -17,10 +17,10 @@ on:
         description: 'Carols: wish (We Wish You a Merry Christmas), silent-night, first-noel, joy (Joy to the World), o-holy-night, jingle-bells, deck-the-halls'
         default: 'wish silent-night first-noel joy o-holy-night jingle-bells deck-the-halls'
       styles:
-        description: 'Styles: piano (Steinway B); gentle pianos: chill, lullaby, flowing, hymn, piano-strings, felt, felt-noise; ballad, pulse (free intro, high tune); bells; orchestra; salamander (piano on the Salamander Grand Piano)'
-        default: 'piano chill lullaby flowing hymn piano-strings felt felt-noise ballad pulse bells orchestra'
+        description: 'Styles: ballad, pulse (after the two reference recordings, on the Steinway grand with its highs open); the earlier ones: piano (Steinway B), the gentle pianos chill, lullaby, flowing, hymn, piano-strings, felt, felt-noise (Yamaha upright), bells, orchestra, salamander'
+        default: 'ballad pulse'
       pianos:
-        description: 'To compare, play the piano styles on these instead of their own, a piece each: piano (Steinway B grand), knight (Knight upright), yamaha (Yamaha upright). Empty: each its own (the gentle styles the Yamaha upright, piano the Steinway)'
+        description: 'To compare, play the piano styles on these instead of their own, a piece each: grand (Steinway B, highs open), piano (Steinway B, highs cut), knight (Knight upright), yamaha (Yamaha upright). Empty: each its own (ballad and pulse the grand, the gentle styles the Yamaha upright, piano the Steinway)'
         default: ''
       rate:
         description: 'Rate the pieces (Audiobox Aesthetics, CLAP)'

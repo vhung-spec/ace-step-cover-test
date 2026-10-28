@@ -14,10 +14,13 @@ import json
 import re
 import subprocess
 import sys
+import time
 from pathlib import Path, PurePosixPath
 
 import numpy as np
 import soundfile as sf
+from scipy.ndimage import uniform_filter1d
+from scipy.signal import butter, sosfiltfilt
 
 # Library: (repository, commit, folders always fetched: for SFZ files that
 # #include their regions, whose sample paths this script does not follow).
@@ -45,6 +48,59 @@ def flip_polarity(root: Path, folders: set) -> int:
                 sf.write(wav, audio, rate, subtype=sf.info(wav).subtype)
                 flipped += 1
     return flipped
+
+
+# Instruments whose samples carry a steady hiss above 4 kHz: the Steinway's
+# soft notes rise only 16-26 dB over it there, and with the pedal down a dozen
+# of them ring at once, a rustle. Each sample's highs are faded out once its
+# note has died into the hiss (clean_hiss).
+CLEAN_HISS = {"Chordophones/Zithers/Grand Piano, Steinway B.sfz"}
+HISS_BANDS = (4000, 6000, 9000, 13500)  # Hz: the highs are cleaned band by band
+
+
+def clean_hiss(audio: np.ndarray, rate: int, near_db: float = 6.0, fade: float = 50.0, most_db: float = 50.0,
+               snr_db: float = 10.0) -> np.ndarray:
+    """A sample (samples x channels) with its hiss hushed. Its highs are split
+    into bands, each the difference of two zero-phase low-passes, so the bands
+    add up to the sample exactly. In each, from the moment after the hammer's
+    strike that the band's level (50 ms, both channels) has sunk to within
+    near_db of its hiss floor (its median level over 40-75 % of the sample,
+    long after the note's highs have gone), it fades by `fade` dB a second down
+    to most_db under; a band whose strike (10 ms) is not even snr_db over the
+    floor, the top of a soft note, holds nothing but hiss and is left out. The
+    attack and the ring of the note are untouched (in a dozen pedalled notes,
+    the hiss of their ring-out 22-45 dB lower above 6 kHz)."""
+    lows = [sosfiltfilt(butter(6, edge, "low", fs=rate, output="sos"), audio, axis=0) for edge in HISS_BANDS]
+    bands = [b - a for a, b in zip(lows, lows[1:] + [audio])]
+    out, n = lows[0].copy(), len(audio)
+    whole = uniform_filter1d((audio ** 2).mean(axis=1), max(1, int(0.01 * rate)))
+    strike = int(np.argmax(whole)) + int(0.05 * rate)
+    for band in bands:
+        power = (band ** 2).mean(axis=1)
+        level = uniform_filter1d(power, max(1, int(0.05 * rate)))
+        stable = level[int(0.4 * n): int(0.75 * n)]
+        floor = float(np.median(stable)) if len(stable) else 0.0
+        if floor <= 0:
+            out += band
+            continue
+        if uniform_filter1d(power, max(1, int(0.01 * rate))).max() < floor * 10 ** (snr_db / 10):
+            gain = np.full(n, 10 ** (-most_db / 20))
+        else:
+            near = np.nonzero(level[strike:] <= floor * 10 ** (near_db / 10))[0]
+            start = strike + int(near[0]) if len(near) else n
+            gain = 10 ** (-np.minimum(np.maximum(np.arange(n) - start, 0) / rate * fade, most_db) / 20)
+        out += band * gain[:, None]
+    return out
+
+
+def clean_folders(root: Path, folders: set) -> int:
+    cleaned = 0
+    for folder in folders:
+        for wav in sorted((root / folder).glob("*.wav")):
+            audio, rate = sf.read(wav, always_2d=True)
+            sf.write(wav, clean_hiss(audio, rate), rate, subtype=sf.info(wav).subtype)
+            cleaned += 1
+    return cleaned
 
 
 def git(dest: Path, *args: str) -> None:
@@ -96,6 +152,10 @@ def main(out: str, libs: str) -> int:
         for sfz in sorted(sfz_files & FLIP_POLARITY):
             print(f"{sfz}: {flip_polarity(dest, sample_folders(dest / sfz, dest))} samples' right channel "
                   f"turned over (it ran opposite the left)")
+        for sfz in sorted(sfz_files & CLEAN_HISS):
+            started = time.time()
+            print(f"{sfz}: {clean_folders(dest, sample_folders(dest / sfz, dest))} samples' hiss hushed "
+                  f"({time.time() - started:.0f} s)", flush=True)
         size = sum(w.stat().st_size for w in wavs)
         print(f"{name}: {len(sfz_files)} instruments, {len(folders)} sample folders, "
               f"{len(wavs)} samples, {size / 1e6:.0f} MB")

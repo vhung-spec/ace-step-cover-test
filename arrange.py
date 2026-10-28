@@ -3,12 +3,14 @@ model: one MIDI file per instrument, in several styles, plus mix.json (the
 hall, and each part's instrument, role, stereo position and tone) for
 render_samples.py:
 
-    python arrange.py out/sampled [--songs wish silent-night first-noel ...] [--styles piano chill ...]
-        [--pianos piano knight yamaha]
+    python arrange.py out/sampled [--songs wish silent-night first-noel ...] [--styles ballad pulse ...]
+        [--pianos grand piano knight yamaha]
 
-The gentle piano styles are played on VCSL's Yamaha upright, softer and
-closer; piano on its Steinway B grand. --pianos plays them on others to
-compare (the Steinway grand: piano, the Knight upright: knight; such pieces'
+ballad and pulse, the styles after the user's two reference recordings, are
+played on VCSL's Steinway B grand with its highs open ("grand"); the gentle
+piano styles on its Yamaha upright, softer and closer; piano on the Steinway
+with its highs cut. --pianos plays them on others to compare (the Steinway:
+piano or grand, the Knight upright: knight, the Yamaha: yamaha; such pieces'
 names end in the piano's name).
 
 The carols are public-domain melodies and chords: We Wish You a Merry
@@ -36,14 +38,20 @@ same chords, beat by beat, so they always agree:
     a felt-hammered piano sounds), the melody at its own pitch over a steady
     left hand rolling in eighths from the first bar; felt-noise: the same on
     a soft hush of pink noise, as baby-sleep recordings have;
-- ballad and pulse, in the manner of the slow pop Christmas pianos: an intro
-  in free time of the tune's last chords alone, rolled from a deep bass with
-  an added ninth (or the seventh), then the tune an octave up, doubled at the
-  octave in the last verse, played evenly, in a longer hall:
-  - ballad (about 74 bpm): the left hand in eighths up and down two octaves
-    of each chord from the middle of the keyboard, its root deep under each bar;
-  - pulse (about 88 bpm): a heartbeat of lightly detached eighths, the root
-    and fifth of each chord (the third on the beats), the root deep under each bar;
+- ballad and pulse, after the user's two reference recordings of slow pop
+  Christmas piano: a grand played fully, not hushed; a deep bass (A1 to G#2)
+  struck with every chord, now and then on its third as a bass line walks;
+  the middle of the keyboard moving in eighths under the pedal; the tune an
+  octave up, in a middle verse with a third or sixth under its longer notes,
+  in the last doubled an octave down; a few tones rising over a phrase's last
+  held note; the last chord rolled from the deep bass, in a longer hall:
+  - ballad (about 72 bpm): the tune's last phrase as the intro; the bass
+    walking the chord a beat at a time; the middle hand two tones an eighth,
+    low and high by turns, up and down the chord from C3-B3;
+  - pulse (about 88 bpm): an intro in free time, the tune's last chords
+    rolled from the deep bass to a slow top line; then a heartbeat of eighths,
+    each chord's root and fifth (the octave on the beats), the bass struck
+    as each chord comes and its fifth halfway through the bar;
 - bells: the vibraphone with hand chimes an octave up, where bells sing, a
   glockenspiel glinting on the longer notes (it sounds an octave above its
   keys), a harp, a soft string bed, a tubular bell tolling each verse in;
@@ -101,6 +109,7 @@ CHORDS = ChordBook()
 # (harp) and 41 (horns, the two softest); hand chimes and sleigh bells have one.
 INSTRUMENTS = {
     "piano": ("vcsl", "Chordophones/Zithers/Grand Piano, Steinway B.sfz"),
+    "grand": ("vcsl", "Chordophones/Zithers/Grand Piano, Steinway B.sfz"),  # the same, its highs open
     "salamander": ("salamander", "Salamander Grand Piano V3.sfz"),
     "knight": ("vcsl", "Chordophones/Zithers/Upright Piano, Knight.sfz"),  # two softer, closer uprights
     "yamaha": ("vcsl", "Chordophones/Zithers/Upright Piano, Yamaha.sfz"),
@@ -138,6 +147,11 @@ TONES = {
     # left, from 2.5 to 6 kHz in the slow quiet pieces, is hushed in the quiet
     # moments (dehiss: 9-10 dB less hiss there, the brighter moments as they are).
     "piano": {"release_db": -60, "lowpass": 6000, "dehiss": True},
+    # fetch_samples.py now fades each Steinway sample's highs out once its note
+    # has died into that hiss (and leaves out the top of a soft note, hiss
+    # alone): ballad and pulse play it with its highs open, as bright as the
+    # reference recordings' grand.
+    "grand": {"release_db": -60},
     # The Knight upright's soft samples hiss a little (69-75 dB under the note),
     # so it is treated as the Steinway; its pedal's thumps are left out. The
     # Yamaha upright's soft samples are dark and clean (hiss 107-115 dB under
@@ -733,99 +747,196 @@ def arrange_felt(arr: Arrangement) -> None:
     gentle_end(arr, piano, tune, 46)
 
 
-def colour(arr: Arrangement, chord: str, root: int) -> int:
-    """A tone that colours a chord, an octave and more over its root: the
-    seventh of a seventh chord, else the ninth where the key has it (a gentle
-    added ninth, as the pop carols voice their chords), else the octave."""
-    intervals = CHORDS[chord][1]
-    if len(intervals) == 4:
-        return root + 12 + intervals[3]
-    if intervals[1] in (3, 4) and (root + 2) % 12 in arr.scale:
-        return root + 26
-    return root + 24
+# ballad and pulse follow the user's two reference recordings, slow pop piano
+# carols (measured for their sound and manner only; nothing of theirs is
+# copied). Against them the earlier, hushed versions on the Yamaha upright
+# lacked some 20 dB of deep bass (63 Hz) and 25-30 dB of brightness (4-8 kHz),
+# and their left hand was thin: the references strike a deep bass with every
+# chord (1-2 a second, as loud as the rest) and keep the middle of the
+# keyboard moving in eighths, two or three tones at a time, under the pedal
+# (6-7 notes a second), the tune an octave up over it. Their harmony is the
+# carol's own, plain (an added ninth in 4-11 % of beats), the bass now and then
+# on a chord's third. So both are played on the Steinway grand, fully rather
+# than hushed: the tune and the bass from its brighter middle layer.
+DEEP = 33  # the deep bass's lowest root, A1: every root falls between A1 and G#2
+MIDDLE = 48  # the middle hand's lowest root, C3
+BRIGHT = 66  # the Steinway's brighter middle layer of samples starts at this velocity
 
 
-def free_intro(arr: Arrangement, piano: Part, velocity: int) -> None:
-    """An intro in free time, as a pianist opens a carol: no tune yet, only the
-    chords of its last bars, each rolled slowly up from a deep bass with its
-    colour tone on top, and left to ring until the next."""
-    for tick, length, chord in arr.chord_spans(0, arr.verses[0]):
-        root, up = bass_note(chord), third(chord)
-        voicing = sorted({root, root + 12, root + 19, root + 24 + up, colour(arr, chord, root), root + 31})
-        for i, note in enumerate(voicing):
-            piano.add(tick + i * 70 + arr.jitter(4), note, velocity - 2 * i + arr.rng.randint(-2, 2), length)
+def tune_floor(tune: list, tick: int, length: int) -> int:
+    """The lowest key the tune holds between two ticks (128 when it rests)."""
+    return min((n for t, n, _, l in tune if t < tick + length and tick < t + l), default=128)
 
 
-# A piano ballad's left hand for each meter: eighths from the root in the
-# middle of the keyboard up two octaves of the chord, a colour tone among them.
-BALLAD = {(3, 2): ("low", "fifth", "octave", "tenth", "twelfth", "colour"),
-          (4, 2): ("low", "fifth", "octave", "tenth", "twelfth", "tenth", "colour", "fifth"),
-          (2, 2): ("low", "fifth", "octave", "tenth"),
-          (4, 3): ("low", "fifth", "octave", "tenth", "octave", "fifth", "low", "fifth", "octave", "tenth",
-                   "twelfth", "colour"),
-          (2, 3): ("low", "fifth", "octave", "tenth", "twelfth", "colour")}
+def walking_bass(chord: str, previous: int | None, downbeat: bool) -> int:
+    """A chord's deep bass note: its root, A1 to G#2; but a chord arriving
+    within a bar whose third lies a step from the bass before it (and whose
+    root does not) puts its third in the bass, as a bass line walks (C, G/B, Am)."""
+    root = bass_note(chord, DEEP)
+    if downbeat or previous is None:
+        return root
+    under = DEEP + (CHORDS[chord][0] + third(chord) - DEEP) % 12
+    return under if abs(under - previous) <= 2 < abs(root - previous) else root
 
 
-def ballad_hand(arr: Arrangement, part: Part, start: int, end: int, velocity: int, avoid: list = ()) -> None:
-    """The left hand of a slow piano ballad: eighths rising and falling through
-    two octaves of the chord, from its root in the middle of the keyboard
-    (none over D5, where the tune sings), and under each bar its root an
-    octave lower, deep and soft, ringing under the pedal."""
+def deep_bass(arr: Arrangement, part: Part, start: int, end: int, velocity: int, walk: bool = False) -> None:
+    """The deep bass: as each chord comes, its bass note (walking_bass), struck
+    firmly and left to ring under the pedal; at the head of each phrase doubled
+    an octave up. In a bar of one chord, its fifth a second time, softer,
+    halfway through it (on the second beat in 3/4); or, walking, a tone of the
+    chord on every beat after the first: the fifth, the octave, the fifth."""
+    previous, half = None, {(3, 2): 1, (4, 2): 2, (4, 3): 2}.get(arr.meter)
+    for tick, length, chord in arr.chord_spans(start, end):
+        downbeat = tick % arr.bar == 0
+        note = previous = walking_bass(chord, previous, downbeat)
+        at = tick + arr.jitter(4)
+        part.add(at, note, velocity - (0 if downbeat else 6) + arr.rng.randint(-2, 2), length)
+        if tick == start or any(0 <= tick - v < arr.verse and (tick - v) % arr.phrase == 0 for v in arr.verses):
+            part.add(at + 6, note + 12, velocity - 8 + arr.rng.randint(-2, 2), length)
+        if walk:  # from the root, whichever tone the bass took
+            for beat, step in zip(range(arr.beat, length, arr.beat), (7, 12, 7)):
+                part.add(tick + beat + arr.jitter(4), bass_note(chord, DEEP) + step,
+                         velocity - 12 + arr.rng.randint(-2, 2), length - beat)
+        elif downbeat and half and length == arr.bar:
+            part.add(tick + half * arr.beat + arr.jitter(4), note + 7, velocity - 12 + arr.rng.randint(-2, 2),
+                     length - half * arr.beat)
+
+
+def under_tune(arr: Arrangement, part: Part, tune: list, tick: int, notes: list, velocity: int, length: int) -> None:
+    """Strikes the middle hand's notes at a tick, those at or over the tune (or
+    two semitones under it) an octave lower, and none on a key the tune holds."""
+    ceiling = tune_floor(tune, tick, length) - 2
+    for note in notes:
+        while note > ceiling and note - 12 >= MIDDLE:
+            note -= 12
+        if note <= ceiling and not busy(tune, note, tick, length):
+            part.add(tick, note, velocity + arr.rng.randint(-2, 2), length)
+
+
+# The ballad's middle hand, eighth by eighth: two tones of the chord at a time,
+# low and high by turns, rising and falling through it from its root (C3 to B3).
+PAIRS = {(3, 2): (("root", "fifth"), ("octave", "tenth"), ("fifth", "octave"), ("tenth", "twelfth"),
+                  ("octave", "tenth"), ("fifth", "octave")),
+         (4, 2): (("root", "fifth"), ("octave", "tenth"), ("fifth", "octave"), ("tenth", "twelfth"),
+                  ("root", "fifth"), ("octave", "tenth"), ("fifth", "octave"), ("tenth", "octave")),
+         (2, 2): (("root", "fifth"), ("octave", "tenth"), ("fifth", "octave"), ("tenth", "twelfth")),
+         (4, 3): (("root", "fifth"), ("octave", "tenth"), ("fifth", "octave")) * 4,
+         (2, 3): (("root", "fifth"), ("octave", "tenth"), ("fifth", "octave")) * 2}
+
+
+def rolling_pairs(arr: Arrangement, part: Part, start: int, end: int, velocity: int, tune: list) -> None:
+    """The ballad's middle hand: every eighth two tones of the chord (PAIRS),
+    held into each other under the pedal, the beats a little stronger."""
     for tick in range(start, end, EIGHTH):
         chord = arr.chord_at(tick)
-        root = bass_note(chord)
-        tones = {"low": root + 12, "fifth": root + 19, "octave": root + 24, "tenth": root + 24 + third(chord),
-                 "twelfth": root + 31, "colour": colour(arr, chord, root)}
-        note = tones[BALLAD[arr.meter][tick % arr.bar // EIGHTH]]
-        while note > 74:
-            note -= 12
-        at = tick + arr.jitter(5)
-        velocity_now = velocity + (4 if tick % arr.beat == 0 else 0) + arr.rng.randint(-2, 2)
-        if not busy(avoid, note, at, 3 * EIGHTH):
-            part.add(at, note, velocity_now, 3 * EIGHTH)
-        if tick % arr.bar == 0 and not busy(avoid, root, at, arr.bar):
-            part.add(at - 6, root, velocity + 2, arr.bar)
+        root = bass_note(chord, MIDDLE)
+        tones = {"root": root, "fifth": root + 7, "octave": root + 12, "tenth": root + 12 + third(chord),
+                 "twelfth": root + 19}
+        accent = 6 if tick % arr.bar == 0 else 3 if tick % arr.beat == 0 else 0
+        notes = [tones[name] for name in PAIRS[arr.meter][tick % arr.bar // EIGHTH]]
+        under_tune(arr, part, tune, tick + arr.jitter(4), notes, velocity + accent, 2 * EIGHTH)
 
 
-def pulse(arr: Arrangement, part: Part, start: int, end: int, velocity: int, avoid: list = ()) -> None:
-    """The heartbeat of the slow pop carols: every eighth, lightly detached, the
-    chord's root and fifth together in the middle of the keyboard, its third
-    added on each beat, and under each bar its root deep and soft."""
+def pulse_hand(arr: Arrangement, part: Part, start: int, end: int, velocity: int, tune: list) -> None:
+    """The pulse's middle hand, the heartbeat of the slow pop carols: every
+    eighth the chord's root and fifth together in the middle of the keyboard
+    (E3 to D#4), the octave over them on the beats, under the pedal."""
     for tick in range(start, end, EIGHTH):
         chord = arr.chord_at(tick)
         root = bass_note(chord)
         low = root + 12 if root + 12 >= 52 else root + 24
-        notes = [low, low + 7] + ([low + third(chord)] if tick % arr.beat == 0 else [])
-        at = tick + arr.jitter(4)
+        notes = [low, low + 7] + ([low + 12] if tick % arr.beat == 0 else [])
         accent = 6 if tick % arr.bar == 0 else 3 if tick % arr.beat == 0 else 0
-        for note in notes:
-            if not busy(avoid, note, at, EIGHTH):
-                part.add(at, note, velocity + accent + arr.rng.randint(-2, 2), EIGHTH - 30)
-        if tick % arr.bar == 0 and not busy(avoid, root, at, arr.bar):
-            part.add(at - 6, root, velocity + 8, arr.bar)
+        under_tune(arr, part, tune, tick + arr.jitter(3), notes, velocity + accent, EIGHTH)
 
 
-# ballad and pulse play evenly, as the reference recordings do (their level
-# holds within 3-5 dB): the tune grows little from verse to verse and swells
-# little within one, and the free intro is nearly as loud as what follows.
+def cover_melody(arr: Arrangement, piano: Part, velocity: int, intro: bool = True) -> list:
+    """The tune an octave up (the intro's, the last phrase, is already), sung
+    out evenly: each verse a little fuller than the one before, rising a little
+    to its middle; in a middle verse its longer notes sung with a chord tone a
+    third to a sixth under them, in the last (from its middle, if it is the
+    only one) doubled an octave down. Where a phrase ends on a note held two
+    beats or more, a few tones of the chord rise softly over it in eighths, as
+    a pianist fills the breath. Returns the tune's notes."""
+    fills = []
+    for tick, note, length, verse, position in arr.melody():
+        if verse < 0 and not intro:
+            continue
+        note += 0 if verse < 0 else 12
+        sung = velocity - (6 if verse < 0 else 0) + 3 * min(max(verse, 0), 2) + 5 * shape(position)
+        at = tick + 4 + arr.jitter(4)
+        piano.add(at, note, sung + arr.rng.randint(-2, 2), length - 10)
+        long = length >= arr.beat
+        if verse == arr.last and long and (verse > 0 or position >= 0.5):
+            piano.add(at - 8, note - 12, sung - 12, length - 10)
+        elif 0 < verse < arr.last and long:
+            second = harmony_below(arr.chord_at(tick), note)
+            if second is not None:
+                piano.add(at - 8, second, sung - 14, length - 10)
+        if verse >= 0 and length >= 2 * arr.beat:
+            bar = (tick - arr.verses[verse]) // arr.bar
+            if bar in (arr.song.breaths or range(3, len(arr.song.chords), 4)):
+                fills.append((tick + arr.beat, note, length - arr.beat, sung))
+    tune = list(piano.notes)
+    for tick, note, length, sung in fills:
+        tones = chord_notes(arr.chord_at(tick), note + 3, min(note + 16, 91))[:min(3, length // EIGHTH - 1)]
+        for i, tone in enumerate(tones):
+            piano.add(tick + i * EIGHTH + arr.jitter(4), tone, sung - 20 + 2 * i, length - i * EIGHTH - 10)
+    return tune
+
+
+def free_intro(arr: Arrangement, piano: Part, velocity: int, top: int) -> None:
+    """An intro in free time, as a pianist opens a carol: no tune yet, only the
+    chords of its last bars, each rolled up from a deep bass (A1 to G#2)
+    through an open chord to a top tone high up that moves to the nearest tone
+    of the next chord (a slow tune of its own, from top), left to ring."""
+    for tick, length, chord in arr.chord_spans(0, arr.verses[0]):
+        root, up = bass_note(chord, DEEP), third(chord)
+        top = min(chord_notes(chord, 74, 88), key=lambda n: abs(n - top))
+        voicing = sorted({root, root + 12, root + 19, root + 24 + up, root + 31, top})
+        for i, note in enumerate(voicing):
+            loud = velocity + (8 if i == 0 else 6 if note == top else -2 * i)
+            piano.add(tick + i * 45 + arr.jitter(4), note, loud + arr.rng.randint(-2, 2), length)
+
+
+def cover_end(arr: Arrangement, piano: Part, tune: list, velocity: int) -> None:
+    """The last chord: its deep root with the octave, the chord rolled up from
+    them, the pedal held; a beat later its keynote high up, soft as a far
+    bell. Keys the tune still holds are left to it."""
+    held = held_keys(tune, arr.end + 100)
+    tonic = arr.chord_at(arr.end)
+    root, up = bass_note(tonic, DEEP), third(tonic)
+    rolled = ((root, -6), (root + 12, 0), (root + 19, 6), (root + 24, 6), (root + 24 + up, 8), (root + 31, 10),
+              (root + 36, 10))
+    for i, (note, softer) in enumerate(rolled):
+        if note not in held:
+            piano.add(arr.end + i * 45, note, velocity - softer, 3 * arr.bar)
+    if root + 48 not in held:
+        piano.add(arr.end + arr.beat + 40, root + 48, velocity - 14, 3 * arr.bar)
+    piano.pedal += [(arr.end + 20, 127), (arr.end + 3 * arr.bar, 0)]
+
+
 def arrange_ballad(arr: Arrangement) -> None:
+    """After the second reference: the tune's last phrase as the intro, then
+    the verses over the deep bass and the rolling pairs."""
     piano = arr.part("piano", arr.piano, "piano", 0.0, reverb=0.32)
-    tune = gentle_melody(arr, piano, 56, 60, up=tuple(range(len(arr.verses))), harmony=False, intro=False,
-                         octaves=True, swell=4)
-    free_intro(arr, piano, 50)
-    ballad_hand(arr, piano, arr.verses[0], arr.end, 38, avoid=tune)
+    tune = cover_melody(arr, piano, BRIGHT + 8)
+    deep_bass(arr, piano, 0, arr.end, BRIGHT + 4, walk=True)
+    rolling_pairs(arr, piano, 0, arr.end, 54, tune)
     pedal_by_chord(arr, piano, 0, arr.end)
-    gentle_end(arr, piano, tune, 50)
+    cover_end(arr, piano, tune, BRIGHT)
 
 
 def arrange_pulse(arr: Arrangement) -> None:
+    """After the first reference: rolled chords in free time, then the verses
+    over the deep bass and the pulse."""
     piano = arr.part("piano", arr.piano, "piano", 0.0, reverb=0.32)
-    tune = gentle_melody(arr, piano, 56, 60, up=tuple(range(len(arr.verses))), harmony=False, intro=False,
-                         octaves=True, swell=4)
-    free_intro(arr, piano, 50)
-    pedal_by_chord(arr, piano, 0, arr.verses[0])  # the rolled chords ring; the pulse is played without pedal
-    pulse(arr, piano, arr.verses[0], arr.end, 34, avoid=tune)
-    gentle_end(arr, piano, tune, 50)
+    tune = cover_melody(arr, piano, BRIGHT + 8, intro=False)
+    free_intro(arr, piano, BRIGHT - 4, tune[0][1] if tune else 76)
+    deep_bass(arr, piano, arr.verses[0], arr.end, BRIGHT + 4)
+    pulse_hand(arr, piano, arr.verses[0], arr.end, 50, tune)
+    pedal_by_chord(arr, piano, 0, arr.end)
+    cover_end(arr, piano, tune, BRIGHT)
 
 
 def arrange_bells(arr: Arrangement) -> None:
@@ -954,10 +1065,8 @@ STYLES = {
                            piano=GENTLE_PIANO),
     "felt": Style(arrange_felt, tempo=0.8, breath=0.9, repeat_short=True, piano=GENTLE_PIANO),
     "felt-noise": Style(arrange_felt, tempo=0.8, breath=0.9, repeat_short=True, noise_db=-22, piano=GENTLE_PIANO),
-    "ballad": Style(arrange_ballad, bpm=74, breath=0.86, hall=2.8, repeat_short=True, free_intro=True,
-                    piano=GENTLE_PIANO),
-    "pulse": Style(arrange_pulse, bpm=88, breath=0.88, hall=2.8, repeat_short=True, free_intro=True,
-                   piano=GENTLE_PIANO),
+    "ballad": Style(arrange_ballad, bpm=72, breath=0.9, hall=2.8, repeat_short=True, piano="grand"),
+    "pulse": Style(arrange_pulse, bpm=88, breath=0.9, hall=2.8, repeat_short=True, free_intro=True, piano="grand"),
     "bells": Style(arrange_bells, hall=2.6),
     "orchestra": Style(arrange_orchestra, hall=2.4),
 }
@@ -1019,11 +1128,10 @@ def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument("out", type=Path)
     parser.add_argument("--songs", nargs="+", default=list(SONGS), choices=list(SONGS))
-    parser.add_argument("--styles", nargs="+", default=[s for s in STYLES if s != "salamander"],
-                        choices=list(STYLES))
-    parser.add_argument("--pianos", nargs="+", choices=["piano", "knight", "yamaha"],
+    parser.add_argument("--styles", nargs="+", default=["ballad", "pulse"], choices=list(STYLES))
+    parser.add_argument("--pianos", nargs="+", choices=["piano", "grand", "knight", "yamaha"],
                         help="play the piano styles on these instead of each style's own (a piece each; one "
-                             "on another piano than its style's ends in -piano, -knight or -yamaha)")
+                             "on another piano than its style's ends in -piano, -grand, -knight or -yamaha)")
     args = parser.parse_args()
     for piano_choice, name, style_name in itertools.product(args.pianos or [None], args.songs, args.styles):
         song, style = SONGS[name], STYLES[style_name]
