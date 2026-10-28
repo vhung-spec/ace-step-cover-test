@@ -123,7 +123,10 @@ runs/<mã khác>/covers/lego-woodwinds/stem_01.mp3:0.7` (nhiều lượt cách n
        mẫu vừa là piano điện vừa là piano. Nên ở đây một cây Rhodes (bộ mẫu jRhodes3d của Jeff Learman, đàn
        Rhodes Mark I đời 1977) đánh đôi các nốt của piano từ Đô3 trở lên, như tiếng "layer" piano + Rhodes của
        đàn phím điện tử: nhỏ hơn piano 6 dB (`ballad-ep`) hoặc 12 dB (`ballad-ep-soft`); `ballad-rhodes` chỉ
-       có Rhodes, không có piano.
+       có Rhodes, không có piano. Đo thử với Silent Night, Joy, Jingle Bells: lớp Rhodes nhỏ dưới piano gần như
+       không đổi gì so với chỉ có Yamaha. Khi chỉ có Rhodes thì mô hình nhận diện nghe tiếng đàn giống bản mẫu
+       (nhãn "Piano" 0,08–0,11; bản mẫu 0,05; Yamaha 0,30–0,42), và "tiếng chuông" có ở khoảng 10% số nốt,
+       như bản mẫu (7–10%). Bản Rhodes tối hơn bản mẫu (dải 2–6 kHz thấp hơn khoảng 20 dB).
      - `pulse` (khoảng 88 nhịp/phút): mở đầu tự do bằng hợp âm của mấy ô nhịp cuối, rải từ bass trầm lên
        một nốt cao đi thành giai điệu riêng; sau đó tiếng đệm nảy đều như nhịp tim, mỗi nốt móc đơn một
        quãng năm (thêm quãng tám ở đầu phách), bass trầm ở đầu hợp âm và quãng năm ở giữa ô nhịp. Thêm các
