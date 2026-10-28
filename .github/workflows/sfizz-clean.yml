@@ -36,7 +36,10 @@ jobs:
             -DSFIZZ_DEVTOOLS=OFF -DSFIZZ_BENCHMARKS=OFF
           cmake --build /tmp/sfizz/build -j"$(nproc)" --target sfizz_render
           find /tmp/sfizz/build -name sfizz_render -type f -perm -u+x -exec cp {} /usr/local/bin/sfizz_render \;
-          sfizz_render --help | head -3
+          status=0; help="$(sfizz_render --help 2>&1)" || status=$?
+          printf '%s\n' "$help" | head -5
+          echo "help exit status: $status"
+          case "$help" in *Usage*) echo "prints its usage: ok" ;; *) echo "no usage in its help"; exit 1 ;; esac
 
       - name: Play a few notes
         run: |
