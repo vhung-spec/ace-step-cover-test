@@ -143,7 +143,10 @@ runs/<mã khác>/covers/lego-woodwinds/stem_01.mp3:0.7` (nhiều lượt cách n
        tai", còn bản của mình "như trong phòng lớn". Đo thì bản mẫu rộng (stereo) ngay từ lúc nốt vang lên,
        còn bản của mình tiếng đàn hẹp và tiếng vang dài 2,8 giây như hội trường. Nên ở đây tiếng vang là của
        một phòng nhỏ hơn, đến sớm hơn và nhỏ hơn: 1,2 giây và lượng vang 0,6 lần (`-near`); 0,8 giây và 0,45
-       lần (`-close`). Tiếng Rhodes cũng được mở rộng (hiệu ứng chorus sẵn trong mẫu thu, gấp đôi).
+       lần (`-close`). Tiếng Rhodes cũng được mở rộng (hiệu ứng chorus sẵn trong mẫu thu, gấp đôi). Bớt vang
+       thì tiếng Rhodes (thu thẳng từ đàn, gần như mono) dồn vào giữa, còn bản mẫu rộng ngay từ đầu nốt; nên
+       `ballad-wide` là `ballad-close` có thêm chorus stereo (mỗi bên tai nghe một bản trễ 10 hoặc 14 ms, lắc
+       nhẹ 0,5 lần/giây), cách người chơi Rhodes hay dùng: rộng mà không thêm tiếng vang phòng.
      - `ballad-clear`, `pulse-clear`: như trên nhưng rõ từng nốt hơn và sáng hơn. Nghe gần, tiếng đệm của
        hai bản mẫu nở ra rồi tắt theo từng phách, còn ở `ballad`/`pulse` pedal giữ cả hợp âm nên tiếng ngân
        liền một mảng. Nên ở đây pedal được thay mỗi phách, bass giữ một phách, tay giữa nhấc lên sau mỗi nốt

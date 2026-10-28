@@ -70,7 +70,9 @@ same chords, beat by beat, so they always agree:
   - ballad-near, pulse-near, ballad-close, pulse-close: the same in a smaller
     room with less of it (1.2 s and 0.8 s, sends at 0.6 and 0.45 times), as
     the references sound close by rather than across a hall (the user: they
-    are "very close to the ear", ours "in a big room");
+    are "very close to the ear", ours "in a big room"); ballad-wide:
+    ballad-close with the Rhodes widened by a stereo chorus (the references
+    are wide from each note's attack; without the hall the Rhodes is narrow);
   - ballad-clear, pulse-clear: the same, each beat's notes blooming and
     fading as the references' do (the pedal taken again on every beat, the
     bass held a beat, the middle hand lifted after its eighth), and brighter
@@ -1298,6 +1300,8 @@ STYLES = {
                          reharm=True),
     "ballad-close": Style(arrange_ballad, bpm=72, breath=0.9, hall=0.8, wet=0.45, repeat_short=True, piano="ep",
                           reharm=True),
+    "ballad-wide": Style(arrange_ballad, bpm=72, breath=0.9, hall=0.8, wet=0.45, repeat_short=True, piano="ep",
+                         reharm=True, piano_tone={"chorus": 0.7}),
     "pulse": Style(arrange_pulse, bpm=88, breath=0.9, hall=2.8, repeat_short=True, free_intro=True,
                    piano=GENTLE_PIANO),
     "pulse-near": Style(arrange_pulse, bpm=88, breath=0.9, hall=1.2, wet=0.6, repeat_short=True, free_intro=True,

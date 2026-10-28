@@ -20,7 +20,8 @@ mixes them into one piece per folder:
   while it plays is set against the melody's by its role (arrange.ROLES), so
   libraries recorded at different levels still sit right; its stereo image is
   narrowed as asked and centred (samples recorded with spaced microphones
-  lean to one side, some notes far more than others), then it is placed in
+  lean to one side, some notes far more than others), or widened by a stereo
+  chorus (a part recorded in mono, such as the Rhodes), then it is placed in
   the stereo field;
 - a hall reverb: a synthetic impulse response (noise in bands, each dying at
   its own rate, the highs soonest and quietest, the highs also building up
@@ -172,6 +173,23 @@ def image(audio: np.ndarray, width: float) -> tuple[np.ndarray, float]:
     still = 20 * np.log10((np.sqrt(np.mean(left ** 2)) + 1e-12) / (np.sqrt(np.mean(right ** 2)) + 1e-12))
     g = 10 ** (np.clip(still, -9, 9) / 40)
     return np.stack([left / g, right * g]), float(lean)
+
+
+def chorus(audio: np.ndarray, mix: float, rate: float = 0.5, depth: float = 0.002, delay: float = 0.01,
+           spread: float = 0.004) -> np.ndarray:
+    """A stereo chorus, as Rhodes players use: each side mixes in the part (its
+    two sides summed), `mix` times as loud, through a delay line of its own (10
+    and 14 ms) swept slowly (0.5 Hz, 2 ms either way), the two sweeps a quarter
+    turn apart: a part played in mono is wide from each note's first moment,
+    with no room's tail."""
+    n = audio.shape[1]
+    t = np.arange(n) / RATE
+    mono = audio.mean(axis=0)
+    out = audio.copy()
+    for side, phase in ((0, 0.0), (1, np.pi / 2)):
+        lag = (delay + side * spread + depth * np.sin(2 * np.pi * rate * t + phase)) * RATE
+        out[side] += mix * np.interp(np.arange(n) - lag, np.arange(n), mono, left=0.0, right=0.0)
+    return out
 
 
 def hiss(audio: np.ndarray) -> float:
@@ -338,6 +356,8 @@ def mix_folder(folder: Path, sfizz: str, libraries: dict, keep_parts: bool, prem
     for entry, audio in zip(sheet["parts"], audios):
         peak = 20 * np.log10(np.abs(audio).max() + 1e-12)
         audio, lean = image(apply_tone(audio, entry["tone"]), entry["tone"].get("width", 1.0))
+        if entry["tone"].get("chorus"):
+            audio = chorus(audio, entry["tone"]["chorus"])
         print(f"  {entry['part']}: {audio.shape[1] / RATE:.1f} s, peak {peak:.1f} dBFS, recorded "
               f"{abs(lean):.1f} dB to the {'left' if lean > 0 else 'right'}, hiss {hiss(audio):.0f} dB", flush=True)
         parts[entry["part"]] = (entry, audio)
