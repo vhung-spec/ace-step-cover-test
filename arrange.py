@@ -86,14 +86,34 @@ same chords, beat by beat, so they always agree:
   keys), a harp, a soft string bed, a tubular bell tolling each verse in;
 - orchestra: flute, then violins on the melody, a flute descant over the last
   verse, on a harp and a string pad, basses plucked then bowed, horns from the
-  middle of the last verse, a soft timpani roll under the last chord.
+  middle of the last verse, a soft timpani roll under the last chord;
+- the church styles, a carol as a church sings it: the hymnal's four voices
+  (chorale.py: soprano the tune, alto, tenor and bass, a chord on each beat,
+  its bass line moving through inversions) on a pipe organ (VCSL's, sampled
+  by Simon Dalzell of Ivy Audio: the quiet manual, its pedal for the bass),
+  in a cathedral's long hall (4.5 s), the voices breathing at each phrase's
+  end, an Amen (IV, I) after the last verse, a bell tolling the piece in and
+  out (church-organ: a tubular bell; the others GeneralUser GS's bell tower):
+  - church-organ: the organ alone, the last verse a little fuller (its loud
+    manual and pedal joining softly); church-organ-plain: the same on the
+    carol's own chords, to hear what the hymn harmony brings;
+  - church-choir: the organ gives out the tune (the intro and the first
+    verse), then a choir sings the four voices (GeneralUser GS's Concert
+    Choir, played by FluidSynth), the organ softly under it;
+  - church-festive: church-choir, its last verse with brass doubling the
+    voices (trumpets, trombones, tuba), the loud organ, and a timpani roll
+    under the Amen;
+  - chapel: a small Renaissance organ and a choir singing "ooh", softly, in a
+    smaller hall (2.6 s), no bells.
 Sustained parts hold the tones two chords share, move their other tones to
 the nearest tone of the next chord, and swell with each phrase (expression,
 CC11). Instruments come from two CC0 sample libraries: VS Chamber Orchestra 2
 Community Edition ("vsco", SFZ branch) and the Versilian Community Sample
 Library ("vcsl", sfz branch); the Rhodes from jRhodes3d by Jeff Learman
 ("jrhodes": free to use in music; its samples, CC BY-NC 4.0 to pass on, are
-fetched when rendering and never kept here).
+fetched when rendering and never kept here); the choir and the bell tower
+from the GeneralUser GS soundfont by S. Christian Collins ("generaluser":
+free for any music making, commercial too), played by FluidSynth.
 """
 
 import argparse
@@ -109,6 +129,7 @@ from typing import Callable
 import mido
 
 import carols
+import chorale
 import make_source
 
 TICKS = 480  # per quarter note
@@ -127,7 +148,7 @@ class ChordBook(dict):
 
     def __missing__(self, name: str) -> tuple:
         root = NOTE_CLASSES[name[0]]
-        kind = name[1:]
+        kind = name[1:].partition("/")[0]  # a bass after a slash (G/B) leaves the chord as it is
         if kind[:1] in ("#", "b"):
             root, kind = (root + (1 if kind[0] == "#" else -1)) % 12, kind[1:]
         self[name] = (root, KINDS[kind])
@@ -162,6 +183,21 @@ INSTRUMENTS = {
     "basses-pizz": ("vsco", "ContrabassPizz.sfz"),
     "horns": ("vsco", "FHornSus.sfz"),
     "timpani": ("vsco", "TimpaniRolls.sfz"),
+    # the church styles' organs: a church organ's quiet and loud manuals and
+    # pedals (samples of about 12 s, from C2), and a small Renaissance organ's
+    # 8' stop (samples of about 6 s)
+    "organ": ("vcsl", "Aerophones/Edge-blown Aerophones/Pipe Organ - Quiet.sfz"),
+    "organ-loud": ("vcsl", "Aerophones/Edge-blown Aerophones/Pipe Organ - Loud.sfz"),
+    "pedal": ("vcsl", "Aerophones/Edge-blown Aerophones/Pipe Organ - Quiet Pedal.sfz"),
+    "pedal-loud": ("vcsl", "Aerophones/Edge-blown Aerophones/Pipe Organ - Loud Pedal.sfz"),
+    "chamber-organ": ("vcsl", "Aerophones/Edge-blown Aerophones/Renaissance Organ - 8'.sfz"),
+    "trumpets": ("vsco", "TrumpetSus.sfz"),
+    "trombones": ("vsco", "TromboneSus.sfz"),
+    "tuba": ("vsco", "TubaSus.sfz"),
+    # GeneralUser GS presets (bank:program), played by FluidSynth
+    "choir": ("generaluser", "GeneralUser-GS.sf2#0:52"),  # Concert Choir, singing "ah"
+    "oohs": ("generaluser", "GeneralUser-GS.sf2#0:53"),  # Voice Oohs
+    "bell-tower": ("generaluser", "GeneralUser-GS.sf2#11:14"),  # Bell Tower
 }
 # Each instrument's tone, for render_samples.py: a high-pass and a low-pass
 # (Hz), a high shelf (Hz, dB): the bells and the sustained parts lose some
@@ -219,11 +255,21 @@ TONES = {
     "basses-pizz": {"highpass": 30, "lowpass": 5000, "width": 0.7},
     "horns": {"highpass": 60, "lowpass": 3000, "lowpass_order": 4, "width": 0.7},
     "timpani": {"highpass": 35, "width": 0.7},
+    # the organ's manual samples are very wide (their two sides hardly
+    # related): narrowed, so the voices do not wander between the ears
+    "organ": {"width": 0.6},
+    "organ-loud": {"width": 0.6},
+    "pedal": {"width": 0.6},
+    "pedal-loud": {"width": 0.6},
+    "trumpets": {"highpass": 80, "lowpass": 6000, "lowpass_order": 4, "width": 0.7, "dehiss": True},
+    "trombones": {"highpass": 50, "lowpass": 4500, "lowpass_order": 4, "width": 0.7, "dehiss": True},
+    "tuba": {"highpass": 30, "lowpass": 3000, "lowpass_order": 4, "width": 0.7},
 }
 # How loud each kind of part sits against the melody (dB of its loudness when playing).
 ROLES = {"melody": 0.0, "piano": 0.0, "descant": -9.0, "harp": -4.0, "pad": -10.0, "bass": -8.0, "shimmer": -12.0,
          "arp": -7.0, "jingle": -18.0, "haze": -20.0,
-         "bells": -8.0, "bed": -13.0, "low": -12.0, "toll": -14.0, "sparkle": -16.0, "drum": -17.0}
+         "bells": -8.0, "bed": -13.0, "low": -12.0, "toll": -14.0, "sparkle": -16.0, "drum": -17.0,
+         "voices": -2.0}
 
 
 @dataclass
@@ -1301,6 +1347,197 @@ def arrange_orchestra(arr: Arrangement, turns: bool = False, calm: bool = False,
         breathe(arr, horns, 80, 112, start=middle, fade=fade)
 
 
+# The church styles. A hymn is sung and played legato, every voice holding
+# its note while it repeats it, and breathing where a phrase ends: there the
+# voices let go a little before the tune's next phrase begins.
+BREATH = 100  # ticks
+ORGAN_SECONDS = 10.0  # the church organ's samples last about 12 s
+CHAMBER_SECONDS = 6.0  # the Renaissance organ's about 6.5 s
+
+
+def hymn_beats(arr: Arrangement) -> list:
+    """(tick, soprano, alto, tenor, bass, verse) on every beat: the intro (verse
+    -1, the tune's last bars), then each verse, voiced by chorale.voices for
+    the carol's chords (after the last verse's last note its chord is held:
+    no pickup follows it)."""
+    song = arr.song
+    voices = chorale.voices(song, song.chords)
+    final = chorale.last_note_beat(song)
+    intro = arr.intro_bars * song.beats
+    beats = [(j * arr.beat, *voices[len(voices) - intro + j], -1) for j in range(intro)]
+    for verse, downbeat in enumerate(arr.verses):
+        for i, voice in enumerate(voices):
+            beats.append((downbeat + i * arr.beat, *(voices[final] if verse == arr.last and i > final else voice),
+                          verse))
+    return beats
+
+
+def breath_points(arr: Arrangement) -> set:
+    """Where the voices breathe: as the tune's note on each phrase's last
+    downbeat ends (its next phrase beginning), and as the intro's and every
+    verse's last note ends (the last verse's, where the Amen begins)."""
+    tune = [(t, l, verse) for t, _, l, verse, _ in arr.melody()]
+    points = {arr.end}
+    rests = chorale.cadence_beats(arr.song) | {chorale.last_note_beat(arr.song)}
+    for verse, downbeat in enumerate(arr.verses[:-1]):
+        for beat in rests:
+            tick = downbeat + beat * arr.beat
+            points |= {t + l for t, l, v in tune if v == verse and t <= tick < t + l}
+    for beat in rests - {chorale.last_note_beat(arr.song)}:
+        tick = arr.verses[-1] + beat * arr.beat
+        points |= {t + l for t, l, v in tune if v == arr.last and t <= tick < t + l}
+    intro = [t + l for t, l, v in tune if v < 0]
+    if intro:
+        points.add(max(intro))
+    return points
+
+
+def phrased(notes: list, points: set) -> list:
+    """The notes (tick, note, length) breathing at the points: a note sounding
+    into a point lets go BREATH ticks before it, and one held across it
+    sounds again from it."""
+    out = []
+    for tick, note, length in sorted(notes):
+        for point in sorted(points):
+            if tick < point - BREATH < tick + length:
+                out.append((tick, note, point - BREATH - tick))
+                tick, length = point, tick + length - point
+                if length <= BREATH:
+                    break
+        else:
+            out.append((tick, note, length))
+    return [n for n in out if n[2] > 0]
+
+
+def hymn_voice(beats: list, index: int, start: int, end: int, beat: int) -> list:
+    """One voice of hymn_beats (1 alto, 2 tenor, 3 bass) between two ticks:
+    (tick, note, length), a note held on while the voice repeats it."""
+    notes = []
+    for tick, *voices, _ in beats:
+        if start <= tick < end:
+            note = voices[index]
+            if notes and notes[-1][1] == note and sum(notes[-1][::2]) == tick:
+                notes[-1] = (notes[-1][0], note, notes[-1][2] + beat)
+            else:
+                notes.append((tick, note, beat))
+    return notes
+
+
+def sing(arr: Arrangement, part: Part, beats: list, points: set, start: int, end: int, voices: tuple,
+         velocity: int, tune: bool = True, longest: float | None = None) -> None:
+    """Plays some of the four voices between two ticks on a part: the tune (its
+    own notes, the intro's at the tune's pitch) if `tune`, and the voices
+    numbered (1 alto, 2 tenor, 3 bass), breathing with the phrases; with
+    longest, no note held longer than its samples last (seconds)."""
+    notes = [(t, n - (12 if verse < 0 else 0), min(l, end - t)) for t, n, l, verse, _ in arr.melody()
+             if start <= t < end] if tune else []
+    for index in voices:
+        notes += hymn_voice(beats, index, start, end, arr.beat)
+    for tick, note, length in phrased(notes, points):
+        if longest:
+            while length > 0 and arr.seconds(tick, tick + length) > longest:
+                length -= EIGHTH
+        part.add(tick + arr.jitter(4), note, velocity + arr.rng.randint(-2, 2), length - 10)
+
+
+def amen(arr: Arrangement, beats: list, parts: list) -> None:
+    """The Amen after the last verse, IV for a bar, then I held for two
+    (chorale.amen): parts are (part, voices played: 0 soprano, 1 alto, 2
+    tenor, 3 bass, velocity, longest note in seconds or None)."""
+    last = next(voices for tick, *voices, verse in reversed(beats) if verse == arr.last)
+    chords = chorale.amen(arr.song, tuple(last))
+    for part, voices, velocity, longest in parts:
+        for k, chord in enumerate(chords):
+            tick = arr.end + k * arr.bar
+            length = arr.bar - BREATH if k == 0 else 2 * arr.bar
+            if longest:
+                while arr.seconds(tick, tick + length) > longest:
+                    length -= EIGHTH
+            for index in voices:
+                part.add(tick + arr.jitter(4), chord[index], velocity - 6 * k, length)
+
+
+def lead_in(arr: Arrangement, seconds: float) -> int:
+    """Moves the whole piece later, by whole beats lasting at least `seconds`
+    at its tempo, for what comes before its intro (a bell). Returns the ticks."""
+    ticks = math.ceil(seconds * arr.bpm / 60 * TICKS / arr.beat) * arr.beat
+    for part in arr.parts.values():
+        part.notes = [(t + ticks, n, v, l) for t, n, v, l in part.notes]
+        part.pedal = [(t + ticks, v) for t, v in part.pedal]
+        part.expression = [(t + ticks, v) for t, v in part.expression]
+        part.bends = [(t + ticks, v) for t, v in part.bends]
+    arr.tempos = [(0, arr.bpm)] + [(t + ticks, bpm) for t, bpm in arr.tempos]
+    return ticks
+
+
+def toll(arr: Arrangement, part: Part, start: int, notes: list, seconds: float, velocity: int) -> None:
+    """A bell struck once for each note, `seconds` apart at the tempo from start."""
+    tick = start
+    for k, note in enumerate(notes):
+        part.add(tick, note, velocity - 4 * k, 4 * arr.bar)
+        bpm = next(b for t, b in reversed(arr.tempos) if t <= tick)
+        tick += round(seconds * bpm / 60 * TICKS)
+
+
+def arrange_church(arr: Arrangement, choir: str | None = None, festive: bool = False, chapel: bool = False,
+                   bell: str | None = "bell-tower") -> None:
+    """The organ gives out the tune (the intro), then plays the verses in four
+    voices, or the first only, a choir (choir: its instrument) singing the
+    others, the organ softly under it; the last verse a little fuller (the
+    loud organ joining softly; festive: the loud organ, brass doubling the
+    voices and a timpani roll under the Amen); then the Amen. chapel: a small
+    Renaissance organ, its bass on the same stop. A bell (bell: its
+    instrument) tolls the piece in, before the intro, and out after the Amen."""
+    beats, points = hymn_beats(arr), breath_points(arr)
+    organ = "chamber-organ" if chapel else "organ"
+    longest = CHAMBER_SECONDS if chapel else ORGAN_SECONDS
+    pickup = math.ceil(round(arr.song.pickup * EIGHTH) / arr.beat) * arr.beat  # a verse begins with its pickup
+    sung = arr.verses[min(1, arr.last)] - pickup if choir else arr.end
+    lead = arr.part("organ", organ, "melody", 0.0, reverb=0.55)
+    pedal = arr.part("pedal", organ if chapel else "pedal", "bass", 0.0, reverb=0.55)
+    sing(arr, lead, beats, points, 0, sung, (1, 2), 80, longest=longest)
+    sing(arr, pedal, beats, points, 0, sung, (3,), 80, tune=False, longest=longest)
+    under = [(lead, (0, 1, 2), 80, longest), (pedal, (3,), 80, longest)]
+    if choir:
+        high = arr.part("choir-high", choir, "melody", -0.2, reverb=0.55)
+        low = arr.part("choir-low", choir, "voices", 0.2, reverb=0.55)
+        sing(arr, high, beats, points, sung, arr.end, (1,), 84)
+        sing(arr, low, beats, points, sung, arr.end, (2, 3), 80, tune=False)
+        soft = arr.part("organ-soft", organ, "bed", 0.0, reverb=0.55)
+        soft_pedal = arr.part("pedal-soft", organ if chapel else "pedal", "low", 0.0, reverb=0.55)
+        sing(arr, soft, beats, points, sung, arr.end, (1, 2), 80, longest=longest)
+        sing(arr, soft_pedal, beats, points, sung, arr.end, (3,), 80, tune=False, longest=longest)
+        under = [(soft, (0, 1, 2), 80, longest), (soft_pedal, (3,), 80, longest),
+                 (high, (0, 1), 74, None), (low, (2, 3), 70, None)]
+        for part, low_level in ((high, 96), (low, 92)):
+            breathe(arr, part, low_level, 118, start=sung, fade=56)
+    last = arr.verses[-1] - pickup
+    if not chapel:  # the last verse a little fuller
+        full = arr.part("organ-loud", "organ-loud", "pad" if festive else "bed", 0.0, reverb=0.55)
+        full_pedal = arr.part("pedal-loud", "pedal-loud", "low", 0.0, reverb=0.55)
+        sing(arr, full, beats, points, last, arr.end, (1, 2), 80, longest=longest)
+        sing(arr, full_pedal, beats, points, last, arr.end, (3,), 80, tune=False, longest=longest)
+        under += [(full, (0, 1, 2), 80, longest), (full_pedal, (3,), 80, longest)]
+    if festive:  # brass doubling the voices
+        brass = [(arr.part("trumpets", "trumpets", "pad", -0.25, reverb=0.5), (), True),
+                 (arr.part("trombones", "trombones", "pad", 0.25, reverb=0.5), (1, 2), False),
+                 (arr.part("tuba", "tuba", "low", 0.1, reverb=0.5), (3,), False)]
+        for part, voices, tune in brass:
+            sing(arr, part, beats, points, last, arr.end, voices, 60, tune=tune, longest=4.0)
+            breathe(arr, part, 90, 116, start=last, fade=60)
+        under += [(brass[0][0], (0,), 54, 4.0), (brass[1][0], (1, 2), 54, 4.0), (brass[2][0], (3,), 54, 4.0)]
+        timpani = arr.part("timpani", "timpani", "drum", 0.0, reverb=0.45)
+        timpani.add(arr.end + arr.bar, bass_note(arr.chord_at(arr.end)) + 12, 44, 2 * arr.bar)
+    amen(arr, beats, under)
+    if bell:
+        tonic = CHORDS[arr.chord_at(arr.end)][0]
+        low = (48 if bell == "bell-tower" else 60) + (tonic - (48 if bell == "bell-tower" else 60)) % 12
+        ticks = lead_in(arr, 6.0)
+        bells = arr.part("bell", bell, "bells", 0.15, reverb=0.6)
+        toll(arr, bells, 0, [low, low - 5, low], 2.0, 60)
+        toll(arr, bells, ticks + arr.end + arr.bar + arr.beat, [low, low, low], 2.4, 54)
+
+
 @dataclass
 class Style:
     arrange: Callable
@@ -1320,6 +1557,7 @@ class Style:
     master: dict = field(default_factory=lambda: dict(MASTER))  # how strongly master.py works on it
     piano: str = "piano"  # the instrument its piano part is played on
     reharm: bool = False  # the carol's chords coloured as the pop ballads colour them (reharmonize)
+    harmony: str | None = None  # "chorale": the carol harmonized as a hymnal does (chorale.harmonize)
 
 
 # The gentle styles are played on the Yamaha upright: of the three pianos
@@ -1400,6 +1638,17 @@ STYLES = {
                               seconds=150),
     "orchestra-flat": Style(lambda arr: arrange_orchestra(arr, turns=True, calm=True, build=0.0), hall=2.4,
                             seconds=150),
+    # a carol as a church sings it (arrange_church), in a cathedral's 4.5 s hall
+    "church-organ": Style(lambda arr: arrange_church(arr, bell="tubular"), tempo=0.8, breath=0.85, hall=4.5,
+                          seconds=150, harmony="chorale"),
+    "church-organ-plain": Style(lambda arr: arrange_church(arr, bell="tubular"), tempo=0.8, breath=0.85, hall=4.5,
+                                seconds=150),
+    "church-choir": Style(lambda arr: arrange_church(arr, choir="choir"), tempo=0.8, breath=0.85, hall=4.5,
+                          seconds=150, harmony="chorale"),
+    "church-festive": Style(lambda arr: arrange_church(arr, choir="choir", festive=True), tempo=0.8, breath=0.85,
+                            hall=4.5, seconds=150, harmony="chorale"),
+    "chapel": Style(lambda arr: arrange_church(arr, choir="oohs", chapel=True, bell=None), tempo=0.75, breath=0.85,
+                    hall=2.6, seconds=150, harmony="chorale"),
 }
 
 
@@ -1428,9 +1677,15 @@ def untangle(notes: list) -> tuple[list, int]:
     return sorted(result), changed
 
 
-def write_part(part: Part, tempos: list, path: Path, meter: tuple = (3, 2)) -> int:
+def write_part(part: Part, tempos: list, path: Path, meter: tuple = (3, 2), program: tuple | None = None) -> int:
+    """One part as a MIDI file; program (bank, program) selects a soundfont's
+    preset (GeneralUser GS) before the first note. Returns how many repeated
+    notes were untangled."""
     notes, changed = untangle(part.notes)
     messages = []
+    if program:
+        messages += [(0, -1, mido.Message("control_change", control=0, value=program[0])),
+                     (0, -1, mido.Message("program_change", program=program[1]))]
     for tick, note, velocity, length in notes:
         messages.append((tick + length, 0, mido.Message("note_off", note=note, velocity=0)))
         messages.append((tick, 2, mido.Message("note_on", note=note, velocity=velocity)))
@@ -1469,6 +1724,8 @@ def main() -> None:
     for piano_choice, name, style_name in itertools.product(args.pianos or [None], args.songs, args.styles):
         song, style = SONGS[name], STYLES[style_name]
         song = reharmonize(song) if style.reharm else song
+        if style.harmony == "chorale":
+            song = dataclasses.replace(song, chords=chorale.harmonize(song))
         piano = piano_choice or style.piano
         tempo = min(1.0, style.bpm / song.bpm) if style.bpm else style.tempo
         verses = style.verses or song.verses or (
@@ -1487,8 +1744,9 @@ def main() -> None:
         folder.mkdir(parents=True, exist_ok=True)
         sheet, untangled = [], 0
         for part_name, part in arr.parts.items():
-            untangled += write_part(part, arr.tempos, folder / f"{part_name}.mid", arr.meter)
             library, sfz = INSTRUMENTS[part.instrument]
+            preset = tuple(int(x) for x in sfz.partition("#")[2].split(":")) if "#" in sfz else None
+            untangled += write_part(part, arr.tempos, folder / f"{part_name}.mid", arr.meter, preset)
             sheet.append({"part": part_name, "library": library, "sfz": sfz, "role": part.role,
                           "gain_db": ROLES[part.role], "pan": part.pan, "reverb": part.reverb,
                           "tone": part.tone, "notes": len(part.notes)})

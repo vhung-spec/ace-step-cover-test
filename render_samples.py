@@ -2,9 +2,11 @@
 mixes them into one piece per folder:
 
     python render_samples.py out/sampled --sfizz path/to/sfizz_render --vsco <VSCO-2-CE> --vcsl <VCSL>
-        [--salamander <SalamanderGrandPiano>] [--jrhodes <jRhodes3d>]
+        [--salamander <SalamanderGrandPiano>] [--jrhodes <jRhodes3d>] [--generaluser <GeneralUser-GS>]
 
-(instruments of our own, such as the synth pad, are in instruments/)
+(instruments of our own, such as the synth pad, are in instruments/; the
+church styles' choir and bell tower are presets of the GeneralUser GS
+soundfont, played by FluidSynth)
 
 - each part is played by sfizz_render from its SFZ instrument (mix.json), at
   the samples' own rate (44.1 kHz: no resampling for a note at a sampled
@@ -14,7 +16,8 @@ mixes them into one piece per folder:
   -1 dBFS: sfizz writes 16-bit WAV, which clips above full scale and turns
   grainy when a quiet part is turned up afterwards. A piano's release samples
   (the dampers, which all sound at once when the pedal lifts) can be turned
-  down;
+  down. A soundfont's part is played by FluidSynth (its own reverb and
+  chorus off) into 32-bit float, which neither clips nor turns grainy;
 - each part gets its tone (high-pass, low-pass, high shelf; hissing parts
   have their highs hushed in their quiet moments), and its loudness
   while it plays is set against the melody's by its role (arrange.ROLES), so
@@ -29,7 +32,9 @@ mixes them into one piece per folder:
   and no licence is needed; what goes into it is cut above 6 kHz, so hammer
   and bow noise do not ring on as a hiss; a style may ask for a smaller room
   (a shorter rt60: it answers sooner) and send less into it (wet), for a
-  sound close by rather than across a hall;
+  sound close by rather than across a hall, or for a larger one (over 2.8
+  s, a cathedral: its response 1.5 times its rt60 long, so the tail is not
+  cut, and its first reflections 45 ms after the sound);
 - a style may lay a soft hush (dark pink noise) under the music, as sleep
   music does;
 - the mix is mastered (master.py): a piece leaning more than 1 dB to one side
@@ -132,6 +137,19 @@ def render_part(sfizz: str, sfz: Path, part: str, midi: Path, wav: Path, tone: d
             break
     else:
         raise RuntimeError(f"{part}: no level without clipping")
+    return audio.T if audio.shape[1] == 2 else np.repeat(audio.T, 2, axis=0)
+
+
+def render_soundfont(fluidsynth: str, sf2: Path, part: str, midi: Path, wav: Path) -> np.ndarray:
+    """Plays one part from a soundfont (the MIDI file selects its preset) with
+    FluidSynth, its reverb and chorus off (the hall is ours), into 32-bit float."""
+    started = time.time()
+    subprocess.run([fluidsynth, "-ni", "-q", "-R", "0", "-C", "0", "-g", "0.5", "-r", str(RATE), "-O", "float",
+                    "-T", "wav", "-F", str(wav), str(sf2), str(midi)], check=True, capture_output=True, timeout=600)
+    print(f"    {part} (FluidSynth): {time.time() - started:.0f} s", flush=True)
+    audio, rate = sf.read(wav, always_2d=True, dtype="float32")
+    if rate != RATE:
+        raise ValueError(f"{wav}: {rate} Hz")
     return audio.T if audio.shape[1] == 2 else np.repeat(audio.T, 2, axis=0)
 
 
@@ -340,12 +358,17 @@ def save(audio: np.ndarray, wav: Path) -> None:
                     str(wav.with_suffix(".mp3"))], check=True)
 
 
-def mix_folder(folder: Path, sfizz: str, libraries: dict, keep_parts: bool, premaster: Path | None = None) -> Path:
+def mix_folder(folder: Path, sfizz: str, libraries: dict, keep_parts: bool, premaster: Path | None = None,
+               fluidsynth: str = "fluidsynth") -> Path:
     sheet = json.loads((folder / "mix.json").read_text())
-    ir = hall_ir(sheet["hall"]["rt60"])
+    rt60 = sheet["hall"]["rt60"]
+    ir = hall_ir(rt60, 4.0, 0.025) if rt60 <= 2.8 else hall_ir(rt60, 1.5 * rt60, 0.045)  # a cathedral's longer
     wet_level = sheet["hall"].get("wet", 1.0)  # every part's send into it, times this
 
     def render(entry: dict) -> np.ndarray:
+        if entry["sfz"].partition("#")[0].endswith(".sf2"):  # a soundfont's preset
+            return render_soundfont(fluidsynth, libraries[entry["library"]] / entry["sfz"].partition("#")[0],
+                                    entry["part"], folder / f"{entry['part']}.mid", folder / f"{entry['part']}.wav")
         sfz = libraries[entry["library"]] / entry["sfz"]
         return render_part(sfizz, sfz, entry["part"], folder / f"{entry['part']}.mid",
                            folder / f"{entry['part']}.wav", entry["tone"])
@@ -410,14 +433,17 @@ def main() -> None:
     parser.add_argument("--vcsl", type=Path, required=True)
     parser.add_argument("--salamander", type=Path, help="needed for the salamander style")
     parser.add_argument("--jrhodes", type=Path, help="needed for the Rhodes (ballad-ep, ballad-rhodes)")
+    parser.add_argument("--generaluser", type=Path, help="GeneralUser GS (the church styles' choir and bells)")
+    parser.add_argument("--fluidsynth", default="fluidsynth")
     parser.add_argument("--keep-parts", action="store_true", help="keep each part's WAV")
     parser.add_argument("--premaster", type=Path, help="also save each piece before its master here (MP3)")
     args = parser.parse_args()
     libraries = {"vsco": args.vsco, "vcsl": args.vcsl, "salamander": args.salamander, "jrhodes": args.jrhodes,
+                 "generaluser": args.generaluser,
                  "local": Path(__file__).parent / "instruments"}  # our own instruments (sfizz's oscillators)
     for folder in sorted(p for p in args.out.iterdir() if (p / "mix.json").is_file()):
         print(f"== {folder.name}", flush=True)
-        mix_folder(folder, args.sfizz, libraries, args.keep_parts, args.premaster)
+        mix_folder(folder, args.sfizz, libraries, args.keep_parts, args.premaster, args.fluidsynth)
 
 
 if __name__ == "__main__":

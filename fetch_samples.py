@@ -9,7 +9,10 @@ the Versilian Community Sample Library (sfz branch), both by Versilian Studios
 (CC0); libs/salamander the Salamander Grand Piano V3 by Alexander Holm (CC-BY
 3.0, SFZ by kinwie); libs/jrhodes jRhodes3d, a 1977 Rhodes Mark I by Jeff
 Learman (free to use in music, CC0; the samples themselves CC BY-NC 4.0 to
-pass on, so they are fetched here and never kept in this repository).
+pass on, so they are fetched here and never kept in this repository);
+libs/generaluser the GeneralUser GS soundfont by S. Christian Collins (free
+for any music making, commercial too), whose presets a part names after a #
+(GeneralUser-GS.sf2#0:52): only the soundfont and its licence are fetched.
 """
 
 import json
@@ -32,6 +35,8 @@ LIBRARIES = {
     "salamander": ("https://github.com/sfzinstruments/SalamanderGrandPiano",
                    "3382bf9496bba2486f5ab0de55a264d1dfc38404", ("Data", "Samples")),
     "jrhodes": ("https://github.com/sfzinstruments/jlearman.jRhodes3d", "aea5b8d3e11e2f7102593789a4e0a0e41b30271a", ()),
+    "generaluser": ("https://github.com/mrbumpy409/GeneralUser-GS", "684543d5e5efaef08d02be50dcda8d552478fa60",
+                    ("documentation/LICENSE.txt",)),  # v2.0.3
 }
 
 
@@ -130,6 +135,8 @@ def main(out: str, libs: str) -> int:
         if name not in LIBRARIES:  # "local": our own instruments, in instruments/
             continue
         url, commit, always = LIBRARIES[name]
+        sfz_files = {f.partition("#")[0] for f in sfz_files}  # a soundfont's preset follows a #
+        soundfonts = {f for f in sfz_files if f.endswith(".sf2")}
         dest = Path(libs) / name
         dest.mkdir(parents=True, exist_ok=True)
         git(dest, "init", "-q")
@@ -137,16 +144,16 @@ def main(out: str, libs: str) -> int:
         git(dest, "config", "core.sparseCheckout", "true")
         patterns = dest / ".git" / "info" / "sparse-checkout"  # first the SFZ files only
         patterns.parent.mkdir(parents=True, exist_ok=True)
-        patterns.write_text("".join(f"/{f}\n" for f in sorted(sfz_files)))
+        patterns.write_text("".join(f"/{f}\n" for f in sorted(sfz_files | (set(always) if soundfonts else set()))))
         git(dest, "fetch", "-q", "--depth", "1", "--filter=blob:none", "origin", commit)
         git(dest, "checkout", "-q", "FETCH_HEAD")
-        folders = set(always)
-        for sfz in sfz_files:
+        folders = set() if soundfonts else set(always)
+        for sfz in sfz_files - soundfonts:
             folders |= sample_folders(dest / sfz, dest)
         with patterns.open("a") as f:  # then the samples they play
             f.writelines(f"/{folder}/\n" for folder in sorted(folders))
         git(dest, "sparse-checkout", "reapply")
-        for sfz in sfz_files:  # Windows paths in the SFZ files; a stray first line (jRhodes3d's) made a comment
+        for sfz in sfz_files - soundfonts:  # Windows paths in the SFZ files; a stray first line (jRhodes3d's) made a comment
             path = dest / sfz
             first, _, rest = path.read_text(errors="replace").replace("\\", "/").partition("\n")
             if first.strip() and not first.lstrip().startswith(("//", "<", "#")) and "=" not in first:
@@ -164,7 +171,7 @@ def main(out: str, libs: str) -> int:
             started = time.time()
             print(f"{sfz}: {clean_folders(dest, sample_folders(dest / sfz, dest))} samples' hiss hushed "
                   f"({time.time() - started:.0f} s)", flush=True)
-        size = sum(w.stat().st_size for w in wavs)
+        size = sum(w.stat().st_size for w in wavs) + sum((dest / f).stat().st_size for f in soundfonts)
         print(f"{name}: {len(sfz_files)} instruments, {len(folders)} sample folders, "
               f"{len(wavs)} samples, {size / 1e6:.0f} MB")
     return 0

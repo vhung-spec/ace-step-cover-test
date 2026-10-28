@@ -172,6 +172,19 @@ runs/<mã khác>/covers/lego-woodwinds/stem_01.mp3:0.7` (nhiều lượt cách n
    - `orchestra-gentle`, `orchestra-flat`: như `orchestra-long-calm`, lượt cuối bớt cao trào theo ý bạn.
      `gentle` chỉ dâng nhẹ: violin không lên lớp tiếng to, không có kèn horn, đàn hạc lướt phím, timpani
      hay chuông lắc. `flat` đều như các lượt giữa: không có cả bè sáo cao.
+   - Các kiểu nhà thờ: bài hát như ở nhà thờ, bốn bè theo lối sách thánh ca (`chorale.py`: soprano là giai
+     điệu, thêm alto, tenor, bass; mỗi phách một hợp âm, bè bass đi qua các thế đảo). Chơi trên đàn organ
+     ống (bộ mẫu của Simon Dalzell, Ivy Audio, trong VCSL: bàn phím tiếng nhỏ và bàn đạp bass), trong tiếng
+     vang dài của thánh đường (4,5 giây). Các bè ngắt hơi ở cuối mỗi câu. Sau lượt cuối có câu "A-men" (hợp
+     âm IV rồi I). Chuông ngân trước phần dạo đầu và sau tiếng "A-men".
+     - `church-organ`: chỉ có organ, lượt cuối đầy hơn một chút (bàn phím và bàn đạp tiếng to vào nhẹ),
+       chuông ống. `church-organ-plain`: y hệt nhưng giữ hợp âm gốc của bài, để nghe hòa âm thánh ca thêm gì.
+     - `church-choir`: organ dạo và chơi lượt đầu, rồi hợp xướng hát bốn bè (Concert Choir của GeneralUser
+       GS, phát bằng FluidSynth), organ đệm nhẹ bên dưới; chuông tháp (Bell Tower của GeneralUser GS).
+     - `church-festive`: như `church-choir`, lượt cuối có kèn đồng đi theo các bè (trumpet, trombone,
+       tuba), organ tiếng to, và một hồi timpani dưới câu "A-men".
+     - `chapel`: nhà nguyện nhỏ. Đàn organ thời Phục hưng (stop 8') và hợp xướng ngân "u", nhẹ nhàng,
+       vang 2,6 giây, không có chuông.
    - `salamander`: như `piano` nhưng trên đàn Salamander Grand Piano (không chạy mặc định).
 
    Các kiểu piano nhẹ nhàng (chill, lullaby, flowing, hymn, piano-strings, felt, felt-noise) chơi trên đàn
@@ -194,14 +207,18 @@ runs/<mã khác>/covers/lego-woodwinds/stem_01.mp3:0.7` (nhiều lượt cách n
    tiếng xì thì dải cao được giảm dần đi (tới 50 dB). Tiếng búa gõ và tiếng ngân của nốt giữ nguyên. Dải
    trên cùng của nốt nhẹ chỉ toàn tiếng xì nên bỏ hẳn. Thử với 12 nốt giữ pedal: lúc ngân, tiếng xì trên 6 kHz
    nhỏ đi 22–45 dB.
-3. `render_samples.py` phát từng bè bằng [sfizz](https://sfz.tools/sfizz/) (`sfizz_render`). Sau đó:
+3. `render_samples.py` phát từng bè bằng [sfizz](https://sfz.tools/sfizz/) (`sfizz_render`); hợp xướng
+   và chuông tháp của các kiểu nhà thờ thì phát bằng [FluidSynth](https://www.fluidsynth.org/) từ bộ
+   GeneralUser GS (tắt vang và chorus riêng của nó). Sau đó:
    - chỉnh âm sắc từng bè: mẫu thu nào cũng có chút tiếng xì nền. Dải cao nơi mẫu chỉ còn tiếng xì được
      cắt hẳn (piano từ 6 kHz, vibraphone từ 2,5 kHz, chuông ống từ 4 kHz, đàn hạc từ 5 kHz…), và lúc nhạc
      lặng thì phần xì còn lại được hạ thêm tới 10 dB. Tiếng giảm âm của piano khi nhả phím được vặn nhỏ;
    - cân độ to của từng bè theo vai trò và xếp vị trí trái/phải. Trước đó, mỗi bè được đưa về chính giữa,
      vì nhiều mẫu thu lệch hẳn sang một bên (có nốt vibraphone lệch 17 dB). Các nhạc cụ có nốt lệch nhiều
      còn được thu hẹp âm trường, để giai điệu không nhảy qua lại giữa hai tai;
-   - thêm vang phòng hoà nhạc tự tạo (không cần bản quyền): dải cao tắt nhanh nên đuôi vang ấm, không xì;
+   - thêm vang phòng hoà nhạc tự tạo (không cần bản quyền): dải cao tắt nhanh nên đuôi vang ấm, không xì.
+     Vang dài hơn 2,8 giây (thánh đường) thì đuôi vang được tạo dài gấp 1,5 lần, không bị cắt, và tiếng
+     dội đầu tiên tới sau 45 ms;
    - cân trái/phải: bài nào lệch quá 1 dB về một bên thì được cân lại (`master.py`). Các bước master khác
      (chỉnh âm sắc, tạo độ sáng, độ rộng, làm đều độ to theo hai bản mẫu) đã thử và đang tắt: nghe thử thấy
      bị rè và không hay bằng bản không master;
@@ -222,7 +239,9 @@ mô hình Audiobox Aesthetics (`facebook/audiobox-aesthetics`) theo giấy phép
 
 Bộ âm thanh [GeneralUser GS](https://schristiancollins.com/generaluser.php) v2.0.3 là của
 S. Christian Collins, được dùng tự do để làm nhạc, kể cả thương mại. Bài test tải nó từ kho
-GitHub của tác giả ở một commit cố định, không chép vào kho này.
+GitHub của tác giả ở một commit cố định, không chép vào kho này. Các kiểu nhà thờ lấy tiếng hợp xướng
+và chuông tháp từ bộ này. Đàn organ ống trong VCSL do Simon Dalzell (Ivy Audio) thu; Versilian được phép
+phân phối lại, và tác giả mong được ghi tên (không bắt buộc).
 
 Hai thư viện mẫu âm thanh [VSCO 2 Community Edition](https://github.com/sgossner/VSCO-2-CE) và
 [VCSL](https://github.com/sgossner/VCSL) của Versilian Studios theo giấy phép CC0 (dùng tự do, kể cả
