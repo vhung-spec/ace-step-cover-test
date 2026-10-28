@@ -103,8 +103,9 @@ runs/<mã khác>/covers/lego-woodwinds/stem_01.mp3:0.7` (nhiều lượt cách n
      đàn grand đánh vừa tay, có bass trầm và mạnh mỗi lần đổi hợp âm, quãng giữa đi đều từng nốt móc đơn
      (2–3 nốt một lúc) dưới pedal, giai điệu ở trên cao. Hợp âm của họ chính là hợp âm của bài, không thêm
      màu nhiều. Nên giờ:
-     - đàn upright Yamaha (bạn nghe so với Steinway grand mở dải cao và chọn Yamaha; muốn so thì điền
-       `grand` vào ô *pianos*), giai điệu và bass đánh vừa tay, không đánh quá nhẹ;
+     - `pulse` chơi trên đàn upright Yamaha (bạn nghe so với Steinway grand mở dải cao và chọn Yamaha; muốn
+       so thì điền `grand` vào ô *pianos*), `ballad` trên đàn piano điện Rhodes (xem dưới); giai điệu và bass
+       đánh vừa tay, không đánh quá nhẹ;
      - bass trầm (từ La1 tới Son#2) đánh mỗi lần đổi hợp âm, thỉnh thoảng đi bằng nốt ba của hợp âm cho
        đường bass liền mạch (Đô – Son/Si – La thứ); giai điệu cao một quãng tám; lượt giữa có bè quãng ba
        hoặc quãng sáu dưới các nốt dài, lượt cuối nhân đôi quãng tám; cuối câu có vài nốt rải nhẹ lên trên
@@ -117,28 +118,32 @@ runs/<mã khác>/covers/lego-woodwinds/stem_01.mp3:0.7` (nhiều lượt cách n
        hai thành hợp âm bậc vi thứ bảy (Đô thành La thứ 7, vẫn chứa đủ nốt của Đô); chuỗi hợp âm bậc IV thì ô
        thứ hai thành ii thứ bảy (Fa thành Rê thứ 7); ô hợp âm át (V) mở đầu bằng ii thứ bảy. Chỉ đổi ở chỗ các
        nốt giai điệu vẫn là nốt của hợp âm mới (Silent Night: 10/24 ô nhịp, từ 0% lên 33% phách là hợp âm thứ).
-     - `ballad-ep`, `ballad-ep-soft`, `ballad-rhodes` (đang thử): soi từng nốt của bản mẫu thứ hai, một số nốt
-       có một bồi âm đứng riêng ở khoảng 7,2 lần cao độ của nốt. Đó là tiếng "chuông" của thanh rung (tine)
-       trong đàn piano điện Rhodes; đàn Yamaha không có tiếng này. Mô hình nhận diện cũng nghe đoạn mở đầu bản
-       mẫu vừa là piano điện vừa là piano. Nên ở đây một cây Rhodes (bộ mẫu jRhodes3d của Jeff Learman, đàn
-       Rhodes Mark I đời 1977) đánh đôi các nốt của piano từ Đô3 trở lên, như tiếng "layer" piano + Rhodes của
-       đàn phím điện tử: nhỏ hơn piano 6 dB (`ballad-ep`) hoặc 12 dB (`ballad-ep-soft`); `ballad-rhodes` chỉ
-       có Rhodes, không có piano. Đo thử với Silent Night, Joy, Jingle Bells: lớp Rhodes nhỏ dưới piano gần như
-       không đổi gì so với chỉ có Yamaha. Khi chỉ có Rhodes thì mô hình nhận diện nghe tiếng đàn giống bản mẫu
-       (nhãn "Piano" 0,08–0,11; bản mẫu 0,05; Yamaha 0,30–0,42), và "tiếng chuông" có ở khoảng 10% số nốt,
-       như bản mẫu (7–10%). Bản Rhodes tối hơn bản mẫu (dải 2–6 kHz thấp hơn khoảng 20 dB).
+     - `ballad` chơi trên đàn piano điện Rhodes (bộ mẫu jRhodes3d của Jeff Learman, đàn Rhodes Mark I đời
+       1977). Soi từng nốt của bản mẫu thứ hai, cứ khoảng 10 nốt có một nốt mang một bồi âm đứng riêng ở khoảng
+       7,2 lần cao độ. Đó là tiếng "chuông" của thanh rung (tine) trong đàn Rhodes; đàn Yamaha không có tiếng
+       này. Chơi bằng Rhodes thì mô hình nhận diện nghe tiếng đàn giống bản mẫu (nhãn "Piano" 0,08–0,11; bản
+       mẫu 0,05; Yamaha 0,30–0,42), và "tiếng chuông" cũng có ở khoảng 10% số nốt. Bạn nghe thấy "khá gần bản
+       mẫu". Đã thử và bỏ: Rhodes trộn nhỏ hơn 6 hoặc 12 dB dưới tiếng Yamaha (gần như không đổi gì). Bản
+       Rhodes tối hơn bản mẫu (dải 2–6 kHz thấp hơn khoảng 20 dB). Muốn nghe `ballad` trên Yamaha thì điền
+       `yamaha` vào ô *pianos*.
      - `pulse` (khoảng 88 nhịp/phút): mở đầu tự do bằng hợp âm của mấy ô nhịp cuối, rải từ bass trầm lên
        một nốt cao đi thành giai điệu riêng; sau đó tiếng đệm nảy đều như nhịp tim, mỗi nốt móc đơn một
        quãng năm (thêm quãng tám ở đầu phách), bass trầm ở đầu hợp âm và quãng năm ở giữa ô nhịp. Thêm các
        nhạc cụ nghe được trong bản mẫu thứ nhất: lượt đầu có glockenspiel đánh đôi giai điệu thật khẽ, rồi sáo
        hát giai điệu (có vibrato nhẹ 5,2 lần/giây như sáo trong bản mẫu) trong khi piano đi theo khẽ, đoạn cuối
        vibraphone đánh đôi giai điệu trên tiếng harp rải và dàn dây khẽ. Ở lượt đầu, glockenspiel đánh đôi
-       giai điệu thật khẽ (`pulse-plain`: lượt đầu chỉ có piano). Đã thử và bỏ vì nghe không hay: mark tree
+       giai điệu thật khẽ (bạn chọn cách này; `pulse-plain`: lượt đầu chỉ có piano). Đã thử và bỏ vì nghe không
+       hay: mark tree
        (chùm thanh kim loại gạt lướt) ở đầu bài; chuông lắc (sleigh bells) lắc theo nhịp kèm một nốt chuông
        "ding" mỗi hai ô nhịp (soi kỹ thì bản mẫu có kiểu lấp lánh này, nhưng mẫu tiếng của mình nghe thô).
      - Các nhạc cụ này được nhận ra bằng hai mô hình nhận diện âm thanh (PaSST, huấn luyện trên AudioSet) nghe
        từng đoạn 5–10 giây của hai bản mẫu, so với các bản chỉ có piano của mình, cùng với đo bồi âm và độ rung
        (vibrato) của giai điệu.
+     - `ballad-near`, `pulse-near`, `ballad-close`, `pulse-close` (đang thử): bạn nghe hai bản mẫu "rất gần
+       tai", còn bản của mình "như trong phòng lớn". Đo thì bản mẫu rộng (stereo) ngay từ lúc nốt vang lên,
+       còn bản của mình tiếng đàn hẹp và tiếng vang dài 2,8 giây như hội trường. Nên ở đây tiếng vang là của
+       một phòng nhỏ hơn, đến sớm hơn và nhỏ hơn: 1,2 giây và lượng vang 0,6 lần (`-near`); 0,8 giây và 0,45
+       lần (`-close`). Tiếng Rhodes cũng được mở rộng (hiệu ứng chorus sẵn trong mẫu thu, gấp đôi).
      - `ballad-clear`, `pulse-clear`: như trên nhưng rõ từng nốt hơn và sáng hơn. Nghe gần, tiếng đệm của
        hai bản mẫu nở ra rồi tắt theo từng phách, còn ở `ballad`/`pulse` pedal giữ cả hợp âm nên tiếng ngân
        liền một mảng. Nên ở đây pedal được thay mỗi phách, bass giữ một phách, tay giữa nhấc lên sau mỗi nốt
@@ -153,10 +158,10 @@ runs/<mã khác>/covers/lego-woodwinds/stem_01.mp3:0.7` (nhiều lượt cách n
 
    Các kiểu piano nhẹ nhàng (chill, lullaby, flowing, hymn, piano-strings, felt, felt-noise) chơi trên đàn
    upright Yamaha: tiếng mềm, ấm, gần gũi (đã nghe so với Steinway và upright Knight). Kiểu `piano` chơi
-   trên đàn Steinway B grand có cắt dải cao; `ballad` và `pulse` cũng chơi trên đàn Yamaha (bạn chọn), còn
-   `ballad-clear` và `pulse-clear` chơi trên cây Steinway mở dải cao (`grand`). Các kiểu cũ vẫn còn trong mã
+   trên đàn Steinway B grand có cắt dải cao; `pulse` cũng chơi trên đàn Yamaha (bạn chọn), `ballad` trên đàn
+   Rhodes, còn `ballad-clear` và `pulse-clear` chơi trên cây Steinway mở dải cao (`grand`). Các kiểu cũ vẫn còn trong mã
    nhưng không chạy mặc định nữa: muốn chạy thì điền tên vào ô
-   *styles*. Muốn so đàn, điền ô *pianos* khi chạy (`piano`, `grand`, `knight`, `yamaha`): bản chơi trên đàn
+   *styles*. Muốn so đàn, điền ô *pianos* khi chạy (`piano`, `grand`, `knight`, `yamaha`, `ep` là Rhodes): bản chơi trên đàn
    khác đàn của kiểu đó có đuôi là tên đàn. Vài mẫu thu của đàn Yamaha bị ngược pha giữa hai kênh;
    `fetch_samples.py` tự sửa lại.
 

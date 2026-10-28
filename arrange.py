@@ -4,14 +4,16 @@ hall, and each part's instrument, role, stereo position and tone) for
 render_samples.py:
 
     python arrange.py out/sampled [--songs wish silent-night first-noel ...] [--styles ballad pulse ...]
-        [--pianos grand piano knight yamaha]
+        [--pianos grand piano knight yamaha ep]
 
-ballad and pulse, the styles after the user's two reference recordings, and
-the gentle piano styles are played on VCSL's Yamaha upright, softer and
-closer (heard against the Steinway B grand with its highs open, "grand", the
-user preferred it); piano on the Steinway with its highs cut. --pianos plays them on others to compare (the Steinway:
-piano or grand, the Knight upright: knight, the Yamaha: yamaha; such pieces'
-names end in the piano's name).
+pulse, after the first of the user's two reference recordings, and the gentle
+piano styles are played on VCSL's Yamaha upright, softer and closer (heard
+against the Steinway B grand with its highs open, "grand", the user preferred
+it); ballad, after the second, on a Rhodes electric piano (the user: "quite
+close" to it); piano on the Steinway with its highs cut. --pianos plays them
+on others to compare (the Steinway: piano or grand, the Knight upright:
+knight, the Yamaha: yamaha, the Rhodes: ep; such pieces' names end in the
+piano's name).
 
 The carols are public-domain melodies and chords: We Wish You a Merry
 Christmas and Silent Night (make_source.py), The First Noel, Joy to the
@@ -44,19 +46,19 @@ same chords, beat by beat, so they always agree:
   the middle of the keyboard moving in eighths under the pedal; the tune an
   octave up, in a middle verse with a third or sixth under its longer notes,
   in the last doubled an octave down; a few tones rising over a phrase's last
-  held note; the last chord rolled from the deep bass, in a longer hall:
+  held note; the last chord rolled from the deep bass, in a longer hall
+  (2.8 s):
   - ballad (about 72 bpm): the tune's last phrase as the intro; the bass
     walking the chord a beat at a time; the middle hand two tones an eighth,
     low and high by turns, up and down the chord from C3-B3; a faint synth pad
     under it all (instruments/pad.sfz, sfizz's own oscillators), as the second
     reference lays one; the carol's chords coloured as that reference's are
     (reharmonize: vi7 for some tonic bars, ii7 for some subdominant ones, ii7
-    opening a dominant bar, where the tune allows); ballad-ep, ballad-ep-soft:
-    the same with a Rhodes electric piano doubling the piano's notes from C3
-    up, 6 or 12 dB under it, as a keyboard's layered sound plays both (some of
-    that reference's notes carry a Rhodes tine's lone partial, 7.2 times their
-    pitch, and the tagger hears its opening as electric piano and piano at
-    once); ballad-rhodes: the piano's notes played on the Rhodes alone;
+    opening a dominant bar, where the tune allows); played on a Rhodes: one
+    note in ten of that reference carries a Rhodes tine's lone partial, 7.2
+    times its pitch (the Yamaha's partials fall smoothly), and on the Rhodes
+    the tagger hears the piece as it hears the reference, barely as a piano
+    (layered 6 or 12 dB under the Yamaha instead, the Rhodes changed little);
   - pulse (about 88 bpm): an intro in free time, the tune's last chords
     rolled from the deep bass to a slow top line; then a heartbeat of eighths,
     each chord's root and fifth (the octave on the beats), the bass struck
@@ -65,6 +67,10 @@ same chords, beat by beat, so they always agree:
     doubling the tune (pulse-plain: the piano alone), then a flute singing it
     (with a gentle vibrato) while the piano follows softly, then a vibraphone
     doubling it over a harp and soft strings;
+  - ballad-near, pulse-near, ballad-close, pulse-close: the same in a smaller
+    room with less of it (1.2 s and 0.8 s, sends at 0.6 and 0.45 times), as
+    the references sound close by rather than across a hall (the user: they
+    are "very close to the ear", ours "in a big room");
   - ballad-clear, pulse-clear: the same, each beat's notes blooming and
     fading as the references' do (the pedal taken again on every beat, the
     bass held a beat, the middle hand lifted after its eighth), and brighter
@@ -193,8 +199,11 @@ TONES = {
     "harp": {"lowpass": 5000, "lowpass_order": 4, "width": 0.7, "dehiss": True},
     "sleigh": {"shelf": [6000, -6], "width": 0.6},
     # The Rhodes' samples are clean (above 4 kHz 125 dB under the note); its
-    # harder layers bark, so its highs are eased from 7 kHz.
-    "ep": {"highpass": 60, "lowpass": 7000, "width": 0.8},
+    # harder layers bark, so its highs are eased from 7 kHz. Its samples carry
+    # a mild chorus in their stereo, which its mod wheel widens (0.5: as
+    # recorded, 1: three times): the references are wide from each note's
+    # attack, a mono Rhodes narrow.
+    "ep": {"highpass": 60, "lowpass": 7000, "set_cc": {"1": 0.75}},
     "tubular": {"lowpass": 4000, "lowpass_order": 4, "width": 0.5, "dehiss": True},
     "flute": {"lowpass": 8000, "shelf": [6000, -2], "width": 0.5},
     "violins": {"lowpass": 6500, "lowpass_order": 4, "shelf": [5000, -2], "width": 0.8, "dehiss": True},
@@ -207,7 +216,7 @@ TONES = {
 }
 # How loud each kind of part sits against the melody (dB of its loudness when playing).
 ROLES = {"melody": 0.0, "piano": 0.0, "descant": -9.0, "harp": -4.0, "pad": -10.0, "bass": -8.0, "shimmer": -12.0,
-         "arp": -7.0, "jingle": -18.0, "haze": -20.0, "layer": -6.0, "under": -12.0,
+         "arp": -7.0, "jingle": -18.0, "haze": -20.0,
          "bells": -8.0, "bed": -13.0, "low": -12.0, "toll": -14.0, "sparkle": -16.0, "drum": -17.0}
 
 
@@ -1121,32 +1130,16 @@ def pad_chords(arr: Arrangement, part: Part, start: int, end: int, velocity: int
             part.add(tick + arr.jitter(6), note, velocity, length + 30, tie=True)
 
 
-def layer(arr: Arrangement, source: Part, name: str, instrument: str, role: str, low: int = 48,
-          softer: int = 8) -> Part:
-    """A second instrument doubling a part's notes from `low` up, `softer`
-    velocity lower, under the same pedal, as a keyboard's layered sound plays
-    two at once."""
-    part = arr.part(name, instrument, role, source.pan, reverb=source.reverb)
-    for tick, note, velocity, length in source.notes:
-        if note >= low:
-            part.add(tick, note, velocity - softer, length)
-    part.pedal = list(source.pedal)
-    return part
-
-
-def arrange_ballad(arr: Arrangement, clear: bool = False, ep: str | None = None) -> None:
+def arrange_ballad(arr: Arrangement, clear: bool = False) -> None:
     """After the second reference: the tune's last phrase as the intro, then
     the verses over the deep bass and the rolling pairs, a synth pad under it
-    all, swelling with each phrase; with ep (a role), the Rhodes doubling the
-    piano."""
+    all, swelling with each phrase."""
     piano = arr.part("piano", arr.piano, "piano", 0.0, reverb=0.32)
     tune = cover_melody(arr, piano, BRIGHT + 8)
     deep_bass(arr, piano, 0, arr.end, BRIGHT + 4, walk=True, hold=arr.beat if clear else None)
     rolling_pairs(arr, piano, 0, arr.end, 54, tune, length=EIGHTH if clear else 2 * EIGHTH)
     (pedal_by_beat if clear else pedal_by_chord)(arr, piano, 0, arr.end)
     cover_end(arr, piano, tune, BRIGHT)
-    if ep:
-        layer(arr, piano, "ep", "ep", ep)
     # the pad far under the piano: at its first level (the role pad) it tagged
     # Synthesizer 0.18 and Ambient 0.35 against the reference's 0.03 and 0.07
     pad = arr.part("pad", "pad", "haze", 0.0, reverb=0.4)
@@ -1261,7 +1254,8 @@ class Style:
     arrange: Callable
     tempo: float = 1.0  # times the carol's own tempo
     breath: float = 0.92  # the tempo of the last beat of each phrase, times the tempo
-    hall: float = 2.2  # the hall's reverb time (s)
+    hall: float = 2.2  # the hall's reverb time (s); under 2.2 a smaller room, answering sooner
+    wet: float = 1.0  # every part's send into it, times this: less, and the sound is closer
     repeat_short: bool = False  # play a short tune (under 40 s at its own tempo) three times
     noise_db: float | None = None  # a hush of pink noise under the music, this far under the melody
     verses: int | None = None  # this many verses, whatever the tune's length
@@ -1299,16 +1293,17 @@ STYLES = {
                            piano=GENTLE_PIANO),
     "felt": Style(arrange_felt, tempo=0.8, breath=0.9, repeat_short=True, piano=GENTLE_PIANO),
     "felt-noise": Style(arrange_felt, tempo=0.8, breath=0.9, repeat_short=True, noise_db=-22, piano=GENTLE_PIANO),
-    "ballad": Style(arrange_ballad, bpm=72, breath=0.9, hall=2.8, repeat_short=True, piano=GENTLE_PIANO,
-                    reharm=True),
-    "ballad-ep": Style(lambda arr: arrange_ballad(arr, ep="layer"), bpm=72, breath=0.9, hall=2.8,
-                       repeat_short=True, piano=GENTLE_PIANO, reharm=True),
-    "ballad-ep-soft": Style(lambda arr: arrange_ballad(arr, ep="under"), bpm=72, breath=0.9, hall=2.8,
-                            repeat_short=True, piano=GENTLE_PIANO, reharm=True),
-    "ballad-rhodes": Style(arrange_ballad, bpm=72, breath=0.9, hall=2.8, repeat_short=True, piano="ep",
-                           reharm=True),
+    "ballad": Style(arrange_ballad, bpm=72, breath=0.9, hall=2.8, repeat_short=True, piano="ep", reharm=True),
+    "ballad-near": Style(arrange_ballad, bpm=72, breath=0.9, hall=1.2, wet=0.6, repeat_short=True, piano="ep",
+                         reharm=True),
+    "ballad-close": Style(arrange_ballad, bpm=72, breath=0.9, hall=0.8, wet=0.45, repeat_short=True, piano="ep",
+                          reharm=True),
     "pulse": Style(arrange_pulse, bpm=88, breath=0.9, hall=2.8, repeat_short=True, free_intro=True,
                    piano=GENTLE_PIANO),
+    "pulse-near": Style(arrange_pulse, bpm=88, breath=0.9, hall=1.2, wet=0.6, repeat_short=True, free_intro=True,
+                        piano=GENTLE_PIANO),
+    "pulse-close": Style(arrange_pulse, bpm=88, breath=0.9, hall=0.8, wet=0.45, repeat_short=True,
+                         free_intro=True, piano=GENTLE_PIANO),
     "pulse-plain": Style(lambda arr: arrange_pulse(arr, bells=False), bpm=88, breath=0.9, hall=2.8,
                          repeat_short=True, free_intro=True, piano=GENTLE_PIANO),
     "ballad-clear": Style(lambda arr: arrange_ballad(arr, clear=True), bpm=72, breath=0.9, hall=2.8,
@@ -1379,9 +1374,9 @@ def main() -> None:
     parser.add_argument("out", type=Path)
     parser.add_argument("--songs", nargs="+", default=list(SONGS), choices=list(SONGS))
     parser.add_argument("--styles", nargs="+", default=["ballad", "pulse"], choices=list(STYLES))
-    parser.add_argument("--pianos", nargs="+", choices=["piano", "grand", "knight", "yamaha"],
+    parser.add_argument("--pianos", nargs="+", choices=["piano", "grand", "knight", "yamaha", "ep"],
                         help="play the piano styles on these instead of each style's own (a piece each; one "
-                             "on another piano than its style's ends in -piano, -grand, -knight or -yamaha)")
+                             "on another piano than its style's ends in -piano, -grand, -knight, -yamaha or -ep)")
     args = parser.parse_args()
     for piano_choice, name, style_name in itertools.product(args.pianos or [None], args.songs, args.styles):
         song, style = SONGS[name], STYLES[style_name]
@@ -1406,7 +1401,8 @@ def main() -> None:
             sheet.append({"part": part_name, "library": library, "sfz": sfz, "role": part.role,
                           "gain_db": ROLES[part.role], "pan": part.pan, "reverb": part.reverb,
                           "tone": part.tone, "notes": len(part.notes)})
-        mix = {"hall": {"rt60": style.hall}, "parts": sheet, "master": style.master}
+        hall = {"rt60": style.hall} | ({"wet": style.wet} if style.wet != 1.0 else {})
+        mix = {"hall": hall, "parts": sheet, "master": style.master}
         if style.noise_db is not None:
             mix["noise"] = {"db": style.noise_db}
         (folder / "mix.json").write_text(json.dumps(mix, indent=2))

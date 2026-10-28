@@ -26,7 +26,9 @@ mixes them into one piece per folder:
   its own rate, the highs soonest and quietest, the highs also building up
   slowest, with no single echo standing out), so no recording of a real hall
   and no licence is needed; what goes into it is cut above 6 kHz, so hammer
-  and bow noise do not ring on as a hiss;
+  and bow noise do not ring on as a hiss; a style may ask for a smaller room
+  (a shorter rt60: it answers sooner) and send less into it (wet), for a
+  sound close by rather than across a hall;
 - a style may lay a soft hush (dark pink noise) under the music, as sleep
   music does;
 - the mix is mastered (master.py): a piece leaning more than 1 dB to one side
@@ -78,8 +80,17 @@ def sfz_copy(sfz: Path, part: str, db: float, tone: dict) -> Path:
     with the pedal down (all strings free to ring along) left out: every note
     plays its pedal-up sample, the pedal still holding it; with pedal_noise
     false, the pedal's own thump and squeak (played as it goes down and up)
-    are left out too."""
+    are left out too. The tone's set_cc ({controller: 0-1}) sets where the
+    instrument's controllers start (the Rhodes' stereo width is its mod wheel)."""
     text = sfz.read_text(errors="replace")
+    for cc, value in tone.get("set_cc", {}).items():
+        setting = f"set_hdcc{cc}={value:g}"
+        if re.search(rf"\bset_hdcc{cc}=", text):
+            text = re.sub(rf"\bset_hdcc{cc}=\S+", setting, text)
+        elif "<control>" in text:
+            text = text.replace("<control>", f"<control>\n{setting}", 1)
+        else:
+            text = f"<control>\n{setting}\n{text}"
     line = f"global_volume={db:g}"
     if "<global>" in text:
         text = text.replace("<global>", f"<global>\n{line}", 1)
@@ -218,7 +229,11 @@ def hall_ir(rt60: float, seconds: float = 4.0, predelay: float = 0.025, seed: in
     dying at its own rate (HALL) and building up over 30 ms (the lows) to 80
     ms (the highs), so a note's attack does not set off a burst of hiss; no
     single echo stands out; a different noise on each side, so the hall is
-    wide, each band equally loud on both, so it leans to neither."""
+    wide, each band equally loud on both, so it leans to neither. A smaller
+    room (rt60 under 2.2 s) answers sooner: its predelay and build-up shrink
+    with its rt60."""
+    small = min(1.0, rt60 / 2.2)
+    predelay *= small
     rng = np.random.default_rng(seed)
     n = int(seconds * RATE)
     t = np.arange(n) / RATE
@@ -228,7 +243,7 @@ def hall_ir(rt60: float, seconds: float = 4.0, predelay: float = 0.025, seed: in
     for centre in 1000 * 2 ** (np.arange(-14, 14) / 3):  # 40 Hz to 20 kHz
         band = (freqs >= centre * 2 ** (-1 / 6)) & (freqs < centre * 2 ** (1 / 6))
         decay, level = (np.interp(np.log2(centre), np.log2(HALL[:, 0]), HALL[:, k]) for k in (1, 2))
-        onset = np.interp(np.log2(centre), np.log2([250, 8000]), [0.03, 0.08])
+        onset = np.interp(np.log2(centre), np.log2([250, 8000]), [0.03, 0.08]) * small
         tail = np.fft.irfft(spectrum * band, n=n, axis=-1) * np.exp(-6.91 * t / (rt60 * decay))
         tail *= 1 - np.exp(-t / onset)  # the reflections build up
         tail /= np.sqrt(np.mean(tail ** 2, axis=-1, keepdims=True))  # every band as loud, on both sides
@@ -310,6 +325,7 @@ def save(audio: np.ndarray, wav: Path) -> None:
 def mix_folder(folder: Path, sfizz: str, libraries: dict, keep_parts: bool, premaster: Path | None = None) -> Path:
     sheet = json.loads((folder / "mix.json").read_text())
     ir = hall_ir(sheet["hall"]["rt60"])
+    wet_level = sheet["hall"].get("wet", 1.0)  # every part's send into it, times this
 
     def render(entry: dict) -> np.ndarray:
         sfz = libraries[entry["library"]] / entry["sfz"]
@@ -333,7 +349,7 @@ def mix_folder(folder: Path, sfizz: str, libraries: dict, keep_parts: bool, prem
         gain = 10 ** ((reference + entry["gain_db"] - playing_db(audio)) / 20)
         placed = pan(audio * gain, entry["pan"])
         dry[:, : placed.shape[1]] += placed
-        send[:, : placed.shape[1]] += placed * entry["reverb"]
+        send[:, : placed.shape[1]] += placed * entry["reverb"] * wet_level
         if not keep_parts:
             (folder / f"{name}.wav").unlink()
     send = sosfilt(butter(2, 6000, "low", fs=RATE, output="sos"), send, axis=-1)  # no hiss into the hall
@@ -360,7 +376,7 @@ def mix_folder(folder: Path, sfizz: str, libraries: dict, keep_parts: bool, prem
         premaster.mkdir(parents=True, exist_ok=True)
         save(finish(unmastered)[0], premaster / out.name)
         (premaster / out.name).unlink()
-    print(f"{folder.name}: {mixed.shape[1] / RATE:.0f} s, hall {sheet['hall']['rt60']} s, "
+    print(f"{folder.name}: {mixed.shape[1] / RATE:.0f} s, hall {sheet['hall']['rt60']} s (sends x{wet_level:g}), "
           f"{meter.integrated_loudness(mixed.T):.1f} LUFS, peak {20 * np.log10(np.abs(mixed).max()):.1f} dBFS "
           f"-> {out.with_suffix('.mp3')}", flush=True)
     return out
