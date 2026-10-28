@@ -202,10 +202,15 @@ def main(dest: str, downloads: str, summary_path: str | None = None) -> int:
         expected = list(range(info["lo"], info["hi"] + 1)) if info["lo"] is not None and info["hi"] else None
         spans = notes_in(audio, rate, len(expected) if expected else None)
         measured_all = [pitch_of(audio[s:e], rate, info["lo"], info["hi"]) for s, e in spans]
+        # When the notes found match the count the file name gives, they are its
+        # chromatic range in order: pYIN only checks them, by pitch class (it
+        # often reads a guitar note an octave off, and the second run, trusting
+        # it over the count, mislabelled whole files).
         counted = expected is not None and len(expected) == len(spans)
-        agree = sum(1 for k, m in enumerate(measured_all) if counted and m is not None and abs(m - expected[k]) < 0.6)
-        if counted and agree < 0.7 * len(spans):  # the count fits but the pitches do not: trust pYIN
-            counted = False
+        agree = sum(1 for k, m in enumerate(measured_all)
+                    if counted and m is not None and abs((m - expected[k] + 6) % 12 - 6) < 0.6)
+        if counted and agree < 0.5 * len(spans):
+            print(f"  {path.name}: WARNING, pYIN agrees on the pitch class of only {agree} of {len(spans)} notes")
         for k, (start, end) in enumerate(spans):
             note = audio[start:end]
             measured = measured_all[k]
@@ -227,7 +232,8 @@ def main(dest: str, downloads: str, summary_path: str | None = None) -> int:
             sf.write(out, note, RATE, subtype="PCM_24")
             found.append((info["dynamic"], info["string"], midi, out.name, float(peak),
                           float(20 * np.log10(np.median(tail) + 1e-12)), len(note) / RATE))
-        how = f"counted along {expected[0]}-{expected[-1]}, pYIN agrees on {agree}" if counted else "by pYIN"
+        how = (f"counted along {expected[0]}-{expected[-1]}, pYIN agrees on the pitch class of {agree}" if counted
+               else f"by pYIN: {len(spans)} found, the name says {len(expected) if expected else '?'}")
         print(f"  {path.name}: {rate} Hz, {audio.shape[1]} ch, {len(spans)} notes ({how})", flush=True)
 
     if not found:
