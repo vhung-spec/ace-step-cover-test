@@ -1,0 +1,52 @@
+{
+ "title": "Sân ga sương",
+ "style": "dem-diu",
+ "bpm": 72,
+ "beats": 4,
+ "about": "Fa thứ, rất thưa nốt: i-VI-iv-V, và hợp âm Sol giáng (Napoli) trước bậc V cho cảm giác xa xăm.",
+ "sections": [
+  {
+   "bars": 2,
+   "chords": "Fm | Db",
+   "melody": "",
+   "dyn": 0.25
+  },
+  {
+   "bars": 8,
+   "chords": "Fm | Db | Bbm | C | Fm | Ab | Gb | C",
+   "melody": "C5:2 F5:2 | Ab5:3 F5:1 | F5:2 Db5:2 | E5:4 | C5:2 Ab5:2 | G5:2 Eb5:2 | Db5:2 Bb4:2 | C5:4",
+   "dyn": 0.35
+  },
+  {
+   "bars": 8,
+   "chords": "Fm | Db | Bbm | C | Fm | Ab | Gb:2 C:2 | Fm",
+   "melody": "C5:2 F5:2 | Ab5:2 Bb5:1 Ab5:1 | F5:3 Db5:1 | E5:2 G5:2 | Ab5:2 G5:1 F5:1 | Eb5:3 C5:1 | Db5:2 E5:2 | F5:4",
+   "dyn": 0.4
+  },
+  {
+   "bars": 8,
+   "chords": "Db | Ab | Eb | Fm | Db | Ab | Bbm | C",
+   "melody": "F5:2 Ab5:2 | Eb5:2 Ab5:2 | G5:3 Bb4:1 | F5:4 | Ab5:3 F5:1 | Eb5:2 C5:2 | Db5:2 F5:2 | G5:4",
+   "dyn": 0.5
+  },
+  {
+   "bars": 8,
+   "chords": "Fm | Db | Bbm | Gb | Fm/Ab | Db | Gb | C",
+   "melody": "Ab5:2 F5:1 Ab5:1 | Bb5:2 Ab5:2 | F5:2 Db5:1 F5:1 | Bb5:2 Gb5:2 | Ab5:2 C5:2 | F5:2 Db5:1 F5:1 | Db5:2 Bb4:2 | E5:4",
+   "dyn": 0.72,
+   "rit": true
+  },
+  {
+   "bars": 6,
+   "chords": "Fm | Db | Bbm | C | Fm | Db",
+   "melody": "C5:2 F5:2 | Ab5:3 F5:1 | F5:2 Db5:2 | E5:4 | C5:4 | Ab4:4",
+   "dyn": 0.3
+  },
+  {
+   "bars": 2,
+   "chords": "Bbm | Fm",
+   "melody": "Db5:2 C5:2 | Ab4:4",
+   "dyn": 0.2
+  }
+ ]
+}

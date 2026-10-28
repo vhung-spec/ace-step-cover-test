@@ -1,0 +1,58 @@
+{
+ "title": "Nến cuối",
+ "style": "dem-diu",
+ "bpm": 72,
+ "beats": 3,
+ "about": "Rê thứ, nhịp ba chậm như một điệu valse buồn: i-VI-III-VII, V của Rê thứ hòa âm; cao trào lên Si giáng.",
+ "sections": [
+  {
+   "bars": 2,
+   "chords": "Dm | Bb",
+   "melody": "",
+   "dyn": 0.25
+  },
+  {
+   "bars": 8,
+   "chords": "Dm | Bb | F | C | Dm | Gm | A | A",
+   "melody": "A4:1 D5:1 F5:1 | F5:2 D5:1 | C5:2 A4:1 | E5:3 | A4:1 D5:1 A5:1 | G5:2 F5:1 | E5:2 C#5:1 | A4:3",
+   "dyn": 0.35
+  },
+  {
+   "bars": 8,
+   "chords": "Dm | Bb | F | C | Bb | Gm | A | Dm",
+   "melody": "A4:1 D5:1 F5:1 | F5:2 D5:1 | C5:1 F5:1 A5:1 | G5:3 | F5:2 D5:1 | D5:1 Bb4:1 G4:1 | C#5:2 E5:1 | D5:3",
+   "dyn": 0.4
+  },
+  {
+   "bars": 8,
+   "chords": "F | C | Dm | Bb | F | C | Gm | A",
+   "melody": "A5:2 G5:1 | G5:2 E5:1 | F5:2 D5:1 | D5:3 | C5:1 F5:1 A5:1 | G5:1.5 F5:0.5 E5:1 | D5:2 Bb4:1 | C#5:3",
+   "dyn": 0.5
+  },
+  {
+   "bars": 8,
+   "chords": "Dm | Bb | Gm | A | Dm | Bb | Gm:2 A:1 | Dm",
+   "melody": "D5:1 F5:1 A5:1 | Bb5:2 A5:1 | G5:2 D5:1 | E5:3 | A5:2 F5:1 | D5:1 F5:1 Bb5:1 | G5:2 C#5:1 | D5:3",
+   "dyn": 0.72,
+   "rit": true
+  },
+  {
+   "bars": 8,
+   "chords": "Bb | F | C | Dm | Gm | Bb | A | A",
+   "melody": "F5:2 D5:1 | C5:2 A4:1 | E5:1 G5:1 E5:1 | D5:3 | Bb4:1 D5:1 G5:1 | F5:2 D5:1 | E5:2 C#5:1 | A4:3",
+   "dyn": 0.4
+  },
+  {
+   "bars": 8,
+   "chords": "Dm | Bb | F | C | Gm | Bb | A | Dm",
+   "melody": "A4:1 D5:1 F5:1 | F5:2 D5:1 | C5:2 A4:1 | E5:3 | D5:2 Bb4:1 | D5:1 C5:1 Bb4:1 | A4:2 C#5:1 | D5:3",
+   "dyn": 0.3
+  },
+  {
+   "bars": 2,
+   "chords": "Bb | Dm",
+   "melody": "F5:3 | D5:3",
+   "dyn": 0.2
+  }
+ ]
+}
