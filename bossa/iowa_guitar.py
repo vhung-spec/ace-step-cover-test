@@ -200,26 +200,33 @@ def main(dest: str, downloads: str, summary_path: str | None = None) -> int:
             continue
         audio, rate = sf.read(path, always_2d=True, dtype="float32")
         expected = list(range(info["lo"], info["hi"] + 1)) if info["lo"] is not None and info["hi"] else None
-        spans = notes_in(audio, rate, len(expected) if expected else None)
+        spans = notes_in(audio, rate)
         measured_all = [pitch_of(audio[s:e], rate, info["lo"], info["hi"]) for s, e in spans]
-        # When the notes found match the count the file name gives, they are its
-        # chromatic range in order: pYIN only checks them, by pitch class (it
-        # often reads a guitar note an octave off, and the second run, trusting
-        # it over the count, mislabelled whole files).
-        counted = expected is not None and len(expected) == len(spans)
-        agree = sum(1 for k, m in enumerate(measured_all)
-                    if counted and m is not None and abs((m - expected[k] + 6) % 12 - 6) < 0.6)
-        if counted and agree < 0.5 * len(spans):
-            print(f"  {path.name}: WARNING, pYIN agrees on the pitch class of only {agree} of {len(spans)} notes")
-        for k, (start, end) in enumerate(spans):
-            note = audio[start:end]
-            measured = measured_all[k]
-            if counted:
-                midi = expected[k]
-            elif measured is not None and abs(measured - round(measured)) < 0.35:
-                midi = int(round(measured))
+        # Each note's name from its measured pitch class, its octave from the
+        # file's own range: the third run, counting the notes in order along
+        # the range, mislabelled many files (their notes are not all in
+        # rising order), and pYIN alone reads many notes an octave off.
+        labels = []
+        for m in measured_all:
+            if m is None or abs(m - round(m)) > 0.4:
+                labels.append(None)
+            elif expected:
+                same = [e for e in expected if e % 12 == round(m) % 12]
+                labels.append(same[0] if same else None)
             else:
-                continue
+                labels.append(int(round(m)))
+        best = {}  # one take a label: the one pYIN is surest of
+        for k, label in enumerate(labels):
+            if label is not None and (label not in best or
+                                      abs(measured_all[k] - round(measured_all[k])) <
+                                      abs(measured_all[best[label]] - round(measured_all[best[label]]))):
+                best[label] = k
+        print(f"  {path.name}: pitch classes heard " +
+              " ".join("-" if m is None else librosa.midi_to_note(int(round(m)), octave=False) for m in measured_all),
+              flush=True)
+        for midi, k in sorted(best.items()):
+            start, end = spans[k]
+            note = audio[start:end]
             note = trim(note, rate)
             if rate != RATE:
                 g = np.gcd(RATE, rate)
@@ -232,9 +239,8 @@ def main(dest: str, downloads: str, summary_path: str | None = None) -> int:
             sf.write(out, note, RATE, subtype="PCM_24")
             found.append((info["dynamic"], info["string"], midi, out.name, float(peak),
                           float(20 * np.log10(np.median(tail) + 1e-12)), len(note) / RATE))
-        how = (f"counted along {expected[0]}-{expected[-1]}, pYIN agrees on the pitch class of {agree}" if counted
-               else f"by pYIN: {len(spans)} found, the name says {len(expected) if expected else '?'}")
-        print(f"  {path.name}: {rate} Hz, {audio.shape[1]} ch, {len(spans)} notes ({how})", flush=True)
+        print(f"  {path.name}: {rate} Hz, {audio.shape[1]} ch, {len(spans)} onsets, {len(best)} notes kept "
+              f"of the {len(expected) if expected else '?'} its name gives", flush=True)
 
     if not found:
         raise RuntimeError("no notes found")
