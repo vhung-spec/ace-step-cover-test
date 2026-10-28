@@ -138,9 +138,12 @@ def pitch_of(audio: np.ndarray, rate: int, lo: int | None = None, hi: int | None
     # a range at least two octaves and a half wide (pYIN's pitch tracking needs it)
     fmin = librosa.midi_to_hz(lo - 7) if lo is not None else 75
     fmax = librosa.midi_to_hz(max(hi + 7, lo + 24)) if lo is not None and hi is not None else 1300
-    f0, voiced, _ = librosa.pyin(small, fmin=fmin, fmax=fmax, sr=22050, frame_length=2048)
-    f0 = f0[voiced]
-    return float(librosa.hz_to_midi(np.median(f0))) if len(f0) >= 3 else None
+    f0, voiced, probability = librosa.pyin(small, fmin=fmin, fmax=fmax, sr=22050, frame_length=2048)
+    # a pluck rings with a clear pitch through most of the window: a knock,
+    # a breath or a chair (a quiet file's strongest rises may be one) does not
+    if voiced.mean() < 0.3 or np.median(probability[voiced]) < 0.3:
+        return None
+    return float(librosa.hz_to_midi(np.median(f0[voiced])))
 
 
 def trim(audio: np.ndarray, rate: int) -> np.ndarray:
@@ -200,7 +203,10 @@ def main(dest: str, downloads: str, summary_path: str | None = None) -> int:
             continue
         audio, rate = sf.read(path, always_2d=True, dtype="float32")
         expected = list(range(info["lo"], info["hi"] + 1)) if info["lo"] is not None and info["hi"] else None
-        spans = notes_in(audio, rate)
+        # The plucks: as many of the strongest rises as the file name gives
+        # notes (without that cap the fourth run also cut notes at smaller
+        # rises inside them, 1.5 s pieces)
+        spans = notes_in(audio, rate, len(expected) if expected else None)
         measured_all = [pitch_of(audio[s:e], rate, info["lo"], info["hi"]) for s, e in spans]
         # Each note's name from its measured pitch class, its octave from the
         # file's own range: the third run, counting the notes in order along
@@ -215,11 +221,10 @@ def main(dest: str, downloads: str, summary_path: str | None = None) -> int:
                 labels.append(same[0] if same else None)
             else:
                 labels.append(int(round(m)))
-        best = {}  # one take a label: the one pYIN is surest of
+        best = {}  # one take a label: the longest (a whole note, not a piece of one)
         for k, label in enumerate(labels):
-            if label is not None and (label not in best or
-                                      abs(measured_all[k] - round(measured_all[k])) <
-                                      abs(measured_all[best[label]] - round(measured_all[best[label]]))):
+            length = spans[k][1] - spans[k][0]
+            if label is not None and (label not in best or length > spans[best[label]][1] - spans[best[label]][0]):
                 best[label] = k
         print(f"  {path.name}: pitch classes heard " +
               " ".join("-" if m is None else librosa.midi_to_note(int(round(m)), octave=False) for m in measured_all),
