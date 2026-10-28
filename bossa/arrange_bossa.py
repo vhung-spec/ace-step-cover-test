@@ -372,6 +372,27 @@ def half_time(sk: Sketch, part: Part, velocity: int, start: int, end: int) -> No
             part.add(sk.lay_back(bar_tick + 5 * EIGHTH, 8), RIM, velocity - 14, EIGHTH)
 
 
+def bossa_kit(sk: Sketch, part: Part, velocity: int, start: int, end: int, snare: bool = True) -> None:
+    """The kit the user's bossa references play (onsets above 2 kHz on every
+    eighth, even): the hi-hat closed on every eighth, the rim on the bossa
+    clave, a soft kick on 1 and 3 led into by the "and" of 2, a brush tap on
+    the snare on 4 now and then; no stir."""
+    sk.stir = False
+    for bar_tick in range(start, end, sk.bar):
+        cycle = ((bar_tick - sk.intro) // sk.bar) % 2
+        for e in range(8):
+            v = velocity - (10 if e % 2 else 4) + sk.rng.randint(-5, 5)
+            part.add(sk.lay_back(bar_tick + e * EIGHTH, 6), HAT, v, EIGHTH)
+        for hit in CLAVE:
+            if hit // 8 == cycle:
+                part.add(sk.lay_back(bar_tick + (hit % 8) * EIGHTH, 8), RIM, velocity - 6 + sk.rng.randint(-5, 3),
+                         EIGHTH)
+        for at, v in ((0, -6), (3 * EIGHTH, -20), (4 * EIGHTH, -4)):
+            part.add(bar_tick + at, KICK, velocity + v, EIGHTH)
+        if snare and cycle == 1:
+            part.add(bar_tick + 3 * TICKS + sk.rng.randint(-4, 4), SNARE, velocity - 12, EIGHTH)
+
+
 def string_pad(sk: Sketch, upper: Part, low: Part, velocity: int, start: int, end: int, tune_notes: list) -> None:
     """Held strings: three voice-led tones in the violas, the root in the
     cellos, a chord at a time (a new bow on each change), under the tune."""
@@ -415,8 +436,10 @@ def play_melody(sk: Sketch, part: Part, notes: list, velocity: int, octave: int 
 
 def ending(sk: Sketch, parts: dict, velocity: int) -> None:
     """The last chord: the bass's root, the guitar or keys rolled slowly up, held."""
-    name = sk.tune.chords[-1][-1]
+    name = sk.tune.final or sk.tune.chords[-1][-1]
     root = parse(name)[0]
+    if sk.tune.final_note and "melody" in parts:
+        parts["melody"].add(sk.end + 20, sk.tune.final_note, velocity + 4, 6 * TICKS)
     if "bass" in parts:
         parts["bass"].add(sk.end, nearest(root, 36, 28, 43), velocity, 6 * TICKS)
     for key in ("guitar", "keys"):
@@ -426,7 +449,8 @@ def ending(sk: Sketch, parts: dict, velocity: int) -> None:
                 parts[key].add(sk.end + i * 40, note, velocity - 4 * i, 6 * TICKS)
     if "drums" in parts:
         parts["drums"].add(sk.end, RIM, velocity - 10, EIGHTH)
-        parts["drums"].add(sk.end, STIR, velocity - 14, 4 * TICKS)
+        if getattr(sk, "stir", True):
+            parts["drums"].add(sk.end, STIR, velocity - 14, 4 * TICKS)
 
 
 # Each instrument: (library, SFZ), and its tone for render_samples.py.
@@ -605,6 +629,38 @@ def build_guitar_cafe_near(sk: Sketch) -> None:
     near_refs(sk)
 
 
+def build_pho(sk: Sketch) -> None:
+    """After the user's bossa references: the nylon guitar's batida up front,
+    the Yamaha upright singing (a third or sixth under it the second time),
+    the Rhodes softly on the clave, the bass on 1 and 3 with its
+    anticipations, mono and dry; a light kit with the hi-hat in eighths."""
+    tune = sk.melody()
+    g = sk.part("guitar", "nylon", "guitar", -0.15, 0.3,
+                TONES["nylon"] | {"highpass": 80, "lowpass": 6500, "shelf": [3000, -3], "width": 0.3})
+    m = sk.part("melody", "yamaha", "melody", 0.1, 0.35, TONES["yamaha"] | {"shelf": [4000, -2]})
+    k = sk.part("keys", "ep", "comp", 0.3, 0.4, TONES["ep"] | {"chorus": 0.5, "lowpass": 5000})
+    b = sk.part("bass", "upright", "bass", 0.0, 0.03, {"highpass": 35, "lowpass": 2500, "width": 0.0})
+    d = sk.part("drums", "brushes", "drums", 0.1, 0.25, TONES["brushes"] | {"lowpass": 9000, "width": 0.5})
+    guitar_batida(sk, g, "batida", 74, tune, 0, sk.end)
+    keys_comp(sk, k, 46, tune, sk.intro, sk.end, "clave", held=True)
+    upright_bass(sk, b, 84, sk.intro, sk.end)
+    bossa_kit(sk, d, 62, sk.intro, sk.end)
+    play_melody(sk, m, sk.melody([0]), 70)
+    play_melody(sk, m, sk.melody(list(range(1, sk.passes))), 72, under=True)
+    ending(sk, sk.parts, 66)
+    g.gain_db, k.gain_db, b.gain_db, d.gain_db = -3.0, -12.0, -2.0, -13.0
+
+
+def build_dem(sk: Sketch) -> None:
+    """After the third reference: guitar and piano, the Rhodes behind, the
+    bass; the kit barely there; nearly mono, a long room."""
+    build_pho(sk)
+    for part in sk.parts.values():
+        part.tone["width"] = min(part.tone.get("width", 1.0), 0.25)
+        part.pan *= 0.4
+    sk.parts["drums"].gain_db = -22.0
+
+
 STYLES = {
     "guitar-cafe": Style("Guitar café", "cafe", 128, 1, 0.8, 0.6, build_guitar_cafe,
                          "Guitar nylon đệm batida, contrabass, trống chổi, shaker; sáo hát giai điệu. Phòng nhỏ, rất gần."),
@@ -618,6 +674,14 @@ STYLES = {
                      "Theo bài mẫu 1: Rhodes giữ hợp âm, piano hát, trống nhẹ nửa nhịp, bass sâu. Phòng 1,6 giây."),
     "day-am": Style("Dây Ấm", "day-am", 136, 2, 1.6, 0.8, build_day_am,
                     "Theo bài mẫu 2: violin hát trên nền viola, cello; guitar nylon đệm nhẹ, contrabass; không trống."),
+    "chieu-pho": Style("Chiều Phố", "chieu-pho", 117, 2, 2.6, 0.7, build_pho,
+                       "Theo 3 bài mẫu bossa: guitar nylon đệm rõ, piano hát, Rhodes nhẹ, bass, trống nhẹ hi-hat. Phòng 2,6 giây."),
+    "chieu-pho-gan": Style("Chiều Phố (gần)", "chieu-pho", 117, 2, 1.0, 0.5, build_pho,
+                           "Như Chiều Phố, phòng nhỏ, nghe gần tai."),
+    "cafe-dem": Style("Café Đêm", "cafe", 129, 1, 3.5, 0.6, build_dem,
+                      "Theo bài mẫu thứ 3: guitar, piano, Rhodes, bass, trống rất nhẹ; gần như mono, phòng dài."),
+    "cafe-pho": Style("Café Phố", "cafe", 117, 1, 2.6, 0.7, build_pho,
+                      "Giai điệu Café da Tarde chơi theo kiểu Chiều Phố."),
     "guitar-cafe-near": Style("Guitar café (mix theo mẫu)", "cafe", 128, 1, 1.2, 0.6, build_guitar_cafe_near,
                               "Như Guitar café, nhưng trộn theo bài mẫu: bass sâu hơn, tiếng tối ấm hơn, trống chổi nhỏ."),
 }

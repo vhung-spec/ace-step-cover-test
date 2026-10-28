@@ -58,6 +58,8 @@ class Tune:
     beats: int = 4
     about: str = ""
     sections: list = field(default_factory=list)  # (first bar, label), for the log
+    final: str | None = None  # the chord the piece ends on (else the last one)
+    final_note: int | None = None  # the melody's note over it, if the tune stops short of it
 
 
 def check(tune: Tune) -> None:
@@ -134,6 +136,21 @@ A5:3 G5:1 E5:4 | E5:4 F#5:4 | E5:4 D#5:4 | E5:8 |"""),
     bpm=136, about="original (Bokin sketches, 2026), E minor",
     sections=[(0, "A"), (8, "A'")])
 
-TUNES = {t.name: t for t in (CAFE, CHUVA, JINGLE, SANG_EM, DAY_AM)}
+# Round 3, after the user's three bossa references (guitar's batida, piano
+# and Rhodes, a light kit; maj7/m9 harmony with chromatic and borrowed
+# chords). Original.
+CHIEU_PHO = Tune(
+    "chieu-pho", "Chiều Phố",
+    melody("""
+r:1 E5:1 D5:1 E5:1 B4:4 | r:1 C#5:1 F5:2 E5:4 | C5:3 D5:1 E5:4 | r:2 E5:1 D5:1 B4:4 |
+G4:3 B4:1 D5:4 | C#5:2 Bb4:2 G4:4 | F4:3 A4:1 C5:4 | Ab4:4 D5:2 C5:2 |
+r:1 E5:1 D5:1 E5:1 G5:4 | r:1 F#5:1 A5:2 F#5:4 | E5:3 D5:1 C5:2 A4:2 | Ab4:2 B4:2 D5:2 F5:2 |
+E5:2 G5:2 Bb4:2 C#5:2 | D5:3 C5:1 B4:2 E5:2 | C5:4 C#5:2 E5:2 | D5:4 r:4 |"""),
+    chords(["Cmaj9", "A7b13", "Dm9", "G13", "Em7", "A7b9", "Dm7", "Fm6",
+            "Cmaj7", "Ebdim7", "Dm9", "G7b9", "Em7 A7b9", "Dm7 G13", "Cmaj7 A7b13", "Dm9 G13"]),
+    bpm=117, about="original (Bokin sketches, 2026), C major", sections=[(0, "A"), (8, "A'")],
+    final="Cmaj9", final_note=76)
+
+TUNES = {t.name: t for t in (CAFE, CHUVA, JINGLE, SANG_EM, DAY_AM, CHIEU_PHO)}
 for _tune in TUNES.values():
     check(_tune)

@@ -15,7 +15,7 @@ on:
   workflow_dispatch:
     inputs:
       styles:
-        description: 'Styles (empty: all): guitar-cafe piano-bossa rhodes-lounge bossa-noel'
+        description: 'Styles (empty: those in bossa/render.txt, else all)'
         default: ''
 
 permissions:
@@ -65,7 +65,9 @@ jobs:
           find "$RUNNER_TEMP/sfizz/build" -name sfizz_render -type f -exec cp {} ~/sfizz/ \;
 
       - name: Arrangements (MIDI)
-        run: '"$RUNNER_TEMP/venv/bin/python" bossa/arrange_bossa.py out/bossa ${STYLES:+--styles $STYLES}'
+        run: |
+          STYLES="${STYLES:-$(cat bossa/render.txt 2>/dev/null)}"  # on a push: the styles being worked on
+          "$RUNNER_TEMP/venv/bin/python" bossa/arrange_bossa.py out/bossa ${STYLES:+--styles $STYLES}
 
       - name: Instruments (free samples)
         run: |
