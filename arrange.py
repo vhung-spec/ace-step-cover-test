@@ -2137,7 +2137,9 @@ STYLES["church-organ-soft-human-near"] = dataclasses.replace(
 # own), the orchestra (its harp breathing), the hymn on the piano and on the
 # small organ.
 POP_PLAYER = Perform(rubato=0.07, swell=6.0, under=4.0, high=3.0, long=2.0, loose=0.5)
-HYMN_PIANO_PLAYER = Perform(rubato=0.06, swell=6.0, under=4.0, high=3.0, long=2.0, loose=0.5)
+# (the hymn's piano no louder at its peaks than before: shaped wider, its Silent
+# Night peaked enough that the mixer left it 2.4 dB quieter rather than limit it)
+HYMN_PIANO_PLAYER = Perform(rubato=0.06, swell=4.0, under=4.0, high=3.0, long=2.0, loose=0.5, ceiling=80)
 STYLES["pulse-human"] = dataclasses.replace(
     STYLES["pulse"], arrange=lambda arr: arrange_pulse(arr, breathing=True), perform=POP_PLAYER)
 STYLES["ballad-human"] = dataclasses.replace(
