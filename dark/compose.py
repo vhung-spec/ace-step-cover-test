@@ -96,16 +96,23 @@ INSTRUMENTS = {
 # The tone the user chose for the muffled pieces: C3 of the fourth round (the
 # references' average spectrum against the plain upright's (B2), smoothed: a
 # warmer middle, falling from 1.2 kHz), then D2 of the fifth ("bớt chói": 1-4 dB
-# less from 630 Hz up) (Hz, dB; render_samples.py's eq). EQ_C3 is the first.
+# less from 630 Hz up), then H3 of the eighth, for a phone's speaker: 4-5 dB
+# less at 125-250 Hz, no warm 300-400 Hz bump, 1.2-2.5 kHz back by 4-7 dB
+# (Hz, dB; render_samples.py's eq). EQ_C3 and EQ_D2 are the earlier ones.
 EQ_C3 = [
     (62, 0), (79, 0), (99, 0), (125, -2.4), (157, -2.3), (198, -1.9), (250, -1.3),
     (315, 3.1), (397, 4.6), (500, 0.2), (630, -3.3), (794, -1), (1000, 1.2), (1260, -3.9),
     (1587, -10.9), (2000, -16.3), (2520, -20.7), (3175, -23.8), (4000, -24), (5040, -24),
 ]
-EQ_DEM_DIU = [
+EQ_D2 = [
     (62, 0), (79, 0), (99, 0), (125, -2.4), (157, -2.3), (198, -1.9), (250, -1.3),
     (315, 3.1), (397, 4.6), (500, 0.2), (630, -4.3), (794, -3), (1000, -1.8), (1260, -7.9),
     (1587, -14.9), (2000, -20.3), (2520, -24.7), (3175, -27.8), (4000, -28), (5040, -28),
+]
+EQ_DEM_DIU = [
+    (62, 0), (79, 0), (99, 0), (125, -5), (157, -5), (198, -4.5), (250, -4),
+    (315, -1.5), (397, 0), (500, 0), (630, -4.3), (794, -3), (1000, -1.8), (1260, -4),
+    (1587, -9), (2000, -13), (2520, -19), (3175, -25), (4000, -28), (5040, -28),
 ]
 # Named styles: a piece's "style" fills in every setting it does not give itself.
 STYLES = {
@@ -115,11 +122,13 @@ STYLES = {
     # beats, softer than the tune), the tune struck softly (38-60, never above
     # 64: the Yamaha upright's softest samples), a softer strike (25 ms) and the
     # references' tone a little darker, a 2.8 s hall at 0.8; the bass above E2.
+    # Then clear on a phone's speaker, as H3 of the eighth ("H3 nghe rõ nhất"):
+    # its tone, the piano narrower (0.7), less hall (0.65), -14 LUFS.
     # The app plays it the same way (bokin_music/dark on the app's branch).
     "dem-diu": {"piano": "upright", "bass_low": 40, "texture": "flow", "hold": 1.0, "pedal_beats": 2, "lh_soft": 6,
                  "melody_velocity": [38, 60], "velocity_cap": 64,
-                 "room": {"rt60": 2.8, "wet": 0.8}, "piano_reverb": 0.35,
-                 "piano_tone": {"attack": 0.025, "eq": [list(p) for p in EQ_DEM_DIU]}},
+                 "room": {"rt60": 2.8, "wet": 0.65}, "piano_reverb": 0.35, "loudness": -14,
+                 "piano_tone": {"attack": 0.025, "eq": [list(p) for p in EQ_DEM_DIU], "width": 0.7}},
 }
 # How loud each part sits against the piano (dB while it plays).
 ROLES = {"piano": 0.0, "bass": -9.0, "melody2": -6.0, "pad": -12.0, "low": -13.0, "drone": -15.0}
