@@ -30,6 +30,10 @@ A piece is a short score, the shape an AI composer is asked to write:
   softest, darkest samples, which end at 65);
 - loudness: the piece's loudness, LUFS (-16 unless given; YouTube plays
   music at about -14 and never turns a quieter piece up);
+- human: {"amount": 0-1, "vary": true}: played as a person plays: the tempo
+  breathing with each phrase, the touch and the onsets alive, the melody
+  leading the left hand (amount); the left hand following the tune, the
+  pedal following the harmony (vary). Absent: the machine's evenness;
 - hold: the longest (beats) an accompanying note is held; pedal_beats: the
   pedal taken again this often within a chord (else once a chord); lh_soft:
   the left hand this much softer (velocity), all to keep it light and clear;
@@ -57,6 +61,7 @@ pianos, VSCO 2 CE (CC0) for the strings, fetched when rendering
 
 import argparse
 import json
+import math
 import random
 import re
 import sys
@@ -199,7 +204,65 @@ class Piece:
             self.read_melody(section.get("melody", ""), start, section["bars"], number)
             self.sections.append((start, tick, section))
         self.end = tick
-        self.tempos = self.tempo_map()
+        human = score.get("human") or {}
+        self.human, self.vary = float(human.get("amount", 0)), bool(human.get("vary"))
+        self.hrng = random.Random(seed * 7919 + 1)  # a person's liberties, apart from the machine's jitter
+        self.tempos = self.human_tempo_map() if self.human else self.tempo_map()
+
+    def ms(self, value: float) -> float:
+        """Milliseconds as ticks, at the piece's own tempo."""
+        return value * self.bpm * TICKS / 60000
+
+    def phrase_at(self, tick: int) -> tuple:
+        """Where a tick falls in its section's four-bar phrases: (the phrase's
+        first tick, its length in bars, the bar within it, 0-1 through it)."""
+        start, end, section = next(x for x in self.sections if x[0] <= tick < x[1])
+        bar = (tick - start) // self.bar
+        first = bar - bar % 4
+        bars = min(4, section["bars"] - first)
+        begin = start + first * self.bar
+        return begin, bars, bar % 4, (tick - begin) / (bars * self.bar)
+
+    def human_tempo_map(self) -> list:
+        """(tick, bpm) an eighth at a time, as a person plays (human amount a):
+        each phrase leans a little forward to its middle (up to 6 % times a)
+        and broadens into its last two beats (8 and 22 %, each phrase by its
+        own 60-120 % of that, as a player never breathes twice alike),
+        hesitates as it begins (5 %); the pulse drifts from bar to bar (2.5 %,
+        a random walk); the eighth before a section's highest note takes a
+        breath (25 %); a section marked rit, and the piece's end, slow as
+        before. Before the last two bars it never drops under 62 %."""
+        a, drift, changes, breath, phrase = self.human, 0.0, [], 1.0, None
+        peaks = set()
+        for start, end, section in self.sections:
+            tops = [(t, max(n)) for t, n, _ in self.tune if start <= t < end]
+            if tops:
+                high = max(n for _, n in tops)
+                peaks.add(min(t for t, n in tops if n == high) - EIGHTH)
+        for start, end, section in self.sections:
+            for bar in range(section["bars"]):
+                drift = 0.7 * drift + 0.3 * self.hrng.gauss(0, 1)
+                for e in range(self.bar // EIGHTH):
+                    tick = start + bar * self.bar + e * EIGHTH
+                    begin, bars, in_phrase, position = self.phrase_at(tick)
+                    if begin != phrase:
+                        phrase, breath = begin, 0.6 + 0.6 * self.hrng.random()
+                    k = (1 + a * 0.06 * math.sin(math.pi * position) - a * 0.01) * (1 + a * 0.025 * max(-2, min(2, drift)))
+                    left = (begin + bars * self.bar - tick) / TICKS  # beats to the phrase's end
+                    k *= (1 - a * 0.22 * breath) if left <= 1 else (1 - a * 0.08 * breath) if left <= 2 else 1
+                    if in_phrase == 0 and e < 2:
+                        k *= 1 - a * 0.05
+                    if tick in peaks:
+                        k *= 1 - a * 0.25
+                    to_end = (end - tick) / TICKS
+                    if (section.get("rit") or end == self.end) and to_end <= 2 * self.beats:
+                        deepest = 0.6 if end == self.end else 0.8
+                        k *= 1 - (1 - deepest) * (1 - (to_end - 0.5) / (2 * self.beats))
+                    if self.end - tick > 2 * self.bar:
+                        k = max(k, 0.62)
+                    changes.append((tick, round(self.bpm * k, 3)))
+        changes.append((self.end, self.bpm * 0.5))  # the held last chord
+        return changes
 
     def read_melody(self, text: str, start: int, bars: int, number: int) -> None:
         tick = start
@@ -273,6 +336,8 @@ def phrase_shape(position: float) -> float:
 
 
 def play_melody(piece: Piece, piano: Part) -> None:
+    if piece.human:
+        return play_melody_human(piece, piano)
     for tick, notes, length in piece.tune:
         section = piece.section_at(tick)
         position = (tick % (4 * piece.bar)) / (4 * piece.bar)
@@ -283,6 +348,92 @@ def play_melody(piece: Piece, piano: Part) -> None:
             piano.add(tick + late + 12 * k, note, velocity - 6 * k, length)
         if "octave" in section.get("layers", []):
             piano.add(tick + late + 6, max(notes) - 12, velocity - 12, length)
+
+
+def play_melody_human(piece: Piece, piano: Part) -> None:
+    """The tune as a person plays it (human amount a): a higher note a little
+    louder (0.7 a velocity a semitone over the tune's middle), each phrase
+    swelling to its middle, no two notes struck quite alike (3 a); a little
+    ahead of the left hand (12 a ms), as a pianist's melody leads, but the
+    phrase's first note a touch late (20 a ms), the player hesitating; the
+    onsets loose by 7 a ms."""
+    a = piece.human
+    soft, loud = piece.score.get("melody_velocity", (40, 82))
+    pitches = sorted(n for _, notes, _ in piece.tune for n in notes)
+    middle = pitches[len(pitches) // 2]
+    firsts, seen = set(), set()
+    for tick, _, _ in piece.tune:
+        begin = piece.phrase_at(tick)[0]
+        if begin not in seen:
+            seen.add(begin)
+            firsts.add(tick)
+    for tick, notes, length in piece.tune:
+        section = piece.section_at(tick)
+        position = piece.phrase_at(tick)[3]
+        velocity = max(30, soft + (loud - soft) * section.get("dyn", 0.4) + 6 * phrase_shape(position)
+                       + a * 0.7 * (max(notes) - middle) + piece.hrng.gauss(0, 3 * a))
+        late = piece.ms(20 * a if tick in firsts else -12 * a) + piece.ms(piece.hrng.gauss(0, 7 * a))
+        for k, note in enumerate(sorted(notes, reverse=True)):
+            piano.add(tick + late + 12 * k, note, velocity - 6 * k, length)
+        if "octave" in section.get("layers", []):
+            piano.add(tick + late + 6, max(notes) - 12, velocity - 12, length)
+
+
+def flow_human(piece: Piece, piano: Part, tick: int, length: int, low: int, tones: list, ceiling: int,
+               velocity: float, hold: int) -> None:
+    """The flow (a deep bass held under tones of the chord rocking in
+    eighths) as a person plays it. Its onsets loose (14 a ms), the off-beats
+    a touch late (6 a ms), each note its own strength (3 a), the bass of the
+    bar leaning, the hand swelling with the phrase. With vary, it follows the
+    tune: under a busy tune it plays quarters, under a long note or a rest it
+    fills, up and down four tones; it rocks one way, then the other; at a
+    phrase's end over a held note it rolls the chord and lets it ring."""
+    a = piece.human
+    begin, bars, in_phrase, _ = piece.phrase_at(tick)
+    bar_number = (tick - begin) // piece.bar + (begin - next(x[0] for x in piece.sections if x[0] <= tick < x[1])) // piece.bar
+    tune = [(t, n, l) for t, n, l in piece.tune if tick <= t < tick + length]
+    busy = len(tune) >= (4 if piece.beats % 2 == 0 else 3)
+    still = all(l >= 2 * TICKS for _, _, l in tune)
+    ending = in_phrase == bars - 1 and tick + length >= begin + bars * piece.bar
+    tones_up = [n for n in range(low + 5, low + 22) if n % 12 in tones and n < ceiling]
+    ladder = [low] + [n for k, n in enumerate(tones_up) if k == 0 or n - tones_up[k - 1] >= 3][:3]
+    if piece.vary and ending and still and len(ladder) >= 3:
+        for k, n in enumerate(ladder):
+            piano.add(tick + piece.ms(75 * k + piece.hrng.gauss(0, 10 * a)), n,
+                      max(22, velocity + 4 - 3 * k + piece.hrng.gauss(0, 3 * a)), length)
+        return
+    if piece.vary and still and not busy and len(ladder) == 4:
+        order = [0, 1, 2, 3, 2, 1, 2, 1] if piece.beats % 2 == 0 else [0, 1, 2, 3, 2, 1]
+    else:
+        ladder = ladder[:3]
+        if piece.vary and bar_number % 2:
+            order = [0, 2, 1, 2] if piece.beats % 2 == 0 else [0, 2, 1]
+        else:
+            order = [0, 1, 2, 1] if piece.beats % 2 == 0 else [0, 1, 2]
+    slots = range(0, length // EIGHTH, 2 if piece.vary and busy else 1)
+    shape = phrase_shape(piece.phrase_at(tick)[3])
+    for k in slots:
+        step = order[k % len(order)] % len(ladder)
+        at = tick + k * EIGHTH + piece.ms(piece.hrng.gauss(0, 14 * a) + (6 * a if k % 2 else 0))
+        strength = max(22, velocity + (6 if k == 0 else 0) - 3 * step + 4 * a * shape + piece.hrng.gauss(0, 3 * a)
+                       - (2 if piece.vary and busy else 0))  # never so soft a note is lost
+        piano.add(max(tick - piece.ms(30), at), ladder[step], strength, length if k == 0 else min(hold, length - k * EIGHTH))
+
+
+def pedal_human(piece: Piece, piano: Part) -> None:
+    """The pedal as a person takes it: lifted just before each chord, pressed
+    again a moment after (15-35 ms, 60-110 ms), held through a chord unless
+    the tune passes outside it in the bar's second half, where it is taken
+    again halfway, so the passing notes do not blur."""
+    for tick, length, name in piece.spans:
+        piano.pedal += [(tick - round(piece.ms(piece.hrng.uniform(15, 35))), 0),
+                        (tick + round(piece.ms(piece.hrng.uniform(60, 110))), 100)]
+        if length >= 4 * TICKS:
+            middle = tick + length // 2
+            _, tones, _ = chord(name)
+            if any(n % 12 not in tones for t, notes, l in piece.tune if middle <= t < tick + length for n in notes):
+                piano.pedal += [(middle - round(piece.ms(20)), 0), (middle + round(piece.ms(80)), 100)]
+    piano.pedal.append((piece.end + piece.bar, 0))
 
 
 def bass_note(name: str, low: int = 31) -> int:
@@ -309,6 +460,8 @@ def left_hand(piece: Piece, piano: Part) -> None:
                 accent = 8 if k == 0 else (3 if k % 2 == 0 else 0)
                 piano.add(tick + k * EIGHTH + piece.jitter(), ladder[step], velocity + accent - 4 * (step > 2),
                           min(hold, length - k * EIGHTH))
+        elif texture == "flow" and (piece.human or piece.vary):
+            flow_human(piece, piano, tick, length, low, tones, ceiling, velocity, hold)
         elif texture == "flow":
             ladder = [n for n in range(low + 5, low + 18) if n % 12 in tones and n < ceiling]
             ladder = [low] + [n for k, n in enumerate(ladder) if k == 0 or n - ladder[k - 1] >= 3][:2]
@@ -350,7 +503,7 @@ def left_hand(piece: Piece, piano: Part) -> None:
             previous = middle
             for k, n in enumerate(middle):
                 piano.add(tick + TICKS + 30 * k + piece.jitter(5), n, velocity - 12, length - TICKS)
-    pedal(piece, piano)
+    pedal_human(piece, piano) if piece.vary else pedal(piece, piano)
 
 
 def voice(previous: list, tones: list, low: int, high: int, count: int = 3) -> list:
