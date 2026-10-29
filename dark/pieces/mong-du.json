@@ -1,0 +1,46 @@
+{
+ "title": "Mộng du",
+ "style": "dem-diu",
+ "bpm": 62,
+ "beats": 4,
+ "about": "Mi Phrygian, chậm (62 bpm): Mi thứ và Fa trưởng (bII) đung đưa, một tiếng thở dài Si trên hợp âm Fa (quãng bốn tăng); đoạn giữa trượt Đô trưởng sang La giáng trưởng; kết lửng trên nốt Si.",
+ "sections": [
+  {
+   "bars": 2,
+   "chords": "Em | F",
+   "melody": "",
+   "dyn": 0.2
+  },
+  {
+   "bars": 8,
+   "chords": "Em | F | Em | F | Am | G | F | Em",
+   "melody": "B4:3 E5:1 | F5:4 | E5:2 G5:2 | B4:2 A4:2 | C5:3 E5:1 | D5:2 B4:2 | A4:2 F5:2 | E5:4",
+   "dyn": 0.3
+  },
+  {
+   "bars": 8,
+   "chords": "Em | F | Em | F | Dm | Am | F | Em",
+   "melody": "G5:3 E5:1 | F5:2 C5:2 | B4:4 | C5:2 B4:1 A4:1 | D5:3 F5:1 | E5:4 | F5:2 A5:2 | G5:4",
+   "dyn": 0.35
+  },
+  {
+   "bars": 8,
+   "chords": "C | Ab | C | Ab | Am | F | Dm | E",
+   "melody": "E5:2 G5:2 | Eb5:4 | E5:3 C5:1 | C5:2 Eb5:2 | E5:2 A5:2 | A5:2 F5:2 | F5:2 D5:2 | G#5:4",
+   "dyn": 0.45
+  },
+  {
+   "bars": 8,
+   "chords": "Em | F | Em | F | Am | G | F | Em",
+   "melody": "B5:3 G5:1 | A5:4 | G5:2 E5:2 | B5:2 A5:2 | E5:2 C5:2 | D5:2 G5:2 | F5:2 C5:2 | E5:4",
+   "dyn": 0.62,
+   "rit": true
+  },
+  {
+   "bars": 4,
+   "chords": "F | Em | F | Em",
+   "melody": "F5:4 | E5:4 | A4:2 C5:2 | B4:4",
+   "dyn": 0.2
+  }
+ ]
+}
