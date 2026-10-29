@@ -18,7 +18,7 @@ soundfont, played by FluidSynth)
   (the dampers, which all sound at once when the pedal lifts) can be turned
   down. A soundfont's part is played by FluidSynth (its own reverb and
   chorus off) into 32-bit float, which neither clips nor turns grainy;
-- each part gets its tone (high-pass, low-pass, high shelf; hissing parts
+- each part gets its tone (high-pass, low-pass, high and low shelves; hissing parts
   have their highs hushed in their quiet moments), and its loudness
   while it plays is set against the melody's by its role (arrange.ROLES), so
   libraries recorded at different levels still sit right; its stereo image is
@@ -174,11 +174,23 @@ def high_shelf(freq: float, db: float) -> tuple:
     return b / den[0], den / den[0]
 
 
+def low_shelf(freq: float, db: float) -> tuple:
+    """Biquad coefficients of a low shelf (RBJ's audio EQ cookbook, slope 1)."""
+    a = 10 ** (db / 40)
+    w = 2 * np.pi * freq / RATE
+    cos, alpha = np.cos(w), np.sin(w) / np.sqrt(2)
+    b = np.array([a * ((a + 1) - (a - 1) * cos + 2 * np.sqrt(a) * alpha), 2 * a * ((a - 1) - (a + 1) * cos),
+                  a * ((a + 1) - (a - 1) * cos - 2 * np.sqrt(a) * alpha)])
+    den = np.array([(a + 1) + (a - 1) * cos + 2 * np.sqrt(a) * alpha, -2 * ((a - 1) + (a + 1) * cos),
+                    (a + 1) + (a - 1) * cos - 2 * np.sqrt(a) * alpha])
+    return b / den[0], den / den[0]
+
+
 def apply_tone(audio: np.ndarray, tone: dict) -> np.ndarray:
     """A part's tone: one microphone's side only, on both (channel: left or
     right), a high-pass and a low-pass (Hz; the low-pass 12 dB an octave, or
-    steeper as lowpass_order asks), a high shelf (Hz, dB), and its highs
-    hushed in its quiet moments if it hisses (dehiss)."""
+    steeper as lowpass_order asks), a high shelf and a low shelf (Hz, dB),
+    and its highs hushed in its quiet moments if it hisses (dehiss)."""
     if tone.get("channel") in ("left", "right"):
         audio = np.repeat(audio[[0 if tone["channel"] == "left" else 1]], 2, axis=0)
     if tone.get("highpass"):
@@ -188,6 +200,8 @@ def apply_tone(audio: np.ndarray, tone: dict) -> np.ndarray:
         audio = sosfilt(butter(order, tone["lowpass"], "low", fs=RATE, output="sos"), audio, axis=-1)
     if tone.get("shelf"):
         audio = lfilter(*high_shelf(*tone["shelf"]), audio, axis=-1)
+    if tone.get("low_shelf"):
+        audio = lfilter(*low_shelf(*tone["low_shelf"]), audio, axis=-1)
     if tone.get("dehiss"):
         audio = dehiss(audio)
     return audio

@@ -230,6 +230,10 @@ runs/<mã khác>/covers/lego-woodwinds/stem_01.mp3:0.7` (nhiều lượt cách n
        `church-organ-synth-human-near` (organ và chuông mô phỏng; đàn hạc, hợp xướng ngân, viola, sáo vẫn là
        tiếng thu), `ballad-synth-human` (Rhodes mô phỏng) và `felt-synth-human` (piano nỉ mô phỏng). Chưa có
        piano mô phỏng vật lý mã nguồn mở đủ hay; bản tốt nhất (Pianoteq) là phần mềm trả phí.
+     - `felt-ensemble-human`: làm cho Jingle Bells theo ý bạn. Piano nỉ chơi như người, thêm nền đàn dây êm phía
+       sau và tiếng chuông thỉnh thoảng điểm vào: glockenspiel nhắc lại điệp khúc (lượt đầu một câu, lượt cuối cả
+       điệp khúc) và đáp lại những nốt ngân dài; bài vui thì có thêm lục lạc rung nhẹ hai lần ở điệp khúc cuối.
+       Lượt cuối giai điệu lên cao một quãng tám, nghe rõ hơn trên loa điện thoại.
    - `salamander`: như `piano` nhưng trên đàn Salamander Grand Piano (không chạy mặc định).
 
    Các kiểu piano nhẹ nhàng (chill, lullaby, flowing, hymn, piano-strings, felt, felt-noise) chơi trên đàn

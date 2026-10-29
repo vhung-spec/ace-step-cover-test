@@ -143,7 +143,12 @@ same chords, beat by beat, so they always agree:
 - simulated instruments in place of recorded ones, as the user asked to try,
   made by sfizz's own oscillators (instruments/*.sfz: a soft pipe organ and
   its pedal, a tine electric piano, a felt piano, a church bell):
-  church-organ-synth-human-near, ballad-synth-human, felt-synth-human.
+  church-organ-synth-human-near, ballad-synth-human, felt-synth-human;
+- made for a song's version with the user: felt-ensemble-human, felt-4k-human
+  with its tune an octave up in the last verse, a soft bed of strings under
+  it, and bells now and then (the glockenspiel doubling the refrain and
+  answering the tune's long notes, sleigh bells twice for a lively tune), as
+  the user asked for Jingle Bells (arrange_felt_ensemble).
 Sustained parts hold the tones two chords share, move their other tones to
 the nearest tone of the next chord, and swell with each phrase (expression,
 CC11). Instruments come from two CC0 sample libraries: VS Chamber Orchestra 2
@@ -752,13 +757,14 @@ def gliss(arr: Arrangement, harp: Part, tick: int, length: int, chord: str, low:
         harp.add(tick + i * length // len(notes), note, velocity + 8 * i // len(notes), arr.bar)
 
 
-def strings(arr: Arrangement, start: int, end: int, velocity: int, roles: tuple = ("bass", "pad")) -> None:
-    """Held chords: the root in the cellos, two more tones in the violas, each
-    chord voiced from the one before."""
+def strings(arr: Arrangement, start: int, end: int, velocity: int, roles: tuple = ("bass", "pad"),
+            octave: int = 0) -> None:
+    """Held chords: the root in the cellos (octave: so many semitones up), two
+    more tones in the violas, each chord voiced from the one before."""
     cellos = arr.part("cellos", "cellos", roles[0], 0.35, reverb=0.35)
     violas = arr.part("violas", "violas", roles[1], 0.15, reverb=0.35)
     for tick, length, chord in arr.chord_spans(start, end):
-        cellos.add(tick + arr.jitter(6), bass_note(chord), velocity + 4, length + 20, tie=True)
+        cellos.add(tick + arr.jitter(6), bass_note(chord) + octave, velocity + 4, length + 20, tie=True)
         violas.voicing = voice_lead(violas.voicing, chord, 52, 67)
         for note in violas.voicing:
             violas.add(tick + arr.jitter(6), note, velocity, length + 20, tie=True)
@@ -949,21 +955,23 @@ def arrange_piano_strings(arr: Arrangement) -> None:
         breathe(arr, arr.parts[name], 84, 112, start=arr.verses[0])
 
 
-def arrange_felt(arr: Arrangement, bright: bool = False, breathing: bool = False) -> None:
+def arrange_felt(arr: Arrangement, bright: bool = False, breathing: bool = False, up: tuple = ()) -> list:
     """With bright, the tune is struck a little harder, into the Yamaha's
     brighter layer of samples (from velocity 66) at the height of each phrase,
     the left hand and the last chord a little harder too. With breathing, the
     left hand breathes with each phrase (breathing_hand) instead of rolling
-    the same eighths through every bar."""
+    the same eighths through every bar. The verses in up are played an octave
+    higher. Returns the tune's notes."""
     piano = gentle_piano(arr)
     piano.tone["lowpass"] = 900  # the dark, round tone of felt hammers
-    tune = gentle_melody(arr, piano, *((64, 66) if bright else (50, 52)))
+    tune = gentle_melody(arr, piano, *((64, 66) if bright else (50, 52)), up=up)
     if breathing:
         breathing_hand(arr, piano, 0, arr.end, 36, tune)
     else:
         rolling(arr, piano, 0, arr.end, 42 if bright else 36, avoid=tune)
     pedal_by_chord(arr, piano, 0, arr.end)
     gentle_end(arr, piano, tune, 56 if bright else 46)
+    return tune
 
 
 # The user found the pieces "too even" ("đều quá"), lacking a player's ease
@@ -1041,6 +1049,66 @@ def breathing_harp(arr: Arrangement, harp: Part, start: int, end: int, velocity:
             flowing_bass(arr, harp, max(phrase_start, start), min(last_bar, end), velocity, octave=octave)
             rolled_chords(arr, harp, max(last_bar, start), min(phrase_end, end), velocity - 2, octave=octave,
                           spread=30)
+
+
+# Jingle Bells on the felt piano, version 1, heard on a phone: "a little quiet
+# and buzzing" ("hơi nhỏ và rè"), and the user wanted "other sounds, bells,
+# dotted in now and then, so the piece is less monotonous", and, of the
+# atmospheres offered, "a soft bed of strings". On a phone's speaker (little
+# under 600 Hz) the felt piano, brought to YouTube's loudness, played 1.3 to
+# 2.7 dB under the two reference recordings and 4-5 dB under the user's Kiểu
+# 1: its sound lies under 600 Hz (1-5 kHz holds 1/150 of it, the references
+# 1/30 to 1/100), and what a phone cannot play still drives its speaker,
+# turned up, into rattling. So the felt piano's tune climbs an octave in the
+# last verse; strings hold its chords softly; and bells come in now and then.
+def bells_now_and_then(arr: Arrangement) -> None:
+    """The glockenspiel, which the user liked doubling a tune softly (band),
+    doubles the first phrase of each verse's second half (a carol's refrain:
+    Jingle Bells' chorus), and all of it in the last verse; over the tune's
+    long notes in the first half (a phrase held, as on "sleigh"), every
+    other one, it answers with three of the chord's tones rising, an eighth
+    apart. (The ding the user found out of place, run 19, was a lone note
+    every second bar, apart from the tune; the mark tree's sweep, run 18,
+    did not please either.) For a lively tune, sleigh bells shaken twice,
+    softly, in the last verse's second half, as a sleigh passing by (shaken
+    in time, every bar, they sounded coarse to the user). Over the last
+    chord the glockenspiel rolls three of its tones. The glockenspiel sounds
+    an octave over its keys, from G4 up."""
+    glock = arr.part("glock", "glock", "shimmer", 0.25, reverb=0.45)
+    half = arr.bar * (len(arr.song.chords) // 2)
+    held = 0
+    for tick, note, length, verse, position in arr.melody():
+        if verse < 0:
+            continue
+        refrain = arr.verses[verse] + half
+        if tick >= refrain and (verse == arr.last or tick < refrain + arr.phrase):
+            glock.add(tick + 4 + arr.jitter(3), note + 12, 40 + 6 * shape(position), min(length, arr.bar))
+        elif tick < refrain and length >= 3 * arr.beat:
+            held += 1
+            if held % 2 == 0:
+                chord = arr.chord_at(tick + arr.beat)
+                for i, key in enumerate(chord_notes(chord, max(67, note + 1), note + 13)[:3]):
+                    glock.add(tick + arr.beat + i * EIGHTH + arr.jitter(3), key, 38 + 2 * i, 2 * arr.beat)
+    if arr.song.lively:
+        sleigh = arr.part("sleigh", "sleigh", "jingle", 0.3, reverb=0.35)
+        for bar in (0, len(arr.song.chords) // 4):
+            sleigh.add(arr.verses[-1] + half + bar * arr.bar + arr.jitter(6), 61, 40, 2 * arr.bar)
+    tonic = arr.chord_at(arr.end)
+    for i, key in enumerate(chord_notes(tonic, 79, 92)[:3]):
+        glock.add(arr.end + arr.beat + i * EIGHTH, key, 36 - 2 * i, 2 * arr.bar)
+
+
+def arrange_felt_ensemble(arr: Arrangement) -> None:
+    """The felt piano, breathing (felt-4k-human), its tune an octave up in the
+    last verse; a soft bed of strings from the first verse (the cellos an
+    octave over the deep bass, under C3 lost on a phone's speaker), a little
+    fuller in the last, swelling with each phrase; and bells now and then."""
+    arrange_felt(arr, breathing=True, up=(arr.last,))
+    strings(arr, arr.verses[0], arr.verses[-1], 32, roles=("bed", "bed"), octave=12)
+    strings(arr, arr.verses[-1], arr.end + 2 * arr.bar, 40, roles=("bed", "bed"), octave=12)
+    for name in ("cellos", "violas"):
+        breathe(arr, arr.parts[name], 84, 110, start=arr.verses[0])
+    bells_now_and_then(arr)
 
 
 # ballad and pulse follow the user's two reference recordings, slow pop piano
@@ -2163,6 +2231,9 @@ STYLES["church-organ-synth-human-near"] = dataclasses.replace(
     arrange=lambda arr: arrange_church_ensemble(arr, organ="synth", breathing=True, bell="bell-synth"))
 STYLES["ballad-synth-human"] = dataclasses.replace(STYLES["ballad-human"], piano="ep-synth")
 STYLES["felt-synth-human"] = dataclasses.replace(STYLES["felt-4k-human"], piano="felt-synth")
+# the felt piano with a soft bed of strings and bells now and then, as the
+# user asked for Jingle Bells (arrange_felt_ensemble)
+STYLES["felt-ensemble-human"] = dataclasses.replace(STYLES["felt-4k-human"], arrange=arrange_felt_ensemble)
 
 
 def untangle(notes: list) -> tuple[list, int]:

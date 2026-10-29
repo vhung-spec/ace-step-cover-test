@@ -1,0 +1,8 @@
+{
+  "song": "jingle-bells",
+  "style": "felt-ensemble-human",
+  "title": "Jingle Bells · Piano nỉ",
+  "heard": "v1 on a phone: \"hơi nhỏ và rè\" (a little quiet and buzzing); \"thêm tiếng chuông thỉnh thoảng điểm vào để bớt nhàm chán\" (bells dotted in now and then, less monotonous); for atmosphere the user chose a soft bed of strings.",
+  "about": "v2: the tune an octave up in the last verse; a soft bed of strings; the glockenspiel doubling the chorus (its first phrase in the first verse, all of it in the last) and answering the long notes; sleigh bells shaken twice in the last chorus; the piano's lows eased for a phone's speaker (under 300 Hz 5 dB less, above 1.5 kHz 3 dB more).",
+  "changes": {"tones": {"piano": {"highpass": 80, "low_shelf": [300, -5], "shelf": [1500, 3]}}}
+}
