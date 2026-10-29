@@ -237,6 +237,8 @@ runs/<mã khác>/covers/lego-woodwinds/stem_01.mp3:0.7` (nhiều lượt cách n
      - `felt-pad-human`, `felt-hum-human`, `felt-strings-human`: bản sau của Jingle Bells theo ý bạn, bỏ chuông, thay
        nền: pad ấm tự tạo (`instruments/pad-warm.sfz`, bộ lọc "thở" chậm), giọng ngân "u" khe khẽ (GeneralUser GS),
        hoặc dàn dây cao và nhẹ (viola, lượt cuối thêm violin, không có cello). Lượt cuối giai điệu vẫn cao một quãng tám.
+     - `felt-choir-human`: nền là dàn hợp xướng hát "a" khe khẽ, theo ý bạn (Concert Choir của GeneralUser GS, stereo,
+       mỗi giọng vào êm trong nửa giây đến một giây như người hát): ba bè từ đoạn mở đầu, lượt cuối thêm bè cao.
    - `salamander`: như `piano` nhưng trên đàn Salamander Grand Piano (không chạy mặc định).
 
    Các kiểu piano nhẹ nhàng (chill, lullaby, flowing, hymn, piano-strings, felt, felt-noise) chơi trên đàn

@@ -1,0 +1,36 @@
+{
+  "song": "jingle-bells",
+  "style": "felt-choir-human",
+  "title": "Jingle Bells · Piano nỉ",
+  "heard": "v3 (a pad, humming voices, light strings): \"tôi muốn lớp nền sẽ là Vocal choir nhẹ nhàng\" (the bed a gentle vocal choir)",
+  "about": "v4: as v3 (the small room, no bells, the piano a little brighter, the tune an octave up in the last verse), the bed a choir singing \"aah\" softly (GeneralUser GS's Concert Choir), three voices from the intro on and a fourth in the last verse, 1 and 3 dB under the bed's role.",
+  "changes": {
+    "hall": 0.8,
+    "wet": 0.45,
+    "tones": {
+      "piano": {
+        "highpass": 80,
+        "low_shelf": [
+          300,
+          -5
+        ],
+        "shelf": [
+          1500,
+          3
+        ],
+        "lowpass": 6000,
+        "peaks_db": 17
+      },
+      "choir": {
+        "highpass": 100
+      },
+      "choir-high": {
+        "highpass": 100
+      }
+    },
+    "levels": {
+      "choir": -1,
+      "choir-high": -3
+    }
+  }
+}

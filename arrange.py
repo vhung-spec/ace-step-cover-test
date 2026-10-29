@@ -152,7 +152,8 @@ same chords, beat by beat, so they always agree:
   taken out and the bed changed as the user asked next, felt-pad-human (our
   warm pad, instruments/pad-warm.sfz), felt-hum-human (voices humming "ooh")
   and felt-strings-human (light high strings), each over the felt piano with
-  its last verse an octave up (arrange_felt_bed).
+  its last verse an octave up (arrange_felt_bed); felt-choir-human, a choir
+  singing "aah" softly under it, as the user chose next.
 Sustained parts hold the tones two chords share, move their other tones to
 the nearest tone of the next chord, and swell with each phrase (expression,
 CC11). Instruments come from two CC0 sample libraries: VS Chamber Orchestra 2
@@ -1148,10 +1149,25 @@ def arrange_felt_bed(arr: Arrangement, bed: str) -> None:
     two tones between E3 and G4, a little fuller in the last; "strings", the
     violas' two tones from the first verse and the violins' one over them in
     the last, where the tune has climbed an octave (no cellos: the deep
-    strings' weight is what a big hall carries)."""
+    strings' weight is what a big hall carries); "choir", a choir singing
+    "aah" softly, as the user asked next ("a gentle vocal choir"): GeneralUser
+    GS's Concert Choir, in stereo, each voice swelling in over half a second
+    to a second as voices do (its "ooh" voices speak in 30 ms, as a key
+    struck), three voices between E3 and A4 from the intro on, a little
+    fuller in the last verse, and a fourth over them there, under the tune
+    an octave up; more of the room on it than on the piano, so it sings a
+    little behind it."""
     arrange_felt(arr, breathing=True, up=(arr.last,))
     first, last = arr.verses[0], arr.verses[-1]
-    if bed == "pad":
+    if bed == "choir":
+        choir = arr.part("choir", "choir", "bed", -0.2, reverb=0.6)
+        held_bed(arr, choir, 0, last, 50, 52, 69)
+        held_bed(arr, choir, last, arr.end + 2 * arr.bar, 60, 52, 69)
+        breathe(arr, choir, 70, 100, fade=24)  # over the last chord the voices die away, not stop
+        high = arr.part("choir-high", "choir", "bed", 0.25, reverb=0.6)
+        held_bed(arr, high, last, arr.end + 2 * arr.bar, 54, 67, 76, count=1)
+        breathe(arr, high, 70, 100, start=last, fade=24)
+    elif bed == "pad":
         pad = arr.part("pad", "pad-warm", "bed", 0.0, reverb=0.4)
         held_bed(arr, pad, 0, last, 46, 55, 72)
         held_bed(arr, pad, last, arr.end + 2 * arr.bar, 56, 55, 72)
@@ -2294,7 +2310,8 @@ STYLES["felt-synth-human"] = dataclasses.replace(STYLES["felt-4k-human"], piano=
 # user asked for Jingle Bells (arrange_felt_ensemble)
 STYLES["felt-ensemble-human"] = dataclasses.replace(STYLES["felt-4k-human"], arrange=arrange_felt_ensemble)
 # and over a bed, no bells (arrange_felt_bed): our warm pad, voices humming, or light high strings
-for _bed, _name in (("pad", "felt-pad-human"), ("hum", "felt-hum-human"), ("strings", "felt-strings-human")):
+for _bed, _name in (("pad", "felt-pad-human"), ("hum", "felt-hum-human"), ("strings", "felt-strings-human"),
+                    ("choir", "felt-choir-human")):
     STYLES[_name] = dataclasses.replace(STYLES["felt-4k-human"],
                                         arrange=lambda arr, bed=_bed: arrange_felt_bed(arr, bed))
 
