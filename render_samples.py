@@ -399,8 +399,10 @@ def true_peak(audio: np.ndarray) -> float:
 
 def finish(mixed: np.ndarray) -> tuple[np.ndarray, float, float]:
     """The piece at TARGET_LUFS, limited by at most MOST_LIMITING_DB, or quieter
-    (down to QUIETEST_LUFS) rather than limited harder: the limited piece, the
-    most it took off a peak (dB) and how much of the time it took over 1 dB."""
+    (down to QUIETEST_LUFS) rather than limited harder, and a touch quieter
+    still if a peak between the samples passes the ceiling: the limited
+    piece, the most it took off a peak (dB) and how much of the time it took
+    over 1 dB."""
     meter = pyloudnorm.Meter(RATE)
     loudness = meter.integrated_loudness(mixed.T)
     over = 20 * np.log10(np.abs(mixed).max()) + TARGET_LUFS - loudness - CEILING_DB - MOST_LIMITING_DB
@@ -412,6 +414,9 @@ def finish(mixed: np.ndarray) -> tuple[np.ndarray, float, float]:
         if abs(error) < 0.05:
             break
         gain_db += error
+    between = true_peak(limited) - CEILING_DB  # the limiter sees the samples, a player's converter what lies between
+    if between > 0:
+        limited = limited * 10 ** (-between / 20)
     return limited, worst, share
 
 
