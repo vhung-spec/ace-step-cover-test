@@ -23,6 +23,9 @@ A piece is a short score, the shape an AI composer is asked to write:
 - bass_low: the lowest note the left hand's bass may take (33, A1; 40, E2,
   keeps the piano out of the deep bass); piano_tone changes the piano's tone
   for render_samples.py (lowpass, lowpass_order, width: above 1 widens it);
+- piano: the piano (INSTRUMENTS): upright, felt, grand, kawai (recorded,
+  CC0), or model, model-dream, model-close (modelled by dark/piano_model.py
+  from the physics of its strings, no recording; built with the pieces);
 - style: a named style (STYLES) giving every setting the piece leaves out;
   dem-diu, the user's choice for slow, muffled pieces;
 - melody_velocity: how hard the tune is struck at dyn 0 and at dyn 1 (40,
@@ -97,6 +100,12 @@ INSTRUMENTS = {
     "basses": ("vsco", "ContrabassSusVB-Quiet.sfz", dict(TONES["basses"])),
     "violin": ("vsco", "SViolinVib-Quiet.sfz", dict(TONES["violins"]) | {"width": 0.5}),
     "drone": ("local", "drone.sfz", {"highpass": 30}),
+    # the modelled pianos (dark/piano_model.py, built with the pieces): no
+    # recording, every note made from its strings; fitted to the Yamaha
+    # upright as the user chose it (H3), dreamier, and closer
+    "model": ("model", "felt-model.sfz", {}),
+    "model-dream": ("model", "felt-dream.sfz", {}),
+    "model-close": ("model", "felt-close.sfz", {}),
 }
 # The tone the user chose for the muffled pieces: C3 of the fourth round (the
 # references' average spectrum against the plain upright's (B2), smoothed: a

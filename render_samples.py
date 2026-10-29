@@ -443,11 +443,13 @@ def main() -> None:
     parser.add_argument("--vcsl", type=Path, required=True)
     parser.add_argument("--salamander", type=Path, help="needed for the salamander style")
     parser.add_argument("--jrhodes", type=Path, help="needed for the Rhodes (ballad-ep, ballad-rhodes)")
+    parser.add_argument("--model", type=Path, help="the modelled pianos (dark/piano_model.py builds them)")
     parser.add_argument("--keep-parts", action="store_true", help="keep each part's WAV")
     parser.add_argument("--premaster", type=Path, help="also save each piece before its master here (MP3)")
     args = parser.parse_args()
     libraries = {"vsco": args.vsco, "vcsl": args.vcsl, "salamander": args.salamander, "jrhodes": args.jrhodes,
-                 "local": Path(__file__).parent / "instruments"}  # our own instruments (sfizz's oscillators)
+                 "local": Path(__file__).parent / "instruments",  # our own instruments (sfizz's oscillators)
+                 "model": args.model}
     for folder in sorted(p for p in args.out.iterdir() if (p / "mix.json").is_file()):
         print(f"== {folder.name}", flush=True)
         mix_folder(folder, args.sfizz, libraries, args.keep_parts, args.premaster)

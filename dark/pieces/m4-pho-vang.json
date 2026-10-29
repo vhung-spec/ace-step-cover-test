@@ -1,0 +1,65 @@
+{
+ "style": "dem-diu",
+ "bpm": 78,
+ "beats": 4,
+ "melody_velocity": [
+  38,
+  60
+ ],
+ "velocity_cap": 64,
+ "sections": [
+  {
+   "bars": 2,
+   "chords": "F#m | D",
+   "dyn": 0.25
+  },
+  {
+   "bars": 8,
+   "chords": "F#m | D | A | E | F#m | D | Bm | C#",
+   "melody": "A4:1 C#5:1 F#5:2 | E5:1.5 D5:0.5 A4:2 | C#5:1 E5:1 A5:2 | G#5:1.5 F#5:0.5 E5:2 | C#5:2 F#5:1 G#5:1 | A5:2 F#5:2 | F#5:1 E5:1 D5:1 B4:1 | E#5:2 C#5:2",
+   "dyn": 0.35
+  },
+  {
+   "bars": 8,
+   "chords": "D | A | E | F#m | D | A | Bm | C#",
+   "melody": "F#5:2 A5:2 | E5:3 C#5:1 | B4:1.5 C#5:0.5 E5:2 | C#5:4 | D5:1 F#5:1 A5:2 | G#5:1 A5:1 E5:2 | D5:1.5 C#5:0.5 B4:2 | G#4:1 C#5:1 E#5:2",
+   "dyn": 0.45
+  },
+  {
+   "bars": 8,
+   "chords": "F#m | D | A | E | F#m | D | Bm:2 C#:2 | F#m",
+   "melody": "A4:1 C#5:1 F#5:2 | E5:1.5 D5:0.5 F#5:2 | E5:1 C#5:1 A4:2 | B4:1.5 C#5:0.5 G#4:2 | C#5:2 F#5:1 G#5:1 | A5:3 F#5:1 | F#5:1 D5:1 E#5:2 | F#5:4",
+   "dyn": 0.4
+  },
+  {
+   "bars": 8,
+   "chords": "D | E | A | F#m | Bm | E | A | C#",
+   "melody": "A5:2 F#5:1 A5:1 | B5:3 G#5:1 | A5:2 E5:1 C#5:1 | F#5:3 r:1 | D5:1 F#5:1 B5:2 | B5:1.5 A5:0.5 G#5:2 | A5:1 G#5:1 E5:1 C#5:1 | E#5:3 r:1",
+   "dyn": 0.75,
+   "rit": true
+  },
+  {
+   "bars": 8,
+   "chords": "F#m | D | A | E | Bm | D | C# | F#m",
+   "melody": "C#5:4 | D5:2 F#5:2 | E5:3 C#5:1 | B4:4 | D5:2 B4:1 C#5:1 | D5:2 A4:2 | E#4:2 G#4:2 | A4:4",
+   "dyn": 0.3
+  },
+  {
+   "bars": 2,
+   "chords": "D | F#m",
+   "melody": "D5:2 C#5:2 | A4:4",
+   "dyn": 0.2
+  }
+ ],
+ "title": "Phố vắng M4 (đàn mô phỏng)",
+ "about": "The user asked for a modelled piano instead of a recorded one (\"tiếng mô phỏng thay vì tiếng thu âm thật\"): dark/piano_model.py makes every note from the physics of its strings (no recording), fitted to the user's choice (H3: its partials note by note, its loudness key by key) and the references' tune. M4: Phố vắng (I4) on M1's model.",
+ "human": {
+  "amount": 1.0,
+  "vary": true
+ },
+ "piano": "model",
+ "piano_tone": {
+  "attack": 0.025,
+  "width": 0.7
+ }
+}

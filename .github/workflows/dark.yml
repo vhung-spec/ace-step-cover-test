@@ -1,5 +1,6 @@
 # Dark piano sketches (dark/): dark/compose.py arranges the pieces written as
 # data in dark/pieces/, fetch_samples.py fetches the CC0 instruments they use,
+# dark/piano_model.py makes the modelled pianos they name (no recording),
 # render_samples.py plays and mixes them. Runs on every push to the
 # dark-piano branch (or by hand): a push that changes only pieces plays only
 # those, one that changes the code plays them all. 128 kbit/s previews go to
@@ -92,11 +93,15 @@ jobs:
         if: steps.which.outputs.skip != 'true'
         run: '"$RUNNER_TEMP/venv/bin/python" fetch_samples.py out/dark "$RUNNER_TEMP/libs"'
 
+      - name: Modelled pianos (made here, from their strings)
+        if: steps.which.outputs.skip != 'true'
+        run: '"$RUNNER_TEMP/venv/bin/python" dark/piano_model.py out/dark "$RUNNER_TEMP/libs/model"'
+
       - name: Play and mix
         if: steps.which.outputs.skip != 'true'
         run: |
           "$RUNNER_TEMP/venv/bin/python" render_samples.py out/dark --sfizz ~/sfizz/sfizz_render \
-            --vsco "$RUNNER_TEMP/libs/vsco" --vcsl "$RUNNER_TEMP/libs/vcsl"
+            --vsco "$RUNNER_TEMP/libs/vsco" --vcsl "$RUNNER_TEMP/libs/vcsl" --model "$RUNNER_TEMP/libs/model"
 
       - name: Smaller copies
         if: steps.which.outputs.skip != 'true'
