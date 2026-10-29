@@ -333,6 +333,17 @@ def fade_tail(audio: np.ndarray, seconds: float = 3.0) -> np.ndarray:
     return audio
 
 
+MONO_BELOW = 120.0  # Hz: the lows made alike on both sides, for single-speaker phones and TVs (as in the app)
+
+
+def mono_lows(audio: np.ndarray, below: float = MONO_BELOW) -> np.ndarray:
+    """The piece with everything under `below` Hz alike on both sides (their
+    average), the rest as it was: the lows are split off by a zero-phase
+    low-pass, so the two parts add back up exactly (the app's mixer does so)."""
+    low = sosfiltfilt(butter(2, below, "low", fs=RATE, output="sos"), audio, axis=-1)
+    return audio - low + low.mean(axis=0, keepdims=True)
+
+
 def finish(mixed: np.ndarray, lufs: float = TARGET_LUFS) -> tuple[np.ndarray, float, float]:
     """The piece at lufs (TARGET_LUFS, unless its mix sheet asks for another
     loudness), limited by at most MOST_LIMITING_DB, or quieter (down to 3 dB
@@ -407,7 +418,7 @@ def mix_folder(folder: Path, sfizz: str, libraries: dict, keep_parts: bool, prem
         print(f"  master: {report}", flush=True)
     meter = pyloudnorm.Meter(RATE)
     lufs = sheet.get("loudness", TARGET_LUFS)  # YouTube plays music at about -14 and never turns a quieter piece up
-    mixed, worst, share = finish(mixed, lufs)
+    mixed, worst, share = finish(mono_lows(mixed), lufs)
     quarters = [balance(q) for q in np.array_split(mixed, 4, axis=1)]
     print(f"  limiter: at most {-worst:.1f} dB, {100 * share:.1f} % of the time over 1 dB; left-right balance "
           f"{balance(mixed):+.1f} dB (quarters {', '.join(f'{q:+.1f}' for q in quarters)}); hiss {hiss(mixed):.0f} dB",
