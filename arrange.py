@@ -104,7 +104,10 @@ same chords, beat by beat, so they always agree:
     voices (trumpets, trombones, tuba), the loud organ, and a timpani roll
     under the Amen;
   - chapel: a small Renaissance organ and a choir singing "ooh", softly, in a
-    smaller hall (2.6 s), no bells.
+    smaller hall (2.6 s), no bells;
+  - church-organ-near, church-organ-plain-near, church-choir-near,
+    church-festive-near, chapel-near: the same closer by, in the small room
+    of ballad and pulse (0.8 s, sends at 0.45 times), as the user asked.
 Sustained parts hold the tones two chords share, move their other tones to
 the nearest tone of the next chord, and swell with each phrase (expression,
 CC11). Instruments come from two CC0 sample libraries: VS Chamber Orchestra 2
@@ -1668,6 +1671,11 @@ STYLES = {
     "chapel": Style(lambda arr: arrange_church(arr, choir="oohs", chapel=True, bell=None), tempo=0.75, breath=0.85,
                     hall=2.6, seconds=150, harmony="chorale", together=TOGETHER, sway=SWAY),
 }
+# The church styles closer by, as the user asked ("no big hall"): each in the
+# small room ballad and pulse are played in (0.8 s, sends at 0.45 times),
+# the rest as it is.
+for _name in ("church-organ", "church-organ-plain", "church-choir", "church-festive", "chapel"):
+    STYLES[f"{_name}-near"] = dataclasses.replace(STYLES[_name], hall=0.8, wet=0.45)
 
 
 def untangle(notes: list) -> tuple[list, int]:

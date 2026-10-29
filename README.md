@@ -187,6 +187,8 @@ runs/<mã khác>/covers/lego-woodwinds/stem_01.mp3:0.7` (nhiều lượt cách n
        tuba), organ tiếng to, và một hồi timpani dưới câu "A-men".
      - `chapel`: nhà nguyện nhỏ. Đàn organ thời Phục hưng (stop 8') và hợp xướng ngân "u", nhẹ nhàng,
        vang 2,6 giây, không có chuông.
+     - Thêm đuôi `-near` (`church-organ-near`, `church-choir-near`…): y như trên nhưng nghe gần, theo ý bạn
+       ("không cần hiệu ứng trong nhà lớn"). Phòng nhỏ như của `ballad` và `pulse`: vang 0,8 giây, ít vang.
    - `salamander`: như `piano` nhưng trên đàn Salamander Grand Piano (không chạy mặc định).
 
    Các kiểu piano nhẹ nhàng (chill, lullaby, flowing, hymn, piano-strings, felt, felt-noise) chơi trên đàn
