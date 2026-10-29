@@ -55,3 +55,8 @@ người dùng đã chọn và theo giai điệu của bản mẫu (H2 thấp h�
 | `m2-mo-mang` | `model-dream` | Mơ màng: dây lệch nhau rõ hơn (lung linh chậm), các dây khác ngân theo, vang dài 3,6 giây |
 | `m3-ni-gan` | `model-close` | Nỉ, gần tai: nghe tiếng búa nỉ và thùng gỗ, phòng nhỏ |
 | `m4-pho-vang` | `model` | Phố vắng (I4) trên đàn M1 |
+
+Người dùng chọn **M2** ("hãy làm theo M2"): phong cách `dem-diu` giờ là M2: đàn mô phỏng `model-dream`, chơi như người
+(I3: `human` 1.0 + `vary`), gõ mềm 45 ms, rộng 0,85, vang 3,6 giây (0,85). Các bản trước dùng `dem-diu` được ghim sang
+`dem-diu-h3` (đàn thu âm qua màu tiếng H3), nên vẫn đúng như lúc nghe (đã kiểm tra: 24 bản, MIDI và mix.json không đổi
+một byte). App chơi phong cách này y hệt: cùng nốt (Thư cuối của app = M2 từng byte MIDI), cùng mẫu tiếng đàn.

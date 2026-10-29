@@ -1,7 +1,7 @@
 {
  "title": "Mộng du H4 (rõ, to hơn)",
  "about": "D2 (the user's style) made clear on a phone's speaker, as the user asked: measured through a simulated phone speaker (mono, nothing under ~450 Hz), D2 lost 9 dB (the references 5-7) for its weight at 100-400 Hz, its tune's upper partials were cut deep, and summing its sides lost 2.5 dB (the references 1.6-2.1). H4: Mộng du (60s bpm, Phrygian) played as H3.",
- "style": "dem-diu",
+ "style": "dem-diu-h3",
  "bpm": 62,
  "beats": 4,
  "piano_tone": {

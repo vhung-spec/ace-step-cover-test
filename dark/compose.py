@@ -27,7 +27,8 @@ A piece is a short score, the shape an AI composer is asked to write:
   CC0), or model, model-dream, model-close (modelled by dark/piano_model.py
   from the physics of its strings, no recording; built with the pieces);
 - style: a named style (STYLES) giving every setting the piece leaves out;
-  dem-diu, the user's choice for slow, muffled pieces;
+  dem-diu, the user's choice for slow, muffled pieces (dem-diu-h3: as it was
+  on the recorded upright, before the modelled piano);
 - melody_velocity: how hard the tune is struck at dyn 0 and at dyn 1 (40,
   82); velocity_cap: no key struck harder (64 keeps the Yamaha upright on its
   softest, darkest samples, which end at 65);
@@ -130,19 +131,28 @@ EQ_DEM_DIU = [
 ]
 # Named styles: a piece's "style" fills in every setting it does not give itself.
 STYLES = {
-    # "Đêm dịu", the user's choice: C3 of the fourth round, as D2 of the fifth
-    # ("D2 ổn"): slow (70-84 bpm), a light left hand (a bass held under two
-    # tones rocking in eighths, let go after a beat, the pedal taken every two
-    # beats, softer than the tune), the tune struck softly (38-60, never above
-    # 64: the Yamaha upright's softest samples), a softer strike (25 ms) and the
-    # references' tone a little darker, a 2.8 s hall at 0.8; the bass above E2.
-    # Then clear on a phone's speaker, as H3 of the eighth ("H3 nghe rõ nhất"):
-    # its tone, the piano narrower (0.7), less hall (0.65), -14 LUFS.
+    # "Đêm dịu" as the user first chose it: C3 of the fourth round, as D2 of the
+    # fifth ("D2 ổn"): slow (70-84 bpm), a light left hand (a bass held under
+    # two tones rocking in eighths, let go after a beat, the pedal taken every
+    # two beats, softer than the tune), the tune struck softly (38-60, never
+    # above 64: the Yamaha upright's softest samples), a softer strike (25 ms)
+    # and the references' tone a little darker; the bass above E2. Then clear
+    # on a phone's speaker, as H3 of the eighth ("H3 nghe rõ nhất"): its tone,
+    # the piano narrower (0.7), less hall (0.65), -14 LUFS. The pieces heard
+    # this way keep it (dem-diu-h3).
+    "dem-diu-h3": {"piano": "upright", "bass_low": 40, "texture": "flow", "hold": 1.0, "pedal_beats": 2, "lh_soft": 6,
+                   "melody_velocity": [38, 60], "velocity_cap": 64,
+                   "room": {"rt60": 2.8, "wet": 0.65}, "piano_reverb": 0.35, "loudness": -14,
+                   "piano_tone": {"attack": 0.025, "eq": [list(p) for p in EQ_DEM_DIU], "width": 0.7}},
+    # "Đêm dịu" now: played as a person plays (I3, "giống người") on the
+    # modelled piano the user chose, M2 of the tenth round ("hãy làm theo
+    # M2"): dark/piano_model.py's felt-dream, a softer onset (45 ms), wider
+    # (0.85), a longer hall (3.6 s, 0.85); the left hand and touch as before.
     # The app plays it the same way (bokin_music/dark on the app's branch).
-    "dem-diu": {"piano": "upright", "bass_low": 40, "texture": "flow", "hold": 1.0, "pedal_beats": 2, "lh_soft": 6,
-                 "melody_velocity": [38, 60], "velocity_cap": 64,
-                 "room": {"rt60": 2.8, "wet": 0.65}, "piano_reverb": 0.35, "loudness": -14,
-                 "piano_tone": {"attack": 0.025, "eq": [list(p) for p in EQ_DEM_DIU], "width": 0.7}},
+    "dem-diu": {"piano": "model-dream", "bass_low": 40, "texture": "flow", "hold": 1.0, "pedal_beats": 2, "lh_soft": 6,
+                "melody_velocity": [38, 60], "velocity_cap": 64,
+                "room": {"rt60": 3.6, "wet": 0.85}, "piano_reverb": 0.35, "loudness": -14,
+                "piano_tone": {"attack": 0.045, "width": 0.85}, "human": {"amount": 1.0, "vary": True}},
 }
 # How loud each part sits against the piano (dB while it plays).
 ROLES = {"piano": 0.0, "bass": -9.0, "melody2": -6.0, "pad": -12.0, "low": -13.0, "drone": -15.0}
