@@ -333,14 +333,16 @@ def fade_tail(audio: np.ndarray, seconds: float = 3.0) -> np.ndarray:
     return audio
 
 
-def finish(mixed: np.ndarray) -> tuple[np.ndarray, float, float]:
-    """The piece at TARGET_LUFS, limited by at most MOST_LIMITING_DB, or quieter
-    (down to QUIETEST_LUFS) rather than limited harder: the limited piece, the
-    most it took off a peak (dB) and how much of the time it took over 1 dB."""
+def finish(mixed: np.ndarray, lufs: float = TARGET_LUFS) -> tuple[np.ndarray, float, float]:
+    """The piece at lufs (TARGET_LUFS, unless its mix sheet asks for another
+    loudness), limited by at most MOST_LIMITING_DB, or quieter (down to 3 dB
+    under, as QUIETEST_LUFS is under TARGET_LUFS) rather than limited harder:
+    the limited piece, the most it took off a peak (dB) and how much of the
+    time it took over 1 dB."""
     meter = pyloudnorm.Meter(RATE)
     loudness = meter.integrated_loudness(mixed.T)
-    over = 20 * np.log10(np.abs(mixed).max()) + TARGET_LUFS - loudness - CEILING_DB - MOST_LIMITING_DB
-    target = max(QUIETEST_LUFS, TARGET_LUFS - max(0.0, over))  # quieter rather than limited hard
+    over = 20 * np.log10(np.abs(mixed).max()) + lufs - loudness - CEILING_DB - MOST_LIMITING_DB
+    target = max(lufs - (TARGET_LUFS - QUIETEST_LUFS), lufs - max(0.0, over))  # quieter rather than limited hard
     gain_db = target - loudness
     for _ in range(4):  # limiting lowers the loudness a little: measure again
         limited, worst, share = limit(mixed * 10 ** (gain_db / 20))
@@ -404,7 +406,8 @@ def mix_folder(folder: Path, sfizz: str, libraries: dict, keep_parts: bool, prem
         mixed, report = master.master(mixed, steps["tone"], steps["air"], steps["width"], steps["level"])
         print(f"  master: {report}", flush=True)
     meter = pyloudnorm.Meter(RATE)
-    mixed, worst, share = finish(mixed)
+    lufs = sheet.get("loudness", TARGET_LUFS)  # YouTube plays music at about -14 and never turns a quieter piece up
+    mixed, worst, share = finish(mixed, lufs)
     quarters = [balance(q) for q in np.array_split(mixed, 4, axis=1)]
     print(f"  limiter: at most {-worst:.1f} dB, {100 * share:.1f} % of the time over 1 dB; left-right balance "
           f"{balance(mixed):+.1f} dB (quarters {', '.join(f'{q:+.1f}' for q in quarters)}); hiss {hiss(mixed):.0f} dB",
@@ -413,7 +416,7 @@ def mix_folder(folder: Path, sfizz: str, libraries: dict, keep_parts: bool, prem
     save(mixed, out)
     if premaster is not None:  # the same piece before its master, as loud, to compare
         premaster.mkdir(parents=True, exist_ok=True)
-        save(finish(unmastered)[0], premaster / out.name)
+        save(finish(unmastered, lufs)[0], premaster / out.name)
         (premaster / out.name).unlink()
     print(f"{folder.name}: {mixed.shape[1] / RATE:.0f} s, hall {sheet['hall']['rt60']} s (sends x{wet_level:g}), "
           f"{meter.integrated_loudness(mixed.T):.1f} LUFS, peak {20 * np.log10(np.abs(mixed).max()):.1f} dBFS "

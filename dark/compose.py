@@ -28,6 +28,8 @@ A piece is a short score, the shape an AI composer is asked to write:
 - melody_velocity: how hard the tune is struck at dyn 0 and at dyn 1 (40,
   82); velocity_cap: no key struck harder (64 keeps the Yamaha upright on its
   softest, darkest samples, which end at 65);
+- loudness: the piece's loudness, LUFS (-16 unless given; YouTube plays
+  music at about -14 and never turns a quieter piece up);
 - hold: the longest (beats) an accompanying note is held; pedal_beats: the
   pedal taken again this often within a chord (else once a chord); lh_soft:
   the left hand this much softer (velocity), all to keep it light and clear;
@@ -433,6 +435,8 @@ def compose(score: dict, folder: Path) -> str:
            "master": {"tone": 0.0, "air": 0.0, "width": 0.0, "level": 0.0}}
     if score.get("noise_db") is not None:
         mix["noise"] = {"db": score["noise_db"]}
+    if score.get("loudness") is not None:  # LUFS, -16 unless asked
+        mix["loudness"] = score["loudness"]
     (folder / "mix.json").write_text(json.dumps(mix, indent=2))
     return (f"{folder.name}: {piece.bpm} bpm, {piece.end // piece.bar} bars, "
             f"{piece.seconds(0, piece.end + piece.bar):.0f} s, parts {', '.join(piece.parts)}")
