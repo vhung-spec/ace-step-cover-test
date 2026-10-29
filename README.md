@@ -218,6 +218,10 @@ runs/<mã khác>/covers/lego-woodwinds/stem_01.mp3:0.7` (nhiều lượt cách n
        chút ngay sau giữa câu, đoạn nghỉ và đoạn kết chậm dần vẫn giữ), giai điệu mạnh dần tới đỉnh câu rồi nhẹ
        xuống, nốt cao và nốt dài nhấn hơn một chút, bè dưới theo nhẹ hơn, bớt độ lệch ngẫu nhiên. Piano nỉ giữ
        mọi nốt dưới lực 66 để không sang lớp mẫu sáng.
+     - Các kiểu trước đó bạn giữ cũng có bản chơi như người (theo ý bạn: "thử cả các bản trước đó"):
+       `pulse-human`, `ballad-human` (tay giữa và đàn hạc thở theo câu; giai điệu vẫn ở lớp mẫu sáng như trước;
+       nhịp co giãn ít hơn một chút vì nhịp đều là chất riêng của hai kiểu này), `orchestra-gentle-human` (đàn hạc
+       thở theo câu), `church-piano-human-near` (thánh ca trên piano) và `church-organ-small-human-near` (organ nhỏ).
    - `salamander`: như `piano` nhưng trên đàn Salamander Grand Piano (không chạy mặc định).
 
    Các kiểu piano nhẹ nhàng (chill, lullaby, flowing, hymn, piano-strings, felt, felt-noise) chơi trên đàn

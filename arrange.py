@@ -132,7 +132,10 @@ same chords, beat by beat, so they always agree:
   moving in the middle, its chord laid down and left to ring in the last) and
   a player's shaping (perform): the tempo swinging over each phrase, the tune
   swelling to its peak and falling away, its higher and longer notes a little
-  louder, less random jitter.
+  louder, less random jitter; and so the earlier styles the user keeps:
+  pulse-human, ballad-human (their middle hand and harp breathing),
+  orchestra-gentle-human (its harp breathing), church-piano-human-near and
+  church-organ-small-human-near.
 Sustained parts hold the tones two chords share, move their other tones to
 the nearest tone of the next chord, and swell with each phrase (expression,
 CC11). Instruments come from two CC0 sample libraries: VS Chamber Orchestra 2
@@ -425,6 +428,7 @@ class Part:
         self.fits = fits  # whether a note held from one tick to another stays within its sample
         self.notes, self.pedal, self.expression, self.voicing, self.bends = [], [], [], [], []
         self.latest = {}  # key: index of its latest note
+        self.leading = 0  # its first notes that are the tune, where the tune is not found by its keys (perform)
 
     def add(self, tick: int, note: int, velocity: int, length: int, tie: bool = False) -> None:
         """Adds a note. With tie, a key still sounding is held on rather than
@@ -985,12 +989,13 @@ def rolled_chords(arr: Arrangement, part: Part, start: int, end: int, velocity: 
 
 
 def breathing_hand(arr: Arrangement, part: Part, start: int, end: int, velocity: int, avoid: list = (),
-                   moving: Callable = None) -> None:
-    """An accompaniment breathing with each phrase: its first bar calm, a tone
-    a beat rising through the bar (rocking), its middle bars moving (moving:
-    rolling eighths, up the chord and back), its last bar its chord laid down,
-    rolled slowly from the bass, and left to ring while the tune ends the
-    phrase. Bars outside every phrase (a lone pickup) are left out."""
+                   moving: Callable = None, calm: Callable | None = rocking, octave: int = 0) -> None:
+    """An accompaniment breathing with each phrase: its first bar calm (calm:
+    a tone a beat rising through the bar; None, moving as the others), its
+    middle bars moving (moving: rolling eighths, up the chord and back), its
+    last bar its chord laid down, rolled slowly from the bass (octave: so many
+    semitones up), and left to ring while the tune ends the phrase. Bars
+    outside every phrase (a lone pickup) are left out."""
     moving = moving or rolling
     for phrase_start, phrase_end in phrase_spans(arr):
         bars = (phrase_end - phrase_start) // arr.bar
@@ -1000,11 +1005,23 @@ def breathing_hand(arr: Arrangement, part: Part, start: int, end: int, velocity:
                 continue
             bar_end = min(bar + arr.bar, end)
             if k == bars - 1 and bars > 1:
-                rolled_chords(arr, part, bar, bar_end, velocity - 2, avoid)
-            elif k == 0:
-                rocking(arr, part, bar, bar_end, velocity, avoid)
+                rolled_chords(arr, part, bar, bar_end, velocity - 2, avoid, octave=octave)
+            elif k == 0 and calm:
+                calm(arr, part, bar, bar_end, velocity, avoid)
             else:
                 moving(arr, part, bar, bar_end, velocity, avoid=avoid)
+
+
+def breathing_harp(arr: Arrangement, harp: Part, start: int, end: int, velocity: int, octave: int = 0) -> None:
+    """A harp breaking the chords in eighths (flowing_bass) between two ticks,
+    breathing with each phrase: on its last bar it lays the chord down,
+    rolled slowly, and lets it ring."""
+    for phrase_start, phrase_end in phrase_spans(arr):
+        last_bar = phrase_end - arr.bar
+        if phrase_end > start and phrase_start < end:
+            flowing_bass(arr, harp, max(phrase_start, start), min(last_bar, end), velocity, octave=octave)
+            rolled_chords(arr, harp, max(last_bar, start), min(phrase_end, end), velocity - 2, octave=octave,
+                          spread=30)
 
 
 # ballad and pulse follow the user's two reference recordings, slow pop piano
@@ -1259,7 +1276,7 @@ def vibrato(arr: Arrangement, part: Part, tick: int, length: int, delay: float =
 # sparkle sounds like those; the glockenspiel softly doubling the tune (run
 # 18, the arrangement liked) stays: heard against the piano alone in the
 # first verse (run 20), the user chose it, and keeps both for the channel.
-def band(arr: Arrangement, bells: bool = True) -> None:
+def band(arr: Arrangement, bells: bool = True, breathing: bool = False) -> None:
     """The first reference's other instruments around the piano: with bells, a
     glockenspiel (it sounds an octave over its keys) doubling the tune softly
     in the first verse; from `flute` the flute singing the tune; from `close`
@@ -1282,7 +1299,10 @@ def band(arr: Arrangement, bells: bool = True) -> None:
         else:
             vibes.add(at, high, 48 + 8 * shape(position), length)
     harp = arr.part("harp", "harp", "arp", -0.3, reverb=0.35)
-    flowing_bass(arr, harp, close_from, arr.end, 50, octave=12)
+    if breathing:
+        breathing_harp(arr, harp, close_from, arr.end, 50, octave=12)
+    else:
+        flowing_bass(arr, harp, close_from, arr.end, 50, octave=12)
     tonic = arr.chord_at(arr.end)
     harp.add(arr.end, bass_note(tonic) + 12, 54, 2 * arr.bar)
     gliss(arr, harp, arr.end + arr.beat, 2 * arr.beat, tonic, 60, 96, 42)
@@ -1300,14 +1320,21 @@ def pad_chords(arr: Arrangement, part: Part, start: int, end: int, velocity: int
             part.add(tick + arr.jitter(6), note, velocity, length + 30, tie=True)
 
 
-def arrange_ballad(arr: Arrangement, clear: bool = False) -> None:
+def arrange_ballad(arr: Arrangement, clear: bool = False, breathing: bool = False) -> None:
     """After the second reference: the tune's last phrase as the intro, then
     the verses over the deep bass and the rolling pairs, a synth pad under it
-    all, swelling with each phrase."""
+    all, swelling with each phrase. With breathing, the rolling pairs breathe
+    with each phrase: on its last bar the chord is laid down, rolled slowly,
+    and left to ring."""
     piano = arr.part("piano", arr.piano, "piano", 0.0, reverb=0.32)
     tune = cover_melody(arr, piano, BRIGHT + 8)
     deep_bass(arr, piano, 0, arr.end, BRIGHT + 4, walk=True, hold=arr.beat if clear else None)
-    rolling_pairs(arr, piano, 0, arr.end, 54, tune, length=EIGHTH if clear else 2 * EIGHTH)
+    if breathing:
+        breathing_hand(arr, piano, 0, arr.end, 54, tune, calm=None, octave=12,
+                       moving=lambda arr, part, start, end, velocity, avoid: rolling_pairs(arr, part, start, end,
+                                                                                           velocity, tune))
+    else:
+        rolling_pairs(arr, piano, 0, arr.end, 54, tune, length=EIGHTH if clear else 2 * EIGHTH)
     (pedal_by_beat if clear else pedal_by_chord)(arr, piano, 0, arr.end)
     cover_end(arr, piano, tune, BRIGHT)
     # the pad far under the piano: at its first level (the role pad) it tagged
@@ -1317,23 +1344,30 @@ def arrange_ballad(arr: Arrangement, clear: bool = False) -> None:
     breathe(arr, pad, 76, 108)
 
 
-def arrange_pulse(arr: Arrangement, clear: bool = False, bells: bool = True) -> None:
+def arrange_pulse(arr: Arrangement, clear: bool = False, bells: bool = True, breathing: bool = False) -> None:
     """After the first reference: the verses (with a free intro, after rolled
     chords in free time) over the deep bass and the pulse, with its
-    glockenspiel (if bells), flute, harp, vibraphone and strings (band)."""
+    glockenspiel (if bells), flute, harp, vibraphone and strings (band). With
+    breathing, the pulse and the harp breathe with each phrase: on its last
+    bar the chord is laid down, rolled slowly, and left to ring."""
     piano = arr.part("piano", arr.piano, "piano", 0.0, reverb=0.32)
     tune = cover_melody(arr, piano, BRIGHT + 8, intro=False, aside=band_sections(arr))
     if arr.free_intro:
         free_intro(arr, piano, BRIGHT - 4, tune[0][1] if tune else 76)
     deep_bass(arr, piano, arr.verses[0], arr.end, BRIGHT + 4, hold=arr.beat if clear else None)
-    pulse_hand(arr, piano, arr.verses[0], arr.end, 50, tune, length=EIGHTH - 40 if clear else EIGHTH)
+    if breathing:
+        breathing_hand(arr, piano, arr.verses[0], arr.end, 50, tune, calm=None, octave=12,
+                       moving=lambda arr, part, start, end, velocity, avoid: pulse_hand(arr, part, start, end,
+                                                                                         velocity, tune))
+    else:
+        pulse_hand(arr, piano, arr.verses[0], arr.end, 50, tune, length=EIGHTH - 40 if clear else EIGHTH)
     if clear:
         pedal_by_chord(arr, piano, 0, arr.verses[0])  # the rolled chords ring
         pedal_by_beat(arr, piano, arr.verses[0], arr.end)
     else:
         pedal_by_chord(arr, piano, 0, arr.end)
     cover_end(arr, piano, tune, BRIGHT)
-    band(arr, bells)
+    band(arr, bells, breathing)
 
 
 def arrange_bells(arr: Arrangement) -> None:
@@ -1368,7 +1402,8 @@ def arrange_bells(arr: Arrangement) -> None:
     gliss(arr, harp, arr.end + arr.beat, 2 * arr.beat, tonic, 60, 96, 40)
 
 
-def arrange_orchestra(arr: Arrangement, turns: bool = False, calm: bool = False, build: float = 1.0) -> None:
+def arrange_orchestra(arr: Arrangement, turns: bool = False, calm: bool = False, build: float = 1.0,
+                      breathing: bool = False) -> None:
     """Flute, then violins on the tune (with turns, in a longer piece, the two
     take it by turns in the middle verses), a flute descant over the last
     verse, on a harp and a string pad, basses plucked then bowed, horns from
@@ -1384,7 +1419,9 @@ def arrange_orchestra(arr: Arrangement, turns: bool = False, calm: bool = False,
     tune, sleigh bells); less, as the user asked ("still too much of a climax
     near the end"), the violins, the pad, the basses and the descant grow only
     that much, and under 0.75 the horns, the glissando, the timpani and the
-    bells stay out, at 0 the descant too."""
+    bells stay out, at 0 the descant too. With breathing, the harp breathes
+    with each phrase: on its last bar it lays the chord down, rolled slowly,
+    and lets it ring."""
     flute = arr.part("flute", "flute", "melody", -0.1, reverb=0.35)
     violins = arr.part("violins", "violins", "melody", -0.35, reverb=0.35)
     glock = None if calm else arr.part("glock", "glock", "sparkle", 0.3, reverb=0.45)
@@ -1400,9 +1437,10 @@ def arrange_orchestra(arr: Arrangement, turns: bool = False, calm: bool = False,
             flute.add(tick + arr.jitter(4), note, (48 if verse < 0 else 52) + 8 * lift, length - 10)
     full = build >= 0.75
     harp = arr.part("harp", "harp", "harp", -0.3, reverb=0.35)
-    flowing_bass(arr, harp, 0, arr.verses[0], 48, octave=12)
-    flowing_bass(arr, harp, arr.verses[0], arr.verses[-1], 52)
-    flowing_bass(arr, harp, arr.verses[-1], arr.end, 44, octave=12)
+    harp_play = breathing_harp if breathing else flowing_bass
+    harp_play(arr, harp, 0, arr.verses[0], 48, octave=12)
+    harp_play(arr, harp, arr.verses[0], arr.verses[-1], 52)
+    harp_play(arr, harp, arr.verses[-1], arr.end, 44, octave=12)
     if full:
         gliss(arr, harp, arr.verses[-1] - arr.beat, arr.beat, arr.chord_at(arr.verses[-1] - arr.beat), 55, 86, 48)
     strings(arr, 0, arr.verses[-1], 40)
@@ -1687,6 +1725,7 @@ def arrange_church_piano(arr: Arrangement) -> None:
         piano.add(tick + 6 + arr.jitter(4), note - (12 if verse < 0 else 0), velocity + arr.rng.randint(-2, 2),
                   length - 10)
     tune = list(piano.notes)
+    piano.leading = len(tune)
     for index, velocity in ((1, 44), (2, 42), (3, 50)):
         for tick, note, length in phrased(hymn_voice(beats, index, 0, arr.end, arr.beat), points):
             if not busy(tune, note, tick, length):
@@ -1807,11 +1846,7 @@ def arrange_church_ensemble(arr: Arrangement, hum: bool = False, organ: str = "l
     harp = arr.part("harp", "harp", "arp", -0.3, reverb=SEND)
     harp_from = second if hum else first
     if breathing:
-        for phrase_start, phrase_end in phrase_spans(arr):
-            last_bar = phrase_end - arr.bar
-            if phrase_end > harp_from + pickup:
-                flowing_bass(arr, harp, max(phrase_start, harp_from + pickup), last_bar, 46, octave=12)
-                rolled_chords(arr, harp, max(last_bar, harp_from + pickup), phrase_end, 44, octave=12, spread=30)
+        breathing_harp(arr, harp, harp_from + pickup, arr.end, 46, octave=12)
     else:
         flowing_bass(arr, harp, harp_from + pickup, arr.end, 46, octave=12)
     violas = arr.part("violas", "violas", "bed", 0.3, reverb=SEND)
@@ -1902,21 +1937,24 @@ def perform(arr: Arrangement, how: Perform) -> None:
         for key in (note, note + 12):  # an octave up in some verses
             sung.setdefault(key, []).append(tick)
 
-    def in_tune(part: Part, tick: int, note: int) -> bool:
+    def in_tune(part: Part, index: int, tick: int, note: int) -> bool:
+        if part.leading:
+            return index < part.leading
         return part.role == "melody" or any(abs(tick - arr.shift - t) <= 30 for t in sung.get(note, ()))
 
     for part in arr.parts.values():
         if part.instrument not in VELOCITY:
             continue
-        tune = [(phrase(t), n) for t, n, _, _ in part.notes if phrase(t) is not None and in_tune(part, t, n)]
+        tune = [(phrase(t), n) for k, (t, n, _, _) in enumerate(part.notes)
+                if phrase(t) is not None and in_tune(part, k, t, n)]
         means = {i: sum(n for j, n in tune if j == i) / sum(1 for j, _ in tune if j == i) for i in {j for j, _ in tune}}
         played = []
-        for tick, note, velocity, length in part.notes:
+        for k, (tick, note, velocity, length) in enumerate(part.notes):
             i = phrase(tick)
             if i is not None:
                 start, end = spans[i]
                 rise = arch((tick - arr.shift - start) / (end - start), how.peak) - centre
-                if in_tune(part, tick, note):
+                if in_tune(part, k, tick, note):
                     velocity += (2 * how.swell * rise + how.high * (note - means[i]) / 12
                                  + how.long * max(-1.0, min(1.0, math.log2(length / arr.beat))))
                 else:
@@ -2076,6 +2114,24 @@ STYLES["felt-4k-human"] = dataclasses.replace(
 STYLES["church-organ-soft-human-near"] = dataclasses.replace(
     STYLES["church-organ-soft-near"], perform=HYMN_PLAYER,
     arrange=lambda arr: arrange_church_ensemble(arr, organ="flutes", breathing=True))
+# The earlier styles the user keeps, played so too, as the user asked: pulse
+# and ballad (their middle hand and harp breathing, the tune in its bright
+# samples as before, the tempo swinging a little less: their pulse is their
+# own), the orchestra (its harp breathing), the hymn on the piano and on the
+# small organ.
+POP_PLAYER = Perform(rubato=0.07, swell=6.0, under=4.0, high=3.0, long=2.0, loose=0.5)
+HYMN_PIANO_PLAYER = Perform(rubato=0.06, swell=6.0, under=4.0, high=3.0, long=2.0, loose=0.5)
+STYLES["pulse-human"] = dataclasses.replace(
+    STYLES["pulse"], arrange=lambda arr: arrange_pulse(arr, breathing=True), perform=POP_PLAYER)
+STYLES["ballad-human"] = dataclasses.replace(
+    STYLES["ballad"], arrange=lambda arr: arrange_ballad(arr, breathing=True), perform=POP_PLAYER)
+STYLES["orchestra-gentle-human"] = dataclasses.replace(
+    STYLES["orchestra-gentle"], perform=Perform(rubato=0.08, loose=0.5),
+    arrange=lambda arr: arrange_orchestra(arr, turns=True, calm=True, build=0.4, breathing=True))
+STYLES["church-piano-human-near"] = dataclasses.replace(STYLES["church-piano-near"], perform=HYMN_PIANO_PLAYER)
+STYLES["church-organ-small-human-near"] = dataclasses.replace(
+    STYLES["church-organ-small-near"], perform=HYMN_PLAYER,
+    arrange=lambda arr: arrange_church_ensemble(arr, organ="small", breathing=True))
 
 
 def untangle(notes: list) -> tuple[list, int]:
