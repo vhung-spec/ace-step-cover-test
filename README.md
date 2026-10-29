@@ -210,6 +210,14 @@ runs/<mã khác>/covers/lego-woodwinds/stem_01.mp3:0.7` (nhiều lượt cách n
        giai điệu trên hai ống sáo 8' và 4' cùng lúc (nốt và quãng tám của nó: loa điện thoại vẫn nghe rõ mà không
        chói), ống 8' giữ các bè dưới. Cả hai nở ra rồi lắng xuống theo từng câu như hộp swell của organ, chậm hơn
        một chút (0,74 lần nhịp của bài; các kiểu nhà thờ khác 0,8).
+   - Chơi như người chơi, theo ý bạn ("đều quá, thiếu uyển chuyển mềm mại"): `felt-4k-human` và
+     `church-organ-soft-human-near`, như `felt-4k` và `church-organ-soft-near` nhưng:
+     - phần đệm thở theo từng câu: ô nhịp đầu câu thong thả (mỗi phách một nốt), các ô giữa chuyển động (rải
+       hợp âm), ô cuối câu đặt một hợp âm rải chậm từ nốt trầm rồi để ngân trong lúc giai điệu kết câu;
+     - lớp "người chơi" (theo hệ quy tắc biểu cảm KTH): nhịp co giãn theo câu (chậm ở hai đầu, nhanh hơn một
+       chút ngay sau giữa câu, đoạn nghỉ và đoạn kết chậm dần vẫn giữ), giai điệu mạnh dần tới đỉnh câu rồi nhẹ
+       xuống, nốt cao và nốt dài nhấn hơn một chút, bè dưới theo nhẹ hơn, bớt độ lệch ngẫu nhiên. Piano nỉ giữ
+       mọi nốt dưới lực 66 để không sang lớp mẫu sáng.
    - `salamander`: như `piano` nhưng trên đàn Salamander Grand Piano (không chạy mặc định).
 
    Các kiểu piano nhẹ nhàng (chill, lullaby, flowing, hymn, piano-strings, felt, felt-noise) chơi trên đàn
