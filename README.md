@@ -234,6 +234,9 @@ runs/<mã khác>/covers/lego-woodwinds/stem_01.mp3:0.7` (nhiều lượt cách n
        sau và tiếng chuông thỉnh thoảng điểm vào: glockenspiel nhắc lại điệp khúc (lượt đầu một câu, lượt cuối cả
        điệp khúc) và đáp lại những nốt ngân dài; bài vui thì có thêm lục lạc rung nhẹ hai lần ở điệp khúc cuối.
        Lượt cuối giai điệu lên cao một quãng tám, nghe rõ hơn trên loa điện thoại.
+     - `felt-pad-human`, `felt-hum-human`, `felt-strings-human`: bản sau của Jingle Bells theo ý bạn, bỏ chuông, thay
+       nền: pad ấm tự tạo (`instruments/pad-warm.sfz`, bộ lọc "thở" chậm), giọng ngân "u" khe khẽ (GeneralUser GS),
+       hoặc dàn dây cao và nhẹ (viola, lượt cuối thêm violin, không có cello). Lượt cuối giai điệu vẫn cao một quãng tám.
    - `salamander`: như `piano` nhưng trên đàn Salamander Grand Piano (không chạy mặc định).
 
    Các kiểu piano nhẹ nhàng (chill, lullaby, flowing, hymn, piano-strings, felt, felt-noise) chơi trên đàn

@@ -1,0 +1,29 @@
+{
+  "song": "jingle-bells",
+  "style": "felt-hum-human",
+  "title": "Jingle Bells · Piano nỉ",
+  "heard": "v2: \"giảm cảm giác trong phòng lớn, để tiếng piano nghe rõ hơn, bỏ chuông điểm xuyết, nền cần hay hơn hoặc loại ngân nga phù hợp hơn\" (less of a big hall's feel, the piano clearer, the bells taken out, the bed nicer or a humming more fitting)",
+  "about": "v3b: the small room of ballad and pulse (0.8 s, sends at 0.45); no bells; the piano a little brighter (its low-pass at 6 kHz, not 4) and eased for a phone as in v2; the tune an octave up in the last verse; the bed voices humming \"ooh\", two tones, 2 dB under the bed's role.",
+  "changes": {
+    "hall": 0.8,
+    "wet": 0.45,
+    "tones": {
+      "piano": {
+        "highpass": 80,
+        "low_shelf": [
+          300,
+          -5
+        ],
+        "shelf": [
+          1500,
+          3
+        ],
+        "lowpass": 6000,
+        "peaks_db": 17
+      }
+    },
+    "levels": {
+      "hum": -2
+    }
+  }
+}

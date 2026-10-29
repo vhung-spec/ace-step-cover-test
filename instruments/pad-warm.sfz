@@ -1,0 +1,40 @@
+// A warm pad for the felt piano's bed (felt-pad-human), made by sfizz's own
+// oscillators, so no recording and no licence is needed: three sawtooths a few
+// cents apart (one to each side, one in the middle) and a sine an octave down,
+// through a low-pass that breathes slowly (a sine LFO of a sixth of a hertz
+// moving it three semitones up and down) and opens a little with the key and
+// the velocity; it swells in over two and a half seconds and fades over three.
+<global>
+ampeg_attack=2.5
+ampeg_decay=2.0
+ampeg_sustain=85
+ampeg_release=3.0
+amp_veltrack=40
+fil_type=lpf_2p
+cutoff=650
+fil_keytrack=40
+fil_veltrack=900
+lfo1_freq=0.17
+lfo1_wave=1
+lfo1_cutoff1=300
+
+<region>
+sample=*saw
+tune=-9
+pan=-60
+volume=-9
+
+<region>
+sample=*saw
+volume=-11
+
+<region>
+sample=*saw
+tune=9
+pan=60
+volume=-9
+
+<region>
+sample=*sine
+transpose=-12
+volume=-4

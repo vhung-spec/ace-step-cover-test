@@ -148,7 +148,11 @@ same chords, beat by beat, so they always agree:
   with its tune an octave up in the last verse, a soft bed of strings under
   it, and bells now and then (the glockenspiel doubling the refrain and
   answering the tune's long notes, sleigh bells twice for a lively tune), as
-  the user asked for Jingle Bells (arrange_felt_ensemble).
+  the user asked for Jingle Bells (arrange_felt_ensemble); and, the bells
+  taken out and the bed changed as the user asked next, felt-pad-human (our
+  warm pad, instruments/pad-warm.sfz), felt-hum-human (voices humming "ooh")
+  and felt-strings-human (light high strings), each over the felt piano with
+  its last verse an octave up (arrange_felt_bed).
 Sustained parts hold the tones two chords share, move their other tones to
 the nearest tone of the next chord, and swell with each phrase (expression,
 CC11). Instruments come from two CC0 sample libraries: VS Chamber Orchestra 2
@@ -218,6 +222,7 @@ INSTRUMENTS = {
     "harp": ("vcsl", "Chordophones/Composite Chordophones/Concert Harp.sfz"),
     "sleigh": ("vcsl", "Idiophones/Struck Idiophones/Sleigh Bells.sfz"),
     "pad": ("local", "pad.sfz"),  # our own synth pad (instruments/pad.sfz), sfizz's oscillators
+    "pad-warm": ("local", "pad-warm.sfz"),  # a warmer one, its low-pass breathing slowly (the felt piano's bed)
     "ep": ("jrhodes", "jRhodes3d-st.sfz"),  # a 1977 Rhodes Mark I, a mild chorus in its stereo samples
     "tubular": ("vcsl", "Idiophones/Struck Idiophones/Tubular Bells 1.sfz"),
     "flute": ("vsco", "FluteSusNV.sfz"),  # without vibrato: the vibrato samples wobble on long notes
@@ -327,6 +332,7 @@ TONES = {
     # gets the sampled Rhodes's stereo chorus, a little less
     "ep-synth": {"highpass": 60, "chorus": 0.6},
     "bell-synth": {"lowpass": 8000},
+    "pad-warm": {"highpass": 90},  # nothing under a phone's or a TV's reach from its sine an octave down
 }
 # How loud each kind of part sits against the melody (dB of its loudness when playing).
 ROLES = {"melody": 0.0, "piano": 0.0, "descant": -9.0, "harp": -4.0, "pad": -10.0, "bass": -8.0, "shimmer": -12.0,
@@ -1109,6 +1115,59 @@ def arrange_felt_ensemble(arr: Arrangement) -> None:
     for name in ("cellos", "violas"):
         breathe(arr, arr.parts[name], 84, 110, start=arr.verses[0])
     bells_now_and_then(arr)
+
+
+# Jingle Bells on the felt piano, version 2, heard: "less of a big hall's
+# feel, the piano clearer, the bells taken out, the bed nicer or a humming
+# more fitting". So version 3 sits in the small room of ballad and pulse,
+# without bells, over one of three beds, for the user to choose by ear.
+def held_bed(arr: Arrangement, part: Part, start: int, end: int, velocity: int, low: int, high: int,
+             count: int = 3) -> None:
+    """A bed held under the piano: each chord of half a bar or more voiced
+    from the one before (voice_lead: shared tones held on, the others moving
+    to the nearest), between low and high; through a shorter chord only the
+    tones it shares with the voicing go on, so the bed moves less than the
+    chords."""
+    voicing = []
+    for tick, length, chord in arr.chord_spans(start, end):
+        if length >= arr.bar // 2 or not voicing:
+            voicing = voice_lead(voicing, chord, low, high, count)
+            notes = voicing
+        else:
+            root, intervals = CHORDS[chord]
+            notes = [n for n in voicing if (n - root) % 12 in {i % 12 for i in intervals}]
+        for note in notes:
+            part.add(tick + arr.jitter(6), note, velocity, length + 30, tie=True)
+
+
+def arrange_felt_bed(arr: Arrangement, bed: str) -> None:
+    """The felt piano, breathing (felt-4k-human), its tune an octave up in the
+    last verse, over a bed swelling with each phrase: "pad", our warm pad
+    (instruments/pad-warm.sfz) from the intro on, three tones between G3 and
+    C5; "hum", voices humming "ooh" (GeneralUser GS) from the first verse,
+    two tones between E3 and G4, a little fuller in the last; "strings", the
+    violas' two tones from the first verse and the violins' one over them in
+    the last, where the tune has climbed an octave (no cellos: the deep
+    strings' weight is what a big hall carries)."""
+    arrange_felt(arr, breathing=True, up=(arr.last,))
+    first, last = arr.verses[0], arr.verses[-1]
+    if bed == "pad":
+        pad = arr.part("pad", "pad-warm", "bed", 0.0, reverb=0.4)
+        held_bed(arr, pad, 0, last, 46, 55, 72)
+        held_bed(arr, pad, last, arr.end + 2 * arr.bar, 56, 55, 72)
+        breathe(arr, pad, 76, 104)
+    elif bed == "hum":
+        voices = arr.part("hum", "oohs", "bed", -0.1, reverb=0.45)
+        held_bed(arr, voices, first, last, 64, 52, 67, count=2)
+        held_bed(arr, voices, last, arr.end + 2 * arr.bar, 72, 52, 67, count=2)
+        breathe(arr, voices, 70, 100, start=first)
+    else:
+        violas = arr.part("violas", "violas", "bed", 0.15, reverb=0.35)
+        violins = arr.part("violins", "violins", "bed", -0.2, reverb=0.35)
+        held_bed(arr, violas, first, arr.end + 2 * arr.bar, 36, 55, 67, count=2)
+        held_bed(arr, violins, last, arr.end + 2 * arr.bar, 36, 64, 76, count=1)
+        breathe(arr, violas, 76, 104, start=first)
+        breathe(arr, violins, 76, 104, start=last)
 
 
 # ballad and pulse follow the user's two reference recordings, slow pop piano
@@ -2234,6 +2293,10 @@ STYLES["felt-synth-human"] = dataclasses.replace(STYLES["felt-4k-human"], piano=
 # the felt piano with a soft bed of strings and bells now and then, as the
 # user asked for Jingle Bells (arrange_felt_ensemble)
 STYLES["felt-ensemble-human"] = dataclasses.replace(STYLES["felt-4k-human"], arrange=arrange_felt_ensemble)
+# and over a bed, no bells (arrange_felt_bed): our warm pad, voices humming, or light high strings
+for _bed, _name in (("pad", "felt-pad-human"), ("hum", "felt-hum-human"), ("strings", "felt-strings-human")):
+    STYLES[_name] = dataclasses.replace(STYLES["felt-4k-human"],
+                                        arrange=lambda arr, bed=_bed: arrange_felt_bed(arr, bed))
 
 
 def untangle(notes: list) -> tuple[list, int]:
