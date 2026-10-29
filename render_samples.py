@@ -19,7 +19,8 @@ soundfont, played by FluidSynth)
   down. A soundfont's part is played by FluidSynth (its own reverb and
   chorus off) into 32-bit float, which neither clips nor turns grainy;
 - each part gets its tone (high-pass, low-pass, high and low shelves; hissing parts
-  have their highs hushed in their quiet moments), and its loudness
+  have their highs hushed in their quiet moments; a bright part's sharpest
+  attacks may be held to some dB over its playing level), and its loudness
   while it plays is set against the melody's by its role (arrange.ROLES), so
   libraries recorded at different levels still sit right; its stereo image is
   narrowed as asked and centred (samples recorded with spaced microphones
@@ -446,8 +447,17 @@ def mix_folder(folder: Path, sfizz: str, libraries: dict, keep_parts: bool, prem
         audio, lean = image(apply_tone(audio, entry["tone"]), entry["tone"].get("width", 1.0))
         if entry["tone"].get("chorus"):
             audio = chorus(audio, entry["tone"]["chorus"])
+        crest = 20 * np.log10(np.abs(audio).max() + 1e-12) - playing_db(audio)
         print(f"  {entry['part']}: {audio.shape[1] / RATE:.1f} s, peak {peak:.1f} dBFS, recorded "
-              f"{abs(lean):.1f} dB to the {'left' if lean > 0 else 'right'}, hiss {hiss(audio):.0f} dB", flush=True)
+              f"{abs(lean):.1f} dB to the {'left' if lean > 0 else 'right'}, hiss {hiss(audio):.0f} dB, "
+              f"peaks {crest:.0f} dB over its playing level", flush=True)
+        if entry["tone"].get("peaks_db") is not None and crest > entry["tone"]["peaks_db"]:
+            # a bright part's sharpest attacks (a glockenspiel, a piano's top notes) held down, so that
+            # the whole piece is not turned down for them (finish)
+            audio, taken, _ = limit(audio, playing_db(audio) + entry["tone"]["peaks_db"], attack=0.003,
+                                    release=0.06)
+            print(f"  {entry['part']}: its peaks held to {entry['tone']['peaks_db']:g} dB over its playing level, "
+                  f"at most {-taken:.1f} dB off", flush=True)
         parts[entry["part"]] = (entry, audio)
     melody = [playing_db(a) for e, a in parts.values() if e["role"] in ("melody", "piano")]
     reference = float(np.mean(melody)) if melody else -20.0
