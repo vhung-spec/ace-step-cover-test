@@ -107,7 +107,13 @@ same chords, beat by beat, so they always agree:
     smaller hall (2.6 s), no bells;
   - church-organ-near, church-organ-plain-near, church-choir-near,
     church-festive-near, chapel-near: the same closer by, in the small room
-    of ballad and pulse (0.8 s, sends at 0.45 times), as the user asked.
+    of ballad and pulse (0.8 s, sends at 0.45 times), as the user asked;
+  - easier to listen to, on a phone too, as the user asked (the organ's held
+    voices sat low and muffled there): church-piano-near, the hymn on the
+    gentle Yamaha upright, its tune on top, strings from the second verse, a
+    choir humming far under the last; church-organ-clear-near, the organ
+    with its tune alone on the bright loud manual, the voices under it
+    lighter.
 Sustained parts hold the tones two chords share, move their other tones to
 the nearest tone of the next chord, and swell with each phrase (expression,
 CC11). Instruments come from two CC0 sample libraries: VS Chamber Orchestra 2
@@ -1548,12 +1554,92 @@ def arrange_church(arr: Arrangement, choir: str | None = None, festive: bool = F
         timpani.add(arr.end + arr.bar, bass_note(arr.chord_at(arr.end)) + 12, 44, 2 * arr.bar)
     amen(arr, beats, under)
     if bell:
-        tonic = CHORDS[arr.chord_at(arr.end)][0]
-        low = (48 if bell == "bell-tower" else 60) + (tonic - (48 if bell == "bell-tower" else 60)) % 12
-        ticks = lead_in(arr, 6.0)
-        bells = arr.part("bell", bell, "bells", 0.15, reverb=0.6)
-        toll(arr, bells, 0, [low, low - 5, low], 2.0, 60)
-        toll(arr, bells, ticks + arr.end + arr.bar + arr.beat, [low, low, low], 2.4, 54)
+        church_bell(arr, bell)
+
+
+def church_bell(arr: Arrangement, bell: str) -> None:
+    """A bell (its instrument) tolling the piece in, before the intro (the
+    piece moved later for it), and out after the Amen."""
+    tonic = CHORDS[arr.chord_at(arr.end)][0]
+    low = (48 if bell == "bell-tower" else 60) + (tonic - (48 if bell == "bell-tower" else 60)) % 12
+    # the dominant under the tonic, or over it where the tubular bells (C4-F5) have none under
+    dominant = low - 5 if bell == "bell-tower" or low - 5 >= 60 else low + 7
+    ticks = lead_in(arr, 6.0)
+    bells = arr.part("bell", bell, "bells", 0.15, reverb=0.6)
+    toll(arr, bells, 0, [low, dominant, low], 2.0, 60)
+    toll(arr, bells, ticks + arr.end + arr.bar + arr.beat, [low, low, low], 2.4, 54)
+
+
+# The user found the church pieces hard to listen to, on a phone above all:
+# the organ's held four voices sat in 100-250 Hz, the tune no clearer than
+# the voices under it, so a phone's speaker (nothing under ~350 Hz) played
+# them 8 dB quieter, muffled. Two lighter ways, the tune clear on top:
+STRINGS_SECONDS = 4.4  # the strings' samples last about 5 s
+
+
+def arrange_church_piano(arr: Arrangement) -> None:
+    """The hymn on the gentle Yamaha upright: the tune on top, struck into the
+    piano's brighter layer as pulse plays it (it carries on a phone), alto,
+    tenor and bass softly under it, each struck as its note changes and held
+    while it stays (chorale.voices), the pedal taken again with each chord;
+    from the second verse soft strings holding alto, tenor and bass (violas,
+    cellos, as the orchestra's pad); in the last verse a choir humming
+    ("ooh") alto and tenor far under it; the Amen; a tubular bell tolling the
+    piece in and out."""
+    beats, points = hymn_beats(arr), breath_points(arr)
+    piano = gentle_piano(arr)
+    for tick, note, length, verse, position in arr.melody():
+        velocity = (60 if verse < 0 else 66 + 3 * min(verse, 2)) + 4 * shape(position)
+        piano.add(tick + 6 + arr.jitter(4), note - (12 if verse < 0 else 0), velocity + arr.rng.randint(-2, 2),
+                  length - 10)
+    tune = list(piano.notes)
+    for index, velocity in ((1, 44), (2, 42), (3, 50)):
+        for tick, note, length in phrased(hymn_voice(beats, index, 0, arr.end, arr.beat), points):
+            if not busy(tune, note, tick, length):
+                piano.add(tick + 10 * index + arr.jitter(4), note, velocity + arr.rng.randint(-2, 2), length - 10)
+    pedal_by_chord(arr, piano, 0, arr.end)
+    pickup = math.ceil(round(arr.song.pickup * EIGHTH) / arr.beat) * arr.beat
+    second = arr.verses[min(1, arr.last)] - pickup
+    violas = arr.part("violas", "violas", "bed", 0.15, reverb=SEND)
+    cellos = arr.part("cellos", "cellos", "bed", 0.35, reverb=SEND)
+    sing(arr, violas, beats, points, second, arr.end, (1, 2), 50, tune=False, longest=STRINGS_SECONDS)
+    sing(arr, cellos, beats, points, second, arr.end, (3,), 52, tune=False, longest=STRINGS_SECONDS)
+    for part in (violas, cellos):
+        breathe(arr, part, 84, 110, start=second, fade=40)
+    last = arr.verses[-1] - pickup
+    choir = arr.part("choir", "oohs", "haze", 0.0, reverb=SEND)
+    sing(arr, choir, beats, points, last, arr.end, (1, 2), 70, tune=False)
+    breathe(arr, choir, 90, 116, start=last, fade=50)
+    amen(arr, beats, [(piano, (0, 1, 2, 3), 54, None), (violas, (1, 2), 50, STRINGS_SECONDS),
+                      (cellos, (3,), 52, STRINGS_SECONDS), (choir, (1, 2), 64, None)])
+    piano.pedal += [(arr.end + 20, 127), (arr.end + arr.bar - 25, 0), (arr.end + arr.bar + 20, 127),
+                    (arr.end + 3 * arr.bar, 0)]
+    church_bell(arr, "tubular")
+
+
+def arrange_church_clear(arr: Arrangement) -> None:
+    """The organ, its tune clear: the tune alone on the loud manual's bright
+    diapason (its overtones carry on a phone), alto and tenor under it on the
+    quiet manual, softer and without their lowest lows (high-passed at 140
+    Hz), the bass on the loud pedal, whose overtones a phone still plays,
+    softer still; the last verse a little fuller (alto and tenor on the loud
+    manual too, softly); the Amen; a tubular bell tolling the piece in and out."""
+    beats, points = hymn_beats(arr), breath_points(arr)
+    tune = arr.part("tune", "organ-loud", "melody", 0.0, reverb=SEND)
+    inner = arr.part("organ", "organ", "pad", 0.0, reverb=SEND)
+    inner.tone["highpass"] = 140
+    pedal = arr.part("pedal", "pedal-loud", "low", 0.0, reverb=SEND)
+    sing(arr, tune, beats, points, 0, arr.end, (), 80, longest=ORGAN_SECONDS)
+    sing(arr, inner, beats, points, 0, arr.end, (1, 2), 80, tune=False, longest=ORGAN_SECONDS)
+    sing(arr, pedal, beats, points, 0, arr.end, (3,), 80, tune=False, longest=ORGAN_SECONDS)
+    pickup = math.ceil(round(arr.song.pickup * EIGHTH) / arr.beat) * arr.beat
+    last = arr.verses[-1] - pickup
+    fuller = arr.part("organ-loud", "organ-loud", "bed", 0.0, reverb=SEND)
+    fuller.tone["highpass"] = 140
+    sing(arr, fuller, beats, points, last, arr.end, (1, 2), 80, tune=False, longest=ORGAN_SECONDS)
+    amen(arr, beats, [(tune, (0,), 80, ORGAN_SECONDS), (inner, (1, 2), 80, ORGAN_SECONDS),
+                      (pedal, (3,), 80, ORGAN_SECONDS), (fuller, (1, 2), 80, ORGAN_SECONDS)])
+    church_bell(arr, "tubular")
 
 
 @dataclass
@@ -1676,6 +1762,10 @@ STYLES = {
 # the rest as it is.
 for _name in ("church-organ", "church-organ-plain", "church-choir", "church-festive", "chapel"):
     STYLES[f"{_name}-near"] = dataclasses.replace(STYLES[_name], hall=0.8, wet=0.45)
+# Easier to listen to, on a phone too (arrange_church_piano, arrange_church_clear), close by.
+STYLES["church-piano-near"] = dataclasses.replace(STYLES["church-organ-near"], arrange=arrange_church_piano,
+                                                  piano=GENTLE_PIANO)
+STYLES["church-organ-clear-near"] = dataclasses.replace(STYLES["church-organ-near"], arrange=arrange_church_clear)
 
 
 def untangle(notes: list) -> tuple[list, int]:

@@ -45,11 +45,16 @@ soundfont, played by FluidSynth)
   air, width, a slow leveller) work as strongly as its style asks (mix.json;
   all off for now); with --premaster, the piece before its master is saved as
   well, as loud, to compare;
-- the piece loses its rumble below 30 Hz and is brought to -16 LUFS (YouTube
-  plays music at about -14), a look-ahead limiter keeping peaks below -1.5
-  dBFS; its gain glides, never jumps (a jump clicks), and it takes at most
-  3 dB off a peak: a piece that would need more is left a little quieter
-  (down to -19 LUFS). The last notes fade out over the reverb's tail; the
+- for phones and TVs: everything below 120 Hz is made the same on both
+  sides (a phone's or a TV's single speaker sums them, and a low tone that
+  differs between the sides partly cancels there), and the piece is brought
+  to -14 LUFS, the loudness YouTube plays music at (it turns louder pieces
+  down but quieter ones not up: at -16 ours played 2 dB under everything
+  else, on a phone's or a TV's few watts too), its rumble below 30 Hz gone,
+  a look-ahead limiter keeping peaks below -1.5 dBFS; its gain glides,
+  never jumps (a jump clicks), and it takes at most 3 dB off a peak: a piece
+  that would need more is left a little quieter (down to -17 LUFS); the log
+  shows its true peak (between the samples, 4 times oversampled). The last notes fade out over the reverb's tail; the
   piece is saved as <folder>.wav and <folder>.mp3 (LAME, 320 kbit/s), and
   the log shows how much was limited, how the left and right sides balance
   and how much hiss shows (each part's, and the piece's, in its quietest
@@ -75,8 +80,9 @@ import master
 from master import dehiss
 
 RATE = 44100  # the samples' own rate
-TARGET_LUFS = -16.0
-QUIETEST_LUFS = -19.0  # a piece with strong peaks may be this quiet rather than limited hard
+TARGET_LUFS = -14.0  # YouTube's
+QUIETEST_LUFS = -17.0  # a piece with strong peaks may be this quiet rather than limited hard
+MONO_BELOW = 120.0  # Hz: the lows made alike on both sides, for single-speaker phones and TVs
 CEILING_DB = -1.5  # peaks rise a little in MP3 encoding
 MOST_LIMITING_DB = 3.0
 
@@ -361,6 +367,21 @@ def fade_tail(audio: np.ndarray, seconds: float = 3.0) -> np.ndarray:
     return audio
 
 
+def mono_lows(audio: np.ndarray, below: float = MONO_BELOW) -> np.ndarray:
+    """The piece with everything under `below` Hz alike on both sides (their
+    average), the rest as it was: the lows are split off by a zero-phase
+    low-pass, so the two parts add back up exactly."""
+    low = sosfiltfilt(butter(2, below, "low", fs=RATE, output="sos"), audio, axis=-1)
+    return audio - low + low.mean(axis=0, keepdims=True)
+
+
+def true_peak(audio: np.ndarray) -> float:
+    """The highest level between the samples too (4 times oversampled), dBFS."""
+    from scipy.signal import resample_poly
+
+    return float(20 * np.log10(np.abs(resample_poly(audio, 4, 1, axis=-1)).max() + 1e-12))
+
+
 def finish(mixed: np.ndarray) -> tuple[np.ndarray, float, float]:
     """The piece at TARGET_LUFS, limited by at most MOST_LIMITING_DB, or quieter
     (down to QUIETEST_LUFS) rather than limited harder: the limited piece, the
@@ -440,7 +461,7 @@ def mix_folder(folder: Path, sfizz: str, libraries: dict, keep_parts: bool, prem
         mixed, report = master.master(mixed, steps["tone"], steps["air"], steps["width"], steps["level"])
         print(f"  master: {report}", flush=True)
     meter = pyloudnorm.Meter(RATE)
-    mixed, worst, share = finish(mixed)
+    mixed, worst, share = finish(mono_lows(mixed))
     quarters = [balance(q) for q in np.array_split(mixed, 4, axis=1)]
     print(f"  limiter: at most {-worst:.1f} dB, {100 * share:.1f} % of the time over 1 dB; left-right balance "
           f"{balance(mixed):+.1f} dB (quarters {', '.join(f'{q:+.1f}' for q in quarters)}); hiss {hiss(mixed):.0f} dB",
@@ -449,10 +470,11 @@ def mix_folder(folder: Path, sfizz: str, libraries: dict, keep_parts: bool, prem
     save(mixed, out)
     if premaster is not None:  # the same piece before its master, as loud, to compare
         premaster.mkdir(parents=True, exist_ok=True)
-        save(finish(unmastered)[0], premaster / out.name)
+        save(finish(mono_lows(unmastered))[0], premaster / out.name)
         (premaster / out.name).unlink()
     print(f"{folder.name}: {mixed.shape[1] / RATE:.0f} s, hall {sheet['hall']['rt60']} s (sends x{wet_level:g}), "
           f"{meter.integrated_loudness(mixed.T):.1f} LUFS, peak {20 * np.log10(np.abs(mixed).max()):.1f} dBFS "
+          f"(true peak {true_peak(mixed):.1f}) "
           f"-> {out.with_suffix('.mp3')}", flush=True)
     return out
 

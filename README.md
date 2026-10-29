@@ -189,6 +189,11 @@ runs/<mã khác>/covers/lego-woodwinds/stem_01.mp3:0.7` (nhiều lượt cách n
        vang 2,6 giây, không có chuông.
      - Thêm đuôi `-near` (`church-organ-near`, `church-choir-near`…): y như trên nhưng nghe gần, theo ý bạn
        ("không cần hiệu ứng trong nhà lớn"). Phòng nhỏ như của `ballad` và `pulse`: vang 0,8 giây, ít vang.
+     - Dễ nghe hơn, cả trên điện thoại, theo ý bạn (bốn bè organ ngân dày ở dải 100–250 Hz, giai điệu không
+       nổi, loa điện thoại phát nhỏ đi 8 dB và đục): `church-piano-near`, thánh ca trên đàn Yamaha, giai điệu
+       sáng rõ ở trên như `pulse`, ba bè dưới đánh nhẹ, dàn dây giữ hợp âm từ lượt hai, hợp xướng ngân "u"
+       rất khẽ ở lượt cuối; `church-organ-clear-near`, organ với giai điệu riêng trên bàn phím tiếng to (sáng,
+       loa nhỏ vẫn nghe rõ), hai bè giữa nhẹ hơn và bớt dải trầm, bass trên bàn đạp tiếng to.
    - `salamander`: như `piano` nhưng trên đàn Salamander Grand Piano (không chạy mặc định).
 
    Các kiểu piano nhẹ nhàng (chill, lullaby, flowing, hymn, piano-strings, felt, felt-noise) chơi trên đàn
@@ -231,8 +236,12 @@ runs/<mã khác>/covers/lego-woodwinds/stem_01.mp3:0.7` (nhiều lượt cách n
    - cân trái/phải: bài nào lệch quá 1 dB về một bên thì được cân lại (`master.py`). Các bước master khác
      (chỉnh âm sắc, tạo độ sáng, độ rộng, làm đều độ to theo hai bản mẫu) đã thử và đang tắt: nghe thử thấy
      bị rè và không hay bằng bản không master;
-   - đưa cả bài về -16 LUFS. Bộ hạn chế đỉnh âm hạ âm lượng từ từ, không giật (giật sẽ gây tiếng tách).
-     Mỗi đỉnh bị hạ tối đa 3 dB; bài nào cần hạ nhiều hơn thì để nhỏ hơn một chút (tối đa -19 LUFS).
+   - cho điện thoại và TV: phần trầm dưới 120 Hz được gộp về giữa (loa đơn của điện thoại, TV cộng hai bên
+     lại, nốt trầm nào hai bên khác nhau thì bị triệt bớt), rồi đưa cả bài về -14 LUFS, đúng mức YouTube
+     phát nhạc (YouTube giảm bài to hơn nhưng không tăng bài nhỏ hơn: ở -16 LUFS nhạc của mình phát nhỏ hơn
+     mọi bài khác 2 dB, càng thiệt trên loa nhỏ). Bộ hạn chế đỉnh âm hạ âm lượng từ từ, không giật (giật sẽ
+     gây tiếng tách). Mỗi đỉnh bị hạ tối đa 3 dB; bài nào cần hạ nhiều hơn thì để nhỏ hơn một chút (tối đa
+     -17 LUFS). Nhật ký ghi cả đỉnh thật (giữa các mẫu âm, lấy mẫu dày gấp 4).
      Nhật ký ghi lại bài bị hạ đỉnh bao nhiêu và độ cân bằng trái/phải.
 4. `rate.py` chấm điểm như các phần trên.
 
