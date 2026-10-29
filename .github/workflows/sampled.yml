@@ -8,7 +8,9 @@
 # the "renders" branch (replaced each run), for analysis where artifacts
 # cannot be downloaded.
 name: Real-sample arrangements
-run-name: 'Sampled: ${{ inputs.songs }} / ${{ inputs.styles }} / ${{ inputs.pianos }}'
+run-name: >-
+  Sampled: ${{ inputs.versions != '' && inputs.versions
+  || format('{0} / {1} / {2}', inputs.songs, inputs.styles, inputs.pianos) }}
 
 on:
   workflow_dispatch:
@@ -21,6 +23,9 @@ on:
         default: 'ballad pulse'
       pianos:
         description: 'To compare, play the piano styles on these instead of their own, a piece each: grand (Steinway B, highs open), piano (Steinway B, highs cut), knight (Knight upright), yamaha (Yamaha upright). ep (the Rhodes). Empty: each its own (ballad the Rhodes, pulse and the gentle styles the Yamaha upright, ballad-clear and pulse-clear the grand, piano the Steinway)'
+        default: ''
+      versions:
+        description: 'Versions of a song made one at a time with the user, played instead of songs and styles: files in versions/, named without versions/ and .json (jingle-bells/piano-ni-v1). Each also gets a lossless FLAC on the renders branch'
         default: ''
       rate:
         description: 'Rate the pieces (Audiobox Aesthetics, CLAP)'
@@ -39,7 +44,11 @@ jobs:
       - id: list
         env:
           SONGS: ${{ inputs.songs }}
-        run: echo "songs=$(python3 -c 'import json, sys; print(json.dumps(sys.argv[1:]))' $SONGS)" >> "$GITHUB_OUTPUT"
+          VERSIONS: ${{ inputs.versions }}
+        run: |
+          # a version's song is the folder it is in (versions/<song>/)
+          [ -n "$VERSIONS" ] && SONGS=$(for v in $VERSIONS; do echo "${v%%/*}"; done | sort -u)
+          echo "songs=$(python3 -c 'import json, sys; print(json.dumps(sys.argv[1:]))' $SONGS)" >> "$GITHUB_OUTPUT"
 
   sampled:
     needs: plan
@@ -53,6 +62,7 @@ jobs:
       SONG: ${{ matrix.song }}
       STYLES: ${{ inputs.styles }}
       PIANOS: ${{ inputs.pianos }}
+      VERSIONS: ${{ inputs.versions }}
       SFIZZ_VERSION: '1.2.3'
       PYTHONUNBUFFERED: '1'  # the log shows each part as it is played
     steps:
@@ -95,7 +105,13 @@ jobs:
           ~/sfizz/sfizz_render --help | head -3
 
       - name: Arrangements (MIDI)
-        run: '"$RUNNER_TEMP/venv/bin/python" arrange.py out/sampled --songs "$SONG" --styles $STYLES ${PIANOS:+--pianos $PIANOS}'
+        run: |
+          if [ -n "$VERSIONS" ]; then
+            "$RUNNER_TEMP/venv/bin/python" arrange.py out/sampled --versions $(for v in $VERSIONS; do
+              [ "${v%%/*}" = "$SONG" ] && echo "$v"; done)
+          else
+            "$RUNNER_TEMP/venv/bin/python" arrange.py out/sampled --songs "$SONG" --styles $STYLES ${PIANOS:+--pianos $PIANOS}
+          fi
 
       - name: Instruments (CC0 samples)
         run: '"$RUNNER_TEMP/venv/bin/python" fetch_samples.py out/sampled "$RUNNER_TEMP/libs"'
@@ -111,6 +127,9 @@ jobs:
           mkdir -p out/preview
           for wav in out/sampled/*.wav; do
             ffmpeg -loglevel error -i "$wav" -c:a libmp3lame -b:a 128k "out/preview/$(basename "${wav%.wav}").mp3"
+            # a version is heard and measured as it is, without the MP3's loss
+            [ -z "$VERSIONS" ] || ffmpeg -loglevel error -i "$wav" -c:a flac -sample_fmt s16 \
+              "out/preview/$(basename "${wav%.wav}").flac"
           done
 
       - name: Rate
@@ -151,6 +170,7 @@ jobs:
     env:
       SONGS: ${{ inputs.songs }}
       STYLES: ${{ inputs.styles }}
+      VERSIONS: ${{ inputs.versions }}
     steps:
       - name: Every carol's pieces
         uses: actions/download-artifact@v4
@@ -179,6 +199,7 @@ jobs:
           cat rated-*.txt > rated.txt 2>/dev/null || true
           git init -q -b renders
           git add ./*.mp3 && git add rated.txt 2>/dev/null || true
+          git add ./*.flac 2>/dev/null || true
           git -c user.name="github-actions[bot]" -c user.email="41898282+github-actions[bot]@users.noreply.github.com" \
-            commit -q -m "Renders of run $GITHUB_RUN_ID ($SONGS / $STYLES), 128 kbit/s"
+            commit -q -m "Renders of run $GITHUB_RUN_ID (${VERSIONS:-$SONGS / $STYLES}), 128 kbit/s${VERSIONS:+ and FLAC}"
           git push -q -f "https://x-access-token:${{ github.token }}@github.com/$GITHUB_REPOSITORY" renders

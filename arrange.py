@@ -5,6 +5,10 @@ render_samples.py:
 
     python arrange.py out/sampled [--songs wish silent-night first-noel ...] [--styles ballad pulse ...]
         [--pianos grand piano knight yamaha ep]
+    python arrange.py out/sampled --versions jingle-bells/piano-ni-v1 ...
+
+(--versions: versions of a song made one at a time with the user, each a
+style and the changes made to it after listening: versions/, play_version.)
 
 pulse, after the first of the user's two reference recordings, and the gentle
 piano styles are played on VCSL's Yamaha upright, softer and closer (heard
@@ -2221,6 +2225,84 @@ def write_part(part: Part, tempos: list, path: Path, meter: tuple = (3, 2), prog
     return changed
 
 
+def arranged(song: Song, style: Style, piano: str, seed: int = 7) -> Arrangement:
+    """The carol arranged in the style, its piano part on piano, played as
+    the style says (perform)."""
+    song = reharmonize(song) if style.reharm else song
+    if style.harmony == "chorale":
+        song = dataclasses.replace(song, chords=chorale.harmonize(song))
+    tempo = min(1.0, style.bpm / song.bpm) if style.bpm else style.tempo
+    verses = style.verses or song.verses or (
+        max(2, min(6, math.ceil(style.seconds / (song.seconds() / tempo)))) if style.seconds
+        else 3 if style.repeat_short and song.seconds() < 40 else 2)
+    arr = Arrangement(song, verses, tempo, style.breath, seed=seed, free_intro=style.free_intro, piano=piano,
+                      intro=style.intro)
+    if style.perform:
+        arr.loose = style.perform.loose
+    style.arrange(arr)
+    if style.perform:
+        perform(arr, style.perform)
+    return arr
+
+
+def write_piece(arr: Arrangement, style: Style, folder: Path, levels: dict | None = None,
+                tones: dict | None = None) -> None:
+    """Each part as a MIDI file in folder, and mix.json, how render_samples.py
+    plays and mixes them: the style's piano tone, then a version's changes,
+    tones (a part's tone, by its name) and levels (dB more or less for a
+    part, by its name, else its role)."""
+    if style.piano_tone:
+        arr.parts["piano"].tone.update(style.piano_tone)
+    if style.piano_reverb is not None:
+        arr.parts["piano"].reverb = style.piano_reverb
+    for part_name, tone in (tones or {}).items():
+        arr.parts[part_name].tone.update(tone)
+    levels = levels or {}
+    folder.mkdir(parents=True, exist_ok=True)
+    sheet, untangled = [], 0
+    for part_name, part in arr.parts.items():
+        library, sfz = INSTRUMENTS[part.instrument]
+        preset = tuple(int(x) for x in sfz.partition("#")[2].split(":")) if "#" in sfz else None
+        untangled += write_part(part, arr.tempos, folder / f"{part_name}.mid", arr.meter, preset)
+        gain, change = ROLES[part.role], levels.get(part_name, levels.get(part.role))
+        sheet.append({"part": part_name, "library": library, "sfz": sfz, "role": part.role,
+                      "gain_db": gain if change is None else round(gain + change, 2), "pan": part.pan,
+                      "reverb": part.reverb, "tone": part.tone, "notes": len(part.notes)})
+    hall = ({"rt60": style.hall} | ({"wet": style.wet} if style.wet != 1.0 else {})
+            | ({"together": style.together} if style.together else {})
+            | ({"sway": style.sway} if style.sway else {}))
+    mix = {"hall": hall, "parts": sheet, "master": style.master}
+    if style.noise_db is not None:
+        mix["noise"] = {"db": style.noise_db}
+    (folder / "mix.json").write_text(json.dumps(mix, indent=2))
+    print(f"{folder.name}: {arr.bpm:.0f} bpm, {len(arr.verses)} verses, {len(sheet)} parts "
+          f"({', '.join(p['part'] for p in sheet)}), {arr.seconds(0, arr.end + 2 * arr.bar):.0f} s, "
+          f"{untangled} repeated notes untangled")
+
+
+# Each song is now made one version at a time with the user, as they asked:
+# a version, their words on it, the next changed by what they heard, until
+# they are happy with it. A version is a file, versions/<song>/<label>-v<n>.json:
+# the song, the style it starts from, and its changes from that style.
+VERSIONS = Path(__file__).with_name("versions")
+
+
+def play_version(out: Path, name: str) -> None:
+    """A version (versions/<name>.json) arranged into out/<song>-<label>-v<n>.
+    Its changes: any of the style's own settings (tempo, breath, hall, wet,
+    verses, piano...), the player's (perform: rubato, swell...), seed (the
+    arrangement's), levels and tones (write_piece)."""
+    version = json.loads((VERSIONS / f"{name}.json").read_text())
+    changes = dict(version.get("changes", {}))
+    levels, tones, seed = changes.pop("levels", {}), changes.pop("tones", {}), changes.pop("seed", 7)
+    player = changes.pop("perform", None)
+    style = dataclasses.replace(STYLES[version["style"]], **changes)
+    if player:
+        style = dataclasses.replace(style, perform=dataclasses.replace(style.perform or Perform(), **player))
+    arr = arranged(SONGS[version["song"]], style, style.piano, seed)
+    write_piece(arr, style, out / name.replace("/", "-"), levels, tones)
+
+
 def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument("out", type=Path)
@@ -2229,50 +2311,21 @@ def main() -> None:
     parser.add_argument("--pianos", nargs="+", choices=["piano", "grand", "knight", "yamaha", "ep"],
                         help="play the piano styles on these instead of each style's own (a piece each; one "
                              "on another piano than its style's ends in -piano, -grand, -knight, -yamaha or -ep)")
+    parser.add_argument("--versions", nargs="+", default=[],
+                        help="play these versions of a song instead (versions/<song>/<label>-v<n>.json, named "
+                             "without versions/ and .json, as jingle-bells/piano-ni-v1)")
     args = parser.parse_args()
+    for name in args.versions:
+        play_version(args.out, name)
+    if args.versions:
+        return
     for piano_choice, name, style_name in itertools.product(args.pianos or [None], args.songs, args.styles):
-        song, style = SONGS[name], STYLES[style_name]
-        song = reharmonize(song) if style.reharm else song
-        if style.harmony == "chorale":
-            song = dataclasses.replace(song, chords=chorale.harmonize(song))
+        style = STYLES[style_name]
         piano = piano_choice or style.piano
-        tempo = min(1.0, style.bpm / song.bpm) if style.bpm else style.tempo
-        verses = style.verses or song.verses or (
-            max(2, min(6, math.ceil(style.seconds / (song.seconds() / tempo)))) if style.seconds
-            else 3 if style.repeat_short and song.seconds() < 40 else 2)
-        arr = Arrangement(song, verses, tempo, style.breath, free_intro=style.free_intro, piano=piano,
-                          intro=style.intro)
-        if style.perform:
-            arr.loose = style.perform.loose
-        style.arrange(arr)
-        if style.perform:
-            perform(arr, style.perform)
+        arr = arranged(SONGS[name], style, piano)
         if piano != style.piano and all(p.instrument != piano for p in arr.parts.values()):
             continue  # a style without a piano (bells, orchestra) is played once
-        if style.piano_tone:
-            arr.parts["piano"].tone.update(style.piano_tone)
-        if style.piano_reverb is not None:
-            arr.parts["piano"].reverb = style.piano_reverb
-        folder = args.out / (f"{name}-{style_name}" + (f"-{piano}" if piano != style.piano else ""))
-        folder.mkdir(parents=True, exist_ok=True)
-        sheet, untangled = [], 0
-        for part_name, part in arr.parts.items():
-            library, sfz = INSTRUMENTS[part.instrument]
-            preset = tuple(int(x) for x in sfz.partition("#")[2].split(":")) if "#" in sfz else None
-            untangled += write_part(part, arr.tempos, folder / f"{part_name}.mid", arr.meter, preset)
-            sheet.append({"part": part_name, "library": library, "sfz": sfz, "role": part.role,
-                          "gain_db": ROLES[part.role], "pan": part.pan, "reverb": part.reverb,
-                          "tone": part.tone, "notes": len(part.notes)})
-        hall = ({"rt60": style.hall} | ({"wet": style.wet} if style.wet != 1.0 else {})
-                | ({"together": style.together} if style.together else {})
-                | ({"sway": style.sway} if style.sway else {}))
-        mix = {"hall": hall, "parts": sheet, "master": style.master}
-        if style.noise_db is not None:
-            mix["noise"] = {"db": style.noise_db}
-        (folder / "mix.json").write_text(json.dumps(mix, indent=2))
-        print(f"{folder.name}: {arr.bpm:.0f} bpm, {len(arr.verses)} verses, {len(sheet)} parts "
-              f"({', '.join(p['part'] for p in sheet)}), {arr.seconds(0, arr.end + 2 * arr.bar):.0f} s, "
-              f"{untangled} repeated notes untangled")
+        write_piece(arr, style, args.out / (f"{name}-{style_name}" + (f"-{piano}" if piano != style.piano else "")))
 
 
 if __name__ == "__main__":

@@ -284,6 +284,14 @@ runs/<mã khác>/covers/lego-woodwinds/stem_01.mp3:0.7` (nhiều lượt cách n
 Mỗi bài chạy trên một máy riêng, cùng lúc với các bài khác. Kết quả: artifact **sampled-<bài>** cho từng
 bài và **sampled** gồm tất cả (MP3 của từng bài và kiểu, các file MIDI, điểm chấm `rated-<bài>.txt`).
 
+### Làm từng bài, từng phiên bản
+
+Mỗi bài được làm lần lượt từng phiên bản cùng bạn: nghe, góp ý, sửa, cho tới khi bạn ưng. Mỗi phiên bản là
+một file `versions/<bài>/<tên>-v<số>.json`: bài, kiểu phối gốc, và những gì đã đổi so với kiểu đó sau khi bạn
+nghe (nhịp, độ vang, độ to và âm sắc từng bè, cách chơi…). Muốn render thì điền ô *versions*, ví dụ
+`jingle-bells/piano-ni-v1`; khi đó ô *songs* và *styles* được bỏ qua. Bản render của phiên bản có thêm file
+FLAC (không nén) trên nhánh `renders`, để nghe và đo đúng chất lượng, không bị hụt dải cao như MP3 128 kbit/s.
+
 ## Giấy phép
 
 Mã ACE-Step theo giấy phép MIT; xem giấy phép của trọng số mô hình trên
