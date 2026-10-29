@@ -1,8 +1,10 @@
 # Dark piano sketches (dark/): dark/compose.py arranges the pieces written as
 # data in dark/pieces/, fetch_samples.py fetches the CC0 instruments they use,
 # render_samples.py plays and mixes them. Runs on every push to the
-# dark-piano branch (or by hand); 128 kbit/s previews are pushed to the
-# dark-renders branch (replaced each run), the full pieces kept as an artifact.
+# dark-piano branch (or by hand): a push that changes only pieces plays only
+# those, one that changes the code plays them all. 128 kbit/s previews go to
+# the dark-renders branch (one commit, the earlier pieces' previews kept beside
+# the new ones), the full pieces of the run to an artifact.
 name: Dark piano
 run-name: 'Dark piano: ${{ inputs.pieces || github.event.head_commit.message }}'
 
@@ -62,18 +64,37 @@ jobs:
           mkdir -p ~/sfizz
           find "$RUNNER_TEMP/sfizz/build" -name sfizz_render -type f -exec cp {} ~/sfizz/ \;
 
+      - name: Which pieces
+        id: which
+        run: |
+          if [ -n "$PIECES" ] || [ "$GITHUB_EVENT_NAME" != push ]; then echo "pieces=$PIECES" >> "$GITHUB_OUTPUT"; exit 0; fi
+          changed=$(jq -r '[.commits[] | (.added + .modified)[]] | unique | .[]' "$GITHUB_EVENT_PATH")
+          if echo "$changed" | grep -v -E '^dark/pieces/[^/]+\.json$|^dark/README\.md$' | grep -q .; then
+            echo "pieces=" >> "$GITHUB_OUTPUT"  # the code changed: every piece
+          else
+            only=$(echo "$changed" | sed -n 's#^dark/pieces/\(.*\)\.json$#\1#p' | tr '\n' ' ')
+            echo "pieces=$only" >> "$GITHUB_OUTPUT"
+            [ -n "${only// /}" ] || echo "skip=true" >> "$GITHUB_OUTPUT"  # nothing to play
+          fi
+
       - name: Arrangements (MIDI)
-        run: '"$RUNNER_TEMP/venv/bin/python" dark/compose.py out/dark ${PIECES:+--pieces $PIECES}'
+        if: steps.which.outputs.skip != 'true'
+        env:
+          ONLY: ${{ steps.which.outputs.pieces }}
+        run: '"$RUNNER_TEMP/venv/bin/python" dark/compose.py out/dark ${ONLY:+--pieces $ONLY}'
 
       - name: Instruments (CC0 samples)
+        if: steps.which.outputs.skip != 'true'
         run: '"$RUNNER_TEMP/venv/bin/python" fetch_samples.py out/dark "$RUNNER_TEMP/libs"'
 
       - name: Play and mix
+        if: steps.which.outputs.skip != 'true'
         run: |
           "$RUNNER_TEMP/venv/bin/python" render_samples.py out/dark --sfizz ~/sfizz/sfizz_render \
             --vsco "$RUNNER_TEMP/libs/vsco" --vcsl "$RUNNER_TEMP/libs/vcsl"
 
       - name: Smaller copies
+        if: steps.which.outputs.skip != 'true'
         run: |
           mkdir -p out/preview
           for wav in out/dark/*.wav; do
@@ -82,7 +103,7 @@ jobs:
           cp dark/pieces/*.json out/preview/
 
       - name: Keep the pieces
-        if: always()
+        if: always() && steps.which.outputs.skip != 'true'
         uses: actions/upload-artifact@v4
         with:
           name: dark
@@ -93,10 +114,18 @@ jobs:
           retention-days: 30
 
       - name: Previews on the dark-renders branch
+        if: steps.which.outputs.skip != 'true'
+        env:
+          ONLY: ${{ steps.which.outputs.pieces }}
         run: |
-          cd out/preview
+          mkdir -p out/published
+          if git clone -q --depth 1 -b dark-renders "https://github.com/$GITHUB_REPOSITORY" out/earlier 2>/dev/null; then
+            cp out/earlier/*.mp3 out/earlier/*.json out/published/ 2>/dev/null || true  # the earlier pieces stay
+          fi
+          cp out/preview/* out/published/
+          cd out/published
           git init -q -b dark-renders
           git add .
           git -c user.name="github-actions[bot]" -c user.email="41898282+github-actions[bot]@users.noreply.github.com" \
-            commit -q -m "Dark piano renders of run $GITHUB_RUN_ID (${PIECES:-all}), 128 kbit/s"
+            commit -q -m "Dark piano renders of run $GITHUB_RUN_ID (${ONLY:-all}), 128 kbit/s"
           git push -q -f "https://x-access-token:${{ github.token }}@github.com/$GITHUB_REPOSITORY" dark-renders
