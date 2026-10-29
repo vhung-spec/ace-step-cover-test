@@ -202,6 +202,14 @@ runs/<mã khác>/covers/lego-woodwinds/stem_01.mp3:0.7` (nhiều lượt cách n
        chính giai điệu (organ nghỉ giai điệu, giữ hai bè giữa), đàn hạc từ lượt hai, viola ở lượt cuối.
        Tiếng "u" là Voice Oohs của GeneralUser GS: vào tiếng nhanh (khoảng 20 ms), nên hợp cả nốt chạy nhanh;
        Concert Choir ("a") vào chậm (130–180 ms), sẽ làm nhòe các nốt nhanh.
+     - Organ mềm hơn, relax hơn, theo ý bạn ("tiếng organ quá nặng nề"). Bàn phím tiếng to (open diapason)
+       sáng nhất trong các organ: dải 2–5 kHz chỉ kém cả tiếng 15 dB, các âm bồi tới bậc sáu đều mạnh, và âm
+       lượng tự phập phồng 2,6 dB mỗi giây; bàn đạp tiếng to cũng sáng như vậy. Hai cách mềm hơn, cùng phần phối
+       của `church-organ-ensemble-near`: `church-organ-soft-near`, ống sáo bịt của bàn phím nhẹ (gần như một tần
+       số thuần, âm bồi bậc ba kém 9 dB) và bàn đạp nhẹ; `church-organ-small-near`, đàn organ nhỏ thời Phục hưng,
+       giai điệu trên hai ống sáo 8' và 4' cùng lúc (nốt và quãng tám của nó: loa điện thoại vẫn nghe rõ mà không
+       chói), ống 8' giữ các bè dưới. Cả hai nở ra rồi lắng xuống theo từng câu như hộp swell của organ, chậm hơn
+       một chút (0,74 lần nhịp của bài; các kiểu nhà thờ khác 0,8).
    - `salamander`: như `piano` nhưng trên đàn Salamander Grand Piano (không chạy mặc định).
 
    Các kiểu piano nhẹ nhàng (chill, lullaby, flowing, hymn, piano-strings, felt, felt-noise) chơi trên đàn

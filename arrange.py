@@ -120,7 +120,12 @@ same chords, beat by beat, so they always agree:
     the tune hummed softly under the organ's, violas and a flute descant;
     church-organ-hum-near, the voices forward: the choir humming alto and
     tenor from the first verse and the tune itself in the second, the harp
-    from the second verse, violas in the last.
+    from the second verse, violas in the last;
+  - that organ softer and more relaxing, as the user asked ("too heavy"):
+    church-organ-soft-near, church-organ-ensemble-near on the quiet manual's
+    stopped flute and the quiet pedal; church-organ-small-near, on the small
+    Renaissance organ (its 8' and 4' flutes for the tune, the 8' under it);
+    both swelling and ebbing with each phrase, a little slower.
 Sustained parts hold the tones two chords share, move their other tones to
 the nearest tone of the next chord, and swell with each phrase (expression,
 CC11). Instruments come from two CC0 sample libraries: VS Chamber Orchestra 2
@@ -207,6 +212,7 @@ INSTRUMENTS = {
     "pedal": ("vcsl", "Aerophones/Edge-blown Aerophones/Pipe Organ - Quiet Pedal.sfz"),
     "pedal-loud": ("vcsl", "Aerophones/Edge-blown Aerophones/Pipe Organ - Loud Pedal.sfz"),
     "chamber-organ": ("vcsl", "Aerophones/Edge-blown Aerophones/Renaissance Organ - 8'.sfz"),
+    "chamber-organ-48": ("vcsl", "Aerophones/Edge-blown Aerophones/Renaissance Organ - 4'+8'.sfz"),  # 8' and 4' together
     "trumpets": ("vsco", "TrumpetSus.sfz"),
     "trombones": ("vsco", "TromboneSus.sfz"),
     "tuba": ("vsco", "TubaSus.sfz"),
@@ -280,6 +286,7 @@ TONES = {
     "organ": {"channel": "left"},
     "organ-loud": {"channel": "left"},
     "chamber-organ": {"channel": "left"},
+    "chamber-organ-48": {"channel": "left"},
     "pedal": {"width": 0.6},
     "pedal-loud": {"width": 0.6},
     "trumpets": {"highpass": 80, "lowpass": 6000, "lowpass_order": 4, "width": 0.7, "dehiss": True},
@@ -1654,9 +1661,23 @@ def arrange_church_clear(arr: Arrangement) -> None:
 # chapel. What joins the organ takes the place of its held voices rather than
 # doubling them, and keeps out of the lows, so the tune stays clear on a phone.
 HUM = 120.0  # Hz: the humming voices' high-pass
+# The user then found the organ "too heavy" and asked for it softer and more
+# relaxing. Its loud manual's open diapason is the brightest of the organs
+# (2-5 kHz 15 dB under the whole tone, its harmonics up to the sixth within 20
+# dB of the fundamental) and its level pulses (2.6 dB, about once a second);
+# the loud pedal is as bright. Softer registrations, each (tune, voices under
+# it, bass, the samples' length in seconds): the quiet manual's stopped flute
+# (nearly a pure tone, its third harmonic 9 dB under the fundamental) on the
+# quiet pedal; or the small Renaissance organ, its 8' and 4' flutes together
+# for the tune (a pure tone and its octave: clear on a phone, never sharp),
+# the 8' alone under it. Played softly they swell and ebb with each phrase, as
+# an organ's swell box lets them (expression), and a little slower.
+ORGANS = {"loud": ("organ-loud", "organ", "pedal-loud", ORGAN_SECONDS),
+          "flutes": ("organ", "organ", "pedal", ORGAN_SECONDS),
+          "small": ("chamber-organ-48", "chamber-organ", "chamber-organ", CHAMBER_SECONDS)}
 
 
-def arrange_church_ensemble(arr: Arrangement, hum: bool = False) -> None:
+def arrange_church_ensemble(arr: Arrangement, hum: bool = False, organ: str = "loud") -> None:
     """The organ of arrange_church_clear, joined verse by verse: from the
     first verse a harp breaking each chord gently upwards and back in eighths;
     from the second a choir humming ("ooh") alto and tenor in place of the
@@ -1667,32 +1688,34 @@ def arrange_church_ensemble(arr: Arrangement, hum: bool = False) -> None:
     the voices forward: the choir humming alto and tenor from the first
     verse, and in the second (when there are three or more) the tune itself
     as the melody, the organ's tune resting and its quiet manual holding alto
-    and tenor; the harp from the second verse; no flute."""
+    and tenor; the harp from the second verse; no flute. organ: its
+    registration (ORGANS); a soft one swells and ebbs with each phrase."""
     beats, points = hymn_beats(arr), breath_points(arr)
+    lead, under_lead, bass, longest = ORGANS[organ]
     pickup = math.ceil(round(arr.song.pickup * EIGHTH) / arr.beat) * arr.beat  # a verse begins with its pickup
     first, second, last = (arr.verses[0] - pickup, arr.verses[min(1, arr.last)] - pickup,
                            arr.verses[-1] - pickup)
     hummed = (second, arr.verses[2] - pickup) if hum and arr.last >= 2 else None  # the verse the choir hums the tune
-    tune = arr.part("tune", "organ-loud", "melody", 0.0, reverb=SEND)
-    inner = arr.part("organ", "organ", "pad", 0.0, reverb=SEND)
+    tune = arr.part("tune", lead, "melody", 0.0, reverb=SEND)
+    inner = arr.part("organ", under_lead, "pad", 0.0, reverb=SEND)
     inner.tone["highpass"] = 140
-    pedal = arr.part("pedal", "pedal-loud", "low", 0.0, reverb=SEND)
-    sing(arr, pedal, beats, points, 0, arr.end, (3,), 80, tune=False, longest=ORGAN_SECONDS)
+    pedal = arr.part("pedal", bass, "low", 0.0, reverb=SEND)
+    sing(arr, pedal, beats, points, 0, arr.end, (3,), 80, tune=False, longest=longest)
     if hummed:
-        sing(arr, tune, beats, points, 0, hummed[0], (), 80, longest=ORGAN_SECONDS)
-        sing(arr, tune, beats, points, hummed[1], arr.end, (), 80, longest=ORGAN_SECONDS)
+        sing(arr, tune, beats, points, 0, hummed[0], (), 80, longest=longest)
+        sing(arr, tune, beats, points, hummed[1], arr.end, (), 80, longest=longest)
         hum_tune = arr.part("hum-tune", "oohs", "melody", -0.1, reverb=SEND)
         sing(arr, hum_tune, beats, points, *hummed, (), 76)
         breathe(arr, hum_tune, 96, 120, start=hummed[0], fade=60)
         hum_tune.expression = [(t, v) for t, v in hum_tune.expression if t < hummed[1]]
     else:
-        sing(arr, tune, beats, points, 0, arr.end, (), 80, longest=ORGAN_SECONDS)
+        sing(arr, tune, beats, points, 0, arr.end, (), 80, longest=longest)
     hum_from = first if hum else second
-    sing(arr, inner, beats, points, 0, hum_from, (1, 2), 80, tune=False, longest=ORGAN_SECONDS)
+    sing(arr, inner, beats, points, 0, hum_from, (1, 2), 80, tune=False, longest=longest)
     voices = arr.part("hum", "oohs", "hum", 0.15, reverb=SEND)
     voices.tone["highpass"] = HUM
     if hummed:  # the organ holds alto and tenor while the choir hums the tune
-        sing(arr, inner, beats, points, *hummed, (1, 2), 80, tune=False, longest=ORGAN_SECONDS)
+        sing(arr, inner, beats, points, *hummed, (1, 2), 80, tune=False, longest=longest)
         sing(arr, voices, beats, points, hum_from, hummed[0], (1, 2), 72, tune=False)
         sing(arr, voices, beats, points, hummed[1], arr.end, (1, 2), 72, tune=False)
     else:
@@ -1704,8 +1727,11 @@ def arrange_church_ensemble(arr: Arrangement, hum: bool = False) -> None:
     violas = arr.part("violas", "violas", "bed", 0.3, reverb=SEND)
     sing(arr, violas, beats, points, last, arr.end, (1, 2), 50, tune=False, longest=STRINGS_SECONDS)
     breathe(arr, violas, 84, 110, start=last, fade=40)
-    under = [(tune, (0,), 80, ORGAN_SECONDS), (pedal, (3,), 80, ORGAN_SECONDS), (voices, (1, 2), 66, None),
+    under = [(tune, (0,), 80, longest), (pedal, (3,), 80, longest), (voices, (1, 2), 66, None),
              (violas, (1, 2), 50, STRINGS_SECONDS)]
+    if organ != "loud":  # the soft organ swells and ebbs with each phrase
+        for part, low, high in ((tune, 92, 118), (inner, 84, 108), (pedal, 88, 110)):
+            breathe(arr, part, low, high, fade=56)
     if not hum:
         high = arr.part("hum-high", "oohs", "pad", -0.15, reverb=SEND)
         sing(arr, high, beats, points, last, arr.end, (), 70)
@@ -1853,6 +1879,13 @@ STYLES["church-organ-ensemble-near"] = dataclasses.replace(STYLES["church-organ-
                                                            arrange=arrange_church_ensemble)
 STYLES["church-organ-hum-near"] = dataclasses.replace(STYLES["church-organ-near"],
                                                       arrange=lambda arr: arrange_church_ensemble(arr, hum=True))
+# That organ softer and more relaxing, as the user asked ("too heavy"): its
+# flutes, or the small Renaissance organ, swelling with each phrase, and a
+# little slower (0.74 of the carol's tempo, the other church styles 0.8).
+STYLES["church-organ-soft-near"] = dataclasses.replace(
+    STYLES["church-organ-near"], arrange=lambda arr: arrange_church_ensemble(arr, organ="flutes"), tempo=0.74)
+STYLES["church-organ-small-near"] = dataclasses.replace(
+    STYLES["church-organ-near"], arrange=lambda arr: arrange_church_ensemble(arr, organ="small"), tempo=0.74)
 
 
 def untangle(notes: list) -> tuple[list, int]:
