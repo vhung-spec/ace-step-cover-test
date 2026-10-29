@@ -222,6 +222,14 @@ runs/<mã khác>/covers/lego-woodwinds/stem_01.mp3:0.7` (nhiều lượt cách n
        `pulse-human`, `ballad-human` (tay giữa và đàn hạc thở theo câu; giai điệu vẫn ở lớp mẫu sáng như trước;
        nhịp co giãn ít hơn một chút vì nhịp đều là chất riêng của hai kiểu này), `orchestra-gentle-human` (đàn hạc
        thở theo câu), `church-piano-human-near` (thánh ca trên piano) và `church-organ-small-human-near` (organ nhỏ).
+     - Thử tiếng nhạc cụ mô phỏng thay cho tiếng thu thật, theo ý bạn: các nhạc cụ do chính bộ dao động của
+       sfizz tạo ra, không cần bản thu, không vướng giấy phép (`instruments/*.sfz`): organ ống mềm (ống sáo 8'
+       và 4', có tiếng hơi khi ống bắt đầu kêu) với bàn đạp của nó, piano điện kiểu Rhodes (âm bồi kim loại "kêu"
+       khi đánh mạnh), piano nỉ (sáu âm bồi hơi căng như dây đàn, lọc mở theo lực đánh) và chuông nhà thờ (các
+       âm bồi của chuông, quãng ba thứ tạo màu chuông). Ba kiểu thử, đều chơi như người:
+       `church-organ-synth-human-near` (organ và chuông mô phỏng; đàn hạc, hợp xướng ngân, viola, sáo vẫn là
+       tiếng thu), `ballad-synth-human` (Rhodes mô phỏng) và `felt-synth-human` (piano nỉ mô phỏng). Chưa có
+       piano mô phỏng vật lý mã nguồn mở đủ hay; bản tốt nhất (Pianoteq) là phần mềm trả phí.
    - `salamander`: như `piano` nhưng trên đàn Salamander Grand Piano (không chạy mặc định).
 
    Các kiểu piano nhẹ nhàng (chill, lullaby, flowing, hymn, piano-strings, felt, felt-noise) chơi trên đàn

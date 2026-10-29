@@ -1,0 +1,21 @@
+// A church bell made by sfizz's own oscillators (no recording, no licence): the
+// partials of a tuned bell over its strike note (the hum an octave under, the
+// prime, the minor third that gives a bell its colour, the fifth, the nominal an
+// octave up and the partials over it), each dying at its own rate, the hum last;
+// and the clang of the strike.
+<global>
+amp_veltrack=60
+ampeg_attack=0.001
+ampeg_release=1.5
+ampeg_sustain=0
+
+<region> sample=*sine transpose=-12 tune=0 volume=-6 ampeg_decay=9.0
+<region> sample=*sine transpose=0 tune=0 volume=-4 ampeg_decay=6.0
+<region> sample=*sine transpose=3 tune=-9 volume=-3 ampeg_decay=5.0
+<region> sample=*sine transpose=7 tune=9 volume=-12 ampeg_decay=3.0
+<region> sample=*sine transpose=12 tune=0 volume=0 ampeg_decay=4.0
+<region> sample=*sine transpose=16 tune=-4 volume=-10 ampeg_decay=2.2
+<region> sample=*sine transpose=17 tune=-5 volume=-14 ampeg_decay=1.8
+<region> sample=*sine transpose=19 tune=8 volume=-12 ampeg_decay=1.6
+<region> sample=*sine transpose=25 tune=-30 volume=-16 ampeg_decay=1.0
+<region> sample=*noise volume=-24 ampeg_attack=0.001 ampeg_decay=0.02 ampeg_release=0.02 fil_type=bpf_2p cutoff=3000 resonance=3

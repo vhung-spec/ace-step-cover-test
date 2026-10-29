@@ -135,7 +135,11 @@ same chords, beat by beat, so they always agree:
   louder, less random jitter; and so the earlier styles the user keeps:
   pulse-human, ballad-human (their middle hand and harp breathing),
   orchestra-gentle-human (its harp breathing), church-piano-human-near and
-  church-organ-small-human-near.
+  church-organ-small-human-near;
+- simulated instruments in place of recorded ones, as the user asked to try,
+  made by sfizz's own oscillators (instruments/*.sfz: a soft pipe organ and
+  its pedal, a tine electric piano, a felt piano, a church bell):
+  church-organ-synth-human-near, ballad-synth-human, felt-synth-human.
 Sustained parts hold the tones two chords share, move their other tones to
 the nearest tone of the next chord, and swell with each phrase (expression,
 CC11). Instruments come from two CC0 sample libraries: VS Chamber Orchestra 2
@@ -231,6 +235,13 @@ INSTRUMENTS = {
     "choir": ("generaluser", "GeneralUser-GS.sf2#0:52"),  # Concert Choir, singing "ah"
     "oohs": ("generaluser", "GeneralUser-GS.sf2#0:53"),  # Voice Oohs
     "bell-tower": ("generaluser", "GeneralUser-GS.sf2#11:14"),  # Bell Tower
+    # simulated instruments, as the user asked to try: made by sfizz's own
+    # oscillators (instruments/*.sfz), no recording and no licence
+    "organ-synth": ("local", "organ-synth.sfz"),  # a soft pipe organ: stopped 8' flute and 4' flute
+    "pedal-synth": ("local", "pedal-synth.sfz"),  # its pedal: an 8' stopped flute
+    "ep-synth": ("local", "ep-synth.sfz"),  # a tine electric piano
+    "felt-synth": ("local", "felt-synth.sfz"),  # a soft piano, as felt hammers sound
+    "bell-synth": ("local", "bell-synth.sfz"),  # a church bell
 }
 # Each instrument's tone, for render_samples.py: a high-pass and a low-pass
 # (Hz), a high shelf (Hz, dB): the bells and the sustained parts lose some
@@ -303,6 +314,10 @@ TONES = {
     "trumpets": {"highpass": 80, "lowpass": 6000, "lowpass_order": 4, "width": 0.7, "dehiss": True},
     "trombones": {"highpass": 50, "lowpass": 4500, "lowpass_order": 4, "width": 0.7, "dehiss": True},
     "tuba": {"highpass": 30, "lowpass": 3000, "lowpass_order": 4, "width": 0.7},
+    # the simulated instruments are mono and clean (no hiss): the electric piano
+    # gets the sampled Rhodes's stereo chorus, a little less
+    "ep-synth": {"highpass": 60, "chorus": 0.6},
+    "bell-synth": {"lowpass": 8000},
 }
 # How loud each kind of part sits against the melody (dB of its loudness when playing).
 ROLES = {"melody": 0.0, "piano": 0.0, "descant": -9.0, "harp": -4.0, "pad": -10.0, "bass": -8.0, "shimmer": -12.0,
@@ -1793,11 +1808,13 @@ HUM = 120.0  # Hz: the humming voices' high-pass
 # an organ's swell box lets them (expression), and a little slower.
 ORGANS = {"loud": ("organ-loud", "organ", "pedal-loud", ORGAN_SECONDS),
           "flutes": ("organ", "organ", "pedal", ORGAN_SECONDS),
-          "small": ("chamber-organ-48", "chamber-organ", "chamber-organ", CHAMBER_SECONDS)}
+          "small": ("chamber-organ-48", "chamber-organ", "chamber-organ", CHAMBER_SECONDS),
+          # simulated, as the user asked to try: its notes last as long as held
+          "synth": ("organ-synth", "organ-synth", "pedal-synth", 60.0)}
 
 
 def arrange_church_ensemble(arr: Arrangement, hum: bool = False, organ: str = "loud",
-                            breathing: bool = False) -> None:
+                            breathing: bool = False, bell: str = "tubular") -> None:
     """The organ of arrange_church_clear, joined verse by verse: from the
     first verse a harp breaking each chord gently upwards and back in eighths;
     from the second a choir humming ("ooh") alto and tenor in place of the
@@ -1811,7 +1828,7 @@ def arrange_church_ensemble(arr: Arrangement, hum: bool = False, organ: str = "l
     and tenor; the harp from the second verse; no flute. organ: its
     registration (ORGANS); a soft one swells and ebbs with each phrase. With
     breathing, the harp breathes with each phrase too: on its last bar it lays
-    the chord down, rolled slowly, and lets it ring."""
+    the chord down, rolled slowly, and lets it ring. bell: the bell's instrument."""
     beats, points = hymn_beats(arr), breath_points(arr)
     lead, under_lead, bass, longest = ORGANS[organ]
     pickup = math.ceil(round(arr.song.pickup * EIGHTH) / arr.beat) * arr.beat  # a verse begins with its pickup
@@ -1871,7 +1888,7 @@ def arrange_church_ensemble(arr: Arrangement, hum: bool = False, organ: str = "l
     for i, note in enumerate(falling):
         harp.add(arr.end + arr.bar + i * EIGHTH, note, 48 - 2 * i, 2 * arr.bar)
     harp.add(arr.end + arr.bar + len(falling) * EIGHTH, bass_note(tonic), 44, 2 * arr.bar)
-    church_bell(arr, "tubular")
+    church_bell(arr, bell)
 
 
 # A player, after the arrangement (perform): the tempo swings over each phrase
@@ -1882,7 +1899,7 @@ def arrange_church_ensemble(arr: Arrangement, hum: bool = False, organ: str = "l
 # parts under it swell less, and the random jitter shrinks (loose), so the
 # timing is shaped rather than scattered. Only instruments whose sound follows
 # the velocity are touched (VELOCITY); the others swell by expression.
-VELOCITY = {"piano", "grand", "knight", "yamaha", "salamander", "ep", "harp"}
+VELOCITY = {"piano", "grand", "knight", "yamaha", "salamander", "ep", "harp", "ep-synth", "felt-synth"}
 
 
 @dataclass
@@ -2132,6 +2149,14 @@ STYLES["church-piano-human-near"] = dataclasses.replace(STYLES["church-piano-nea
 STYLES["church-organ-small-human-near"] = dataclasses.replace(
     STYLES["church-organ-small-near"], perform=HYMN_PLAYER,
     arrange=lambda arr: arrange_church_ensemble(arr, organ="small", breathing=True))
+# Simulated instruments in place of recorded ones, as the user asked to try
+# (made by sfizz's oscillators, instruments/*.sfz), each on a player's style:
+# the soft organ and its bell, the Rhodes of ballad, the felt piano.
+STYLES["church-organ-synth-human-near"] = dataclasses.replace(
+    STYLES["church-organ-soft-human-near"],
+    arrange=lambda arr: arrange_church_ensemble(arr, organ="synth", breathing=True, bell="bell-synth"))
+STYLES["ballad-synth-human"] = dataclasses.replace(STYLES["ballad-human"], piano="ep-synth")
+STYLES["felt-synth-human"] = dataclasses.replace(STYLES["felt-4k-human"], piano="felt-synth")
 
 
 def untangle(notes: list) -> tuple[list, int]:

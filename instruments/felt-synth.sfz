@@ -1,0 +1,39 @@
+// A soft piano made by sfizz's own oscillators (no recording, no licence), as
+// felt hammers sound: six partials, stretched a little sharp as a piano's
+// strings are, each fainter and dying sooner than the one under it; the felt's
+// soft knock; a low-pass that opens as the key is struck harder, and follows
+// the pitch. Lower notes ring longer.
+<global>
+amp_veltrack=70
+ampeg_attack=0.003
+ampeg_release=0.25
+fil_type=lpf_2p
+cutoff=1500
+fil_keycenter=60
+fil_keytrack=100
+fil_veltrack=2000
+
+<group> lokey=0 hikey=59
+<region> sample=*sine transpose=0 tune=0 volume=0 ampeg_sustain=0 ampeg_decay=7.0
+<region> sample=*sine transpose=12 tune=1 volume=-7 ampeg_sustain=0 ampeg_decay=4.2
+<region> sample=*sine transpose=19 tune=5 volume=-14 ampeg_sustain=0 ampeg_decay=2.8
+<region> sample=*sine transpose=24 tune=5 volume=-20 ampeg_sustain=0 ampeg_decay=2.1
+<region> sample=*sine transpose=28 tune=-6 volume=-26 ampeg_sustain=0 ampeg_decay=1.4
+<region> sample=*sine transpose=31 tune=12 volume=-30 ampeg_sustain=0 ampeg_decay=1.05
+<region> sample=*noise volume=-30 ampeg_attack=0.001 ampeg_decay=0.04 ampeg_sustain=0 ampeg_release=0.03 fil_type=lpf_2p cutoff=900 fil_keycenter=60 fil_keytrack=100
+<group> lokey=60 hikey=79
+<region> sample=*sine transpose=0 tune=0 volume=0 ampeg_sustain=0 ampeg_decay=5.0
+<region> sample=*sine transpose=12 tune=1 volume=-7 ampeg_sustain=0 ampeg_decay=3.0
+<region> sample=*sine transpose=19 tune=5 volume=-14 ampeg_sustain=0 ampeg_decay=2.0
+<region> sample=*sine transpose=24 tune=5 volume=-20 ampeg_sustain=0 ampeg_decay=1.5
+<region> sample=*sine transpose=28 tune=-6 volume=-26 ampeg_sustain=0 ampeg_decay=1.0
+<region> sample=*sine transpose=31 tune=12 volume=-30 ampeg_sustain=0 ampeg_decay=0.75
+<region> sample=*noise volume=-30 ampeg_attack=0.001 ampeg_decay=0.04 ampeg_sustain=0 ampeg_release=0.03 fil_type=lpf_2p cutoff=900 fil_keycenter=60 fil_keytrack=100
+<group> lokey=80 hikey=127
+<region> sample=*sine transpose=0 tune=0 volume=0 ampeg_sustain=0 ampeg_decay=3.0
+<region> sample=*sine transpose=12 tune=1 volume=-7 ampeg_sustain=0 ampeg_decay=1.8
+<region> sample=*sine transpose=19 tune=5 volume=-14 ampeg_sustain=0 ampeg_decay=1.2
+<region> sample=*sine transpose=24 tune=5 volume=-20 ampeg_sustain=0 ampeg_decay=0.9
+<region> sample=*sine transpose=28 tune=-6 volume=-26 ampeg_sustain=0 ampeg_decay=0.6
+<region> sample=*sine transpose=31 tune=12 volume=-30 ampeg_sustain=0 ampeg_decay=0.45
+<region> sample=*noise volume=-30 ampeg_attack=0.001 ampeg_decay=0.04 ampeg_sustain=0 ampeg_release=0.03 fil_type=lpf_2p cutoff=900 fil_keycenter=60 fil_keytrack=100
