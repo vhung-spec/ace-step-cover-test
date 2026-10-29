@@ -113,7 +113,14 @@ same chords, beat by beat, so they always agree:
     gentle Yamaha upright, its tune on top, strings from the second verse, a
     choir humming far under the last; church-organ-clear-near, the organ
     with its tune alone on the bright loud manual, the voices under it
-    lighter.
+    lighter;
+  - the clear organ joined by other instruments and by voices humming, as the
+    user asked: church-organ-ensemble-near, a harp from the first verse, a
+    choir humming ("ooh") alto and tenor from the second, in the last verse
+    the tune hummed softly under the organ's, violas and a flute descant;
+    church-organ-hum-near, the voices forward: the choir humming alto and
+    tenor from the first verse and the tune itself in the second, the harp
+    from the second verse, violas in the last.
 Sustained parts hold the tones two chords share, move their other tones to
 the nearest tone of the next chord, and swell with each phrase (expression,
 CC11). Instruments come from two CC0 sample libraries: VS Chamber Orchestra 2
@@ -283,7 +290,7 @@ TONES = {
 ROLES = {"melody": 0.0, "piano": 0.0, "descant": -9.0, "harp": -4.0, "pad": -10.0, "bass": -8.0, "shimmer": -12.0,
          "arp": -7.0, "jingle": -18.0, "haze": -20.0,
          "bells": -8.0, "bed": -13.0, "low": -12.0, "toll": -14.0, "sparkle": -16.0, "drum": -17.0,
-         "voices": -2.0}
+         "voices": -2.0, "hum": -6.0}
 
 
 @dataclass
@@ -1642,6 +1649,80 @@ def arrange_church_clear(arr: Arrangement) -> None:
     church_bell(arr, "tubular")
 
 
+# The user asked for the clear organ joined by other instruments and by voices
+# humming ("tiếng ngân nga"): GeneralUser GS's choir singing "ooh", as in
+# chapel. What joins the organ takes the place of its held voices rather than
+# doubling them, and keeps out of the lows, so the tune stays clear on a phone.
+HUM = 120.0  # Hz: the humming voices' high-pass
+
+
+def arrange_church_ensemble(arr: Arrangement, hum: bool = False) -> None:
+    """The organ of arrange_church_clear, joined verse by verse: from the
+    first verse a harp breaking each chord gently upwards and back in eighths;
+    from the second a choir humming ("ooh") alto and tenor in place of the
+    quiet manual; in the last verse the choir humming the tune too, softly
+    under the organ's, violas holding alto and tenor, and a flute's slow
+    descant over the verse's second half; the Amen, the harp falling through
+    its last chord; a tubular bell tolling the piece in and out. With hum,
+    the voices forward: the choir humming alto and tenor from the first
+    verse, and in the second (when there are three or more) the tune itself
+    as the melody, the organ's tune resting and its quiet manual holding alto
+    and tenor; the harp from the second verse; no flute."""
+    beats, points = hymn_beats(arr), breath_points(arr)
+    pickup = math.ceil(round(arr.song.pickup * EIGHTH) / arr.beat) * arr.beat  # a verse begins with its pickup
+    first, second, last = (arr.verses[0] - pickup, arr.verses[min(1, arr.last)] - pickup,
+                           arr.verses[-1] - pickup)
+    hummed = (second, arr.verses[2] - pickup) if hum and arr.last >= 2 else None  # the verse the choir hums the tune
+    tune = arr.part("tune", "organ-loud", "melody", 0.0, reverb=SEND)
+    inner = arr.part("organ", "organ", "pad", 0.0, reverb=SEND)
+    inner.tone["highpass"] = 140
+    pedal = arr.part("pedal", "pedal-loud", "low", 0.0, reverb=SEND)
+    sing(arr, pedal, beats, points, 0, arr.end, (3,), 80, tune=False, longest=ORGAN_SECONDS)
+    if hummed:
+        sing(arr, tune, beats, points, 0, hummed[0], (), 80, longest=ORGAN_SECONDS)
+        sing(arr, tune, beats, points, hummed[1], arr.end, (), 80, longest=ORGAN_SECONDS)
+        hum_tune = arr.part("hum-tune", "oohs", "melody", -0.1, reverb=SEND)
+        sing(arr, hum_tune, beats, points, *hummed, (), 76)
+        breathe(arr, hum_tune, 96, 120, start=hummed[0], fade=60)
+        hum_tune.expression = [(t, v) for t, v in hum_tune.expression if t < hummed[1]]
+    else:
+        sing(arr, tune, beats, points, 0, arr.end, (), 80, longest=ORGAN_SECONDS)
+    hum_from = first if hum else second
+    sing(arr, inner, beats, points, 0, hum_from, (1, 2), 80, tune=False, longest=ORGAN_SECONDS)
+    voices = arr.part("hum", "oohs", "hum", 0.15, reverb=SEND)
+    voices.tone["highpass"] = HUM
+    if hummed:  # the organ holds alto and tenor while the choir hums the tune
+        sing(arr, inner, beats, points, *hummed, (1, 2), 80, tune=False, longest=ORGAN_SECONDS)
+        sing(arr, voices, beats, points, hum_from, hummed[0], (1, 2), 72, tune=False)
+        sing(arr, voices, beats, points, hummed[1], arr.end, (1, 2), 72, tune=False)
+    else:
+        sing(arr, voices, beats, points, hum_from, arr.end, (1, 2), 72, tune=False)
+    breathe(arr, voices, 90, 116, start=hum_from, fade=50)
+    harp = arr.part("harp", "harp", "arp", -0.3, reverb=SEND)
+    harp_from = second if hum else first
+    flowing_bass(arr, harp, harp_from + pickup, arr.end, 46, octave=12)
+    violas = arr.part("violas", "violas", "bed", 0.3, reverb=SEND)
+    sing(arr, violas, beats, points, last, arr.end, (1, 2), 50, tune=False, longest=STRINGS_SECONDS)
+    breathe(arr, violas, 84, 110, start=last, fade=40)
+    under = [(tune, (0,), 80, ORGAN_SECONDS), (pedal, (3,), 80, ORGAN_SECONDS), (voices, (1, 2), 66, None),
+             (violas, (1, 2), 50, STRINGS_SECONDS)]
+    if not hum:
+        high = arr.part("hum-high", "oohs", "pad", -0.15, reverb=SEND)
+        sing(arr, high, beats, points, last, arr.end, (), 70)
+        breathe(arr, high, 86, 112, start=last, fade=50)
+        flute = arr.part("descant", "flute", "descant", 0.2, reverb=SEND)
+        descant(arr, flute, arr.verses[-1] + arr.phrase, arr.end, 46, ceiling=81)
+        breathe(arr, flute, 84, 112, start=arr.verses[-1] + arr.phrase, fade=36)
+        under.append((high, (0,), 64, None))
+    amen(arr, beats, under)
+    tonic = arr.chord_at(arr.end)  # the Amen's last chord: from the middle of the keyboard down, into the deep tonic
+    falling = chord_notes(tonic, 55, 76)[::-1]
+    for i, note in enumerate(falling):
+        harp.add(arr.end + arr.bar + i * EIGHTH, note, 48 - 2 * i, 2 * arr.bar)
+    harp.add(arr.end + arr.bar + len(falling) * EIGHTH, bass_note(tonic), 44, 2 * arr.bar)
+    church_bell(arr, "tubular")
+
+
 @dataclass
 class Style:
     arrange: Callable
@@ -1766,6 +1847,12 @@ for _name in ("church-organ", "church-organ-plain", "church-choir", "church-fest
 STYLES["church-piano-near"] = dataclasses.replace(STYLES["church-organ-near"], arrange=arrange_church_piano,
                                                   piano=GENTLE_PIANO)
 STYLES["church-organ-clear-near"] = dataclasses.replace(STYLES["church-organ-near"], arrange=arrange_church_clear)
+# The clear organ joined by other instruments and humming voices, as the user
+# asked (arrange_church_ensemble): the instruments forward, or the voices.
+STYLES["church-organ-ensemble-near"] = dataclasses.replace(STYLES["church-organ-near"],
+                                                           arrange=arrange_church_ensemble)
+STYLES["church-organ-hum-near"] = dataclasses.replace(STYLES["church-organ-near"],
+                                                      arrange=lambda arr: arrange_church_ensemble(arr, hum=True))
 
 
 def untangle(notes: list) -> tuple[list, int]:

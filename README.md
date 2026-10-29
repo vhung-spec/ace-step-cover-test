@@ -194,6 +194,14 @@ runs/<mã khác>/covers/lego-woodwinds/stem_01.mp3:0.7` (nhiều lượt cách n
        sáng rõ ở trên như `pulse`, ba bè dưới đánh nhẹ, dàn dây giữ hợp âm từ lượt hai, hợp xướng ngân "u"
        rất khẽ ở lượt cuối; `church-organ-clear-near`, organ với giai điệu riêng trên bàn phím tiếng to (sáng,
        loa nhỏ vẫn nghe rõ), hai bè giữa nhẹ hơn và bớt dải trầm, bass trên bàn đạp tiếng to.
+     - Organ phối thêm nhạc cụ và tiếng ngân nga, theo ý bạn (dựa trên `church-organ-clear-near`, giai điệu
+       organ vẫn rõ ở trên; phần thêm vào thay chỗ các bè organ giữ chứ không chồng lên, và tránh dải trầm):
+       `church-organ-ensemble-near`, đàn hạc rải hợp âm từ lượt một, hợp xướng ngân "u" hai bè giữa từ lượt
+       hai, lượt cuối hợp xướng ngân cả giai điệu khẽ dưới organ, thêm viola và bè sáo cao;
+       `church-organ-hum-near`, nghiêng về tiếng ngân: hợp xướng ngân hai bè giữa từ lượt một, lượt hai ngân
+       chính giai điệu (organ nghỉ giai điệu, giữ hai bè giữa), đàn hạc từ lượt hai, viola ở lượt cuối.
+       Tiếng "u" là Voice Oohs của GeneralUser GS: vào tiếng nhanh (khoảng 20 ms), nên hợp cả nốt chạy nhanh;
+       Concert Choir ("a") vào chậm (130–180 ms), sẽ làm nhòe các nốt nhanh.
    - `salamander`: như `piano` nhưng trên đàn Salamander Grand Piano (không chạy mặc định).
 
    Các kiểu piano nhẹ nhàng (chill, lullaby, flowing, hymn, piano-strings, felt, felt-noise) chơi trên đàn
