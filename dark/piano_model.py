@@ -108,6 +108,8 @@ DEFAULTS = {
     "width": 0.3,  # the stereo spread (0: mono)
     "release_s": 0.3,  # the dampers
     "key_tilt_db": 0.0,  # loudness an octave up
+    "treble_level_db": -4.5,  # the treble softer, as the recorded upright's is at one velocity: level up to F#4,
+    # this much down from A5 up (louder, the high notes jumped out of the tune, "tiếng bộp ... giống tiếng rè")
 }
 MODELS = {
     # fitted to the user's choice (the Yamaha upright as H3 plays it: its
@@ -227,7 +229,8 @@ def sample(job: tuple) -> None:
     p, key, layer, path = job
     audio = note(key, LAYERS[layer][2], p, seed=key * 10 + layer)
     level = np.sqrt(np.mean(audio[:, : int(0.3 * RATE)] ** 2))
-    audio *= 0.08 / level * 10 ** (p["key_tilt_db"] * (key - 60) / 12 / 20)
+    treble = p["treble_level_db"] * min(1.0, max(0.0, (key - 66) / 15))
+    audio *= 0.08 / level * 10 ** ((p["key_tilt_db"] * (key - 60) / 12 + treble) / 20)
     sf.write(path, audio.T.astype(np.float32), RATE, subtype="PCM_16")
 
 
