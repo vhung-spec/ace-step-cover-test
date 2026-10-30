@@ -1,0 +1,62 @@
+{
+  "about": "Strings for Jingle Bells' Kiểu 1 (version 2a), written by Composer's Assistant 2 hearing the piano (its tune an octave up, its pulse and deep bass), as the user asked (\"thêm lớp nền\"): a bed from the first verse to the last chord (bars 0-64), in place of pulse's own strings in the last refrain. The violas (two notes at a time at most) and the cellos (one) throughout, the violins (one) in the last verse, each under the tune (loosely: lay_in keeps what the model wrote); notes starting about twice a bar (horiz 1), the cellos less (horiz 0), the upper strings mostly by step (step 4).",
+  "version": "jingle-bells/kieu-1-v2b",
+  "hear": [
+    "piano"
+  ],
+  "parts": {
+    "violins": {
+      "program": 40,
+      "spans": [
+        [
+          32,
+          64,
+          62,
+          74
+        ]
+      ],
+      "vert": 0,
+      "horiz": 1,
+      "step": 4
+    },
+    "violas": {
+      "program": 41,
+      "spans": [
+        [
+          0,
+          32,
+          52,
+          64
+        ],
+        [
+          32,
+          64,
+          53,
+          67
+        ]
+      ],
+      "vert": 1,
+      "horiz": 1,
+      "step": 4
+    },
+    "cellos": {
+      "program": 42,
+      "spans": [
+        [
+          0,
+          64,
+          41,
+          57
+        ]
+      ],
+      "vert": 0,
+      "horiz": 0
+    }
+  },
+  "takes": [
+    1,
+    2,
+    3
+  ],
+  "temperature": 1.0
+}

@@ -1438,21 +1438,44 @@ def lay_in(arr: Arrangement, written, end: bool = False, tops: tuple = (0.6, 0.7
     Assistant 2), in one file under versions/ or several, laid in as a bed:
     each part (an instrument by its name, WRITTEN) as written, but for a tone
     held on into a chord it is not in (fitted), soft, swelling to tops (a share
-    of its range: the first refrain, the last verse's first half, its refrain),
+    of its range: the first refrain, the last verse's first half, its refrain;
+    a part written from the first verse rises over it to most of the first),
     in the far hall behind the room; with end, ending as the tune does
-    (held_end)."""
+    (held_end). It takes the place of the style's own part of its name."""
     half = arr.bar * (len(arr.song.chords) // 2)
     first, last = arr.verses[0], arr.verses[-1]
+    laid = set()
     for file in [written] if isinstance(written, str) else written:
         for name, notes in json.loads((VERSIONS / file).read_text())["parts"].items():
             pan, velocity = WRITTEN[name]
+            if name not in laid:  # in place of the style's own part of that name (pulse's strings at the end)
+                arr.parts.pop(name, None)
+                laid.add(name)
             part = arr.part(name, name, "bed", pan, reverb=0.3)
             for tick, note, length in held_end(arr, notes) if end else notes:
                 for at, key, held in fitted(arr, tick, note, length):
                     part.add(at + arr.jitter(4), key, velocity, held, tie=True)
             part.far = 0.6
-            swell(arr, part, [(first + half - arr.beat, last, tops[0]), (last, last + half, tops[1]),
-                              (last + half, arr.end, tops[2])], 60, 104)
+            spans = [(first + half - arr.beat, last, tops[0]), (last, last + half, tops[1]),
+                     (last + half, arr.end, tops[2])]
+            if min(t for t, _, _, _ in part.notes) < spans[0][0]:  # written from the first verse: rising to its refrain
+                spans.insert(0, (first, spans[0][0], 0.8 * tops[0]))
+            swell(arr, part, spans, 60, 104)
+
+
+# Kiểu 1 (pulse-human) heard: "I want a bed under it, and a gentler piano"
+# ("tôi muốn có thêm lớp nền và tiếng piano nhẹ nhàng hơn").
+def lay_bed(arr: Arrangement, bed: str) -> None:
+    """A bed under any style's arrangement (Style.bed): "pad", our warm pad
+    (instruments/pad-warm.sfz) from the first verse, three tones between G3
+    and C5, fuller in the last verse, swelling with each phrase."""
+    if bed != "pad":
+        raise ValueError(f"no bed {bed!r}")
+    first, last = arr.verses[0], arr.verses[-1]
+    pad = arr.part("pad", "pad-warm", "bed", 0.0, reverb=0.4)
+    held_bed(arr, pad, first, last, 46, 55, 72)
+    held_bed(arr, pad, last, arr.end + 2 * arr.bar, 56, 55, 72)
+    breathe(arr, pad, 76, 104, start=first)
 
 
 def arrange_felt_bed(arr: Arrangement, bed: str) -> None:
@@ -2384,6 +2407,7 @@ class Perform:
     long: float = 2.0  # the tune's velocity for a note twice a beat long (as much less for half a beat)
     loose: float = 0.5  # the random jitter, times this
     ceiling: int = 127  # the highest velocity (the felt piano stays in its soft samples, under 66)
+    touch: float = 1.0  # the piano's every velocity times this: a lighter touch, its softer, mellower samples
     treble_db: float = 0.0  # the keys over treble_from this much softer by treble_to (dB, as velocity sets level)
     treble_from: int = 74  # D5
     treble_to: int = 86  # D6
@@ -2465,6 +2489,8 @@ def perform(arr: Arrangement, how: Perform) -> None:
                 else:
                     velocity += 2 * how.under * rise
                 velocity = max(1, min(how.ceiling, round(velocity)))
+            if how.touch != 1.0 and part is arr.parts.get("piano"):
+                velocity = max(1, min(how.ceiling, round(velocity * how.touch)))
             if how.treble_db and note > how.treble_from:
                 share = min(1.0, (note - how.treble_from) / (how.treble_to - how.treble_from))
                 velocity = max(1, round(velocity * 10 ** (how.treble_db * share / 40)))  # level goes as velocity squared
@@ -2502,6 +2528,7 @@ class Style:
     written_end: bool = False  # the written parts end as the tune does (held_end), else as written
     written_swell: tuple = (0.6, 0.75, 1.0)  # how far they swell: first refrain, last verse, last refrain
     ring_beats: float | None = None  # a quick ending: the last chord let go this many beats after it (let_go)
+    bed: str | None = None  # a bed laid under any style's arrangement (lay_bed): "pad"
     tail: dict | None = None  # how the mix ends: {"fade": s, "below": dB} (render_samples.fade_tail); else 3 s, 60 dB
 
 
@@ -2761,6 +2788,8 @@ def arranged(song: Song, style: Style, piano: str, seed: int = 7) -> Arrangement
     if style.ring_beats:
         arr.ring = round(style.ring_beats * arr.beat)
     style.arrange(arr)
+    if style.bed:
+        lay_bed(arr, style.bed)
     if style.written:
         lay_in(arr, style.written, style.written_end, tuple(style.written_swell))
     if arr.ring:

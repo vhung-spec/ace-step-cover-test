@@ -1,0 +1,31 @@
+{
+  "song": "jingle-bells",
+  "style": "pulse-human",
+  "title": "Jingle Bells · Kiểu 1",
+  "heard": "v1: \"tôi muốn có thêm lớp nền và tiếng piano nhẹ nhàng hơn\" (I want a bed under it, and a gentler piano)",
+  "about": "v2b: 1 with the piano gentler: every key struck three quarters as hard, no harder than 65 (Perform.touch, ceiling), so the Yamaha upright plays from its softly recorded samples, mellower (the tune went up to 90 before), and its highs eased from 7 kHz; a bed of our warm pad under it from the first verse, swelling with each phrase (Style.bed).",
+  "changes": {
+    "tones": {
+      "piano": {
+        "swap_samples": {
+          "Upright1_Sus_C5_vl1_rr1.wav": "Upright1_Sus_C5_vl1_rr2.wav"
+        },
+        "treble_filter": {
+          "from": 79,
+          "ratio": 0.8
+        },
+        "lowpass": 7000
+      }
+    },
+    "ring_beats": 2,
+    "tail": {
+      "fade": 1.0,
+      "below": 45
+    },
+    "perform": {
+      "touch": 0.75,
+      "ceiling": 65
+    },
+    "bed": "pad"
+  }
+}
