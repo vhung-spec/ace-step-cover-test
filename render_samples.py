@@ -372,11 +372,11 @@ def limit(audio: np.ndarray, ceiling_db: float = CEILING_DB, attack: float = 0.0
             float(np.mean(reduction > 1 - 10 ** (-1 / 20))))
 
 
-def fade_tail(audio: np.ndarray, seconds: float = 3.0) -> np.ndarray:
-    """Ends the piece when it has faded 60 dB below its peak, the last seconds
-    faded out, rather than on a long, barely audible tail."""
+def fade_tail(audio: np.ndarray, seconds: float = 3.0, below: float = 60) -> np.ndarray:
+    """Ends the piece when it has faded `below` dB under its peak, the last
+    seconds faded out, rather than on a long, barely audible tail."""
     level = np.abs(audio).max(axis=0)
-    loud = np.nonzero(level > level.max() * 10 ** (-60 / 20))[0]
+    loud = np.nonzero(level > level.max() * 10 ** (-below / 20))[0]
     audio = audio[:, : loud[-1] + 1] if len(loud) else audio
     n = min(int(seconds * RATE), audio.shape[1])
     audio[:, -n:] *= np.linspace(1, 0, n) ** 2
@@ -490,7 +490,8 @@ def mix_folder(folder: Path, sfizz: str, libraries: dict, keep_parts: bool, prem
         print(f"  far hall {sheet['far']['rt60']} s for {', '.join(e['part'] for e, _ in parts.values() if e.get('far'))}",
               flush=True)
     rumble = butter(2, 30, "high", fs=RATE, output="sos")
-    mixed = fade_tail(sosfilt(rumble, dry + wet, axis=-1))
+    end = sheet.get("end", {})  # a quicker end: fade, below (fade_tail)
+    mixed = fade_tail(sosfilt(rumble, dry + wet, axis=-1), end.get("fade", 3.0), end.get("below", 60))
     if sheet.get("noise"):  # a hush under the music, so many dB under the melody
         mixed += noise_bed(mixed.shape[1]) * 10 ** ((reference + sheet["noise"]["db"]) / 20)
         print(f"  a hush under it all, {-sheet['noise']['db']:g} dB under the melody", flush=True)

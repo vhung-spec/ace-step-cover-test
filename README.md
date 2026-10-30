@@ -314,6 +314,7 @@ một file `versions/<bài>/<tên>-v<số>.json`: bài, kiểu phối gốc, và
 nghe (nhịp, độ vang, độ to và âm sắc từng bè, cách chơi…). Muốn render thì điền ô *versions*, ví dụ
 `jingle-bells/piano-ni-v1`; khi đó ô *songs* và *styles* được bỏ qua. Bản render của phiên bản có thêm file
 FLAC (không nén) trên nhánh `renders`, để nghe và đo đúng chất lượng, không bị hụt dải cao như MP3 128 kbit/s.
+Muốn kết bài nhanh, gọn thì đặt `ring_beats`: hợp âm cuối được nhả sau bấy nhiêu phách, mọi bè nhả theo, nhấc pedal. Đặt thêm `tail` (ví dụ `{"fade": 1.5, "below": 50}`) thì bản trộn dừng khi tiếng vang đã nhỏ hơn mức to nhất 50 dB, giây rưỡi cuối giảm dần (mặc định: 60 dB, 3 giây).
 
 ### Bè do mô hình AI viết (Composer's Assistant 2)
 

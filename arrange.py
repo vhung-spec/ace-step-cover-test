@@ -511,6 +511,7 @@ class Arrangement:
         self.parts: dict[str, Part] = {}
         self.loose = 1.0  # the random timing (jitter) times this: less for a player shaping each phrase (perform)
         self.shift = 0  # ticks the piece was moved later for a lead-in (lead_in)
+        self.ring = None  # ticks the last chord rings before every part lets go (Style.ring_beats); None: their own
 
     def part(self, name: str, instrument: str, role: str, pan: float, reverb: float = 0.3) -> Part:
         if name not in self.parts:
@@ -910,15 +911,17 @@ def hymn_voices(arr: Arrangement, piano: Part, velocity: int, avoid: list) -> No
 def gentle_end(arr: Arrangement, piano: Part, tune: list, velocity: int) -> None:
     """The last chord, open and rolled slowly up from the bass, the pedal held,
     then its keynote high up, soft as a far bell; keys the tune still holds are
-    left to it."""
+    left to it. With a quick ending (arr.ring) the chord is let go after it,
+    the bell left out."""
     held = held_keys(tune, arr.end + 100)
     tonic = arr.chord_at(arr.end)
     root, up = bass_note(tonic), third(tonic)
     rolled = ((root, 0), (root + 7, 4), (root + 12 + up, 6), (root + 24, 6), (root + 24 + up, 8), (root + 31, 10))
-    for i, (note, softer) in enumerate(rolled + ((root + 48, 14),)):
+    ring = arr.ring or 3 * arr.bar
+    for i, (note, softer) in enumerate(rolled + (() if arr.ring else ((root + 48, 14),))):
         if note not in held:
-            piano.add(arr.end + (i * 50 if i < len(rolled) else arr.beat + 40), note, velocity - softer, 3 * arr.bar)
-    piano.pedal += [(arr.end + 20, 127), (arr.end + 3 * arr.bar, 0)]
+            piano.add(arr.end + (i * 50 if i < len(rolled) else arr.beat + 40), note, velocity - softer, ring)
+    piano.pedal += [(arr.end + 20, 127), (arr.end + ring, 0)]
 
 
 def gentle_piano(arr: Arrangement) -> Part:
@@ -1165,7 +1168,7 @@ def swell(arr: Arrangement, part: Part, spans: list, low: int, high: int, fade: 
             rise = math.sin(math.pi / 2 * min(1.0, x / 0.66)) ** 2
             level = round(begin + (peak * (1 - 0.15 * max(0.0, (x - 0.66) / 0.34)) - begin) * rise)
             part.expression.append((tick, level))
-    steps = 2 * arr.bar // EIGHTH
+    steps = (arr.ring or 2 * arr.bar) // EIGHTH
     for i in range(steps):
         part.expression.append((arr.end + i * EIGHTH, round(level + (fade - level) * (i / (steps - 1)) ** 0.7)))
 
@@ -1406,13 +1409,28 @@ def held_end(arr: Arrangement, notes: list) -> list:
     tone nearest its last note) through the piano's last chord, bar by bar
     (struck again where a sample would run out), and plays nothing more."""
     final = max(t for t, _, _, verse, _ in arr.melody() if verse == arr.last)
-    ring = arr.end + 2 * arr.bar
+    ring = arr.end + (arr.ring or 2 * arr.bar)
     kept = [(t, n, l) for t, n, l in notes if t < final - EIGHTH]
     held = sorted({n for t, n, _ in notes if abs(t - final) < EIGHTH})
     if not held and kept:
         chord = arr.chord_at(final)
         held = [min(chord_notes(chord, kept[-1][1] - 6, kept[-1][1] + 6), key=lambda n: abs(n - kept[-1][1]))]
     return kept + [(bar, n, min(arr.bar, ring - bar)) for n in held for bar in range(final, ring, arr.bar)]
+
+
+# Version 8b (7c with horns) liked best, but "the last 7 seconds should end
+# quicker, tidier": after the last chord the piano held its pedal 11 s, a far
+# bell rang a second after it, the strings and horns faded over 8 s and the
+# halls rang on, mostly very softly.
+def let_go(arr: Arrangement) -> None:
+    """A quick ending: arr.ring after the last chord every part lets go, each
+    note still held then let go there, the pedal lifted (the swells have faded
+    by then: swell)."""
+    stop = arr.end + arr.ring
+    for part in arr.parts.values():
+        part.notes = [(t, n, v, min(l, stop - t)) for t, n, v, l in part.notes if t < stop]
+        if part.pedal:
+            part.pedal = [(t, v) for t, v in part.pedal if t < stop] + [(stop, 0)]
 
 
 def lay_in(arr: Arrangement, written, end: bool = False, tops: tuple = (0.6, 0.75, 1.0)) -> None:
@@ -2461,6 +2479,8 @@ class Style:
     written: str | list | None = None  # parts another hand wrote (infill.py), files under versions/ (lay_in)
     written_end: bool = False  # the written parts end as the tune does (held_end), else as written
     written_swell: tuple = (0.6, 0.75, 1.0)  # how far they swell: first refrain, last verse, last refrain
+    ring_beats: float | None = None  # a quick ending: the last chord let go this many beats after it (let_go)
+    tail: dict | None = None  # how the mix ends: {"fade": s, "below": dB} (render_samples.fade_tail); else 3 s, 60 dB
 
 
 # The gentle styles are played on the Yamaha upright: of the three pianos
@@ -2716,9 +2736,13 @@ def arranged(song: Song, style: Style, piano: str, seed: int = 7) -> Arrangement
                       intro=style.intro)
     if style.perform:
         arr.loose = style.perform.loose
+    if style.ring_beats:
+        arr.ring = round(style.ring_beats * arr.beat)
     style.arrange(arr)
     if style.written:
         lay_in(arr, style.written, style.written_end, tuple(style.written_swell))
+    if arr.ring:
+        let_go(arr)
     if style.perform:
         perform(arr, style.perform)
     return arr
@@ -2756,6 +2780,8 @@ def write_piece(arr: Arrangement, style: Style, folder: Path, levels: dict | Non
         mix["noise"] = {"db": style.noise_db}
     if style.far:
         mix["far"] = {"rt60": style.far}
+    if style.tail:
+        mix["end"] = dict(style.tail)
     (folder / "mix.json").write_text(json.dumps(mix, indent=2))
     print(f"{folder.name}: {arr.bpm:.0f} bpm, {len(arr.verses)} verses, {len(sheet)} parts "
           f"({', '.join(p['part'] for p in sheet)}), {arr.seconds(0, arr.end + 2 * arr.bar):.0f} s, "
