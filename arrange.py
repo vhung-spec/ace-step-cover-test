@@ -1392,23 +1392,49 @@ def fitted(arr: Arrangement, tick: int, note: int, length: int) -> list:
     return [piece for piece in pieces if piece[2] >= EIGHTH or piece[0] == tick]
 
 
-def lay_in(arr: Arrangement, written: str, velocity: int = 40) -> None:
+# Version 7c, the strings Composer's Assistant 2 wrote, heard as the best;
+# then, the user asked: the end tidier (the model's strings went on with little
+# figures under the last chord), the strings a little softer later on, and one
+# more colour of instrument, a flute or horns, the model's too.
+WRITTEN = {"violins": (-0.15, 40), "violas": (0.1, 40), "cellos": (0.15, 40), "flute": (0.05, 50),
+           "horns": (-0.1, 38)}  # a written part's pan and velocity, by its name (its instrument)
+
+
+def held_end(arr: Arrangement, notes: list) -> list:
+    """A written part's (tick, note, length) ending as the tune does: from the
+    tune's last note it holds the tones it plays there (else the last chord's
+    tone nearest its last note) through the piano's last chord, bar by bar
+    (struck again where a sample would run out), and plays nothing more."""
+    final = max(t for t, _, _, verse, _ in arr.melody() if verse == arr.last)
+    ring = arr.end + 2 * arr.bar
+    kept = [(t, n, l) for t, n, l in notes if t < final - EIGHTH]
+    held = sorted({n for t, n, _ in notes if abs(t - final) < EIGHTH})
+    if not held and kept:
+        chord = arr.chord_at(final)
+        held = [min(chord_notes(chord, kept[-1][1] - 6, kept[-1][1] + 6), key=lambda n: abs(n - kept[-1][1]))]
+    return kept + [(bar, n, min(arr.bar, ring - bar)) for n in held for bar in range(final, ring, arr.bar)]
+
+
+def lay_in(arr: Arrangement, written, end: bool = False, tops: tuple = (0.6, 0.75, 1.0)) -> None:
     """Parts another hand wrote for the arrangement (infill.py: Composer's
-    Assistant 2), a file under versions/, laid in as a bed: each part (a string
-    section by its name) as written, but for a tone held on into a chord it is
-    not in (fitted), soft, swelling as fitting_strings' do, in the far hall
-    behind the room."""
-    sections = {"violins": -0.15, "violas": 0.1, "cellos": 0.15}
+    Assistant 2), in one file under versions/ or several, laid in as a bed:
+    each part (an instrument by its name, WRITTEN) as written, but for a tone
+    held on into a chord it is not in (fitted), soft, swelling to tops (a share
+    of its range: the first refrain, the last verse's first half, its refrain),
+    in the far hall behind the room; with end, ending as the tune does
+    (held_end)."""
     half = arr.bar * (len(arr.song.chords) // 2)
     first, last = arr.verses[0], arr.verses[-1]
-    for name, notes in json.loads((VERSIONS / written).read_text())["parts"].items():
-        part = arr.part(name, name, "bed", sections[name], reverb=0.3)
-        for tick, note, length in notes:
-            for at, key, held in fitted(arr, tick, note, length):
-                part.add(at + arr.jitter(4), key, velocity, held, tie=True)
-        part.far = 0.6
-        swell(arr, part, [(first + half - arr.beat, last, 0.6), (last, last + half, 0.75), (last + half, arr.end, 1.0)],
-              60, 104)
+    for file in [written] if isinstance(written, str) else written:
+        for name, notes in json.loads((VERSIONS / file).read_text())["parts"].items():
+            pan, velocity = WRITTEN[name]
+            part = arr.part(name, name, "bed", pan, reverb=0.3)
+            for tick, note, length in held_end(arr, notes) if end else notes:
+                for at, key, held in fitted(arr, tick, note, length):
+                    part.add(at + arr.jitter(4), key, velocity, held, tie=True)
+            part.far = 0.6
+            swell(arr, part, [(first + half - arr.beat, last, tops[0]), (last, last + half, tops[1]),
+                              (last + half, arr.end, tops[2])], 60, 104)
 
 
 def arrange_felt_bed(arr: Arrangement, bed: str) -> None:
@@ -2432,7 +2458,9 @@ class Style:
     perform: Perform | None = None  # played as a person plays it, shaping each phrase (perform)
     far: float | None = None  # a far, longer hall (rt60, s) behind the room, for the parts sent to it (Part.far)
     breaths: tuple | None = None  # the bars (from 0) that end a phrase, instead of the carol's own
-    written: str | None = None  # parts another hand wrote (infill.py), a file under versions/, laid in (lay_in)
+    written: str | list | None = None  # parts another hand wrote (infill.py), files under versions/ (lay_in)
+    written_end: bool = False  # the written parts end as the tune does (held_end), else as written
+    written_swell: tuple = (0.6, 0.75, 1.0)  # how far they swell: first refrain, last verse, last refrain
 
 
 # The gentle styles are played on the Yamaha upright: of the three pianos
@@ -2690,7 +2718,7 @@ def arranged(song: Song, style: Style, piano: str, seed: int = 7) -> Arrangement
         arr.loose = style.perform.loose
     style.arrange(arr)
     if style.written:
-        lay_in(arr, style.written)
+        lay_in(arr, style.written, style.written_end, tuple(style.written_swell))
     if style.perform:
         perform(arr, style.perform)
     return arr

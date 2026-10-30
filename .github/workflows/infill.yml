@@ -13,7 +13,7 @@ on:
   workflow_dispatch:
     inputs:
       plan:
-        description: 'A plan under versions/, without .plan.json (jingle-bells/ai/strings)'
+        description: 'Plans under versions/, without .plan.json, one or several (jingle-bells/ai/strings)'
         default: 'jingle-bells/ai/strings'
 
 permissions:
@@ -62,8 +62,11 @@ jobs:
 
       - name: Write the parts
         env:
-          PLAN: ${{ inputs.plan }}
-        run: python infill.py "$PLAN" takes --ca2 "$RUNNER_TEMP/ca2/Scripts/composers_assistant_v2"
+          PLANS: ${{ inputs.plan }}
+        run: |
+          for plan in $PLANS; do
+            python infill.py "$plan" takes --ca2 "$RUNNER_TEMP/ca2/Scripts/composers_assistant_v2"
+          done
 
       - uses: actions/upload-artifact@v4
         with:

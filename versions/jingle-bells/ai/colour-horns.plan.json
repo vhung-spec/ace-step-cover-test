@@ -1,0 +1,30 @@
+{
+  "about": "Horns for the last refrain of Jingle Bells' felt piano (version 8, after 7c: \"one more colour of instrument\"), written by Composer's Assistant 2 hearing the piano and 7c's strings, each as its own instrument: bars 52-67, up to two notes at a time, held (starting under twice a bar), loosely between D3 and F4, in the middle under the strings' top.",
+  "version": "jingle-bells/piano-ni-v7c",
+  "hear": {
+    "piano": 0,
+    "violins": 40,
+    "violas": 41,
+    "cellos": 42
+  },
+  "parts": {
+    "horns": {
+      "program": 60,
+      "spans": [
+        [
+          52,
+          68,
+          50,
+          65
+        ]
+      ],
+      "vert": 1,
+      "horiz": 0
+    }
+  },
+  "takes": [
+    1,
+    2,
+    3
+  ]
+}

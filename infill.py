@@ -12,9 +12,10 @@ on a track asks it to fill those bars); this does as its REAPER script does
 without REAPER.
 
 A plan (versions/<song>/ai/<name>.plan.json) names the version whose parts
-the model hears (its piano), the parts it writes (an instrument by its
-General MIDI program, in spans of bars, each with the keys asked for there
-and how they move: CA2's own controls) and the takes (seeds):
+the model hears (its piano, heard as one piano, or a part each as its own
+instrument by its General MIDI program), the parts it writes (an instrument
+by its program, in spans of bars, each with the keys asked for there and how
+they move: CA2's own controls) and the takes (seeds):
 
     python infill.py jingle-bells/ai/strings out --ca2 <the release's Scripts/composers_assistant_v2>
 
@@ -137,7 +138,10 @@ def take(model: Model, plan: dict, arr: arrange.Arrangement, seed: int) -> dict:
     """One take of the plan's parts, written window by window."""
     rng = random.Random(seed)
     parts, temperature = plan["parts"], plan.get("temperature", 1.0)
-    heard = [n for name in plan.get("hear", ["piano"]) for n in arr.parts[name].notes]
+    hear = plan.get("hear", ["piano"])  # our parts it hears: as one piano, or each its own instrument (by program)
+    heard = {program: [n for name in hear if hear[name] == program for n in arr.parts[name].notes]
+             for program in set(hear.values())} if isinstance(hear, dict) else {0: [n for name in hear
+                                                                                 for n in arr.parts[name].notes]}
     programs = {name: part["program"] for name, part in parts.items()}
     written = {name: [] for name in parts}
     first = min(span[0] for part in parts.values() for span in part["spans"])
@@ -146,8 +150,8 @@ def take(model: Model, plan: dict, arr: arrange.Arrangement, seed: int) -> dict:
     windows = []
     for start in range(first, last, WINDOW):
         stop = min(start + WINDOW, last)
-        song = model.song(arr, {0: heard} | {programs[name]: [(t, n, HEARD_AGAIN, l) for t, n, l in notes]
-                                            for name, notes in written.items()}, bars)
+        song = model.song(arr, heard | {programs[name]: [(t, n, HEARD_AGAIN, l) for t, n, l in notes]
+                                        for name, notes in written.items()}, bars)
         index = {track.inst: i for i, track in enumerate(song.tracks)}
         name_of = {index[program]: name for name, program in programs.items()}
         masks, controls = [], {}

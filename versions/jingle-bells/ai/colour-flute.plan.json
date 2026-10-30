@@ -1,0 +1,31 @@
+{
+  "about": "A flute for the last refrain of Jingle Bells' felt piano (version 8, after 7c: \"one more colour of instrument\"), written by Composer's Assistant 2 hearing the piano and 7c's strings, each as its own instrument: bars 52-67, one note at a time, starting about twice a bar, mostly by step, loosely between A4 and C6, under the tune an octave up where it can.",
+  "version": "jingle-bells/piano-ni-v7c",
+  "hear": {
+    "piano": 0,
+    "violins": 40,
+    "violas": 41,
+    "cellos": 42
+  },
+  "parts": {
+    "flute": {
+      "program": 73,
+      "spans": [
+        [
+          52,
+          68,
+          69,
+          84
+        ]
+      ],
+      "vert": 0,
+      "horiz": 1,
+      "step": 4
+    }
+  },
+  "takes": [
+    1,
+    2,
+    3
+  ]
+}
