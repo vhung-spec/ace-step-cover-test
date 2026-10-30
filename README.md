@@ -314,6 +314,8 @@ một file `versions/<bài>/<tên>-v<số>.json`: bài, kiểu phối gốc, và
 nghe (nhịp, độ vang, độ to và âm sắc từng bè, cách chơi…). Muốn render thì điền ô *versions*, ví dụ
 `jingle-bells/piano-ni-v1`; khi đó ô *songs* và *styles* được bỏ qua. Bản render của phiên bản có thêm file
 FLAC (không nén) trên nhánh `renders`, để nghe và đo đúng chất lượng, không bị hụt dải cao như MP3 128 kbit/s.
+Tiếng lộp bộp ở nốt cao của đàn upright Yamaha: mẫu thu nốt Đô cao (C6) lần thứ nhất rất nhỏ, được bộ SFZ tăng 40 dB, nên tiếng búa và tiếng gõ thùng đàn (300-900 Hz) to ngang chính nốt. Mỗi lần gõ thứ hai, các nốt Si-Rê thăng cao dùng mẫu này. Trong `tones` của piano, `swap_samples` cho một mẫu phát bằng mẫu khác (ví dụ lần thu thứ hai), `treble_filter` (`{"from": 79, "ratio": 0.8}`) lọc cắt trầm 4 cực ở 0,8 cao độ của từng nốt, từ vùng mẫu Sol cao trở lên: tiếng gõ dưới nốt nhỏ đi 11-15 dB, nốt giữ nguyên.
+
 Muốn kết bài nhanh, gọn thì đặt `ring_beats`: hợp âm cuối được nhả sau bấy nhiêu phách, mọi bè nhả theo, nhấc pedal. Đặt thêm `tail` (ví dụ `{"fade": 1.5, "below": 50}`) thì bản trộn dừng khi tiếng vang đã nhỏ hơn mức to nhất 50 dB, giây rưỡi cuối giảm dần (mặc định: 60 dB, 3 giây).
 
 ### Bè do mô hình AI viết (Composer's Assistant 2)

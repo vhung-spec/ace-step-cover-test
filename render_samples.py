@@ -120,9 +120,50 @@ def sfz_copy(sfz: Path, part: str, db: float, tone: dict) -> Path:
         text = "".join(g for g in re.split(r"(?=<group>)", text) if "locc64=65" not in g).replace("hicc64=64", "hicc64=127")
     if tone.get("pedal_noise") is False:
         text = "".join(g for g in re.split(r"(?=<group>)", text) if "on_locc64" not in g)
+    if tone.get("swap_samples") or tone.get("treble_filter"):
+        text = treble_mended(text, tone.get("swap_samples", {}), tone.get("treble_filter"))
     copy = sfz.with_name(f".{sfz.stem}.{part}.{db:+g}dB.sfz")
     copy.write_text(text)
     return copy
+
+
+# Jingle Bells on the felt piano, version 9b, heard on the user's own player:
+# "the high notes have a popping sound" ("những nốt cao có tiếng lộp bộp").
+# The Yamaha upright's treble samples carry the hammer's and the board's
+# knock, 300-900 Hz, under the note: as loud as the note's own pitch in the
+# first 50 ms of the C6 sample's first take (a very quiet recording the SFZ
+# raises 40 dB; 9 dB under it in its second take), 11-14 dB under in the
+# samples around it. Every other B5-D#6 struck played the first take.
+def treble_mended(text: str, swap: dict, treble: dict | None) -> str:
+    """An SFZ's attack regions mended: a sample played as another (swap: its
+    file name for another's, that region's volume with it), and above a key
+    (treble: from, the regions' pitch_keycenter) a high-pass filter
+    (treble: type, hpf_4p if not given) at ratio of each played note's pitch
+    (fil_keytrack 100 from the region's own key), under the note: its knock
+    gone, its own pitch kept (0.8: 0.7 dB off it, 4-pole)."""
+    volumes = {}
+    for region in re.split(r"(?=<region>)", text)[1:]:
+        sample, volume = re.search(r"sample=(.+?\.wav)", region), re.search(r"\bvolume=(\S+)", region)
+        if sample and volume:
+            volumes[sample.group(1).rsplit("/", 1)[-1]] = volume.group(1)
+    groups = []
+    for group in re.split(r"(?=<group>)", text):
+        head, *regions = re.split(r"(?=<region>)", group)
+        if "trigger=release" not in head:
+            for i, region in enumerate(regions):
+                sample = re.search(r"sample=(.+?\.wav)", region)
+                name = sample.group(1).rsplit("/", 1)[-1] if sample else None
+                if name in swap:
+                    region = re.sub(r"\bvolume=\S+", f"volume={volumes[swap[name]]}", region.replace(name, swap[name]))
+                key = re.search(r"pitch_keycenter=(\d+)", region)
+                if treble and key and int(key.group(1)) >= treble["from"]:
+                    centre = int(key.group(1))
+                    cutoff = treble.get("ratio", 0.8) * 440 * 2 ** ((centre - 69) / 12)
+                    region = region.rstrip("\n") + (f"\nfil_type={treble.get('type', 'hpf_4p')}\ncutoff={cutoff:.1f}"
+                                                    f"\nfil_keytrack=100\nfil_keycenter={centre}\n\n")
+                regions[i] = region
+        groups.append(head + "".join(regions))
+    return "".join(groups)
 
 
 def render_part(sfizz: str, sfz: Path, part: str, midi: Path, wav: Path, tone: dict) -> np.ndarray:
