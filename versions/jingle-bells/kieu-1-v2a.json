@@ -1,0 +1,55 @@
+{
+  "song": "jingle-bells",
+  "style": "pulse-human",
+  "title": "Jingle Bells · Kiểu 1",
+  "heard": "v1: \"tôi muốn có thêm lớp nền và tiếng piano nhẹ nhàng hơn\" (I want a bed under it, and a gentler piano)",
+  "about": "v2a: as 2b (the piano gentler: struck three quarters as hard, no harder than 65, its highs eased from 7 kHz), with a bed of strings in place of the pad: the violas and cellos from the first verse, the violins in the last, written by Composer's Assistant 2 hearing this piano (ai/k1-strings.plan.json, take 2 of 3: its violins the fewest notes off the chord, 7.9 % of their time, its violas the calmest), laid in as Piano nỉ's strings were (fitted to the chords, ending with the tune, softer later on, in the far hall), in place of pulse's own strings in the last refrain.",
+  "changes": {
+    "tones": {
+      "piano": {
+        "swap_samples": {
+          "Upright1_Sus_C5_vl1_rr1.wav": "Upright1_Sus_C5_vl1_rr2.wav"
+        },
+        "treble_filter": {
+          "from": 79,
+          "ratio": 0.8
+        },
+        "lowpass": 7000
+      },
+      "violins": {
+        "lowpass": 5500
+      },
+      "violas": {
+        "lowpass": 4500
+      },
+      "cellos": {
+        "highpass": 60,
+        "lowpass": 4000
+      }
+    },
+    "ring_beats": 2,
+    "tail": {
+      "fade": 1.0,
+      "below": 45
+    },
+    "perform": {
+      "touch": 0.75,
+      "ceiling": 65
+    },
+    "written": [
+      "jingle-bells/ai/k1-strings-take2.json"
+    ],
+    "written_end": true,
+    "written_swell": [
+      0.6,
+      0.57,
+      0.74
+    ],
+    "far": 3.2,
+    "levels": {
+      "violins": -3,
+      "violas": -2,
+      "cellos": -2
+    }
+  }
+}
