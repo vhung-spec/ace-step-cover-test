@@ -1,0 +1,52 @@
+{
+ "title": "Gió bấc",
+ "style": "dem-diu-h3",
+ "bpm": 74,
+ "beats": 4,
+ "about": "Sol thứ, tiếng trầm đi xuống từng bậc Sol-Fa-Mi giáng-Rê như tiếng thở dài; giai điệu nhắc lại một nốt rồi rơi xuống.",
+ "sections": [
+  {
+   "bars": 2,
+   "chords": "Gm | Gm/F",
+   "melody": "",
+   "dyn": 0.25
+  },
+  {
+   "bars": 8,
+   "chords": "Gm | Gm/F | Eb | D | Cm | Gm/Bb | Cm:2 D:2 | Gm",
+   "melody": "D5:1 G5:1 G5:1 F5:1 | D5:3 Bb4:1 | Eb5:1 G5:1 G5:1 F5:1 | D5:2 A4:2 | C5:1 Eb5:1 G5:1.5 F5:0.5 | D5:2 Bb4:2 | Eb5:2 F#5:1 A5:1 | G5:4",
+   "dyn": 0.35
+  },
+  {
+   "bars": 8,
+   "chords": "Gm | Gm/F | Eb | D | Cm | Eb | D | D",
+   "melody": "D5:1 G5:1 G5:1 F5:1 | D5:2 C5:1 Bb4:1 | G5:2 Bb5:2 | A5:3 r:1 | G5:1.5 F5:0.5 Eb5:2 | Bb4:2 Eb5:2 | D5:1 F#5:1 A5:1 F#5:1 | D5:4",
+   "dyn": 0.4
+  },
+  {
+   "bars": 8,
+   "chords": "Eb | Bb | F | Gm | Eb | Bb | Cm | D",
+   "melody": "G5:2 Bb5:2 | F5:3 D5:1 | C5:1 F5:1 A5:2 | G5:3 r:1 | Eb5:1 G5:1 Bb5:1 G5:1 | F5:2 D5:2 | Eb5:2 C5:1 D5:1 | F#5:3 r:1",
+   "dyn": 0.5
+  },
+  {
+   "bars": 8,
+   "chords": "Gm | Gm/F | Eb | D | Cm | Am7b5 | D | Gm",
+   "melody": "Bb5:1 A5:1 G5:1 D5:1 | G5:3 F5:1 | Eb5:1 G5:1 Bb5:2 | A5:3 F#5:1 | G5:2 Eb5:2 | C5:1 Eb5:1 G5:2 | F#5:2 E5:1 D5:1 | G5:4",
+   "dyn": 0.72,
+   "rit": true
+  },
+  {
+   "bars": 8,
+   "chords": "Gm | Gm/F | Eb | D | Cm | Gm/Bb | Cm:2 D:2 | Gm",
+   "melody": "D5:1 G5:1 G5:1 F5:1 | D5:4 | Eb5:1 D5:1 C5:1 Bb4:1 | A4:4 | C5:2 Eb5:2 | D5:2 Bb4:2 | C5:2 A4:2 | G4:4",
+   "dyn": 0.3
+  },
+  {
+   "bars": 2,
+   "chords": "Eb | Gm",
+   "melody": "Bb4:4 | G4:4",
+   "dyn": 0.2
+  }
+ ]
+}

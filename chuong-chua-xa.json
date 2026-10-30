@@ -1,0 +1,49 @@
+{
+ "title": "Chuông chùa xa",
+ "about": "A new piece in the dem-diu style (round 12): 50 bpm, modal D minor (a pentatonic tune, D F G A C, and no leading tone), the left hand rolled and held like a bell's ring (blocks), sus chords and Bbmaj7, a low drone at the start and end; the B part strikes D6 twice like a far bell and touches E over Bb (a Lydian glint).",
+ "style": "dem-diu",
+ "bpm": 50,
+ "beats": 4,
+ "sections": [
+  {
+   "bars": 2,
+   "chords": "Dm | Csus2/D",
+   "dyn": 0.2,
+   "texture": "blocks",
+   "layers": [
+    "drone"
+   ]
+  },
+  {
+   "bars": 8,
+   "chords": "Dm | Bbmaj7 | Csus2 | Dm | Dm | Gm7 | Am7 | Dsus4",
+   "melody": "A4:1.5 C5:0.5 D5:2 | F5:2 E5:1 D5:1 | C5:3 r:1 | D5:4 | A5:1.5 G5:0.5 A5:2 | C6:2 Bb5:1 G5:1 | A5:2 G5:1 E5:1 | D5:3 r:1",
+   "dyn": 0.35,
+   "texture": "blocks"
+  },
+  {
+   "bars": 8,
+   "chords": "Bbmaj7 | C | Am7 | Dm | Bbmaj7 | C | Gm7 | Asus4",
+   "melody": "D6:1 D6:1 C6:1 A5:1 | G5:2 E5:2 | A5:3 G5:1 | F5:2 D5:2 | D6:1 D6:1 E6:1 D6:1 | C6:2 G5:2 | Bb5:2 A5:1 F5:1 | E5:4",
+   "dyn": 0.48,
+   "texture": "sparse"
+  },
+  {
+   "bars": 8,
+   "chords": "Dm | Bbmaj7 | Csus2 | Dm | Dm | Gm7 | Am7 | Dm",
+   "melody": "A4:1.5 C5:0.5 D5:2 | F5:2 E5:1 D5:1 | C5:3 r:1 | D5:4 | A5:1.5 G5:0.5 A5:2 | C6:2 Bb5:1 G5:1 | A5:2 G5:1 E5:1 | D5:4",
+   "dyn": 0.3,
+   "texture": "blocks",
+   "rit": true
+  },
+  {
+   "bars": 2,
+   "chords": "Bbmaj7 | Dm",
+   "dyn": 0.18,
+   "texture": "blocks",
+   "layers": [
+    "drone"
+   ]
+  }
+ ]
+}

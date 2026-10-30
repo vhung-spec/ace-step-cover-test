@@ -1,0 +1,57 @@
+{
+ "title": "Bước chân trên gác",
+ "about": "A new piece in the dem-diu style (round 12): 96 bpm, A minor held over a pedal A with Bb above it (Phrygian, Bbmaj7/A), a tune of single steps and silences like footsteps overhead over a heartbeat in the bass (pulse), then a circling ostinato as they come nearer: D minor to an unexpected E major, a climax up to E6.",
+ "style": "dem-diu",
+ "bpm": 96,
+ "beats": 4,
+ "sections": [
+  {
+   "bars": 4,
+   "chords": "Am | Bbmaj7/A | Am | Am",
+   "dyn": 0.22,
+   "texture": "pulse"
+  },
+  {
+   "bars": 8,
+   "chords": "Am | Bbmaj7/A | Am | Dm/A | Fmaj7 | Bb | E7sus4 | Am",
+   "melody": "E5:2 r:1 E5:1 | F5:2 r:2 | E5:1 D5:1 C5:2 | D5:3 r:1 | A5:2 r:1 A5:1 | Bb5:2 r:2 | A5:1 G5:1 E5:2 | A4:4",
+   "dyn": 0.34,
+   "texture": "pulse"
+  },
+  {
+   "bars": 8,
+   "chords": "Am | Bbmaj7/A | Am | Dm/A | Fmaj7 | Bb | E7sus4 | Am",
+   "melody": "E5:2 r:1 E5:1 | F5:2 r:1 F5:1 | G5:2 F5:1 E5:1 | F5:3 r:1 | C6:2 r:1 C6:1 | D6:2 r:1 Bb5:1 | B5:1 A5:1 E5:2 | E5:4",
+   "dyn": 0.4,
+   "texture": "pulse"
+  },
+  {
+   "bars": 8,
+   "chords": "Dm | Bb | Gm | A7sus4 | Dm | Bb | Gm6 | E",
+   "melody": "A5:3 F5:1 | D6:2 C6:1 Bb5:1 | G5:3 r:1 | E5:2 D5:2 | A5:2 D6:2 | D6:2 Bb5:2 | E6:2 D6:1 Bb5:1 | G#5:4",
+   "dyn": 0.5,
+   "texture": "ostinato"
+  },
+  {
+   "bars": 8,
+   "chords": "Am | F | Bb | E | Am | F | Bbmaj7 | E7sus4",
+   "melody": "C6:2 B5:1 A5:1 | A5:2 C6:2 | D6:3 C6:1 | B5:2 G#5:2 | E6:2 C6:2 | C6:2 A5:2 | D6:1 C6:1 Bb5:1 A5:1 | B5:4",
+   "dyn": 0.7,
+   "texture": "ostinato",
+   "rit": true
+  },
+  {
+   "bars": 8,
+   "chords": "Am | Bbmaj7/A | Am | Dm/A | Fmaj7 | Bb | E7sus4 | Am",
+   "melody": "E5:2 r:1 E5:1 | F5:2 r:2 | E5:1 D5:1 C5:2 | D5:3 r:1 | A5:2 r:1 A5:1 | Bb5:2 r:2 | A5:1 G5:1 E5:2 | A4:4",
+   "dyn": 0.3,
+   "texture": "pulse"
+  },
+  {
+   "bars": 4,
+   "chords": "Am | Bbmaj7/A | Am | Am",
+   "dyn": 0.18,
+   "texture": "pulse"
+  }
+ ]
+}

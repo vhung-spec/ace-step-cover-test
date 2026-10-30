@@ -1,0 +1,50 @@
+{
+ "title": "Sông không tên",
+ "about": "A new piece in the dem-diu style (round 12): 80 bpm, F# Dorian (i-IV, F#m-B: the raised sixth D# in the tune, folk-like rather than sad), a middle that darkens to D and A (D natural against the D# before), and the last part carried a whole step up into G# Dorian, as a river turns, ending there.",
+ "style": "dem-diu",
+ "bpm": 80,
+ "beats": 4,
+ "sections": [
+  {
+   "bars": 2,
+   "chords": "F#m | B",
+   "dyn": 0.24
+  },
+  {
+   "bars": 8,
+   "chords": "F#m | B | F#m | B/D# | E | B | C#m7 | F#m",
+   "melody": "C#5:1 F#5:1 G#5:1 A5:1 | D#5:2 F#5:2 | E5:1.5 C#5:0.5 A4:2 | B4:3 r:1 | G#4:1 B4:1 E5:1 G#5:1 | F#5:2 D#5:2 | E5:2 G#5:1 B5:1 | F#5:3 r:1",
+   "dyn": 0.36
+  },
+  {
+   "bars": 8,
+   "chords": "F#m | B | F#m | B/D# | E | B | C#m7 | F#m",
+   "melody": "C#5:1 F#5:1 G#5:1 A5:1 | B5:2 A5:1 F#5:1 | G#5:1.5 F#5:0.5 C#5:2 | D#5:3 r:1 | E5:1 G#5:1 B5:1 C#6:1 | D#6:2 B5:2 | C#6:1.5 B5:0.5 G#5:2 | F#5:4",
+   "dyn": 0.44
+  },
+  {
+   "bars": 8,
+   "chords": "D | A | E | F#m | D | A | Bm | C#7sus4",
+   "melody": "F#5:2 A5:2 | E5:2 C#5:2 | B4:1 E5:1 G#5:2 | A5:3 r:1 | D6:2 C#6:1 A5:1 | C#6:2 E5:2 | D5:1 F#5:1 B5:2 | B5:2 G#5:2",
+   "dyn": 0.55
+  },
+  {
+   "bars": 8,
+   "chords": "F#m | B | F#m | B/D# | E | B | C#m7 | F#m",
+   "melody": "C#5:1 F#5:1 G#5:1 A5:1 | D#5:2 F#5:2 | E5:1.5 C#5:0.5 A4:2 | B4:3 r:1 | G#4:1 B4:1 E5:1 G#5:1 | F#5:2 D#5:2 | E5:2 G#5:1 B5:1 | F#5:3 r:1",
+   "dyn": 0.38,
+   "rit": true
+  },
+  {
+   "bars": 8,
+   "chords": "G#m | C# | G#m | C#/E# | F# | C# | D#m7 | G#m",
+   "melody": "D#5:1 G#5:1 A#5:1 B5:1 | E#5:2 G#5:2 | F#5:1.5 D#5:0.5 B4:2 | C#5:3 r:1 | A#4:1 C#5:1 F#5:1 A#5:1 | G#5:2 E#5:2 | F#5:2 A#5:1 C#6:1 | G#5:4",
+   "dyn": 0.32
+  },
+  {
+   "bars": 2,
+   "chords": "C# | G#m",
+   "dyn": 0.2
+  }
+ ]
+}

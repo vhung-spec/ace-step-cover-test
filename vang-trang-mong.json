@@ -1,0 +1,50 @@
+{
+ "title": "Vầng trăng mỏng",
+ "about": "A new piece in the dem-diu style (round 11): Bb minor, slow and spacious (70 bpm, long notes), i-VI-III-VII, the Neapolitan Cb (written B) before the last V.",
+ "style": "dem-diu",
+ "bpm": 70,
+ "beats": 4,
+ "sections": [
+  {
+   "bars": 2,
+   "chords": "Bbm | Gb",
+   "dyn": 0.25
+  },
+  {
+   "bars": 8,
+   "chords": "Bbm | Gb | Db | Ab | Bbm | Ebm | F | F",
+   "melody": "F5:3 Db5:1 | Db5:2 Bb4:2 | Ab4:1 Bb4:1 Db5:2 | C5:4 | F5:2 Gb5:1 F5:1 | Eb5:2 Db5:1 Bb4:1 | C5:2 A4:2 | A4:3 r:1",
+   "dyn": 0.36
+  },
+  {
+   "bars": 8,
+   "chords": "Gb | Ab | Db | Bbm | Gb | Ab | Fm | F",
+   "melody": "Bb5:2 Ab5:1 Gb5:1 | Ab5:3 Eb5:1 | F5:2 Ab5:2 | F5:3 r:1 | Gb5:2 F5:1 Db5:1 | Eb5:2 C5:1 Eb5:1 | F5:2 Eb5:1 C5:1 | C5:2 A4:2",
+   "dyn": 0.48
+  },
+  {
+   "bars": 8,
+   "chords": "Bbm | Gb | Db | Ab | Gb | Ebm | F | Bbm",
+   "melody": "F5:3 Db5:1 | Db5:2 Bb4:2 | Ab4:1 Bb4:1 Db5:2 | Eb5:4 | Gb5:2 F5:1 Db5:1 | Eb5:2 Gb5:2 | F5:1.5 Eb5:0.5 C5:2 | Bb4:4",
+   "dyn": 0.4
+  },
+  {
+   "bars": 8,
+   "chords": "Gb | Ab | Bbm | Fm | Gb | Ab | F | F",
+   "melody": "Db5:1 Gb5:1 Bb5:2 | C6:3 Bb5:1 | Bb5:2 F5:1 Db5:1 | C5:1 F5:1 Ab5:2 | Bb5:3 Ab5:1 | Ab5:2 Gb5:1 Eb5:1 | F5:2 Eb5:1 C5:1 | C5:4",
+   "dyn": 0.7,
+   "rit": true
+  },
+  {
+   "bars": 8,
+   "chords": "Bbm | Gb | Db | Ab | Bbm | Ebm | B:2 F:2 | Bbm",
+   "melody": "F5:3 Db5:1 | Db5:2 Bb4:2 | Ab4:1 Bb4:1 Db5:2 | C5:4 | F5:2 Gb5:1 F5:1 | Eb5:2 Db5:1 Bb4:1 | Gb5:2 F5:1 A4:1 | Bb4:4",
+   "dyn": 0.28
+  },
+  {
+   "bars": 2,
+   "chords": "Gb | Bbm",
+   "dyn": 0.2
+  }
+ ]
+}
