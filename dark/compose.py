@@ -41,6 +41,8 @@ A piece is a short score, the shape an AI composer is asked to write:
 - hold: the longest (beats) an accompanying note is held; pedal_beats: the
   pedal taken again this often within a chord (else once a chord); lh_soft:
   the left hand this much softer (velocity), all to keep it light and clear;
+- pedal_steps: with vary, the pedal also taken again as the tune steps onto a
+  note next to one the pedal still holds, so the two do not beat (a buzz);
 - texture, the piano's left hand: arp (broken chords in eighths, up and
   back from a deep bass), flow (lighter: a bass held under two tones above
   it, rocking in eighths), ostinato (three tones of the chord circling in
@@ -152,7 +154,8 @@ STYLES = {
     "dem-diu": {"piano": "model-dream", "bass_low": 40, "texture": "flow", "hold": 1.0, "pedal_beats": 2, "lh_soft": 6,
                 "melody_velocity": [38, 60], "velocity_cap": 64,
                 "room": {"rt60": 3.6, "wet": 0.85}, "piano_reverb": 0.35, "loudness": -14,
-                "piano_tone": {"attack": 0.045, "width": 0.85}, "human": {"amount": 1.0, "vary": True}},
+                "piano_tone": {"attack": 0.045, "width": 0.85}, "human": {"amount": 1.0, "vary": True},
+                "pedal_steps": True},
 }
 # How loud each part sits against the piano (dB while it plays).
 ROLES = {"piano": 0.0, "bass": -9.0, "melody2": -6.0, "pad": -12.0, "low": -13.0, "drone": -15.0}
@@ -452,7 +455,32 @@ def pedal_human(piece: Piece, piano: Part) -> None:
             _, tones, _ = chord(name)
             if any(n % 12 not in tones for t, notes, l in piece.tune if middle <= t < tick + length for n in notes):
                 piano.pedal += [(middle - round(piece.ms(20)), 0), (middle + round(piece.ms(80)), 100)]
+    if piece.score.get("pedal_steps"):
+        pedal_steps(piece, piano)
     piano.pedal.append((piece.end + piece.bar, 0))
+
+
+def pedal_steps(piece: Piece, piano: Part) -> None:
+    """The pedal taken again as the tune steps (a semitone or a tone) onto
+    a note next to one still held by the pedal: lifted just after the new
+    note sounds (30-45 ms), pressed again 95-130 ms after it, the new note
+    and the bass held by the fingers through it. Under the pedal the old
+    note kept ringing beside the new, the two nearly pure tones beating
+    35-125 times a second, heard as a buzz ("rè") on the tune's high notes;
+    a pianist clears it so, the bass and the hall's wash kept."""
+    rng = random.Random(len(piece.tune) * 7919 + 2)  # its own, so the rest of the piece is played as before
+    lifts = sorted(t for t, v in piano.pedal if v == 0)
+    held, k = set(), 0
+    for tick, notes, _ in sorted(piece.tune):
+        while k < len(lifts) and lifts[k] <= tick:
+            held, k = set(), k + 1
+        section = piece.section_at(tick)
+        sounding = set(notes) | ({max(notes) - 12} if "octave" in section.get("layers", []) else set())
+        if any(0 < abs(n - h) <= 2 for n in sounding for h in held):
+            piano.pedal += [(tick + round(piece.ms(rng.uniform(30, 45))), 0),
+                            (tick + round(piece.ms(rng.uniform(95, 130))), 100)]
+            held = set()
+        held |= sounding
 
 
 def bass_note(name: str, low: int = 31) -> int:
