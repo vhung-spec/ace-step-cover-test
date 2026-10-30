@@ -31,6 +31,10 @@ on:
         description: 'Rate the pieces (Audiobox Aesthetics, CLAP)'
         type: boolean
         default: true
+      parts:
+        description: 'Keep each part as sfizz played it (FLAC on the renders branch), to find where a sound comes from'
+        type: boolean
+        default: false
 
 permissions:
   contents: write  # the renders branch
@@ -63,6 +67,7 @@ jobs:
       STYLES: ${{ inputs.styles }}
       PIANOS: ${{ inputs.pianos }}
       VERSIONS: ${{ inputs.versions }}
+      PARTS: ${{ inputs.parts }}
       SFIZZ_VERSION: '1.2.3'
       PYTHONUNBUFFERED: '1'  # the log shows each part as it is played
     steps:
@@ -120,7 +125,8 @@ jobs:
         run: |
           "$RUNNER_TEMP/venv/bin/python" render_samples.py out/sampled --sfizz ~/sfizz/sfizz_render \
             --vsco "$RUNNER_TEMP/libs/vsco" --vcsl "$RUNNER_TEMP/libs/vcsl" --salamander "$RUNNER_TEMP/libs/salamander" \
-            --jrhodes "$RUNNER_TEMP/libs/jrhodes" --generaluser "$RUNNER_TEMP/libs/generaluser"
+            --jrhodes "$RUNNER_TEMP/libs/jrhodes" --generaluser "$RUNNER_TEMP/libs/generaluser" \
+            $([ "$PARTS" = true ] && echo --keep-parts)
 
       - name: Smaller copies for the renders branch
         run: |
@@ -131,6 +137,13 @@ jobs:
             [ -z "$VERSIONS" ] || ffmpeg -loglevel error -i "$wav" -c:a flac -sample_fmt s16 \
               "out/preview/$(basename "${wav%.wav}").flac"
           done
+          # each part as sfizz played it, before its tone and the mix: <piece>.<part>.flac
+          if [ "$PARTS" = true ]; then
+            for part in out/sampled/*/*.wav; do
+              piece=$(basename "$(dirname "$part")")
+              ffmpeg -loglevel error -i "$part" -c:a flac "out/preview/$piece.$(basename "${part%.wav}").flac"
+            done
+          fi
 
       - name: Rate
         if: inputs.rate
