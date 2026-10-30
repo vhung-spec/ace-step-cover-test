@@ -123,6 +123,22 @@ MODELS = {
     # closer: a little brighter, the felt hammer's thud and the board heard
     "felt-close": {"hammer_hz": 380.0, "knock_db": -22.0, "knock_ms": 20.0, "click_db": -36.0, "body_db": -24.0,
                    "width": 0.25},
+    # Round 13, richer than felt-dream ("tiếng piano khác để nghe phong phú hơn"), each its own way:
+    # a warm grand: longer strings (a soundboard that sends out the bass from 110 Hz), more partials (the felt
+    # softer, its corner higher), a little brighter up the keyboard, a longer aftersound, wider
+    "felt-grand": {"detune_cents": 1.6, "halo_db": -26.0, "decay_s": 3.6, "aftersound": 0.34, "board_hz": 110.0,
+                   "board_order": 3.0, "hammer_hz": 380.0, "hammer_key": 0.25, "felt_hz": 1700.0, "felt_order": 2.0,
+                   "body_db": -26.0, "width": 0.4},
+    # clear: a harder felt, each note's first moment brighter (dying in 45 ms), its colour following the touch
+    "felt-clear": {"detune_cents": 2.0, "halo_db": -26.0, "decay_s": 3.0, "aftersound": 0.3, "hammer_hz": 420.0,
+                   "hammer_vel": 1.5, "felt_hz": 1900.0, "felt_order": 2.0, "strike_db": -16.0, "strike_ms": 45.0},
+    # bloom: the other strings ringing along louder, a long aftersound, more of the board: a resonant wash
+    "felt-bloom": {"detune_cents": 2.2, "halo_db": -16.0, "decay_s": 3.8, "aftersound": 0.4, "board_hz": 140.0,
+                   "hammer_hz": 340.0, "felt_hz": 1400.0, "body_db": -24.0, "width": 0.45},
+    # wood: a close, warm upright: the felt's thud and the board's wood heard, each note its own colour
+    "felt-wood": {"detune_cents": 1.8, "halo_db": -28.0, "decay_s": 3.0, "aftersound": 0.3, "hammer_hz": 360.0,
+                  "felt_hz": 1500.0, "board_hz": 130.0, "knock_db": -24.0, "knock_ms": 14.0, "body_db": -22.0,
+                  "body_s": 0.5, "rough_db": 6.0, "width": 0.35},
 }
 
 

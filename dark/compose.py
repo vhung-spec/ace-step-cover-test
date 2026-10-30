@@ -24,7 +24,8 @@ A piece is a short score, the shape an AI composer is asked to write:
   keeps the piano out of the deep bass); piano_tone changes the piano's tone
   for render_samples.py (lowpass, lowpass_order, width: above 1 widens it);
 - piano: the piano (INSTRUMENTS): upright, felt, grand, kawai (recorded,
-  CC0), or model, model-dream, model-close (modelled by dark/piano_model.py
+  CC0), or model, model-dream, model-close, model-grand, model-clear,
+  model-bloom, model-wood (modelled by dark/piano_model.py
   from the physics of its strings, no recording; built with the pieces);
 - style: a named style (STYLES) giving every setting the piece leaves out;
   dem-diu, the user's choice for slow, muffled pieces (dem-diu-h3: as it was
@@ -109,6 +110,10 @@ INSTRUMENTS = {
     "model": ("model", "felt-model.sfz", {}),
     "model-dream": ("model", "felt-dream.sfz", {}),
     "model-close": ("model", "felt-close.sfz", {}),
+    "model-grand": ("model", "felt-grand.sfz", {}),
+    "model-clear": ("model", "felt-clear.sfz", {}),
+    "model-bloom": ("model", "felt-bloom.sfz", {}),
+    "model-wood": ("model", "felt-wood.sfz", {}),
 }
 # The tone the user chose for the muffled pieces: C3 of the fourth round (the
 # references' average spectrum against the plain upright's (B2), smoothed: a

@@ -99,3 +99,16 @@ lạ hơn vòng 11. Qua kiểm tra của app (không lỗi, không nốt chỏi)
 | `song-khong-ten` (Sông không tên) | 80 bpm, 4/4 | Fa thăng Dorian (F#m-B, nốt Rê thăng), đoạn giữa tối lại về D, đoạn cuối nâng lên một cung (Son thăng Dorian) |
 | `buoc-chan-tren-gac` (Bước chân trên gác) | 96 bpm, 4/4 | La thứ trên nốt La giữ dưới Si giáng (Phrygian), giai điệu từng bước và khoảng lặng trên nhịp tim, rồi vòng lặp xoay |
 | `den-long-tat` (Đèn lồng tắt) | 112 bpm, 3/4 | Mỗi ô một hợp âm nên trôi chậm; Son thứ với bè trong tụt dần (Gm, Gm(maj7), Gm7, Gm6) |
+
+## Tiếng đàn phong phú hơn (vòng 13)
+
+Người dùng: "tôi muốn thay đổi tiếng piano khác để nghe phong phú hơn". Bốn cây đàn mô phỏng mới (`piano_model.py`),
+cùng gốc M2, mỗi cây giàu theo một kiểu; cùng chơi Thư cuối như M2 (cùng nốt, cùng cách chơi, cùng phòng). Đo trong
+phiên: phần 1,5-4 kHz (độ giàu âm bồi) so với cả tiếng; M2 -41,7 dB, các bản mẫu của người dùng -36 đến -45.
+
+| Bản | Đàn | Khác M2 | 1,5-4 kHz | Loa điện thoại |
+|---|---|---|---|---|
+| `p1-grand-am` | `model-grand` | Grand ấm: trầm đầy hơn (thùng đàn từ 110 Hz), nhiều âm bồi hơn, ngân dài, rộng hơn | -34,8 | -5,8 dB |
+| `p2-trong` | `model-clear` | Trong: búa cứng hơn, đầu nốt sáng rồi dịu trong 45 ms, màu theo lực tay; sáng nhất | -32,3 | -5,8 dB |
+| `p3-ngan-vang` | `model-bloom` | Ngân vang: các dây khác ngân theo to hơn, ngân rất dài | -35,9 | -5,6 dB |
+| `p4-go-am` | `model-wood` | Gỗ ấm: gần tai, nghe tiếng búa nỉ và gỗ, mỗi nốt một màu riêng | -36,8 | -5,4 dB |
