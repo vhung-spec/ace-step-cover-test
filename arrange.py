@@ -153,7 +153,10 @@ same chords, beat by beat, so they always agree:
   warm pad, instruments/pad-warm.sfz), felt-hum-human (voices humming "ooh")
   and felt-strings-human (light high strings), each over the felt piano with
   its last verse an octave up (arrange_felt_bed); felt-choir-human, a choir
-  singing "aah" softly under it, as the user chose next.
+  singing "aah" softly under it, as the user chose next; felt-carol-human, a
+  choir as a carol's (carol_choir): its sopranos over the first refrain, then
+  under the tune climbed an octave, flowing from chord to chord, in a far
+  hall behind the room (Style.far: 3.2 s) as a choir sings in a church.
 Sustained parts hold the tones two chords share, move their other tones to
 the nearest tone of the next chord, and swell with each phrase (expression,
 CC11). Instruments come from two CC0 sample libraries: VS Chamber Orchestra 2
@@ -460,6 +463,7 @@ class Part:
         self.notes, self.pedal, self.expression, self.voicing, self.bends = [], [], [], [], []
         self.latest = {}  # key: index of its latest note
         self.leading = 0  # its first notes that are the tune, where the tune is not found by its keys (perform)
+        self.far = 0.0  # its send into the far hall behind the room (Style.far); 0: none
 
     def add(self, tick: int, note: int, velocity: int, length: int, tie: bool = False) -> None:
         """Adds a note. With tie, a key still sounding is held on rather than
@@ -1123,12 +1127,13 @@ def arrange_felt_ensemble(arr: Arrangement) -> None:
 # more fitting". So version 3 sits in the small room of ballad and pulse,
 # without bells, over one of three beds, for the user to choose by ear.
 def held_bed(arr: Arrangement, part: Part, start: int, end: int, velocity: int, low: int, high: int,
-             count: int = 3) -> None:
+             count: int = 3, ahead: int = 0, overlap: int = 0) -> None:
     """A bed held under the piano: each chord of half a bar or more voiced
     from the one before (voice_lead: shared tones held on, the others moving
     to the nearest), between low and high; through a shorter chord only the
     tones it shares with the voicing go on, so the bed moves less than the
-    chords."""
+    chords. Voices that swell in slowly (a choir) come in `ahead` ticks early
+    and leave `overlap` ticks late, so one chord flows into the next."""
     voicing = []
     for tick, length, chord in arr.chord_spans(start, end):
         if length >= arr.bar // 2 or not voicing:
@@ -1138,7 +1143,56 @@ def held_bed(arr: Arrangement, part: Part, start: int, end: int, velocity: int, 
             root, intervals = CHORDS[chord]
             notes = [n for n in voicing if (n - root) % 12 in {i % 12 for i in intervals}]
         for note in notes:
-            part.add(tick + arr.jitter(6), note, velocity, length + 30, tie=True)
+            early = ahead if tick > start else 0
+            part.add(tick - early + arr.jitter(6), note, velocity, length + 30 + early + overlap, tie=True)
+
+
+def swell(arr: Arrangement, part: Part, spans: list, low: int, high: int, fade: int = 24) -> None:
+    """Expression (CC11) an eighth at a time over each (start, end, top) span,
+    top a share of high above low: from where the last span left off, one
+    slow rise to it two thirds of the way and a little back by the span's
+    end, with no dip at each phrase's end (as breathe has); over the last
+    chord it dies away to fade."""
+    level = low
+    for start, end, top in spans:
+        peak, begin = low + (high - low) * top, level
+        for tick in range(start, end, EIGHTH):
+            x = (tick - start) / (end - start)
+            rise = math.sin(math.pi / 2 * min(1.0, x / 0.66)) ** 2
+            level = round(begin + (peak * (1 - 0.15 * max(0.0, (x - 0.66) / 0.34)) - begin) * rise)
+            part.expression.append((tick, level))
+    steps = 2 * arr.bar // EIGHTH
+    for i in range(steps):
+        part.expression.append((arr.end + i * EIGHTH, round(level + (fade - level) * (i / (steps - 1)) ** 0.7)))
+
+
+# The choir under the felt piano, heard (version 4): "not yet Christmassy, its
+# breaks stiff, noisy". It held three voices between E3 and A4 from the
+# intro on, where the felt tune sings (D4-E5): a voice stopped just as
+# another began at 178 of its 180 chord changes, each new one swelling in
+# over half a second, and it dipped at every phrase's end, every 10 s.
+def carol_choir(arr: Arrangement) -> None:
+    """A choir as a carol's, behind the felt piano: it comes in with the
+    first verse's refrain (a carol's second half), two sopranos over the
+    tune (C5 to C6), the way a choir's high voices float over a carol; in the
+    last verse, the tune an octave up, the choir sings under it, two voices
+    (G3-A4), three in its refrain (to D5), and holds the last chord as it
+    dies away. Each chord flows into the next (an eighth early, an eighth
+    late), the voices swell slowly over each half verse with no dip at the
+    phrases' ends, and they sing in the far hall behind the room (Style.far),
+    as a choir sings in a church."""
+    half = arr.bar * (len(arr.song.chords) // 2)
+    first, last = arr.verses[0], arr.verses[-1]
+    high = arr.part("choir-high", "choir", "bed", 0.25, reverb=0.3)
+    high.far = 0.7
+    held_bed(arr, high, first + half, last, 46, 72, 84, count=2, ahead=EIGHTH, overlap=2 * EIGHTH)
+    choir = arr.part("choir", "choir", "bed", -0.25, reverb=0.3)
+    choir.far = 0.7
+    held_bed(arr, choir, last, last + half, 50, 55, 69, count=2, ahead=EIGHTH, overlap=EIGHTH)
+    held_bed(arr, choir, last + half, arr.end + 2 * arr.bar, 56, 55, 74, count=3, ahead=EIGHTH, overlap=EIGHTH)
+    swell(arr, high, [(first + half - arr.bar, last - arr.bar, 0.8), (last - arr.bar, last + 2 * EIGHTH, 0.2)],
+          60, 104)  # away by the last verse, where the choir comes in under the tune
+    swell(arr, choir, [(last - arr.beat, last + half, 0.75), (last + half, arr.end, 1.0)], 60, 104)
 
 
 def arrange_felt_bed(arr: Arrangement, bed: str) -> None:
@@ -1159,7 +1213,9 @@ def arrange_felt_bed(arr: Arrangement, bed: str) -> None:
     little behind it."""
     arrange_felt(arr, breathing=True, up=(arr.last,))
     first, last = arr.verses[0], arr.verses[-1]
-    if bed == "choir":
+    if bed == "carol":
+        carol_choir(arr)
+    elif bed == "choir":
         choir = arr.part("choir", "choir", "bed", -0.2, reverb=0.6)
         held_bed(arr, choir, 0, last, 50, 52, 69)
         held_bed(arr, choir, last, arr.end + 2 * arr.bar, 60, 52, 69)
@@ -2152,6 +2208,8 @@ class Style:
     reharm: bool = False  # the carol's chords coloured as the pop ballads colour them (reharmonize)
     harmony: str | None = None  # "chorale": the carol harmonized as a hymnal does (chorale.harmonize)
     perform: Perform | None = None  # played as a person plays it, shaping each phrase (perform)
+    far: float | None = None  # a far, longer hall (rt60, s) behind the room, for the parts sent to it (Part.far)
+    breaths: tuple | None = None  # the bars (from 0) that end a phrase, instead of the carol's own
 
 
 # The gentle styles are played on the Yamaha upright: of the three pianos
@@ -2314,6 +2372,9 @@ for _bed, _name in (("pad", "felt-pad-human"), ("hum", "felt-hum-human"), ("stri
                     ("choir", "felt-choir-human")):
     STYLES[_name] = dataclasses.replace(STYLES["felt-4k-human"],
                                         arrange=lambda arr, bed=_bed: arrange_felt_bed(arr, bed))
+# and a carol's choir behind it, in a far hall (carol_choir)
+STYLES["felt-carol-human"] = dataclasses.replace(STYLES["felt-4k-human"], far=3.2,
+                                                 arrange=lambda arr: arrange_felt_bed(arr, "carol"))
 
 
 def untangle(notes: list) -> tuple[list, int]:
@@ -2382,6 +2443,8 @@ def arranged(song: Song, style: Style, piano: str, seed: int = 7) -> Arrangement
     song = reharmonize(song) if style.reharm else song
     if style.harmony == "chorale":
         song = dataclasses.replace(song, chords=chorale.harmonize(song))
+    if style.breaths is not None:
+        song = dataclasses.replace(song, breaths=tuple(style.breaths))
     tempo = min(1.0, style.bpm / song.bpm) if style.bpm else style.tempo
     verses = style.verses or song.verses or (
         max(2, min(6, math.ceil(style.seconds / (song.seconds() / tempo)))) if style.seconds
@@ -2418,13 +2481,16 @@ def write_piece(arr: Arrangement, style: Style, folder: Path, levels: dict | Non
         gain, change = ROLES[part.role], levels.get(part_name, levels.get(part.role))
         sheet.append({"part": part_name, "library": library, "sfz": sfz, "role": part.role,
                       "gain_db": gain if change is None else round(gain + change, 2), "pan": part.pan,
-                      "reverb": part.reverb, "tone": part.tone, "notes": len(part.notes)})
+                      "reverb": part.reverb, "tone": part.tone, "notes": len(part.notes)}
+                     | ({"far": part.far} if part.far else {}))
     hall = ({"rt60": style.hall} | ({"wet": style.wet} if style.wet != 1.0 else {})
             | ({"together": style.together} if style.together else {})
             | ({"sway": style.sway} if style.sway else {}))
     mix = {"hall": hall, "parts": sheet, "master": style.master}
     if style.noise_db is not None:
         mix["noise"] = {"db": style.noise_db}
+    if style.far:
+        mix["far"] = {"rt60": style.far}
     (folder / "mix.json").write_text(json.dumps(mix, indent=2))
     print(f"{folder.name}: {arr.bpm:.0f} bpm, {len(arr.verses)} verses, {len(sheet)} parts "
           f"({', '.join(p['part'] for p in sheet)}), {arr.seconds(0, arr.end + 2 * arr.bar):.0f} s, "

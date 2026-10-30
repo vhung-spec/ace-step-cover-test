@@ -40,7 +40,8 @@ soundfont, played by FluidSynth)
   does (an organ's held, nearly pure tones would each ring the hall at
   their own strength, some notes 10 dB over others);
 - a style may lay a soft hush (dark pink noise) under the music, as sleep
-  music does;
+  music does, and send some parts to a far, longer hall behind the room
+  (a choir singing in a church behind a piano close by);
 - the mix is mastered (master.py): a piece leaning more than 1 dB to one side
   is evened out, and the steps toward two reference recordings' sound (tone,
   air, width, a slow leveller) work as strongly as its style asks (mix.json;
@@ -466,19 +467,28 @@ def mix_folder(folder: Path, sfizz: str, libraries: dict, keep_parts: bool, prem
         parts[entry["part"]] = (entry, audio)
     melody = [playing_db(a) for e, a in parts.values() if e["role"] in ("melody", "piano")]
     reference = float(np.mean(melody)) if melody else -20.0
-    n = max(a.shape[1] for _, a in parts.values()) + ir.shape[1]
+    far_ir = hall_ir(sheet["far"]["rt60"], 1.5 * sheet["far"]["rt60"], 0.045) if sheet.get("far") else None
+    n = max(a.shape[1] for _, a in parts.values()) + max(ir.shape[1], 0 if far_ir is None else far_ir.shape[1])
     dry, send = np.zeros((2, n)), np.zeros((2, n))
+    far_send = np.zeros((2, n)) if far_ir is not None else None
     for name, (entry, audio) in parts.items():
         gain = 10 ** ((reference + entry["gain_db"] - playing_db(audio)) / 20)
         placed = pan(audio * gain, entry["pan"])
         dry[:, : placed.shape[1]] += placed
         send[:, : placed.shape[1]] += placed * entry["reverb"] * wet_level
+        if far_send is not None and entry.get("far"):
+            far_send[:, : placed.shape[1]] += placed * entry["far"]
         if not keep_parts:
             (folder / f"{name}.wav").unlink()
     send = sosfilt(butter(2, 6000, "low", fs=RATE, output="sos"), send, axis=-1)  # no hiss into the hall
     if sheet["hall"].get("sway"):
         send = sway(send, sheet["hall"]["sway"])
     wet = np.stack([fftconvolve(send[c], ir[c])[:n] for c in range(2)])
+    if far_send is not None:  # a far, longer hall behind the room, for the parts sent to it (a choir)
+        far_send = sosfilt(butter(2, 5000, "low", fs=RATE, output="sos"), far_send, axis=-1)
+        wet += np.stack([fftconvolve(far_send[c], far_ir[c])[:n] for c in range(2)])
+        print(f"  far hall {sheet['far']['rt60']} s for {', '.join(e['part'] for e, _ in parts.values() if e.get('far'))}",
+              flush=True)
     rumble = butter(2, 30, "high", fs=RATE, output="sos")
     mixed = fade_tail(sosfilt(rumble, dry + wet, axis=-1))
     if sheet.get("noise"):  # a hush under the music, so many dB under the melody

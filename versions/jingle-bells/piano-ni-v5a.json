@@ -1,0 +1,40 @@
+{
+  "song": "jingle-bells",
+  "style": "felt-carol-human",
+  "title": "Jingle Bells · Piano nỉ",
+  "heard": "v4: \"nền hợp xướng nghe chưa được hương giáng sinh, và cảm giác ngắt nghỉ bị cứng, ồn\" (the choir not yet Christmassy, its breaks stiff, noisy)",
+  "about": "v5a: as v4 (the small room, no bells, the piano a little brighter, the tune an octave up in the last verse), the choir as a carol's (felt-carol-human): from the first refrain on, its sopranos over the tune, then under it climbed an octave, flowing from chord to chord, swelling slowly over each half verse with no dip at the phrases' ends, in a far 3.2 s hall behind the room.",
+  "changes": {
+    "hall": 0.8,
+    "wet": 0.45,
+    "tones": {
+      "piano": {
+        "highpass": 80,
+        "low_shelf": [
+          300,
+          -5
+        ],
+        "shelf": [
+          1500,
+          3
+        ],
+        "lowpass": 6000,
+        "peaks_db": 17
+      },
+      "choir": {
+        "highpass": 100,
+        "lowpass": 6000,
+        "dehiss": true
+      },
+      "choir-high": {
+        "highpass": 100,
+        "lowpass": 6000,
+        "dehiss": true
+      }
+    },
+    "levels": {
+      "choir": -2,
+      "choir-high": -3
+    }
+  }
+}

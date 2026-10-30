@@ -239,6 +239,10 @@ runs/<mã khác>/covers/lego-woodwinds/stem_01.mp3:0.7` (nhiều lượt cách n
        hoặc dàn dây cao và nhẹ (viola, lượt cuối thêm violin, không có cello). Lượt cuối giai điệu vẫn cao một quãng tám.
      - `felt-choir-human`: nền là dàn hợp xướng hát "a" khe khẽ, theo ý bạn (Concert Choir của GeneralUser GS, stereo,
        mỗi giọng vào êm trong nửa giây đến một giây như người hát): ba bè từ đoạn mở đầu, lượt cuối thêm bè cao.
+     - `felt-carol-human`: hợp xướng như trong bài thánh ca Giáng sinh, theo ý bạn ("chưa có hương Giáng sinh, ngắt nghỉ
+       cứng, ồn"): vào từ điệp khúc lượt đầu, giọng nữ cao ngân trên giai điệu; lượt cuối hát dưới giai điệu đã lên quãng
+       tám. Hợp âm nối mềm sang nhau (vào sớm, rời muộn một chút), to dần theo cả nửa lượt chứ không hụt hơi mỗi câu, và
+       hát trong một không gian vang dài 3,2 giây phía sau, như dàn hợp xướng trong nhà thờ, còn piano vẫn ở gần.
    - `salamander`: như `piano` nhưng trên đàn Salamander Grand Piano (không chạy mặc định).
 
    Các kiểu piano nhẹ nhàng (chill, lullaby, flowing, hymn, piano-strings, felt, felt-noise) chơi trên đàn
