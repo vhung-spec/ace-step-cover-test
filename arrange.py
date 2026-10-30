@@ -2381,6 +2381,9 @@ class Perform:
     long: float = 2.0  # the tune's velocity for a note twice a beat long (as much less for half a beat)
     loose: float = 0.5  # the random jitter, times this
     ceiling: int = 127  # the highest velocity (the felt piano stays in its soft samples, under 66)
+    treble_db: float = 0.0  # the keys over treble_from this much softer by treble_to (dB, as velocity sets level)
+    treble_from: int = 74  # D5
+    treble_to: int = 86  # D6
 
 
 def humane_tempos(arr: Arrangement, how: Perform) -> list:
@@ -2408,6 +2411,14 @@ def humane_tempos(arr: Arrangement, how: Perform) -> list:
     return tempos
 
 
+# Jingle Bells' felt piano, version 10 (its treble's knock taken out), still
+# heard popping on its high notes: its tune's top notes, struck at 56-65 (the
+# rest at 39 on average) and brightened, peaked 25 dB over the piano's level,
+# and the piano's own fast limiter (peaks_db) took up to 8.4 dB off their
+# attacks and let go over 60 ms: each high note dipped and climbed back 4.7 dB
+# in its first 50 ms (2.3 dB under D5). As the dark piano's session found for
+# its modelled piano (the user's "tiếng bộp ... giống tiếng rè ở những nốt
+# cao"), the top keys are softer (treble_db), the middle as loud as ever.
 def perform(arr: Arrangement, how: Perform) -> None:
     """The arrangement played as a person plays it (Perform)."""
     spans = phrase_spans(arr)
@@ -2446,6 +2457,9 @@ def perform(arr: Arrangement, how: Perform) -> None:
                 else:
                     velocity += 2 * how.under * rise
                 velocity = max(1, min(how.ceiling, round(velocity)))
+            if how.treble_db and note > how.treble_from:
+                share = min(1.0, (note - how.treble_from) / (how.treble_to - how.treble_from))
+                velocity = max(1, round(velocity * 10 ** (how.treble_db * share / 40)))  # level goes as velocity squared
             played.append((tick, note, velocity, length))
         part.notes = played
     arr.tempos = humane_tempos(arr, how)

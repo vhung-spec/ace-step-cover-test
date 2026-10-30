@@ -1,0 +1,75 @@
+{
+  "song": "jingle-bells",
+  "style": "felt-written-human",
+  "title": "Jingle Bells · Piano nỉ",
+  "heard": "v9: \"bản 9B\"; then, heard on the user's own player: \"tôi nghe thấy những nốt cao có tiếng lộp bộp\" (the high notes have a popping sound)",
+  "about": "v11a: as v10 (9b, the treble's knock taken out), the tune's top notes softer: from D5 on, down to 4.5 dB under at D6 (Perform.treble_db; they were struck at 56-65 against 39 for the rest, peaked 25 dB over the piano's level, and the piano's own fast limiter took up to 8.4 dB off their attacks, each high note dipping and climbing back 4.7 dB in its first 50 ms); the piano's own limiter as before (peaks_db 17).",
+  "changes": {
+    "hall": 0.8,
+    "wet": 0.45,
+    "breaths": [
+      7,
+      15,
+      23,
+      31
+    ],
+    "breath": 0.95,
+    "perform": {
+      "rubato": 0.07,
+      "treble_db": -4.5
+    },
+    "tones": {
+      "piano": {
+        "highpass": 80,
+        "low_shelf": [
+          300,
+          -5
+        ],
+        "shelf": [
+          1500,
+          3
+        ],
+        "lowpass": 6000,
+        "peaks_db": 17,
+        "swap_samples": {
+          "Upright1_Sus_C5_vl1_rr1.wav": "Upright1_Sus_C5_vl1_rr2.wav"
+        },
+        "treble_filter": {
+          "from": 79,
+          "ratio": 0.8
+        }
+      },
+      "violins": {
+        "lowpass": 5500
+      },
+      "violas": {
+        "lowpass": 4500
+      },
+      "cellos": {
+        "highpass": 60,
+        "lowpass": 4000
+      }
+    },
+    "levels": {
+      "violins": -3,
+      "violas": -2,
+      "cellos": -2,
+      "horns": -3
+    },
+    "written": [
+      "jingle-bells/ai/strings-take3.json",
+      "jingle-bells/ai/colour-horns-take2.json"
+    ],
+    "written_end": true,
+    "written_swell": [
+      0.6,
+      0.57,
+      0.74
+    ],
+    "ring_beats": 2,
+    "tail": {
+      "fade": 1.0,
+      "below": 45
+    }
+  }
+}
