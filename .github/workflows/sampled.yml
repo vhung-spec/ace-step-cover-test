@@ -94,13 +94,19 @@ jobs:
         uses: actions/cache@v4
         with:
           path: ~/sfizz
-          key: sfizz-render-${{ env.SFIZZ_VERSION }}-ubuntu-24.04
+          key: sfizz-render-${{ env.SFIZZ_VERSION }}-age-fix-ubuntu-24.04
 
       - name: Build sfizz_render
         if: steps.sfizz.outputs.cache-hit != 'true'
         run: |
           git clone -q --recursive --depth 1 --shallow-submodules --branch "$SFIZZ_VERSION" \
             https://github.com/sfztools/sfizz.git "$RUNNER_TEMP/sfizz"
+          # sfizz sets a voice's age back to min(age - delay, 0), which is 0, after its first block, so
+          # its second block starts as if the voice had just begun and plays its first block's last
+          # sample again: a click in every note, 0-23 ms after it starts. The age it means is max(...).
+          voice="$RUNNER_TEMP/sfizz/src/sfizz/Voice.cpp"
+          sed -i 's/impl.age_ = min(impl.age_ - \*impl.triggerDelay_, 0);/impl.age_ = max(impl.age_ - *impl.triggerDelay_, 0);/' "$voice"
+          grep -q 'impl.age_ = max(impl.age_ - \*impl.triggerDelay_, 0);' "$voice"
           cmake -S "$RUNNER_TEMP/sfizz" -B "$RUNNER_TEMP/sfizz/build" -DCMAKE_BUILD_TYPE=Release -DENABLE_LTO=OFF \
             -DSFIZZ_JACK=OFF -DSFIZZ_RENDER=ON -DSFIZZ_SHARED=OFF -DSFIZZ_TESTS=OFF -DSFIZZ_DEMOS=OFF \
             -DSFIZZ_DEVTOOLS=OFF -DSFIZZ_BENCHMARKS=OFF

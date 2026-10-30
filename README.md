@@ -277,7 +277,11 @@ runs/<mã khác>/covers/lego-woodwinds/stem_01.mp3:0.7` (nhiều lượt cách n
    nhỏ đi 22–45 dB.
 3. `render_samples.py` phát từng bè bằng [sfizz](https://sfz.tools/sfizz/) (`sfizz_render`); hợp xướng
    và chuông tháp của các kiểu nhà thờ thì phát bằng [FluidSynth](https://www.fluidsynth.org/) từ bộ
-   GeneralUser GS (tắt vang và chorus riêng của nó). Sau đó:
+   GeneralUser GS (tắt vang và chorus riêng của nó). sfizz 1.2.3 được vá một dòng trước khi build
+   (`src/sfizz/Voice.cpp`): sau khối âm đầu tiên của mỗi nốt, nó đặt "tuổi" của nốt về 0 (`min` thay vì
+   `max`), nên khối thứ hai coi như nốt vừa bắt đầu và phát lại mẫu âm cuối của khối đầu. Mỗi nốt vì thế
+   có một tiếng tách nhỏ 0–23 ms sau khi vào, nghe rõ bằng tai nghe ("tiếng lách tách đúng theo nhịp
+   nhạc"). Sau đó:
    - chỉnh âm sắc từng bè: mẫu thu nào cũng có chút tiếng xì nền. Dải cao nơi mẫu chỉ còn tiếng xì được
      cắt hẳn (piano từ 6 kHz, vibraphone từ 2,5 kHz, chuông ống từ 4 kHz, đàn hạc từ 5 kHz…), và lúc nhạc
      lặng thì phần xì còn lại được hạ thêm tới 10 dB. Tiếng giảm âm của piano khi nhả phím được vặn nhỏ;
@@ -318,7 +322,7 @@ Tiếng lộp bộp ở nốt cao của đàn upright Yamaha: mẫu thu nốt Đ
 
 Muốn kết bài nhanh, gọn thì đặt `ring_beats`: hợp âm cuối được nhả sau bấy nhiêu phách, mọi bè nhả theo, nhấc pedal. Đặt thêm `tail` (ví dụ `{"fade": 1.5, "below": 50}`) thì bản trộn dừng khi tiếng vang đã nhỏ hơn mức to nhất 50 dB, giây rưỡi cuối giảm dần (mặc định: 60 dB, 3 giây).
 
-Để tìm một tiếng lạ từ đâu ra: `"solo": "tune"` trong `changes` chỉ để lại giai điệu của bè piano, `"solo": "rest"` chỉ để lại phần đệm (các bản thử như vậy nằm trong `versions/<bài>/test/`). Đánh dấu ô *parts* khi chạy workflow thì từng bè, đúng như sfizz chơi (chưa chỉnh âm sắc, chưa trộn), được giữ thành FLAC `<bài>.<bè>.flac` trên nhánh `renders`, để trộn lại và đo trên máy. Trong `tones` của một bè, `attack` (giây) cho mỗi nốt vào dần trong chừng ấy thời gian (đàn Yamaha mặc định 4 ms), như búa bọc nỉ làm tiếng gõ mềm đi.
+Để tìm một tiếng lạ từ đâu ra: `"solo": "tune"` trong `changes` chỉ để lại giai điệu của bè piano, `"solo": "rest"` chỉ để lại phần đệm (các bản thử như vậy nằm trong `versions/<bài>/test/`). Đánh dấu ô *parts* khi chạy workflow thì từng bè, đúng như sfizz chơi (chưa chỉnh âm sắc, chưa trộn), được giữ thành FLAC `<bài>.<bè>.flac` trên nhánh `renders`, để trộn lại và đo trên máy.
 
 ### Bè do mô hình AI viết (Composer's Assistant 2)
 

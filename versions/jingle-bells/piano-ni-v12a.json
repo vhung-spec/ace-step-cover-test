@@ -2,8 +2,8 @@
   "song": "jingle-bells",
   "style": "felt-written-human",
   "title": "Jingle Bells · Piano nỉ",
-  "heard": "v11: \"tôi vẫn nghe tiếng lộp bộp\", then, of its first verse's piano, its tune alone and its accompaniment alone: \"tiếng lách tách đúng theo nhịp nhạc\" (a crackle right in time with the music) in all three",
-  "about": "A test, not a version: 11a with every note swelling in over 20 ms (4 ms before), as a felt hammer softens the strike.",
+  "heard": "v11: \"tôi vẫn nghe tiếng lộp bộp\" (I still hear the popping), on headphones, in the first and second verses; then, of the first verse's piano alone, its tune alone and its accompaniment alone: \"tiếng lách tách đúng theo nhịp nhạc\" (a crackle right in time with the music) in all three; of the piano mono, its strikes softened and its tone darker, only the darker one lost it",
+  "about": "v12a: as 11a, played by sfizz with its voices' age mended (render: sampled.yml). sfizz 1.2.3 set a voice's age back to 0 after its first block (min for max), so its second block began as if the note had just been struck and played the first block's last sample again: a click in every note, 0-23 ms after it starts, its highs mostly (so the darker tone hid it). Every click sat on a 1024-sample block boundary; the boundaries after which no note started had none.",
   "changes": {
     "hall": 0.8,
     "wet": 0.45,
@@ -37,8 +37,7 @@
         "treble_filter": {
           "from": 79,
           "ratio": 0.8
-        },
-        "attack": 0.02
+        }
       },
       "violins": {
         "lowpass": 5500

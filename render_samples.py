@@ -122,8 +122,6 @@ def sfz_copy(sfz: Path, part: str, db: float, tone: dict) -> Path:
         text = "".join(g for g in re.split(r"(?=<group>)", text) if "on_locc64" not in g)
     if tone.get("swap_samples") or tone.get("treble_filter"):
         text = treble_mended(text, tone.get("swap_samples", {}), tone.get("treble_filter"))
-    if tone.get("attack"):
-        text = softer_strike(text, tone["attack"])
     copy = sfz.with_name(f".{sfz.stem}.{part}.{db:+g}dB.sfz")
     copy.write_text(text)
     return copy
@@ -165,26 +163,6 @@ def treble_mended(text: str, swap: dict, treble: dict | None) -> str:
                                                     f"\nfil_keytrack=100\nfil_keycenter={centre}\n\n")
                 regions[i] = region
         groups.append(head + "".join(regions))
-    return "".join(groups)
-
-
-# Then, version 11 heard on headphones: "a crackle right in time with the
-# music" ("tiếng lách tách đúng theo nhịp nhạc"), in the tune alone and in the
-# accompaniment alone. Its stems hold no click at a note's end or the pedal's
-# lifting: only the notes' own strikes.
-def softer_strike(text: str, seconds: float) -> str:
-    """An SFZ whose notes swell in over `seconds` (ampeg_attack, in every
-    group not played on a key's release), as a felt hammer softens the
-    strike."""
-    groups = []
-    for group in re.split(r"(?=<group>)", text):
-        head = re.split(r"(?=<region>)", group)[0]
-        if group.startswith("<group>") and "trigger=release" not in head:
-            if re.search(r"\bampeg_attack=", group):
-                group = re.sub(r"\bampeg_attack=\S+", f"ampeg_attack={seconds:g}", group)
-            else:
-                group = group.replace("<group>", f"<group>\nampeg_attack={seconds:g}", 1)
-        groups.append(group)
     return "".join(groups)
 
 

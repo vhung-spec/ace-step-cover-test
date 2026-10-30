@@ -31,6 +31,10 @@ jobs:
         run: |
           git clone -q --recursive --depth 1 --shallow-submodules --branch "$SFIZZ_VERSION" \
             https://github.com/sfztools/sfizz.git /tmp/sfizz
+          # a voice's age after its first block: max, not min (every note clicked; see sampled.yml)
+          sed -i 's/impl.age_ = min(impl.age_ - \*impl.triggerDelay_, 0);/impl.age_ = max(impl.age_ - *impl.triggerDelay_, 0);/' \
+            /tmp/sfizz/src/sfizz/Voice.cpp
+          grep -q 'impl.age_ = max(impl.age_ - \*impl.triggerDelay_, 0);' /tmp/sfizz/src/sfizz/Voice.cpp
           cmake -S /tmp/sfizz -B /tmp/sfizz/build -DCMAKE_BUILD_TYPE=Release -DENABLE_LTO=OFF \
             -DSFIZZ_JACK=OFF -DSFIZZ_RENDER=ON -DSFIZZ_SHARED=OFF -DSFIZZ_TESTS=OFF -DSFIZZ_DEMOS=OFF \
             -DSFIZZ_DEVTOOLS=OFF -DSFIZZ_BENCHMARKS=OFF
