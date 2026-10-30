@@ -3,7 +3,7 @@
   "style": "pulse-human",
   "title": "Jingle Bells · Kiểu 1",
   "heard": "v1: \"tôi muốn có thêm lớp nền và tiếng piano nhẹ nhàng hơn\" (I want a bed under it, and a gentler piano)",
-  "about": "v2b: 1 with the piano gentler: every key struck three quarters as hard, no harder than 65 (Perform.touch, ceiling), so the Yamaha upright plays from its softly recorded samples, mellower (the tune went up to 90 before), and its highs eased from 7 kHz; a bed of our warm pad under it from the first verse, swelling with each phrase (Style.bed).",
+  "about": "v2b: 1 with the piano gentler: every key struck three quarters as hard, no harder than 65 (Perform.touch, ceiling), so the Yamaha upright plays from its softly recorded samples, mellower (the tune went up to 90 before), and its tone warmer: 5 dB less from 1.2 kHz up, its highs gone from 4 kHz (on 1's piano: 2-4 kHz 5 dB down, 4-8 kHz 9 dB; easing them from 7 kHz alone had changed them by under 1 dB); a bed of our warm pad under it from the first verse, swelling with each phrase (Style.bed).",
   "changes": {
     "tones": {
       "piano": {
@@ -14,7 +14,11 @@
           "from": 79,
           "ratio": 0.8
         },
-        "lowpass": 7000
+        "lowpass": 4000,
+        "shelf": [
+          1200,
+          -5
+        ]
       }
     },
     "ring_beats": 2,
