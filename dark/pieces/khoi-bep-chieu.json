@@ -1,0 +1,53 @@
+{
+ "title": "Khói bếp chiều",
+ "about": "A new piece in the dem-diu style (round 11): G minor, its motif a broken chord climbing to Bb5 and leaning on the A; a warmer middle in Bb major's light; a climax doubled an octave down; the harmonic minor's D at the cadences.",
+ "style": "dem-diu",
+ "bpm": 78,
+ "beats": 4,
+ "sections": [
+  {
+   "bars": 2,
+   "chords": "Gm | Eb",
+   "dyn": 0.25
+  },
+  {
+   "bars": 8,
+   "chords": "Gm | Eb | Bb | F | Gm | Cm | D | D",
+   "melody": "D5:1 G5:1 Bb5:2 | Bb5:1.5 A5:0.5 G5:2 | F5:2 D5:1 F5:1 | C5:3 r:1 | D5:1 G5:1 A5:1 Bb5:1 | C6:2 Bb5:1 G5:1 | A5:2 F#5:1 D5:1 | F#5:3 r:1",
+   "dyn": 0.38
+  },
+  {
+   "bars": 8,
+   "chords": "Eb | F | Bb | Gm | Eb | F | Cm | D",
+   "melody": "G5:2 Bb5:2 | A5:2 F5:1 C5:1 | D5:1 F5:1 Bb5:2 | G5:3 r:1 | Eb5:1.5 F5:0.5 G5:2 | F5:2 C5:1 A4:1 | Eb5:2 G5:1 C6:1 | A5:2 F#5:2",
+   "dyn": 0.5
+  },
+  {
+   "bars": 8,
+   "chords": "Gm | Eb | Bb | F | Eb | Cm | D | Gm",
+   "melody": "D5:1 G5:1 Bb5:2 | Bb5:1.5 A5:0.5 G5:2 | F5:2 D5:1 F5:1 | A5:3 r:1 | G5:2 Bb5:1 G5:1 | G5:1.5 F5:0.5 Eb5:2 | A5:1 G5:1 F#5:2 | G5:4",
+   "dyn": 0.4
+  },
+  {
+   "bars": 8,
+   "chords": "Eb | F | Dm | Gm | Cm | F | D | D",
+   "melody": "Bb5:2 G5:1 Bb5:1 | C6:3 A5:1 | A5:2 F5:1 D5:1 | Bb5:3 r:1 | C6:2 G5:1 Eb5:1 | F5:1 A5:1 C6:2 | A5:2 F#5:1 D5:1 | F#5:4",
+   "dyn": 0.72,
+   "rit": true,
+   "layers": [
+    "octave"
+   ]
+  },
+  {
+   "bars": 8,
+   "chords": "Gm | Eb | Bb | F | Gm | Cm | D | Gm",
+   "melody": "D5:1 G5:1 Bb5:2 | Bb5:1.5 A5:0.5 G5:2 | F5:2 D5:1 F5:1 | C5:3 r:1 | D5:1 G5:1 A5:1 Bb5:1 | G5:2 Eb5:1 C5:1 | A5:1 G5:1 F#5:2 | G5:4",
+   "dyn": 0.3
+  },
+  {
+   "bars": 2,
+   "chords": "Eb | Gm",
+   "dyn": 0.22
+  }
+ ]
+}

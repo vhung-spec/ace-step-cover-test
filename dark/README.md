@@ -60,3 +60,16 @@ Người dùng chọn **M2** ("hãy làm theo M2"): phong cách `dem-diu` giờ 
 (I3: `human` 1.0 + `vary`), gõ mềm 45 ms, rộng 0,85, vang 3,6 giây (0,85). Các bản trước dùng `dem-diu` được ghim sang
 `dem-diu-h3` (đàn thu âm qua màu tiếng H3), nên vẫn đúng như lúc nghe (đã kiểm tra: 24 bản, MIDI và mix.json không đổi
 một byte). App chơi phong cách này y hệt: cùng nốt (Thư cuối của app = M2 từng byte MIDI), cùng mẫu tiếng đàn.
+
+## Bài mới (vòng 11)
+
+Người dùng: "hãy sáng tác thêm các bài hát khác". Năm bài mới theo `dem-diu` (đàn mô phỏng M2, chơi như người), sáng tác
+mới hoàn toàn, mỗi bài một giọng chưa có trong app, dài 2:18-2:40, qua kiểm tra của app (không lỗi, không nốt chỏi):
+
+| Bài | Giọng, nhịp | Nét riêng |
+|---|---|---|
+| `hien-mua-cu` (Hiên mưa cũ) | Si thứ, 74 bpm | Một nốt gõ hai lần như giọt mưa; cao trào lên Đô thăng 6 |
+| `ru-suong` (Ru sương) | Mi thứ, nhịp ba, 72 bpm | Lời ru đung đưa; đoạn giữa sáng màu Sol trưởng, hai lượt |
+| `do-khuya` (Đò khuya) | Đô thăng thứ, 76 bpm | Hợp âm rải đi lên như mái chèo; cao trào có giai điệu đôi quãng tám |
+| `vang-trang-mong` (Vầng trăng mỏng) | Si giáng thứ, 70 bpm | Chậm, thưa, nốt dài; hợp âm Napoli (Đô giáng) trước lần kết cuối |
+| `khoi-bep-chieu` (Khói bếp chiều) | Sol thứ, 78 bpm | Hợp âm rải lên Si giáng 5; đoạn giữa ấm (Si giáng trưởng); cao trào đôi quãng tám |

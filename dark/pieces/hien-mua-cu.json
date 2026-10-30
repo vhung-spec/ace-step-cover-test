@@ -1,0 +1,50 @@
+{
+ "title": "Hiên mưa cũ",
+ "about": "A new piece in the dem-diu style (round 11): B minor, its motif a note struck twice like a raindrop (a dotted quarter and an eighth on one pitch), i-VI-III-VII, a higher middle on VI, a climax on C#6.",
+ "style": "dem-diu",
+ "bpm": 74,
+ "beats": 4,
+ "sections": [
+  {
+   "bars": 2,
+   "chords": "Bm | G",
+   "dyn": 0.25
+  },
+  {
+   "bars": 8,
+   "chords": "Bm | G | D | A | Bm | G | Em | F#",
+   "melody": "F#5:1.5 F#5:0.5 E5:1 D5:1 | D5:2 B4:2 | A4:1.5 A4:0.5 B4:1 D5:1 | C#5:3 r:1 | F#5:1.5 F#5:0.5 G5:1 F#5:1 | E5:2 D5:1 E5:1 | G5:1.5 F#5:0.5 E5:1 D5:1 | C#5:2 A#4:2",
+   "dyn": 0.38
+  },
+  {
+   "bars": 8,
+   "chords": "G | A | F#m | Bm | Em | A | D | F#",
+   "melody": "B5:1.5 B5:0.5 A5:1 G5:1 | A5:2 E5:2 | F#5:1.5 F#5:0.5 E5:1 C#5:1 | D5:3 r:1 | G5:2 E5:1 B4:1 | C#5:1 E5:1 A5:2 | F#5:2 D5:1 A4:1 | A#4:1 C#5:1 F#5:2",
+   "dyn": 0.5
+  },
+  {
+   "bars": 8,
+   "chords": "Bm | G | D | A | G | Em | F# | Bm",
+   "melody": "F#5:1.5 F#5:0.5 E5:1 D5:1 | D5:2 B4:2 | A4:1.5 A4:0.5 B4:1 D5:1 | E5:3 r:1 | B5:1.5 B5:0.5 A5:1 G5:1 | G5:2 F#5:1 E5:1 | F#5:1 E5:1 C#5:2 | B4:4",
+   "dyn": 0.4
+  },
+  {
+   "bars": 8,
+   "chords": "G | A | D | Bm | Em | A | F# | F#",
+   "melody": "D5:1 G5:1 B5:2 | C#6:1.5 C#6:0.5 B5:1 A5:1 | A5:2 F#5:2 | B5:3 r:1 | G5:1.5 G5:0.5 B5:1 E5:1 | E5:2 A5:2 | F#5:2 E5:1 C#5:1 | C#5:4",
+   "dyn": 0.72,
+   "rit": true
+  },
+  {
+   "bars": 8,
+   "chords": "Bm | G | D | A | Bm | G | Em F# | Bm",
+   "melody": "F#5:1.5 F#5:0.5 E5:1 D5:1 | D5:2 B4:2 | A4:1.5 A4:0.5 B4:1 D5:1 | C#5:3 r:1 | F#5:1.5 F#5:0.5 G5:1 F#5:1 | E5:2 D5:1 E5:1 | E5:2 C#5:1 A#4:1 | B4:4",
+   "dyn": 0.3
+  },
+  {
+   "bars": 2,
+   "chords": "G | Bm",
+   "dyn": 0.22
+  }
+ ]
+}
