@@ -4,8 +4,8 @@ Nhạc piano u buồn, tối (dark piano): bản nhạc gốc viết dưới d�
 `compose.py` phối thành MIDI cho từng nhạc cụ, rồi `render_samples.py` (ở thư mục gốc) phát bằng
 nhạc cụ thu thật (VCSL, VSCO 2 CE, đều CC0) và trộn với tiếng phòng.
 
-Mỗi lần đẩy lên nhánh `dark-piano`, Actions **Dark piano** tự dựng lại các bản; bản nghe thử (MP3
-128 kbit/s) nằm ở nhánh `dark-renders`.
+Mỗi lần đẩy lên nhánh `dark-piano`, Actions **Dark piano** tự dựng lại các bản; bản nghe (MP3
+320 kbit/s) nằm ở nhánh `dark-renders`.
 
 | Bản | Giọng, nhịp | Âm thanh |
 |---|---|---|
@@ -73,3 +73,9 @@ mới hoàn toàn, mỗi bài một giọng chưa có trong app, dài 2:18-2:40,
 | `do-khuya` (Đò khuya) | Đô thăng thứ, 76 bpm | Hợp âm rải đi lên như mái chèo; cao trào có giai điệu đôi quãng tám |
 | `vang-trang-mong` (Vầng trăng mỏng) | Si giáng thứ, 70 bpm | Chậm, thưa, nốt dài; hợp âm Napoli (Đô giáng) trước lần kết cuối |
 | `khoi-bep-chieu` (Khói bếp chiều) | Sol thứ, 78 bpm | Hợp âm rải lên Si giáng 5; đoạn giữa ấm (Si giáng trưởng); cao trào đôi quãng tám |
+
+Tiếng rè ở nốt cao: người dùng nghe các bài (file MP3 128 kbit/s) bằng tai nghe và vẫn thấy rè ở cả bốn bài có nốt
+cao (Hiên mưa cũ, Ru sương, Đò khuya, Khói bếp chiều). Cùng đoạn cao trào Hiên mưa cũ ở 320 kbit/s, bốn cách (đàn như
+bây giờ, đàn thu âm, nốt cao đầy tiếng hơn, nốt cao yên hơn) thì cả bốn đều không rè. Nốt cao của đàn mô phỏng gần như
+một âm đơn, hai bên tai hơi lệch pha nhau: MP3 128 kbit/s nén phần đó kém, tai nghe lộ ra. Nên các bài giờ được đăng ở
+320 kbit/s (đúng như app lưu), đàn không đổi.

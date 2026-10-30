@@ -3,9 +3,11 @@
 # dark/piano_model.py makes the modelled pianos they name (no recording),
 # render_samples.py plays and mixes them. Runs on every push to the
 # dark-piano branch (or by hand): a push that changes only pieces plays only
-# those, one that changes the code plays them all. 128 kbit/s previews go to
-# the dark-renders branch (one commit, the earlier pieces' previews kept beside
-# the new ones), the full pieces of the run to an artifact.
+# those, one that changes the code plays them all. The pieces (MP3, 320
+# kbit/s) go to the dark-renders branch (one commit, the earlier pieces kept
+# beside the new ones) and, with their MIDI and mix sheets, to an artifact.
+# Not 128 kbit/s: there the modelled piano's high notes, nearly pure tones,
+# buzzed in headphones ("rè"); the same passage at 320 kbit/s did not.
 name: Dark piano
 run-name: 'Dark piano: ${{ inputs.pieces || github.event.head_commit.message }}'
 
@@ -103,14 +105,11 @@ jobs:
           "$RUNNER_TEMP/venv/bin/python" render_samples.py out/dark --sfizz ~/sfizz/sfizz_render \
             --vsco "$RUNNER_TEMP/libs/vsco" --vcsl "$RUNNER_TEMP/libs/vcsl" --model "$RUNNER_TEMP/libs/model"
 
-      - name: Smaller copies
+      - name: The pieces to publish
         if: steps.which.outputs.skip != 'true'
         run: |
           mkdir -p out/preview
-          for wav in out/dark/*.wav; do
-            ffmpeg -loglevel error -i "$wav" -c:a libmp3lame -b:a 128k "out/preview/$(basename "${wav%.wav}").mp3"
-          done
-          cp dark/pieces/*.json out/preview/
+          cp out/dark/*.mp3 dark/pieces/*.json out/preview/
 
       - name: Keep the pieces
         if: always() && steps.which.outputs.skip != 'true'
@@ -137,5 +136,5 @@ jobs:
           git init -q -b dark-renders
           git add .
           git -c user.name="github-actions[bot]" -c user.email="41898282+github-actions[bot]@users.noreply.github.com" \
-            commit -q -m "Dark piano renders of run $GITHUB_RUN_ID (${ONLY:-all}), 128 kbit/s"
+            commit -q -m "Dark piano renders of run $GITHUB_RUN_ID (${ONLY:-all}), 320 kbit/s"
           git push -q -f "https://x-access-token:${{ github.token }}@github.com/$GITHUB_REPOSITORY" dark-renders
