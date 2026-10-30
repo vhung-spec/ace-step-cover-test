@@ -154,8 +154,7 @@ STYLES = {
     "dem-diu": {"piano": "model-dream", "bass_low": 40, "texture": "flow", "hold": 1.0, "pedal_beats": 2, "lh_soft": 6,
                 "melody_velocity": [38, 60], "velocity_cap": 64,
                 "room": {"rt60": 3.6, "wet": 0.85}, "piano_reverb": 0.35, "loudness": -14,
-                "piano_tone": {"attack": 0.045, "width": 0.85}, "human": {"amount": 1.0, "vary": True},
-                "pedal_steps": True},
+                "piano_tone": {"attack": 0.045, "width": 0.85}, "human": {"amount": 1.0, "vary": True}},
 }
 # How loud each part sits against the piano (dB while it plays).
 ROLES = {"piano": 0.0, "bass": -9.0, "melody2": -6.0, "pad": -12.0, "low": -13.0, "drone": -15.0}
