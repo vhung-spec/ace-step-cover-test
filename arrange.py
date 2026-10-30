@@ -1374,18 +1374,38 @@ def fitting_strings(arr: Arrangement, tune: list, answering: bool = False) -> No
               60, 104)
 
 
+def fitted(arr: Arrangement, tick: int, note: int, length: int) -> list:
+    """A written note, (tick, note, length) pieces, as it fits the song's
+    chords: held on into a chord without its tone, it moves there to the
+    nearest tone of that chord, as a player would (the model's cellos held
+    C over the G of "Oh, what fun it is"); its start is left as written (a
+    passing note, a suspension), and a piece shorter than an eighth left out."""
+    pieces, start, key = [], tick, note
+    for beat in range(tick - tick % arr.beat + arr.beat, tick + length, arr.beat):
+        chord = arr.chord_at(beat)
+        root, intervals = CHORDS[chord]
+        tones = {(root + i) % 12 for i in intervals}
+        if chord != arr.chord_at(beat - arr.beat) and key % 12 not in tones:
+            pieces.append((start, key, beat - start))
+            start, key = beat, min((k for k in range(key - 2, key + 3) if k % 12 in tones), key=lambda k: abs(k - key))
+    pieces.append((start, key, tick + length - start))
+    return [piece for piece in pieces if piece[2] >= EIGHTH or piece[0] == tick]
+
+
 def lay_in(arr: Arrangement, written: str, velocity: int = 40) -> None:
     """Parts another hand wrote for the arrangement (infill.py: Composer's
     Assistant 2), a file under versions/, laid in as a bed: each part (a string
-    section by its name) as written, soft, swelling as fitting_strings' do,
-    in the far hall behind the room."""
+    section by its name) as written, but for a tone held on into a chord it is
+    not in (fitted), soft, swelling as fitting_strings' do, in the far hall
+    behind the room."""
     sections = {"violins": -0.15, "violas": 0.1, "cellos": 0.15}
     half = arr.bar * (len(arr.song.chords) // 2)
     first, last = arr.verses[0], arr.verses[-1]
     for name, notes in json.loads((VERSIONS / written).read_text())["parts"].items():
         part = arr.part(name, name, "bed", sections[name], reverb=0.3)
         for tick, note, length in notes:
-            part.add(tick + arr.jitter(4), note, velocity, length, tie=True)
+            for at, key, held in fitted(arr, tick, note, length):
+                part.add(at + arr.jitter(4), key, velocity, held, tie=True)
         part.far = 0.6
         swell(arr, part, [(first + half - arr.beat, last, 0.6), (last, last + half, 0.75), (last + half, arr.end, 1.0)],
               60, 104)

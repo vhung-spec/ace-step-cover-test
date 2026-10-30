@@ -323,7 +323,9 @@ trống. Vốn chạy trong phần mềm REAPER; `infill.py` làm y như vậy m
 (`versions/<bài>/ai/<tên>.plan.json`) ghi: phiên bản cho mô hình nghe (bè piano), các bè cần viết (nhạc cụ, ô nhịp,
 quãng nốt, độ dày, đi liền bậc hay nhảy) và các lượt viết (seed). Workflow **AI parts (Composer's Assistant 2)**
 chạy mô hình (tải bản phát hành v2.1.0, kiểm tra mã băm, chạy ở bước chỉ được đọc kho) và đẩy kết quả lên nhánh
-`ai`. Chép lượt ưng ý vào `versions/<bài>/ai/`, rồi cho phiên bản trỏ tới nó bằng `"written"`.
+`ai`. Chép lượt ưng ý vào `versions/<bài>/ai/`, rồi cho phiên bản trỏ tới nó bằng `"written"`. Khi đặt vào bài,
+nốt nào mô hình giữ sang một hợp âm không chứa nó thì chuyển sang nốt gần nhất của hợp âm đó (như người chơi
+sửa); nốt mở đầu được giữ nguyên như mô hình viết.
 
 ## Giấy phép
 
