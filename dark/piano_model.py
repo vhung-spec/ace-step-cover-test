@@ -97,11 +97,14 @@ DEFAULTS = {
     "strike_ms": 40.0,
     "knock_db": -30.0,  # the hammer's thud against the note, struck at velocity 64...
     "knock_ms": 8.0,  # ...dying in about this long (longer in the bass)
+    "knock_treble_db": -6.0,  # above C3 the thud softer by this much an octave, and higher (half an octave an octave)
     "rough_db": 4.0,  # the soundboard's uneven answer: partials up or down by about this much (dB), fixed per key
     "click_db": -40.0,  # the hammer's click, brighter and shorter than its thud, against the note
     "halo_db": -80.0,  # the other strings ringing along (the pedal's bloom), against the note; -80: none
     "body_db": -28.0,  # the soundboard's lowest modes (BODY_HZ), set ringing by every strike, against the note
     "body_s": 0.35,  # their 1/e time
+    "body_treble_db": -12.0,  # above C3 they ring this much less an octave: a treble string stirs the board's lowest
+    # modes little (rung as much as a bass note's, they were heard under the high notes as a thump, "tiếng bộp")
     "width": 0.3,  # the stereo spread (0: mono)
     "release_s": 0.3,  # the dampers
     "key_tilt_db": 0.0,  # loudness an octave up
@@ -176,6 +179,7 @@ def note(key: int, velocity: int, p: dict, seed: int) -> np.ndarray:
             for side, shift in enumerate((-apart / 2, apart / 2)):
                 out[side] += env * np.sin(phase + shift) * gains[side] * part
     peak = np.abs(out).max()  # the note itself: what the knock, the body and the halo are set against
+    treble = max(0, key - 48) / 12  # octaves above C3
     if p["strike_db"] > -80:  # what a harder felt adds at first, dying within strike_ms (sooner the higher)
         bright = np.maximum(partials(key, velocity, p, p["strike_x"])[1] - amp, 0) * 10 ** (p["strike_db"] / 20)
         first = t[: int(0.3 * RATE)]
@@ -195,10 +199,12 @@ def note(key: int, velocity: int, p: dict, seed: int) -> np.ndarray:
         out += halo * peak / (np.abs(halo).max() + 1e-12) * 10 ** (p["halo_db"] / 20)
     if p["knock_db"] > -80:  # the hammer's thud: a short burst of low noise, harder struck, louder and brighter
         burst = rng.standard_normal(int(0.08 * RATE))
-        sos = butter(2, [50, 300 + 1500 * velocity / 127], "band", fs=RATE, output="sos")
+        rise = 2 ** (treble / 2)  # a treble hammer's knock is a short tick, not a low thud
+        sos = butter(2, [50 * rise, (300 + 1500 * velocity / 127) * rise], "band", fs=RATE, output="sos")
         burst = sosfilt(sos, burst) * np.exp(-np.arange(len(burst)) / RATE
                                              / (p["knock_ms"] / 1000 * (0.5 + (1 - (key - 21) / 87))))
-        burst *= peak / (np.abs(burst).max() + 1e-12) * 10 ** (p["knock_db"] / 20) * velocity / 64
+        burst *= peak / (np.abs(burst).max() + 1e-12) * 10 ** ((p["knock_db"] + p["knock_treble_db"] * treble) / 20) \
+            * velocity / 64
         out[:, : len(burst)] += burst * gains[:, None]
     if p["click_db"] > -80:
         click = rng.standard_normal(int(0.02 * RATE))
@@ -209,7 +215,8 @@ def note(key: int, velocity: int, p: dict, seed: int) -> np.ndarray:
         body = sum(np.sin(2 * np.pi * f * t + rng.uniform(0, 2 * np.pi)) * rng.uniform(0.5, 1.0)
                    for f in BODY_HZ) * np.exp(-t / p["body_s"])
         body *= 0.5 - 0.5 * np.cos(np.pi * np.minimum(1, t / 0.01))
-        body *= peak / (np.abs(body).max() + 1e-12) * 10 ** (p["body_db"] / 20) * velocity / 64
+        body *= peak / (np.abs(body).max() + 1e-12) * 10 ** ((p["body_db"] + p["body_treble_db"] * treble) / 20) \
+            * velocity / 64
         out += body * gains[:, None]
     fade = np.minimum(1, (len(t) - np.arange(len(t))) / (0.4 * RATE))  # a damper at the sample's end
     return out * fade
