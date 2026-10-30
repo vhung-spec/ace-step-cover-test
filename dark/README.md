@@ -79,3 +79,8 @@ cao (Hiên mưa cũ, Ru sương, Đò khuya, Khói bếp chiều). Cùng đoạn
 bây giờ, đàn thu âm, nốt cao đầy tiếng hơn, nốt cao yên hơn) thì cả bốn đều không rè. Nốt cao của đàn mô phỏng gần như
 một âm đơn, hai bên tai hơi lệch pha nhau: MP3 128 kbit/s nén phần đó kém, tai nghe lộ ra. Nên các bài giờ được đăng ở
 320 kbit/s (đúng như app lưu), đàn không đổi.
+
+Nhưng file 320 kbit/s vẫn rè. Nguyên nhân thật: sfizz 1.2.3 phát mỗi nốt lệch 1 mẫu cho tới hết khối 1024 mẫu đầu
+tiên của nốt rồi nhảy về; cú nhảy là tiếng "tách" 13-23 ms sau đầu nốt, rõ ở nốt cao gần như âm thuần (các đoạn thử dựng
+trong phiên, không qua sfizz, thì không có). `render_samples.py` giờ cho sfizz chạy khối 32 mẫu (`BLOCK`): người dùng
+nghe lại, "đã hết rè".
