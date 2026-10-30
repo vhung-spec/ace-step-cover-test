@@ -1678,18 +1678,20 @@ def free_intro(arr: Arrangement, piano: Part, velocity: int, top: int) -> list:
 def cover_end(arr: Arrangement, piano: Part, tune: list, velocity: int) -> None:
     """The last chord: its deep root with the octave, the chord rolled up from
     them, the pedal held; a beat later its keynote high up, soft as a far
-    bell. Keys the tune still holds are left to it."""
+    bell. Keys the tune still holds are left to it. With a quick ending
+    (arr.ring) the chord is let go after it, the bell left out."""
     held = held_keys(tune, arr.end + 100)
     tonic = arr.chord_at(arr.end)
     root, up = bass_note(tonic, DEEP), third(tonic)
     rolled = ((root, -6), (root + 12, 0), (root + 19, 6), (root + 24, 6), (root + 24 + up, 8), (root + 31, 10),
               (root + 36, 10))
+    ring = arr.ring or 3 * arr.bar
     for i, (note, softer) in enumerate(rolled):
         if note not in held:
-            piano.add(arr.end + i * 45, note, velocity - softer, 3 * arr.bar)
-    if root + 48 not in held:
+            piano.add(arr.end + i * 45, note, velocity - softer, ring)
+    if not arr.ring and root + 48 not in held:
         piano.add(arr.end + arr.beat + 40, root + 48, velocity - 14, 3 * arr.bar)
-    piano.pedal += [(arr.end + 20, 127), (arr.end + 3 * arr.bar, 0)]
+    piano.pedal += [(arr.end + 20, 127), (arr.end + ring, 0)]
 
 
 def pedal_by_beat(arr: Arrangement, part: Part, start: int, end: int) -> None:
@@ -1789,7 +1791,8 @@ def band(arr: Arrangement, bells: bool = True, breathing: bool = False) -> None:
         flowing_bass(arr, harp, close_from, arr.end, 50, octave=12)
     tonic = arr.chord_at(arr.end)
     harp.add(arr.end, bass_note(tonic) + 12, 54, 2 * arr.bar)
-    gliss(arr, harp, arr.end + arr.beat, 2 * arr.beat, tonic, 60, 96, 42)
+    if not arr.ring:  # a quick ending (let_go) leaves no time for the sweep up
+        gliss(arr, harp, arr.end + arr.beat, 2 * arr.beat, tonic, 60, 96, 42)
     strings(arr, close_from, arr.end + 2 * arr.bar, 40, roles=("bed", "bed"))
     for name in ("cellos", "violas"):
         breathe(arr, arr.parts[name], 84, 110, start=close_from)

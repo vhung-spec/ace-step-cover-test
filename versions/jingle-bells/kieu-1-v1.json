@@ -1,0 +1,25 @@
+{
+  "song": "jingle-bells",
+  "style": "pulse-human",
+  "title": "Jingle Bells · Kiểu 1",
+  "heard": "Piano nỉ: \"đã không còn tiếng tách, hãy dùng bản 12a\" (no click left; take 12a): Piano nỉ locked at 12a, Kiểu 1 (piano and bells) next",
+  "about": "v1: pulse-human as it is (the Yamaha upright's steady pulse under the tune, a glockenspiel doubling the tune in the first verse, the flute in the second, then vibraphone, harp and strings; 88 bpm, the 0.8 s room), with what Piano nỉ taught: the upright's treble knock mended (its C6 sample's quiet first take played by the second, the knock under the notes from G5's samples up filtered out) and the quick, tidy ending the user chose there (the last chord let go two beats on, the mix ending 1 s after the sound is 45 dB down; no far bell, no harp sweep). sfizz itself is mended (sampled.yml).",
+  "changes": {
+    "tones": {
+      "piano": {
+        "swap_samples": {
+          "Upright1_Sus_C5_vl1_rr1.wav": "Upright1_Sus_C5_vl1_rr2.wav"
+        },
+        "treble_filter": {
+          "from": 79,
+          "ratio": 0.8
+        }
+      }
+    },
+    "ring_beats": 2,
+    "tail": {
+      "fade": 1.0,
+      "below": 45
+    }
+  }
+}
