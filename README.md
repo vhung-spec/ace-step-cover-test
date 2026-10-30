@@ -247,6 +247,12 @@ runs/<mã khác>/covers/lego-woodwinds/stem_01.mp3:0.7` (nhiều lượt cách n
        theo ý bạn, đặt như hợp xướng (nối mềm, to dần theo nửa lượt, vang phía sau): dàn dây (violin ngân trên điệp
        khúc lượt đầu, lượt cuối viola, cello và violin bên dưới giai điệu); dàn dây thêm kèn cor khe khẽ ở điệp khúc
        cuối; hoặc sáo hát một bè chậm trên điệp khúc lượt đầu rồi dàn dây.
+     - `felt-fitting-human`, `felt-answering-human`: dàn dây "ăn khớp với bài" theo ý bạn ("lớp nền chưa hay, không
+       ăn khớp"). Đo bản 6 thấy dây lệch hợp âm 12 % thời gian (mỗi hợp âm vào sớm và rời muộn nửa phách) và violin
+       ngân trên giai điệu suốt điệp khúc đầu. Ở đây, như các bản thu thật: dây đổi hợp âm đúng lúc bài đổi, luôn ở dưới
+       giai điệu, cello đi nốt gốc của hợp âm; lượt cuối violin vào dưới giai điệu. Bản `answering` thêm một bè cello
+       "đáp lời" mỗi khi giai điệu ngân cả ô nhịp: ba nốt đi liền bậc tới hợp âm kế (Sol La Si tới Đô).
+     - `felt-written-human`: piano nỉ trơn, để đặt vào các bè do mô hình AI viết (`infill.py`, xem dưới).
    - `salamander`: như `piano` nhưng trên đàn Salamander Grand Piano (không chạy mặc định).
 
    Các kiểu piano nhẹ nhàng (chill, lullaby, flowing, hymn, piano-strings, felt, felt-noise) chơi trên đàn
@@ -308,6 +314,16 @@ một file `versions/<bài>/<tên>-v<số>.json`: bài, kiểu phối gốc, và
 nghe (nhịp, độ vang, độ to và âm sắc từng bè, cách chơi…). Muốn render thì điền ô *versions*, ví dụ
 `jingle-bells/piano-ni-v1`; khi đó ô *songs* và *styles* được bỏ qua. Bản render của phiên bản có thêm file
 FLAC (không nén) trên nhánh `renders`, để nghe và đo đúng chất lượng, không bị hụt dải cao như MP3 128 kbit/s.
+
+### Bè do mô hình AI viết (Composer's Assistant 2)
+
+[Composer's Assistant 2](https://github.com/m-malandro/composers-assistant-REAPER) của M. Malandro (giấy phép
+MIT, mô hình chỉ học từ MIDI thuộc phạm vi công cộng hoặc giấy phép cho phép) nghe các bè có sẵn rồi viết bè còn
+trống. Vốn chạy trong phần mềm REAPER; `infill.py` làm y như vậy mà không cần REAPER. Một *kế hoạch*
+(`versions/<bài>/ai/<tên>.plan.json`) ghi: phiên bản cho mô hình nghe (bè piano), các bè cần viết (nhạc cụ, ô nhịp,
+quãng nốt, độ dày, đi liền bậc hay nhảy) và các lượt viết (seed). Workflow **AI parts (Composer's Assistant 2)**
+chạy mô hình (tải bản phát hành v2.1.0, kiểm tra mã băm, chạy ở bước chỉ được đọc kho) và đẩy kết quả lên nhánh
+`ai`. Chép lượt ưng ý vào `versions/<bài>/ai/`, rồi cho phiên bản trỏ tới nó bằng `"written"`.
 
 ## Giấy phép
 

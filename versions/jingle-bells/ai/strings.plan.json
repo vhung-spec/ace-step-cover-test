@@ -1,0 +1,12 @@
+{
+  "about": "Strings for Jingle Bells' felt piano (version 7), written by Composer's Assistant 2 hearing the piano (its tune and left hand): where version 6's bed played, from the first verse's refrain (bar 20) to the last chord's end (bar 70). The violas (two notes at a time at most) and the cellos (one) from the first refrain, the violins (one) in the last verse, each under the tune (loosely: the model may stray, then lay_in keeps what it wrote); notes starting about twice a bar (horiz 1: 0.5-1 a quarter note), the cellos under twice (horiz 0), the upper strings mostly by step (step 4: 60-80 % of their moves).",
+  "version": "jingle-bells/piano-ni-v7a",
+  "hear": ["piano"],
+  "parts": {
+    "violins": {"program": 40, "spans": [[36, 70, 62, 74]], "vert": 0, "horiz": 1, "step": 4},
+    "violas": {"program": 41, "spans": [[20, 36, 52, 64], [36, 70, 53, 67]], "vert": 1, "horiz": 1, "step": 4},
+    "cellos": {"program": 42, "spans": [[20, 70, 41, 57]], "vert": 0, "horiz": 0}
+  },
+  "takes": [1, 2, 3],
+  "temperature": 1.0
+}

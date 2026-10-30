@@ -1263,6 +1263,134 @@ def carol_strings(arr: Arrangement, horns: bool = False, flute: bool = False) ->
         swell(arr, part, [(last - arr.beat, last + half, 0.75), (last + half, arr.end, 1.0)], 60, 104)
 
 
+# The instruments under the felt piano, heard (version 6): "the bed's lines
+# aren't nice yet, they don't feel of a piece with the song". Measured, the
+# strings sounded a tone of the chord before or after the song's own 12 % of
+# the time they played, at 52 moments: each chord came in an eighth early and
+# left an eighth late (held_bed's ahead and overlap, a choir's way), against
+# the piano's chord; and the violins held two tones over the tune through the
+# first refrain (32 of their 33 notes), drawing the ear from it. A recording's
+# strings change chord with the song, on the beat, keep under its tune, their
+# bass on the chord's root, and move where the tune holds still.
+def under_bed(arr: Arrangement, part: Part, tune: list, start: int, end: int, velocity: int, low: int, high: int,
+              count: int = 2) -> None:
+    """A bed under the tune: each chord of half a bar or more voiced from the
+    one before (voice_lead), between low and a minor third under the lowest
+    key the piano's right hand holds over it (tune_floor), or high; through a
+    shorter chord only the tones it shares go on. Each tone starts and stops
+    with its chord, a tone two chords share held on."""
+    voicing = []
+    for tick, length, chord in arr.chord_spans(start, end):
+        ceiling = min(high, tune_floor(tune, tick, length) - 3)
+        if length >= arr.bar // 2 or not voicing:
+            voicing = voice_lead([n for n in voicing if n <= ceiling], chord, low, ceiling, count)
+            notes = voicing
+        else:
+            root, intervals = CHORDS[chord]
+            notes = [n for n in voicing if n <= ceiling and (n - root) % 12 in {i % 12 for i in intervals}]
+        for note in notes:
+            part.add(tick + arr.jitter(4), note, velocity, length, tie=True)
+
+
+def root_line(arr: Arrangement, part: Part, start: int, end: int, velocity: int, low: int = 43) -> None:
+    """The bass of a bed: each chord's root, in the octave from low, changing
+    with each chord of half a bar or more and held through the shorter ones."""
+    note = None
+    for tick, length, chord in arr.chord_spans(start, end):
+        if length >= arr.bar // 2 or note is None:
+            note = low + (CHORDS[chord][0] - low) % 12
+        part.add(tick + arr.jitter(4), note, velocity, length, tie=True)
+
+
+def scale_step(arr: Arrangement, note: int, steps: int) -> int:
+    """The key so many steps of the carol's scale from a key of it (down if negative)."""
+    for _ in range(abs(steps)):
+        note += 1 if steps > 0 else -1
+        while note % 12 not in arr.scale:
+            note += 1 if steps > 0 else -1
+    return note
+
+
+def answers(arr: Arrangement, part: Part, start: int, end: int, velocity: int, low: int = 55,
+            high: int = 67) -> None:
+    """A line that answers the tune: where it holds a note a whole bar, three
+    quarter notes walk by step (the carol's scale) to a tone of the next bar's
+    chord, sounded on its downbeat as the tune moves on (G A B to C). The walk
+    sets out from a tone of the held chord; its other notes pass between,
+    best a tone of the chord too, and never a tritone from its root or a
+    semitone over one of its tones (F sharp over C). The last note of all is
+    left alone."""
+    for tick, note, length, verse, position in arr.melody():
+        if not (start <= tick < end) or length < arr.bar or position == 1.0 or verse < 0:
+            continue
+        held, following = arr.chord_at(tick + arr.bar // 2), arr.chord_at(tick + length)
+        held_root, held_intervals = CHORDS[held]
+        held_tones = {(held_root + i) % 12 for i in held_intervals}
+        next_root, next_intervals = CHORDS[following]
+        next_tones = {(next_root + i) % 12 for i in next_intervals}
+        harsh = {(held_root + 6) % 12} - held_tones | {(t + 1) % 12 for t in held_tones} - held_tones
+        best, best_cost = None, math.inf
+        for target in chord_notes(following, low + 3, high - 3):
+            for direction in (1, -1):  # from above or from below
+                walk = [scale_step(arr, target, direction * k) for k in (3, 2, 1)] + [target]
+                if walk[0] % 12 not in held_tones or any(n < low or n > high or n % 12 in harsh for n in walk[:3]):
+                    continue
+                cost = (walk[1] % 12 not in held_tones) + (walk[2] % 12 not in held_tones | next_tones)
+                cost += abs(target - (low + high) / 2) / 12
+                if cost < best_cost:
+                    best, best_cost = walk, cost
+        if not best:
+            continue
+        for k, key in enumerate(best):
+            at = tick + length - (3 - k) * arr.beat
+            part.add(at + arr.jitter(4), key, velocity - 4 * (k == 3), arr.beat if k < 3 else arr.beat + EIGHTH)
+
+
+def fitting_strings(arr: Arrangement, tune: list, answering: bool = False) -> None:
+    """Strings as a recording lays them under a carol: from the first verse's
+    refrain, the violas' two tones and the cellos' roots (an octave over the
+    deep bass), every tone changing with the song's chords and under its tune
+    (under_bed, root_line); in the last refrain the violins' one tone joins
+    them, under the tune an octave up. With answering, the cellos' own line
+    answers the tune in its long notes (answers), in the middle of their
+    range. Each swells slowly over each half verse, in the far hall behind
+    the room (Style.far)."""
+    half = arr.bar * (len(arr.song.chords) // 2)
+    first, last, end = arr.verses[0], arr.verses[-1], arr.end + 2 * arr.bar
+    violas = arr.part("violas", "violas", "bed", 0.1, reverb=0.3)
+    cellos = arr.part("cellos", "cellos", "bed", 0.15, reverb=0.3)
+    violins = arr.part("violins", "violins", "bed", -0.15, reverb=0.3)
+    under_bed(arr, violas, tune, first + half, end, 40, 55, 69, count=2)
+    root_line(arr, cellos, first + half, end, 38)
+    under_bed(arr, violins, tune, last + half, end, 40, 62, 76, count=1)
+    parts = [violas, cellos, violins]
+    if answering:
+        answer = arr.part("cello-answers", "cellos", "bed", -0.25, reverb=0.3)
+        answers(arr, answer, first + half, arr.end, 46)
+        parts.append(answer)
+    for part in parts:
+        part.far = 0.6
+        swell(arr, part, [(first + half - arr.beat, last, 0.6), (last, last + half, 0.75), (last + half, arr.end, 1.0)],
+              60, 104)
+
+
+def lay_in(arr: Arrangement, written: str, velocity: int = 40) -> None:
+    """Parts another hand wrote for the arrangement (infill.py: Composer's
+    Assistant 2), a file under versions/, laid in as a bed: each part (a string
+    section by its name) as written, soft, swelling as fitting_strings' do,
+    in the far hall behind the room."""
+    sections = {"violins": -0.15, "violas": 0.1, "cellos": 0.15}
+    half = arr.bar * (len(arr.song.chords) // 2)
+    first, last = arr.verses[0], arr.verses[-1]
+    for name, notes in json.loads((VERSIONS / written).read_text())["parts"].items():
+        part = arr.part(name, name, "bed", sections[name], reverb=0.3)
+        for tick, note, length in notes:
+            part.add(tick + arr.jitter(4), note, velocity, length, tie=True)
+        part.far = 0.6
+        swell(arr, part, [(first + half - arr.beat, last, 0.6), (last, last + half, 0.75), (last + half, arr.end, 1.0)],
+              60, 104)
+
+
 def arrange_felt_bed(arr: Arrangement, bed: str) -> None:
     """The felt piano, breathing (felt-4k-human), its tune an octave up in the
     last verse, over a bed swelling with each phrase: "pad", our warm pad
@@ -1279,9 +1407,13 @@ def arrange_felt_bed(arr: Arrangement, bed: str) -> None:
     fuller in the last verse, and a fourth over them there, under the tune
     an octave up; more of the room on it than on the piano, so it sings a
     little behind it."""
-    arrange_felt(arr, breathing=True, up=(arr.last,))
+    tune = arrange_felt(arr, breathing=True, up=(arr.last,))
     first, last = arr.verses[0], arr.verses[-1]
-    if bed == "carol":
+    if bed in ("fitting", "answering"):
+        fitting_strings(arr, tune, answering=bed == "answering")
+    elif bed == "none":
+        pass
+    elif bed == "carol":
         carol_choir(arr)
     elif bed.startswith("carol-"):
         carol_strings(arr, horns=bed == "carol-horns", flute=bed == "carol-flute")
@@ -2280,6 +2412,7 @@ class Style:
     perform: Perform | None = None  # played as a person plays it, shaping each phrase (perform)
     far: float | None = None  # a far, longer hall (rt60, s) behind the room, for the parts sent to it (Part.far)
     breaths: tuple | None = None  # the bars (from 0) that end a phrase, instead of the carol's own
+    written: str | None = None  # parts another hand wrote (infill.py), a file under versions/, laid in (lay_in)
 
 
 # The gentle styles are played on the Yamaha upright: of the three pianos
@@ -2450,6 +2583,13 @@ for _bed, _name in (("carol-strings", "felt-carol-strings-human"), ("carol-horns
                     ("carol-flute", "felt-carol-flute-human")):
     STYLES[_name] = dataclasses.replace(STYLES["felt-carol-human"],
                                         arrange=lambda arr, bed=_bed: arrange_felt_bed(arr, bed))
+# and, heard (version 6) as "not of a piece with the song", strings that fit it
+# (fitting_strings), then with the cellos answering the tune, and the felt
+# piano alone for parts another hand wrote (Style.written: infill.py)
+for _bed, _name in (("fitting", "felt-fitting-human"), ("answering", "felt-answering-human"),
+                    ("none", "felt-written-human")):
+    STYLES[_name] = dataclasses.replace(STYLES["felt-carol-human"],
+                                        arrange=lambda arr, bed=_bed: arrange_felt_bed(arr, bed))
 
 
 def untangle(notes: list) -> tuple[list, int]:
@@ -2529,6 +2669,8 @@ def arranged(song: Song, style: Style, piano: str, seed: int = 7) -> Arrangement
     if style.perform:
         arr.loose = style.perform.loose
     style.arrange(arr)
+    if style.written:
+        lay_in(arr, style.written)
     if style.perform:
         perform(arr, style.perform)
     return arr
@@ -2579,11 +2721,11 @@ def write_piece(arr: Arrangement, style: Style, folder: Path, levels: dict | Non
 VERSIONS = Path(__file__).with_name("versions")
 
 
-def play_version(out: Path, name: str) -> None:
-    """A version (versions/<name>.json) arranged into out/<song>-<label>-v<n>.
-    Its changes: any of the style's own settings (tempo, breath, hall, wet,
-    verses, piano...), the player's (perform: rubato, swell...), seed (the
-    arrangement's), levels and tones (write_piece)."""
+def version_arranged(name: str) -> tuple:
+    """A version (versions/<name>.json) arranged: (the arrangement, its style,
+    levels, tones). Its changes: any of the style's own settings (tempo,
+    breath, hall, wet, verses, piano...), the player's (perform: rubato,
+    swell...), seed (the arrangement's), levels and tones (write_piece)."""
     version = json.loads((VERSIONS / f"{name}.json").read_text())
     changes = dict(version.get("changes", {}))
     levels, tones, seed = changes.pop("levels", {}), changes.pop("tones", {}), changes.pop("seed", 7)
@@ -2591,7 +2733,12 @@ def play_version(out: Path, name: str) -> None:
     style = dataclasses.replace(STYLES[version["style"]], **changes)
     if player:
         style = dataclasses.replace(style, perform=dataclasses.replace(style.perform or Perform(), **player))
-    arr = arranged(SONGS[version["song"]], style, style.piano, seed)
+    return arranged(SONGS[version["song"]], style, style.piano, seed), style, levels, tones
+
+
+def play_version(out: Path, name: str) -> None:
+    """A version arranged (version_arranged) into out/<song>-<label>-v<n>."""
+    arr, style, levels, tones = version_arranged(name)
     write_piece(arr, style, out / name.replace("/", "-"), levels, tones)
 
 
