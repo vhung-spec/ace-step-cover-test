@@ -1,0 +1,47 @@
+{
+ "title": "Đèn lồng tắt",
+ "about": "A new piece in the dem-diu style (round 12): 112 bpm in 3/4, one chord a bar so it floats in long slow waves, G minor on the line cliche (Gm, Gm(maj7), Gm7, Gm6: an inner voice sinking G, F#, F, E), the tune leaping a sixth to Bb and climbing to Eb6 over the half-diminished ii; a middle in Bb, a climax doubled an octave down, then the light dims.",
+ "style": "dem-diu",
+ "bpm": 112,
+ "beats": 3,
+ "sections": [
+  {
+   "bars": 4,
+   "chords": "Gm | Gmmaj7 | Gm7 | Gm6",
+   "dyn": 0.22
+  },
+  {
+   "bars": 16,
+   "chords": "Gm | Gm | Gmmaj7 | Gmmaj7 | Gm7 | Gm7 | Gm6 | Gm6 | Ebmaj7 | Ebmaj7 | Cm | Cm | Am7b5 | Am7b5 | D7sus4 | D",
+   "melody": "D5:2 G5:1 | Bb5:3 | A5:2 F#5:1 | D5:3 | D5:2 F5:1 | Bb5:3 | A5:2 E5:1 | G5:3 | G5:2 Bb5:1 | D6:3 | C6:2 Bb5:1 | G5:3 | A5:2 C6:1 | Eb6:3 | D6:2 C6:1 | F#5:3",
+   "dyn": 0.36
+  },
+  {
+   "bars": 16,
+   "chords": "Bb | Bb | F/A | F/A | Ebmaj7 | Ebmaj7 | Bb/D | Bb/D | Cm7 | Cm7 | Gm/Bb | Gm/Bb | Am7b5 | Am7b5 | D7sus4 | D",
+   "melody": "F5:2 D5:1 | Bb5:3 | C6:2 A5:1 | F5:3 | G5:2 Bb5:1 | D6:3 | F5:2 D5:1 | Bb4:3 | Eb5:2 G5:1 | Bb5:3 | D6:2 Bb5:1 | G5:3 | C6:2 Eb6:1 | D6:3 | C6:2 A5:1 | A5:3",
+   "dyn": 0.46
+  },
+  {
+   "bars": 16,
+   "chords": "Ebmaj7 | Ebmaj7 | Cm | Cm | Gm | Gm | Gmmaj7 | Gm7 | Ebmaj7 | Ebmaj7 | Am7b5 | Am7b5 | D7sus4 | D7sus4 | D | D",
+   "melody": "G5:1 Bb5:1 D6:1 | D6:3 | Eb6:2 D6:1 | C6:3 | Bb5:2 D6:1 | D6:3 | C6:2 A5:1 | Bb5:3 | G5:1 Bb5:1 Eb6:1 | D6:3 | Eb6:2 C6:1 | A5:3 | G5:2 A5:1 | C6:3 | A5:2 F#5:1 | D5:3",
+   "dyn": 0.72,
+   "rit": true,
+   "layers": [
+    "octave"
+   ]
+  },
+  {
+   "bars": 16,
+   "chords": "Gm | Gm | Gmmaj7 | Gmmaj7 | Gm7 | Gm7 | Gm6 | Gm6 | Ebmaj7 | Ebmaj7 | Cm | Cm | Am7b5 | Am7b5 | D7sus4 | Gm",
+   "melody": "D5:2 G5:1 | Bb5:3 | A5:2 F#5:1 | D5:3 | D5:2 F5:1 | Bb5:3 | A5:2 E5:1 | G5:3 | G5:2 Bb5:1 | D6:3 | C6:2 Bb5:1 | G5:3 | A5:2 C6:1 | Eb6:3 | D6:2 C6:1 |G5:3",
+   "dyn": 0.3
+  },
+  {
+   "bars": 4,
+   "chords": "Ebmaj7 | Cm | Gm | Gm",
+   "dyn": 0.18
+  }
+ ]
+}

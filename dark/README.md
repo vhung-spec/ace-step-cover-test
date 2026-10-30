@@ -84,3 +84,18 @@ Nhưng file 320 kbit/s vẫn rè. Nguyên nhân thật: sfizz 1.2.3 phát mỗi 
 tiên của nốt rồi nhảy về; cú nhảy là tiếng "tách" 13-23 ms sau đầu nốt, rõ ở nốt cao gần như âm thuần (các đoạn thử dựng
 trong phiên, không qua sfizz, thì không có). `render_samples.py` giờ cho sfizz chạy khối 32 mẫu (`BLOCK`): người dùng
 nghe lại, "đã hết rè".
+
+## Bài mới (vòng 12)
+
+Người dùng: "hãy sáng tác thêm 5 bài mới nghe lạ hơn, bpm khác biệt hơn". Năm bài mới theo `dem-diu` (đàn mô phỏng
+M2, chơi như người), sáng tác mới hoàn toàn, tốc độ trải từ 50 đến 112 bpm, mỗi bài một kiểu tay trái và một màu hòa âm
+lạ hơn vòng 11. Qua kiểm tra của app (không lỗi, không nốt chỏi). App hiện chỉ nhận Đêm dịu từ 70 đến 84 bpm: bài nào
+được chọn vào app thì phải nới khoảng đó.
+
+| Bài | Nhịp độ, nhịp | Lạ ở đâu |
+|---|---|---|
+| `chuong-chua-xa` (Chuông chùa xa) | 50 bpm, 4/4 | Rê điệu thức (giai điệu ngũ cung, không có nốt dẫn), tay trái rải rồi giữ như tiếng chuông, tiếng ù trầm ở đầu và cuối |
+| `guong-vo` (Gương vỡ) | 63 bpm, 3/4 | Đô thăng thứ trượt sang hợp âm cách một quãng ba (C#m-Am, C#m-Fm), giai điệu cong từ Đô thăng sang Đô |
+| `song-khong-ten` (Sông không tên) | 80 bpm, 4/4 | Fa thăng Dorian (F#m-B, nốt Rê thăng), đoạn giữa tối lại về D, đoạn cuối nâng lên một cung (Son thăng Dorian) |
+| `buoc-chan-tren-gac` (Bước chân trên gác) | 96 bpm, 4/4 | La thứ trên nốt La giữ dưới Si giáng (Phrygian), giai điệu từng bước và khoảng lặng trên nhịp tim, rồi vòng lặp xoay |
+| `den-long-tat` (Đèn lồng tắt) | 112 bpm, 3/4 | Mỗi ô một hợp âm nên trôi chậm; Son thứ với bè trong tụt dần (Gm, Gm(maj7), Gm7, Gm6) |
