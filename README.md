@@ -243,6 +243,10 @@ runs/<mã khác>/covers/lego-woodwinds/stem_01.mp3:0.7` (nhiều lượt cách n
        cứng, ồn"): vào từ điệp khúc lượt đầu, giọng nữ cao ngân trên giai điệu; lượt cuối hát dưới giai điệu đã lên quãng
        tám. Hợp âm nối mềm sang nhau (vào sớm, rời muộn một chút), to dần theo cả nửa lượt chứ không hụt hơi mỗi câu, và
        hát trong một không gian vang dài 3,2 giây phía sau, như dàn hợp xướng trong nhà thờ, còn piano vẫn ở gần.
+     - `felt-carol-strings-human`, `felt-carol-horns-human`, `felt-carol-flute-human`: bỏ hợp xướng, thay bằng nhạc cụ
+       theo ý bạn, đặt như hợp xướng (nối mềm, to dần theo nửa lượt, vang phía sau): dàn dây (violin ngân trên điệp
+       khúc lượt đầu, lượt cuối viola, cello và violin bên dưới giai điệu); dàn dây thêm kèn cor khe khẽ ở điệp khúc
+       cuối; hoặc sáo hát một bè chậm trên điệp khúc lượt đầu rồi dàn dây.
    - `salamander`: như `piano` nhưng trên đàn Salamander Grand Piano (không chạy mặc định).
 
    Các kiểu piano nhẹ nhàng (chill, lullaby, flowing, hymn, piano-strings, felt, felt-noise) chơi trên đàn

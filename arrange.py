@@ -156,7 +156,11 @@ same chords, beat by beat, so they always agree:
   singing "aah" softly under it, as the user chose next; felt-carol-human, a
   choir as a carol's (carol_choir): its sopranos over the first refrain, then
   under the tune climbed an octave, flowing from chord to chord, in a far
-  hall behind the room (Style.far: 3.2 s) as a choir sings in a church.
+  hall behind the room (Style.far: 3.2 s) as a choir sings in a church; and
+  in the choir's place instruments laid the same way (carol_strings), as the
+  user asked next: felt-carol-strings-human (strings), felt-carol-horns-human
+  (strings and soft horns), felt-carol-flute-human (the flute over the first
+  refrain, then strings).
 Sustained parts hold the tones two chords share, move their other tones to
 the nearest tone of the next chord, and swell with each phrase (expression,
 CC11). Instruments come from two CC0 sample libraries: VS Chamber Orchestra 2
@@ -1195,6 +1199,70 @@ def carol_choir(arr: Arrangement) -> None:
     swell(arr, choir, [(last - arr.beat, last + half, 0.75), (last + half, arr.end, 1.0)], 60, 104)
 
 
+def slow_line(arr: Arrangement, part: Part, start: int, end: int, velocity: int, verse: int, floor: int = 74,
+              ceiling: int = 86) -> None:
+    """A slow line over the tune of a verse: a chord tone a chord, at least a
+    minor third over the tune sounding with it (between floor and ceiling),
+    moving to a near tone when the chord changes (not its root, if another
+    is as near), each flowing into the next (an eighth early, two late),
+    with a player's gentle vibrato on its longer notes."""
+    tune = [(t, n, l) for t, n, l, v, _ in arr.melody() if v == verse]
+    previous, before = None, None
+    for tick, length, chord in arr.chord_spans(start, end):
+        top = max((n for t, n, l in tune if t < tick + length and tick < t + l), default=floor - 3)
+        options = chord_notes(chord, max(floor, top + 3), ceiling)
+        if not options:
+            previous = None
+            continue
+        root, centre = CHORDS[chord][0], (floor + ceiling) // 2
+        note = min(options, key=lambda n: abs(n - (previous or centre)) + 2 * ((n - root) % 12 == 0)
+                   + 4 * (n == previous and chord != before))
+        before = chord
+        at = tick - (EIGHTH if previous else 0) + arr.jitter(4)
+        part.add(at, note, velocity, length + 2 * EIGHTH + (EIGHTH if previous else 0), tie=True)
+        if note != previous:
+            vibrato(arr, part, at, length)
+        previous = note
+
+
+# The choir taken out, as the user asked next ("an instrument's sound
+# instead"): instruments laid as carol_choir lays its voices.
+def carol_strings(arr: Arrangement, horns: bool = False, flute: bool = False) -> None:
+    """With the first verse's refrain, the violins' two voices over the tune
+    (C5-C6), or (with flute) the flute singing a slow line over it (slow_line);
+    in the last verse, under the tune an octave up, the violas' two voices
+    and the cellos' one (an octave over the deep bass), the violins' one over
+    them in its refrain, and (with horns) two horns holding its middle
+    softly there; every chord flowing into the next, swelling slowly over
+    each half verse with no dip at the phrases' ends, in the far hall
+    behind the room (Style.far)."""
+    half = arr.bar * (len(arr.song.chords) // 2)
+    first, last = arr.verses[0], arr.verses[-1]
+    if flute:
+        high = arr.part("flute", "flute", "bed", 0.05, reverb=0.3)
+        slow_line(arr, high, first + half, last, 52, verse=0)
+    else:
+        high = arr.part("violins-high", "violins", "bed", -0.15, reverb=0.3)
+        held_bed(arr, high, first + half, last, 40, 72, 84, count=2, ahead=EIGHTH, overlap=2 * EIGHTH)
+    high.far = 0.6
+    swell(arr, high, [(first + half - arr.bar, last - arr.bar, 0.8), (last - arr.bar, last + 2 * EIGHTH, 0.2)],
+          60, 104)
+    violas = arr.part("violas", "violas", "bed", 0.1, reverb=0.3)
+    cellos = arr.part("cellos", "cellos", "bed", 0.15, reverb=0.3)
+    violins = arr.part("violins", "violins", "bed", -0.15, reverb=0.3)
+    held_bed(arr, violas, last, arr.end + 2 * arr.bar, 40, 55, 69, count=2, ahead=EIGHTH, overlap=EIGHTH)
+    held_bed(arr, cellos, last, arr.end + 2 * arr.bar, 38, 43, 55, count=1, ahead=EIGHTH, overlap=EIGHTH)
+    held_bed(arr, violins, last + half, arr.end + 2 * arr.bar, 40, 64, 76, count=1, ahead=EIGHTH, overlap=EIGHTH)
+    parts = [violas, cellos, violins]
+    if horns:
+        horn = arr.part("horns", "horns", "bed", -0.1, reverb=0.3)
+        held_bed(arr, horn, last + half, arr.end + 2 * arr.bar, 36, 52, 64, count=2, ahead=EIGHTH, overlap=EIGHTH)
+        parts.append(horn)
+    for part in parts:
+        part.far = 0.6
+        swell(arr, part, [(last - arr.beat, last + half, 0.75), (last + half, arr.end, 1.0)], 60, 104)
+
+
 def arrange_felt_bed(arr: Arrangement, bed: str) -> None:
     """The felt piano, breathing (felt-4k-human), its tune an octave up in the
     last verse, over a bed swelling with each phrase: "pad", our warm pad
@@ -1215,6 +1283,8 @@ def arrange_felt_bed(arr: Arrangement, bed: str) -> None:
     first, last = arr.verses[0], arr.verses[-1]
     if bed == "carol":
         carol_choir(arr)
+    elif bed.startswith("carol-"):
+        carol_strings(arr, horns=bed == "carol-horns", flute=bed == "carol-flute")
     elif bed == "choir":
         choir = arr.part("choir", "choir", "bed", -0.2, reverb=0.6)
         held_bed(arr, choir, 0, last, 50, 52, 69)
@@ -2375,6 +2445,11 @@ for _bed, _name in (("pad", "felt-pad-human"), ("hum", "felt-hum-human"), ("stri
 # and a carol's choir behind it, in a far hall (carol_choir)
 STYLES["felt-carol-human"] = dataclasses.replace(STYLES["felt-4k-human"], far=3.2,
                                                  arrange=lambda arr: arrange_felt_bed(arr, "carol"))
+# and instruments in its place (carol_strings): strings, strings and horns, the flute and strings
+for _bed, _name in (("carol-strings", "felt-carol-strings-human"), ("carol-horns", "felt-carol-horns-human"),
+                    ("carol-flute", "felt-carol-flute-human")):
+    STYLES[_name] = dataclasses.replace(STYLES["felt-carol-human"],
+                                        arrange=lambda arr, bed=_bed: arrange_felt_bed(arr, bed))
 
 
 def untangle(notes: list) -> tuple[list, int]:
