@@ -67,6 +67,12 @@ import master
 from master import dehiss
 
 RATE = 44100  # the samples' own rate
+# sfizz_render's block (samples). sfizz 1.2.3 plays a note one sample out of
+# step until the end of the block it starts in, then jumps back: a click,
+# loud on a high, nearly pure note (heard as a buzz on the modelled piano's
+# high notes, "rè"), 13-23 ms in with its 1024-sample blocks. In 32-sample
+# blocks the jump comes within 0.7 ms, while the note is still near silence.
+BLOCK = 32
 TARGET_LUFS = -16.0
 QUIETEST_LUFS = -19.0  # a piece with strong peaks may be this quiet rather than limited hard
 CEILING_DB = -1.5  # peaks rise a little in MP3 encoding
@@ -122,8 +128,8 @@ def render_part(sfizz: str, sfz: Path, part: str, midi: Path, wav: Path, tone: d
     for attempt in range(5):
         started = time.time()
         subprocess.run([sfizz, "--sfz", str(sfz_copy(sfz, part, db, tone)), "--midi", str(midi),
-                        "--wav", str(wav), "--samplerate", str(RATE), "--polyphony", "256", "--quality", "10",
-                        "--use-eot"], check=True, capture_output=True, timeout=600)
+                        "--wav", str(wav), "--samplerate", str(RATE), "--blocksize", str(BLOCK), "--polyphony", "256",
+                        "--quality", "10", "--use-eot"], check=True, capture_output=True, timeout=600)
         print(f"    {part} at {db:+g} dB: {time.time() - started:.0f} s", flush=True)
         audio, rate = sf.read(wav, always_2d=True, dtype="float32")
         if rate != RATE:
