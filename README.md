@@ -318,6 +318,8 @@ Tiếng lộp bộp ở nốt cao của đàn upright Yamaha: mẫu thu nốt Đ
 
 Muốn kết bài nhanh, gọn thì đặt `ring_beats`: hợp âm cuối được nhả sau bấy nhiêu phách, mọi bè nhả theo, nhấc pedal. Đặt thêm `tail` (ví dụ `{"fade": 1.5, "below": 50}`) thì bản trộn dừng khi tiếng vang đã nhỏ hơn mức to nhất 50 dB, giây rưỡi cuối giảm dần (mặc định: 60 dB, 3 giây).
 
+Để tìm một tiếng lạ từ đâu ra: `"solo": "tune"` trong `changes` chỉ để lại giai điệu của bè piano, `"solo": "rest"` chỉ để lại phần đệm (các bản thử như vậy nằm trong `versions/<bài>/test/`). Đánh dấu ô *parts* khi chạy workflow thì từng bè, đúng như sfizz chơi (chưa chỉnh âm sắc, chưa trộn), được giữ thành FLAC `<bài>.<bè>.flac` trên nhánh `renders`, để trộn lại và đo trên máy.
+
 ### Bè do mô hình AI viết (Composer's Assistant 2)
 
 [Composer's Assistant 2](https://github.com/m-malandro/composers-assistant-REAPER) của M. Malandro (giấy phép

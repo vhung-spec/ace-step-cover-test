@@ -2411,6 +2411,20 @@ def humane_tempos(arr: Arrangement, how: Perform) -> list:
     return tempos
 
 
+def tune_flags(arr: Arrangement, part: Part) -> list:
+    """Which of a part's notes are the tune's: a melody part's all, a part
+    leading in its first notes, else those on the tune's keys (or an octave
+    up, as some verses play it) within 30 ticks of its notes."""
+    if part.leading:
+        return [k < part.leading for k in range(len(part.notes))]
+    sung = {}  # the tune's keys: their ticks, before any lead-in
+    for tick, note, _, _, _ in arr.melody():
+        for key in (note, note + 12):
+            sung.setdefault(key, []).append(tick)
+    return [part.role == "melody" or any(abs(tick - arr.shift - t) <= 30 for t in sung.get(note, ()))
+            for tick, note, _, _ in part.notes]
+
+
 # Jingle Bells' felt piano, version 10 (its treble's knock taken out), still
 # heard popping on its high notes: its tune's top notes, struck at 56-65 (the
 # rest at 39 on average) and brightened, peaked 25 dB over the piano's level,
@@ -2429,21 +2443,12 @@ def perform(arr: Arrangement, how: Perform) -> None:
         i = bisect.bisect_right(starts, tick - arr.shift) - 1
         return i if i >= 0 and tick - arr.shift < spans[i][1] else None
 
-    sung = {}  # the tune's keys: their ticks, before any lead-in
-    for tick, note, _, _, _ in arr.melody():
-        for key in (note, note + 12):  # an octave up in some verses
-            sung.setdefault(key, []).append(tick)
-
-    def in_tune(part: Part, index: int, tick: int, note: int) -> bool:
-        if part.leading:
-            return index < part.leading
-        return part.role == "melody" or any(abs(tick - arr.shift - t) <= 30 for t in sung.get(note, ()))
-
     for part in arr.parts.values():
         if part.instrument not in VELOCITY:
             continue
+        sung = tune_flags(arr, part)
         tune = [(phrase(t), n) for k, (t, n, _, _) in enumerate(part.notes)
-                if phrase(t) is not None and in_tune(part, k, t, n)]
+                if phrase(t) is not None and sung[k]]
         means = {i: sum(n for j, n in tune if j == i) / sum(1 for j, _ in tune if j == i) for i in {j for j, _ in tune}}
         played = []
         for k, (tick, note, velocity, length) in enumerate(part.notes):
@@ -2451,7 +2456,7 @@ def perform(arr: Arrangement, how: Perform) -> None:
             if i is not None:
                 start, end = spans[i]
                 rise = arch((tick - arr.shift - start) / (end - start), how.peak) - centre
-                if in_tune(part, k, tick, note):
+                if sung[k]:
                     velocity += (2 * how.swell * rise + how.high * (note - means[i]) / 12
                                  + how.long * max(-1.0, min(1.0, math.log2(length / arr.beat))))
                 else:
@@ -2818,10 +2823,15 @@ def version_arranged(name: str) -> tuple:
     changes = dict(version.get("changes", {}))
     levels, tones, seed = changes.pop("levels", {}), changes.pop("tones", {}), changes.pop("seed", 7)
     player = changes.pop("perform", None)
+    solo = changes.pop("solo", None)  # a test, to hear where a sound comes from: the piano's "tune" alone, or the "rest"
     style = dataclasses.replace(STYLES[version["style"]], **changes)
     if player:
         style = dataclasses.replace(style, perform=dataclasses.replace(style.perform or Perform(), **player))
-    return arranged(SONGS[version["song"]], style, style.piano, seed), style, levels, tones
+    arr = arranged(SONGS[version["song"]], style, style.piano, seed)
+    if solo:
+        piano = arr.parts["piano"]
+        piano.notes = [n for n, sung in zip(piano.notes, tune_flags(arr, piano)) if sung == (solo == "tune")]
+    return arr, style, levels, tones
 
 
 def play_version(out: Path, name: str) -> None:
