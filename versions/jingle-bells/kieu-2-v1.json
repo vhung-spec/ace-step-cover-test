@@ -1,0 +1,14 @@
+{
+  "song": "jingle-bells",
+  "style": "ballad-human",
+  "title": "Jingle Bells · Kiểu 2",
+  "heard": "Kiểu 1: \"tôi lấy bản 3a\" (I take 3a): Kiểu 1 locked at 3a, Kiểu 2 (the Rhodes) next",
+  "about": "v1: ballad-human as it is (the Rhodes: the tune's last phrase as the intro, then the verses over the deep bass, the rolling pairs breathing with each phrase, the carol's chords coloured as pop ballads colour them, our soft pad far under it; 72 bpm, the 0.8 s room), with the quick, tidy ending the user chose in Piano nỉ and kept in Kiểu 1 (the last chord let go two beats on, the mix ending 1 s after the sound is 45 dB down). sfizz is mended (sampled.yml).",
+  "changes": {
+    "ring_beats": 2,
+    "tail": {
+      "fade": 1.0,
+      "below": 45
+    }
+  }
+}
