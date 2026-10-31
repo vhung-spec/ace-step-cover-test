@@ -2852,16 +2852,20 @@ def version_arranged(name: str) -> tuple:
     """A version (versions/<name>.json) arranged: (the arrangement, its style,
     levels, tones). Its changes: any of the style's own settings (tempo,
     breath, hall, wet, verses, piano...), the player's (perform: rubato,
-    swell...), seed (the arrangement's), levels and tones (write_piece)."""
+    swell...), seed (the arrangement's), pans (a part's place, by its name,
+    from -1, left, to 1, right), levels and tones (write_piece)."""
     version = json.loads((VERSIONS / f"{name}.json").read_text())
     changes = dict(version.get("changes", {}))
     levels, tones, seed = changes.pop("levels", {}), changes.pop("tones", {}), changes.pop("seed", 7)
+    pans = changes.pop("pans", {})
     player = changes.pop("perform", None)
     solo = changes.pop("solo", None)  # a test, to hear where a sound comes from: the piano's "tune" alone, or the "rest"
     style = dataclasses.replace(STYLES[version["style"]], **changes)
     if player:
         style = dataclasses.replace(style, perform=dataclasses.replace(style.perform or Perform(), **player))
     arr = arranged(SONGS[version["song"]], style, style.piano, seed)
+    for part_name, pan in pans.items():
+        arr.parts[part_name].pan = pan
     if solo:
         piano = arr.parts["piano"]
         piano.notes = [n for n, sung in zip(piano.notes, tune_flags(arr, piano)) if sung == (solo == "tune")]
