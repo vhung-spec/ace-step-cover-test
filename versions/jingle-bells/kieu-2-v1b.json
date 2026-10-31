@@ -7,8 +7,8 @@
   "changes": {
     "ring_beats": 2,
     "tail": {
-      "fade": 1.0,
-      "below": 45
+      "fade": 2.0,
+      "below": 50
     },
     "tones": {
       "piano": {
