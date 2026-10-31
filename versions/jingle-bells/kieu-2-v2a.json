@@ -1,0 +1,51 @@
+{
+  "song": "jingle-bells",
+  "style": "ballad-human",
+  "title": "Jingle Bells · Kiểu 2",
+  "heard": "v1: \"hãy thêm lớp nền vào bản 1b, tôi thích bản này hơn\" (add a bed to 1b, I like it better)",
+  "about": "v2a: 1b (the Rhodes brighter for phones) with a bed of strings written by Composer's Assistant 2 hearing this Rhodes (ai/k2-strings.plan.json, take 3 of 3: its violins and violas the fewest notes off the chord, 9.5 and 7.3 % of their time against 11.6-12.3 and 9.2-10.9 %, its violas and cellos the calmest, none over the tune), laid in as Kiểu 1's strings were in 3a, the version the user chose there (fitted to the chords, ending with the tune, softer later on, in the far hall): the violas and cellos from the first verse, the violins in the last, over the ballad's own pad far under the Rhodes.",
+  "changes": {
+    "ring_beats": 2,
+    "tail": {
+      "fade": 2.0,
+      "below": 50
+    },
+    "tones": {
+      "piano": {
+        "low_shelf": [
+          200,
+          -3
+        ],
+        "shelf": [
+          1200,
+          4
+        ]
+      },
+      "violins": {
+        "lowpass": 5500
+      },
+      "violas": {
+        "lowpass": 4500
+      },
+      "cellos": {
+        "highpass": 60,
+        "lowpass": 4000
+      }
+    },
+    "written": [
+      "jingle-bells/ai/k2-strings-take3.json"
+    ],
+    "written_end": true,
+    "written_swell": [
+      0.6,
+      0.57,
+      0.74
+    ],
+    "far": 3.2,
+    "levels": {
+      "violins": -3,
+      "violas": -2,
+      "cellos": -2
+    }
+  }
+}
