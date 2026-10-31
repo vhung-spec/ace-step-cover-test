@@ -1468,10 +1468,12 @@ def lay_in(arr: Arrangement, written, end: bool = False, tops: tuple = (0.6, 0.7
 def lay_bed(arr: Arrangement, bed: str) -> None:
     """A bed under any style's arrangement (Style.bed): "pad", our warm pad
     (instruments/pad-warm.sfz) from the first verse, three tones between G3
-    and C5, fuller in the last verse, swelling with each phrase."""
+    and C5, fuller in the last verse, swelling with each phrase, in place of
+    the style's own pad if it has one (ballad's, far under the Rhodes)."""
     if bed != "pad":
         raise ValueError(f"no bed {bed!r}")
     first, last = arr.verses[0], arr.verses[-1]
+    arr.parts.pop("pad", None)
     pad = arr.part("pad", "pad-warm", "bed", 0.0, reverb=0.4)
     held_bed(arr, pad, first, last, 46, 55, 72)
     held_bed(arr, pad, last, arr.end + 2 * arr.bar, 56, 55, 72)

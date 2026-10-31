@@ -1,0 +1,27 @@
+{
+  "song": "jingle-bells",
+  "style": "ballad-human",
+  "title": "Jingle Bells · Kiểu 2",
+  "heard": "v1: \"hãy thêm lớp nền vào bản 1b, tôi thích bản này hơn\" (add a bed to 1b, I like it better)",
+  "about": "v2b: 1b (the Rhodes brighter for phones) with a bed of our warm pad (Style.bed, as Kiểu 1's 2b) in place of the ballad's own pad, which lay far under the Rhodes (20 dB): from the first verse, three tones between G3 and C5, fuller in the last verse, swelling with each phrase.",
+  "changes": {
+    "ring_beats": 2,
+    "tail": {
+      "fade": 2.0,
+      "below": 50
+    },
+    "tones": {
+      "piano": {
+        "low_shelf": [
+          200,
+          -3
+        ],
+        "shelf": [
+          1200,
+          4
+        ]
+      }
+    },
+    "bed": "pad"
+  }
+}
