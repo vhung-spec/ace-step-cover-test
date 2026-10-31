@@ -1,0 +1,58 @@
+{
+  "song": "jingle-bells",
+  "style": "pulse-human",
+  "title": "Jingle Bells · Kiểu 1",
+  "heard": "v2: \"tôi muốn tiếng chuông cũng mềm mại hơn\" (I want the bells softer too)",
+  "about": "v3a: 2a (its bed of strings by Composer's Assistant 2, the piano gentler) with the glockenspiel struck softly: its soft-mallet recordings alone (render_samples.one_layer), not the medium strike the SFZ crossfades in at the 42-47 pulse plays (there 5-7 dB over the soft one, and brighter: from 3 to 8 kHz 6-11 dB louder against its pitch).",
+  "changes": {
+    "tones": {
+      "piano": {
+        "swap_samples": {
+          "Upright1_Sus_C5_vl1_rr1.wav": "Upright1_Sus_C5_vl1_rr2.wav"
+        },
+        "treble_filter": {
+          "from": 79,
+          "ratio": 0.8
+        },
+        "lowpass": 7000
+      },
+      "violins": {
+        "lowpass": 5500
+      },
+      "violas": {
+        "lowpass": 4500
+      },
+      "cellos": {
+        "highpass": 60,
+        "lowpass": 4000
+      },
+      "glock": {
+        "layer": "_soft_"
+      }
+    },
+    "ring_beats": 2,
+    "tail": {
+      "fade": 1.0,
+      "below": 45
+    },
+    "perform": {
+      "touch": 0.75,
+      "ceiling": 65
+    },
+    "written": [
+      "jingle-bells/ai/k1-strings-take2.json"
+    ],
+    "written_end": true,
+    "written_swell": [
+      0.6,
+      0.57,
+      0.74
+    ],
+    "far": 3.2,
+    "levels": {
+      "violins": -3,
+      "violas": -2,
+      "cellos": -2
+    }
+  }
+}

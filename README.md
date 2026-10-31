@@ -322,6 +322,8 @@ Tiếng lộp bộp ở nốt cao của đàn upright Yamaha: mẫu thu nốt Đ
 
 Muốn tiếng piano nhẹ nhàng hơn thì đặt `touch` trong `perform` (ví dụ `0.75`: mọi phím gõ nhẹ còn ba phần tư, kèm `ceiling` 65 để đàn Yamaha chỉ phát từ lớp mẫu thu gõ nhẹ, êm hơn). Muốn thêm lớp nền dưới bất kỳ kiểu nào thì đặt `"bed": "pad"` (pad ấm của mình, từ lượt đầu, nở theo từng câu); bè do mô hình AI viết (`written`) thì thay chỗ bè cùng tên sẵn có của kiểu đó.
 
+Muốn tiếng chuông (hay nhạc cụ gõ nào được thu nhiều lớp theo lực gõ) mềm hơn thì đặt `layer` trong `tones` của bè đó, ví dụ `"glock": {"layer": "_soft_"}`: bè chỉ phát các mẫu thu gõ nhẹ (tên mẫu có `_soft_`) ở mọi lực gõ, phím nào không có mẫu như vậy thì giữ nguyên. Glockenspiel của VCSL trộn mẫu gõ nhẹ với mẫu gõ vừa theo lực gõ; ở lực 42-47 của Kiểu 1, mẫu gõ vừa to hơn 5-7 dB và chói hơn hẳn (dải 3-8 kHz to hơn 6-11 dB so với cao độ của nốt).
+
 Muốn kết bài nhanh, gọn thì đặt `ring_beats`: hợp âm cuối được nhả sau bấy nhiêu phách, mọi bè nhả theo, nhấc pedal. Đặt thêm `tail` (ví dụ `{"fade": 1.5, "below": 50}`) thì bản trộn dừng khi tiếng vang đã nhỏ hơn mức to nhất 50 dB, giây rưỡi cuối giảm dần (mặc định: 60 dB, 3 giây).
 
 Để tìm một tiếng lạ từ đâu ra: `"solo": "tune"` trong `changes` chỉ để lại giai điệu của bè piano, `"solo": "rest"` chỉ để lại phần đệm (các bản thử như vậy nằm trong `versions/<bài>/test/`). Đánh dấu ô *parts* khi chạy workflow thì từng bè, đúng như sfizz chơi (chưa chỉnh âm sắc, chưa trộn), được giữ thành FLAC `<bài>.<bè>.flac` trên nhánh `renders`, để trộn lại và đo trên máy.

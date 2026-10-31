@@ -1,0 +1,34 @@
+{
+  "song": "jingle-bells",
+  "style": "pulse-human",
+  "title": "Jingle Bells · Kiểu 1",
+  "heard": "v2: \"tôi muốn tiếng chuông cũng mềm mại hơn\" (I want the bells softer too)",
+  "about": "v3b: 2b (its warm pad, the piano gentler) with the glockenspiel struck softly: its soft-mallet recordings alone (render_samples.one_layer), not the medium strike the SFZ crossfades in at the 42-47 pulse plays (there 5-7 dB over the soft one, and brighter: from 3 to 8 kHz 6-11 dB louder against its pitch).",
+  "changes": {
+    "tones": {
+      "piano": {
+        "swap_samples": {
+          "Upright1_Sus_C5_vl1_rr1.wav": "Upright1_Sus_C5_vl1_rr2.wav"
+        },
+        "treble_filter": {
+          "from": 79,
+          "ratio": 0.8
+        },
+        "lowpass": 7000
+      },
+      "glock": {
+        "layer": "_soft_"
+      }
+    },
+    "ring_beats": 2,
+    "tail": {
+      "fade": 1.0,
+      "below": 45
+    },
+    "perform": {
+      "touch": 0.75,
+      "ceiling": 65
+    },
+    "bed": "pad"
+  }
+}

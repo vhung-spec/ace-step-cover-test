@@ -97,8 +97,9 @@ def sfz_copy(sfz: Path, part: str, db: float, tone: dict) -> Path:
     with the pedal down (all strings free to ring along) left out: every note
     plays its pedal-up sample, the pedal still holding it; with pedal_noise
     false, the pedal's own thump and squeak (played as it goes down and up)
-    are left out too. The tone's set_cc ({controller: 0-1}) sets where the
-    instrument's controllers start (the Rhodes' stereo width is its mod wheel)."""
+    are left out too; with layer, only the samples recorded so (one_layer).
+    The tone's set_cc ({controller: 0-1}) sets where the instrument's
+    controllers start (the Rhodes' stereo width is its mod wheel)."""
     text = sfz.read_text(errors="replace")
     for cc, value in tone.get("set_cc", {}).items():
         setting = f"set_hdcc{cc}={value:g}"
@@ -120,6 +121,8 @@ def sfz_copy(sfz: Path, part: str, db: float, tone: dict) -> Path:
         text = "".join(g for g in re.split(r"(?=<group>)", text) if "locc64=65" not in g).replace("hicc64=64", "hicc64=127")
     if tone.get("pedal_noise") is False:
         text = "".join(g for g in re.split(r"(?=<group>)", text) if "on_locc64" not in g)
+    if tone.get("layer"):
+        text = one_layer(text, tone["layer"])
     if tone.get("swap_samples") or tone.get("treble_filter"):
         text = treble_mended(text, tone.get("swap_samples", {}), tone.get("treble_filter"))
     copy = sfz.with_name(f".{sfz.stem}.{part}.{db:+g}dB.sfz")
@@ -163,6 +166,40 @@ def treble_mended(text: str, swap: dict, treble: dict | None) -> str:
                                                     f"\nfil_keytrack=100\nfil_keycenter={centre}\n\n")
                 regions[i] = region
         groups.append(head + "".join(regions))
+    return "".join(groups)
+
+
+# Jingle Bells, Kiểu 1, version 2, heard: "I want the bells softer too"
+# ("tôi muốn tiếng chuông cũng mềm mại hơn"). VCSL's glockenspiel crossfades
+# three recorded strikes by velocity: soft (fading out by 83), medium (fading
+# in by 83) and loud (from 84). Its medium strike is recorded 10 dB louder
+# and raised 5 dB less, so at the 42-47 pulse plays it sounds 5-7 dB over the
+# soft one, and brighter: from 3 to 8 kHz its partials are 6-11 dB louder
+# against its pitch (G5, C6), the C6's second mode at 5.9 kHz its loudest.
+# The soft strike alone sounds as struck with soft mallets.
+def one_layer(text: str, layer: str) -> str:
+    """An SFZ's regions down to one recorded layer (its samples named with
+    layer, as "_soft_") wherever it has one for those keys, played at every
+    velocity (its velocity crossfades let go); keys without one as they were."""
+    def keys(region: str) -> tuple:
+        return tuple(re.findall(r"\b(?:lokey|hikey|key)=(\S+)", region))
+
+    def sample(region: str) -> str:
+        found = re.search(r"sample=(.+?\.wav)", region)
+        return found.group(1) if found else ""
+
+    covered = {keys(r) for r in re.split(r"(?=<region>)", text)[1:] if layer in sample(r)}
+    groups = []
+    for group in re.split(r"(?=<group>)", text):
+        head, *regions = re.split(r"(?=<region>)", group)
+        kept = []
+        for region in regions:
+            if layer in sample(region):
+                region = re.sub(r"\bxf(?:in|out)_(?:lo|hi)vel=\S+\n?", "", region)
+            elif keys(region) in covered:
+                continue
+            kept.append(region)
+        groups.append(head + "".join(kept))
     return "".join(groups)
 
 
