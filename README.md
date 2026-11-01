@@ -324,7 +324,7 @@ Muốn tiếng piano nhẹ nhàng hơn thì đặt `touch` trong `perform` (ví 
 
 Muốn tiếng chuông (hay nhạc cụ gõ nào được thu nhiều lớp theo lực gõ) mềm hơn thì đặt `layer` trong `tones` của bè đó, ví dụ `"glock": {"layer": "_soft_"}`: bè chỉ phát các mẫu thu gõ nhẹ (tên mẫu có `_soft_`) ở mọi lực gõ, phím nào không có mẫu như vậy thì giữ nguyên. Glockenspiel của VCSL trộn mẫu gõ nhẹ với mẫu gõ vừa theo lực gõ; ở lực 42-47 của Kiểu 1, mẫu gõ vừa to hơn 5-7 dB và chói hơn hẳn (dải 3-8 kHz to hơn 6-11 dB so với cao độ của nốt).
 
-Muốn dời một bè sang trái hay phải thì đặt `pans` (ví dụ `{"violins": -0.2}`: từ −1 bên trái tới 1 bên phải). Dàn nhạc của Jingle Bells, với violin hát giai điệu ở −0,35, lệch trái 1,2 dB (chuẩn tối đa 1 dB): bước cân trái phải của bản master chạy trước khi tiếng trầm được gộp về giữa, nên phần trầm lệch phải không còn bù lại.
+Muốn dời một bè sang trái hay phải thì đặt `pans` (ví dụ `{"violins": -0.2}`: từ −1 bên trái tới 1 bên phải); muốn bỏ hẳn một bè thì đặt `drop` (ví dụ `["descant"]`, bè sáo cao ở lượt cuối của Dàn nhạc). Dàn nhạc của Jingle Bells, với violin hát giai điệu ở −0,35, lệch trái 1,2 dB (chuẩn tối đa 1 dB): bước cân trái phải của bản master chạy trước khi tiếng trầm được gộp về giữa, nên phần trầm lệch phải không còn bù lại.
 
 Muốn kết bài nhanh, gọn thì đặt `ring_beats`: hợp âm cuối được nhả sau bấy nhiêu phách, mọi bè nhả theo, nhấc pedal. Đặt thêm `tail` (ví dụ `{"fade": 1.5, "below": 50}`) thì bản trộn dừng khi tiếng vang đã nhỏ hơn mức to nhất 50 dB, giây rưỡi cuối giảm dần (mặc định: 60 dB, 3 giây).
 

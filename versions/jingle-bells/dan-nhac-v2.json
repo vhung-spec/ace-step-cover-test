@@ -1,0 +1,16 @@
+{
+  "song": "jingle-bells",
+  "style": "orchestra-gentle-human",
+  "title": "Jingle Bells · Dàn nhạc",
+  "heard": "v1: \"tôi không thích đoạn sáo phía sau\" (I don't like the flute later on)",
+  "about": "v2: 1 without the flute's descant over the last verse (from 2:25 to the end, a second flute high over the violins' tune): the violins carry the tune alone there, over the harp and the strings, the verse rising as little as it did; the flute on the tune in the intro and the first verse stays.",
+  "changes": {
+    "pans": {
+      "violins": -0.2,
+      "harp": -0.2
+    },
+    "drop": [
+      "descant"
+    ]
+  }
+}
