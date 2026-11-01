@@ -1,0 +1,23 @@
+{
+  "song": "jingle-bells",
+  "style": "orchestra-gentle-human",
+  "title": "Jingle Bells · Dàn nhạc",
+  "heard": "v2: \"ý tôi là tiếng violin chủ đạo ở ver2 bị gắt quá\" (what I meant: the violins on the tune from the second verse are too harsh)",
+  "about": "v3: 1 again (its flute descant back: the user meant the violins, not it) with the violins on the tune gentler: bowed lightly throughout, their soft layer alone (render_samples.one_layer \"_v1.\": in the last verse 12 % of their notes had reached the loud one), 6 dB less from 1.5 kHz up and a low-pass at 4 kHz (on 2's violins in the second verse: 2-3 kHz 5 dB down, 3-5 kHz 7 dB, 5-8 kHz 16 dB; there they had 20 dB more from 2 to 5 kHz against their pitch than the flute had in the first).",
+  "changes": {
+    "pans": {
+      "violins": -0.2,
+      "harp": -0.2
+    },
+    "tones": {
+      "violins": {
+        "layer": "_v1.",
+        "lowpass": 4000,
+        "shelf": [
+          1500,
+          -6
+        ]
+      }
+    }
+  }
+}

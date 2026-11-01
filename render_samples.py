@@ -176,11 +176,15 @@ def treble_mended(text: str, swap: dict, treble: dict | None) -> str:
 # and raised 5 dB less, so at the 42-47 pulse plays it sounds 5-7 dB over the
 # soft one, and brighter: from 3 to 8 kHz its partials are 6-11 dB louder
 # against its pitch (G5, C6), the C6's second mode at 5.9 kHz its loudest.
-# The soft strike alone sounds as struck with soft mallets.
+# The soft strike alone sounds as struck with soft mallets. VSCO's violin
+# section splits its two bowings by velocity instead (lovel, hivel: soft to
+# 62), its loud one brighter still; its soft one alone ("_v1.") is bowed
+# lightly however loud a note.
 def one_layer(text: str, layer: str) -> str:
     """An SFZ's regions down to one recorded layer (its samples named with
     layer, as "_soft_") wherever it has one for those keys, played at every
-    velocity (its velocity crossfades let go); keys without one as they were."""
+    velocity (its velocity crossfades and ranges let go); keys without one
+    as they were."""
     def keys(region: str) -> tuple:
         return tuple(re.findall(r"\b(?:lokey|hikey|key)=(\S+)", region))
 
@@ -195,7 +199,7 @@ def one_layer(text: str, layer: str) -> str:
         kept = []
         for region in regions:
             if layer in sample(region):
-                region = re.sub(r"\bxf(?:in|out)_(?:lo|hi)vel=\S+\n?", "", region)
+                region = re.sub(r"\b(?:xf(?:in|out)_)?(?:lo|hi)vel=\S+\n?", "", region)
             elif keys(region) in covered:
                 continue
             kept.append(region)
