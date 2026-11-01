@@ -2,6 +2,7 @@
  "title": "Khói bếp chiều",
  "about": "A new piece in the dem-diu style (round 11): G minor, its motif a broken chord climbing to Bb5 and leaning on the A; a warmer middle in Bb major's light; a climax doubled an octave down; the harmonic minor's D at the cadences.",
  "style": "dem-diu",
+ "piano": "model-wood",
  "bpm": 78,
  "beats": 4,
  "sections": [

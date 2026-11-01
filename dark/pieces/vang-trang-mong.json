@@ -2,6 +2,7 @@
  "title": "Vầng trăng mỏng",
  "about": "A new piece in the dem-diu style (round 11): Bb minor, slow and spacious (70 bpm, long notes), i-VI-III-VII, the Neapolitan Cb (written B) before the last V.",
  "style": "dem-diu",
+ "piano": "model-bloom",
  "bpm": 70,
  "beats": 4,
  "sections": [

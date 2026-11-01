@@ -112,3 +112,17 @@ phiên: phần 1,5-4 kHz (độ giàu âm bồi) so với cả tiếng; M2 -41,7
 | `p2-trong` | `model-clear` | Trong: búa cứng hơn, đầu nốt sáng rồi dịu trong 45 ms, màu theo lực tay; sáng nhất | -32,3 | -5,8 dB |
 | `p3-ngan-vang` | `model-bloom` | Ngân vang: các dây khác ngân theo to hơn, ngân rất dài | -35,9 | -5,6 dB |
 | `p4-go-am` | `model-wood` | Gỗ ấm: gần tai, nghe tiếng búa nỉ và gỗ, mỗi nốt một màu riêng | -36,8 | -5,4 dB |
+
+## Mười bài trên ba tiếng đàn (vòng 14)
+
+Người dùng giữ cả ba tiếng đàn P1, P3, P4 ("giữ cả 3 trong app") và nhờ: "tổng hợp lại 10 bài đã sáng tác và phối lại
+theo các kiểu tiếng đàn khác nhau, mỗi kiểu bạn hãy tự lựa chọn 1 kiểu tiếng phù hợp", gửi WAV và MP3. Mỗi bài của vòng
+11-12 giờ chơi trên một cây (`"piano"` trong bài; nốt, cách chơi, phòng như cũ):
+
+| Tiếng đàn | Bài | Vì sao |
+|---|---|---|
+| Ngân vang (`model-bloom`) | Hiên mưa cũ, Vầng trăng mỏng, Chuông chùa xa | nốt dài, cần khoảng vang: mưa, trăng, chuông |
+| Gỗ ấm (`model-wood`) | Ru sương, Khói bếp chiều, Sông không tên | gần, mộc: lời ru, bếp nhà, dân ca |
+| Grand ấm (`model-grand`) | Đò khuya, Gương vỡ, Bước chân trên gác, Đèn lồng tắt | cần trầm đầy và cao trào đôi quãng tám, nhịp tim ở bè trầm |
+
+Workflow giờ đăng thêm bản không nén (FLAC 16-bit) của các bài trong lượt chạy; lượt sau chỉ giữ MP3.

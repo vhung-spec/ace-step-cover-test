@@ -2,6 +2,7 @@
  "title": "Gương vỡ",
  "about": "A new piece in the dem-diu style (round 12): 63 bpm in 3/4, C# minor that keeps slipping to chords a third away (C#m to Am, C#m to Fm, F to C#m), each sharing one note with the last, so the tune bends from C# to C and back like a cracked reflection; broken chords (arp), a climax that touches E6, doubled an octave down.",
  "style": "dem-diu",
+ "piano": "model-grand",
  "bpm": 63,
  "beats": 3,
  "sections": [

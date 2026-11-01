@@ -2,6 +2,7 @@
  "title": "Ru sương",
  "about": "A new piece in the dem-diu style (round 11): a lullaby in E minor, in three, rocking (a dotted quarter, an eighth, a quarter); i-VI-iv-V, a middle in G major's light, twice, a climax on C6.",
  "style": "dem-diu",
+ "piano": "model-wood",
  "bpm": 72,
  "beats": 3,
  "sections": [

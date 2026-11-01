@@ -2,6 +2,7 @@
  "title": "Đèn lồng tắt",
  "about": "A new piece in the dem-diu style (round 12): 112 bpm in 3/4, one chord a bar so it floats in long slow waves, G minor on the line cliche (Gm, Gm(maj7), Gm7, Gm6: an inner voice sinking G, F#, F, E), the tune leaping a sixth to Bb and climbing to Eb6 over the half-diminished ii; a middle in Bb, a climax doubled an octave down, then the light dims.",
  "style": "dem-diu",
+ "piano": "model-grand",
  "bpm": 112,
  "beats": 3,
  "sections": [

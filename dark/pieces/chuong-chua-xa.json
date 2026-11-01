@@ -2,6 +2,7 @@
  "title": "Chuông chùa xa",
  "about": "A new piece in the dem-diu style (round 12): 50 bpm, modal D minor (a pentatonic tune, D F G A C, and no leading tone), the left hand rolled and held like a bell's ring (blocks), sus chords and Bbmaj7, a low drone at the start and end; the B part strikes D6 twice like a far bell and touches E over Bb (a Lydian glint).",
  "style": "dem-diu",
+ "piano": "model-bloom",
  "bpm": 50,
  "beats": 4,
  "sections": [

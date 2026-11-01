@@ -2,6 +2,7 @@
  "title": "Hiên mưa cũ",
  "about": "A new piece in the dem-diu style (round 11): B minor, its motif a note struck twice like a raindrop (a dotted quarter and an eighth on one pitch), i-VI-III-VII, a higher middle on VI, a climax on C#6.",
  "style": "dem-diu",
+ "piano": "model-bloom",
  "bpm": 74,
  "beats": 4,
  "sections": [

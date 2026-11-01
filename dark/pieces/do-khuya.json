@@ -2,6 +2,7 @@
  "title": "Đò khuya",
  "about": "A new piece in the dem-diu style (round 11): C# minor, its motif a rising broken chord like an oar's stroke (G#4 C#5 E5), i-VI-III-VII, a middle from A, a climax doubled an octave down, the leading tone B# at the cadences.",
  "style": "dem-diu",
+ "piano": "model-grand",
  "bpm": 76,
  "beats": 4,
  "sections": [

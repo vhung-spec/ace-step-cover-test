@@ -2,6 +2,7 @@
  "title": "Bước chân trên gác",
  "about": "A new piece in the dem-diu style (round 12): 96 bpm, A minor held over a pedal A with Bb above it (Phrygian, Bbmaj7/A), a tune of single steps and silences like footsteps overhead over a heartbeat in the bass (pulse), then a circling ostinato as they come nearer: D minor to an unexpected E major, a climax up to E6.",
  "style": "dem-diu",
+ "piano": "model-grand",
  "bpm": 96,
  "beats": 4,
  "sections": [

@@ -5,7 +5,8 @@
 # dark-piano branch (or by hand): a push that changes only pieces plays only
 # those, one that changes the code plays them all. The pieces (MP3, 320
 # kbit/s) go to the dark-renders branch (one commit, the earlier pieces kept
-# beside the new ones) and, with their MIDI and mix sheets, to an artifact.
+# beside the new ones; this run's also as lossless 16-bit FLAC, dropped by the
+# next run) and, with their MIDI and mix sheets, to an artifact.
 # Not 128 kbit/s: there the modelled piano's high notes, nearly pure tones,
 # buzzed in headphones ("rè"); the same passage at 320 kbit/s did not.
 name: Dark piano
@@ -110,6 +111,10 @@ jobs:
         run: |
           mkdir -p out/preview
           cp out/dark/*.mp3 dark/pieces/*.json out/preview/
+          for wav in out/dark/*.wav; do  # lossless too (16-bit FLAC, a WAV once unpacked), this run's pieces only
+            ffmpeg -loglevel error -i "$wav" -af aresample=osf=s16:dither_method=triangular -c:a flac \
+              "out/preview/$(basename "${wav%.wav}").flac"
+          done
 
       - name: Keep the pieces
         if: always() && steps.which.outputs.skip != 'true'

@@ -2,6 +2,7 @@
  "title": "Sông không tên",
  "about": "A new piece in the dem-diu style (round 12): 80 bpm, F# Dorian (i-IV, F#m-B: the raised sixth D# in the tune, folk-like rather than sad), a middle that darkens to D and A (D natural against the D# before), and the last part carried a whole step up into G# Dorian, as a river turns, ending there.",
  "style": "dem-diu",
+ "piano": "model-wood",
  "bpm": 80,
  "beats": 4,
  "sections": [
