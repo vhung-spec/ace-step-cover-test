@@ -1,0 +1,75 @@
+{
+  "about": "Strings and horns for Silent Night's felt piano (Piano nỉ, version 1), written by Composer's Assistant 2 hearing the piano (its tune and left hand), laid out as Jingle Bells' were in 12a, the version the user chose: the violas (two notes at a time at most) and the cellos (one) from the first verse's second half (bar 16) to the last chord's end (bar 54), the violins (one) in the last verse, the horns (up to two, held) in its second half (bars 40-51); each under the tune (loosely: lay_in keeps what the model wrote).",
+  "version": "silent-night/test/piano-ni-alone",
+  "hear": [
+    "piano"
+  ],
+  "parts": {
+    "violins": {
+      "program": 40,
+      "spans": [
+        [
+          28,
+          54,
+          62,
+          74
+        ]
+      ],
+      "vert": 0,
+      "horiz": 1,
+      "step": 4
+    },
+    "violas": {
+      "program": 41,
+      "spans": [
+        [
+          16,
+          28,
+          52,
+          64
+        ],
+        [
+          28,
+          54,
+          53,
+          67
+        ]
+      ],
+      "vert": 1,
+      "horiz": 1,
+      "step": 4
+    },
+    "cellos": {
+      "program": 42,
+      "spans": [
+        [
+          16,
+          54,
+          41,
+          57
+        ]
+      ],
+      "vert": 0,
+      "horiz": 0
+    },
+    "horns": {
+      "program": 60,
+      "spans": [
+        [
+          40,
+          52,
+          50,
+          65
+        ]
+      ],
+      "vert": 1,
+      "horiz": 0
+    }
+  },
+  "takes": [
+    1,
+    2,
+    3
+  ],
+  "temperature": 1.0
+}
