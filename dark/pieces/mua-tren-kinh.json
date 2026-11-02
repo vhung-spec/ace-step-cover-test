@@ -1,56 +1,56 @@
 {
- "title": "Mưa trên kính",
- "about": "Round 15, in the mo-ao style after the user's new reference: E minor at 104 bpm, its tune low (G3-E5) in halves and quarters so it feels half as fast, diminished colour (A#dim7, F#m7b5) and a bass falling E-D-C, a shimmer trembling above it where it swells; an original tune.",
- "style": "mo-ao",
- "bpm": 104,
- "beats": 4,
- "sections": [
-  {
-   "bars": 4,
-   "chords": "Em | Cmaj7 | Am6 | B7",
-   "dyn": 0.22
-  },
-  {
-   "bars": 8,
-   "chords": "Em | Em/D | Cmaj7 | A#dim7 | Am | Em/G | F#m7b5 | B7",
-   "melody": "B3:2 E4:2 | G4:3 F#4:1 | E4:2 B3:2 | C#4:2 E4:2 | C4:2 E4:2 | B3:3 G3:1 | A3:2 C4:2 | D#4:3 r:1",
-   "dyn": 0.36
-  },
-  {
-   "bars": 8,
-   "chords": "Cmaj7 | Bm7 | Am7 | Em | Cmaj7 | A#dim7 | B7sus4 | B7",
-   "melody": "G4:2 E4:2 | F#4:2 D4:2 | E4:2 C4:1 B3:1 | B3:4 | G4:2 B4:2 | C#5:2 A#4:2 | A4:2 F#4:1 E4:1 | D#4:4",
-   "dyn": 0.48,
-   "layers": [
-    "tremolo"
-   ]
-  },
-  {
-   "bars": 8,
-   "chords": "Em | Em/D | Cmaj7 | A#dim7 | Am | Em/G | F#m7b5:2 B7:2 | Em",
-   "melody": "B3:2 E4:2 | G4:3 F#4:1 | E4:2 B3:2 | C#4:2 E4:2 | C4:2 E4:2 | B3:3 G3:1 | A3:2 D#4:2 | E4:4",
-   "dyn": 0.4
-  },
-  {
-   "bars": 8,
-   "chords": "Am | Em/G | Cmaj7 | B7 | Am | A#dim7 | Cmaj7:2 B7:2 | Em",
-   "melody": "E5:2 C5:2 | B4:2 G4:2 | E5:3 D5:1 | D#5:3 r:1 | C5:2 E5:2 | C#5:2 E5:2 | B4:2 A4:1 F#4:1 | G4:4",
-   "dyn": 0.7,
-   "layers": [
-    "tremolo"
-   ],
-   "rit": true
-  },
-  {
-   "bars": 8,
-   "chords": "Em | Em/D | Cmaj7 | A#dim7 | Am | Em/G | F#m7b5:2 B7:2 | Em",
-   "melody": "B3:2 E4:2 | G4:3 F#4:1 | E4:2 B3:2 | C#4:2 E4:2 | C4:2 E4:2 | B3:3 G3:1 | A3:2 D#4:2 | E4:4",
-   "dyn": 0.3
-  },
-  {
-   "bars": 2,
-   "chords": "Cmaj7 | Em",
-   "dyn": 0.18
-  }
- ]
+  "title": "Mưa trên kính",
+  "about": "Round 15, in the mo-ao style after the user's new reference: E minor at 104 bpm, its tune low (G3-E5) in halves and quarters so it feels half as fast, diminished colour (A#dim7, F#m7b5) and a bass falling E-D-C, a shimmer trembling above it where it swells; an original tune.",
+  "style": "mo-ao",
+  "bpm": 104,
+  "beats": 4,
+  "sections": [
+    {
+      "bars": 4,
+      "chords": "Em | Cmaj7 | Am6 | B7",
+      "dyn": 0.22
+    },
+    {
+      "bars": 8,
+      "chords": "Em | Em/D | Cmaj7 | A#dim7 | Am | Em/G | F#m7b5 | B7",
+      "melody": "B3:2 E4:2 | G4:3 F#4:1 | E4:2 B3:2 | C#4:2 E4:2 | C4:2 E4:2 | B3:3 G3:1 | A3:2 C4:2 | D#4:3 r:1",
+      "dyn": 0.36
+    },
+    {
+      "bars": 8,
+      "chords": "Cmaj7 | Bm7 | Am7 | Em | Cmaj7 | A#dim7 | B7sus4 | B7",
+      "melody": "G4:2 E4:2 | F#4:2 D4:2 | E4:2 C4:1 B3:1 | B3:4 | G4:2 B4:2 | C#5:2 A#4:2 | A4:2 F#4:1 E4:1 | D#4:4",
+      "dyn": 0.48,
+      "layers": [
+        "tremolo"
+      ]
+    },
+    {
+      "bars": 8,
+      "chords": "Em | Em/D | Cmaj7 | A#dim7 | Am | Em/G | F#m7b5:2 B7:2 | Em",
+      "melody": "B3:2 E4:2 | G4:3 F#4:1 | E4:2 B3:2 | C#4:2 E4:2 | C4:2 E4:2 | B3:3 G3:1 | A3:2 D#4:2 | E4:4",
+      "dyn": 0.4
+    },
+    {
+      "bars": 8,
+      "chords": "Am | Em/G | Cmaj7 | B7 | Am | A#dim7 | Cmaj7:2 B7:2 | Em",
+      "melody": "E5:2 C5:2 | B4:2 G4:2 | E5:3 D5:1 | D#5:3 r:1 | C5:2 E5:2 | C#5:2 E5:2 | B4:2 A4:1 F#4:1 | G4:4",
+      "dyn": 0.7,
+      "layers": [
+        "tremolo"
+      ],
+      "rit": true
+    },
+    {
+      "bars": 8,
+      "chords": "Em | Em/D | Cmaj7 | A#dim7 | Am | Em/G | F#m7b5:2 B7:2 | Em",
+      "melody": "B3:2 E4:2 | G4:3 F#4:1 | E4:2 B3:2 | C#4:2 E4:2 | C4:2 E4:2 | B3:3 G3:1 | A3:2 D#4:2 | E4:4",
+      "dyn": 0.3
+    },
+    {
+      "bars": 2,
+      "chords": "Cmaj7 | Em",
+      "dyn": 0.18
+    }
+  ]
 }
