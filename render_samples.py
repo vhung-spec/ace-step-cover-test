@@ -497,6 +497,12 @@ def finish(mixed: np.ndarray) -> tuple[np.ndarray, float, float]:
         if abs(error) < 0.05:
             break
         gain_db += error
+    for _ in range(4):  # that gain may have asked the limiter for more than it may take: a touch quieter then
+        if -worst <= MOST_LIMITING_DB + 0.05 or target <= QUIETEST_LUFS:
+            break
+        step = min(-worst - MOST_LIMITING_DB, target - QUIETEST_LUFS)
+        target, gain_db = target - step, gain_db - step
+        limited, worst, share = limit(mixed * 10 ** (gain_db / 20))
     between = true_peak(limited) - CEILING_DB  # the limiter sees the samples, a player's converter what lies between
     if between > 0:
         limited = limited * 10 ** (-between / 20)
