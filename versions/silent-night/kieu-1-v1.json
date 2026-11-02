@@ -3,7 +3,7 @@
   "style": "pulse-human",
   "title": "Silent Night · Kiểu 1",
   "heard": "Piano nỉ: \"khá ổn, hãy gửi file wav và sang bản tiếp theo\" (quite good: its WAV, and the next one): Piano nỉ locked at 3, Kiểu 1 next",
-  "about": "v1: Jingle Bells' Kiểu 1 3a, the version the user chose, on Silent Night, three verses (two last 1:47): pulse-human with the gentler upright (struck three quarters as hard, no harder than 65, the treble's knock mended), the glockenspiel's soft strike in the first verse, the flute in the second, the vibraphone and harp in the last, the quick ending; strings written anew by Composer's Assistant 2 hearing this upright (ai/k1-strings.plan.json, take 3 of 3: its violins and violas the fewest notes off the chord, 4.9 and 3.8 % of their time, all three the calmest, none over the tune), laid in as 3a's (violas and cellos from the first verse, violins in the last, in place of pulse's own strings). As Silent Night's Piano nỉ 3, which the user asked less reverb of: the room's sends 0.35, the far hall 2.2 s.",
+  "about": "v1: Jingle Bells' Kiểu 1 3a, the version the user chose, on Silent Night, three verses (two last 1:47): pulse-human with the gentler upright (struck three quarters as hard, no harder than 65, the treble's knock mended), the glockenspiel's soft strike in the first verse, the flute in the second, the vibraphone and harp in the last, the quick ending; strings written anew by Composer's Assistant 2 hearing this upright (ai/k1-strings.plan.json, take 3 of 3: its violins and violas the fewest notes off the chord, 4.9 and 3.8 % of their time, all three the calmest, none over the tune), laid in as 3a's (violas and cellos from the first verse, violins in the last, in place of pulse's own strings). As Silent Night's Piano nỉ 3, which the user asked less reverb of: the room's sends 0.35, the far hall 2.2 s. The flute, which carries the second verse and is the loudest part here, sits in the middle and the harp a little nearer it (-0.2): at Jingle Bells' places the whole leaned 1.1 dB to the left, now 0.7.",
   "changes": {
     "tones": {
       "piano": {
@@ -55,6 +55,10 @@
       "violins": -3,
       "violas": -2,
       "cellos": -2
+    },
+    "pans": {
+      "flute": 0.0,
+      "harp": -0.2
     }
   }
 }
