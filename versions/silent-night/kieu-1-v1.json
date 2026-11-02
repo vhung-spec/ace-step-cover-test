@@ -1,0 +1,60 @@
+{
+  "song": "silent-night",
+  "style": "pulse-human",
+  "title": "Silent Night · Kiểu 1",
+  "heard": "Piano nỉ: \"khá ổn, hãy gửi file wav và sang bản tiếp theo\" (quite good: its WAV, and the next one): Piano nỉ locked at 3, Kiểu 1 next",
+  "about": "v1: Jingle Bells' Kiểu 1 3a, the version the user chose, on Silent Night, three verses (two last 1:47): pulse-human with the gentler upright (struck three quarters as hard, no harder than 65, the treble's knock mended), the glockenspiel's soft strike in the first verse, the flute in the second, the vibraphone and harp in the last, the quick ending; strings written anew by Composer's Assistant 2 hearing this upright (ai/k1-strings.plan.json, take 3 of 3: its violins and violas the fewest notes off the chord, 4.9 and 3.8 % of their time, all three the calmest, none over the tune), laid in as 3a's (violas and cellos from the first verse, violins in the last, in place of pulse's own strings). As Silent Night's Piano nỉ 3, which the user asked less reverb of: the room's sends 0.35, the far hall 2.2 s.",
+  "changes": {
+    "tones": {
+      "piano": {
+        "swap_samples": {
+          "Upright1_Sus_C5_vl1_rr1.wav": "Upright1_Sus_C5_vl1_rr2.wav"
+        },
+        "treble_filter": {
+          "from": 79,
+          "ratio": 0.8
+        },
+        "lowpass": 7000
+      },
+      "glock": {
+        "layer": "_soft_"
+      },
+      "violins": {
+        "lowpass": 5500
+      },
+      "violas": {
+        "lowpass": 4500
+      },
+      "cellos": {
+        "highpass": 60,
+        "lowpass": 4000
+      }
+    },
+    "ring_beats": 2,
+    "tail": {
+      "fade": 1.0,
+      "below": 45
+    },
+    "perform": {
+      "touch": 0.75,
+      "ceiling": 65
+    },
+    "verses": 3,
+    "written": [
+      "silent-night/ai/k1-strings-take3.json"
+    ],
+    "written_end": true,
+    "written_swell": [
+      0.6,
+      0.57,
+      0.74
+    ],
+    "far": 2.2,
+    "wet": 0.35,
+    "levels": {
+      "violins": -3,
+      "violas": -2,
+      "cellos": -2
+    }
+  }
+}
