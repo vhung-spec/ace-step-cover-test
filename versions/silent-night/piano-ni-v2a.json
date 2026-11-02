@@ -3,7 +3,7 @@
   "style": "felt-written-human",
   "title": "Silent Night · Piano nỉ",
   "heard": "v1: \"tôi muốn tiếng piano mềm mại, nhẹ nhàng hơn, giống tiếng keyboard hơn\" (I want the piano softer, gentler, more like a keyboard)",
-  "about": "v2a: 1 on the Rhodes (jRhodes3d, as Kiểu 2), an electric piano's even, round voice: the felt arrangement as it was (its player's soft touch, no harder than 65, the Rhodes' mellow tines), the strings and horns as they were; the Rhodes' tone: its highs to 6 kHz, 3 dB less under 200 Hz (its left hand's deep notes), its chorus lighter (0.5).",
+  "about": "v2a: 1 on the Rhodes (jRhodes3d, as Kiểu 2), an electric piano's even, round voice: the felt arrangement as it was (its player's soft touch, no harder than 65, the Rhodes' mellow tines), the strings and horns as they were; the Rhodes' tone: its highs to 6 kHz, 3 dB less under 200 Hz (its left hand's deep notes), its chorus lighter (0.5). Its tail is the Rhodes' (Kiểu 2's): the mix fades over 2 s and ends 50 dB down, as the Rhodes holds on where the upright dies away (rendered with 1's, the last chord fell from 14 to 33 dB down in 0.2 s).",
   "changes": {
     "hall": 0.8,
     "wet": 0.45,
@@ -42,8 +42,8 @@
     ],
     "ring_beats": 2,
     "tail": {
-      "fade": 1.0,
-      "below": 45
+      "fade": 2.0,
+      "below": 50
     },
     "levels": {
       "violins": -3,
