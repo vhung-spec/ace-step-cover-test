@@ -50,7 +50,8 @@ A piece is a short score, the shape an AI composer is asked to write:
   eighths in the middle of the keyboard, a low toll on each bar), blocks (the
   chord rolled from a deep octave and held), sparse (a deep note, a soft
   rolled chord after it, an inner tone later in the bar), pulse (a low
-  octave beating as a heart does), none;
+  octave beating as a heart does), open (a deep bass held, the chord broken
+  in eighths an octave and more above it, the low-mids clear), none;
 - dyn: 0 (barely touched) to 1 (fully); the melody rises and falls with each
   phrase within it;
 - layers: drone (a low tonic and fifth from sfizz's own oscillators,
@@ -164,10 +165,13 @@ STYLES = {
     # less bass, a much wider image, a shorter, drier hall; a soft left hand; the
     # tune low, around the middle of the keyboard (G3-E5: the reference's sound sits an octave lower than
     # dem-diu's), a shimmer trembling just above it (layer tremolo) where the piece swells.
-    "mo-ao": {"piano": "model-glass", "bass_low": 40, "texture": "flow", "hold": 0.75, "pedal_beats": 2,
-              "lh_soft": 14, "melody_velocity": [40, 62], "velocity_cap": 64,
-              "room": {"rt60": 2.8, "wet": 0.6}, "piano_reverb": 0.35, "loudness": -14,
-              "piano_tone": {"attack": 0.04, "highpass": 140, "width": 1.4}, "human": {"amount": 1.0, "vary": True}},
+    "mo-ao": {"piano": "model-glass", "bass_low": 40, "texture": "open", "hold": 0.75, "pedal_beats": 2,
+              "lh_soft": 8, "melody_velocity": [40, 62], "velocity_cap": 64,
+              "room": {"rt60": 2.2, "wet": 0.5}, "piano_reverb": 0.35, "loudness": -14,
+              "piano_tone": {"attack": 0.04, "width": 1.4,
+                             "eq": [[100, 0], [127, -3], [160, -5], [250, -5], [320, 0], [1250, 2], [1600, 5],
+                                    [2000, 2], [2500, 0]]},
+              "human": {"amount": 1.0, "vary": True}},
     "dem-diu": {"piano": "model-dream", "bass_low": 40, "texture": "flow", "hold": 1.0, "pedal_beats": 2, "lh_soft": 6,
                 "melody_velocity": [38, 60], "velocity_cap": 64,
                 "room": {"rt60": 3.6, "wet": 0.85}, "piano_reverb": 0.35, "loudness": -14,
@@ -557,6 +561,17 @@ def left_hand(piece: Piece, piano: Part) -> None:
                     piano.add(tick + EIGHTH + 45 * k + piece.jitter(6), n, velocity - 12, length - EIGHTH)
                 if length >= 3 * TICKS:
                     piano.add(tick + 5 * EIGHTH + piece.jitter(8), middle[1], velocity - 16, length - 5 * EIGHTH)
+        elif texture == "open":  # a deep bass held, then the chord broken in eighths an octave and more above
+            # it, nothing between: the low-mids left clear (the user's reference's left hand)
+            top = min(ceiling, low + 31)
+            ladder = [n for n in range(max(low + 12, 52), top) if n % 12 in tones]
+            ladder = [n for k, n in enumerate(ladder) if k == 0 or n - ladder[k - 1] >= 3][:3]
+            piano.add(tick + piece.jitter(4), low, velocity + 6, length)
+            order = [0, 1, 2, 1, 0, 1, 2, 1] if piece.beats % 2 == 0 else [0, 1, 2, 1, 2, 1]
+            for k in range(1, length // EIGHTH) if ladder else []:
+                step = order[k % len(order)] % len(ladder)
+                piano.add(tick + k * EIGHTH + piece.jitter(5), ladder[step], velocity - 4 - 2 * step + (3 if k % 2 == 0 else 0),
+                          min(hold, length - k * EIGHTH))
         elif texture == "pulse":
             for beat in range(0, length, TICKS * 2):
                 for k, offset in enumerate((0, round(0.75 * TICKS))):

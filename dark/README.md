@@ -146,3 +146,11 @@ Làm ở đây: đàn mô phỏng `felt-glass` (phím kính: piano nỉ có thê
 | `mua-tren-kinh` (Mưa trên kính) | Mi thứ, 104 bpm | Giai điệu nốt trắng nên nghe chậm một nửa; A#dim7, F#m7b5, bè trầm đi xuống E-D-C |
 | `den-duong-khuya` (Đèn đường khuya) | Si thứ, 96 bpm | E#dim7, C#m7b5; bè trầm B-A-G |
 | `thu-chua-gui` (Thư chưa gửi) | Son thứ, 84 bpm, nhịp ba | Mỗi ô một hợp âm; C#dim7, Am7b5 |
+
+Người dùng: "tôi nghe chưa giống phong cách bài mẫu, hãy phân tích kĩ những nhạc cụ được dùng trong bài mẫu". Phân tích
+từng lớp (nhận dạng riêng phần trầm, giữa, cao, hai bên, phần gõ, phần ngân): chỉ có đàn phím (piano pha màu đàn phím
+điện); "chuông" ở dải cao và "nhịp tim" ở dải trầm đều là chính cây đàn (các bài piano khác cũng được nhận như vậy; tiếng
+trầm luôn đi cùng nốt đàn); không có dây, pad, trống, tiếng mưa hay tiếng xì nền. Chỗ khác là cách đặt nốt: trầm sâu
+(80-100 Hz) nhưng khoảng 130-250 Hz thưa, sáng ở 1,3-1,6 kHz, tay trái chơi nhiều hơn giai điệu. `mo-ao` giờ: tay trái
+`open` (một nốt trầm sâu giữ, hợp âm rải cách trên nó một quãng tám trở lên), cân bằng tiếng theo bản mẫu (giảm
+130-250 Hz, thêm 1,3-2 kHz, bỏ cắt trầm), phòng ngắn hơn (2,2 s, 0,5). Phổ dài hạn lệch bản mẫu 3,1 dB rms (trước 4,5).
