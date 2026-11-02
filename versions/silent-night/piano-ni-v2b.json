@@ -1,0 +1,65 @@
+{
+  "song": "silent-night",
+  "style": "felt-written-human",
+  "title": "Silent Night · Piano nỉ",
+  "heard": "v1: \"tôi muốn tiếng piano mềm mại, nhẹ nhàng hơn, giống tiếng keyboard hơn\" (I want the piano softer, gentler, more like a keyboard)",
+  "about": "v2b: 1 with the felt piano gentler: without the 3 dB lift from 1.5 kHz (Jingle Bells' 12a, brighter), its highs eased from 3.5 kHz (was 6), its sharpest strikes held to 14 dB over its playing level (was 17), its top keys struck softer (6 dB less by D6, was 4.5): the last verse's tune, an octave up, reaches F6.",
+  "changes": {
+    "hall": 0.8,
+    "wet": 0.45,
+    "breath": 0.95,
+    "perform": {
+      "rubato": 0.07,
+      "treble_db": -6
+    },
+    "tones": {
+      "piano": {
+        "highpass": 80,
+        "low_shelf": [
+          300,
+          -5
+        ],
+        "shelf": null,
+        "lowpass": 3500,
+        "peaks_db": 14,
+        "swap_samples": {
+          "Upright1_Sus_C5_vl1_rr1.wav": "Upright1_Sus_C5_vl1_rr2.wav"
+        },
+        "treble_filter": {
+          "from": 79,
+          "ratio": 0.8
+        }
+      },
+      "violins": {
+        "lowpass": 5500
+      },
+      "violas": {
+        "lowpass": 4500
+      },
+      "cellos": {
+        "highpass": 60,
+        "lowpass": 4000
+      }
+    },
+    "written_end": true,
+    "written_swell": [
+      0.6,
+      0.57,
+      0.74
+    ],
+    "ring_beats": 2,
+    "tail": {
+      "fade": 1.0,
+      "below": 45
+    },
+    "levels": {
+      "violins": -3,
+      "violas": -2,
+      "cellos": -2,
+      "horns": -3
+    },
+    "written": [
+      "silent-night/ai/strings-take2.json"
+    ]
+  }
+}
