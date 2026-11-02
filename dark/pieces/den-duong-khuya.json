@@ -1,0 +1,56 @@
+{
+ "title": "Đèn đường khuya",
+ "about": "Round 15, mo-ao: B minor at 96 bpm, its tune low (D4-G5) in halves and quarters, a bass falling B-A-G, E#dim7 and C#m7b5 for the dark colour, a shimmer trembling above the tune where it swells; an original tune.",
+ "style": "mo-ao",
+ "bpm": 96,
+ "beats": 4,
+ "sections": [
+  {
+   "bars": 2,
+   "chords": "Bm | Gmaj7",
+   "dyn": 0.2
+  },
+  {
+   "bars": 8,
+   "chords": "Bm | Bm/A | Gmaj7 | E#dim7 | Em | Bm/F# | C#m7b5 | F#7",
+   "melody": "F#4:2 B4:2 | D5:3 C#5:1 | B4:2 F#4:2 | G#4:2 B4:2 | G4:2 B4:2 | F#4:3 D4:1 | E4:2 G4:2 | A#4:3 r:1",
+   "dyn": 0.36
+  },
+  {
+   "bars": 8,
+   "chords": "Gmaj7 | F#m7 | Em7 | Bm | Gmaj7 | E#dim7 | F#7sus4 | F#7",
+   "melody": "D5:2 B4:2 | C#5:2 A4:2 | B4:2 G4:1 F#4:1 | F#4:4 | D5:2 F#5:2 | G#4:2 D5:2 | E5:2 C#5:1 B4:1 | A#4:4",
+   "dyn": 0.48,
+   "layers": [
+    "tremolo"
+   ]
+  },
+  {
+   "bars": 8,
+   "chords": "Bm | Bm/A | Gmaj7 | E#dim7 | Em | Bm/F# | C#m7b5:2 F#7:2 | Bm",
+   "melody": "F#4:2 B4:2 | D5:3 C#5:1 | B4:2 F#4:2 | G#4:2 B4:2 | G4:2 B4:2 | F#4:3 D4:1 | E4:2 A#4:2 | B4:4",
+   "dyn": 0.4
+  },
+  {
+   "bars": 8,
+   "chords": "Em | Bm/D | Gmaj7 | F#7 | Em | E#dim7 | Gmaj7:2 F#7:2 | Bm",
+   "melody": "B4:2 E5:2 | D5:2 F#5:2 | F#5:3 E5:1 | E5:3 r:1 | G5:2 E5:2 | D5:2 G#4:2 | B4:2 A#4:2 | B4:4",
+   "dyn": 0.68,
+   "layers": [
+    "tremolo"
+   ],
+   "rit": true
+  },
+  {
+   "bars": 8,
+   "chords": "Bm | Bm/A | Gmaj7 | E#dim7 | Em | Bm/F# | C#m7b5:2 F#7:2 | Bm",
+   "melody": "F#4:2 B4:2 | D5:3 C#5:1 | B4:2 F#4:2 | G#4:2 B4:2 | G4:2 B4:2 | F#4:3 D4:1 | E4:2 A#4:2 | B4:4",
+   "dyn": 0.3
+  },
+  {
+   "bars": 2,
+   "chords": "Gmaj7 | Bm",
+   "dyn": 0.18
+  }
+ ]
+}

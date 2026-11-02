@@ -58,6 +58,7 @@ KEYS = range(21, 109)  # A0 to C8
 LAYERS = ((1, 36, 28), (37, 52, 44), (53, 68, 60), (69, 90, 80), (91, 127, 110))  # velocities a layer plays, and its strike
 UNDAMPED = 89  # F6 up: no dampers
 BODY_HZ = (52.0, 66.0, 83.0)  # the soundboard's lowest modes
+BELL_RATIOS = (5.43, 7.62, 10.3)  # a tine's bell partials against its note, off the harmonic series
 _NODES = np.random.default_rng(5).standard_normal(64)  # the soundboard's unevenness, an eighth of an octave apart
 
 
@@ -136,6 +137,15 @@ MODELS = {
     "felt-bloom": {"detune_cents": 2.2, "halo_db": -16.0, "decay_s": 3.8, "aftersound": 0.4, "board_hz": 140.0,
                    "hammer_hz": 340.0, "felt_hz": 1400.0, "body_db": -24.0, "width": 0.45},
     # wood: a close, warm upright: the felt's thud and the board's wood heard, each note its own colour
+    # Round 15, after the user's new reference ("phối nhạc kiểu như này, màu sắc nhạc cụ kiểu như này"): soft
+    # glassy keys, a felt piano with an electric piano's tine: its partials fitted to the reference's tune
+    # (H2-H8 within 3 dB rms: the second weak, the rest falling slowly: struck at 0.4 of the string, the felt
+    # gentler), a bell for a moment at each note, dying sooner than the others (the reference's notes fall
+    # 11 dB a second, felt-dream's 8), less bass, wide
+    "felt-glass": {"strike": 0.4, "notch": 0.45, "hammer_hz": 300.0, "hammer_order": 3.5, "felt_hz": 1500.0,
+                   "felt_order": 0.75, "board_hz": 200.0, "decay_s": 2.0, "aftersound": 0.25, "prompt_ratio": 4.0,
+                   "detune_cents": 1.4, "halo_db": -30.0, "bell_db": -31.0, "bell_ms": 250.0, "width": 0.6,
+                   "body_db": -30.0},
     "felt-wood": {"detune_cents": 1.8, "halo_db": -28.0, "decay_s": 3.0, "aftersound": 0.3, "hammer_hz": 360.0,
                   "felt_hz": 1500.0, "board_hz": 130.0, "knock_db": -24.0, "knock_ms": 14.0, "body_db": -22.0,
                   "body_s": 0.5, "rough_db": 6.0, "width": 0.35},
@@ -230,6 +240,16 @@ def note(key: int, velocity: int, p: dict, seed: int) -> np.ndarray:
         click = sosfilt(butter(2, [700, 4000], "band", fs=RATE, output="sos"), click) * np.exp(-np.arange(len(click)) / RATE / 0.002)
         click *= peak / (np.abs(click).max() + 1e-12) * 10 ** (p["click_db"] / 20) * (velocity / 64) ** 1.5
         out[:, : len(click)] += click * gains[:, None]
+    if p.get("bell_db", -80.0) > -80:  # a tine's bell (an electric piano's): a few high partials off the
+        # harmonic series, bright for a moment (bell_ms), softer in the treble and the bass, a little apart
+        f0 = 440 * 2 ** ((key - 69) / 12)
+        level = peak * 10 ** (p["bell_db"] / 20) * (velocity / 64) ** 1.5 * (1 - 0.5 * min(1.0, abs(key - 66) / 24))
+        for k, ratio in enumerate(BELL_RATIOS):
+            if f0 * ratio < 9000:
+                ring = np.exp(-t / (p.get("bell_ms", 150.0) / 1000 / (1 + 0.3 * k))) * level / (1 + k) \
+                    * np.minimum(1, t / 0.002)
+                for side, shift in enumerate((0.0, rng.uniform(0.5, 1.5))):
+                    out[side] += ring * np.sin(2 * np.pi * f0 * ratio * t + shift) * gains[side]
     if p["body_db"] > -80:  # the soundboard's own low modes, rung by the strike: the piano's wooden weight
         body = sum(np.sin(2 * np.pi * f * t + rng.uniform(0, 2 * np.pi)) * rng.uniform(0.5, 1.0)
                    for f in BODY_HZ) * np.exp(-t / p["body_s"])

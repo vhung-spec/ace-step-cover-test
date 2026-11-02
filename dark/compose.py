@@ -25,7 +25,7 @@ A piece is a short score, the shape an AI composer is asked to write:
   for render_samples.py (lowpass, lowpass_order, width: above 1 widens it);
 - piano: the piano (INSTRUMENTS): upright, felt, grand, kawai (recorded,
   CC0), or model, model-dream, model-close, model-grand, model-clear,
-  model-bloom, model-wood (modelled by dark/piano_model.py
+  model-bloom, model-wood, model-glass (modelled by dark/piano_model.py
   from the physics of its strings, no recording; built with the pieces);
 - style: a named style (STYLES) giving every setting the piece leaves out;
   dem-diu, the user's choice for slow, muffled pieces (dem-diu-h3: as it was
@@ -57,7 +57,9 @@ A piece is a short score, the shape an AI composer is asked to write:
   instruments/drone.sfz), cello (the chords' bass line, bowed), cello-melody
   (the tune an octave down), strings (soft violas and cellos holding the
   chords), basses (the deepest roots), violin (a solo violin on the tune),
-  octave (the piano doubling the tune an octave down).
+  octave (the piano doubling the tune an octave down), tremolo (the piano
+  trembling between two tones of the chord in sixteenths, just above the
+  tune).
 
 The piano breathes on the last beat of every four bars, a section marked
 rit slows over its last two bars, and the piece slows into its last chord,
@@ -114,6 +116,7 @@ INSTRUMENTS = {
     "model-clear": ("model", "felt-clear.sfz", {}),
     "model-bloom": ("model", "felt-bloom.sfz", {}),
     "model-wood": ("model", "felt-wood.sfz", {}),
+    "model-glass": ("model", "felt-glass.sfz", {}),
 }
 # The tone the user chose for the muffled pieces: C3 of the fourth round (the
 # references' average spectrum against the plain upright's (B2), smoothed: a
@@ -156,6 +159,15 @@ STYLES = {
     # M2"): dark/piano_model.py's felt-dream, a softer onset (45 ms), wider
     # (0.85), a longer hall (3.6 s, 0.85); the left hand and touch as before.
     # The app plays it the same way (bokin_music/dark on the app's branch).
+    # "Mờ ảo", after the user's new reference ("tôi muốn phối nhạc kiểu như này, màu sắc nhạc cụ kiểu như
+    # này"): glassy soft keys (felt-glass: a felt piano with an electric piano's tine), notes dying sooner,
+    # less bass, a much wider image, a shorter, drier hall; a soft left hand; the
+    # tune low, around the middle of the keyboard (G3-E5: the reference's sound sits an octave lower than
+    # dem-diu's), a shimmer trembling just above it (layer tremolo) where the piece swells.
+    "mo-ao": {"piano": "model-glass", "bass_low": 40, "texture": "flow", "hold": 0.75, "pedal_beats": 2,
+              "lh_soft": 14, "melody_velocity": [40, 62], "velocity_cap": 64,
+              "room": {"rt60": 2.8, "wet": 0.6}, "piano_reverb": 0.35, "loudness": -14,
+              "piano_tone": {"attack": 0.04, "highpass": 140, "width": 1.4}, "human": {"amount": 1.0, "vary": True}},
     "dem-diu": {"piano": "model-dream", "bass_low": 40, "texture": "flow", "hold": 1.0, "pedal_beats": 2, "lh_soft": 6,
                 "melody_velocity": [38, 60], "velocity_cap": 64,
                 "room": {"rt60": 3.6, "wet": 0.85}, "piano_reverb": 0.35, "loudness": -14,
@@ -602,6 +614,19 @@ def layers(piece: Piece) -> None:
                 piece.held(cellos, tick + 30, previous[0], velocity - 4, length)
                 for n in previous[1:]:
                     piece.held(violas, tick + 30, n, velocity - 6, length)
+        if "tremolo" in wanted:  # the piano trembling between two tones of the chord just above the tune, in
+            # sixteenths, softly, swelling through each chord: a glassy shimmer over it
+            piano, rng = piece.parts["piano"], random.Random(start * 31 + 5)
+            step = TICKS // 4
+            for tick, length, name in spans:
+                tune = piece.tune_between(tick, tick + length)
+                floor = min(81, max(tune) + 3) if tune else 72
+                pair = [n for n in range(floor, floor + 12) if n % 12 in chord(name)[1]][:2]
+                count = length // step
+                for k in range(count if len(pair) == 2 else 0):
+                    swell = 0.5 - 0.5 * math.cos(2 * math.pi * (k + 0.5) / count)
+                    piano.add(tick + k * step + rng.randint(-6, 6), pair[k % 2],
+                              16 + 12 * dyn + 5 * swell + rng.uniform(-2, 2), 2 * step)  # each into the next
         for layer, instrument, shift, pan in (("violin", "violin", 0, 0.15), ("cello-melody", "cellos", -12, -0.2)):
             if layer in wanted:
                 line = piece.part(layer, instrument, "melody2", pan, reverb=0.45)

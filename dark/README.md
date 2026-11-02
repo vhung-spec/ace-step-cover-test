@@ -126,3 +126,23 @@ theo các kiểu tiếng đàn khác nhau, mỗi kiểu bạn hãy tự lựa ch
 | Grand ấm (`model-grand`) | Đò khuya, Gương vỡ, Bước chân trên gác, Đèn lồng tắt | cần trầm đầy và cao trào đôi quãng tám, nhịp tim ở bè trầm |
 
 Workflow giờ đăng thêm bản không nén (FLAC 16-bit) của các bài trong lượt chạy; lượt sau chỉ giữ MP3.
+
+## Phong cách "Mờ ảo" (vòng 15)
+
+Người dùng gửi một bản mẫu mới: "tiếp theo tôi muốn phối nhạc kiểu như này, màu sắc nhạc cụ kiểu như này". Bản mẫu chỉ
+được nghe và đo trong máy làm việc (không có ở đây); học âm thanh, không chép giai điệu hay bản phối. Đo được: Mi thứ,
+có màu giảm; tiếng dồn ở quãng giữa (quãng tám Đô 4 mạnh nhất), ít trầm; hai bên rất rộng; nốt tắt nhanh hơn (11 dB
+một giây, các bài Đêm dịu 8); âm bồi thứ hai yếu, các âm bồi cao xuống chậm, máy nhận ra "piano" và "electric piano";
+ở các đoạn dâng lên có một lớp hai nốt rung đổi nhanh (9-14 lần một giây).
+
+Làm ở đây: đàn mô phỏng `felt-glass` (phím kính: piano nỉ có thêm "chuông" của đàn phím điện, âm bồi khớp bản mẫu trong
+3 dB), lớp `tremolo` (hai nốt của hợp âm ngay trên giai điệu rung đổi theo nốt móc kép, rất nhẹ), phong cách `mo-ao`
+(giai điệu thấp quanh G3-E5, tay trái nhẹ, cắt bớt trầm, rộng hơn, phòng ngắn hơn). Đo bài thử so với bản mẫu (trầm /
+ấm / thân / sáng / không khí, dB): -6,0 / -1,8 / -10,6 / -39,3 / -53,3 so với -10,8 / -0,8 / -11,2 / -35,8 / -49,8; loa
+điện thoại mất 4,1 dB.
+
+| Bài | Giọng, nhịp | Nét riêng |
+|---|---|---|
+| `mua-tren-kinh` (Mưa trên kính) | Mi thứ, 104 bpm | Giai điệu nốt trắng nên nghe chậm một nửa; A#dim7, F#m7b5, bè trầm đi xuống E-D-C |
+| `den-duong-khuya` (Đèn đường khuya) | Si thứ, 96 bpm | E#dim7, C#m7b5; bè trầm B-A-G |
+| `thu-chua-gui` (Thư chưa gửi) | Son thứ, 84 bpm, nhịp ba | Mỗi ô một hợp âm; C#dim7, Am7b5 |

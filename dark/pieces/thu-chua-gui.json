@@ -1,0 +1,65 @@
+{
+ "title": "Thư chưa gửi",
+ "about": "Round 15, mo-ao: G minor at 84 bpm in 3/4, one chord a bar, its tune low (C4-G5), C#dim7 and Am7b5 for the dark colour, a shimmer trembling above the tune in its middle and climax; an original tune.",
+ "style": "mo-ao",
+ "bpm": 84,
+ "beats": 3,
+ "sections": [
+  {
+   "bars": 2,
+   "chords": "Gm | Ebmaj7",
+   "dyn": 0.2
+  },
+  {
+   "bars": 8,
+   "chords": "Gm | Gm/F | Ebmaj7 | C#dim7 | Cm | Gm/Bb | Am7b5 | D7",
+   "melody": "D4:2 G4:1 | Bb4:3 | G4:2 D4:1 | E4:2 G4:1 | Eb4:2 G4:1 | D4:3 | C4:2 Eb4:1 | F#4:3",
+   "dyn": 0.36
+  },
+  {
+   "bars": 8,
+   "chords": "Ebmaj7 | Dm7 | Cm7 | Gm | Ebmaj7 | C#dim7 | D7sus4 | D7",
+   "melody": "G4:2 Bb4:1 | A4:2 F4:1 | G4:2 Eb4:1 | D4:3 | Bb4:2 D5:1 | E5:2 C#5:1 | C5:2 A4:1 | F#4:3",
+   "dyn": 0.46,
+   "layers": [
+    "tremolo"
+   ]
+  },
+  {
+   "bars": 8,
+   "chords": "Gm | Gm/F | Ebmaj7 | C#dim7 | Cm | Gm/Bb | D7 | Gm",
+   "melody": "D4:2 G4:1 | Bb4:3 | G4:2 D4:1 | E4:2 G4:1 | Eb4:2 G4:1 | D4:3 | F#4:2 A4:1 | G4:3",
+   "dyn": 0.4
+  },
+  {
+   "bars": 8,
+   "chords": "Ebmaj7 | Dm7 | Cm7 | Gm | Ebmaj7 | C#dim7 | D7sus4 | D7",
+   "melody": "G4:2 Bb4:1 | A4:2 F4:1 | G4:2 Eb4:1 | D4:3 | Bb4:2 D5:1 | E5:2 C#5:1 | C5:2 A4:1 | F#4:3",
+   "dyn": 0.5,
+   "layers": [
+    "tremolo"
+   ]
+  },
+  {
+   "bars": 8,
+   "chords": "Cm | Gm/Bb | Ebmaj7 | D7 | Cm | C#dim7 | D7sus4 | D7",
+   "melody": "G4:1 C5:1 Eb5:1 | D5:3 | Bb4:2 G4:1 | A4:3 | C5:1 Eb5:1 G5:1 | E5:2 Bb4:1 | C5:2 A4:1 | F#4:3",
+   "dyn": 0.68,
+   "layers": [
+    "tremolo"
+   ],
+   "rit": true
+  },
+  {
+   "bars": 8,
+   "chords": "Gm | Gm/F | Ebmaj7 | C#dim7 | Cm | Gm/Bb | D7 | Gm",
+   "melody": "D4:2 G4:1 | Bb4:3 | G4:2 D4:1 | E4:2 G4:1 | Eb4:2 G4:1 | D4:3 | F#4:2 A4:1 | G4:3",
+   "dyn": 0.3
+  },
+  {
+   "bars": 2,
+   "chords": "Ebmaj7 | Gm",
+   "dyn": 0.18
+  }
+ ]
+}
