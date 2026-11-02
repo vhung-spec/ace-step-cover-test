@@ -1,0 +1,60 @@
+{
+  "song": "silent-night",
+  "style": "felt-written-human",
+  "title": "Silent Night · Piano nỉ",
+  "heard": "v2: \"tôi thích bản a hơn, nhưng tôi muốn tiếng ít vang hơn chút\" (I like a better, but a little less reverb)",
+  "about": "v3: 2a (the Rhodes) a little drier: its room's sends 0.35 (were 0.45), the far hall behind the strings and horns 2.2 s (was 3.2). Measured as the mixer builds it, on 2a's parts: the echo was 2.0 dB under the dry mix (the room's 5.8, the far hall's 4.7), now 3.5 dB under, as Jingle Bells' Piano nỉ 12a (the room's 7.9; the far hall's tail a second shorter).",
+  "changes": {
+    "hall": 0.8,
+    "wet": 0.35,
+    "breath": 0.95,
+    "perform": {
+      "rubato": 0.07,
+      "treble_db": -4.5
+    },
+    "tones": {
+      "piano": {
+        "highpass": 80,
+        "low_shelf": [
+          200,
+          -3
+        ],
+        "lowpass": 6000,
+        "chorus": 0.5,
+        "peaks_db": 17
+      },
+      "violins": {
+        "lowpass": 5500
+      },
+      "violas": {
+        "lowpass": 4500
+      },
+      "cellos": {
+        "highpass": 60,
+        "lowpass": 4000
+      }
+    },
+    "written_end": true,
+    "written_swell": [
+      0.6,
+      0.57,
+      0.74
+    ],
+    "ring_beats": 2,
+    "tail": {
+      "fade": 2.0,
+      "below": 50
+    },
+    "levels": {
+      "violins": -3,
+      "violas": -2,
+      "cellos": -2,
+      "horns": -3
+    },
+    "written": [
+      "silent-night/ai/strings-take2.json"
+    ],
+    "piano": "ep",
+    "far": 2.2
+  }
+}
