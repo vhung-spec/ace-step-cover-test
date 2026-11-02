@@ -1,0 +1,34 @@
+{
+  "song": "silent-night",
+  "style": "pulse-human",
+  "title": "Silent Night · Kiểu 1 (the piano alone, for the AI to hear)",
+  "heard": "",
+  "about": "test: Jingle Bells' Kiểu 1 3a without its written strings, on Silent Night, three verses (two last 1:47, under the 2-3 minutes the SOP asks): the gentle upright, the glockenspiel's soft strike, the quick ending; the piano for Composer's Assistant 2 to hear (ai/k1-strings.plan.json).",
+  "changes": {
+    "tones": {
+      "piano": {
+        "swap_samples": {
+          "Upright1_Sus_C5_vl1_rr1.wav": "Upright1_Sus_C5_vl1_rr2.wav"
+        },
+        "treble_filter": {
+          "from": 79,
+          "ratio": 0.8
+        },
+        "lowpass": 7000
+      },
+      "glock": {
+        "layer": "_soft_"
+      }
+    },
+    "ring_beats": 2,
+    "tail": {
+      "fade": 1.0,
+      "below": 45
+    },
+    "perform": {
+      "touch": 0.75,
+      "ceiling": 65
+    },
+    "verses": 3
+  }
+}

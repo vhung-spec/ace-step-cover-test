@@ -1,0 +1,62 @@
+{
+  "about": "Strings for Silent Night's Kiểu 1 (version 1), written by Composer's Assistant 2 hearing the upright (its tune an octave up, its pulse and deep bass), laid out as Jingle Bells' Kiểu 1 strings were in 3a, the version the user chose: a bed from the first verse to the last chord (bars 0-72, three verses), the violas (two notes at a time at most) and the cellos (one) throughout, the violins (one) in the last verse, each under the tune (loosely: lay_in keeps what the model wrote); in place of pulse's own strings there.",
+  "version": "silent-night/test/kieu-1-alone",
+  "hear": [
+    "piano"
+  ],
+  "parts": {
+    "violins": {
+      "program": 40,
+      "spans": [
+        [
+          48,
+          72,
+          62,
+          74
+        ]
+      ],
+      "vert": 0,
+      "horiz": 1,
+      "step": 4
+    },
+    "violas": {
+      "program": 41,
+      "spans": [
+        [
+          0,
+          48,
+          52,
+          64
+        ],
+        [
+          48,
+          72,
+          53,
+          67
+        ]
+      ],
+      "vert": 1,
+      "horiz": 1,
+      "step": 4
+    },
+    "cellos": {
+      "program": 42,
+      "spans": [
+        [
+          0,
+          72,
+          41,
+          57
+        ]
+      ],
+      "vert": 0,
+      "horiz": 0
+    }
+  },
+  "takes": [
+    1,
+    2,
+    3
+  ],
+  "temperature": 1.0
+}
