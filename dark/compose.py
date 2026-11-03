@@ -196,6 +196,8 @@ INSTRUMENTS = {
     "amb-sub": ("model", "amb-sub.sfz", {}),
     "amb-bell": ("model", "amb-bell.sfz", {"lowpass": 5000, "lowpass_order": 2}),
     "amb-glass": ("model", "amb-glass.sfz", {"lowpass": 5000, "lowpass_order": 2, "width": 0.8}),
+    "amb-wind": ("model", "amb-wind.sfz", {"highpass": 60, "width": 1.3}),
+    "amb-pulse": ("model", "amb-pulse.sfz", {"lowpass": 1500}),
 }
 # Named styles: a piece's "style" fills in every setting it does not give itself.
 STYLES = {

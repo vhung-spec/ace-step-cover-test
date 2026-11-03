@@ -282,3 +282,19 @@ Một bản chỉ cần ghi `"style": "khong-gian"` (và `"family": "dark-khac"`
 | `k3-day-sau` (Đáy sâu) | Mi thứ, 50 bpm | Chuông thủy tinh gọi, chuông trầm đáp (hỏi-đáp), nền pad |
 
 Bản nghe ở nhánh `dark-khac-renders` (Actions **Dark khac** chỉ dựng các bản của nhánh này).
+
+## Không gian u tối, thêm sáu bản (vòng X2)
+
+Người dùng: "hãy làm thêm nhiều phiên bản hơn". Thêm hai tiếng tự tạo: `amb-wind` (gió lùa trong hang,
+thoảng ra nốt nhạc, từng cơn, không có gì trên 2 kHz nên không rít) và `amb-pulse` (tiếng tim đập trầm);
+ba lớp mới: `wind`, `pulse` (nhịp tim, `pulse_beats`), `shimmer` (chuông thủy tinh cao, khẽ, rải ngẫu nhiên
+trên hợp âm); bản nhạc chọn được tầm cao của nền (`pad_range`) và hợp xướng (`choir_range`).
+
+| Bản | Giọng, nhịp | Âm thanh |
+|---|---|---|
+| `k4-gio-hoang` (Gió hoang) | Si thứ, 48 bpm | Gió lùa từng cơn, nền tối, chuông xa |
+| `k5-nha-tho-bo-hoang` (Nhà thờ bỏ hoang) | La thứ, 44 bpm | Hợp xướng trầm, dày, chuông lớn đổ |
+| `k6-troi-trong-dem` (Trôi trong đêm) | Fa thứ, 54 bpm | Nhiều giai điệu nhất: chuông thủy tinh hát, chuông trầm đáp |
+| `k7-nhip-tim` (Nhịp tim) | Son thứ, 56 bpm | Tim đập trầm, nhanh dần ở đoạn căng rồi chậm lại |
+| `k8-bang-gia` (Băng giá) | Đô thăng thứ, 50 bpm | Thủy tinh cao lạnh và bass sâu, khoảng giữa bỏ trống |
+| `k9-vuc-tham` (Vực thẳm) | Rê thứ, 42 bpm | Tối và trầm nhất, không có gì cao |

@@ -25,6 +25,8 @@ pieces name, with its own), as dark/oboe_model.py does:
   the fifth, the nominal (the key's note) and a few upper partials, each
   split into two a fraction of a hertz apart, so they beat, the higher dying
   sooner; ringing up to 24 s;
+- amb-wind: wind in a hollow, faintly at the note, in gusts; looped;
+- amb-pulse: a heartbeat's deep thud;
 - amb-glass: a soft glass/bowl tone, nearly pure: the note, a faint octave
   and twelfth, slow beating, a long ring; for the few notes of a tune.
 
@@ -34,7 +36,9 @@ common to two chords held across them; layers, per section:
   colour tones above the pad), sub (the root, deep), bells (the section's
   melody on the bell, if any), glass (its melody on the glass), toll (a low
   bell on the chord's root at each chord, or every toll_every chords),
-  drone (compose.py's drone); "answer", a second line beside the melody,
+  drone (compose.py's drone), wind (wind sounding the chord's root and
+  fifth), pulse (a heartbeat on the root every pulse_beats), shimmer (soft
+  high glass on the chord's tones, at random); "answer", a second line beside the melody,
   played on the bell (as the cellos answer the piano in the dark piano).
 dyn, 0-1, sets every layer's strength; a section's "swell" lets it grow
 through the section.
@@ -64,6 +68,9 @@ MODELS = {
     "amb-sub": {"attack": 4.0, "release": 6.0, "veltrack": 50, "keys": range(19, 52), "loop": True},
     "amb-bell": {"attack": 0.006, "release": 4.0, "veltrack": 80, "keys": range(36, 90), "loop": False},
     "amb-glass": {"attack": 0.03, "release": 5.0, "veltrack": 75, "keys": range(48, 96), "loop": False},
+    "amb-wind": {"attack": 5.0, "release": 7.0, "veltrack": 60, "keys": range(40, 84), "loop": True},
+    "amb-pulse": {"attack": 0.002, "release": 0.4, "veltrack": 70, "keys": range(24, 48), "loop": False,
+                  "seconds": 2.0},
 }
 
 
@@ -195,14 +202,47 @@ def glass(key: int, n: int, rng: np.random.Generator) -> np.ndarray:
     return bell(key, n, rng, GLASS, soft=1.5)
 
 
-SYNTHS = {"amb-pad": pad, "amb-choir": choir, "amb-sub": sub, "amb-bell": bell, "amb-glass": glass}
+def wind(key: int, n: int, rng: np.random.Generator) -> np.ndarray:
+    """Wind through a hollow, sounding faintly at the note: noise through three narrow bands around it whose
+    weights wander (the pitch bends a few per cent), in gusts, over a dark rush under 300 Hz; nothing above
+    2 kHz (no hiss)."""
+    from scipy.signal import butter as _b, sosfiltfilt as _f
+    f0 = hz(key)
+    out = np.zeros((2, n))
+    for side in range(2):
+        noise = rng.standard_normal(n)
+        tone = np.zeros(n)
+        for k, shift in enumerate((0.97, 1.0, 1.03)):
+            band = _f(_b(2, [f0 * shift / 1.04, f0 * shift * 1.04], "band", fs=RATE, output="sos"), noise)
+            weight = np.clip(0.5 + 0.6 * wander(n, rng, 0.15), 0, 1)
+            tone += band * weight / np.sqrt(np.mean(band ** 2) + 1e-12)
+        rush = lowpass(rng.standard_normal(n), 300, 2)
+        rush /= np.sqrt(np.mean(rush ** 2)) + 1e-12
+        gust = np.clip(0.55 + 0.45 * wander(n, rng, 0.12), 0.1, 1.2)
+        out[side] = lowpass((tone + 0.35 * rush) * gust, 2000, 4)
+    return out
+
+
+def pulse(key: int, n: int, rng: np.random.Generator) -> np.ndarray:
+    """A heartbeat's thud: a deep sine falling half an octave into its note in 50 ms, dying in 0.4 s, a soft
+    knock of felt on it."""
+    f0 = hz(key)
+    t = np.arange(n) / RATE
+    freq = f0 * (1 + 0.5 * np.exp(-t / 0.025))
+    tone = np.sin(2 * np.pi * np.cumsum(freq) / RATE) * np.exp(-t / 0.22) * (1 - np.exp(-t / 0.003))
+    knock = lowpass(rng.standard_normal(n) * np.exp(-t / 0.012), 400, 2) * 0.15
+    mono = tone + knock
+    return np.stack([mono, mono])
+
+
+SYNTHS = {"amb-pad": pad, "amb-choir": choir, "amb-sub": sub, "amb-bell": bell, "amb-glass": glass, "amb-wind": wind, "amb-pulse": pulse}
 
 
 def sample(job: tuple) -> None:
     name, key, path = job
     rng = np.random.default_rng(key * 101 + sum(map(ord, name)))
     model = MODELS[name]
-    seconds = LEAD + LOOP_SECONDS if model["loop"] else 24.0
+    seconds = LEAD + LOOP_SECONDS if model["loop"] else model.get("seconds", 24.0)
     n = int(seconds * RATE)
     audio = SYNTHS[name](key, n, rng)
     if model["loop"]:  # the loop's end crossfaded into what comes before its start, so it runs on unbroken
@@ -212,7 +252,7 @@ def sample(job: tuple) -> None:
             + audio[:, start - fade:start] * w
         level = np.sqrt(np.mean(audio[:, start:] ** 2))
     else:
-        level = np.sqrt(np.mean(audio[:, : int(1.0 * RATE)] ** 2))
+        level = np.sqrt(np.mean(audio[:, : int(min(1.0, seconds / 4) * RATE)] ** 2))
         audio[:, -int(0.5 * RATE):] *= np.linspace(1, 0, int(0.5 * RATE))
     audio *= 0.1 / (level + 1e-12)
     peak = np.abs(audio).max()
@@ -255,6 +295,9 @@ PARTS = {
     "glass": ("amb-glass", "melody2", -4.0, -0.15, 0.8),
     "toll": ("amb-bell", "low", -5.0, -0.1, 0.8),
     "drone": ("drone", "drone", -12.0, 0.0, 0.4),
+    "wind": ("amb-wind", "pad", -8.0, 0.0, 0.6),
+    "pulse": ("amb-pulse", "low", -6.0, 0.0, 0.15),
+    "shimmer": ("amb-glass", "pad", -12.0, 0.0, 0.9),
 }
 
 
@@ -306,27 +349,41 @@ def compose_ambient(score: dict, folder: Path) -> str:
         nxt = spans[index + 1] if index + 1 < len(spans) else None
         nxt_wanted = piece.section_at(nxt[0]).get("layers", []) if nxt else []
         bass, tones, root = c.chord(name)
-        for layer in ("pad", "choir", "sub"):
+        for layer in ("pad", "choir", "sub", "wind"):
             if layer not in wanted:
                 continue
             if layer == "pad":
-                voices["pad"] = c.voice(voices["pad"], tones, 43, 67, 4)
+                voices["pad"] = c.voice(voices["pad"], tones, *score.get("pad_range", [43, 67]), 4)
                 notes = sorted(set(voices["pad"]))
-                low = c.above(bass, 36)
+                low = c.above(bass, score.get("pad_range", [43])[0] - 7)
                 notes = sorted(set([low] + notes[1:]))
             elif layer == "choir":
                 colour = [t for t in tones if t != root] or tones
-                voices["choir"] = c.voice(voices["choir"], colour, 60, 76, 3)
+                voices["choir"] = c.voice(voices["choir"], colour, *score.get("choir_range", [60, 76]), 3)
                 notes = sorted(set(voices["choir"]))
+            elif layer == "wind":  # the wind sounding the chord's root and fifth, low-middle
+                notes = sorted({c.above(root, 45), c.above((root + 7) % 12, 52)})
             else:
                 notes = [c.above(bass, score.get("sub_low", 26))]
             ends = None if (nxt and layer in nxt_wanted) else tick + length + (tail if not nxt else piece.ms(800))
-            hold(layer, notes, tick, ends, strength(tick, {"pad": 0, "choir": -6, "sub": -4}[layer]))
+            hold(layer, notes, tick, ends, strength(tick, {"pad": 0, "choir": -6, "sub": -4, "wind": -2}[layer]))
         if "toll" in wanted:
             every = section.get("toll_every", 1)
             if index % every == 0:
                 note = c.above(root, score.get("toll_low", 48))
                 part("toll").add(tick + piece.ms(rng.uniform(0, 150)), note, strength(tick, 4, 30, 50), piece.bar * 4)
+        if "pulse" in wanted:  # a heartbeat on the root, deep: lub-dub, at the section's own rate
+            beat = round(section.get("pulse_beats", piece.beats) * c.TICKS)
+            note = c.above(root, 28)
+            for at in range(tick, tick + length, beat):
+                v = strength(at, 0, 34, 50)
+                part("pulse").add(at, note, v, c.TICKS)
+                part("pulse").add(at + round(0.32 * c.TICKS), note, v - 10, c.TICKS)
+        if "shimmer" in wanted:  # glass, high and soft, on the chord's tones, at random, about twice a bar
+            high = [n for n in range(72, 87) if n % 12 in tones]
+            for _ in range(max(1, round(2 * length / piece.bar))):
+                at = tick + rng.randrange(0, length)
+                part("shimmer").add(at, rng.choice(high), strength(at, -6, 26, 30), piece.bar * 2)
     for t, notes, length in piece.tune:  # the tune: on the bell or the glass, struck and left ringing
         section = piece.section_at(t)
         layer = "glass" if "glass" in section.get("layers", []) else "bells"
