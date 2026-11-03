@@ -154,3 +154,25 @@ trầm luôn đi cùng nốt đàn); không có dây, pad, trống, tiếng mưa
 (80-100 Hz) nhưng khoảng 130-250 Hz thưa, sáng ở 1,3-1,6 kHz, tay trái chơi nhiều hơn giai điệu. `mo-ao` giờ: tay trái
 `open` (một nốt trầm sâu giữ, hợp âm rải cách trên nó một quãng tám trở lên), cân bằng tiếng theo bản mẫu (giảm
 130-250 Hz, thêm 1,3-2 kHz, bỏ cắt trầm), phòng ngắn hơn (2,2 s, 0,5). Phổ dài hạn lệch bản mẫu 3,1 dB rms (trước 4,5).
+
+## Mờ ảo trên tiếng C5, thêm oboe nền (vòng 16)
+
+Đo độ giống bản mẫu bằng CLAP (máy nghe nhạc mã nguồn mở của LAION): các bài cũ trên đàn Kawai thu âm (C5 0,877) gần bản
+mẫu hơn đàn mô phỏng (0,54-0,64). Người dùng nghe thử: "tôi thích bản c5 hơn, và dùng thêm nhạc cụ oboe làm nền".
+
+Làm ở đây: `mo-ao` giờ là tiếng của C5 (đàn Kawai của VCSL, màu tiếng mẫu một nửa, phòng 2,8 s, tay trái `flow` nhẹ, chơi
+đều), cộng lớp `oboe`: oboe của VSCO 2 CE (CC0, tải khi thu, không lưu ở đây) ngân mỗi hợp âm một nốt dài, chọn nốt màu
+của hợp âm (quãng ba, sáu, bảy; không phải nốt gốc hay quãng năm khi được), gần nốt trước, giữ qua các hợp âm có chung
+nốt (tối đa hai ô nhịp và 7 giây: mẫu thu bị cắt khi còn kêu), không bao giờ cách giai điệu một cung hay nửa cung; nằm
+dưới giai điệu khi có chỗ (từ Đô 4), không thì ở trên. Oboe vào sau hợp âm của đàn một móc đơn, như lời đáp. Thu nguyên
+bản, oboe sáng nhất bản nhạc (thêm 16-17 dB ở 1,2-5 kHz so với chỉ có đàn): giờ được làm tối như tiếng C5 (đường EQ_C3,
+mức 0,75), nhỏ hơn lớp nền 3 dB, còn thêm 9 và 3 dB. Ba bài vòng 15 nâng giai điệu một quãng tám (`melody_shift`: 12),
+đến chỗ giai điệu C5 nằm, để oboe nằm ấm phía dưới; bỏ lớp `tremolo`. Tiếng cũ giữ tên `mo-ao-glass`.
+
+| Bản thử Mưa trên kính | Độ giống bản mẫu (CLAP) |
+|---|---|
+| Chỉ đàn C5, giai điệu thấp | 0,738 |
+| Thêm oboe như thu (sáng) | 0,648 |
+| Oboe tối (EQ_C3 0,6 / 0,9), nhỏ hơn 3 dB | 0,693 / 0,707 |
+
+Oboe làm bài khác bản mẫu hơn (bản mẫu không có oboe): đó là lựa chọn của người dùng, không phải để giống bản mẫu.

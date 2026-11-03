@@ -30,6 +30,8 @@ A piece is a short score, the shape an AI composer is asked to write:
 - style: a named style (STYLES) giving every setting the piece leaves out;
   dem-diu, the user's choice for slow, muffled pieces (dem-diu-h3: as it was
   on the recorded upright, before the modelled piano);
+  mo-ao, after the user's reference Dim Window as they chose it: the C5
+  Kawai sound with an oboe behind it (mo-ao-glass: its first, glassy sound);
 - melody_velocity: how hard the tune is struck at dyn 0 and at dyn 1 (40,
   82); velocity_cap: no key struck harder (64 keeps the Yamaha upright on its
   softest, darkest samples, which end at 65);
@@ -60,12 +62,15 @@ A piece is a short score, the shape an AI composer is asked to write:
   chords), basses (the deepest roots), violin (a solo violin on the tune),
   octave (the piano doubling the tune an octave down), tremolo (the piano
   trembling between two tones of the chord in sixteenths, just above the
-  tune).
+  tune), oboe (an oboe softly behind the piano, a slow line of long notes:
+  the chords' colour tones, kept clear of the tune; the piece's "oboe" may
+  name oboe-vib, the oboe with vibrato);
+- melody_shift: the whole tune moved this many semitones (12: an octave up).
 
 The piano breathes on the last beat of every four bars, a section marked
 rit slows over its last two bars, and the piece slows into its last chord,
 held a bar longer, rolled from the bass. Instruments: VCSL (CC0) for the
-pianos, VSCO 2 CE (CC0) for the strings, fetched when rendering
+pianos, VSCO 2 CE (CC0) for the strings and the oboe, fetched when rendering
 (fetch_samples.py), never kept here.
 """
 
@@ -92,33 +97,9 @@ KINDS = {"": (0, 4, 7), "m": (0, 3, 7), "5": (0, 7), "sus2": (0, 2, 7), "sus4": 
          "m7b5": (0, 3, 6, 10), "aug": (0, 4, 8), "7b9": (0, 4, 7, 10, 13), "mmaj7": (0, 3, 7, 11),
          "7sus4": (0, 5, 7, 10)}
 
-# Instrument: (library, SFZ file, tone for render_samples.py).
-INSTRUMENTS = {
-    # VCSL's Yamaha upright: the user's choice for gentle piano, dark and clean.
-    "upright": ("vcsl", "Chordophones/Zithers/Upright Piano, Yamaha.sfz", dict(TONES["yamaha"])),
-    # the same, as the felt-hammered pianos sound: its highs rolled off
-    "felt": ("vcsl", "Chordophones/Zithers/Upright Piano, Yamaha.sfz", TONES["yamaha"] | {"lowpass": 1100}),
-    # the Steinway B, its highs open (fetch_samples.py hushes its hiss)
-    "grand": ("vcsl", "Chordophones/Zithers/Grand Piano, Steinway B.sfz", dict(TONES["grand"])),
-    # VCSL's Kawai grand, warmer than the Steinway
-    "kawai": ("vcsl", "Chordophones/Zithers/Grand Piano, Kawai.sfz", {"release_db": -60}),
-    "cellos": ("vsco", "CelloEnsSusVib-Quiet.sfz", dict(TONES["cellos"])),
-    "violas": ("vsco", "ViolaEnsSusVib-Quiet.sfz", dict(TONES["violas"])),
-    "basses": ("vsco", "ContrabassSusVB-Quiet.sfz", dict(TONES["basses"])),
-    "violin": ("vsco", "SViolinVib-Quiet.sfz", dict(TONES["violins"]) | {"width": 0.5}),
-    "drone": ("local", "drone.sfz", {"highpass": 30}),
-    # the modelled pianos (dark/piano_model.py, built with the pieces): no
-    # recording, every note made from its strings; fitted to the Yamaha
-    # upright as the user chose it (H3), dreamier, and closer
-    "model": ("model", "felt-model.sfz", {}),
-    "model-dream": ("model", "felt-dream.sfz", {}),
-    "model-close": ("model", "felt-close.sfz", {}),
-    "model-grand": ("model", "felt-grand.sfz", {}),
-    "model-clear": ("model", "felt-clear.sfz", {}),
-    "model-bloom": ("model", "felt-bloom.sfz", {}),
-    "model-wood": ("model", "felt-wood.sfz", {}),
-    "model-glass": ("model", "felt-glass.sfz", {}),
-}
+# The longest (s) an oboe note may be held: its samples are cut off while still sounding (the straight
+# ones after 8-10 s, the vibrato ones after 6-7 s), so a longer note breathes and is played again.
+OBOE_SECONDS = {"oboe": 7.0, "oboe-vib": 5.0}
 # The tone the user chose for the muffled pieces: C3 of the fourth round (the
 # references' average spectrum against the plain upright's (B2), smoothed: a
 # warmer middle, falling from 1.2 kHz), then D2 of the fifth ("bớt chói": 1-4 dB
@@ -140,6 +121,41 @@ EQ_DEM_DIU = [
     (315, -1.5), (397, 0), (500, 0), (630, -4.3), (794, -3), (1000, -1.8), (1260, -4),
     (1587, -9), (2000, -13), (2520, -19), (3175, -25), (4000, -28), (5040, -28),
 ]
+# Instrument: (library, SFZ file, tone for render_samples.py).
+INSTRUMENTS = {
+    # VCSL's Yamaha upright: the user's choice for gentle piano, dark and clean.
+    "upright": ("vcsl", "Chordophones/Zithers/Upright Piano, Yamaha.sfz", dict(TONES["yamaha"])),
+    # the same, as the felt-hammered pianos sound: its highs rolled off
+    "felt": ("vcsl", "Chordophones/Zithers/Upright Piano, Yamaha.sfz", TONES["yamaha"] | {"lowpass": 1100}),
+    # the Steinway B, its highs open (fetch_samples.py hushes its hiss)
+    "grand": ("vcsl", "Chordophones/Zithers/Grand Piano, Steinway B.sfz", dict(TONES["grand"])),
+    # VCSL's Kawai grand, warmer than the Steinway
+    "kawai": ("vcsl", "Chordophones/Zithers/Grand Piano, Kawai.sfz", {"release_db": -60}),
+    "cellos": ("vsco", "CelloEnsSusVib-Quiet.sfz", dict(TONES["cellos"])),
+    "violas": ("vsco", "ViolaEnsSusVib-Quiet.sfz", dict(TONES["violas"])),
+    "basses": ("vsco", "ContrabassSusVB-Quiet.sfz", dict(TONES["basses"])),
+    "violin": ("vsco", "SViolinVib-Quiet.sfz", dict(TONES["violins"]) | {"width": 0.5}),
+    # VSCO's oboe, held straight (no vibrato) or with it, for a soft line behind the piano: darkened as the
+    # C5 piano is, a little more (EQ_C3 at 0.75; as recorded, over the C5 piano it added 16-17 dB at
+    # 1.2-5 kHz, the brightest thing in the mix, now 9 and 3), its hiss hushed, each note swelling in
+    # (0.15 s), narrow
+    "oboe": ("vsco", "OboeSusNV.sfz", {"attack": 0.15, "highpass": 120, "eq": [list(p) for p in EQ_C3],
+                                       "eq_amount": 0.75, "width": 0.5, "dehiss": True}),
+    "oboe-vib": ("vsco", "OboeSusVib.sfz", {"attack": 0.15, "highpass": 120, "eq": [list(p) for p in EQ_C3],
+                                            "eq_amount": 0.75, "width": 0.5, "dehiss": True}),
+    "drone": ("local", "drone.sfz", {"highpass": 30}),
+    # the modelled pianos (dark/piano_model.py, built with the pieces): no
+    # recording, every note made from its strings; fitted to the Yamaha
+    # upright as the user chose it (H3), dreamier, and closer
+    "model": ("model", "felt-model.sfz", {}),
+    "model-dream": ("model", "felt-dream.sfz", {}),
+    "model-close": ("model", "felt-close.sfz", {}),
+    "model-grand": ("model", "felt-grand.sfz", {}),
+    "model-clear": ("model", "felt-clear.sfz", {}),
+    "model-bloom": ("model", "felt-bloom.sfz", {}),
+    "model-wood": ("model", "felt-wood.sfz", {}),
+    "model-glass": ("model", "felt-glass.sfz", {}),
+}
 # Named styles: a piece's "style" fills in every setting it does not give itself.
 STYLES = {
     # "Đêm dịu" as the user first chose it: C3 of the fourth round, as D2 of the
@@ -160,18 +176,25 @@ STYLES = {
     # M2"): dark/piano_model.py's felt-dream, a softer onset (45 ms), wider
     # (0.85), a longer hall (3.6 s, 0.85); the left hand and touch as before.
     # The app plays it the same way (bokin_music/dark on the app's branch).
-    # "Mờ ảo", after the user's new reference ("tôi muốn phối nhạc kiểu như này, màu sắc nhạc cụ kiểu như
-    # này"): glassy soft keys (felt-glass: a felt piano with an electric piano's tine), notes dying sooner,
+    # "Mờ ảo" as first heard (round 15, Mờ ảo v2), after the user's new reference ("tôi muốn phối nhạc
+    # kiểu như này, màu sắc nhạc cụ kiểu như này"): glassy soft keys (felt-glass: a felt piano with an electric piano's tine), notes dying sooner,
     # less bass, a much wider image, a shorter, drier hall; a soft left hand; the
     # tune low, around the middle of the keyboard (G3-E5: the reference's sound sits an octave lower than
     # dem-diu's), a shimmer trembling just above it (layer tremolo) where the piece swells.
-    "mo-ao": {"piano": "model-glass", "bass_low": 40, "texture": "open", "hold": 0.75, "pedal_beats": 2,
-              "lh_soft": 8, "melody_velocity": [40, 62], "velocity_cap": 64,
-              "room": {"rt60": 2.2, "wet": 0.5}, "piano_reverb": 0.35, "loudness": -14,
-              "piano_tone": {"attack": 0.04, "width": 1.4,
-                             "eq": [[100, 0], [127, -3], [160, -5], [250, -5], [320, 0], [1250, 2], [1600, 5],
-                                    [2000, 2], [2500, 0]]},
-              "human": {"amount": 1.0, "vary": True}},
+    "mo-ao-glass": {"piano": "model-glass", "bass_low": 40, "texture": "open", "hold": 0.75, "pedal_beats": 2,
+                    "lh_soft": 8, "melody_velocity": [40, 62], "velocity_cap": 64,
+                    "room": {"rt60": 2.2, "wet": 0.5}, "piano_reverb": 0.35, "loudness": -14,
+                    "piano_tone": {"attack": 0.04, "width": 1.4,
+                                   "eq": [[100, 0], [127, -3], [160, -5], [250, -5], [320, 0], [1250, 2], [1600, 5],
+                                          [2000, 2], [2500, 0]]},
+                    "human": {"amount": 1.0, "vary": True}},
+    # "Mờ ảo" now, as the user chose it ("tôi thích bản c5 hơn, và dùng thêm nhạc cụ oboe làm nền"): the
+    # sound of C5 (VCSL's Kawai grand, the references' tone at half strength, a 2.8 s hall, the light
+    # flowing left hand, played evenly) with an oboe softly behind it (layer oboe, 3 dB under a pad).
+    "mo-ao": {"piano": "kawai", "bass_low": 40, "texture": "flow", "hold": 1.0, "pedal_beats": 2, "lh_soft": 6,
+              "room": {"rt60": 2.8, "wet": 0.8}, "piano_reverb": 0.35, "loudness": -14,
+              "piano_tone": {"attack": 0.025, "eq": [list(p) for p in EQ_C3], "eq_amount": 0.5, "release_db": -60},
+              "gains": {"oboe": -3.0}},
     "dem-diu": {"piano": "model-dream", "bass_low": 40, "texture": "flow", "hold": 1.0, "pedal_beats": 2, "lh_soft": 6,
                 "melody_velocity": [38, 60], "velocity_cap": 64,
                 "room": {"rt60": 3.6, "wet": 0.85}, "piano_reverb": 0.35, "loudness": -14,
@@ -314,7 +337,8 @@ class Piece:
                 pitches, _, beats = token.partition(":")
                 length = round(float(beats or 1) * TICKS)
                 if pitches != "r":
-                    self.tune.append((tick, [note_number(p) for p in pitches.split("+")], length))
+                    shift = self.score.get("melody_shift", 0)  # the whole tune moved, in semitones
+                    self.tune.append((tick, [note_number(p) + shift for p in pitches.split("+")], length))
                 tick += length
             if tick - bar_start != self.bar:
                 raise ValueError(f"section {number}, bar {index + 1} of the melody: {(tick - bar_start) / TICKS} beats")
@@ -360,12 +384,14 @@ class Piece:
     def tune_between(self, start: int, end: int) -> list:
         return [n for t, notes, length in self.tune for n in notes if t < end and t + length > start]
 
-    def held(self, part: Part, tick: int, note: int, velocity: float, length: int) -> None:
-        """A sustained note, struck again on a beat when longer than its sample."""
+    def held(self, part: Part, tick: int, note: int, velocity: float, length: int,
+             most: float = HOLD_SECONDS) -> None:
+        """A sustained note, struck again on a beat when longer than its
+        sample (most: the longest it sounds, s)."""
         end = tick + length
         while tick < end:
             piece = end - tick
-            while piece > TICKS and self.seconds(tick, tick + piece) > HOLD_SECONDS:
+            while piece > TICKS and self.seconds(tick, tick + piece) > most:
                 piece -= TICKS
             part.add(tick, note, velocity, piece + (40 if tick + piece < end else 0))
             tick += piece
@@ -648,6 +674,59 @@ def layers(piece: Piece) -> None:
                 for tick, notes, length in piece.tune:
                     if start <= tick < end:
                         piece.held(line, tick + 15, max(notes) + shift, velocity + 4, length)
+    oboe_line(piece)
+
+
+def oboe_line(piece: Piece) -> None:
+    """Layer oboe: an oboe softly behind the piano, one long note a chord, a
+    slow line of the chords' colour tones (their thirds, sixths, sevenths:
+    not the root or fifth, where it can), each the nearest to the one before;
+    a note the next chord also holds is tied on (up to OBOE_SECONDS, and for
+    two bars at most before the line moves on), never a step or a half step
+    from the tune nor on its very note; under the tune where there is room
+    (C4 up), else over it, within C4-A5, its sweetest notes. It comes in an
+    eighth after the piano's chord, as an answer, and swells with the
+    section's dyn; on the last chord it holds as the piano does."""
+    instrument = piece.score.get("oboe", "oboe")
+    spans = [(t, l, n, piece.section_at(t)) for t, l, n in piece.spans]
+    spans = [s for s in spans if "oboe" in s[3].get("layers", [])]
+    if not spans:
+        return
+    oboe = piece.part("oboe", instrument, "pad", 0.25, reverb=0.55)
+    limit = OBOE_SECONDS[instrument]
+    line, previous = [], None  # [start, end, note, velocity]
+    for tick, length, name, section in spans:
+        tune = piece.tune_between(tick, tick + length)
+        _, tones, root = chord(name)
+        colour = [pc for pc in tones if (pc - root) % 12 not in (0, 7)]
+        low, high = 60, 81
+        if tune and min(tune) - 3 >= 64:
+            high = min(high, min(tune) - 3)
+        elif tune:
+            low = max(low, max(tune) + 3)
+        fits = [n for n in range(low, high + 1) if n % 12 in tones]
+        clear = [n for n in fits if all(abs(n - t) > 2 and (n - t) % 12 not in (1, 11) for t in tune)]
+        choices = clear or [n for n in fits if n not in tune]
+        if not choices:
+            previous = None
+            continue
+        target = previous if previous is not None else (low + high) // 2
+        kept = (tick - line[-1][0]) if line and line[-1][2] == previous and line[-1][1] == tick else 0
+        note = min(choices, key=lambda n: (abs(n - target) + (0 if n % 12 in colour else 2)
+                                           + (4 if n == previous and kept >= 2 * piece.bar - EIGHTH else 0), -n))
+        velocity = min(62, 38 + 26 * section.get("dyn", 0.4))
+        if (line and note == line[-1][2] and line[-1][1] == tick
+                and piece.seconds(line[-1][0], tick + length + EIGHTH + 30) <= limit):
+            line[-1][1] = tick + length  # tied on
+        else:
+            line.append([tick + EIGHTH, tick + length, note, velocity])
+        previous = note
+    if line and line[-1][1] == piece.end:
+        line[-1][1] += piece.bar
+    for k, (start, end, note, velocity) in enumerate(line):
+        joined = k + 1 < len(line) and line[k + 1][0] - EIGHTH == end
+        stop = end + (EIGHTH + 30 if joined else 0)  # into the next note, a breath's overlap
+        piece.held(oboe, start, note, velocity, stop - start, most=limit)
 
 
 def ending(piece: Piece, piano: Part) -> None:
