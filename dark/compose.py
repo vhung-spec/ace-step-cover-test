@@ -36,7 +36,8 @@ A piece is a short score, the shape an AI composer is asked to write:
   first, glassy sound); mo-ao-day, the same piano with the cellos answering
   it and a thin viola line;
   tam-tau, a trio: the Salamander grand on the tune, the cellos answering
-  it, a thin viola line;
+  it, a thin viola line (tam-tau-phim: the piano darker, as a keyboard's,
+  with a Rhodes layered under it);
 - melody_velocity: how hard the tune is struck at dyn 0 and at dyn 1 (40,
   82); velocity_cap: no key struck harder (64 keeps the Yamaha upright on its
   softest, darkest samples, which end at 65);
@@ -75,7 +76,9 @@ A piece is a short score, the shape an AI composer is asked to write:
   last notes an octave or two down, every other time mirrored; the bass,
   held, where a section has no tune), viola-pad (the violas holding one
   thin line of the chords' colour tones, clear of the tune and the cellos);
-- melody_shift: the whole tune moved this many semitones (12: an octave up).
+- melody_shift: the whole tune moved this many semitones (12: an octave up);
+- piano_layer: a second keyboard (INSTRUMENTS) doubling all the piano plays,
+  6 dB under it (gains: piano-layer), its tone changed by piano_layer_tone.
 
 The piano breathes on the last beat of every four bars, a section marked
 rit slows over its last two bars, and the piece slows into its last chord,
@@ -132,6 +135,9 @@ EQ_DEM_DIU = [
     (315, -1.5), (397, 0), (500, 0), (630, -4.3), (794, -3), (1000, -1.8), (1260, -4),
     (1587, -9), (2000, -13), (2520, -19), (3175, -25), (4000, -28), (5040, -28),
 ]
+# A keyboard's piano: warmer under 400 Hz, darker from 1.2 kHz (Hz, dB).
+EQ_KEYS = [(80, 2), (150, 3), (250, 2.5), (400, 1), (700, 0), (1200, -2), (2000, -6), (3000, -10), (5000, -14),
+           (8000, -18)]
 # Instrument: (library, SFZ file, tone for render_samples.py).
 INSTRUMENTS = {
     # VCSL's Yamaha upright: the user's choice for gentle piano, dark and clean.
@@ -142,6 +148,10 @@ INSTRUMENTS = {
     "grand": ("vcsl", "Chordophones/Zithers/Grand Piano, Steinway B.sfz", dict(TONES["grand"])),
     # VCSL's Kawai grand, warmer than the Steinway
     "kawai": ("vcsl", "Chordophones/Zithers/Grand Piano, Kawai.sfz", {"release_db": -60}),
+    # jRhodes3d, a 1977 Rhodes Mark I by Jeff Learman (free to use in music; its samples, CC BY-NC 4.0 to pass
+    # on, are fetched, never kept here): its chorus baked into its stereo samples, a little more added; its
+    # highs eased from 4 kHz, mellow
+    "rhodes": ("jrhodes", "jRhodes3d-st.sfz", dict(TONES["ep"]) | {"lowpass": 4000, "lowpass_order": 2}),
     # the Salamander Grand Piano (a Yamaha C5 grand, by Alexander Holm, CC-BY 3.0): sixteen strengths a
     # key, clean; its release noises and pedal left out
     "salamander": ("salamander", "Salamander Grand Piano V3.sfz", {"release_db": -60, "pedal_noise": False}),
@@ -244,6 +254,17 @@ STYLES = {
     "tam-tau": {"piano": "salamander", "bass_low": 40, "texture": "none", "pedal_beats": 2,
                 "room": {"rt60": 2.8, "wet": 0.8}, "piano_reverb": 0.35, "loudness": -14,
                 "human": {"amount": 0.8, "vary": True}, "gains": {"viola": 2.0}},
+    # "Tam tấu" on keys ("tôi muốn tiếng piano trầm hơn nghe giống keyboard hơn"): the Salamander warmer and
+    # darker (EQ_KEYS), narrower, a light chorus, struck within a narrower range, as a stage keyboard's
+    # piano, with the Rhodes doubling it 4 dB under, as a keyboard's layered piano. To LAION CLAP the
+    # warmest of four ("a warm, deep, dark piano" 0.637; the Salamander as recorded 0.578, darkened alone
+    # 0.610, the Rhodes alone 0.593), and the nearest to the user's keyboard-like reference (0.815;
+    # 0.746, 0.769, 0.732).
+    "tam-tau-phim": {"piano": "salamander", "bass_low": 40, "texture": "none", "pedal_beats": 2,
+                     "room": {"rt60": 2.8, "wet": 0.8}, "piano_reverb": 0.35, "loudness": -14,
+                     "piano_tone": {"eq": [list(p) for p in EQ_KEYS], "width": 0.6, "chorus": 0.25},
+                     "melody_velocity": [46, 70], "piano_layer": "rhodes",
+                     "human": {"amount": 0.8, "vary": True}, "gains": {"viola": 2.0, "piano-layer": 2.0}},
     "dem-diu": {"piano": "model-dream", "bass_low": 40, "texture": "flow", "hold": 1.0, "pedal_beats": 2, "lh_soft": 6,
                 "melody_velocity": [38, 60], "velocity_cap": 64,
                 "room": {"rt60": 3.6, "wet": 0.85}, "piano_reverb": 0.35, "loudness": -14,
@@ -918,6 +939,10 @@ def compose(score: dict, folder: Path) -> str:
     left_hand(piece, piano)
     layers(piece)
     ending(piece, piano)
+    if score.get("piano_layer"):  # a second keyboard doubling every note the piano plays, as a keyboard's layered sound
+        double = piece.part("piano-layer", score["piano_layer"], "melody2", 0.0, reverb=score.get("piano_reverb", 0.35))
+        double.notes, double.pedal, double.cap = list(piano.notes), list(piano.pedal), piano.cap
+        double.tone.update(score.get("piano_layer_tone", {}))
     folder.mkdir(parents=True, exist_ok=True)
     sheet = []
     for name, part in piece.parts.items():

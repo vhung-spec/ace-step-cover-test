@@ -229,3 +229,18 @@ Người dùng: "tiếng piano chưa phù hợp, hãy chọn tiếng piano phù 
 - Cello không còn lặp một nốt hai lần liền trong câu đáp (vòng 18 có chỗ A3 A3 A3).
 - Trong máy làm việc, đàn Salamander được chơi qua một bản SFZ phẳng (mở #define, #include, chỉ nhóm nốt, amp_veltrack
   27 như bản gốc đặt); trên GitHub, sfizz chơi bản gốc.
+
+## Tiếng piano trầm hơn, giống keyboard (vòng 20)
+
+Người dùng: "tôi muốn tiếng piano trầm hơn nghe giống keyboard hơn". "Hồi âm" thu lại với ba cách, cùng cello và viola:
+
+| Cách | CLAP: "a warm, deep, dark piano" | Giống bài mẫu (CLAP) |
+|---|---|---|
+| Salamander như vòng 19 | 0,578 | 0,746 |
+| K1: Rhodes (jRhodes3d, 1977 Rhodes Mark I), cao trên 4 kHz dịu bớt | 0,593 | 0,732 |
+| K2: Salamander kiểu đàn keyboard: ấm hơn dưới 400 Hz, tối từ 1,2 kHz (`EQ_KEYS`), hẹp hơn, chút chorus, gõ trong khoảng lực hẹp hơn | 0,610 | 0,769 |
+| K3: K2 với Rhodes chơi chồng, 4 dB dưới đàn (`piano_layer`) | 0,637 | 0,815 |
+
+Rhodes riêng được nghe rõ nhất là "a Rhodes electric piano", nhưng với dây thì thành "piano with a synth pad". K3 thành
+phong cách `tam-tau-phim`; "Hồi âm" giờ dùng nó. jRhodes3d: dùng tự do trong nhạc; mẫu thu (CC BY-NC 4.0) chỉ tải khi
+thu, không lưu ở đây.

@@ -106,7 +106,7 @@ jobs:
         run: |
           "$RUNNER_TEMP/venv/bin/python" render_samples.py out/dark --sfizz ~/sfizz/sfizz_render \
             --vsco "$RUNNER_TEMP/libs/vsco" --vcsl "$RUNNER_TEMP/libs/vcsl" --model "$RUNNER_TEMP/libs/model" \
-            --salamander "$RUNNER_TEMP/libs/salamander"
+            --salamander "$RUNNER_TEMP/libs/salamander" --jrhodes "$RUNNER_TEMP/libs/jrhodes"
 
       - name: The pieces to publish
         if: steps.which.outputs.skip != 'true'

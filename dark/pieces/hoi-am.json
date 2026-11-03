@@ -1,7 +1,7 @@
 {
   "title": "Hồi âm",
-  "about": "Round 19, written for the tam-tau trio of piano, cellos and violas, as the user asked (\"tiếng piano chưa phù hợp, hãy chọn tiếng piano phù hợp hơn và sáng tác 1 bài mới phù hợp kiểu phối\"): D minor at 72 bpm, its tune in two-bar sentences that each end on a note held three beats and a breath, so the cellos have room to answer (the sighing three-note fall F-E-D first, echoed two octaves down); a middle section a third higher over F and C/E, the piano doubling its tune in thirds and sixths where it peaks; the opening and close on the piano's rolled chords with the cellos' bass under them. An original tune.",
-  "style": "tam-tau",
+  "about": "Round 19, written for the tam-tau trio of piano, cellos and violas, as the user asked (\"tiếng piano chưa phù hợp, hãy chọn tiếng piano phù hợp hơn và sáng tác 1 bài mới phù hợp kiểu phối\"): D minor at 72 bpm, its tune in two-bar sentences that each end on a note held three beats and a breath, so the cellos have room to answer (the sighing three-note fall F-E-D first, echoed two octaves down); a middle section a third higher over F and C/E, the piano doubling its tune in thirds and sixths where it peaks; the opening and close on the piano's rolled chords with the cellos' bass under them. Round 20 (\"tôi muốn tiếng piano trầm hơn nghe giống keyboard hơn\"): on tam-tau-phim, the piano darker with a Rhodes layered under it. An original tune.",
+  "style": "tam-tau-phim",
   "bpm": 72,
   "beats": 4,
   "sections": [
