@@ -54,7 +54,8 @@ import numpy as np
 import soundfile as sf
 from scipy.signal import butter, sosfilt
 
-import oboe_model  # dark/, beside this file
+import ambient  # dark/, beside this file
+import oboe_model
 
 RATE = 44100
 KEYS = range(21, 109)  # A0 to C8
@@ -317,7 +318,9 @@ def main() -> None:
     parser.add_argument("--all", action="store_true", help="every key, not only those the pieces play")
     args = parser.parse_args()
     for name, keys in wanted(args.arrangements).items():
-        if name in oboe_model.MODELS:
+        if name in ambient.MODELS:
+            sfz = ambient.build(name, args.out, ambient.MODELS[name]["keys"] if args.all else keys)
+        elif name in oboe_model.MODELS:
             sfz = oboe_model.build(name, args.out, oboe_model.KEYS if args.all else keys)
         else:
             sfz = build(name, args.out, KEYS if args.all else keys)

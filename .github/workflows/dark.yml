@@ -1,3 +1,5 @@
+# dark-khac (dark ambient, beside the dark piano of dark-piano): renders this branch's own pieces
+# to dark-khac-renders, never touching dark-piano's runs or dark-renders.
 # Dark piano sketches (dark/): dark/compose.py arranges the pieces written as
 # data in dark/pieces/, fetch_samples.py fetches the instruments they use (CC0;
 # the Salamander grand CC-BY 3.0, Alexander Holm), dark/piano_model.py makes
@@ -10,24 +12,24 @@
 # next run) and, with their MIDI and mix sheets, to an artifact.
 # Not 128 kbit/s: there the modelled piano's high notes, nearly pure tones,
 # buzzed in headphones ("rè"); the same passage at 320 kbit/s did not.
-name: Dark piano
-run-name: 'Dark piano: ${{ inputs.pieces || github.event.head_commit.message }}'
+name: Dark khac
+run-name: 'Dark khac: ${{ inputs.pieces || github.event.head_commit.message }}'
 
 on:
   push:
-    branches: [dark-piano]
+    branches: [dark-khac]
     paths: ['dark/**', 'instruments/**', 'render_samples.py', 'fetch_samples.py', '.github/workflows/dark.yml']
   workflow_dispatch:
     inputs:
       pieces:
-        description: 'Pieces (names in dark/pieces, without .json); empty: all'
+        description: 'Pieces (names in dark/pieces, without .json); empty: all of dark-khac'
         default: ''
 
 permissions:
-  contents: write  # the dark-renders branch
+  contents: write  # the dark-khac-renders branch
 
 concurrency:
-  group: dark-piano
+  group: dark-khac
   cancel-in-progress: true
 
 jobs:
@@ -74,13 +76,16 @@ jobs:
         env:
           BEFORE: ${{ github.event.before }}
         run: |
-          if [ -n "$PIECES" ] || [ "$GITHUB_EVENT_NAME" != push ]; then echo "pieces=$PIECES" >> "$GITHUB_OUTPUT"; exit 0; fi
+          # this branch's own pieces (dark-khac: those marked "family": "dark-khac"; the dark piano's are played
+          # on dark-piano): what "every piece" means here
+          mine=$(grep -l '"family": "dark-khac"' dark/pieces/*.json | xargs -n1 basename | sed 's/\.json$//' | tr '\n' ' ')
+          if [ -n "$PIECES" ] || [ "$GITHUB_EVENT_NAME" != push ]; then echo "pieces=${PIECES:-$mine}" >> "$GITHUB_OUTPUT"; exit 0; fi
           changed=""  # the files the push added or changed: the tree before it against the tree after
           if git fetch -q --depth=1 origin "$BEFORE" 2>/dev/null; then
             changed=$(git diff --name-only --diff-filter=AMR "$BEFORE" HEAD)
           fi
           if [ -z "$changed" ] || echo "$changed" | grep -v -E '^dark/pieces/[^/]+\.json$|^dark/README\.md$' | grep -q .; then
-            echo "pieces=" >> "$GITHUB_OUTPUT"  # the code changed (or it cannot be told): every piece
+            echo "pieces=$mine" >> "$GITHUB_OUTPUT"  # the code changed (or it cannot be told): every piece
           else
             only=$(echo "$changed" | sed -n 's#^dark/pieces/\(.*\)\.json$#\1#p' | tr '\n' ' ')
             echo "pieces=$only" >> "$GITHUB_OUTPUT"
@@ -135,13 +140,13 @@ jobs:
           ONLY: ${{ steps.which.outputs.pieces }}
         run: |
           mkdir -p out/published
-          if git clone -q --depth 1 -b dark-renders "https://github.com/$GITHUB_REPOSITORY" out/earlier 2>/dev/null; then
+          if git clone -q --depth 1 -b dark-khac-renders "https://github.com/$GITHUB_REPOSITORY" out/earlier 2>/dev/null; then
             cp out/earlier/*.mp3 out/earlier/*.json out/published/ 2>/dev/null || true  # the earlier pieces stay
           fi
           cp out/preview/* out/published/
           cd out/published
-          git init -q -b dark-renders
+          git init -q -b dark-khac-renders
           git add .
           git -c user.name="github-actions[bot]" -c user.email="41898282+github-actions[bot]@users.noreply.github.com" \
             commit -q -m "Dark piano renders of run $GITHUB_RUN_ID (${ONLY:-all}), 320 kbit/s"
-          git push -q -f "https://x-access-token:${{ github.token }}@github.com/$GITHUB_REPOSITORY" dark-renders
+          git push -q -f "https://x-access-token:${{ github.token }}@github.com/$GITHUB_REPOSITORY" dark-khac-renders

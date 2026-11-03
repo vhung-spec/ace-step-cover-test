@@ -189,6 +189,13 @@ INSTRUMENTS = {
     "model-bloom": ("model", "felt-bloom.sfz", {}),
     "model-wood": ("model", "felt-wood.sfz", {}),
     "model-glass": ("model", "felt-glass.sfz", {}),
+    # dark ambient (dark/ambient.py, built with the pieces, no recording): a dark pad, a far choir on "oo", a
+    # deep sub, a large bell struck softly, a glass bowl
+    "amb-pad": ("model", "amb-pad.sfz", {"highpass": 35}),
+    "amb-choir": ("model", "amb-choir.sfz", {"highpass": 90, "width": 1.2}),
+    "amb-sub": ("model", "amb-sub.sfz", {}),
+    "amb-bell": ("model", "amb-bell.sfz", {"lowpass": 5000, "lowpass_order": 2}),
+    "amb-glass": ("model", "amb-glass.sfz", {"lowpass": 5000, "lowpass_order": 2, "width": 0.8}),
 }
 # Named styles: a piece's "style" fills in every setting it does not give itself.
 STYLES = {
@@ -265,6 +272,9 @@ STYLES = {
                      "piano_tone": {"eq": [list(p) for p in EQ_KEYS], "width": 0.6, "chorus": 0.25},
                      "melody_velocity": [46, 70], "piano_layer": "rhodes",
                      "human": {"amount": 0.8, "vary": True}, "gains": {"viola": 2.0, "piano-layer": 2.0}},
+    # "Không gian u tối" (dark ambient, branch dark-khac): no piano; a piece made by dark/ambient.py from long
+    # held modelled sounds, a 6.5 s hall, quieter (-16 LUFS).
+    "khong-gian": {"kind": "ambient", "room": {"rt60": 6.5, "wet": 1.0}, "loudness": -16},
     "dem-diu": {"piano": "model-dream", "bass_low": 40, "texture": "flow", "hold": 1.0, "pedal_beats": 2, "lh_soft": 6,
                 "melody_velocity": [38, 60], "velocity_cap": 64,
                 "room": {"rt60": 3.6, "wet": 0.85}, "piano_reverb": 0.35, "loudness": -14,
@@ -930,6 +940,9 @@ def ending(piece: Piece, piano: Part) -> None:
 
 def compose(score: dict, folder: Path) -> str:
     score = STYLES.get(score.get("style"), {}) | score  # the piece's own settings win
+    if score.get("kind") == "ambient":  # dark ambient: dark/ambient.py makes it
+        import ambient
+        return ambient.compose_ambient(score, folder)
     piece = Piece(score)
     piano = piece.part("piano", score.get("piano", "upright"), "piano", 0.0, reverb=score.get("piano_reverb", 0.35))
     piano.cap = score.get("velocity_cap", 127)

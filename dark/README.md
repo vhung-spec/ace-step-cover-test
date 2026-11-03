@@ -257,3 +257,28 @@ Bản thu "Hồi âm" trên GitHub (sfizz thật) và bản thu trong máy làm 
 | `ben-vang` (Bến vắng) | Fa thứ, nhịp ba, 80 bpm | Câu bốn ô, ô cuối ngân trọn, câu sau vào sau một phách nghỉ: cello đáp qua vạch nhịp; đoạn giữa La giáng trưởng hát hai lần | 0,639 |
 | `chuyen-tau-dem` (Chuyến tàu đêm) | Fa thăng thứ, 92 bpm | Giai điệu móc đơn như bánh xe trên ray, dừng mỗi hai ô cho cello; đoạn giữa La trưởng hai lần, lần sau qua E7 | 0,642 |
 | `mua-dong-nam-ay` (Mùa đông năm ấy) | Si giáng thứ, 60 bpm | Chậm nhất, giai điệu thấp hơn (Fa 4 tới La giáng 5, Rê giáng 6 ở đỉnh); Ebm6, Gbmaj7 | 0,630 |
+
+## Không gian u tối (nhánh `dark-khac`, vòng k1)
+
+Kiểu nhạc u tối thứ hai, làm song song với piano u buồn: **dark ambient** — âm nền kéo dài, chuyển
+động chậm, chuông trầm, gần như không có giai điệu. Người dùng chọn kiểu này ("Không gian u tối").
+Mọi tiếng đều tự tạo bằng `ambient.py` (không dùng bản thu, không cần giấy phép), được dựng cùng các
+bản nhạc như đàn mô phỏng:
+
+- `amb-pad`: nền synth tối, ba sóng răng cưa mỗi bên lệch nhau vài cent, bộ lọc mở ra đóng vào thật
+  chậm (17-29 giây một nhịp thở), giữ được bao lâu cũng được (vòng lặp 30 giây);
+- `amb-choir`: dàn hợp xướng xa hát "oo", tám giọng, mỗi giọng rung nhẹ riêng;
+- `amb-sub`: nốt trầm rất sâu; `amb-bell`: chuông lớn gõ dùi nỉ, tiếng ngân hai quãng tám dưới;
+  `amb-glass`: chuông thủy tinh/bát hát, gần như âm thuần.
+
+Một bản chỉ cần ghi `"style": "khong-gian"` (và `"family": "dark-khac"`): hợp âm, các lớp
+(`pad`, `choir`, `sub`, `toll`, `bells`, `glass`, `drone`), `dyn`, `swell` (lớn dần trong đoạn),
+`melody` (trên chuông) và `answer` (chuông trầm đáp lại). Phòng 6,5 giây, -16 LUFS.
+
+| Bản | Giọng, nhịp | Âm thanh |
+|---|---|---|
+| `k1-suong-den` (Sương đen) | Rê thứ, 52 bpm | Nền pad, bass sâu, chuông trầm điểm thưa, vài nốt chuông |
+| `k2-ham-mo` (Hầm mộ) | Đô thứ, 46 bpm | Hợp xướng xa "oo", drone, chuông đổ mỗi hợp âm, kiểu gothic |
+| `k3-day-sau` (Đáy sâu) | Mi thứ, 50 bpm | Chuông thủy tinh gọi, chuông trầm đáp (hỏi-đáp), nền pad |
+
+Bản nghe ở nhánh `dark-khac-renders` (Actions **Dark khac** chỉ dựng các bản của nhánh này).
