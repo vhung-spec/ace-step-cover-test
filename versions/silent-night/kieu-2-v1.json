@@ -1,0 +1,52 @@
+{
+  "song": "silent-night",
+  "style": "ballad-human",
+  "title": "Silent Night · Kiểu 2",
+  "heard": "Kiểu 1: \"chốt, gửi file wav và sang bài tiếp\" (locked, its WAV, and on): Kiểu 1 locked at 1, Kiểu 2 next",
+  "about": "v1: Jingle Bells' Kiểu 2 2a, the version the user chose, on Silent Night (72 bpm, the 4-bar intro, two verses, 2:20): the Rhodes brighter for phones (3 dB less under 200 Hz, 4 dB more from 1.2 kHz), the 2-second fade at the end; strings written anew by Composer's Assistant 2 hearing this Rhodes (ai/k2-strings.plan.json, take 1 of 3: its violins, violas and cellos the fewest notes off the chord once laid in, 5.1, 2.0 and 0.9 % of their time against 7.0-8.4, 6.8-9.4 and 1.0-1.6 %, all three the calmest, none over the tune), laid in as 2a's (violas and cellos from the first verse, violins in the last, over the ballad's own pad far under the Rhodes). As Silent Night's Piano nỉ 3 and Kiểu 1 1, drier than Jingle Bells: the room's sends 0.35, the far hall 2.2 s.",
+  "changes": {
+    "ring_beats": 2,
+    "tail": {
+      "fade": 2.0,
+      "below": 50
+    },
+    "tones": {
+      "piano": {
+        "low_shelf": [
+          200,
+          -3
+        ],
+        "shelf": [
+          1200,
+          4
+        ]
+      },
+      "violins": {
+        "lowpass": 5500
+      },
+      "violas": {
+        "lowpass": 4500
+      },
+      "cellos": {
+        "highpass": 60,
+        "lowpass": 4000
+      }
+    },
+    "written": [
+      "silent-night/ai/k2-strings-take1.json"
+    ],
+    "written_end": true,
+    "written_swell": [
+      0.6,
+      0.57,
+      0.74
+    ],
+    "far": 2.2,
+    "wet": 0.35,
+    "levels": {
+      "violins": -3,
+      "violas": -2,
+      "cellos": -2
+    }
+  }
+}
