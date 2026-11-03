@@ -1,0 +1,61 @@
+{
+  "song": "wish",
+  "style": "felt-written-human",
+  "title": "We Wish You a Merry Christmas · Piano nỉ",
+  "heard": "Silent Night's Dàn nhạc: \"chốt, gửi file wav và sang bài tiếp theo\" (locked, its WAV, and the next song); on this carol's copyright (Warrell's 1935 arrangement, a US term perhaps to the end of 2030): \"Vẫn làm We Wish You\"",
+  "about": "v1b: as 1a but on the Rhodes, as Silent Night's Piano nỉ 3, the version the user chose there (\"giống tiếng keyboard hơn\", then \"ít vang hơn chút\"): its tone (a high-pass at 80 Hz, 3 dB less under 200 Hz, a low-pass at 6 kHz, a light chorus), its 2-second fade, its room's sends 0.35 and the far hall 2.2 s; strings and horns written anew for this carol by Composer's Assistant 2 hearing this piano (ai/strings.plan.json, take 2 of 6: the violas, cellos and horns off the chord 2.2, 0.4 and 0.6 % of their time, the calmest; the violins 10.9 %, as every take's (9.1-13.8 %, or over the tune: take 3), but only passing and colour tones under 0.7 s, sevenths and ninths; none over the tune), laid in as 12a's were: violas and cellos from the first verse's second half, violins from the piece's middle (the third of four verses), horns in the last verse's second half, fitted to the chords, ending with the tune, in the far hall.",
+  "changes": {
+    "hall": 0.8,
+    "wet": 0.35,
+    "breath": 0.95,
+    "perform": {
+      "rubato": 0.07,
+      "treble_db": -4.5
+    },
+    "tones": {
+      "piano": {
+        "highpass": 80,
+        "low_shelf": [
+          200,
+          -3
+        ],
+        "lowpass": 6000,
+        "chorus": 0.5,
+        "peaks_db": 17
+      },
+      "violins": {
+        "lowpass": 5500
+      },
+      "violas": {
+        "lowpass": 4500
+      },
+      "cellos": {
+        "highpass": 60,
+        "lowpass": 4000
+      }
+    },
+    "written_end": true,
+    "written_swell": [
+      0.6,
+      0.57,
+      0.74
+    ],
+    "ring_beats": 2,
+    "tail": {
+      "fade": 2.0,
+      "below": 50
+    },
+    "verses": 4,
+    "written": [
+      "wish/ai/strings-take2.json"
+    ],
+    "levels": {
+      "violins": -3,
+      "violas": -2,
+      "cellos": -2,
+      "horns": -3
+    },
+    "piano": "ep",
+    "far": 2.2
+  }
+}

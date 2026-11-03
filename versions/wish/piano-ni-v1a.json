@@ -1,0 +1,69 @@
+{
+  "song": "wish",
+  "style": "felt-written-human",
+  "title": "We Wish You a Merry Christmas · Piano nỉ",
+  "heard": "Silent Night's Dàn nhạc: \"chốt, gửi file wav và sang bài tiếp theo\" (locked, its WAV, and the next song); on this carol's copyright (Warrell's 1935 arrangement, a US term perhaps to the end of 2030): \"Vẫn làm We Wish You\"",
+  "about": "v1a: Jingle Bells' Piano nỉ 12a, the version the user chose there, on We Wish You a Merry Christmas (its first strain and refrain, 16 bars, four verses, 2:11): the felt piano (its room, breath and player, its tone, the treble's knock mended), the quick ending; strings and horns written anew for this carol by Composer's Assistant 2 hearing this piano (ai/strings.plan.json, take 2 of 6: the violas, cellos and horns off the chord 2.2, 0.4 and 0.6 % of their time, the calmest; the violins 10.9 %, as every take's (9.1-13.8 %, or over the tune: take 3), but only passing and colour tones under 0.7 s, sevenths and ninths; none over the tune), laid in as 12a's were: violas and cellos from the first verse's second half, violins from the piece's middle (the third of four verses), horns in the last verse's second half, fitted to the chords, ending with the tune, in the far hall.",
+  "changes": {
+    "hall": 0.8,
+    "wet": 0.45,
+    "breath": 0.95,
+    "perform": {
+      "rubato": 0.07,
+      "treble_db": -4.5
+    },
+    "tones": {
+      "piano": {
+        "highpass": 80,
+        "low_shelf": [
+          300,
+          -5
+        ],
+        "shelf": [
+          1500,
+          3
+        ],
+        "lowpass": 6000,
+        "peaks_db": 17,
+        "swap_samples": {
+          "Upright1_Sus_C5_vl1_rr1.wav": "Upright1_Sus_C5_vl1_rr2.wav"
+        },
+        "treble_filter": {
+          "from": 79,
+          "ratio": 0.8
+        }
+      },
+      "violins": {
+        "lowpass": 5500
+      },
+      "violas": {
+        "lowpass": 4500
+      },
+      "cellos": {
+        "highpass": 60,
+        "lowpass": 4000
+      }
+    },
+    "written_end": true,
+    "written_swell": [
+      0.6,
+      0.57,
+      0.74
+    ],
+    "ring_beats": 2,
+    "tail": {
+      "fade": 1.0,
+      "below": 45
+    },
+    "verses": 4,
+    "written": [
+      "wish/ai/strings-take2.json"
+    ],
+    "levels": {
+      "violins": -3,
+      "violas": -2,
+      "cellos": -2,
+      "horns": -3
+    }
+  }
+}
