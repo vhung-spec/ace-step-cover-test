@@ -3,10 +3,10 @@
   "style": "felt-written-human",
   "title": "We Wish You a Merry Christmas · Piano nỉ",
   "heard": "Silent Night's Dàn nhạc: \"chốt, gửi file wav và sang bài tiếp theo\" (locked, its WAV, and the next song); on this carol's copyright (Warrell's 1935 arrangement, a US term perhaps to the end of 2030): \"Vẫn làm We Wish You\"",
-  "about": "v1a: Jingle Bells' Piano nỉ 12a, the version the user chose there, on We Wish You a Merry Christmas (its first strain and refrain, 16 bars, four verses, 2:11): the felt piano (its room, breath and player, its tone, the treble's knock mended), the quick ending; strings and horns written anew for this carol by Composer's Assistant 2 hearing this piano (ai/strings.plan.json, take 2 of 6: the violas, cellos and horns off the chord 2.2, 0.4 and 0.6 % of their time, the calmest; the violins 10.9 %, as every take's (9.1-13.8 %, or over the tune: take 3), but only passing and colour tones under 0.7 s, sevenths and ninths; none over the tune), laid in as 12a's were: violas and cellos from the first verse's second half, violins from the piece's middle (the third of four verses), horns in the last verse's second half, fitted to the chords, ending with the tune, in the far hall.",
+  "about": "v1a: Jingle Bells' Piano nỉ 12a, the version the user chose there, on We Wish You a Merry Christmas (its first strain and refrain, 16 bars, four verses, 2:11): the felt piano (its room, breath and player, its tone, the treble's knock mended), the quick ending; strings and horns written anew for this carol by Composer's Assistant 2 hearing this piano (ai/strings.plan.json, take 2 of 6: the violas, cellos and horns off the chord 2.2, 0.4 and 0.6 % of their time, the calmest; the violins 10.9 %, as every take's (9.1-13.8 %, or over the tune: take 3), but only passing and colour tones under 0.7 s, sevenths and ninths; none over the tune), laid in as 12a's were: violas and cellos from the first verse's second half, violins from the piece's middle (the third of four verses), horns in the last verse's second half, fitted to the chords, ending with the tune, in the far hall. Its echo as Jingle Bells' 12a and Silent Night's 3 (3.5 dB under the dry mix; the user asked Silent Night's for less): here the strings play more of the piece, so 12a's room and far hall left it 2.4 dB under; the room's sends 0.4 and the far hall 2.2 s (as Silent Night's 3) bring it to 3.4. Drier, the felt piano's own lean to the left showed (1.0 dB, the rule's most; it was 0.7): the piano at 0.05, 0.6 dB (exact remix from the first render's parts).",
   "changes": {
     "hall": 0.8,
-    "wet": 0.45,
+    "wet": 0.4,
     "breath": 0.95,
     "perform": {
       "rubato": 0.07,
@@ -64,6 +64,10 @@
       "violas": -2,
       "cellos": -2,
       "horns": -3
+    },
+    "far": 2.2,
+    "pans": {
+      "piano": 0.05
     }
   }
 }
