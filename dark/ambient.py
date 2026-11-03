@@ -29,6 +29,8 @@ pieces name, with its own), as dark/oboe_model.py does:
 - amb-pulse: a heartbeat's deep thud;
 - amb-organ: a pipe organ far off, soft flue ranks; looped;
 - amb-drop: a water drop in a cave pool;
+- amb-box: an old music box, a little out of tune;
+- amb-bowl: a singing bowl, rubbed, wobbling slowly;
 - amb-glass: a soft glass/bowl tone, nearly pure: the note, a faint octave
   and twelfth, slow beating, a long ring; for the few notes of a tune.
 
@@ -41,7 +43,8 @@ common to two chords held across them; layers, per section:
   drone (compose.py's drone), wind (wind sounding the chord's root and
   fifth), pulse (a heartbeat on the root every pulse_beats), shimmer (soft
   high glass on the chord's tones, at random), organ (the chord on the
-  organ), drops (water drops on the chord's tones, drops_per_bar); "answer", a second line beside the melody,
+  organ), bowl (a singing bowl on the root, every bowl_every chords), box
+  (the melody on the music box, before glass and bells), drops (water drops on the chord's tones, drops_per_bar); "answer", a second line beside the melody,
   played on the bell (as the cellos answer the piano in the dark piano).
 dyn, 0-1, sets every layer's strength; a section's "swell" lets it grow
 through the section.
@@ -77,6 +80,10 @@ MODELS = {
     "amb-organ": {"attack": 0.25, "release": 1.5, "veltrack": 50, "keys": range(36, 85), "loop": True},
     "amb-drop": {"attack": 0.001, "release": 0.5, "veltrack": 70, "keys": range(60, 97), "loop": False,
                  "seconds": 2.5},
+    "amb-box": {"attack": 0.001, "release": 1.5, "veltrack": 70, "keys": range(60, 97), "loop": False,
+                "seconds": 6.0},
+    "amb-bowl": {"attack": 0.4, "release": 6.0, "veltrack": 70, "keys": range(43, 80), "loop": False,
+                 "seconds": 24.0},
 }
 
 
@@ -272,8 +279,41 @@ def drop(key: int, n: int, rng: np.random.Generator) -> np.ndarray:
     return np.stack([tone * np.sqrt(1 - place), tone * np.sqrt(place)])
 
 
+def box(key: int, n: int, rng: np.random.Generator) -> np.ndarray:
+    """An old music box's tine, a little out of tune (each key its own -14..+14 cents): the note, the
+    tine's own high partials (5.4 and 13.3 times, dying fast), a faint hollow body under it; ringing 4 s."""
+    f0 = hz(key) * 2 ** (rng.uniform(-14, 14) / 1200)
+    t = np.arange(n) / RATE
+    tone = np.sin(2 * np.pi * f0 * t) * np.exp(-t / 1.4)
+    for ratio, db, ring in ((5.4, -20, 0.2), (13.3, -32, 0.05)):
+        if f0 * ratio < 4500:
+            tone += 10 ** (db / 20) * np.sin(2 * np.pi * f0 * ratio * t + rng.random() * 6.28) * np.exp(-t / ring)
+    tone += 0.12 * np.sin(2 * np.pi * f0 / 2 * t) * np.exp(-t / 0.4)  # the box's hollow
+    tone *= 1 - np.exp(-t / 0.0008)
+    place = rng.uniform(0.35, 0.65)
+    return np.stack([tone * np.sqrt(1 - place), tone * np.sqrt(place)])
+
+
+def bowl(key: int, n: int, rng: np.random.Generator) -> np.ndarray:
+    """A singing bowl rubbed with a wooden stick: its modes (1, 2.71, 5.15 times the note), each split in
+    two a few hertz apart, so it wobbles slowly; swelling in as it is rubbed, ringing on long after."""
+    f0 = hz(key)
+    t = np.arange(n) / RATE
+    swell = np.minimum(1, t / 3.0) ** 1.5 * np.exp(-np.maximum(0, t - 5.0) / 6.0)
+    mono = np.zeros(n)
+    for ratio, db in ((1, 0), (2.71, -9), (5.15, -20)):
+        freq = f0 * ratio
+        if freq > 5000:
+            continue
+        wobble = rng.uniform(1.5, 4.0) * (1 if ratio == 1 else 1.6)
+        for sign in (-1, 1):
+            mono += 0.5 * 10 ** (db / 20) * np.sin(2 * np.pi * (freq + sign * wobble / 2) * t + rng.random() * 6.28)
+    mono *= swell
+    return np.stack([mono, np.roll(mono, int(0.011 * RATE))])  # the same bowl, one side a little later: wide, even
+
+
 SYNTHS = {"amb-pad": pad, "amb-choir": choir, "amb-sub": sub, "amb-bell": bell, "amb-glass": glass, "amb-wind": wind, "amb-pulse": pulse, "amb-organ": organ,
-          "amb-drop": drop}
+          "amb-drop": drop, "amb-box": box, "amb-bowl": bowl}
 
 
 def sample(job: tuple) -> None:
@@ -338,6 +378,8 @@ PARTS = {
     "shimmer": ("amb-glass", "pad", -12.0, 0.0, 0.9),
     "organ": ("amb-organ", "piano", 0.0, 0.0, 0.85),
     "drops": ("amb-drop", "pad", -12.0, 0.0, 0.85),
+    "box": ("amb-box", "melody2", -3.0, 0.0, 0.6),
+    "bowl": ("amb-bowl", "pad", -6.0, 0.0, 0.3),
 }
 
 
@@ -410,6 +452,10 @@ def compose_ambient(score: dict, folder: Path) -> str:
                 notes = [c.above(bass, score.get("sub_low", 26))]
             ends = None if (nxt and layer in nxt_wanted) else tick + length + (tail if not nxt else piece.ms(800))
             hold(layer, notes, tick, ends, strength(tick, {"pad": 0, "choir": -6, "sub": -4, "wind": -2, "organ": -4}[layer]))
+        if "bowl" in wanted:  # a singing bowl on the chord's root, rubbed, every bowl_every chords
+            if index % section.get("bowl_every", 2) == 0:
+                part("bowl").add(tick + piece.ms(rng.uniform(0, 300)), c.above(root, score.get("bowl_low", 55)),
+                                 strength(tick, 0, 34, 50), piece.bar * 3)
         if "toll" in wanted:
             every = section.get("toll_every", 1)
             if index % every == 0:
@@ -434,7 +480,8 @@ def compose_ambient(score: dict, folder: Path) -> str:
                 part("shimmer").add(at, rng.choice(high), strength(at, -6, 26, 30), piece.bar * 2)
     for t, notes, length in piece.tune:  # the tune: on the bell or the glass, struck and left ringing
         section = piece.section_at(t)
-        layer = "glass" if "glass" in section.get("layers", []) else "bells"
+        on = section.get("layers", [])
+        layer = "box" if "box" in on else "glass" if "glass" in on else "bells"
         for n in notes:
             at = t + piece.ms(rng.gauss(0, 25))
             part(layer).add(at, n, strength(t, 6, 34, 50), max(length, piece.bar * 2))
@@ -459,7 +506,8 @@ def compose_ambient(score: dict, folder: Path) -> str:
                       "gain_db": PARTS[name][2] + gains.get(name, 0.0), "pan": p.pan,
                       "reverb": p.reverb, "tone": p.tone, "notes": len(p.notes)})
     room = score.get("room", {"rt60": 6.0, "wet": 1.0})
-    mix = {"hall": {"rt60": room["rt60"], "wet": room.get("wet", 1.0)}, "parts": sheet,
+    mix = {"hall": {"rt60": room["rt60"], "wet": room.get("wet", 1.0), "even": score.get("even_hall", False)},
+           "parts": sheet,
            "master": {"tone": 0.0, "air": 0.0, "width": 0.0, "level": 0.0},
            "loudness": score.get("loudness", -16)}
     (folder / "mix.json").write_text(json.dumps(mix, indent=2))

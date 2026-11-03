@@ -199,6 +199,8 @@ INSTRUMENTS = {
     "amb-wind": ("model", "amb-wind.sfz", {"highpass": 60, "width": 1.3}),
     "amb-pulse": ("model", "amb-pulse.sfz", {"lowpass": 1500}),
     "amb-organ": ("model", "amb-organ.sfz", {"highpass": 40, "width": 1.2}),
+    "amb-box": ("model", "amb-box.sfz", {"lowpass": 5000, "lowpass_order": 2, "highpass": 150}),
+    "amb-bowl": ("model", "amb-bowl.sfz", {"lowpass": 4500, "lowpass_order": 2}),
     "amb-drop": ("model", "amb-drop.sfz", {"lowpass": 3500, "lowpass_order": 2}),
 }
 # Named styles: a piece's "style" fills in every setting it does not give itself.
@@ -278,7 +280,7 @@ STYLES = {
                      "human": {"amount": 0.8, "vary": True}, "gains": {"viola": 2.0, "piano-layer": 2.0}},
     # "Không gian u tối" (dark ambient, branch dark-khac): no piano; a piece made by dark/ambient.py from long
     # held modelled sounds, a 6.5 s hall, quieter (-16 LUFS).
-    "khong-gian": {"kind": "ambient", "room": {"rt60": 6.5, "wet": 1.0}, "loudness": -16},
+    "khong-gian": {"kind": "ambient", "room": {"rt60": 6.5, "wet": 1.0}, "loudness": -16, "even_hall": True},
     "dem-diu": {"piano": "model-dream", "bass_low": 40, "texture": "flow", "hold": 1.0, "pedal_beats": 2, "lh_soft": 6,
                 "melody_velocity": [38, 60], "velocity_cap": 64,
                 "room": {"rt60": 3.6, "wet": 0.85}, "piano_reverb": 0.35, "loudness": -14,

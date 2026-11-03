@@ -315,3 +315,23 @@ tiếng tự tạo: `amb-organ` (đàn ống ở xa trong nhà đá, ống sáo 
 | `k15-bien-dem` (Biển đêm) | Fa thăng thứ, 48 bpm | Nền và gió dâng lên hạ xuống như sóng dài |
 | `k16-den-cuoi-ham` (Đèn cuối hầm) | Đô thứ, 50 bpm | Đàn ống, tim đập, thủy tinh gọi, chuông trầm đáp; kết sáng ở Mi giáng |
 | `k17-tuyet-roi` (Tuyết rơi) | La thứ, 52 bpm | Thủy tinh cao khẽ, giọt nước như bông tuyết, không có trầm |
+
+## Không gian u tối, thêm tám bài (vòng X4)
+
+Người dùng: "hãy sáng tác thêm cho tôi". Thêm hai tiếng tự tạo: `amb-box` (hộp nhạc cũ, mỗi phím lệch
+tông một chút) và `amb-bowl` (bát hát xoay bằng dùi gỗ, rung chậm); hai lớp: `box` (giai điệu trên hộp
+nhạc), `bowl` (`bowl_every`). Sửa thêm: tiếng vang (hall) làm một nốt gần như thuần (drone, bát hát) lệch
+hẳn sang một bên tai, tới 7 dB; mix sheet nào ghi `"hall": {"even": true}` thì bên phải của tiếng vang được
+làm từ bên trái qua các bộ lọc allpass (cùng độ to ở mọi tần số), hai bên đều nhau. Kiểu `khong-gian` bật
+nó; các bản piano không đổi.
+
+| Bản | Giọng, nhịp | Âm thanh |
+|---|---|---|
+| `k18-hop-nhac-cu` (Hộp nhạc cũ) | Rê thứ, nhịp ba, 60 bpm | Hộp nhạc lệch tông chơi bài ru chậm, nền tối |
+| `k19-bat-hat` (Bát hát) | Đô thăng thứ, 46 bpm | Bát hát rung chậm, drone, gió; tĩnh như thiền |
+| `k20-phong-tre-bo-hoang` (Phòng trẻ bỏ hoang) | La thứ, nhịp ba, 54 bpm | Hộp nhạc, giọt nước, hợp xướng xa; rợn |
+| `k21-loi-nguyen` (Lời nguyện) | Fa thứ, 44 bpm | Hợp xướng, đàn ống trầm, bát hát |
+| `k22-rung-dem` (Rừng đêm) | Son thứ, 50 bpm | Gió, tim đập khẽ, thủy tinh lấp lánh, chuông hỏi-đáp |
+| `k23-mat-bao` (Mắt bão) | Mi thứ, 56 bpm | Cơn bão dâng, giữa bài lặng hẳn, rồi bão lại |
+| `k24-ky-uc-mo` (Ký ức mờ) | Si thứ, 58 bpm | Nhiều giai điệu nhất: hộp nhạc hát, chuông đáp |
+| `k25-lang` (Lặng) | La giáng thứ, 40 bpm | Thưa nhất: bass, bát hát, chuông lớn hai lần |

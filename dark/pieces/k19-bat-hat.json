@@ -1,0 +1,56 @@
+{
+  "title": "Bát hát",
+  "family": "dark-khac",
+  "about": "Round x4 of the dark ambient style (khong-gian), as the user asked (\"hãy sáng tác thêm cho tôi\"): singing bowls rubbed slowly in the dark, wobbling, over a drone and a wind that comes and goes; meditative and still. C sharp minor at 46 bpm. An original piece.",
+  "style": "khong-gian",
+  "bpm": 46,
+  "beats": 4,
+  "sections": [
+    {
+      "bars": 4,
+      "chords": "C#m | C#m | C#m | C#m",
+      "dyn": 0.25,
+      "layers": [
+        "bowl",
+        "drone"
+      ],
+      "bowl_every": 2
+    },
+    {
+      "bars": 8,
+      "chords": "C#m | C#m | Amaj7 | Amaj7 | F#m9 | F#m9 | G#5 | G#5",
+      "dyn": 0.4,
+      "layers": [
+        "bowl",
+        "drone",
+        "pad",
+        "wind"
+      ],
+      "bowl_every": 2
+    },
+    {
+      "bars": 8,
+      "chords": "C#m | C#m | D/C# | D/C# | Amaj7 | Amaj7 | G#5 | G#5",
+      "dyn": 0.5,
+      "layers": [
+        "bowl",
+        "drone",
+        "pad",
+        "sub"
+      ],
+      "bowl_every": 1,
+      "swell": 0.1
+    },
+    {
+      "bars": 6,
+      "chords": "C#m | C#m | C#m | C#m | C#m | C#m",
+      "dyn": 0.25,
+      "layers": [
+        "bowl",
+        "drone"
+      ],
+      "bowl_every": 2,
+      "swell": -0.1
+    }
+  ]
+}

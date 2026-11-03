@@ -294,6 +294,22 @@ def hall_ir(rt60: float, seconds: float = 4.0, predelay: float = 0.025, seed: in
     return ir / np.sqrt(np.sum(ir ** 2) / 2)
 
 
+@lru_cache
+def even_hall_ir(rt60: float, seconds: float) -> np.ndarray:
+    """The same hall, its right side made from its left through a chain of allpass filters (5-17 ms, flat
+    in level at every frequency): as wide, but a nearly pure held tone (a drone, a singing bowl) rings
+    equally loud on both sides. In hall_ir each side is its own noise, so at any one frequency the two
+    differ by chance, up to 10 dB, and a lone pure tone leans to a side (a mix sheet's hall "even": true)."""
+    ir = hall_ir(rt60, seconds)
+    right = ir[0].copy()
+    for delay_ms, g in ((5.3, 0.6), (7.9, -0.6), (11.3, 0.55), (16.7, -0.5)):
+        d = int(delay_ms * RATE / 1000)
+        b = np.zeros(d + 1); b[0], b[d] = -g, 1.0
+        a = np.zeros(d + 1); a[0], a[d] = 1.0, -g
+        right = lfilter(b, a, right)
+    return np.stack([ir[0], right])
+
+
 def noise_bed(n: int, seed: int = 2) -> np.ndarray:
     """A soft, dark hush (pink noise between 120 and 1200 Hz, a different noise
     on each side), as the sleep-music recordings lay under their piano; fading
@@ -381,6 +397,8 @@ def mix_folder(folder: Path, sfizz: str, libraries: dict, keep_parts: bool, prem
     sheet = json.loads((folder / "mix.json").read_text())
     rt60 = sheet["hall"]["rt60"]
     ir = hall_ir(rt60, seconds=4.0 if rt60 <= 2.8 else 1.5 * rt60)  # a longer hall rings out in full, as in the app
+    if sheet["hall"].get("even"):  # pure held tones even on both sides (dark ambient)
+        ir = even_hall_ir(rt60, 4.0 if rt60 <= 2.8 else 1.5 * rt60)
     wet_level = sheet["hall"].get("wet", 1.0)  # every part's send into it, times this
 
     def render(entry: dict) -> np.ndarray:
