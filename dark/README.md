@@ -211,3 +211,21 @@ nguyên giai điệu, thêm bản `-day` (dây) theo phong cách `mo-ao-day`:
   giai điệu (mở đầu, kết) cello giữ nốt trầm của hợp âm. 6 dB dưới đàn khi chơi.
 - Viola (`viola-pad`): một bè mỏng, nốt màu của hợp âm, dưới giai điệu, tránh cả giai điệu và cello, 10 dB dưới đàn.
   Mẫu viola nhẹ có tiếng xì (35-42 dB dưới nhạc ở chỗ lặng): lọc bớt trên 2 kHz (`violas-dark`), còn 47-50 dB.
+
+## Tam tấu: đàn Salamander và bài "Hồi âm" (vòng 19)
+
+Người dùng: "tiếng piano chưa phù hợp, hãy chọn tiếng piano phù hợp hơn và sáng tác 1 bài mới phù hợp kiểu phối".
+
+- Chọn đàn: bài mới thu với bốn cây đàn, cùng cello và viola, rồi hỏi CLAP. Cả bốn được nghe là "a sad piano trio with
+  cello and viola". Salamander Grand (Yamaha C5 của Alexander Holm, CC-BY 3.0) ít "dull, muffled" nhất (0,363; Steinway
+  0,373, Kawai thu nguyên 0,420, Kawai qua màu C5 0,442), ít "synth pad" nhất (0,467; 0,476, 0,532, 0,542), gần "a high
+  quality classical recording" nhất so với "a low quality MIDI rendering" (0,187 với 0,201; Steinway 0,199 với 0,211;
+  Kawai 0,207 với 0,265 và 0,227 với 0,298). Kawai thu nguyên còn xì (39 dB dưới nhạc). Phong cách mới `tam-tau`:
+  Salamander, chơi như người (tempo thở theo câu), cello đáp câu, viola nền mỏng; tiếng thả phím và tiếng pedal của
+  đàn bỏ đi. `mo-ao-day` giữ như vòng 18.
+- Bài mới `hoi-am` (Hồi âm): Rê thứ, 72 bpm. Mỗi câu hai ô nhịp, kết bằng một nốt ngân ba phách và một phách nghỉ, chỗ
+  cho cello đáp (lần đầu: ba nốt thở dài F-E-D nhắc lại thấp hai quãng tám). Đoạn giữa cao hơn một quãng ba trên F và
+  C/E, piano chơi quãng ba, quãng sáu ở đỉnh. Mở và kết bằng hợp âm rải của piano, cello giữ nốt trầm.
+- Cello không còn lặp một nốt hai lần liền trong câu đáp (vòng 18 có chỗ A3 A3 A3).
+- Trong máy làm việc, đàn Salamander được chơi qua một bản SFZ phẳng (mở #define, #include, chỉ nhóm nốt, amp_veltrack
+  27 như bản gốc đặt); trên GitHub, sfizz chơi bản gốc.

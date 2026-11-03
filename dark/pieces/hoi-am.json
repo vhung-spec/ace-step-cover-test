@@ -1,0 +1,70 @@
+{
+  "title": "Hồi âm",
+  "about": "Round 19, written for the tam-tau trio of piano, cellos and violas, as the user asked (\"tiếng piano chưa phù hợp, hãy chọn tiếng piano phù hợp hơn và sáng tác 1 bài mới phù hợp kiểu phối\"): D minor at 72 bpm, its tune in two-bar sentences that each end on a note held three beats and a breath, so the cellos have room to answer (the sighing three-note fall F-E-D first, echoed two octaves down); a middle section a third higher over F and C/E, the piano doubling its tune in thirds and sixths where it peaks; the opening and close on the piano's rolled chords with the cellos' bass under them. An original tune.",
+  "style": "tam-tau",
+  "bpm": 72,
+  "beats": 4,
+  "sections": [
+    {
+      "bars": 2,
+      "chords": "Dm | Bb",
+      "texture": "blocks",
+      "dyn": 0.22,
+      "layers": [
+        "cello-answer",
+        "viola-pad"
+      ]
+    },
+    {
+      "bars": 8,
+      "chords": "Dm | Bb | Gm | A7 | Dm | Bb | Gm6 | A7sus4:2 A7:2",
+      "melody": "A4:1 D5:1 F5:1.5 E5:0.5 | D5:3 r:1 | Bb4:1 D5:1 G5:1.5 F5:0.5 | E5:3 r:1 | F5:1 E5:1 D5:1 A5:1 | G5:2 F5:1 D5:1 | E5:1 F5:1 G5:1 Bb5:1 | A5:3 r:1",
+      "dyn": 0.34,
+      "layers": [
+        "cello-answer",
+        "viola-pad"
+      ]
+    },
+    {
+      "bars": 8,
+      "chords": "Dm | Bb | Gm | A7 | Dm/C | Bbmaj7 | Em7b5 | A7",
+      "melody": "A4:1 D5:1 F5:1.5 E5:0.5 | D5:3 r:1 | Bb4:1 D5:1 G5:1.5 F5:0.5 | E5:2 C#5:2 | D5:1 F5:1 A5:1.5 G5:0.5 | F5:3 r:1 | G5:1 F5:1 E5:1 D5:1 | C#5:3 r:1",
+      "dyn": 0.42,
+      "layers": [
+        "cello-answer",
+        "viola-pad"
+      ]
+    },
+    {
+      "bars": 8,
+      "chords": "F | C/E | Dm | Am | Bb | F/A | Gm6 | A7",
+      "melody": "C5:1 F5:1 A5:1.5 G5:0.5 | G5:3 r:1 | A5:1 D6:1 C6:1 A5:1 | C6:3 r:1 | D6:1.5 C6:0.5 Bb5:1 A5:1 | F5+A5:3 r:1 | G5:1 Bb5:1 E5:1 G5:1 | C#5+E5:4",
+      "dyn": 0.66,
+      "layers": [
+        "cello-answer",
+        "viola-pad"
+      ]
+    },
+    {
+      "bars": 8,
+      "chords": "Dm | Bb | Gm | A7 | Dm/C | Bbmaj7 | Gm6:2 A7:2 | Dm",
+      "melody": "A4:1 D5:1 F5:1.5 E5:0.5 | D5:3 r:1 | Bb4:1 D5:1 G5:1.5 F5:0.5 | E5:3 r:1 | F5:1 E5:1 D5:1 C5:1 | D5:2 Bb4:2 | G4:1 Bb4:1 E5:1 C#5:1 | D5:4",
+      "dyn": 0.32,
+      "rit": true,
+      "layers": [
+        "cello-answer",
+        "viola-pad"
+      ]
+    },
+    {
+      "bars": 2,
+      "chords": "Bb | Dm",
+      "texture": "blocks",
+      "dyn": 0.18,
+      "layers": [
+        "cello-answer",
+        "viola-pad"
+      ]
+    }
+  ]
+}

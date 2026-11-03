@@ -24,7 +24,7 @@ A piece is a short score, the shape an AI composer is asked to write:
   keeps the piano out of the deep bass); piano_tone changes the piano's tone
   for render_samples.py (lowpass, lowpass_order, width: above 1 widens it);
 - piano: the piano (INSTRUMENTS): upright, felt, grand, kawai (recorded,
-  CC0), or model, model-dream, model-close, model-grand, model-clear,
+  CC0), salamander (recorded, CC-BY 3.0: Alexander Holm), or model, model-dream, model-close, model-grand, model-clear,
   model-bloom, model-wood, model-glass (modelled by dark/piano_model.py
   from the physics of its strings, no recording; built with the pieces);
 - style: a named style (STYLES) giving every setting the piece leaves out;
@@ -35,6 +35,8 @@ A piece is a short score, the shape an AI composer is asked to write:
   C5 with its left hand and a recorded oboe, round 16; mo-ao-glass: its
   first, glassy sound); mo-ao-day, the same piano with the cellos answering
   it and a thin viola line;
+  tam-tau, a trio: the Salamander grand on the tune, the cellos answering
+  it, a thin viola line;
 - melody_velocity: how hard the tune is struck at dyn 0 and at dyn 1 (40,
   82); velocity_cap: no key struck harder (64 keeps the Yamaha upright on its
   softest, darkest samples, which end at 65);
@@ -78,7 +80,8 @@ A piece is a short score, the shape an AI composer is asked to write:
 The piano breathes on the last beat of every four bars, a section marked
 rit slows over its last two bars, and the piece slows into its last chord,
 held a bar longer, rolled from the bass. Instruments: VCSL (CC0) for the
-pianos, VSCO 2 CE (CC0) for the strings and the oboe, fetched when rendering
+pianos, the Salamander Grand Piano (CC-BY 3.0, Alexander Holm), VSCO 2 CE
+(CC0) for the strings and the oboe, fetched when rendering
 (fetch_samples.py), never kept here.
 """
 
@@ -139,6 +142,9 @@ INSTRUMENTS = {
     "grand": ("vcsl", "Chordophones/Zithers/Grand Piano, Steinway B.sfz", dict(TONES["grand"])),
     # VCSL's Kawai grand, warmer than the Steinway
     "kawai": ("vcsl", "Chordophones/Zithers/Grand Piano, Kawai.sfz", {"release_db": -60}),
+    # the Salamander Grand Piano (a Yamaha C5 grand, by Alexander Holm, CC-BY 3.0): sixteen strengths a
+    # key, clean; its release noises and pedal left out
+    "salamander": ("salamander", "Salamander Grand Piano V3.sfz", {"release_db": -60, "pedal_noise": False}),
     "cellos": ("vsco", "CelloEnsSusVib-Quiet.sfz", dict(TONES["cellos"])),
     "violas": ("vsco", "ViolaEnsSusVib-Quiet.sfz", dict(TONES["violas"])),
     # the same, darker, for one thin line behind a bare tune: their soft samples hiss (alone in the quiet
@@ -229,6 +235,15 @@ STYLES = {
                   "piano_tone": {"attack": 0.025, "eq": [list(p) for p in EQ_C3], "eq_amount": 0.5,
                                  "release_db": -60},
                   "gains": {"viola": 2.0}},
+    # "Tam tấu" (a trio): piano, cellos, violas, as the user asked ("tiếng piano chưa phù hợp, hãy chọn tiếng
+    # piano phù hợp hơn và sáng tác 1 bài mới phù hợp kiểu phối"): mo-ao-day's cellos answering the tune and
+    # thin viola line, on the Salamander grand (to LAION CLAP, of the Salamander, the Steinway B, the Kawai
+    # as recorded and the Kawai through C5's tone, the least "dull, muffled" and "synth pad", the most "a
+    # high quality classical recording"; the Kawai through C5's tone the most muffled), played as a person
+    # plays; the pieces written for it hold a note at the end of each sentence for the cellos to answer.
+    "tam-tau": {"piano": "salamander", "bass_low": 40, "texture": "none", "pedal_beats": 2,
+                "room": {"rt60": 2.8, "wet": 0.8}, "piano_reverb": 0.35, "loudness": -14,
+                "human": {"amount": 0.8, "vary": True}, "gains": {"viola": 2.0}},
     "dem-diu": {"piano": "model-dream", "bass_low": 40, "texture": "flow", "hold": 1.0, "pedal_beats": 2, "lh_soft": 6,
                 "melody_velocity": [38, 60], "velocity_cap": 64,
                 "room": {"rt60": 3.6, "wet": 0.85}, "piano_reverb": 0.35, "loudness": -14,
@@ -810,8 +825,8 @@ def cello_answers(piece: Piece) -> list:
     held one last) one or two octaves down (around G3), a beat each, the
     last held a beat into the tune's next phrase; every other answer turned
     upside down (its steps mirrored, kept in the tune's key). Its last note
-    is a tone of the chord under it, and no note sits a half step (or a
-    minor ninth) from the tune's. At most one answer every two bars, none
+    is a tone of the chord under it, no note sits a half step (or a minor
+    ninth) from the tune's, and none repeats the one before. At most one answer every two bars, none
     shorter than two beats. Where a section has no tune (an opening, a
     close), the cellos hold the chords' bass instead, softly. Returns the
     notes played, (tick, end, note), for the parts that keep clear of them."""
@@ -860,6 +875,11 @@ def cello_answers(piece: Piece) -> list:
                 note = next(n for n in (note - 1, note + 1, note - 2, note + 2) if n % 12 in key | set(tones))
             if any((note - s) % 12 in (1, 11) for s in sounding):
                 note = min((n for n in range(note - 4, note + 5) if n % 12 in tones
+                            and all((n - s) % 12 not in (1, 11) for s in sounding)),
+                           key=lambda n: (abs(n - note), n), default=note)
+            if k and note == line[k - 1]:  # moved onto the note before: the answer moves on instead
+                allowed = set(tones) if k == len(line) - 1 else key | set(tones)
+                note = min((n for n in range(note - 4, note + 5) if n != line[k - 1] and n % 12 in allowed
                             and all((n - s) % 12 not in (1, 11) for s in sounding)),
                            key=lambda n: (abs(n - note), n), default=note)
             line[k] = note

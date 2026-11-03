@@ -1,7 +1,8 @@
 # Dark piano sketches (dark/): dark/compose.py arranges the pieces written as
-# data in dark/pieces/, fetch_samples.py fetches the CC0 instruments they use,
-# dark/piano_model.py makes the modelled pianos they name (no recording),
-# render_samples.py plays and mixes them. Runs on every push to the
+# data in dark/pieces/, fetch_samples.py fetches the instruments they use (CC0;
+# the Salamander grand CC-BY 3.0, Alexander Holm), dark/piano_model.py makes
+# the modelled pianos and oboe they name (no recording), render_samples.py
+# plays and mixes them. Runs on every push to the
 # dark-piano branch (or by hand): a push that changes only pieces plays only
 # those, one that changes the code plays them all. The pieces (MP3, 320
 # kbit/s) go to the dark-renders branch (one commit, the earlier pieces kept
@@ -92,7 +93,7 @@ jobs:
           ONLY: ${{ steps.which.outputs.pieces }}
         run: '"$RUNNER_TEMP/venv/bin/python" dark/compose.py out/dark ${ONLY:+--pieces $ONLY}'
 
-      - name: Instruments (CC0 samples)
+      - name: Instruments (CC0 samples; the Salamander grand, CC-BY 3.0)
         if: steps.which.outputs.skip != 'true'
         run: '"$RUNNER_TEMP/venv/bin/python" fetch_samples.py out/dark "$RUNNER_TEMP/libs"'
 
@@ -104,7 +105,8 @@ jobs:
         if: steps.which.outputs.skip != 'true'
         run: |
           "$RUNNER_TEMP/venv/bin/python" render_samples.py out/dark --sfizz ~/sfizz/sfizz_render \
-            --vsco "$RUNNER_TEMP/libs/vsco" --vcsl "$RUNNER_TEMP/libs/vcsl" --model "$RUNNER_TEMP/libs/model"
+            --vsco "$RUNNER_TEMP/libs/vsco" --vcsl "$RUNNER_TEMP/libs/vcsl" --model "$RUNNER_TEMP/libs/model" \
+            --salamander "$RUNNER_TEMP/libs/salamander"
 
       - name: The pieces to publish
         if: steps.which.outputs.skip != 'true'
