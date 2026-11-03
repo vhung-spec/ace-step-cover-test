@@ -244,3 +244,16 @@ Người dùng: "tôi muốn tiếng piano trầm hơn nghe giống keyboard hơ
 Rhodes riêng được nghe rõ nhất là "a Rhodes electric piano", nhưng với dây thì thành "piano with a synth pad". K3 thành
 phong cách `tam-tau-phim`; "Hồi âm" giờ dùng nó. jRhodes3d: dùng tự do trong nhạc; mẫu thu (CC BY-NC 4.0) chỉ tải khi
 thu, không lưu ở đây.
+
+## Bốn bài mới cho `tam-tau-phim` (vòng 21)
+
+Người dùng chọn K1 (piano tối kiểu keyboard, Rhodes chơi chồng): "tôi thích bản 1, hãy sáng tác thêm". Bốn bài mới, viết
+cho kiểu hỏi-đáp: câu nào cũng kết bằng một nốt ngân (hay ngân rồi nghỉ) để cello đáp; mở và kết bằng hợp âm rải.
+Bản thu "Hồi âm" trên GitHub (sfizz thật) và bản thu trong máy làm việc giống nhau 0,999 (CLAP).
+
+| Bài | Giọng, nhịp | Nét riêng | CLAP "a warm, deep, dark piano" |
+|---|---|---|---|
+| `ngo-nho` (Ngõ nhỏ) | La thứ, 66 bpm | Nốt cảm Son# ngân trên E7 cho cello đáp; đoạn giữa Đô trưởng, piano chơi quãng bốn, quãng ba ở đỉnh; F#m7b5, Dm6 | 0,646 |
+| `ben-vang` (Bến vắng) | Fa thứ, nhịp ba, 80 bpm | Câu bốn ô, ô cuối ngân trọn, câu sau vào sau một phách nghỉ: cello đáp qua vạch nhịp; đoạn giữa La giáng trưởng hát hai lần | 0,639 |
+| `chuyen-tau-dem` (Chuyến tàu đêm) | Fa thăng thứ, 92 bpm | Giai điệu móc đơn như bánh xe trên ray, dừng mỗi hai ô cho cello; đoạn giữa La trưởng hai lần, lần sau qua E7 | 0,642 |
+| `mua-dong-nam-ay` (Mùa đông năm ấy) | Si giáng thứ, 60 bpm | Chậm nhất, giai điệu thấp hơn (Fa 4 tới La giáng 5, Rê giáng 6 ở đỉnh); Ebm6, Gbmaj7 | 0,630 |
