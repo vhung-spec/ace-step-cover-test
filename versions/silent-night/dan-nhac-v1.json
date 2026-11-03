@@ -3,10 +3,10 @@
   "style": "orchestra-gentle-human",
   "title": "Silent Night · Dàn nhạc",
   "heard": "Kiểu 2: \"chốt, gửi file wav và sang bản tiếp\" (locked, its WAV, and the next): Kiểu 2 locked at 1, Dàn nhạc next",
-  "about": "v1: Jingle Bells' Dàn nhạc 3, the version the user chose, on Silent Night (84 bpm, three verses, 2:52): orchestra-gentle-human with its gentle ending, the flute's descant in the last verse, the violins on the tune bowed lightly (their soft layer alone, 6 dB less from 1.5 kHz, a low-pass at 4 kHz), violins and harp at -0.2. A little drier than 3's 2.4-second hall, as the user asked of Silent Night's Piano nỉ (\"ít vang hơn chút\") and as its Kiểu 1 and 2 were: the hall's sends 0.85 (3's echo stood 2.3 dB over its dry mix; about 1.4 dB less).",
+  "about": "v1: Jingle Bells' Dàn nhạc 3, the version the user chose, on Silent Night (84 bpm, three verses, 2:52): orchestra-gentle-human with its gentle ending, the flute's descant in the last verse, the violins on the tune bowed lightly (their soft layer alone, 6 dB less from 1.5 kHz, a low-pass at 4 kHz), the harp at -0.2 as in 3. A little drier than 3's 2.4-second hall, as the user asked of Silent Night's Piano nỉ (\"ít vang hơn chút\") and as its Kiểu 1 and 2 were: the hall's sends 0.85 (3's echo stood 2.3 dB over its dry mix; about 1.4 dB less). The violins, which carry the tune in two of the three verses here (one in Jingle Bells), sit in the middle: at 3's -0.2 the whole leaned 1.2 dB to the left (the second and third verses 2 dB), over the 1 dB rule; now 0.3 (exact remix from the first render's parts).",
   "changes": {
     "pans": {
-      "violins": -0.2,
+      "violins": 0.0,
       "harp": -0.2
     },
     "tones": {
