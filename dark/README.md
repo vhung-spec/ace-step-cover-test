@@ -298,3 +298,20 @@ trên hợp âm); bản nhạc chọn được tầm cao của nền (`pad_range
 | `k7-nhip-tim` (Nhịp tim) | Son thứ, 56 bpm | Tim đập trầm, nhanh dần ở đoạn căng rồi chậm lại |
 | `k8-bang-gia` (Băng giá) | Đô thăng thứ, 50 bpm | Thủy tinh cao lạnh và bass sâu, khoảng giữa bỏ trống |
 | `k9-vuc-tham` (Vực thẳm) | Rê thứ, 42 bpm | Tối và trầm nhất, không có gì cao |
+
+## Không gian u tối, thêm tám bản (vòng X3)
+
+Người dùng: "tôi rất thích các phiên bản bạn tạo, hãy tạo thêm cho tôi nhiều phiên bản khác". Thêm hai
+tiếng tự tạo: `amb-organ` (đàn ống ở xa trong nhà đá, ống sáo mềm, không có gì trên 3,5 kHz) và
+`amb-drop` (giọt nước rơi xuống vũng trong hang); hai lớp mới: `organ`, `drops` (`drops_per_bar`).
+
+| Bản | Giọng, nhịp | Âm thanh |
+|---|---|---|
+| `k10-hang-nuoc` (Hang nước) | Mi thứ, 50 bpm | Giọt nước rơi, gió trong hang, nền tối |
+| `k11-dan-ong-xa` (Đàn ống xa) | Rê thứ, 44 bpm | Đàn ống xa, chuông lớn, hợp xướng vào giữa bài |
+| `k12-nghia-trang-suong` (Nghĩa trang sương) | Son thăng thứ, 46 bpm | Hợp xướng, thủy tinh cao, chuông xa, gần như không có trầm |
+| `k13-thanh-pho-chet` (Thành phố chết) | La thứ, 52 bpm | Tim đập chậm, gió, chuông hát một giai điệu cô đơn, chuông trầm đáp |
+| `k14-giac-mo-toi` (Giấc mơ tối) | Si giáng thứ, 54 bpm | Nhiều giai điệu: thủy tinh hát, hợp xướng, nền |
+| `k15-bien-dem` (Biển đêm) | Fa thăng thứ, 48 bpm | Nền và gió dâng lên hạ xuống như sóng dài |
+| `k16-den-cuoi-ham` (Đèn cuối hầm) | Đô thứ, 50 bpm | Đàn ống, tim đập, thủy tinh gọi, chuông trầm đáp; kết sáng ở Mi giáng |
+| `k17-tuyet-roi` (Tuyết rơi) | La thứ, 52 bpm | Thủy tinh cao khẽ, giọt nước như bông tuyết, không có trầm |

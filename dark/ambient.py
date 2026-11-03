@@ -27,6 +27,8 @@ pieces name, with its own), as dark/oboe_model.py does:
   sooner; ringing up to 24 s;
 - amb-wind: wind in a hollow, faintly at the note, in gusts; looped;
 - amb-pulse: a heartbeat's deep thud;
+- amb-organ: a pipe organ far off, soft flue ranks; looped;
+- amb-drop: a water drop in a cave pool;
 - amb-glass: a soft glass/bowl tone, nearly pure: the note, a faint octave
   and twelfth, slow beating, a long ring; for the few notes of a tune.
 
@@ -38,7 +40,8 @@ common to two chords held across them; layers, per section:
   bell on the chord's root at each chord, or every toll_every chords),
   drone (compose.py's drone), wind (wind sounding the chord's root and
   fifth), pulse (a heartbeat on the root every pulse_beats), shimmer (soft
-  high glass on the chord's tones, at random); "answer", a second line beside the melody,
+  high glass on the chord's tones, at random), organ (the chord on the
+  organ), drops (water drops on the chord's tones, drops_per_bar); "answer", a second line beside the melody,
   played on the bell (as the cellos answer the piano in the dark piano).
 dyn, 0-1, sets every layer's strength; a section's "swell" lets it grow
 through the section.
@@ -71,6 +74,9 @@ MODELS = {
     "amb-wind": {"attack": 5.0, "release": 7.0, "veltrack": 60, "keys": range(40, 84), "loop": True},
     "amb-pulse": {"attack": 0.002, "release": 0.4, "veltrack": 70, "keys": range(24, 48), "loop": False,
                   "seconds": 2.0},
+    "amb-organ": {"attack": 0.25, "release": 1.5, "veltrack": 50, "keys": range(36, 85), "loop": True},
+    "amb-drop": {"attack": 0.001, "release": 0.5, "veltrack": 70, "keys": range(60, 97), "loop": False,
+                 "seconds": 2.5},
 }
 
 
@@ -235,7 +241,39 @@ def pulse(key: int, n: int, rng: np.random.Generator) -> np.ndarray:
     return np.stack([mono, mono])
 
 
-SYNTHS = {"amb-pad": pad, "amb-choir": choir, "amb-sub": sub, "amb-bell": bell, "amb-glass": glass, "amb-wind": wind, "amb-pulse": pulse}
+def organ(key: int, n: int, rng: np.random.Generator) -> np.ndarray:
+    """A pipe organ far off in a stone hall: two soft flue ranks a few cents apart (8' with 4', a little
+    2 2/3' and 2', and a 16' under the middle and upper notes), each pipe's level breathing a little;
+    nothing above 3.5 kHz."""
+    f0 = hz(key)
+    t = np.arange(n) / RATE
+    ranks = [(1, 0), (2, -7), (3, -15), (4, -16), (6, -24)] + ([(0.5, -9)] if key >= 48 else [])
+    out = np.zeros((2, n))
+    for side in range(2):
+        for cents in ((-2.0, 1.5), (-1.0, 2.5))[side]:
+            for ratio, db in ranks:
+                freq = f0 * ratio * 2 ** (cents / 1200)
+                if freq > 3500:
+                    continue
+                level = 10 ** ((db + 0.6 * wander(n, rng, 0.2)) / 20)
+                out[side] += level * np.sin(2 * np.pi * freq * t + rng.random() * 6.28)
+    return out
+
+
+def drop(key: int, n: int, rng: np.random.Generator) -> np.ndarray:
+    """A water drop falling into a still pool in a cave: a pure tone rising a little as the bubble rings
+    (a fifth of its pitch in 30 ms), dying in a third of a second, placed at random between the sides."""
+    f0 = hz(key)
+    t = np.arange(n) / RATE
+    freq = f0 * (1 + 0.2 * (1 - np.exp(-t / 0.03)))
+    tone = np.sin(2 * np.pi * np.cumsum(freq) / RATE) * np.exp(-t / 0.12) * (1 - np.exp(-t / 0.0015))
+    tone += 0.25 * np.sin(2 * np.pi * np.cumsum(freq * 2.0) / RATE) * np.exp(-t / 0.05)
+    place = rng.uniform(0.2, 0.8)
+    return np.stack([tone * np.sqrt(1 - place), tone * np.sqrt(place)])
+
+
+SYNTHS = {"amb-pad": pad, "amb-choir": choir, "amb-sub": sub, "amb-bell": bell, "amb-glass": glass, "amb-wind": wind, "amb-pulse": pulse, "amb-organ": organ,
+          "amb-drop": drop}
 
 
 def sample(job: tuple) -> None:
@@ -298,6 +336,8 @@ PARTS = {
     "wind": ("amb-wind", "pad", -8.0, 0.0, 0.6),
     "pulse": ("amb-pulse", "low", -6.0, 0.0, 0.15),
     "shimmer": ("amb-glass", "pad", -12.0, 0.0, 0.9),
+    "organ": ("amb-organ", "piano", 0.0, 0.0, 0.85),
+    "drops": ("amb-drop", "pad", -12.0, 0.0, 0.85),
 }
 
 
@@ -349,7 +389,7 @@ def compose_ambient(score: dict, folder: Path) -> str:
         nxt = spans[index + 1] if index + 1 < len(spans) else None
         nxt_wanted = piece.section_at(nxt[0]).get("layers", []) if nxt else []
         bass, tones, root = c.chord(name)
-        for layer in ("pad", "choir", "sub", "wind"):
+        for layer in ("pad", "choir", "sub", "wind", "organ"):
             if layer not in wanted:
                 continue
             if layer == "pad":
@@ -361,12 +401,15 @@ def compose_ambient(score: dict, folder: Path) -> str:
                 colour = [t for t in tones if t != root] or tones
                 voices["choir"] = c.voice(voices["choir"], colour, *score.get("choir_range", [60, 76]), 3)
                 notes = sorted(set(voices["choir"]))
+            elif layer == "organ":  # the organ: the chord in the middle, its bass an octave and more under
+                voices["organ"] = c.voice(voices.get("organ", [55, 60, 64]), tones, *score.get("organ_range", [52, 72]), 3)
+                notes = sorted(set(voices["organ"] + [c.above(bass, 36)]))
             elif layer == "wind":  # the wind sounding the chord's root and fifth, low-middle
                 notes = sorted({c.above(root, 45), c.above((root + 7) % 12, 52)})
             else:
                 notes = [c.above(bass, score.get("sub_low", 26))]
             ends = None if (nxt and layer in nxt_wanted) else tick + length + (tail if not nxt else piece.ms(800))
-            hold(layer, notes, tick, ends, strength(tick, {"pad": 0, "choir": -6, "sub": -4, "wind": -2}[layer]))
+            hold(layer, notes, tick, ends, strength(tick, {"pad": 0, "choir": -6, "sub": -4, "wind": -2, "organ": -4}[layer]))
         if "toll" in wanted:
             every = section.get("toll_every", 1)
             if index % every == 0:
@@ -379,6 +422,11 @@ def compose_ambient(score: dict, folder: Path) -> str:
                 v = strength(at, 0, 34, 50)
                 part("pulse").add(at, note, v, c.TICKS)
                 part("pulse").add(at + round(0.32 * c.TICKS), note, v - 10, c.TICKS)
+        if "drops" in wanted:  # drops in a cave: the chord's tones, high, a few a bar, at random
+            high = [n for n in range(62, 85) if n % 12 in tones]
+            for _ in range(round(section.get("drops_per_bar", 3) * length / piece.bar)):
+                at = tick + rng.randrange(0, length)
+                part("drops").add(at, rng.choice(high), strength(at, -4, 28, 40), c.TICKS)
         if "shimmer" in wanted:  # glass, high and soft, on the chord's tones, at random, about twice a bar
             high = [n for n in range(72, 87) if n % 12 in tones]
             for _ in range(max(1, round(2 * length / piece.bar))):
