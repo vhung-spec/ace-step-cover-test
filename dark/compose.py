@@ -33,7 +33,8 @@ A piece is a short score, the shape an AI composer is asked to write:
   mo-ao, after the user's reference Dim Window as they chose it: the C5
   Kawai piano on the tune alone, two modelled oboes behind it (mo-ao-c5: on
   C5 with its left hand and a recorded oboe, round 16; mo-ao-glass: its
-  first, glassy sound);
+  first, glassy sound); mo-ao-day, the same piano with the cellos answering
+  it and a thin viola line;
 - melody_velocity: how hard the tune is struck at dyn 0 and at dyn 1 (40,
   82); velocity_cap: no key struck harder (64 keeps the Yamaha upright on its
   softest, darkest samples, which end at 65);
@@ -67,7 +68,11 @@ A piece is a short score, the shape an AI composer is asked to write:
   tune), oboe (an oboe softly behind the piano, a slow line of long notes:
   the chords' colour tones, kept clear of the tune; the piece's "oboe" names
   which: oboe, oboe-vib (recorded, straight or with vibrato), oboe-model,
-  oboe-model-straight (modelled); oboe_voices 2 adds a second oboe under it);
+  oboe-model-straight (modelled); oboe_voices 2 adds a second oboe under it),
+  cello-answer (the cellos answering the tune where it holds or rests: its
+  last notes an octave or two down, every other time mirrored; the bass,
+  held, where a section has no tune), viola-pad (the violas holding one
+  thin line of the chords' colour tones, clear of the tune and the cellos);
 - melody_shift: the whole tune moved this many semitones (12: an octave up).
 
 The piano breathes on the last beat of every four bars, a section marked
@@ -136,6 +141,9 @@ INSTRUMENTS = {
     "kawai": ("vcsl", "Chordophones/Zithers/Grand Piano, Kawai.sfz", {"release_db": -60}),
     "cellos": ("vsco", "CelloEnsSusVib-Quiet.sfz", dict(TONES["cellos"])),
     "violas": ("vsco", "ViolaEnsSusVib-Quiet.sfz", dict(TONES["violas"])),
+    # the same, darker, for one thin line behind a bare tune: their soft samples hiss (alone in the quiet
+    # moments of a piece, 35-42 dB under its music; low-passed at 2 kHz, 48-49)
+    "violas-dark": ("vsco", "ViolaEnsSusVib-Quiet.sfz", TONES["violas"] | {"lowpass": 2000, "lowpass_order": 4}),
     "basses": ("vsco", "ContrabassSusVB-Quiet.sfz", dict(TONES["basses"])),
     "violin": ("vsco", "SViolinVib-Quiet.sfz", dict(TONES["violins"]) | {"width": 0.5}),
     # VSCO's oboe, held straight (no vibrato) or with it, for a soft line behind the piano: darkened as the
@@ -213,6 +221,14 @@ STYLES = {
               "room": {"rt60": 2.8, "wet": 0.8}, "piano_reverb": 0.35, "loudness": -14,
               "piano_tone": {"attack": 0.025, "eq": [list(p) for p in EQ_C3], "eq_amount": 0.5, "release_db": -60},
               "oboe": "oboe-model", "oboe_voices": 2, "gains": {"oboe": 5.0, "oboe2": 3.0}},
+    # "Mờ ảo" with strings ("hãy thử piano + cello + viola: piano chơi chính, cello đáp câu, viola chỉ giữ
+    # nền mỏng"): the C5 piano on the tune alone, the cellos answering it (layer cello-answer), the violas
+    # holding one thin line under it (layer viola-pad, 10 dB under the piano).
+    "mo-ao-day": {"piano": "kawai", "bass_low": 40, "texture": "none", "pedal_beats": 2,
+                  "room": {"rt60": 2.8, "wet": 0.8}, "piano_reverb": 0.35, "loudness": -14,
+                  "piano_tone": {"attack": 0.025, "eq": [list(p) for p in EQ_C3], "eq_amount": 0.5,
+                                 "release_db": -60},
+                  "gains": {"viola": 2.0}},
     "dem-diu": {"piano": "model-dream", "bass_low": 40, "texture": "flow", "hold": 1.0, "pedal_beats": 2, "lh_soft": 6,
                 "melody_velocity": [38, 60], "velocity_cap": 64,
                 "room": {"rt60": 3.6, "wet": 0.85}, "piano_reverb": 0.35, "loudness": -14,
@@ -693,6 +709,13 @@ def layers(piece: Piece) -> None:
                     if start <= tick < end:
                         piece.held(line, tick + 15, max(notes) + shift, velocity + 4, length)
     oboe_line(piece)
+    answered = cello_answers(piece)
+    spans = [(t, l, n, piece.section_at(t)) for t, l, n in piece.spans]
+    spans = [s for s in spans if "viola-pad" in s[3].get("layers", [])]
+    if spans:  # layer viola-pad: the violas holding one soft, thin line of the chords' colour tones
+        clear = lambda tick, length: [n for a, b, n in answered if a < tick + length and b > tick]
+        line, _ = held_voice(piece, spans, 6.5, low=58, high=72, avoid=clear, soft=30)
+        play_held(piece, piece.part("viola", "violas-dark", "pad", 0.3, reverb=0.55), line, 6.5)
 
 
 def oboe_line(piece: Piece) -> None:
@@ -714,25 +737,30 @@ def oboe_line(piece: Piece) -> None:
     if not spans:
         return
     limit = OBOE_SECONDS[instrument]
-    line, notes = oboe_voice(piece, spans, limit)
-    play_oboe(piece, piece.part("oboe", instrument, "pad", 0.25, reverb=0.55), line, limit)
+    line, notes = held_voice(piece, spans, limit)
+    play_held(piece, piece.part("oboe", instrument, "pad", 0.25, reverb=0.55), line, limit)
     if piece.score.get("oboe_voices", 1) > 1:
-        line, _ = oboe_voice(piece, spans, limit, above=notes)
-        play_oboe(piece, piece.part("oboe2", instrument, "pad", -0.25, reverb=0.55), line, limit)
+        line, _ = held_voice(piece, spans, limit, above=notes)
+        play_held(piece, piece.part("oboe2", instrument, "pad", -0.25, reverb=0.55), line, limit)
 
 
-def oboe_voice(piece: Piece, spans: list, limit: float, above: list = None) -> tuple:
-    """One oboe's line ([start, end, note, velocity]) and its note at each
-    span (None where it rests); given the first oboe's notes (above), the
-    second's."""
+def held_voice(piece: Piece, spans: list, limit: float, above: list = None, low: int = 60, high: int = 81,
+               avoid=None, soft: float = 38) -> tuple:
+    """One held line ([start, end, note, velocity]) and its note at each
+    span (None where it rests), between low and high (under the tune where
+    there is room), its velocity soft + 26 x dyn; given the first oboe's
+    notes (above), the second oboe's. avoid(tick, length): other notes it
+    keeps as clear of as of the tune."""
     line, previous, picked = [], None, []
+    floor, ceiling = low, high
     for i, (tick, length, name, section) in enumerate(spans):
         tune = piece.tune_between(tick, tick + length)
+        others = tune + (avoid(tick, length) if avoid else [])
         bass, tones, root = chord(name)
         if above is None:
             prefer = [pc for pc in tones if (pc - root) % 12 not in (0, 7)]
-            low, high = 60, 81
-            if tune and min(tune) - 3 >= 64:
+            low, high = floor, ceiling
+            if tune and min(tune) - 3 >= low + 4:
                 high = min(high, min(tune) - 3)
             elif tune:
                 low = max(low, max(tune) + 3)
@@ -744,8 +772,8 @@ def oboe_voice(piece: Piece, spans: list, limit: float, above: list = None) -> t
             prefer, low, high = [root, bass], max(55, above[i] - 9), above[i] - 3
         fits = [n for n in range(low, high + 1)
                 if n % 12 in tones and (above is None or n % 12 != above[i] % 12)]
-        clear = [n for n in fits if all(abs(n - t) > 2 and (n - t) % 12 not in (1, 11) for t in tune)]
-        choices = clear or [n for n in fits if n not in tune]
+        clear = [n for n in fits if all(abs(n - t) > 2 and (n - t) % 12 not in (1, 11) for t in others)]
+        choices = clear or [n for n in fits if n not in others]
         if not choices:
             picked.append(None)
             previous = None
@@ -754,7 +782,7 @@ def oboe_voice(piece: Piece, spans: list, limit: float, above: list = None) -> t
         kept = (tick - line[-1][0]) if line and line[-1][2] == previous and line[-1][1] == tick else 0
         note = min(choices, key=lambda n: (abs(n - target) + (0 if n % 12 in prefer else 2)
                                            + (4 if n == previous and kept >= 2 * piece.bar - EIGHTH else 0), -n))
-        velocity = min(62, 38 + 26 * section.get("dyn", 0.4)) - (0 if above is None else 4)
+        velocity = min(62, soft + 26 * section.get("dyn", 0.4)) - (0 if above is None else 4)
         if (line and note == line[-1][2] and line[-1][1] == tick
                 and piece.seconds(line[-1][0], tick + length + EIGHTH + 30) <= limit):
             line[-1][1] = tick + length  # tied on
@@ -767,11 +795,82 @@ def oboe_voice(piece: Piece, spans: list, limit: float, above: list = None) -> t
     return line, picked
 
 
-def play_oboe(piece: Piece, oboe: Part, line: list, limit: float) -> None:
+def play_held(piece: Piece, part: Part, line: list, limit: float) -> None:
     for k, (start, end, note, velocity) in enumerate(line):
         joined = k + 1 < len(line) and line[k + 1][0] - EIGHTH == end
         stop = end + (EIGHTH + 30 if joined else 0)  # into the next note, a breath's overlap
-        piece.held(oboe, start, note, velocity, stop - start, most=limit)
+        piece.held(part, start, note, velocity, stop - start, most=limit)
+
+
+def cello_answers(piece: Piece) -> list:
+    """Layer cello-answer: the cellos answering the piano's tune. Where the
+    tune holds a note three beats or more, or rests a beat or more, the
+    cellos take the space left (from the held note's second beat, or the
+    rest) to the tune's next note: the tune's last notes (up to three, the
+    held one last) one or two octaves down (around G3), a beat each, the
+    last held a beat into the tune's next phrase; every other answer turned
+    upside down (its steps mirrored, kept in the tune's key). Its last note
+    is a tone of the chord under it, and no note sits a half step (or a
+    minor ninth) from the tune's. At most one answer every two bars, none
+    shorter than two beats. Where a section has no tune (an opening, a
+    close), the cellos hold the chords' bass instead, softly. Returns the
+    notes played, (tick, end, note), for the parts that keep clear of them."""
+    tune = piece.tune
+    played = []
+    wanted = lambda tick: "cello-answer" in piece.section_at(tick).get("layers", [])
+    if not any(wanted(t) for t, _, _ in piece.spans):
+        return played
+    cello = piece.part("cello-answer", "cellos", "melody2", -0.25, reverb=0.5)
+    key = {n % 12 for _, notes, _ in tune for n in notes}
+    for start, end, section in piece.sections:  # no tune: the bass, held
+        if "cello-answer" in section.get("layers", []) and not piece.tune_between(start, end):
+            for tick, length, name in [s for s in piece.spans if start <= s[0] < end]:
+                hold = length + (piece.bar if tick + length == piece.end else 0)
+                note = bass_note(name, 38)
+                piece.held(cello, tick + 30, note, 40 + 20 * section.get("dyn", 0.4), hold, most=6.5)
+                played.append((tick, tick + hold, note))
+    last, count = -10 ** 9, 0
+    for i, (tick, notes, length) in enumerate(tune):
+        if not wanted(tick):
+            continue
+        following = tune[i + 1][0] if i + 1 < len(tune) else piece.end
+        if length >= 3 * TICKS:
+            begin = tick + TICKS
+        elif following - (tick + length) >= TICKS:
+            begin = tick + length
+        else:
+            continue
+        beats = (following - begin) // TICKS
+        if beats < 2 or begin - last < 2 * piece.bar:
+            continue
+        tail = [max(n) for _, n, _ in tune[max(0, i - 2): i + 1]][-beats:]
+        if count % 2:  # upside down: the same steps, mirrored
+            tail = [tail[0] - (n - tail[0]) for n in tail]
+        shift = -12 * round((sum(tail) / len(tail) - 55) / 12)
+        line = [n + shift for n in tail]
+        dyn = piece.section_at(tick).get("dyn", 0.4)
+        for k, note in enumerate(line):
+            at = begin + k * TICKS
+            name = next(s[2] for s in piece.spans if s[0] <= at < s[0] + s[1])
+            _, tones, _ = chord(name)
+            sounding = piece.tune_between(at, at + TICKS)
+            if k == len(line) - 1 and note % 12 not in tones:  # it ends on the chord
+                note = min((n for n in range(note - 4, note + 5) if n % 12 in tones), key=lambda n: (abs(n - note), n))
+            elif note % 12 not in key | set(tones):  # a mirrored step out of the key
+                note = next(n for n in (note - 1, note + 1, note - 2, note + 2) if n % 12 in key | set(tones))
+            if any((note - s) % 12 in (1, 11) for s in sounding):
+                note = min((n for n in range(note - 4, note + 5) if n % 12 in tones
+                            and all((n - s) % 12 not in (1, 11) for s in sounding)),
+                           key=lambda n: (abs(n - note), n), default=note)
+            line[k] = note
+        for k, note in enumerate(line):
+            at = begin + k * TICKS
+            stop = following + TICKS if k == len(line) - 1 else at + TICKS + 30  # legato; the last into the next phrase
+            velocity = 46 + 24 * dyn - 3 * k
+            cello.add(at + piece.jitter(5), note, velocity, stop - at)
+            played.append((at, stop, note))
+        last, count = begin, count + 1
+    return played
 
 
 def ending(piece: Piece, piano: Part) -> None:

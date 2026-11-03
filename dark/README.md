@@ -196,3 +196,18 @@ Người dùng: "tôi muốn không có tiếng piano đệm đều phía dướ
 - Mức: không còn tay trái, đặt 15 và 17 dB dưới đàn thì oboe chỉ thêm 1 dB vào bản nhạc, gần như không nghe thấy; giờ
   7 và 9 dB dưới đàn (thêm 3-5 dB ở 1,2-2,5 kHz).
 - Tiếng vòng 16 giữ tên `mo-ao-c5`.
+
+## Piano, cello, viola (vòng 18)
+
+Người dùng: "hãy thử piano + cello + viola: piano chơi chính, cello đáp câu, viola chỉ giữ nền mỏng". Ba bài vòng 17 giữ
+nguyên giai điệu, thêm bản `-day` (dây) theo phong cách `mo-ao-day`:
+
+- Piano: tiếng C5, chỉ chơi giai điệu (không đệm đều).
+- Cello (`cello-answer`, bè cello của VSCO 2 CE, CC0; thư viện không có cello đơn): chỗ giai điệu ngân từ ba phách trở
+  lên hay nghỉ từ một phách, cello đáp vào khoảng trống đó (từ phách thứ hai của nốt ngân, hay chỗ nghỉ, tới nốt kế của
+  giai điệu): nhắc lại tối đa ba nốt cuối của câu, thấp một hay hai quãng tám (quanh Son 3), mỗi nốt một phách, nốt cuối
+  ngân sang câu sau một phách; cứ một lần nhắc lại thì lần sau lật ngược (bước đi soi gương, giữ trong giọng của bài).
+  Nốt cuối là nốt của hợp âm; không nốt nào cách giai điệu nửa cung. Tối đa một lần đáp mỗi hai ô nhịp. Đoạn không có
+  giai điệu (mở đầu, kết) cello giữ nốt trầm của hợp âm. 6 dB dưới đàn khi chơi.
+- Viola (`viola-pad`): một bè mỏng, nốt màu của hợp âm, dưới giai điệu, tránh cả giai điệu và cello, 10 dB dưới đàn.
+  Mẫu viola nhẹ có tiếng xì (35-42 dB dưới nhạc ở chỗ lặng): lọc bớt trên 2 kHz (`violas-dark`), còn 47-50 dB.
