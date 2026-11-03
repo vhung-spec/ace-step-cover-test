@@ -1,0 +1,26 @@
+{
+  "song": "silent-night",
+  "style": "ballad-human",
+  "title": "Silent Night · Kiểu 2 (the Rhodes alone, for the AI to hear)",
+  "heard": "",
+  "about": "test: Jingle Bells' Kiểu 2 2a without its written strings, on Silent Night: the Rhodes brighter for phones, the 2-second fade at the end; the Rhodes for Composer's Assistant 2 to hear (ai/k2-strings.plan.json).",
+  "changes": {
+    "ring_beats": 2,
+    "tail": {
+      "fade": 2.0,
+      "below": 50
+    },
+    "tones": {
+      "piano": {
+        "low_shelf": [
+          200,
+          -3
+        ],
+        "shelf": [
+          1200,
+          4
+        ]
+      }
+    }
+  }
+}

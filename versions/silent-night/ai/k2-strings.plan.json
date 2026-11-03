@@ -1,0 +1,62 @@
+{
+  "about": "Strings for Silent Night's Kiểu 2 (version 1), written by Composer's Assistant 2 hearing the Rhodes (its tune, rolling chords and deep bass), laid out as Jingle Bells' Kiểu 2 strings were in 2a, the version the user chose there: a bed from the first verse to the last chord (bars 4-52, two verses after the 4-bar intro), the violas (two notes at a time at most) and the cellos (one) throughout, the violins (one) in the last verse, each under the tune (loosely: lay_in keeps what the model wrote); notes starting about twice a bar (horiz 1), the cellos less (horiz 0), the upper strings mostly by step (step 4).",
+  "version": "silent-night/test/kieu-2-alone",
+  "hear": [
+    "piano"
+  ],
+  "parts": {
+    "violins": {
+      "program": 40,
+      "spans": [
+        [
+          28,
+          52,
+          62,
+          74
+        ]
+      ],
+      "vert": 0,
+      "horiz": 1,
+      "step": 4
+    },
+    "violas": {
+      "program": 41,
+      "spans": [
+        [
+          4,
+          28,
+          52,
+          64
+        ],
+        [
+          28,
+          52,
+          53,
+          67
+        ]
+      ],
+      "vert": 1,
+      "horiz": 1,
+      "step": 4
+    },
+    "cellos": {
+      "program": 42,
+      "spans": [
+        [
+          4,
+          52,
+          41,
+          57
+        ]
+      ],
+      "vert": 0,
+      "horiz": 0
+    }
+  },
+  "takes": [
+    1,
+    2,
+    3
+  ],
+  "temperature": 1.0
+}
