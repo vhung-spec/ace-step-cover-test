@@ -1,6 +1,6 @@
 {
   "title": "Mưa trên kính",
-  "about": "Round 15, in the mo-ao style after the user's new reference: E minor at 104 bpm, its tune low (G3-E5) in halves and quarters so it feels half as fast, diminished colour (A#dim7, F#m7b5) and a bass falling E-D-C. Round 16, as the user chose (\"tôi thích bản c5 hơn, và dùng thêm nhạc cụ oboe làm nền\"): on the C5 Kawai sound, its tune an octave up where C5's sits, an oboe softly under it from the first phrase to the end; an original tune.",
+  "about": "Round 15, in the mo-ao style after the user's new reference: E minor at 104 bpm, its tune low (G3-E5) in halves and quarters so it feels half as fast, diminished colour (A#dim7, F#m7b5) and a bass falling E-D-C. Round 16, as the user chose (\"tôi thích bản c5 hơn, và dùng thêm nhạc cụ oboe làm nền\"): on the C5 Kawai sound, its tune an octave up where C5's sits, an oboe softly under it from the first phrase to the end. Round 17 (\"tôi muốn không có tiếng piano đệm đều phía dưới, tiếng oboe dùng loại mô phỏng\"): the piano on the tune alone, two modelled oboes holding the harmony from the first bar; an original tune.",
   "style": "mo-ao",
   "bpm": 104,
   "beats": 4,
@@ -9,7 +9,10 @@
     {
       "bars": 4,
       "chords": "Em | Cmaj7 | Am6 | B7",
-      "dyn": 0.22
+      "dyn": 0.22,
+      "layers": [
+        "oboe"
+      ]
     },
     {
       "bars": 8,

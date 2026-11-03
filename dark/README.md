@@ -176,3 +176,23 @@ mức 0,75), nhỏ hơn lớp nền 3 dB, còn thêm 9 và 3 dB. Ba bài vòng 1
 | Oboe tối (EQ_C3 0,6 / 0,9), nhỏ hơn 3 dB | 0,693 / 0,707 |
 
 Oboe làm bài khác bản mẫu hơn (bản mẫu không có oboe): đó là lựa chọn của người dùng, không phải để giống bản mẫu.
+
+## Không đệm đều, oboe mô phỏng (vòng 17)
+
+Người dùng: "tôi muốn không có tiếng piano đệm đều phía dưới, tiếng oboe dùng loại mô phỏng".
+
+- Đàn chỉ chơi giai điệu (`texture` `none`; pedal vẫn giữ từng hợp âm), vẫn tiếng C5.
+- Oboe mô phỏng (`dark/oboe_model.py`, không dùng bản thu): mỗi nốt là các âm bồi của một lưỡi gà, mạnh yếu theo số đo
+  trên oboe của VSCO (24 âm bồi đầu của từng nốt thu, nốt ở giữa lấy giữa hai nốt gần nhất; cao hơn theo đường bao phổ
+  của oboe: mạnh nhất 300 Hz-1,3 kHz, tụt 15 dB ở 1,6 kHz, 30 dB ở 2 kHz). Âm bồi đọc theo tần số đang rung nên rung
+  giọng đổi cả màu tiếng như oboe thật; rung 5 lần/giây, ±7 cent, bắt đầu sau khi nốt đã đứng; mỗi âm bồi tự dao động
+  nhẹ (±1 dB); hơi thở 42 dB dưới tiếng. Nốt dài tới 15 giây, không phải thổi lại.
+- Đo bằng CLAP (máy nghe nhạc mã nguồn mở), bỏ phần dưới 150 Hz (tiếng ù của micro): oboe mô phỏng giống oboe thu
+  0,72-0,74 (chỉ theo đường bao phổ 0,64; hai cách thổi của chính oboe thu với nhau 0,89). Thêm hơi thở, rung cao độ
+  nhanh, vào nốt chậm hơn hay thêm phòng đều làm kém đi.
+- Hai oboe (`oboe_voices`: 2): oboe thứ nhất như vòng 16 (nốt màu của hợp âm, dưới giai điệu); oboe thứ hai thấp hơn nó
+  một quãng ba tới quãng sáu, ưu tiên nốt gốc hay nốt trầm của hợp âm (không còn tay trái, nó giữ chân hòa âm), nhỏ hơn
+  2 dB, lệch sang trái. Có oboe từ ô nhịp đầu tới hết bài.
+- Mức: không còn tay trái, đặt 15 và 17 dB dưới đàn thì oboe chỉ thêm 1 dB vào bản nhạc, gần như không nghe thấy; giờ
+  7 và 9 dB dưới đàn (thêm 3-5 dB ở 1,2-2,5 kHz).
+- Tiếng vòng 16 giữ tên `mo-ao-c5`.

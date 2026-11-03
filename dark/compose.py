@@ -31,7 +31,9 @@ A piece is a short score, the shape an AI composer is asked to write:
   dem-diu, the user's choice for slow, muffled pieces (dem-diu-h3: as it was
   on the recorded upright, before the modelled piano);
   mo-ao, after the user's reference Dim Window as they chose it: the C5
-  Kawai sound with an oboe behind it (mo-ao-glass: its first, glassy sound);
+  Kawai piano on the tune alone, two modelled oboes behind it (mo-ao-c5: on
+  C5 with its left hand and a recorded oboe, round 16; mo-ao-glass: its
+  first, glassy sound);
 - melody_velocity: how hard the tune is struck at dyn 0 and at dyn 1 (40,
   82); velocity_cap: no key struck harder (64 keeps the Yamaha upright on its
   softest, darkest samples, which end at 65);
@@ -63,8 +65,9 @@ A piece is a short score, the shape an AI composer is asked to write:
   octave (the piano doubling the tune an octave down), tremolo (the piano
   trembling between two tones of the chord in sixteenths, just above the
   tune), oboe (an oboe softly behind the piano, a slow line of long notes:
-  the chords' colour tones, kept clear of the tune; the piece's "oboe" may
-  name oboe-vib, the oboe with vibrato);
+  the chords' colour tones, kept clear of the tune; the piece's "oboe" names
+  which: oboe, oboe-vib (recorded, straight or with vibrato), oboe-model,
+  oboe-model-straight (modelled); oboe_voices 2 adds a second oboe under it);
 - melody_shift: the whole tune moved this many semitones (12: an octave up).
 
 The piano breathes on the last beat of every four bars, a section marked
@@ -99,7 +102,7 @@ KINDS = {"": (0, 4, 7), "m": (0, 3, 7), "5": (0, 7), "sus2": (0, 2, 7), "sus4": 
 
 # The longest (s) an oboe note may be held: its samples are cut off while still sounding (the straight
 # ones after 8-10 s, the vibrato ones after 6-7 s), so a longer note breathes and is played again.
-OBOE_SECONDS = {"oboe": 7.0, "oboe-vib": 5.0}
+OBOE_SECONDS = {"oboe": 7.0, "oboe-vib": 5.0, "oboe-model": 15.0, "oboe-model-straight": 15.0}
 # The tone the user chose for the muffled pieces: C3 of the fourth round (the
 # references' average spectrum against the plain upright's (B2), smoothed: a
 # warmer middle, falling from 1.2 kHz), then D2 of the fifth ("bớt chói": 1-4 dB
@@ -143,6 +146,13 @@ INSTRUMENTS = {
                                        "eq_amount": 0.75, "width": 0.5, "dehiss": True}),
     "oboe-vib": ("vsco", "OboeSusVib.sfz", {"attack": 0.15, "highpass": 120, "eq": [list(p) for p in EQ_C3],
                                             "eq_amount": 0.75, "width": 0.5, "dehiss": True}),
+    # the modelled oboe (dark/oboe_model.py, built with the pieces): no recording, every note made from the
+    # oboe's measured sound, held as long as a piece asks (15 s); with a player's vibrato, or straight
+    "oboe-model": ("model", "oboe-model.sfz", {"attack": 0.15, "highpass": 120, "eq": [list(p) for p in EQ_C3],
+                                               "eq_amount": 0.75, "width": 0.5}),
+    "oboe-model-straight": ("model", "oboe-model-straight.sfz", {"attack": 0.15, "highpass": 120,
+                                                                 "eq": [list(p) for p in EQ_C3], "eq_amount": 0.75,
+                                                                 "width": 0.5}),
     "drone": ("local", "drone.sfz", {"highpass": 30}),
     # the modelled pianos (dark/piano_model.py, built with the pieces): no
     # recording, every note made from its strings; fitted to the Yamaha
@@ -188,13 +198,21 @@ STYLES = {
                                    "eq": [[100, 0], [127, -3], [160, -5], [250, -5], [320, 0], [1250, 2], [1600, 5],
                                           [2000, 2], [2500, 0]]},
                     "human": {"amount": 1.0, "vary": True}},
-    # "Mờ ảo" now, as the user chose it ("tôi thích bản c5 hơn, và dùng thêm nhạc cụ oboe làm nền"): the
-    # sound of C5 (VCSL's Kawai grand, the references' tone at half strength, a 2.8 s hall, the light
-    # flowing left hand, played evenly) with an oboe softly behind it (layer oboe, 3 dB under a pad).
-    "mo-ao": {"piano": "kawai", "bass_low": 40, "texture": "flow", "hold": 1.0, "pedal_beats": 2, "lh_soft": 6,
+    # "Mờ ảo" of round 16, as the user chose it ("tôi thích bản c5 hơn, và dùng thêm nhạc cụ oboe làm
+    # nền"): the sound of C5 (VCSL's Kawai grand, the references' tone at half strength, a 2.8 s hall, the
+    # light flowing left hand, played evenly) with VSCO's oboe softly behind it (layer oboe, 3 dB under a pad).
+    "mo-ao-c5": {"piano": "kawai", "bass_low": 40, "texture": "flow", "hold": 1.0, "pedal_beats": 2, "lh_soft": 6,
+                 "room": {"rt60": 2.8, "wet": 0.8}, "piano_reverb": 0.35, "loudness": -14,
+                 "piano_tone": {"attack": 0.025, "eq": [list(p) for p in EQ_C3], "eq_amount": 0.5, "release_db": -60},
+                 "gains": {"oboe": -3.0}},
+    # "Mờ ảo" now ("tôi muốn không có tiếng piano đệm đều phía dưới, tiếng oboe dùng loại mô phỏng"): the C5
+    # piano plays the tune alone, no left hand under it (the pedal still holds each chord), and two modelled
+    # oboes behind it (dark/oboe_model.py) hold the harmony, the second on the chords' roots: 7 and 9 dB
+    # under the piano (with no left hand, 15 and 17 left them adding 1 dB to the mix, barely heard).
+    "mo-ao": {"piano": "kawai", "bass_low": 40, "texture": "none", "pedal_beats": 2,
               "room": {"rt60": 2.8, "wet": 0.8}, "piano_reverb": 0.35, "loudness": -14,
               "piano_tone": {"attack": 0.025, "eq": [list(p) for p in EQ_C3], "eq_amount": 0.5, "release_db": -60},
-              "gains": {"oboe": -3.0}},
+              "oboe": "oboe-model", "oboe_voices": 2, "gains": {"oboe": 5.0, "oboe2": 3.0}},
     "dem-diu": {"piano": "model-dream", "bass_low": 40, "texture": "flow", "hold": 1.0, "pedal_beats": 2, "lh_soft": 6,
                 "melody_velocity": [38, 60], "velocity_cap": 64,
                 "room": {"rt60": 3.6, "wet": 0.85}, "piano_reverb": 0.35, "loudness": -14,
@@ -686,43 +704,70 @@ def oboe_line(piece: Piece) -> None:
     from the tune nor on its very note; under the tune where there is room
     (C4 up), else over it, within C4-A5, its sweetest notes. It comes in an
     eighth after the piano's chord, as an answer, and swells with the
-    section's dyn; on the last chord it holds as the piano does."""
+    section's dyn; on the last chord it holds as the piano does. With
+    oboe_voices 2, a second oboe under the first, a third to a sixth below it
+    (G3 up), on the chord's root or bass where it can (with no piano under
+    them, it carries the harmony's foot), a line as smooth, a little softer."""
     instrument = piece.score.get("oboe", "oboe")
     spans = [(t, l, n, piece.section_at(t)) for t, l, n in piece.spans]
     spans = [s for s in spans if "oboe" in s[3].get("layers", [])]
     if not spans:
         return
-    oboe = piece.part("oboe", instrument, "pad", 0.25, reverb=0.55)
     limit = OBOE_SECONDS[instrument]
-    line, previous = [], None  # [start, end, note, velocity]
-    for tick, length, name, section in spans:
+    line, notes = oboe_voice(piece, spans, limit)
+    play_oboe(piece, piece.part("oboe", instrument, "pad", 0.25, reverb=0.55), line, limit)
+    if piece.score.get("oboe_voices", 1) > 1:
+        line, _ = oboe_voice(piece, spans, limit, above=notes)
+        play_oboe(piece, piece.part("oboe2", instrument, "pad", -0.25, reverb=0.55), line, limit)
+
+
+def oboe_voice(piece: Piece, spans: list, limit: float, above: list = None) -> tuple:
+    """One oboe's line ([start, end, note, velocity]) and its note at each
+    span (None where it rests); given the first oboe's notes (above), the
+    second's."""
+    line, previous, picked = [], None, []
+    for i, (tick, length, name, section) in enumerate(spans):
         tune = piece.tune_between(tick, tick + length)
-        _, tones, root = chord(name)
-        colour = [pc for pc in tones if (pc - root) % 12 not in (0, 7)]
-        low, high = 60, 81
-        if tune and min(tune) - 3 >= 64:
-            high = min(high, min(tune) - 3)
-        elif tune:
-            low = max(low, max(tune) + 3)
-        fits = [n for n in range(low, high + 1) if n % 12 in tones]
+        bass, tones, root = chord(name)
+        if above is None:
+            prefer = [pc for pc in tones if (pc - root) % 12 not in (0, 7)]
+            low, high = 60, 81
+            if tune and min(tune) - 3 >= 64:
+                high = min(high, min(tune) - 3)
+            elif tune:
+                low = max(low, max(tune) + 3)
+        elif above[i] is None:
+            picked.append(None)
+            previous = None
+            continue
+        else:
+            prefer, low, high = [root, bass], max(55, above[i] - 9), above[i] - 3
+        fits = [n for n in range(low, high + 1)
+                if n % 12 in tones and (above is None or n % 12 != above[i] % 12)]
         clear = [n for n in fits if all(abs(n - t) > 2 and (n - t) % 12 not in (1, 11) for t in tune)]
         choices = clear or [n for n in fits if n not in tune]
         if not choices:
+            picked.append(None)
             previous = None
             continue
         target = previous if previous is not None else (low + high) // 2
         kept = (tick - line[-1][0]) if line and line[-1][2] == previous and line[-1][1] == tick else 0
-        note = min(choices, key=lambda n: (abs(n - target) + (0 if n % 12 in colour else 2)
+        note = min(choices, key=lambda n: (abs(n - target) + (0 if n % 12 in prefer else 2)
                                            + (4 if n == previous and kept >= 2 * piece.bar - EIGHTH else 0), -n))
-        velocity = min(62, 38 + 26 * section.get("dyn", 0.4))
+        velocity = min(62, 38 + 26 * section.get("dyn", 0.4)) - (0 if above is None else 4)
         if (line and note == line[-1][2] and line[-1][1] == tick
                 and piece.seconds(line[-1][0], tick + length + EIGHTH + 30) <= limit):
             line[-1][1] = tick + length  # tied on
         else:
             line.append([tick + EIGHTH, tick + length, note, velocity])
         previous = note
+        picked.append(note)
     if line and line[-1][1] == piece.end:
         line[-1][1] += piece.bar
+    return line, picked
+
+
+def play_oboe(piece: Piece, oboe: Part, line: list, limit: float) -> None:
     for k, (start, end, note, velocity) in enumerate(line):
         joined = k + 1 < len(line) and line[k + 1][0] - EIGHTH == end
         stop = end + (EIGHTH + 30 if joined else 0)  # into the next note, a breath's overlap

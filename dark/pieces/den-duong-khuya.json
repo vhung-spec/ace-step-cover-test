@@ -1,6 +1,6 @@
 {
   "title": "Đèn đường khuya",
-  "about": "Round 15, mo-ao: B minor at 96 bpm, its tune low (D4-G5) in halves and quarters, a bass falling B-A-G, E#dim7 and C#m7b5 for the dark colour. Round 16, as the user chose (\"tôi thích bản c5 hơn, và dùng thêm nhạc cụ oboe làm nền\"): on the C5 Kawai sound, its tune an octave up where C5's sits, an oboe softly under it from the first phrase to the end; an original tune.",
+  "about": "Round 15, mo-ao: B minor at 96 bpm, its tune low (D4-G5) in halves and quarters, a bass falling B-A-G, E#dim7 and C#m7b5 for the dark colour. Round 16, as the user chose (\"tôi thích bản c5 hơn, và dùng thêm nhạc cụ oboe làm nền\"): on the C5 Kawai sound, its tune an octave up where C5's sits, an oboe softly under it from the first phrase to the end. Round 17 (\"tôi muốn không có tiếng piano đệm đều phía dưới, tiếng oboe dùng loại mô phỏng\"): the piano on the tune alone, two modelled oboes holding the harmony from the first bar; an original tune.",
   "style": "mo-ao",
   "bpm": 96,
   "beats": 4,
@@ -9,7 +9,10 @@
     {
       "bars": 2,
       "chords": "Bm | Gmaj7",
-      "dyn": 0.2
+      "dyn": 0.2,
+      "layers": [
+        "oboe"
+      ]
     },
     {
       "bars": 8,
