@@ -3,7 +3,7 @@
   "style": "ballad-human",
   "title": "Silent Night · Kiểu 2",
   "heard": "Kiểu 1: \"chốt, gửi file wav và sang bài tiếp\" (locked, its WAV, and on): Kiểu 1 locked at 1, Kiểu 2 next",
-  "about": "v1: Jingle Bells' Kiểu 2 2a, the version the user chose, on Silent Night (72 bpm, the 4-bar intro, two verses, 2:20): the Rhodes brighter for phones (3 dB less under 200 Hz, 4 dB more from 1.2 kHz), the 2-second fade at the end; strings written anew by Composer's Assistant 2 hearing this Rhodes (ai/k2-strings.plan.json, take 1 of 3: its violins, violas and cellos the fewest notes off the chord once laid in, 5.1, 2.0 and 0.9 % of their time against 7.0-8.4, 6.8-9.4 and 1.0-1.6 %, all three the calmest, none over the tune), laid in as 2a's (violas and cellos from the first verse, violins in the last, over the ballad's own pad far under the Rhodes). As Silent Night's Piano nỉ 3 and Kiểu 1 1, drier than Jingle Bells: the room's sends 0.35, the far hall 2.2 s.",
+  "about": "v1: Jingle Bells' Kiểu 2 2a, the version the user chose, on Silent Night (72 bpm, the 4-bar intro, two verses, 2:20): the Rhodes brighter for phones (4 dB more from 1.2 kHz), the 2-second fade at the end; strings written anew by Composer's Assistant 2 hearing this Rhodes (ai/k2-strings.plan.json, take 1 of 3: its violins, violas and cellos the fewest notes off the chord once laid in, 5.1, 2.0 and 0.9 % of their time against 7.0-8.4, 6.8-9.4 and 1.0-1.6 %, all three the calmest, none over the tune), laid in as 2a's (violas and cellos from the first verse, violins in the last, over the ballad's own pad far under the Rhodes). Silent Night's Rhodes, rolled lower than Jingle Bells', puts a third of the piece's energy at 300-400 Hz, 2-3 dB more than 2a there: phones lost 3.5 dB of it (the SOP's most is 3), and 2a's low shelf (200 Hz, -3 dB) or deeper ones only gave the 300-400 Hz more of the rest: a bell 3 dB down at 300 Hz (Q 1.4) and the low shelf at 250 Hz, -5 dB, bring it to 2.8 dB, as 2a, its lows (60-200 Hz against 200-800) within 0.2 dB of 2a's. As Silent Night's Piano nỉ 3 (the user asked less reverb of it) and Kiểu 1 1: its echo 3.7 dB under the dry mix (Piano nỉ 3: 3.5), the room's sends 0.25 (this Rhodes sends more than that one), the far hall 2.2 s.",
   "changes": {
     "ring_beats": 2,
     "tail": {
@@ -13,12 +13,17 @@
     "tones": {
       "piano": {
         "low_shelf": [
-          200,
-          -3
+          250,
+          -5
         ],
         "shelf": [
           1200,
           4
+        ],
+        "bell": [
+          300,
+          -3,
+          1.4
         ]
       },
       "violins": {
@@ -42,7 +47,7 @@
       0.74
     ],
     "far": 2.2,
-    "wet": 0.35,
+    "wet": 0.25,
     "levels": {
       "violins": -3,
       "violas": -2,

@@ -270,10 +270,22 @@ def low_shelf(freq: float, db: float) -> tuple:
     return b / den[0], den / den[0]
 
 
+def bell(freq: float, db: float, q: float) -> tuple:
+    """Biquad coefficients of a bell around freq (RBJ's audio EQ cookbook's peaking EQ): db there, less
+    either side, the narrower the higher q."""
+    a = 10 ** (db / 40)
+    w = 2 * np.pi * freq / RATE
+    cos, alpha = np.cos(w), np.sin(w) / (2 * q)
+    b = np.array([1 + alpha * a, -2 * cos, 1 - alpha * a])
+    den = np.array([1 + alpha / a, -2 * cos, 1 - alpha / a])
+    return b / den[0], den / den[0]
+
+
 def apply_tone(audio: np.ndarray, tone: dict) -> np.ndarray:
     """A part's tone: one microphone's side only, on both (channel: left or
     right), a high-pass and a low-pass (Hz; the low-pass 12 dB an octave, or
     steeper as lowpass_order asks), a high shelf and a low shelf (Hz, dB),
+    a bell (Hz, dB, Q: one narrow band up or down, as a muddy middle asks),
     and its highs hushed in its quiet moments if it hisses (dehiss)."""
     if tone.get("channel") in ("left", "right"):
         audio = np.repeat(audio[[0 if tone["channel"] == "left" else 1]], 2, axis=0)
@@ -286,6 +298,8 @@ def apply_tone(audio: np.ndarray, tone: dict) -> np.ndarray:
         audio = lfilter(*high_shelf(*tone["shelf"]), audio, axis=-1)
     if tone.get("low_shelf"):
         audio = lfilter(*low_shelf(*tone["low_shelf"]), audio, axis=-1)
+    if tone.get("bell"):
+        audio = lfilter(*bell(*tone["bell"]), audio, axis=-1)
     if tone.get("dehiss"):
         audio = dehiss(audio)
     return audio
