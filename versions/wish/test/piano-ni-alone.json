@@ -1,0 +1,50 @@
+{
+  "song": "wish",
+  "style": "felt-written-human",
+  "title": "We Wish You a Merry Christmas · Piano nỉ (the piano alone, for the AI to hear)",
+  "heard": "",
+  "about": "test: Jingle Bells' Piano nỉ 12a without its written parts, on We Wish You a Merry Christmas (its first strain and the refrain, 16 bars; four verses, 2:11, three only 1:41): the felt piano as the user chose it, the piano for Composer's Assistant 2 to hear (ai/strings.plan.json).",
+  "changes": {
+    "hall": 0.8,
+    "wet": 0.45,
+    "breath": 0.95,
+    "perform": {
+      "rubato": 0.07,
+      "treble_db": -4.5
+    },
+    "tones": {
+      "piano": {
+        "highpass": 80,
+        "low_shelf": [
+          300,
+          -5
+        ],
+        "shelf": [
+          1500,
+          3
+        ],
+        "lowpass": 6000,
+        "peaks_db": 17,
+        "swap_samples": {
+          "Upright1_Sus_C5_vl1_rr1.wav": "Upright1_Sus_C5_vl1_rr2.wav"
+        },
+        "treble_filter": {
+          "from": 79,
+          "ratio": 0.8
+        }
+      }
+    },
+    "written_end": true,
+    "written_swell": [
+      0.6,
+      0.57,
+      0.74
+    ],
+    "ring_beats": 2,
+    "tail": {
+      "fade": 1.0,
+      "below": 45
+    },
+    "verses": 4
+  }
+}

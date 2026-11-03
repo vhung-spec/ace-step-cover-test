@@ -1,0 +1,75 @@
+{
+  "about": "Strings and horns for We Wish You a Merry Christmas's felt piano (Piano nỉ, version 1), written by Composer's Assistant 2 hearing the piano (its tune and left hand), laid out as Jingle Bells' were in 12a and Silent Night's in 3, the versions the user chose: the violas (two notes at a time at most) and the cellos (one) from the first verse's second half (bar 10; the tune starts at bar 2 after the 2-bar intro, 16 bars a verse, four verses) to the last chord's end (bar 67), the violins (one) from the piece's middle (the third verse, bar 34), as in both, the horns (up to two, held) in the last verse's second half (bars 58-66); each under the tune (loosely: lay_in keeps what the model wrote).",
+  "version": "wish/test/piano-ni-alone",
+  "hear": [
+    "piano"
+  ],
+  "parts": {
+    "violins": {
+      "program": 40,
+      "spans": [
+        [
+          34,
+          67,
+          62,
+          74
+        ]
+      ],
+      "vert": 0,
+      "horiz": 1,
+      "step": 4
+    },
+    "violas": {
+      "program": 41,
+      "spans": [
+        [
+          10,
+          34,
+          52,
+          64
+        ],
+        [
+          34,
+          67,
+          53,
+          67
+        ]
+      ],
+      "vert": 1,
+      "horiz": 1,
+      "step": 4
+    },
+    "cellos": {
+      "program": 42,
+      "spans": [
+        [
+          10,
+          67,
+          41,
+          57
+        ]
+      ],
+      "vert": 0,
+      "horiz": 0
+    },
+    "horns": {
+      "program": 60,
+      "spans": [
+        [
+          58,
+          66,
+          50,
+          65
+        ]
+      ],
+      "vert": 1,
+      "horiz": 0
+    }
+  },
+  "takes": [
+    1,
+    2,
+    3
+  ],
+  "temperature": 1.0
+}

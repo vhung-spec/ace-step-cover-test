@@ -15,6 +15,12 @@ pickup first, one bar to a line; the chords are named beat by beat.
   out.
 - Jingle Bells (James Lord Pierpont, 1857) and Deck the Halls (the Welsh tune
   "Nos Galan"): the tunes as they are sung today, plainly harmonised.
+- We Wish You a Merry Christmas (a West Country carol): the tune as it is sung
+  today, its first strain followed by the refrain "Good tidings we bring",
+  plainly harmonised here. Its first printing known is Arthur Warrell's
+  arrangement (Oxford University Press, 1935); only the tune is taken, none of
+  his harmony. The project owner chose to use it knowing its United States
+  term may run to the end of 2030 (owner's decision, 3 November 2026).
 """
 
 # The First Noel, in D major, 3/4. "The first No-el the an-gel did say..."
@@ -162,3 +168,26 @@ DECK_THE_HALLS = [
 ]
 DECK_THE_HALLS_CHORDS = """F|F|F|C7 F|C7|F|Bb C7|C7|F|F F|C7|F|F F|F|F|C7 F|C7|F|Bb C7|C7|F|F F|C7|F|F
 C7 F|F|F|C G7|C|G7|G7 C|G7|C|C F|F|F|C7 F|C7|F|Bb Bb|Bb|F|C7 F|C7|F|F"""
+
+# We Wish You a Merry Christmas, in C major, 3/4: the first strain (as
+# make_source.MELODY), then the refrain.
+WISH = [
+    (67, 2),  # We
+    (72, 2), (72, 1), (74, 1), (72, 1), (71, 1),  # wish you a mer-ry
+    (69, 2), (69, 2), (69, 2),  # Christ-mas, we
+    (74, 2), (74, 1), (76, 1), (74, 1), (72, 1),  # wish you a mer-ry
+    (71, 2), (67, 2), (67, 2),  # Christ-mas, we
+    (76, 2), (76, 1), (77, 1), (76, 1), (74, 1),  # wish you a mer-ry
+    (72, 2), (69, 2), (67, 1), (67, 1),  # Christ-mas and a
+    (69, 2), (74, 2), (71, 2),  # hap-py New
+    (72, 4), (67, 2),  # Year. Good
+    (72, 2), (72, 2), (72, 2),  # ti-dings we
+    (71, 4), (71, 2),  # bring to
+    (72, 2), (71, 2), (69, 2),  # you and your
+    (67, 4), (74, 2),  # kin; good
+    (76, 2), (74, 2), (72, 2),  # ti-dings for
+    (79, 2), (67, 2), (67, 1), (67, 1),  # Christ-mas and a
+    (69, 2), (74, 2), (71, 2),  # hap-py New
+    (72, 6),  # Year.
+]
+WISH_CHORDS = "C F D7 G E7 Am F|G|G C C G Am G C Em F|G|G C"

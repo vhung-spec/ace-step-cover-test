@@ -435,8 +435,7 @@ def reharmonize(song: "Song") -> "Song":
 
 
 SONGS = {
-    "wish": Song("wish", 120, make_source.MELODY, 2,
-                 per_beat("C F D7 G E7 Am F|G|G C"), 2, lively=True),
+    "wish": Song("wish", 120, carols.WISH, 2, per_beat(carols.WISH_CHORDS), 2, lively=True),
     "silent-night": Song("silent-night", 84, make_source.SILENT_NIGHT, 0,
                          per_beat("C C C C G7 G7 C C F F C C F F C C G7 G7 C C C G7 C C"), 4),
     "first-noel": Song("first-noel", 100, carols.FIRST_NOEL, 2, per_beat(carols.FIRST_NOEL_CHORDS), 4),
