@@ -63,7 +63,10 @@ common to two chords held across them; layers, per section:
   chord, or "timpani": "roll" in a section, swelling with it), pluck (the
   melody on the plucked string, first of all), pluckarp (the chord broken on
   it, pluck_beats); bass_step (the bassline's note length, beats), felt_chords
-  (the felt piano's chords whole), answer_on "solo" (the answer on the string), tune_on (the
+  (the felt piano's chords whole), answer_on "solo" (the answer on the string), improv (a melody improvised through the
+  section on this instrument: felt, glass, pluck, box, bells or solo;
+  improv_range, improv_density; the score's mode: aeolian, dorian, lydian,
+  major, pentatonic; seed), tune_on (the
   instrument the section's tune is played on, before the order above), drops (water drops on the chord's tones, drops_per_bar); "answer", a second line beside the melody,
   played on the bell (as the cellos answer the piano in the dark piano).
 dyn, 0-1, sets every layer's strength; a section's "swell" lets it grow
@@ -622,6 +625,62 @@ PARTS = {
     "pluckarp": ("amb-pluck", "pad", -9.0, -0.15, 0.6),
 }
 
+MODES = {"aeolian": (0, 2, 3, 5, 7, 8, 10), "dorian": (0, 2, 3, 5, 7, 9, 10), "lydian": (0, 2, 4, 6, 7, 9, 11),
+         "major": (0, 2, 4, 5, 7, 9, 11), "pentatonic": (0, 3, 5, 7, 10)}
+
+
+def improvise(piece, c, section: dict, start: int, end: int, rng: random.Random, tonic: int, mode: str,
+              low: int, high: int, density: float) -> list:
+    """A melody made up as it goes, as a player improvising slowly at night: phrases of two to four bars,
+    each followed by a rest of one to three bars; notes of one to three beats (a few halves), each a step
+    or two along the scale from the last (now and then a leap of a third or fourth, then back), the line
+    rising through the first half of a phrase and falling through the second; a note held two beats or
+    more, and every phrase's last, always one of the chord's own tones, so nothing rubs. density: about
+    how many notes a bar. Returns (tick, note, beats)."""
+    scale = sorted({(tonic + i) % 12 for i in MODES[mode]})
+    pitches = [n for n in range(low, high + 1) if n % 12 in scale]
+    chord_at = lambda tick: next((n for t, l, n in piece.spans if t <= tick < t + l), piece.spans[-1][2])
+    notes, tick = [], start + rng.choice([0, c.TICKS, 2 * c.TICKS])
+    index = len(pitches) // 2
+    while tick < end - piece.bar:
+        bars = rng.choice([2, 3, 3, 4])
+        phrase_end = min(end - c.TICKS, tick + bars * piece.bar)
+        begin = tick
+        third = len(pitches) // 3  # each phrase sets out from the middle of the range, so it never sinks
+        index = rng.randrange(third, max(third + 1, 2 * third))
+        previous = None
+        while tick < phrase_end:
+            longest = max(1.0, min(3.0, 2.0 / max(0.3, density)))
+            beats = rng.choice([b for b in (0.5, 1.0, 1.5, 2.0, 3.0) if b <= longest + 0.5] or [1.0])
+            if beats == 0.5 and rng.random() < 0.5:
+                beats = 1.0
+            through = (tick - begin) / max(1, phrase_end - begin)
+            lean = 1 if through < 0.5 else -1  # up, then down
+            move = rng.choice([1, 1, 1, 2, 2]) * (lean if rng.random() < 0.7 else -lean)
+            if rng.random() < 0.12:
+                move = lean * rng.choice([3, 4])
+            if not 0 <= index + move < len(pitches):  # at the edge of the range: turn back
+                move = -move
+            index = max(0, min(len(pitches) - 1, index + move))
+            note = pitches[index]
+            length = round(beats * c.TICKS)
+            last = tick + length >= phrase_end
+            tones = c.chord(chord_at(tick))[1]
+            if (beats >= 2 or last) and note % 12 not in tones:  # held: a chord tone, the nearest
+                note = min((n for n in pitches if n % 12 in tones), key=lambda n: (abs(n - note), n), default=note)
+                index = pitches.index(note) if note in pitches else index
+            if note == previous:  # not the same note again: one step toward the middle
+                index += 1 if index < len(pitches) // 2 else -1
+                note = pitches[index]
+            previous = note
+            if last:
+                length = max(length, 2 * c.TICKS)
+            notes.append((tick, note, length / c.TICKS))
+            tick += length
+        tick += rng.choice([1, 2, 2, 3]) * piece.bar  # a breath between phrases
+        tick -= (tick - start) % c.TICKS
+    return notes
+
 
 def compose_ambient(score: dict, folder: Path) -> str:
     import compose as c  # dark/compose.py: its pieces, chords and parts
@@ -784,6 +843,24 @@ def compose_ambient(score: dict, folder: Path) -> str:
             for _ in range(max(1, round(2 * length / piece.bar))):
                 at = tick + rng.randrange(0, length)
                 part("shimmer").add(at, rng.choice(high), strength(at, -6, 26, 30), piece.bar * 2)
+    tonic = c.chord(score["sections"][0]["chords"].split("|")[0].split()[0].split(":")[0])[2]
+    irng = random.Random(score.get("seed", 11) * 31 + 7)
+    for start, end, section in piece.sections:  # improv: a melody made up as it goes (improvise)
+        on = section.get("improv")
+        if not on:
+            continue
+        low, high = section.get("improv_range", score.get("improv_range", [57, 76]))
+        for at, n, beats in improvise(piece, c, section, start, end, irng, tonic,
+                                      score.get("mode", "aeolian"), low, high, section.get("improv_density", 1.2)):
+            length = round(beats * c.TICKS)
+            v = strength(at, 0, 32, 30) + irng.uniform(-3, 3)
+            at += piece.ms(irng.gauss(0, 30))  # never quite on the grid
+            if on == "solo":
+                part("solo").add(at, n, v, length + piece.ms(150))
+            elif on == "felt":
+                part("felt").add(at, n, v - 2, length + c.TICKS)
+            else:  # glass, pluck, box, bells: struck and left to ring
+                part(on).add(at, n, v, max(length, 2 * c.TICKS))
     for t, notes, length in piece.tune:  # the tune: on the bell or the glass, struck and left ringing
         section = piece.section_at(t)
         on = section.get("layers", [])

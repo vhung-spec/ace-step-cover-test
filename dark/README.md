@@ -412,3 +412,25 @@ Thêm `tune_on`: đoạn tự chọn nhạc cụ cho giai điệu.
 | `k51-suong-nui` (Sương núi) | Mountain Mist | Phương Đông | Mi thứ, 50 bpm |
 | `k52-tin-hieu-cuoi` (Tín hiệu cuối) | Last Transmission | Darkwave | Mi thứ, 88 bpm |
 | `k53-vuong-quoc-sup-do` (Vương quốc sụp đổ) | Fallen Kingdom | Nhạc phim | Đô thứ, 56 bpm |
+
+## Nhạc ngủ có giai điệu ngẫu hứng (vòng X9)
+
+Người dùng: "tôi muốn những bài âm thanh u tối nhưng dễ nghe để ngủ hơn, có thể thêm những giai điệu ngẫu
+hứng". Thêm `improvise()` trong `ambient.py`: một giai điệu tự nghĩ ra khi chơi, như người dạo đàn chậm lúc
+đêm: từng câu 2-4 ô, nghỉ 1-3 ô giữa các câu; mỗi nốt 1-3 phách, đi một hai bậc của thang âm (thỉnh thoảng
+nhảy quãng ba, quãng bốn), lên ở nửa đầu câu, xuống ở nửa sau; mỗi câu bắt đầu từ giữa tầm cữ; nốt ngân
+(từ 2 phách) và nốt cuối câu luôn là nốt của hợp âm, nên không chỏi. Lớp `improv` (nhạc cụ: `felt`, `glass`,
+`pluck`, `box`, `bells`, `solo`), `improv_range`, `improv_density`, thang âm của bài (`mode`: aeolian,
+dorian, lydian, major, pentatonic), `seed`. Hòa âm êm hơn: hợp âm có quãng chín, bảy trưởng, không còn nửa
+cung Phrygian chỏi; kiểu `ngu-ngon`.
+
+| Bản | Tên tiếng Anh | Giọng | Ngẫu hứng trên |
+|---|---|---|---|
+| `k54-dao-dem` (Dạo đêm) | Night Wandering | La thứ, 54 bpm | piano nỉ |
+| `k55-song-va-thuy-tinh` (Sóng và thủy tinh) | Glass and Waves | Rê Dorian, 50 bpm | chuông thủy tinh, sóng xa |
+| `k56-day-dan-trong-mo` (Dây đàn trong mơ) | Strings in a Dream | Mi thứ, 50 bpm | cây dây, dây trầm |
+| `k57-mua-sao-bang-cham` (Mưa sao băng chậm) | Slow Meteor Shower | Si Dorian, 52 bpm | đàn dây gảy |
+| `k58-ngon-nen-cuoi` (Ngọn nến cuối) | The Last Candle | Đô thứ, 48 bpm | piano nỉ, đàn ống xa |
+| `k59-thuyen-dem` (Thuyền đêm) | Night Boat | Son Dorian, 52 bpm | piano nỉ, sóng, dây |
+| `k60-khu-vuon-toi` (Khu vườn tối) | Dark Garden | Đô thăng thứ, 50 bpm | thủy tinh rồi dây gảy |
+| `k61-giac-mo-khong-ten` (Giấc mơ không tên) | Nameless Dream | Rê thứ, 46 bpm | piano nỉ, cây dây, thủy tinh lần lượt |
