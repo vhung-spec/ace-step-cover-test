@@ -257,3 +257,17 @@ Bản thu "Hồi âm" trên GitHub (sfizz thật) và bản thu trong máy làm 
 | `ben-vang` (Bến vắng) | Fa thứ, nhịp ba, 80 bpm | Câu bốn ô, ô cuối ngân trọn, câu sau vào sau một phách nghỉ: cello đáp qua vạch nhịp; đoạn giữa La giáng trưởng hát hai lần | 0,639 |
 | `chuyen-tau-dem` (Chuyến tàu đêm) | Fa thăng thứ, 92 bpm | Giai điệu móc đơn như bánh xe trên ray, dừng mỗi hai ô cho cello; đoạn giữa La trưởng hai lần, lần sau qua E7 | 0,642 |
 | `mua-dong-nam-ay` (Mùa đông năm ấy) | Si giáng thứ, 60 bpm | Chậm nhất, giai điệu thấp hơn (Fa 4 tới La giáng 5, Rê giáng 6 ở đỉnh); Ebm6, Gbmaj7 | 0,630 |
+
+## Bốn bài nữa, mỗi bài một cách mở đầu (vòng 22)
+
+Người dùng: "hãy sáng tác thêm vài bài kiểu này nhưng hơi khác đi chút, đoạn mở đầu khác nhau". Vẫn `tam-tau-phim`.
+Mới: `melody_on: cello` cho một đoạn, cello hát giai điệu của đoạn đó (viết ở giọng cello), piano để trống hay chỉ
+chơi kết cấu của đoạn. Cello hát dùng `cellos-dark` (cắt từ 3 kHz: mẫu nhẹ có tiếng xì, 38-39 dB dưới nhạc ở chỗ lặng,
+giờ 43-45). 69 bài cũ soạn ra y hệt như trước.
+
+| Bài | Giọng, nhịp | Mở đầu | Khác thêm |
+|---|---|---|---|
+| `gio-bac` (Gió bấc) | Đô thứ, 70 bpm | Cello hát chủ đề một mình, viola nền, chưa có piano (4 ô) | Piano nhắc lại chủ đề cao hơn hơn một quãng tám; đoạn giữa Mi giáng trưởng lên tới Mi giáng 6 |
+| `dong-ho-cu` (Đồng hồ cũ) | Son thứ, 76 bpm | Piano một mình gõ "tích tắc" (Rê, Si giáng đổi nhau từng móc đơn) như đồng hồ cũ (2 ô) | Kết bài gõ lại tiếng đồng hồ, cello đáp |
+| `mat-ho-dem` (Mặt hồ đêm) | Mi giáng thứ, nhịp ba, 69 bpm | Chỉ dàn dây: cello giữ nốt trầm, viola một bè chậm (4 ô), piano vào sau | Đoạn giữa Son giáng trưởng hát hai lần |
+| `ngay-xa` (Ngày xa) | Mi thứ, 84 bpm | Không có đoạn mở: hai nốt dạo của piano rồi vào thẳng giai điệu | Đoạn giữa đổi vai: cello hát, piano rải hợp âm; rồi piano hát lại cao hơn, cello đáp |
