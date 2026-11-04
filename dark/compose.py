@@ -204,6 +204,7 @@ INSTRUMENTS = {
     "amb-bowed": ("model", "amb-bowed.sfz", {"highpass": 45, "lowpass": 4000, "lowpass_order": 2, "width": 1.1}),
     "amb-bowsolo": ("model", "amb-bowsolo.sfz", {"highpass": 60, "lowpass": 4000, "lowpass_order": 2}),
     "amb-thunder": ("model", "amb-thunder.sfz", {"lowpass": 400}),
+    "amb-waves": ("model", "amb-waves.sfz", {"highpass": 40, "lowpass": 1200, "lowpass_order": 2, "width": 1.2}),
     "amb-drop": ("model", "amb-drop.sfz", {"lowpass": 3500, "lowpass_order": 2}),
 }
 # Named styles: a piece's "style" fills in every setting it does not give itself.
@@ -284,6 +285,9 @@ STYLES = {
     # "Không gian u tối" (dark ambient, branch dark-khac): no piano; a piece made by dark/ambient.py from long
     # held modelled sounds, a 6.5 s hall, quieter (-16 LUFS).
     "khong-gian": {"kind": "ambient", "room": {"rt60": 6.5, "wet": 1.0}, "loudness": -16, "even_hall": True},
+    # "Ngủ ngon" (for sleep): the same sounds, nothing sudden (no thunder, heartbeat or struck bells in its
+    # pieces), a longer, softer hall, quieter (-17 LUFS), the pieces long (5-6 min) and even.
+    "ngu-ngon": {"kind": "ambient", "room": {"rt60": 7.5, "wet": 1.0}, "loudness": -17, "even_hall": True},
     "dem-diu": {"piano": "model-dream", "bass_low": 40, "texture": "flow", "hold": 1.0, "pedal_beats": 2, "lh_soft": 6,
                 "melody_velocity": [38, 60], "velocity_cap": 64,
                 "room": {"rt60": 3.6, "wet": 0.85}, "piano_reverb": 0.35, "loudness": -14,
