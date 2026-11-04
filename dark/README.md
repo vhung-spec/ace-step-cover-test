@@ -283,3 +283,26 @@ sau phách hai, quãng năm ở phách cuối, như giọt nước). 73 bài cũ
 |---|---|---|---|
 | `trang-khuyet` (Trăng khuyết) | Si thứ, 66 bpm | Viola hát chủ đề một mình, cello đáp từng câu (4 ô) | Piano nhận chủ đề ở đúng cao độ đó, trầm và ấm, rồi lên một quãng tám; kết bài viola hát lại câu cuối một mình |
 | `giot-dem` (Giọt đêm) | Đô thăng thứ, 74 bpm | Cello gảy dây một mình như giọt nước rơi (2 ô) | Giai điệu kiểu mới: một nốt gõ hai lần rồi đi xuống (Mi-Mi-Rê#-Đô#); kết bài tiếng gảy trở lại |
+
+## Kiểu phối mới 1: piano + viola, `song-tau` (vòng 24)
+
+Người dùng: "hãy chuyển sang sáng tác các bài theo kiểu phối mới: 1. Piano + viola: Piano chơi giai điệu thưa; viola kéo
+những nốt trung trầm, chỉ xuất hiện cuối câu".
+
+- Piano: tiếng đàn người dùng chọn (Salamander làm tối kiểu keyboard, Rhodes chơi chồng), giai điệu thưa (hai, ba nốt
+  một ô, ô thứ tư mỗi câu ngân dài), dưới nó chỉ một nốt trầm nhẹ mỗi hợp âm (`texture` `deep`, giữ nguyên khi hợp âm
+  lặp lại).
+- Viola (`viola-end`): chỉ vào ở cuối câu (ô cuối của mỗi bốn ô, và ô cuối mỗi đoạn), từ phách hai: một nốt dài giọng
+  trung trầm (Rê 3 tới Mi 4), nốt của hợp âm (ưu tiên nốt gốc, quãng ba), gần nốt trước nhưng không lặp nốt vào lần
+  trước, không cách giai điệu nửa cung; ngân sang phách đầu câu sau rồi chuyển sang nốt gần nhất của hợp âm mới hai
+  phách và dừng. 8 dB dưới đàn.
+- Màu viola: làm tối ở 2 kHz và vào chậm (0,3 s) thì CLAP nghe là "piano with a synth pad" (85-95 %); để màu thu nguyên
+  (lọc 6 kHz như dàn dây khác, vào 80 ms) thì "a piano and viola duet" đứng đầu ở ba bài, tiếng xì vẫn 47-56 dB dưới nhạc.
+  Cả bốn bài: "a sparse, slow piano melody with long silences" 100 %, "a warm, deep, dark piano" 0,64-0,65.
+
+| Bài | Giọng, nhịp | Độ dài |
+|---|---|---|
+| `o-cua-so` (Ô cửa sổ) | La thứ, 60 bpm | 2:29 |
+| `phong-trong` (Phòng trống) | Son thứ, nhịp ba, 60 bpm | 2:17 |
+| `canh-cua-khep` (Cánh cửa khép) | Mi thứ, 56 bpm, thưa nhất | 2:39 |
+| `dem-khong-ngu` (Đêm không ngủ) | Fa thứ, 64 bpm | 2:20 |

@@ -58,7 +58,8 @@ A piece is a short score, the shape an AI composer is asked to write:
   eighths in the middle of the keyboard, a low toll on each bar), blocks (the
   chord rolled from a deep octave and held), sparse (a deep note, a soft
   rolled chord after it, an inner tone later in the bar), pulse (a low
-  octave beating as a heart does), open (a deep bass held, the chord broken
+  octave beating as a heart does), deep (one soft deep note a chord, held
+  while the chord stays), open (a deep bass held, the chord broken
   in eighths an octave and more above it, the low-mids clear), none;
 - dyn: 0 (barely touched) to 1 (fully); the melody rises and falls with each
   phrase within it;
@@ -77,7 +78,9 @@ A piece is a short score, the shape an AI composer is asked to write:
   held, where a section has no tune), viola-pad (the violas holding one
   thin line of the chords' colour tones, clear of the tune and the cellos),
   cello-pizz (the cellos plucking the chord's bass, octave and fifth softly,
-  like drops);
+  like drops), viola-end (the violas only at each sentence's end: a long
+  low-middle note from the last bar's second beat, moving to the next
+  chord for two beats);
 - melody_shift: the whole tune moved this many semitones (12: an octave up);
 - melody_on (a section's): cello or viola, the cellos or the violas sing that
   section's tune (written in their register) and the piano leaves it; piano
@@ -168,6 +171,10 @@ INSTRUMENTS = {
     # the cellos singing a tune alone: their soft samples' hiss shows there (38-39 dB under the music in its
     # quiet moments), so their highs go from 3 kHz
     "cellos-dark": ("vsco", "CelloEnsSusVib-Quiet.sfz", TONES["cellos"] | {"lowpass": 3000, "lowpass_order": 4}),
+    # the violas drawn in at a sentence's end, each note easing in (80 ms), their own colour kept: darkened at
+    # 2 kHz with a 0.3 s swell, to LAION CLAP they were "piano with a synth pad" (85-95 %); as recorded (their
+    # usual tone), "a piano and viola duet" first, the hiss still 56 dB under the music in its quiet moments
+    "violas-end": ("vsco", "ViolaEnsSusVib-Quiet.sfz", TONES["violas"] | {"attack": 0.08}),
     # the cellos plucked (pizzicato), two takes a note in turn
     "cellos-pizz": ("vsco", "CelloEnsPizz.sfz", TONES["cellos"] | {"lowpass": 4000, "lowpass_order": 2}),
     "basses": ("vsco", "ContrabassSusVB-Quiet.sfz", dict(TONES["basses"])),
@@ -275,6 +282,15 @@ STYLES = {
                      "piano_tone": {"eq": [list(p) for p in EQ_KEYS], "width": 0.6, "chorus": 0.25},
                      "melody_velocity": [46, 70], "piano_layer": "rhodes",
                      "human": {"amount": 0.8, "vary": True}, "gains": {"viola": 2.0, "piano-layer": 2.0}},
+    # "Song tấu" (a duo), the user's new arrangement ("1. Piano + viola: Piano chơi giai điệu thưa; viola kéo
+    # những nốt trung trầm, chỉ xuất hiện cuối câu"): tam-tau-phim's keyboard piano on a sparse tune, one soft
+    # deep note a chord under it (texture deep), the violas only at each sentence's end (layer viola-end,
+    # 8 dB under the piano).
+    "song-tau": {"piano": "salamander", "bass_low": 40, "texture": "deep", "pedal_beats": 2,
+                 "room": {"rt60": 2.8, "wet": 0.8}, "piano_reverb": 0.35, "loudness": -14,
+                 "piano_tone": {"eq": [list(p) for p in EQ_KEYS], "width": 0.6, "chorus": 0.25},
+                 "melody_velocity": [46, 70], "piano_layer": "rhodes",
+                 "human": {"amount": 0.8, "vary": True}, "gains": {"viola-end": -2.0, "piano-layer": 2.0}},
     "dem-diu": {"piano": "model-dream", "bass_low": 40, "texture": "flow", "hold": 1.0, "pedal_beats": 2, "lh_soft": 6,
                 "melody_velocity": [38, 60], "velocity_cap": 64,
                 "room": {"rt60": 3.6, "wet": 0.85}, "piano_reverb": 0.35, "loudness": -14,
@@ -681,6 +697,16 @@ def left_hand(piece: Piece, piano: Part) -> None:
                 step = order[k % len(order)] % len(ladder)
                 piano.add(tick + k * EIGHTH + piece.jitter(5), ladder[step], velocity - 4 - 2 * step + (3 if k % 2 == 0 else 0),
                           min(hold, length - k * EIGHTH))
+        elif texture == "deep":  # one soft deep note a chord, held while the chord stays: the sparsest left hand
+            k = piece.spans.index((tick, length, name))
+            if k and piece.spans[k - 1][2] == name and piece.spans[k - 1][0] + piece.spans[k - 1][1] == tick:
+                continue
+            hold = length
+            for later, more, other in piece.spans[k + 1:]:
+                if other != name or later != tick + hold:
+                    break
+                hold += more
+            piano.add(tick + piece.jitter(4), low, velocity - 6, hold)
         elif texture == "pulse":
             for beat in range(0, length, TICKS * 2):
                 for k, offset in enumerate((0, round(0.75 * TICKS))):
@@ -760,6 +786,7 @@ def layers(piece: Piece) -> None:
     oboe_line(piece)
     cello_tune(piece)
     cello_pizz(piece)
+    viola_ends(piece)
     answered = cello_answers(piece)
     spans = [(t, l, n, piece.section_at(t)) for t, l, n in piece.spans]
     spans = [s for s in spans if "viola-pad" in s[3].get("layers", [])]
@@ -874,6 +901,56 @@ def cello_tune(piece: Piece) -> None:
             joined = k + 1 < len(notes) and notes[k + 1][0] == tick + length
             for note in pitches:
                 piece.held(part, tick + 10, note, 50 + 26 * dyn, length + (40 if joined else 0), most=6.5)
+
+
+def viola_ends(piece: Piece) -> None:
+    """Layer viola-end: the violas only at the end of each sentence (the last
+    bar of every four, and of a section): from that bar's second beat, one
+    long note low in the middle (D3-E4), a tone of the chord, its root or
+    third where it can, nearest the last they played but not the note they
+    came in on last time, never a half step (or a minor ninth) from the
+    tune; held into the next sentence's first
+    beat, where it moves to the nearest tone of the new chord for two beats
+    and stops (at the piece's end it holds into the last chord half a bar)."""
+    if not any("viola-end" in s.get("layers", []) for _, _, s in piece.sections):
+        return
+    part = piece.part("viola-end", "violas-end", "melody2", 0.25, reverb=0.55)
+
+    def chord_at(tick: int) -> str:
+        return next(s[2] for s in piece.spans if s[0] <= tick < s[0] + s[1])
+
+    def pick(name: str, near: int, start: int, stop: int, used: set = frozenset()) -> int:
+        bass, tones, root = chord(name)
+        tune = piece.tune_between(start, stop)
+        prefer = {root, tones[1] if len(tones) > 1 else root}
+        fits = [n for n in range(50, 65) if n % 12 in tones]
+        clear = [n for n in fits if all((n - t) % 12 not in (1, 11) for t in tune)] or fits
+        return min(clear, key=lambda n: (abs(n - near) + (0 if n % 12 in prefer else 1.5) + (6 if n in used else 0), n))
+
+    previous, last_entry = 57, set()
+    for start, end, section in piece.sections:
+        if "viola-end" not in section.get("layers", []):
+            continue
+        dyn = section.get("dyn", 0.4)
+        bars = section["bars"]
+        for bar in [b for b in range(bars) if b % 4 == 3 or b == bars - 1]:
+            begin = start + bar * piece.bar + TICKS
+            turn = start + (bar + 1) * piece.bar
+            first = pick(chord_at(begin), previous, begin, turn, last_entry)  # not as it came in last time
+            velocity = 42 + 24 * dyn
+            if turn >= piece.end:  # the last chord: held into it half a bar, then let go (its release rings on)
+                piece.held(part, begin, first, velocity, turn - begin + piece.bar // 2, most=6.5)
+                previous = first
+                continue
+            after = min(turn + 2 * TICKS, piece.end + piece.bar)
+            second = pick(chord_at(turn), first, turn, after)
+            last_entry = {first}
+            if second == first:
+                piece.held(part, begin, first, velocity, after - begin, most=6.5)
+            else:
+                piece.held(part, begin, first, velocity, turn - begin + 40, most=6.5)
+                part.add(turn + 10, second, velocity - 6, after - turn)
+            previous = second
 
 
 def cello_pizz(piece: Piece) -> None:
