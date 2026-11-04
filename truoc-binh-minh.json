@@ -1,0 +1,66 @@
+{
+  "title": "Trước bình minh",
+  "about": "Round 26, ke-chuyen (\"làm luôn 7 bài cho đủ album\"), written to close the album: A minor at 64 bpm, turning to A major. Its motif rises with a turn (A, C-B, E) and falls back a step at a time; in the major the C becomes C#, and the same tune opens as the sky lightens. The arc: the piano alone; the cellos' slow second line; the darkest hour and the climax with the strings and the piano's rolled chords (D6 over G, Esus4 to E7); then A major, the cellos' line and the violas at the sentences' ends; the strings holding the chords softly under the last sentence, ending on C#; the motif once more over D, and the violas' last note into A major. The only major ending of the album. An original tune.",
+  "style": "ke-chuyen",
+  "bpm": 64,
+  "beats": 4,
+  "sections": [
+    {
+      "bars": 8,
+      "chords": "Am | G | F | E7 | Am | C/G | Dm6 | E7",
+      "melody": "A4:1 C5:0.5 B4:0.5 E5:2 | D5:1.5 C5:0.5 B4:2 | A4:1 C5:0.5 B4:0.5 F5:2 | E5:1.5 D5:0.5 B4:1 r:1 | A4:1 C5:0.5 B4:0.5 E5:2 | G5:1.5 F5:0.5 E5:2 | D5:1 F5:1 B4:1.5 A4:0.5 | G#4:3 r:1",
+      "dyn": 0.3,
+      "layers": []
+    },
+    {
+      "bars": 8,
+      "chords": "Am | G | F | E7 | F | C/E | Dm7 | Esus4:2 E7:2",
+      "melody": "A4:1 C5:0.5 B4:0.5 E5:2 | D5:1.5 C5:0.5 B4:2 | A4:1 C5:0.5 B4:0.5 F5:2 | E5:1.5 D5:0.5 B4:1 r:1 | C5:1 E5:0.5 D5:0.5 A5:2 | G5:1.5 F5:0.5 E5:2 | F5:1 A5:1 C6:1.5 B5:0.5 | A5:2 G#5:1 r:1",
+      "dyn": 0.4,
+      "layers": [
+        "cello-counter"
+      ]
+    },
+    {
+      "bars": 8,
+      "chords": "F | C/E | Dm | Am | F | G | Esus4:2 E7:2 | E7",
+      "melody": "A4:1 C5:1 F5:2 | E5:1.5 D5:0.5 C5:2 | D5:1 F5:1 A5:2 | E5:3 r:1 | C5:1 F5:1 A5:1.5 B5:0.5 | D6:2 B5:1 G5:1 | A5:2 G#5:2 | D5+B5:4",
+      "texture": "blocks",
+      "dyn": 0.68,
+      "layers": [
+        "strings",
+        "cello-counter"
+      ]
+    },
+    {
+      "bars": 8,
+      "chords": "A | E7/G# | F#m | D | A/E | D | Bm7:2 E7:2 | E7",
+      "melody": "A4:1 C#5:0.5 B4:0.5 E5:2 | D5:1.5 C#5:0.5 B4:2 | A4:1 C#5:0.5 B4:0.5 F#5:2 | F#5:1.5 E5:0.5 D5:1 r:1 | A4:1 C#5:0.5 B4:0.5 E5:1 A5:1 | A5:2 F#5:1 D5:1 | B4:1 D5:1 G#5:1.5 F#5:0.5 | E5:3 r:1",
+      "dyn": 0.44,
+      "layers": [
+        "cello-counter",
+        "viola-end"
+      ]
+    },
+    {
+      "bars": 8,
+      "chords": "A | E7/G# | F#m | Dmaj7 | A/C# | D | Bm7:2 E7:2 | A",
+      "melody": "A4:1 C#5:0.5 B4:0.5 E5:2 | D5:1.5 C#5:0.5 B4:2 | A4:1 C#5:0.5 B4:0.5 F#5:2 | F#5:1.5 E5:0.5 C#5:2 | A4:1 C#5:0.5 B4:0.5 A5:2 | F#5:1.5 E5:0.5 D5:2 | F#5:1 D5:1 E5:1.5 D5:0.5 | C#5:4",
+      "dyn": 0.42,
+      "rit": true,
+      "layers": [
+        "strings",
+        "cello-counter"
+      ]
+    },
+    {
+      "bars": 2,
+      "chords": "D | A",
+      "melody": "A4:1 C#5:0.5 B4:0.5 F#5:2 | E5:4",
+      "dyn": 0.2,
+      "layers": [
+        "viola-end"
+      ]
+    }
+  ]
+}

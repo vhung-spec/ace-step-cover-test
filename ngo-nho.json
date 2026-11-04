@@ -1,0 +1,70 @@
+{
+  "title": "Ngõ nhỏ",
+  "about": "Round 21, for tam-tau-phim, the user's choice (\"tôi thích bản 1, hãy sáng tác thêm\"): A minor at 66 bpm, two-bar sentences each ending on a held note for the cellos to answer (G#, the leading tone, held over E7 first); a middle section in C major a step higher, the tune doubled in fourths and thirds at its peaks; F#m7b5 and Dm6 for the dark colour. An original tune.",
+  "style": "tam-tau-phim",
+  "bpm": 66,
+  "beats": 4,
+  "sections": [
+    {
+      "bars": 2,
+      "chords": "Am | Fmaj7",
+      "texture": "blocks",
+      "dyn": 0.22,
+      "layers": [
+        "cello-answer",
+        "viola-pad"
+      ]
+    },
+    {
+      "bars": 8,
+      "chords": "Am | Fmaj7 | Dm7 | E7 | Am | Fmaj7 | Dm6 | E7sus4:2 E7:2",
+      "melody": "C5:1 E5:1 A5:1.5 G5:0.5 | E5:3 r:1 | F5:1 A5:1 G5:1.5 F5:0.5 | G#5:3 r:1 | A5:1 E5:1 C5:1 E5:1 | F5:2 E5:1 C5:1 | D5:1 F5:1 B5:1 A5:1 | B5:3 r:1",
+      "dyn": 0.34,
+      "layers": [
+        "cello-answer",
+        "viola-pad"
+      ]
+    },
+    {
+      "bars": 8,
+      "chords": "Am | Fmaj7 | Dm7 | E7 | Am/G | F#m7b5 | Fmaj7 | E7",
+      "melody": "C5:1 E5:1 A5:1.5 G5:0.5 | E5:3 r:1 | F5:1 A5:1 G5:1.5 F5:0.5 | G#5:3 r:1 | C6:1 B5:1 A5:1 E5:1 | F#5:3 r:1 | A5:1 G5:1 F5:1 E5:1 | B5:3 r:1",
+      "dyn": 0.42,
+      "layers": [
+        "cello-answer",
+        "viola-pad"
+      ]
+    },
+    {
+      "bars": 8,
+      "chords": "C | G/B | Am | Em/G | F | C/E | Dm7 | E7",
+      "melody": "E5:1 G5:1 C6:1.5 B5:0.5 | D6:3 r:1 | C6:1 B5:1 A5:1 E5:1 | G5:3 r:1 | F5:1 A5:1 C6:1.5 A5:0.5 | G5+C6:3 r:1 | F5:1 A5:1 D6:1 C6:1 | G#5+B5:4",
+      "dyn": 0.66,
+      "layers": [
+        "cello-answer",
+        "viola-pad"
+      ]
+    },
+    {
+      "bars": 8,
+      "chords": "Am | Fmaj7 | Dm7 | E7 | Am | Fmaj7 | Dm6:2 E7:2 | Am",
+      "melody": "C5:1 E5:1 A5:1.5 G5:0.5 | E5:3 r:1 | F5:1 A5:1 G5:1.5 F5:0.5 | G#5:3 r:1 | A5:1 E5:1 C5:1 E5:1 | F5:2 E5:1 C5:1 | D5:1 B4:1 E5:1 G#4:1 | A4:4",
+      "rit": true,
+      "dyn": 0.32,
+      "layers": [
+        "cello-answer",
+        "viola-pad"
+      ]
+    },
+    {
+      "bars": 2,
+      "chords": "Fmaj7 | Am",
+      "texture": "blocks",
+      "dyn": 0.18,
+      "layers": [
+        "cello-answer",
+        "viola-pad"
+      ]
+    }
+  ]
+}

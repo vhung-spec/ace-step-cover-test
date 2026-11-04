@@ -1,0 +1,89 @@
+{
+  "title": "Thư chưa gửi (piano, cello, viola)",
+  "about": "Round 18: thu-chua-gui's tune (round 15, an octave up as in round 16) for piano, cellos and violas, as the user asked (\"hãy thử piano + cello + viola: piano chơi chính, cello đáp câu, viola chỉ giữ nền mỏng\"): the piano on the tune alone, the cellos answering it where it holds or rests (the bass, held, where there is no tune), the violas one thin line under it; an original tune.",
+  "style": "mo-ao-day",
+  "bpm": 84,
+  "beats": 3,
+  "melody_shift": 12,
+  "sections": [
+    {
+      "bars": 2,
+      "chords": "Gm | Ebmaj7",
+      "dyn": 0.2,
+      "layers": [
+        "cello-answer",
+        "viola-pad"
+      ]
+    },
+    {
+      "bars": 8,
+      "chords": "Gm | Gm/F | Ebmaj7 | C#dim7 | Cm | Gm/Bb | Am7b5 | D7",
+      "melody": "D4:2 G4:1 | Bb4:3 | G4:2 D4:1 | E4:2 G4:1 | Eb4:2 G4:1 | D4:3 | C4:2 Eb4:1 | F#4:3",
+      "dyn": 0.36,
+      "layers": [
+        "cello-answer",
+        "viola-pad"
+      ]
+    },
+    {
+      "bars": 8,
+      "chords": "Ebmaj7 | Dm7 | Cm7 | Gm | Ebmaj7 | C#dim7 | D7sus4 | D7",
+      "melody": "G4:2 Bb4:1 | A4:2 F4:1 | G4:2 Eb4:1 | D4:3 | Bb4:2 D5:1 | E5:2 C#5:1 | C5:2 A4:1 | F#4:3",
+      "dyn": 0.46,
+      "layers": [
+        "cello-answer",
+        "viola-pad"
+      ]
+    },
+    {
+      "bars": 8,
+      "chords": "Gm | Gm/F | Ebmaj7 | C#dim7 | Cm | Gm/Bb | D7 | Gm",
+      "melody": "D4:2 G4:1 | Bb4:3 | G4:2 D4:1 | E4:2 G4:1 | Eb4:2 G4:1 | D4:3 | F#4:2 A4:1 | G4:3",
+      "dyn": 0.4,
+      "layers": [
+        "cello-answer",
+        "viola-pad"
+      ]
+    },
+    {
+      "bars": 8,
+      "chords": "Ebmaj7 | Dm7 | Cm7 | Gm | Ebmaj7 | C#dim7 | D7sus4 | D7",
+      "melody": "G4:2 Bb4:1 | A4:2 F4:1 | G4:2 Eb4:1 | D4:3 | Bb4:2 D5:1 | E5:2 C#5:1 | C5:2 A4:1 | F#4:3",
+      "dyn": 0.5,
+      "layers": [
+        "cello-answer",
+        "viola-pad"
+      ]
+    },
+    {
+      "bars": 8,
+      "chords": "Cm | Gm/Bb | Ebmaj7 | D7 | Cm | C#dim7 | D7sus4 | D7",
+      "melody": "G4:1 C5:1 Eb5:1 | D5:3 | Bb4:2 G4:1 | A4:3 | C5:1 Eb5:1 G5:1 | E5:2 Bb4:1 | C5:2 A4:1 | F#4:3",
+      "dyn": 0.68,
+      "rit": true,
+      "layers": [
+        "cello-answer",
+        "viola-pad"
+      ]
+    },
+    {
+      "bars": 8,
+      "chords": "Gm | Gm/F | Ebmaj7 | C#dim7 | Cm | Gm/Bb | D7 | Gm",
+      "melody": "D4:2 G4:1 | Bb4:3 | G4:2 D4:1 | E4:2 G4:1 | Eb4:2 G4:1 | D4:3 | F#4:2 A4:1 | G4:3",
+      "dyn": 0.3,
+      "layers": [
+        "cello-answer",
+        "viola-pad"
+      ]
+    },
+    {
+      "bars": 2,
+      "chords": "Ebmaj7 | Gm",
+      "dyn": 0.18,
+      "layers": [
+        "cello-answer",
+        "viola-pad"
+      ]
+    }
+  ]
+}

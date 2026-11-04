@@ -1,0 +1,19 @@
+{
+  "title": "Lời từ biệt",
+  "about": "C minor in 3/4, harmonic minor (G major, Db the Neapolitan), the piano's broken chords swelling into strings and basses, a cello singing the tune an octave down, a medium hall",
+  "bpm": 63, "beats": 3, "piano": "grand",
+  "room": {"rt60": 2.2, "wet": 0.8},
+  "sections": [
+    {"bars": 2, "chords": "Cm | Ab", "texture": "arp", "dyn": 0.3},
+    {"bars": 8, "chords": "Cm | Ab | Fm | G | Cm | Ab | Fm | G7",
+     "melody": "G4:2 C5:1 | Eb5:2 D5:0.5 C5:0.5 | C5:2 Ab4:1 | B4:3 | G4:1 C5:1 Eb5:1 | G5:2 F5:0.5 Eb5:0.5 | F5:1.5 Eb5:0.5 D5:1 | D5:3",
+     "texture": "arp", "dyn": 0.4, "layers": ["cello"]},
+    {"bars": 8, "chords": "Ab | Eb | Fm | Cm/Eb | Db | Fm | Ddim | G",
+     "melody": "Eb5:2 C5:1 | Bb4:2 G4:1 | Ab4:1 C5:1 F5:1 | Eb5:2 G5:1 | F5:2 Db5:1 | C5:2 Ab4:1 | F4:1 Ab4:1 D5:1 | B4:2 D5:1",
+     "texture": "arp", "dyn": 0.6, "layers": ["strings", "cello-melody", "basses"], "rit": true},
+    {"bars": 4, "chords": "Cm | Ab | Fm:2 G:1 | Cm",
+     "melody": "G5:2 Eb5:1 | C5:2 Eb5:1 | Ab4:2 B4:1 | C5:3",
+     "texture": "blocks", "dyn": 0.7, "layers": ["strings", "basses", "octave"]},
+    {"bars": 2, "chords": "Ab | Cm", "melody": "Eb5:2 D5:1 | C5:3", "texture": "arp", "dyn": 0.3, "layers": ["cello"]}
+  ]
+}
