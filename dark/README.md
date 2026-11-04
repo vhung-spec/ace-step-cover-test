@@ -375,3 +375,17 @@ cuối. Thêm tiếng `amb-waves` (biển đêm ở xa, từng đợt sóng ch�
 | `k41-lua-tan` (Lửa tàn) | Dying Embers | Son thứ, 46 bpm, 5:15 | Đàn ống rất khẽ, piano nỉ, nhỏ dần |
 | `k42-troi-ve-giac-mo` (Trôi về giấc mơ) | Drifting into Dreams | Si thứ, nhịp ba, 54 bpm, 4:46 | Hộp nhạc hát ru, dây trầm đưa nhịp ba |
 | `k43-giac-ngu-sau` (Giấc ngủ sâu) | Deep Sleep | Rê thứ, 42 bpm, 6:09 | Tĩnh nhất: nền, bass, hợp xướng rất xa |
+
+## Hai hướng mới (vòng X7)
+
+Người dùng: "hãy sáng tác thêm 2 bản nữa theo hướng khác". Hai kiểu mới, cùng bộ máy `ambient.py`:
+- `toi-nhip` (darkwave): bass synth đập móc đơn (`amb-synbass`, bộ lọc đóng nhanh sau khi nốt vang), arp synth
+  lạnh (`amb-arp`), trống nhẹ đều (`amb-kick`, `amb-snare`, chải hơn là đánh), nền lạnh; phòng nhỏ 2,5 giây.
+- `dien-anh` (nhạc phim u tối): dàn dây, cây dây hát, hợp xướng, timpani dùi mềm (`amb-timpani`, các mode của
+  nồi trống), dâng qua một hồi trống cuộn tới cao trào với chuông lớn rồi lắng; phòng 4,5 giây.
+Trống và timpani chơi hết tiếng dù nốt ngắn (`loop_mode=one_shot`).
+
+| Bản | Tên tiếng Anh | Giọng, nhịp | Âm thanh |
+|---|---|---|---|
+| `k44-thanh-pho-khong-ngu` (Thành phố không ngủ) | Sleepless City | La thứ, 96 bpm, 2:43 | Darkwave: bass synth, arp lạnh, trống nhẹ |
+| `k45-truoc-con-bao` (Trước cơn bão) | Before the Storm | Rê thứ, 60 bpm, 3:12 | Nhạc phim: dây, hợp xướng, timpani, cao trào |

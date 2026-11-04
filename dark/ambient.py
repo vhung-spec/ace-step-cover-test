@@ -36,6 +36,9 @@ pieces name, with its own), as dark/oboe_model.py does:
   voice singing a tune, a fuller vibrato;
 - amb-thunder: thunder far off, its roll only, deep;
 - amb-waves: the sea far off at night, soft swells of deep surf (for sleep);
+- darkwave: amb-synbass (a dark synth bass, its filter snapping shut),
+  amb-arp (a cold, hollow synth pluck), amb-kick and amb-snare (a soft beat);
+  cinematic: amb-timpani (soft-mallet timpani, its kettle's modes);
 - amb-glass: a soft glass/bowl tone, nearly pure: the note, a faint octave
   and twelfth, slow beating, a long ring; for the few notes of a tune.
 
@@ -53,7 +56,10 @@ common to two chords held across them; layers, per section:
   strings holding the chord), solo (the melody sung on one bowed string,
   before all others), thunder (far thunder at a chord, thunder_odds), waves (the sea),
   felt (the dark piano's felt piano, barely touched, the chord's tones every
-  felt_beats; with a melody, the tune on it before all others), drops (water drops on the chord's tones, drops_per_bar); "answer", a second line beside the melody,
+  felt_beats; with a melody, the tune on it before all others), bassline
+  (synth bass in eighths), arp (an arpeggio in eighths, arp16: sixteenths),
+  beat (kick and snare; kick_and: a kick between), timpani (a stroke a
+  chord, or "timpani": "roll" in a section, swelling with it), drops (water drops on the chord's tones, drops_per_bar); "answer", a second line beside the melody,
   played on the bell (as the cellos answer the piano in the dark piano).
 dyn, 0-1, sets every layer's strength; a section's "swell" lets it grow
 through the section.
@@ -98,6 +104,17 @@ MODELS = {
     "amb-thunder": {"attack": 0.01, "release": 3.0, "veltrack": 60, "keys": range(24, 36), "loop": False,
                     "seconds": 12.0},
     "amb-waves": {"attack": 6.0, "release": 8.0, "veltrack": 50, "keys": range(40, 56), "loop": True},
+    # darkwave and the cinematic: struck sounds, played to their end whatever the note's length (one_shot)
+    "amb-synbass": {"attack": 0.003, "release": 0.25, "veltrack": 60, "keys": range(26, 56), "loop": False,
+                    "seconds": 3.0},
+    "amb-arp": {"attack": 0.003, "release": 0.4, "veltrack": 60, "keys": range(52, 90), "loop": False,
+                "seconds": 2.5},
+    "amb-kick": {"attack": 0.001, "release": 0.3, "veltrack": 70, "keys": range(24, 37), "loop": False,
+                 "seconds": 1.2, "one_shot": True},
+    "amb-snare": {"attack": 0.001, "release": 0.3, "veltrack": 70, "keys": range(36, 44), "loop": False,
+                  "seconds": 1.0, "one_shot": True},
+    "amb-timpani": {"attack": 0.001, "release": 2.5, "veltrack": 80, "keys": range(33, 58), "loop": False,
+                    "seconds": 6.0, "one_shot": True},
 }
 
 
@@ -406,9 +423,86 @@ def waves(key: int, n: int, rng: np.random.Generator) -> np.ndarray:
     return out
 
 
+def synbass(key: int, n: int, rng: np.random.Generator) -> np.ndarray:
+    """A dark synth bass (darkwave): two sawtooths a few cents apart and a sine an octave under, its
+    filter snapping shut after the note speaks (bright for 0.1 s, then dark), the level easing to 60 %."""
+    f0 = hz(key)
+    t = np.arange(n) / RATE
+    step = f0 / RATE
+    raw = saw(rng.random() + np.cumsum(np.full(n, step * 2 ** (-6 / 1200))), np.full(n, step)) \
+        + saw(rng.random() + np.cumsum(np.full(n, step * 2 ** (6 / 1200))), np.full(n, step))
+    bright, dark = lowpass(raw, max(8 * f0, 700), 2), lowpass(raw, max(2 * f0, 160), 4)
+    shut = np.exp(-t / 0.08)
+    tone = bright * shut + dark * (1 - shut) + 0.9 * np.sin(np.pi * f0 * t)
+    tone *= (0.6 + 0.4 * np.exp(-t / 0.3)) * (1 - np.exp(-t / 0.002))
+    return np.stack([tone, tone])
+
+
+def arp(key: int, n: int, rng: np.random.Generator) -> np.ndarray:
+    """A cold synth pluck for arpeggios: a hollow (odd-harmonic) tone, soft-edged (nothing above 3.5 kHz),
+    dying in half a second, two voices a few cents apart, one a side."""
+    f0 = hz(key)
+    t = np.arange(n) / RATE
+    out = np.zeros((2, n))
+    for side, cents in enumerate((-5, 5)):
+        f = f0 * 2 ** (cents / 1200)
+        for k in range(1, 40, 2):
+            if f * k > 3500:
+                break
+            out[side] += np.sin(2 * np.pi * f * k * t + rng.random() * 6.28) / k * np.exp(-t * (2 + 0.6 * k))
+    return out * (1 - np.exp(-t / 0.002))
+
+
+def kick(key: int, n: int, rng: np.random.Generator) -> np.ndarray:
+    """A soft, deep kick drum: a sine falling from 2.4 times its note to it in 60 ms, dying in 0.3 s, a
+    muffled click on it."""
+    f0 = hz(key)
+    t = np.arange(n) / RATE
+    freq = f0 * (1 + 1.4 * np.exp(-t / 0.03))
+    tone = np.sin(2 * np.pi * np.cumsum(freq) / RATE) * np.exp(-t / 0.18)
+    click = lowpass(rng.standard_normal(n) * np.exp(-t / 0.004), 1500, 2) * 0.25
+    mono = (tone + click) * (1 - np.exp(-t / 0.0007))
+    return np.stack([mono, mono])
+
+
+def snare(key: int, n: int, rng: np.random.Generator) -> np.ndarray:
+    """A soft snare, brushed rather than cracked: a short drum tone (190 Hz) and its wires (noise between
+    1 and 5 kHz) dying in a tenth of a second; nothing harsh above."""
+    from scipy.signal import butter as _b, sosfiltfilt as _f
+    t = np.arange(n) / RATE
+    body = np.sin(2 * np.pi * 190 * t) * np.exp(-t / 0.05)
+    out = np.zeros((2, n))
+    for side in range(2):
+        wires = _f(_b(2, [1000, 5000], "band", fs=RATE, output="sos"), rng.standard_normal(n)) * np.exp(-t / 0.09)
+        wires /= np.abs(wires).max() + 1e-12
+        out[side] = (body + 0.7 * wires) * (1 - np.exp(-t / 0.001))
+    return out
+
+
+# A timpani's modes (ratio to the note, level, ring s)
+TIMPANI = [(1.0, 1.0, 3.0), (1.504, 0.5, 1.8), (1.742, 0.3, 1.2), (2.0, 0.35, 1.4), (2.245, 0.2, 1.0),
+           (2.494, 0.15, 0.8)]
+
+
+def timpani(key: int, n: int, rng: np.random.Generator) -> np.ndarray:
+    """A timpani struck with soft mallets: its kettle's modes (the note, then 1.5, 1.74, 2, 2.25 and 2.5
+    times), the pitch settling a little as it rings, the felt's thump."""
+    f0 = hz(key)
+    t = np.arange(n) / RATE
+    glide = 1 + 0.012 * np.exp(-t / 0.08)
+    out = np.zeros((2, n))
+    for side in range(2):
+        for ratio, level, ring in TIMPANI:
+            out[side] += level * rng.uniform(0.85, 1.0) * np.exp(-t / ring) * np.sin(
+                2 * np.pi * np.cumsum(f0 * ratio * glide) / RATE + rng.random() * 6.28)
+        out[side] += lowpass(rng.standard_normal(n) * np.exp(-t / 0.02), 300, 2) * 0.4
+    return out * (1 - np.exp(-t / 0.002))
+
+
 SYNTHS = {"amb-pad": pad, "amb-choir": choir, "amb-sub": sub, "amb-bell": bell, "amb-glass": glass, "amb-wind": wind, "amb-pulse": pulse, "amb-organ": organ,
           "amb-drop": drop, "amb-box": box, "amb-bowl": bowl,
-          "amb-bowed": bowed, "amb-bowsolo": bowsolo, "amb-thunder": thunder, "amb-waves": waves}
+          "amb-bowed": bowed, "amb-bowsolo": bowsolo, "amb-thunder": thunder, "amb-waves": waves,
+          "amb-synbass": synbass, "amb-arp": arp, "amb-kick": kick, "amb-snare": snare, "amb-timpani": timpani}
 
 
 def sample(job: tuple) -> None:
@@ -446,6 +540,8 @@ def build(name: str, out: Path, keys) -> Path:
         path = folder / f"k{key}.flac"
         jobs.append((name, key, path))
         region = f"<region> sample={name}/{path.name} key={key} pitch_keycenter={key}"
+        if model.get("one_shot"):
+            region += " loop_mode=one_shot"
         if model["loop"]:
             region += (f" loop_mode=loop_continuous loop_start={int(LEAD * RATE)}"
                        f" loop_end={int((LEAD + LOOP_SECONDS) * RATE) - 1}")
@@ -480,6 +576,11 @@ PARTS = {
     "thunder": ("amb-thunder", "low", -6.0, 0.0, 0.5),
     "waves": ("amb-waves", "pad", -9.0, 0.0, 0.2),
     "felt": ("model-dream", "melody2", -5.0, 0.0, 0.6),
+    "bassline": ("amb-synbass", "bass", -3.0, 0.0, 0.1),
+    "arp": ("amb-arp", "pad", -7.0, 0.0, 0.45),
+    "kick": ("amb-kick", "low", -4.0, 0.0, 0.08),
+    "snare": ("amb-snare", "pad", -10.0, 0.0, 0.35),
+    "timpani": ("amb-timpani", "low", -2.0, 0.0, 0.5),
 }
 
 
@@ -566,6 +667,35 @@ def compose_ambient(score: dict, folder: Path) -> str:
         if "thunder" in wanted and rng.random() < section.get("thunder_odds", 0.5):  # thunder far off, now and then
             part("thunder").add(tick + rng.randrange(0, max(1, length // 2)), 24 + rng.randrange(12),
                                 strength(tick, 0, 40, 50), piece.bar * 2)
+        if "bassline" in wanted:  # darkwave's bass: eighths on the chord's bass, an octave up on every fourth
+            low = c.above(bass, score.get("bass_low", 28))
+            for k, at in enumerate(range(tick, tick + length, c.EIGHTH)):
+                part("bassline").add(at, low + (12 if k % 4 == 3 else 0), strength(at, -2 if k % 2 else 4, 40, 40),
+                                     c.EIGHTH - 20)
+        if "arp" in wanted:  # a cold arpeggio: the chord's tones up and down in eighths (sixteenths if asked)
+            ladder = [n for n in range(*score.get("arp_range", [57, 77])) if n % 12 in tones][:5]
+            order = ladder + ladder[-2:0:-1]
+            step = c.EIGHTH // (2 if section.get("arp16") else 1)
+            for k, at in enumerate(range(tick, tick + length, step)):
+                part("arp").add(at, order[k % len(order)], strength(at, 4 if k % 4 == 0 else -2, 34, 36), step * 2)
+        if "beat" in wanted:  # a soft, steady beat: the kick on one and three, the snare on two and four
+            for b in range(0, length // c.TICKS):
+                at = tick + b * c.TICKS
+                if b % 2 == 0:
+                    part("kick").add(at, 31, strength(at, 6, 50, 40), c.TICKS)
+                    if section.get("kick_and") and b % 4 == 2:
+                        part("kick").add(at + c.EIGHTH, 31, strength(at, -4, 44, 36), c.TICKS)
+                else:
+                    part("snare").add(at, 38, strength(at, 0, 46, 40), c.TICKS)
+        if "timpani" in wanted:  # timpani on the chord's root: a stroke a chord, or a roll that swells
+            note = c.above(root, score.get("timpani_low", 38))
+            if section.get("timpani") == "roll":
+                step = c.TICKS // 4
+                for k, at in enumerate(range(tick, tick + length, step)):
+                    part("timpani").add(at + rng.randint(-6, 6), note, strength(at, -14 + rng.uniform(-3, 3), 34, 60),
+                                        step * 4)
+            else:
+                part("timpani").add(tick, note, strength(tick, 6, 46, 60), piece.bar * 2)
         if "felt" in wanted:  # a felt piano, barely touched, the chord's tones rising and falling slowly
             ladder = [n for n in range(*score.get("felt_range", [55, 72])) if n % 12 in tones]
             step = round(section.get("felt_beats", 2) * c.TICKS)

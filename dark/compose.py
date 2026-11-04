@@ -205,6 +205,11 @@ INSTRUMENTS = {
     "amb-bowsolo": ("model", "amb-bowsolo.sfz", {"highpass": 60, "lowpass": 4000, "lowpass_order": 2}),
     "amb-thunder": ("model", "amb-thunder.sfz", {"lowpass": 400}),
     "amb-waves": ("model", "amb-waves.sfz", {"highpass": 40, "lowpass": 1200, "lowpass_order": 2, "width": 1.2}),
+    "amb-synbass": ("model", "amb-synbass.sfz", {"highpass": 30}),
+    "amb-arp": ("model", "amb-arp.sfz", {"lowpass": 3500, "lowpass_order": 2, "width": 1.3}),
+    "amb-kick": ("model", "amb-kick.sfz", {"highpass": 30}),
+    "amb-snare": ("model", "amb-snare.sfz", {"lowpass": 5000, "lowpass_order": 2, "width": 0.6}),
+    "amb-timpani": ("model", "amb-timpani.sfz", {"highpass": 30, "lowpass": 2500, "lowpass_order": 2}),
     "amb-drop": ("model", "amb-drop.sfz", {"lowpass": 3500, "lowpass_order": 2}),
 }
 # Named styles: a piece's "style" fills in every setting it does not give itself.
@@ -288,6 +293,11 @@ STYLES = {
     # "Ngủ ngon" (for sleep): the same sounds, nothing sudden (no thunder, heartbeat or struck bells in its
     # pieces), a longer, softer hall, quieter (-17 LUFS), the pieces long (5-6 min) and even.
     "ngu-ngon": {"kind": "ambient", "room": {"rt60": 7.5, "wet": 1.0}, "loudness": -17, "even_hall": True},
+    # Darkwave ("toi-nhip", a dark beat): synth bass, a cold arpeggio, a soft steady beat, cold pads; a smaller
+    # room (2.5 s), louder (-15 LUFS).
+    "toi-nhip": {"kind": "ambient", "room": {"rt60": 2.5, "wet": 0.8}, "loudness": -15, "even_hall": True},
+    # Dark cinematic ("dien-anh"): strings, choir, timpani, bells, building to a climax; a 4.5 s hall.
+    "dien-anh": {"kind": "ambient", "room": {"rt60": 4.5, "wet": 1.0}, "loudness": -16, "even_hall": True},
     "dem-diu": {"piano": "model-dream", "bass_low": 40, "texture": "flow", "hold": 1.0, "pedal_beats": 2, "lh_soft": 6,
                 "melody_velocity": [38, 60], "velocity_cap": 64,
                 "room": {"rt60": 3.6, "wet": 0.85}, "piano_reverb": 0.35, "loudness": -14,
