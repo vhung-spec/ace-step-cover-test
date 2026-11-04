@@ -306,3 +306,22 @@ những nốt trung trầm, chỉ xuất hiện cuối câu".
 | `phong-trong` (Phòng trống) | Son thứ, nhịp ba, 60 bpm | 2:17 |
 | `canh-cua-khep` (Cánh cửa khép) | Mi thứ, 56 bpm, thưa nhất | 2:39 |
 | `dem-khong-ngu` (Đêm không ngủ) | Fa thứ, 64 bpm | 2:20 |
+
+## Kiểu phối Claude đề xuất: "Kể chuyện", `ke-chuyen` (vòng 25)
+
+Người dùng: "bạn hãy tự sáng tác những bản khác hay hơn, phối theo kiểu bạn đề xuất". Đề xuất: mỗi bài là một câu chuyện
+có cung bậc, nhạc cụ vào dần rồi rút dần: piano kể một mình (một nốt trầm nhẹ mỗi hợp âm); cello vào (một bè thứ hai chậm,
+`cello-counter`: nốt màu của hợp âm, mỗi hợp âm một nốt dài, A2-C4; hay lời đáp từ xa, `cello-answer`); cao trào có dàn dây
+giữ hợp âm (`strings`) và piano rải hợp âm (`blocks`, chỉ ở cao trào); rồi lắng về piano một mình, viola chỉ ở cuối câu.
+Hợp âm cuối gõ nhẹ (`ending_velocity` 38, mặc định 52: ở 52 nó to hơn đoạn lắng trước nó 5 dB, giờ 1-2 dB).
+
+Giai điệu viết kỹ hơn: mỗi bài một mô-típ riêng, được phát triển (nhắc lại cao hơn một bậc, biến thành đường leo ở cao
+trào) và một đỉnh rõ ràng.
+
+| Bài | Giọng, nhịp | Mô-típ | Cung bậc (dB theo đoạn) |
+|---|---|---|---|
+| `nguoi-o-lai` (Người ở lại) | La thứ, 63 bpm, bè trầm "lament" A-G-F-E | Tiếng thở dài đi xuống E-D-C-B về A, câu đáp đi lên tới F; cao trào leo tới Rê 6, Esus4 về E | -25, -22, -17, -24, -22 |
+| `khuc-ru-muon` (Khúc ru muộn) | Mi thứ, nhịp ba, 66 bpm | Leo theo hợp âm B-E-G rồi tựa xuống một bậc (F#-E; G-F# trên B7) | -26, -23, -18, -17, -25, -24 |
+| `tieng-goi-xa` (Tiếng gọi xa) | Son thăng thứ, 68 bpm | Tiếng gọi: một nốt gõ hai lần rồi nhảy lên quãng sáu (D#-D#-B), cello đáp từ xa | -25, -23, -17, -25, -24 |
+
+CLAP: cả ba "a piano with cello and strings", "sad, emotional, cinematic piano music", "a warm, deep, dark piano".

@@ -78,7 +78,9 @@ A piece is a short score, the shape an AI composer is asked to write:
   held, where a section has no tune), viola-pad (the violas holding one
   thin line of the chords' colour tones, clear of the tune and the cellos),
   cello-pizz (the cellos plucking the chord's bass, octave and fifth softly,
-  like drops), viola-end (the violas only at each sentence's end: a long
+  like drops), cello-counter (the cellos singing a slow second line under
+  the tune, A2-C4: the chords' colour tones, one long note a chord, each
+  nearest the last), viola-end (the violas only at each sentence's end: a long
   low-middle note from the last bar's second beat, moving to the next
   chord for two beats);
 - melody_shift: the whole tune moved this many semitones (12: an octave up);
@@ -291,6 +293,20 @@ STYLES = {
                  "piano_tone": {"eq": [list(p) for p in EQ_KEYS], "width": 0.6, "chorus": 0.25},
                  "melody_velocity": [46, 70], "piano_layer": "rhodes",
                  "human": {"amount": 0.8, "vary": True}, "gains": {"viola-end": -2.0, "piano-layer": 2.0}},
+    # "Kể chuyện" (a story), the arrangement proposed when the user asked for better pieces in a style of
+    # Claude's own ("bạn hãy tự sáng tác những bản khác hay hơn, phối theo kiểu bạn đề xuất"): the keyboard
+    # piano tells the tune alone first, a soft deep note a chord under it; then the cellos join (a slow second
+    # line, or answers from afar); at the climax the strings hold the chords and the piano rolls them; then it
+    # thins to the piano again, the violas only at the sentences' ends. Each piece sets its own arc in its
+    # sections' layers and textures. The last chord is struck softly (38, not 52): struck at 52 it was 5 dB
+    # louder than the quiet return before it.
+    "ke-chuyen": {"piano": "salamander", "bass_low": 40, "texture": "deep", "pedal_beats": 2,
+                  "room": {"rt60": 2.8, "wet": 0.8}, "piano_reverb": 0.35, "loudness": -14,
+                  "piano_tone": {"eq": [list(p) for p in EQ_KEYS], "width": 0.6, "chorus": 0.25},
+                  "melody_velocity": [46, 72], "piano_layer": "rhodes", "ending_velocity": 38,
+                  "human": {"amount": 0.8, "vary": True},
+                  "gains": {"piano-layer": 2.0, "viola-end": -2.0, "cello-counter": -4.0, "violas": 2.0,
+                            "cellos-pad": 2.0}},
     "dem-diu": {"piano": "model-dream", "bass_low": 40, "texture": "flow", "hold": 1.0, "pedal_beats": 2, "lh_soft": 6,
                 "melody_velocity": [38, 60], "velocity_cap": 64,
                 "room": {"rt60": 3.6, "wet": 0.85}, "piano_reverb": 0.35, "loudness": -14,
@@ -790,6 +806,11 @@ def layers(piece: Piece) -> None:
     answered = cello_answers(piece)
     spans = [(t, l, n, piece.section_at(t)) for t, l, n in piece.spans]
     spans = [s for s in spans if "viola-pad" in s[3].get("layers", [])]
+    counter = [(t, l, n, piece.section_at(t)) for t, l, n in piece.spans]
+    counter = [s for s in counter if "cello-counter" in s[3].get("layers", [])]
+    if counter:  # layer cello-counter: the cellos singing a slow second line under the tune
+        line, _ = held_voice(piece, counter, 6.5, low=45, high=60, soft=36)
+        play_held(piece, piece.part("cello-counter", "cellos", "melody2", -0.25, reverb=0.5), line, 6.5)
     if spans:  # layer viola-pad: the violas holding one soft, thin line of the chords' colour tones
         clear = lambda tick, length: [n for a, b, n in answered if a < tick + length and b > tick]
         line, _ = held_voice(piece, spans, 6.5, low=58, high=72, avoid=clear, soft=30)
@@ -1048,17 +1069,19 @@ def cello_answers(piece: Piece) -> list:
 
 
 def ending(piece: Piece, piano: Part) -> None:
-    """The last chord rolled from the deep bass, held a bar longer."""
+    """The last chord rolled from the deep bass, held a bar longer, struck at
+    ending_velocity (52 unless the score asks; the tune's last notes 6 over)."""
     tick, length, name = piece.spans[-1]
     bass, tones, _ = chord(name)
     low = above(bass, piece.score.get("bass_low", 33) - 5)
     roll = [low, low + 12] + [n for n in range(low + 13, low + 32) if n % 12 in tones][:4]
     piano.notes = [n for n in piano.notes if n[0] < tick]
+    strike = piece.score.get("ending_velocity", 52)
     for k, n in enumerate(roll):
-        piano.add(tick + 70 * k, n, 52 - 2 * k, length + piece.bar)
+        piano.add(tick + 70 * k, n, strike - 2 * k, length + piece.bar)
     last = [n for t, notes, _ in piece.tune for n in notes if t >= tick]
     for n in last:
-        piano.add(tick + 70 * len(roll), n, 58, length + piece.bar)
+        piano.add(tick + 70 * len(roll), n, strike + 6, length + piece.bar)
 
 
 def compose(score: dict, folder: Path) -> str:
