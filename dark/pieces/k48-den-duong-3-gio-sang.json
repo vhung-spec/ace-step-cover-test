@@ -11,7 +11,8 @@
     64
   ],
   "gains": {
-    "pad": -6.0
+    "pad": -6.0,
+    "kick": -3.0
   },
   "sections": [
     {
@@ -68,5 +69,6 @@
       "felt_beats": 2,
       "swell": -0.1
     }
-  ]
+  ],
+  "loudness": -16
 }
