@@ -31,6 +31,10 @@ pieces name, with its own), as dark/oboe_model.py does:
 - amb-drop: a water drop in a cave pool;
 - amb-box: an old music box, a little out of tune;
 - amb-bowl: a singing bowl, rubbed, wobbling slowly;
+- amb-bowed: a low string section, soft, from its harmonics through a string
+  body's resonances, each player's own vibrato; looped; amb-bowsolo: one such
+  voice singing a tune, a fuller vibrato;
+- amb-thunder: thunder far off, its roll only, deep;
 - amb-glass: a soft glass/bowl tone, nearly pure: the note, a faint octave
   and twelfth, slow beating, a long ring; for the few notes of a tune.
 
@@ -44,7 +48,9 @@ common to two chords held across them; layers, per section:
   fifth), pulse (a heartbeat on the root every pulse_beats), shimmer (soft
   high glass on the chord's tones, at random), organ (the chord on the
   organ), bowl (a singing bowl on the root, every bowl_every chords), box
-  (the melody on the music box, before glass and bells), drops (water drops on the chord's tones, drops_per_bar); "answer", a second line beside the melody,
+  (the melody on the music box, before glass and bells), strings (low bowed
+  strings holding the chord), solo (the melody sung on one bowed string,
+  before all others), thunder (far thunder at a chord, thunder_odds), drops (water drops on the chord's tones, drops_per_bar); "answer", a second line beside the melody,
   played on the bell (as the cellos answer the piano in the dark piano).
 dyn, 0-1, sets every layer's strength; a section's "swell" lets it grow
 through the section.
@@ -84,6 +90,10 @@ MODELS = {
                 "seconds": 6.0},
     "amb-bowl": {"attack": 0.4, "release": 6.0, "veltrack": 70, "keys": range(43, 80), "loop": False,
                  "seconds": 24.0},
+    "amb-bowed": {"attack": 1.2, "release": 3.0, "veltrack": 60, "keys": range(28, 80), "loop": True},
+    "amb-bowsolo": {"attack": 0.35, "release": 1.2, "veltrack": 60, "keys": range(36, 84), "loop": True},
+    "amb-thunder": {"attack": 0.01, "release": 3.0, "veltrack": 60, "keys": range(24, 36), "loop": False,
+                    "seconds": 12.0},
 }
 
 
@@ -312,8 +322,72 @@ def bowl(key: int, n: int, rng: np.random.Generator) -> np.ndarray:
     return np.stack([mono, np.roll(mono, int(0.011 * RATE))])  # the same bowl, one side a little later: wide, even
 
 
+# A bowed string's body: its resonances (Hz, bandwidth, dB), the lower ones strongest: a dark section sound.
+BODY = [(280, 160, 0.0), (520, 220, -2.0), (1100, 420, -7.0), (2400, 800, -16.0)]
+
+
+def body_gain(freq: np.ndarray) -> np.ndarray:
+    gain = np.full_like(freq, 10 ** (-30 / 20))
+    for centre, width, db in BODY:
+        gain += 10 ** (db / 20) / (1 + ((freq - centre) / (width / 2)) ** 2)
+    return gain
+
+
+def bowed_voices(key: int, n: int, rng: np.random.Generator, players: int, depth_cents: float,
+                 spread_cents: float) -> np.ndarray:
+    """Bowed strings, made from their harmonics (a bowed string's 1/k, through the body's resonances),
+    each player their own vibrato (5-6 Hz, growing in), tuning and bow pressure, wandering a little."""
+    f0 = hz(key)
+    harmonics = np.arange(1, max(2, int(4000 / f0)) + 1)
+    amps = body_gain(harmonics * f0) / harmonics
+    out = np.zeros((2, n))
+    t = np.arange(n) / RATE
+    for side in range(2):
+        for _ in range(players):
+            rate = rng.uniform(5.0, 6.0)
+            depth = depth_cents * rng.uniform(0.7, 1.2) * np.minimum(1, t / 1.0)
+            cents = rng.uniform(-spread_cents, spread_cents) + 2 * wander(n, rng, 0.1) + depth * np.sin(
+                2 * np.pi * np.cumsum(rate * (1 + 0.05 * wander(n, rng, 0.3))) / RATE)
+            phase = 2 * np.pi * np.cumsum(f0 * 2 ** (cents / 1200)) / RATE
+            pressure = 10 ** (1.5 * wander(n, rng, 0.3) / 20)
+            voice = np.zeros(n)
+            for k, a in zip(harmonics, amps):
+                voice += a * np.sin(k * phase + rng.random() * 6.28)
+            out[side] += voice * pressure
+    return out
+
+
+def bowed(key: int, n: int, rng: np.random.Generator) -> np.ndarray:
+    """A low string section, soft, playing as one: four players a side."""
+    return bowed_voices(key, n, rng, 4, 9.0, 7.0)
+
+
+def bowsolo(key: int, n: int, rng: np.random.Generator) -> np.ndarray:
+    """One cello-like voice singing a tune: a fuller vibrato, a single player (the two sides the same
+    player through a slightly different place in the room)."""
+    one = bowed_voices(key, n, rng, 1, 16.0, 0.0)[0]
+    return np.stack([one, np.roll(one, int(0.009 * RATE))])
+
+
+def thunder(key: int, n: int, rng: np.random.Generator) -> np.ndarray:
+    """Thunder far away: no crack, only the roll: deep noise (under 220 Hz) in a few overlapping rumbles
+    over its first 3 s, each dying over 2-4 s."""
+    t = np.arange(n) / RATE
+    out = np.zeros((2, n))
+    for side in range(2):
+        noise = lowpass(rng.standard_normal(n), 220, 4)
+        env = np.zeros(n)
+        for _ in range(rng.integers(3, 6)):
+            at = rng.uniform(0, 3.0)
+            env += rng.uniform(0.4, 1.0) * np.where(t >= at, (1 - np.exp(-(t - at) / 0.25)) *
+                                                     np.exp(-np.maximum(0, t - at) / rng.uniform(1.5, 3.5)), 0)
+        out[side] = noise * env
+    return out
+
+
 SYNTHS = {"amb-pad": pad, "amb-choir": choir, "amb-sub": sub, "amb-bell": bell, "amb-glass": glass, "amb-wind": wind, "amb-pulse": pulse, "amb-organ": organ,
-          "amb-drop": drop, "amb-box": box, "amb-bowl": bowl}
+          "amb-drop": drop, "amb-box": box, "amb-bowl": bowl,
+          "amb-bowed": bowed, "amb-bowsolo": bowsolo, "amb-thunder": thunder}
 
 
 def sample(job: tuple) -> None:
@@ -380,6 +454,9 @@ PARTS = {
     "drops": ("amb-drop", "pad", -12.0, 0.0, 0.85),
     "box": ("amb-box", "melody2", -3.0, 0.0, 0.6),
     "bowl": ("amb-bowl", "pad", -6.0, 0.0, 0.3),
+    "strings": ("amb-bowed", "piano", -2.0, 0.0, 0.6),
+    "solo": ("amb-bowsolo", "melody2", -1.0, -0.1, 0.55),
+    "thunder": ("amb-thunder", "low", -6.0, 0.0, 0.5),
 }
 
 
@@ -431,7 +508,7 @@ def compose_ambient(score: dict, folder: Path) -> str:
         nxt = spans[index + 1] if index + 1 < len(spans) else None
         nxt_wanted = piece.section_at(nxt[0]).get("layers", []) if nxt else []
         bass, tones, root = c.chord(name)
-        for layer in ("pad", "choir", "sub", "wind", "organ"):
+        for layer in ("pad", "choir", "sub", "wind", "organ", "strings"):
             if layer not in wanted:
                 continue
             if layer == "pad":
@@ -446,12 +523,19 @@ def compose_ambient(score: dict, folder: Path) -> str:
             elif layer == "organ":  # the organ: the chord in the middle, its bass an octave and more under
                 voices["organ"] = c.voice(voices.get("organ", [55, 60, 64]), tones, *score.get("organ_range", [52, 72]), 3)
                 notes = sorted(set(voices["organ"] + [c.above(bass, 36)]))
+            elif layer == "strings":  # low strings: the chord low and close, its bass under it
+                voices["strings"] = c.voice(voices.get("strings", [50, 55, 58]), tones,
+                                            *score.get("strings_range", [45, 64]), 3)
+                notes = sorted(set(voices["strings"] + [c.above(bass, 33)]))
             elif layer == "wind":  # the wind sounding the chord's root and fifth, low-middle
                 notes = sorted({c.above(root, 45), c.above((root + 7) % 12, 52)})
             else:
                 notes = [c.above(bass, score.get("sub_low", 26))]
             ends = None if (nxt and layer in nxt_wanted) else tick + length + (tail if not nxt else piece.ms(800))
-            hold(layer, notes, tick, ends, strength(tick, {"pad": 0, "choir": -6, "sub": -4, "wind": -2, "organ": -4}[layer]))
+            hold(layer, notes, tick, ends, strength(tick, {"pad": 0, "choir": -6, "sub": -4, "wind": -2, "organ": -4, "strings": -2}[layer]))
+        if "thunder" in wanted and rng.random() < section.get("thunder_odds", 0.5):  # thunder far off, now and then
+            part("thunder").add(tick + rng.randrange(0, max(1, length // 2)), 24 + rng.randrange(12),
+                                strength(tick, 0, 40, 50), piece.bar * 2)
         if "bowl" in wanted:  # a singing bowl on the chord's root, rubbed, every bowl_every chords
             if index % section.get("bowl_every", 2) == 0:
                 part("bowl").add(tick + piece.ms(rng.uniform(0, 300)), c.above(root, score.get("bowl_low", 55)),
@@ -481,6 +565,10 @@ def compose_ambient(score: dict, folder: Path) -> str:
     for t, notes, length in piece.tune:  # the tune: on the bell or the glass, struck and left ringing
         section = piece.section_at(t)
         on = section.get("layers", [])
+        if "solo" in on:  # the tune sung on the solo string, held, each note into the next
+            for n in notes:
+                part("solo").add(t + piece.ms(rng.gauss(0, 15)), n, strength(t, 2, 36, 46), length + piece.ms(120))
+            continue
         layer = "box" if "box" in on else "glass" if "glass" in on else "bells"
         for n in notes:
             at = t + piece.ms(rng.gauss(0, 25))

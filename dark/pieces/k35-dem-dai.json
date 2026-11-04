@@ -1,0 +1,79 @@
+{
+  "title": "Đêm dài",
+  "family": "dark-khac",
+  "about": "Round x5 of the dark ambient style (khong-gian), as the user asked (\"hãy sáng tác thêm cho tôi nhiều bài nữa\"): a long night, the longest piece: one slow journey through most of the sounds, each section handing over to the next (pad, wind, choir, strings, bells, glass), almost no tune, to listen to for a long while. D minor at 48 bpm. An original piece.",
+  "style": "khong-gian",
+  "bpm": 48,
+  "beats": 4,
+  "sections": [
+    {
+      "bars": 4,
+      "chords": "Dm | Dm | Dm | Dm",
+      "dyn": 0.2,
+      "layers": [
+        "pad",
+        "sub"
+      ],
+      "swell": 0.15
+    },
+    {
+      "bars": 8,
+      "chords": "Dm | Dm | Bbmaj7 | Bbmaj7 | Gm9 | Gm9 | A5 | A5",
+      "dyn": 0.35,
+      "layers": [
+        "pad",
+        "sub",
+        "wind",
+        "toll"
+      ],
+      "toll_every": 4
+    },
+    {
+      "bars": 8,
+      "chords": "Dm | Dm | Fmaj7 | Fmaj7 | Bbmaj7 | Bbmaj7 | A5 | A5",
+      "dyn": 0.42,
+      "layers": [
+        "pad",
+        "sub",
+        "choir",
+        "shimmer"
+      ],
+      "melody": "r:4 | A4:4 | r:4 | r:4 | r:4 | F4:4 | r:4 | E4:4"
+    },
+    {
+      "bars": 8,
+      "chords": "Gm9 | Gm9 | Eb/D | Eb/D | Bbmaj7 | Bbmaj7 | A5 | A5",
+      "dyn": 0.5,
+      "layers": [
+        "strings",
+        "sub",
+        "choir",
+        "toll"
+      ],
+      "toll_every": 2
+    },
+    {
+      "bars": 8,
+      "chords": "Dm | Dm | Bbmaj7 | Bbmaj7 | Gm9 | Gm9 | A5 | A5",
+      "dyn": 0.45,
+      "layers": [
+        "pad",
+        "strings",
+        "sub",
+        "glass"
+      ],
+      "melody": "D5:4 | r:4 | r:4 | r:4 | Bb4:4 | r:4 | A4:4 | r:4"
+    },
+    {
+      "bars": 8,
+      "chords": "Dm | Dm | Eb/D | Eb/D | Dm | Dm | Dm | Dm",
+      "dyn": 0.25,
+      "layers": [
+        "pad",
+        "sub",
+        "wind"
+      ],
+      "swell": -0.15
+    }
+  ]
+}

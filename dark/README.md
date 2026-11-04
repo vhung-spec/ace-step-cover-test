@@ -335,3 +335,23 @@ nó; các bản piano không đổi.
 | `k23-mat-bao` (Mắt bão) | Mi thứ, 56 bpm | Cơn bão dâng, giữa bài lặng hẳn, rồi bão lại |
 | `k24-ky-uc-mo` (Ký ức mờ) | Si thứ, 58 bpm | Nhiều giai điệu nhất: hộp nhạc hát, chuông đáp |
 | `k25-lang` (Lặng) | La giáng thứ, 40 bpm | Thưa nhất: bass, bát hát, chuông lớn hai lần |
+
+## Không gian u tối, thêm mười bài (vòng X5)
+
+Người dùng: "hãy sáng tác thêm cho tôi nhiều bài nữa". Thêm ba tiếng tự tạo: `amb-bowed` (dàn dây trầm kéo
+vĩ, làm từ các họa âm qua cộng hưởng thân đàn, mỗi người chơi một độ rung riêng), `amb-bowsolo` (một cây dây
+hát giai điệu) và `amb-thunder` (sấm rền ở xa, chỉ phần rền, rất trầm); ba lớp: `strings`, `solo` (giai điệu
+trên cây dây, ngân liền nốt), `thunder` (`thunder_odds`).
+
+| Bản | Giọng, nhịp | Âm thanh |
+|---|---|---|
+| `k26-sam-xa` (Sấm xa) | Rê thứ, 50 bpm | Sấm rền xa, nền tối, vài nốt chuông |
+| `k27-day-tram` (Dây trầm) | Đô thứ, 48 bpm | Dàn dây trầm, một cây dây hát giai điệu buồn, kiểu nhạc phim |
+| `k28-hai-dang-tat` (Hải đăng tắt) | La thứ, 46 bpm | Gió biển, chuông trầm như còi sương, thủy tinh xa |
+| `k29-gieng-co` (Giếng cổ) | Fa thăng thứ, 44 bpm | Giọt nước vọng sâu, bát hát, nền rất trầm |
+| `k30-ru-trong-bong-toi` (Ru trong bóng tối) | Mi thứ, nhịp ba, 58 bpm | Hộp nhạc hát bài ru, dây trầm đưa nhịp ba |
+| `k31-tau-ma` (Tàu ma) | Si giáng thứ, 50 bpm | Dây trầm đung đưa, gió, nhịp chậm, chuông từ xa |
+| `k32-binh-minh-xam` (Bình minh xám) | Son thứ, 52 bpm | Vẫn tối nhưng mở dần ra, hợp xướng, dây, thủy tinh |
+| `k33-thanh-duong-chim` (Thánh đường chìm) | Mi giáng thứ, 44 bpm | Đàn ống như nghe qua nước, giọt nước, chuông |
+| `k34-bong-nguoi` (Bóng người) | La thứ, 54 bpm | Dây trầm bò từng nửa cung, tim đập, hỏi-đáp |
+| `k35-dem-dai` (Đêm dài) | Rê thứ, 48 bpm | Dài nhất (gần 4 phút), đi qua gần hết các tiếng |

@@ -201,6 +201,9 @@ INSTRUMENTS = {
     "amb-organ": ("model", "amb-organ.sfz", {"highpass": 40, "width": 1.2}),
     "amb-box": ("model", "amb-box.sfz", {"lowpass": 5000, "lowpass_order": 2, "highpass": 150}),
     "amb-bowl": ("model", "amb-bowl.sfz", {"lowpass": 4500, "lowpass_order": 2}),
+    "amb-bowed": ("model", "amb-bowed.sfz", {"highpass": 45, "lowpass": 4000, "lowpass_order": 2, "width": 1.1}),
+    "amb-bowsolo": ("model", "amb-bowsolo.sfz", {"highpass": 60, "lowpass": 4000, "lowpass_order": 2}),
+    "amb-thunder": ("model", "amb-thunder.sfz", {"lowpass": 400}),
     "amb-drop": ("model", "amb-drop.sfz", {"lowpass": 3500, "lowpass_order": 2}),
 }
 # Named styles: a piece's "style" fills in every setting it does not give itself.
