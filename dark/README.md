@@ -267,7 +267,7 @@ giờ 43-45). 69 bài cũ soạn ra y hệt như trước.
 
 | Bài | Giọng, nhịp | Mở đầu | Khác thêm |
 |---|---|---|---|
-| `gio-bac` (Gió bấc) | Đô thứ, 70 bpm | Cello hát chủ đề một mình, viola nền, chưa có piano (4 ô) | Piano nhắc lại chủ đề cao hơn hơn một quãng tám; đoạn giữa Mi giáng trưởng lên tới Mi giáng 6 |
+| `gio-lanh` (Gió lạnh) | Đô thứ, 70 bpm | Cello hát chủ đề một mình, viola nền, chưa có piano (4 ô) | Piano nhắc lại chủ đề cao hơn hơn một quãng tám; đoạn giữa Mi giáng trưởng lên tới Mi giáng 6 |
 | `dong-ho-cu` (Đồng hồ cũ) | Son thứ, 76 bpm | Piano một mình gõ "tích tắc" (Rê, Si giáng đổi nhau từng móc đơn) như đồng hồ cũ (2 ô) | Kết bài gõ lại tiếng đồng hồ, cello đáp |
 | `mat-ho-dem` (Mặt hồ đêm) | Mi giáng thứ, nhịp ba, 69 bpm | Chỉ dàn dây: cello giữ nốt trầm, viola một bè chậm (4 ô), piano vào sau | Đoạn giữa Son giáng trưởng hát hai lần |
 | `ngay-xa` (Ngày xa) | Mi thứ, 84 bpm | Không có đoạn mở: hai nốt dạo của piano rồi vào thẳng giai điệu | Đoạn giữa đổi vai: cello hát, piano rải hợp âm; rồi piano hát lại cao hơn, cello đáp |
