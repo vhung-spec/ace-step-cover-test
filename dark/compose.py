@@ -75,10 +75,13 @@ A piece is a short score, the shape an AI composer is asked to write:
   cello-answer (the cellos answering the tune where it holds or rests: its
   last notes an octave or two down, every other time mirrored; the bass,
   held, where a section has no tune), viola-pad (the violas holding one
-  thin line of the chords' colour tones, clear of the tune and the cellos);
+  thin line of the chords' colour tones, clear of the tune and the cellos),
+  cello-pizz (the cellos plucking the chord's bass, octave and fifth softly,
+  like drops);
 - melody_shift: the whole tune moved this many semitones (12: an octave up);
-- melody_on (a section's): cello, the cellos sing that section's tune (written
-  in their register) and the piano leaves it; piano unless given;
+- melody_on (a section's): cello or viola, the cellos or the violas sing that
+  section's tune (written in their register) and the piano leaves it; piano
+  unless given;
 - piano_layer: a second keyboard (INSTRUMENTS) doubling all the piano plays,
   6 dB under it (gains: piano-layer), its tone changed by piano_layer_tone.
 
@@ -165,6 +168,8 @@ INSTRUMENTS = {
     # the cellos singing a tune alone: their soft samples' hiss shows there (38-39 dB under the music in its
     # quiet moments), so their highs go from 3 kHz
     "cellos-dark": ("vsco", "CelloEnsSusVib-Quiet.sfz", TONES["cellos"] | {"lowpass": 3000, "lowpass_order": 4}),
+    # the cellos plucked (pizzicato), two takes a note in turn
+    "cellos-pizz": ("vsco", "CelloEnsPizz.sfz", TONES["cellos"] | {"lowpass": 4000, "lowpass_order": 2}),
     "basses": ("vsco", "ContrabassSusVB-Quiet.sfz", dict(TONES["basses"])),
     "violin": ("vsco", "SViolinVib-Quiet.sfz", dict(TONES["violins"]) | {"width": 0.5}),
     # VSCO's oboe, held straight (no vibrato) or with it, for a soft line behind the piano: darkened as the
@@ -754,6 +759,7 @@ def layers(piece: Piece) -> None:
                         piece.held(line, tick + 15, max(notes) + shift, velocity + 4, length)
     oboe_line(piece)
     cello_tune(piece)
+    cello_pizz(piece)
     answered = cello_answers(piece)
     spans = [(t, l, n, piece.section_at(t)) for t, l, n in piece.spans]
     spans = [s for s in spans if "viola-pad" in s[3].get("layers", [])]
@@ -847,20 +853,45 @@ def play_held(piece: Piece, part: Part, line: list, limit: float) -> None:
         piece.held(part, start, note, velocity, stop - start, most=limit)
 
 
+# Who may sing a section's tune instead of the piano (melody_on): part, instrument, pan.
+# The violas singing alone hiss more than the cellos (low-passed at 3 kHz, 41 dB under the music in its quiet
+# moments, against 45-49 for the other pieces), so they sing on violas-dark (2 kHz: 47).
+SINGERS = {"cello": ("cello-tune", "cellos-dark", -0.15), "viola": ("viola-tune", "violas-dark", 0.2)}
+
+
 def cello_tune(piece: Piece) -> None:
-    """A section marked melody_on cello: its tune sung by the cellos (written
-    in their register, C2-A4), legato, each note into the next, swelling with
-    the section's dyn, instead of the piano (which only plays that section's
-    texture, if any)."""
-    notes = [(t, n, l) for t, n, l in piece.tune if piece.section_at(t).get("melody_on") == "cello"]
-    if not notes:
+    """A section marked melody_on cello (or viola): its tune sung by the
+    cellos (written in their register, C2-A4; the violas', C3-E5), legato,
+    each note into the next, swelling with the section's dyn, instead of the
+    piano (which only plays that section's texture, if any)."""
+    for singer, (name, instrument, pan) in SINGERS.items():
+        notes = [(t, n, l) for t, n, l in piece.tune if piece.section_at(t).get("melody_on") == singer]
+        if not notes:
+            continue
+        part = piece.part(name, instrument, "melody2", pan, reverb=0.45)
+        for k, (tick, pitches, length) in enumerate(notes):
+            dyn = piece.section_at(tick).get("dyn", 0.4)
+            joined = k + 1 < len(notes) and notes[k + 1][0] == tick + length
+            for note in pitches:
+                piece.held(part, tick + 10, note, 50 + 26 * dyn, length + (40 if joined else 0), most=6.5)
+
+
+def cello_pizz(piece: Piece) -> None:
+    """Layer cello-pizz: the cellos plucking softly, like drops falling: the
+    chord's bass on its first beat, its octave half a beat after the second,
+    its fifth on the last beat (in 3/4, the bass and the octave only)."""
+    spans = [s for s in piece.spans if "cello-pizz" in piece.section_at(s[0]).get("layers", [])]
+    if not spans:
         return
-    cello = piece.part("cello-tune", "cellos-dark", "melody2", -0.15, reverb=0.45)
-    for k, (tick, pitches, length) in enumerate(notes):
+    pizz = piece.part("cello-pizz", "cellos-pizz", "bass", -0.2, reverb=0.5)
+    for tick, length, name in spans:
         dyn = piece.section_at(tick).get("dyn", 0.4)
-        joined = k + 1 < len(notes) and notes[k + 1][0] == tick + length
-        for note in pitches:
-            piece.held(cello, tick + 10, note, 50 + 26 * dyn, length + (40 if joined else 0), most=6.5)
+        low = bass_note(name, 36)
+        fifth = low + 7 if (low + 7) % 12 in chord(name)[1] else low + 12
+        steps = [(0, low, 0), (3 * EIGHTH, low + 12, -8)] + ([(length - TICKS, fifth, -5)] if length >= 4 * TICKS else [])
+        for at, note, softer in steps:
+            if at < length:
+                pizz.add(tick + at + piece.jitter(4), note, 46 + 24 * dyn + softer, TICKS)
 
 
 def cello_answers(piece: Piece) -> list:

@@ -271,3 +271,15 @@ giờ 43-45). 69 bài cũ soạn ra y hệt như trước.
 | `dong-ho-cu` (Đồng hồ cũ) | Son thứ, 76 bpm | Piano một mình gõ "tích tắc" (Rê, Si giáng đổi nhau từng móc đơn) như đồng hồ cũ (2 ô) | Kết bài gõ lại tiếng đồng hồ, cello đáp |
 | `mat-ho-dem` (Mặt hồ đêm) | Mi giáng thứ, nhịp ba, 69 bpm | Chỉ dàn dây: cello giữ nốt trầm, viola một bè chậm (4 ô), piano vào sau | Đoạn giữa Son giáng trưởng hát hai lần |
 | `ngay-xa` (Ngày xa) | Mi thứ, 84 bpm | Không có đoạn mở: hai nốt dạo của piano rồi vào thẳng giai điệu | Đoạn giữa đổi vai: cello hát, piano rải hợp âm; rồi piano hát lại cao hơn, cello đáp |
+
+## Hai bài nữa, đủ mười bài cho `tam-tau-phim` (vòng 23)
+
+Người dùng: "hãy sáng tác thêm 2 bài nữa cho đủ 10 bài" (bốn bài vòng 21, bốn bài vòng 22, hai bài này). Mới:
+`melody_on: viola` (viola hát một đoạn, trên `violas-dark`: cắt ở 3 kHz thì tiếng xì của viola lộ ra ở đoạn mở đầu, 41 dB
+dưới nhạc; cắt ở 2 kHz còn 47) và lớp `cello-pizz` (cello gảy dây: nốt trầm của hợp âm ở phách một, quãng tám nửa phách
+sau phách hai, quãng năm ở phách cuối, như giọt nước). 73 bài cũ soạn ra y hệt.
+
+| Bài | Giọng, nhịp | Mở đầu | Khác thêm |
+|---|---|---|---|
+| `trang-khuyet` (Trăng khuyết) | Si thứ, 66 bpm | Viola hát chủ đề một mình, cello đáp từng câu (4 ô) | Piano nhận chủ đề ở đúng cao độ đó, trầm và ấm, rồi lên một quãng tám; kết bài viola hát lại câu cuối một mình |
+| `giot-dem` (Giọt đêm) | Đô thăng thứ, 74 bpm | Cello gảy dây một mình như giọt nước rơi (2 ô) | Giai điệu kiểu mới: một nốt gõ hai lần rồi đi xuống (Mi-Mi-Rê#-Đô#); kết bài tiếng gảy trở lại |
