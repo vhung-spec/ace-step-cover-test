@@ -325,3 +325,31 @@ trào) và một đỉnh rõ ràng.
 | `tieng-goi-xa` (Tiếng gọi xa) | Son thăng thứ, 68 bpm | Tiếng gọi: một nốt gõ hai lần rồi nhảy lên quãng sáu (D#-D#-B), cello đáp từ xa | -25, -23, -17, -25, -24 |
 
 CLAP: cả ba "a piano with cello and strings", "sad, emotional, cinematic piano music", "a warm, deep, dark piano".
+
+## Bảy bài "Kể chuyện" nữa, đủ album mười bài (vòng 26)
+
+Người dùng: "tôi thích 3 bài mới bạn làm", rồi "làm luôn 7 bài cho đủ album". Cùng kiểu `ke-chuyen`, mã không đổi (chỉ thêm
+bài). Mỗi bài một mô-típ và một cung bậc riêng, để mười bài nghe liền không lặp: cao trào sớm rồi lắng dài
+(`chiec-ghe-trong`), cao trào để dành tới cuối (`con-duong-ve`), cello hát đoạn giữa (`buc-anh-cu`, `melody_on: cello`, viola
+mỏng phía trên), viola hát và cello đáp (`loi-hua`), không có cao trào dàn dây (`loi-chua-noi`), và một bài chuyển sang giọng
+trưởng ở cuối (`truoc-binh-minh`), kết trưởng duy nhất của album. Giọng thứ khác nhau, ba bài nhịp ba trong mười, 56-72 bpm.
+
+| Bài | Giọng, nhịp | Mô-típ | Cung bậc (dB theo đoạn) |
+|---|---|---|---|
+| `buc-anh-cu` (Bức ảnh cũ) | Đô thứ, 62 bpm | Một nốt lay động (G-Ab-G) rồi vút lên; đoạn giữa cello hát giai điệu riêng, piano nhận lại nó ở cao trào | -24, -22, -23, -17, -23, -21 |
+| `con-duong-ve` (Con đường về) | Si thứ, nhịp ba, 70 bpm | Bước chân đi lên ba bậc rồi nhảy quãng sáu; cao trào để dành tới cuối, bước nhảy thành quãng tám | -23, -20, -20, -16, -23, -21 |
+| `loi-chua-noi` (Lời chưa nói) | Fa thăng thứ, 58 bpm | Một nốt, một phách lặng, rồi mới cất lên; không cao trào dàn dây, kết treo trên F#m(add9) | -19, -18, -18, -19, -17 |
+| `chiec-ghe-trong` (Chiếc ghế trống) | Son thứ, nhịp ba, 60 bpm | Mở và kết bằng cello gảy như nhịp tim; rơi quãng sáu rồi leo ba bậc; cao trào sớm (đoạn hai), lắng dài | -22, -22, -17, -23, -22, -22 |
+| `loi-hua` (Lời hứa) | Đô thăng thứ, 72 bpm | Quãng bốn đi lên, chắc nịch; đoạn giữa viola hát, cello đáp, piano rải hợp âm thưa (`sparse`) | -23, -22, -19, -17, -24, -21 |
+| `bong-hinh` (Bóng hình) | Fa thứ, 56 bpm | Giai điệu đứng yên quanh Đô khi bè trầm trượt từng nửa cung (F-E-Eb-D), hợp âm Neapolitan Gb | -24, -21, -17, -24, -23 |
+| `truoc-binh-minh` (Trước bình minh) | La thứ sang La trưởng, 64 bpm | Đi lên có vòng láy (A, C-B, E); sau cao trào sang La trưởng, C thành C#, kết trưởng duy nhất | -24, -22, -17, -21, -21, -21 |
+
+CLAP: cả bảy "a piano with cello and strings" (60-80 %), "sad, emotional, cinematic piano music" (84-100 %), "a warm,
+deep, dark piano" 100 %. Hai chỗ chỉnh sau lần nghe máy đầu: nhịp tim mở đầu `chiec-ghe-trong` nhỏ lại (`dyn` 0,24 thành
+0,14: nó to hơn đoạn sau), hai ô kết của `loi-hua` để piano một mình (cello giữ nốt trầm dưới hợp âm cuối thì CLAP nghe
+là "tense horror music" ở 10 giây cuối). Đoạn dây hát một mình (`melody_on`) CLAP vẫn nghe hơi "tense", như
+`trang-khuyet` và `gio-lanh` trước đây.
+
+Album mười bài (thứ tự nghe, một đêm tới sáng): "Stories Until Dawn" (Kể chuyện tới bình minh): 1 `nguoi-o-lai`, 2
+`buc-anh-cu`, 3 `khuc-ru-muon`, 4 `loi-chua-noi`, 5 `con-duong-ve`, 6 `tieng-goi-xa`, 7 `chiec-ghe-trong`, 8
+`bong-hinh`, 9 `loi-hua`, 10 `truoc-binh-minh`.
