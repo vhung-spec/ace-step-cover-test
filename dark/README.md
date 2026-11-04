@@ -367,11 +367,11 @@ cuối. Thêm tiếng `amb-waves` (biển đêm ở xa, từng đợt sóng ch�
 
 | Bản | Tên tiếng Anh | Giọng, nhịp | Âm thanh |
 |---|---|---|---|
-| `k36-ru-bien-dem` (Ru biển đêm) | Sea Lullaby | La thứ, 50 bpm, 5:41 | Sóng biển xa, nền, piano nỉ khẽ |
-| `k37-may-dem` (Mây đêm) | Night Clouds | Rê thứ, 48 bpm, 5:35 | Nền và hợp xướng xa trôi chậm, thủy tinh hiếm |
-| `k38-ngu-duoi-sao` (Ngủ dưới sao) | Sleeping Under the Stars | Mi thứ, 52 bpm, 5:09 | Piano nỉ đưa nhẹ như bài ru |
-| `k39-vong-tay-dem` (Vòng tay đêm) | Embrace of the Night | Đô thứ, 48 bpm, 5:35 | Dây trầm êm, một lần cây dây hát |
-| `k40-hoi-tho-cham` (Hơi thở chậm) | Slow Breathing | Rê thứ, 44 bpm, 5:22 | Sóng theo nhịp thở chậm, bát hát |
-| `k41-lua-tan` (Lửa tàn) | Dying Embers | Son thứ, 46 bpm, 5:08 | Đàn ống rất khẽ, piano nỉ, nhỏ dần |
-| `k42-troi-ve-giac-mo` (Trôi về giấc mơ) | Drifting into Dreams | Si thứ, nhịp ba, 54 bpm, 4:38 | Hộp nhạc hát ru, dây trầm đưa nhịp ba |
-| `k43-giac-ngu-sau` (Giấc ngủ sâu) | Deep Sleep | Rê thứ, 42 bpm, 6:00 | Tĩnh nhất: nền, bass, hợp xướng rất xa |
+| `k36-ru-bien-dem` (Ru biển đêm) | Sea Lullaby | La thứ, 50 bpm, 5:48 | Sóng biển xa, nền, piano nỉ khẽ |
+| `k37-may-dem` (Mây đêm) | Night Clouds | Rê thứ, 48 bpm, 5:43 | Nền và hợp xướng xa trôi chậm, thủy tinh hiếm |
+| `k38-ngu-duoi-sao` (Ngủ dưới sao) | Sleeping Under the Stars | Mi thứ, 52 bpm, 5:18 | Piano nỉ đưa nhẹ như bài ru |
+| `k39-vong-tay-dem` (Vòng tay đêm) | Embrace of the Night | Đô thứ, 48 bpm, 5:42 | Dây trầm êm, một lần cây dây hát |
+| `k40-hoi-tho-cham` (Hơi thở chậm) | Slow Breathing | Rê thứ, 44 bpm, 5:30 | Sóng theo nhịp thở chậm, bát hát |
+| `k41-lua-tan` (Lửa tàn) | Dying Embers | Son thứ, 46 bpm, 5:15 | Đàn ống rất khẽ, piano nỉ, nhỏ dần |
+| `k42-troi-ve-giac-mo` (Trôi về giấc mơ) | Drifting into Dreams | Si thứ, nhịp ba, 54 bpm, 4:46 | Hộp nhạc hát ru, dây trầm đưa nhịp ba |
+| `k43-giac-ngu-sau` (Giấc ngủ sâu) | Deep Sleep | Rê thứ, 42 bpm, 6:09 | Tĩnh nhất: nền, bass, hợp xướng rất xa |
