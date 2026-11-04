@@ -434,3 +434,15 @@ cung Phrygian chỏi; kiểu `ngu-ngon`.
 | `k59-thuyen-dem` (Thuyền đêm) | Night Boat | Son Dorian, 52 bpm | piano nỉ, sóng, dây |
 | `k60-khu-vuon-toi` (Khu vườn tối) | Dark Garden | Đô thăng thứ, 50 bpm | thủy tinh rồi dây gảy |
 | `k61-giac-mo-khong-ten` (Giấc mơ không tên) | Nameless Dream | Rê thứ, 46 bpm | piano nỉ, cây dây, thủy tinh lần lượt |
+
+### Người dùng chấm điểm (sau vòng X8)
+
+- Không gian u tối X1-X37: 28 thích, 8 tạm được, không bài nào không thích. Tạm được: Nhà thờ bỏ hoang, Vực
+  thẳm, Biển đêm, Đàn ống xa, Đèn cuối hầm, Nghĩa trang sương, Tàu ma, Thành phố không ngủ (darkwave). Trước
+  cơn bão (nhạc phim) được thích.
+- Nhạc ngủ S1-S8: 6 thích; tạm được: Giấc ngủ sâu (tĩnh nhất), Vòng tay đêm.
+- Vòng X8: không thích hai bài lofi (có trống) và hai bài phương Đông (dây gảy `amb-pluck`); tân cổ điển,
+  darkwave, nhạc phim: tạm được.
+- Nên: hộp nhạc, bát hát, thủy tinh, gió, giọt nước, dây trầm, piano nỉ, sóng, hợp xướng. Tránh: trống/nhịp
+  lofi, dây gảy; đàn ống chỉ "tạm được". Vì vậy vòng X9 đổi ngẫu hứng dây gảy sang hộp nhạc (Mưa sao băng
+  chậm, Khu vườn tối), Ngọn nến cuối bỏ đàn ống, dùng dây trầm và nền.

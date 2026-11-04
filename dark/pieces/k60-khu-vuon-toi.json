@@ -2,7 +2,7 @@
   "title": "Khu vườn tối",
   "title_en": "Dark Garden",
   "family": "dark-khac",
-  "about": "Round x9, for sleep with improvised melodies (style ngu-ngon), as the user asked (\"tôi muốn những bài âm thanh u tối nhưng dễ nghe để ngủ hơn, có thể thêm những giai điệu ngẫu hứng\"): a garden at night: the pad and the far choir, the glass improvising first, then the plucked string answering in its own way, then the glass again. C sharp minor. Softer harmony than before (added ninths, major sevenths, no Phrygian rub), nothing sudden. An original piece; its melody made up by the improviser in dark/ambient.py.",
+  "about": "Round x9, for sleep with improvised melodies (style ngu-ngon), as the user asked (\"tôi muốn những bài âm thanh u tối nhưng dễ nghe để ngủ hơn, có thể thêm những giai điệu ngẫu hứng\"): a garden at night: the pad and the far choir, the glass improvising first, then the old music box answering in its own way (the user disliked the plucked string), then the glass again. C sharp minor. Softer harmony than before (added ninths, major sevenths, no Phrygian rub), nothing sudden. An original piece; its melody made up by the improviser in dark/ambient.py.",
   "style": "ngu-ngon",
   "bpm": 50,
   "beats": 4,
@@ -43,10 +43,10 @@
         "choir",
         "sub"
       ],
-      "improv": "pluck",
+      "improv": "box",
       "improv_range": [
-        56,
-        75
+        62,
+        81
       ]
     },
     {

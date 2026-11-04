@@ -2,7 +2,7 @@
   "title": "Mưa sao băng chậm",
   "title_en": "Slow Meteor Shower",
   "family": "dark-khac",
-  "about": "Round x9, for sleep with improvised melodies (style ngu-ngon), as the user asked (\"tôi muốn những bài âm thanh u tối nhưng dễ nghe để ngủ hơn, có thể thêm những giai điệu ngẫu hứng\"): the plucked harp-like string improvising like stars falling one by one, the far choir and the pad under them. B Dorian. Softer harmony than before (added ninths, major sevenths, no Phrygian rub), nothing sudden. An original piece; its melody made up by the improviser in dark/ambient.py.",
+  "about": "Round x9, for sleep with improvised melodies (style ngu-ngon), as the user asked (\"tôi muốn những bài âm thanh u tối nhưng dễ nghe để ngủ hơn, có thể thêm những giai điệu ngẫu hứng\"): the old music box improvising (the user disliked the plucked string) like stars falling one by one, the far choir and the pad under them. B Dorian. Softer harmony than before (added ninths, major sevenths, no Phrygian rub), nothing sudden. An original piece; its melody made up by the improviser in dark/ambient.py.",
   "style": "ngu-ngon",
   "bpm": 52,
   "beats": 4,
@@ -27,10 +27,10 @@
         "choir",
         "sub"
       ],
-      "improv": "pluck",
+      "improv": "box",
       "improv_range": [
-        59,
-        78
+        62,
+        81
       ]
     },
     {
@@ -42,10 +42,10 @@
         "choir",
         "sub"
       ],
-      "improv": "pluck",
+      "improv": "box",
       "improv_range": [
-        59,
-        78
+        62,
+        81
       ]
     },
     {
@@ -57,10 +57,10 @@
         "choir"
       ],
       "swell": -0.1,
-      "improv": "pluck",
+      "improv": "box",
       "improv_range": [
-        59,
-        78
+        62,
+        81
       ],
       "improv_density": 0.6
     }
