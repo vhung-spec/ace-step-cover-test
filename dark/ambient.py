@@ -39,6 +39,7 @@ pieces name, with its own), as dark/oboe_model.py does:
 - darkwave: amb-synbass (a dark synth bass, its filter snapping shut),
   amb-arp (a cold, hollow synth pluck), amb-kick and amb-snare (a soft beat);
   cinematic: amb-timpani (soft-mallet timpani, its kettle's modes);
+- amb-pluck: a plucked zither-like string (Karplus-Strong), darker as it dies;
 - amb-glass: a soft glass/bowl tone, nearly pure: the note, a faint octave
   and twelfth, slow beating, a long ring; for the few notes of a tune.
 
@@ -59,7 +60,11 @@ common to two chords held across them; layers, per section:
   felt_beats; with a melody, the tune on it before all others), bassline
   (synth bass in eighths), arp (an arpeggio in eighths, arp16: sixteenths),
   beat (kick and snare; kick_and: a kick between), timpani (a stroke a
-  chord, or "timpani": "roll" in a section, swelling with it), drops (water drops on the chord's tones, drops_per_bar); "answer", a second line beside the melody,
+  chord, or "timpani": "roll" in a section, swelling with it), pluck (the
+  melody on the plucked string, first of all), pluckarp (the chord broken on
+  it, pluck_beats); bass_step (the bassline's note length, beats), felt_chords
+  (the felt piano's chords whole), answer_on "solo" (the answer on the string), tune_on (the
+  instrument the section's tune is played on, before the order above), drops (water drops on the chord's tones, drops_per_bar); "answer", a second line beside the melody,
   played on the bell (as the cellos answer the piano in the dark piano).
 dyn, 0-1, sets every layer's strength; a section's "swell" lets it grow
 through the section.
@@ -115,6 +120,8 @@ MODELS = {
                   "seconds": 1.0, "one_shot": True},
     "amb-timpani": {"attack": 0.001, "release": 2.5, "veltrack": 80, "keys": range(33, 58), "loop": False,
                     "seconds": 6.0, "one_shot": True},
+    "amb-pluck": {"attack": 0.001, "release": 1.2, "veltrack": 70, "keys": range(40, 90), "loop": False,
+                  "seconds": 5.0},
 }
 
 
@@ -499,10 +506,40 @@ def timpani(key: int, n: int, rng: np.random.Generator) -> np.ndarray:
     return out * (1 - np.exp(-t / 0.002))
 
 
+def pluck(key: int, n: int, rng: np.random.Generator) -> np.ndarray:
+    """A plucked silk-and-steel string, as a zither's (Karplus-Strong: a burst of soft noise circulating in
+    a delay the length of the note's period, losing a little of its highs each pass, so it rings darker
+    as it dies), plucked a fifth of the way along, through a small wooden body; ringing 3-4 s."""
+    f0 = hz(key)
+    period = RATE / f0
+    N = int(period)
+    frac = period - N
+    out = np.zeros((2, n))
+    for side in range(2):
+        y = np.zeros(n + N + 3)
+        burst = lowpass(rng.standard_normal(N + 2), min(3000, 6 * f0), 2)
+        burst -= 0.5 * np.roll(burst, int(N / 5))  # plucked a fifth along: its fifth harmonics weaker
+        y[:N + 2] = burst / (np.abs(burst).max() + 1e-12)
+        ring = 6.0 * (220 / f0) ** 0.3  # to -60 dB, s: the bass rings longer
+        loss = 10 ** (-3 / (ring * f0))
+        pos = N + 2
+        while pos < n + N + 3:  # a period at a time: each sample from the ones a period (and a little) before
+            end = min(pos + N, n + N + 3)
+            a, b, c2 = y[pos - N:end - N], y[pos - N - 1:end - N - 1], y[pos - N - 2:end - N - 2]
+            y[pos:end] = loss * ((1 - frac) * 0.5 * (a + b) + frac * 0.5 * (b + c2))
+            pos = end
+        tone = y[:n]
+        t = np.arange(n) / RATE
+        tone = tone + 0.25 * lowpass(tone, 400, 2)  # the wooden body
+        out[side] = tone * (1 - np.exp(-t / 0.0008))
+    return out
+
+
 SYNTHS = {"amb-pad": pad, "amb-choir": choir, "amb-sub": sub, "amb-bell": bell, "amb-glass": glass, "amb-wind": wind, "amb-pulse": pulse, "amb-organ": organ,
           "amb-drop": drop, "amb-box": box, "amb-bowl": bowl,
           "amb-bowed": bowed, "amb-bowsolo": bowsolo, "amb-thunder": thunder, "amb-waves": waves,
-          "amb-synbass": synbass, "amb-arp": arp, "amb-kick": kick, "amb-snare": snare, "amb-timpani": timpani}
+          "amb-synbass": synbass, "amb-arp": arp, "amb-kick": kick, "amb-snare": snare, "amb-timpani": timpani,
+          "amb-pluck": pluck}
 
 
 def sample(job: tuple) -> None:
@@ -581,6 +618,8 @@ PARTS = {
     "kick": ("amb-kick", "low", -4.0, 0.0, 0.08),
     "snare": ("amb-snare", "pad", -10.0, 0.0, 0.35),
     "timpani": ("amb-timpani", "low", -2.0, 0.0, 0.5),
+    "pluck": ("amb-pluck", "melody2", -3.0, 0.1, 0.55),
+    "pluckarp": ("amb-pluck", "pad", -9.0, -0.15, 0.6),
 }
 
 
@@ -669,9 +708,11 @@ def compose_ambient(score: dict, folder: Path) -> str:
                                 strength(tick, 0, 40, 50), piece.bar * 2)
         if "bassline" in wanted:  # darkwave's bass: eighths on the chord's bass, an octave up on every fourth
             low = c.above(bass, score.get("bass_low", 28))
-            for k, at in enumerate(range(tick, tick + length, c.EIGHTH)):
-                part("bassline").add(at, low + (12 if k % 4 == 3 else 0), strength(at, -2 if k % 2 else 4, 40, 40),
-                                     c.EIGHTH - 20)
+            step = round(section.get("bass_step", 0.5) * c.TICKS)
+            octave = step == c.EIGHTH  # eighths leap the octave on every fourth; longer notes stay put
+            for k, at in enumerate(range(tick, tick + length, step)):
+                part("bassline").add(at, low + (12 if octave and k % 4 == 3 else 0),
+                                     strength(at, -2 if k % 2 else 4, 40, 40), step - 20)
         if "arp" in wanted:  # a cold arpeggio: the chord's tones up and down in eighths (sixteenths if asked)
             ladder = [n for n in range(*score.get("arp_range", [57, 77])) if n % 12 in tones][:5]
             order = ladder + ladder[-2:0:-1]
@@ -701,10 +742,22 @@ def compose_ambient(score: dict, folder: Path) -> str:
             step = round(section.get("felt_beats", 2) * c.TICKS)
             order = ladder + ladder[-2:0:-1] if len(ladder) > 2 else ladder
             felt = part("felt")
-            for k, at in enumerate(range(tick, tick + length, step)):
+            if section.get("felt_chords"):  # the chord itself, softly, its tones a breath apart
+                for at in range(tick, tick + length, step):
+                    for j, n in enumerate(ladder[:4]):
+                        felt.add(at + piece.ms(25 * j + rng.gauss(0, 10)), n, strength(at, -8 - j, 30, 14), step)
+                felt.pedal += [(tick - 10, 0), (tick + 30, 100)]
+                ladder = []
+            for k, at in enumerate(range(tick, tick + length, step) if ladder else []):
                 felt.add(at + piece.ms(rng.gauss(0, 20)), order[(index * 3 + k) % len(order)],
                          strength(at, -8, 30, 14), 2 * step)
             felt.pedal += [(tick - 10, 0), (tick + 30, 100)]
+        if "pluckarp" in wanted:  # the zither slowly breaking the chord, a note a beat (pluck_beats)
+            ladder = [n for n in range(*score.get("pluck_range", [52, 72])) if n % 12 in tones][:5]
+            step = round(section.get("pluck_beats", 1) * c.TICKS)
+            for k, at in enumerate(range(tick, tick + length, step)):
+                part("pluckarp").add(at + piece.ms(rng.gauss(0, 15)), ladder[k % len(ladder)],
+                                     strength(at, 0 if k == 0 else -4, 36, 30), 3 * step)
         if "bowl" in wanted:  # a singing bowl on the chord's root, rubbed, every bowl_every chords
             if index % section.get("bowl_every", 2) == 0:
                 part("bowl").add(tick + piece.ms(rng.uniform(0, 300)), c.above(root, score.get("bowl_low", 55)),
@@ -734,6 +787,15 @@ def compose_ambient(score: dict, folder: Path) -> str:
     for t, notes, length in piece.tune:  # the tune: on the bell or the glass, struck and left ringing
         section = piece.section_at(t)
         on = section.get("layers", [])
+        if section.get("tune_on"):  # the section names the tune's instrument itself
+            on = [section["tune_on"]]
+        if "pluck" in on:  # the tune on the plucked zither, a little ornament (a grace note a step under) on long notes
+            for n in notes:
+                at = t + piece.ms(rng.gauss(0, 12))
+                if length >= 2 * c.TICKS and len(notes) == 1:
+                    part("pluck").add(at - piece.ms(90), n - 2, strength(t, -6, 34, 40), c.EIGHTH)
+                part("pluck").add(at, n, strength(t, 2, 36, 46), length + c.TICKS)
+            continue
         if "felt" in on:  # the tune on the felt piano, softly, each note left to ring
             for n in notes:
                 part("felt").add(t + piece.ms(rng.gauss(0, 20)), n, strength(t, -2, 32, 12), length + c.TICKS)
@@ -752,8 +814,12 @@ def compose_ambient(score: dict, folder: Path) -> str:
             pitches, _, beats = token.partition(":")
             if pitches != "r":
                 for n in pitches.split("+"):
-                    part("bells").add(tick + piece.ms(rng.gauss(0, 25)), c.note_number(n),
-                                      strength(tick, 2, 32, 50), piece.bar * 2)
+                    if section.get("answer_on") == "solo":  # the answer sung on the solo string, held
+                        part("solo").add(tick + piece.ms(rng.gauss(0, 15)), c.note_number(n),
+                                         strength(tick, 0, 34, 46), round(float(beats or 1) * c.TICKS) + piece.ms(150))
+                    else:
+                        part("bells").add(tick + piece.ms(rng.gauss(0, 25)), c.note_number(n),
+                                          strength(tick, 2, 32, 50), piece.bar * 2)
             tick += round(float(beats or 1) * c.TICKS)
         if tick not in (start, end):
             raise ValueError(f"an answer lasting {(tick - start) / piece.bar} bars, not {(end - start) // piece.bar}")

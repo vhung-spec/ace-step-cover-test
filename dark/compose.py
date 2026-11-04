@@ -210,6 +210,7 @@ INSTRUMENTS = {
     "amb-kick": ("model", "amb-kick.sfz", {"highpass": 30}),
     "amb-snare": ("model", "amb-snare.sfz", {"lowpass": 5000, "lowpass_order": 2, "width": 0.6}),
     "amb-timpani": ("model", "amb-timpani.sfz", {"highpass": 30, "lowpass": 2500, "lowpass_order": 2}),
+    "amb-pluck": ("model", "amb-pluck.sfz", {"highpass": 70, "lowpass": 4500, "lowpass_order": 2}),
     "amb-drop": ("model", "amb-drop.sfz", {"lowpass": 3500, "lowpass_order": 2}),
 }
 # Named styles: a piece's "style" fills in every setting it does not give itself.
@@ -298,6 +299,8 @@ STYLES = {
     "toi-nhip": {"kind": "ambient", "room": {"rt60": 2.5, "wet": 0.8}, "loudness": -15, "even_hall": True},
     # Dark cinematic ("dien-anh"): strings, choir, timpani, bells, building to a climax; a 4.5 s hall.
     "dien-anh": {"kind": "ambient", "room": {"rt60": 4.5, "wet": 1.0}, "loudness": -16, "even_hall": True},
+    # Dark lofi ("lofi-toi"): a slow soft beat, the felt piano's chords, a deep bass; a small warm room.
+    "lofi-toi": {"kind": "ambient", "room": {"rt60": 1.8, "wet": 0.7}, "loudness": -15, "even_hall": True},
     "dem-diu": {"piano": "model-dream", "bass_low": 40, "texture": "flow", "hold": 1.0, "pedal_beats": 2, "lh_soft": 6,
                 "melody_velocity": [38, 60], "velocity_cap": 64,
                 "room": {"rt60": 3.6, "wet": 0.85}, "piano_reverb": 0.35, "loudness": -14,

@@ -1,0 +1,92 @@
+{
+  "title": "Vương quốc sụp đổ",
+  "title_en": "Fallen Kingdom",
+  "family": "dark-khac",
+  "about": "Round x8, in directions of my own choosing, as the user asked (\"hãy sáng tác thêm nhiều bài nữa, hướng bạn tự đề xuất\"): dark cinematic: a kingdom fallen, an organ and low strings, the choir rising, timpani stroke by stroke and then a roll into a climax with the great bell, then ruins and silence. C minor at 56 bpm. An original piece.",
+  "style": "dien-anh",
+  "bpm": 56,
+  "beats": 4,
+  "toll_low": 45,
+  "organ_range": [
+    48,
+    67
+  ],
+  "gains": {
+    "organ": -4.0
+  },
+  "sections": [
+    {
+      "bars": 4,
+      "chords": "Cm | Cm | Ab | Ab",
+      "dyn": 0.25,
+      "layers": [
+        "organ",
+        "sub"
+      ]
+    },
+    {
+      "bars": 8,
+      "chords": "Cm | Cm | Ab | Ab | Fm | Fm | G | G",
+      "dyn": 0.35,
+      "layers": [
+        "organ",
+        "strings",
+        "sub",
+        "solo"
+      ],
+      "melody": "G4:3 Ab4:1 | G4:2 Eb4:2 | C4:4 | r:4 | F4:3 G4:1 | Ab4:2 C5:2 | B4:4 | r:4"
+    },
+    {
+      "bars": 8,
+      "chords": "Cm | Cm/Bb | Abmaj7 | Abmaj7 | Fm | Db | G | G",
+      "dyn": 0.45,
+      "layers": [
+        "organ",
+        "strings",
+        "sub",
+        "choir",
+        "timpani"
+      ]
+    },
+    {
+      "bars": 4,
+      "chords": "Fm | Fm | G | G",
+      "dyn": 0.4,
+      "layers": [
+        "strings",
+        "sub",
+        "choir",
+        "timpani"
+      ],
+      "swell": 0.4,
+      "timpani": "roll"
+    },
+    {
+      "bars": 8,
+      "chords": "Cm | Cm | Ab | Ab | Fm | Db | G | G",
+      "dyn": 0.72,
+      "layers": [
+        "organ",
+        "strings",
+        "sub",
+        "choir",
+        "timpani",
+        "toll"
+      ],
+      "toll_every": 2
+    },
+    {
+      "bars": 8,
+      "chords": "Cm | Cm | Ab | Ab | Fm | Fm | G | Cm",
+      "dyn": 0.3,
+      "layers": [
+        "organ",
+        "strings",
+        "sub",
+        "solo"
+      ],
+      "swell": -0.15,
+      "melody": "C5:3 D5:1 | Eb5:2 D5:2 | C5:4 | r:4 | Ab4:3 G4:1 | F4:2 Ab4:2 | G4:4 | C4:4"
+    }
+  ]
+}

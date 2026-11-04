@@ -1,0 +1,66 @@
+{
+  "title": "Hành lang trống",
+  "title_en": "Empty Corridor",
+  "family": "dark-khac",
+  "about": "Round x8, in directions of my own choosing, as the user asked (\"hãy sáng tác thêm nhiều bài nữa, hướng bạn tự đề xuất\"): dark neoclassical: the felt piano slowly breaking its chords, a single string singing a long tune over it, the low strings and a far choir; an empty corridor at night. E minor at 62 bpm. An original piece.",
+  "style": "dien-anh",
+  "bpm": 62,
+  "beats": 4,
+  "sections": [
+    {
+      "bars": 4,
+      "chords": "Em | Em | Cmaj7 | Cmaj7",
+      "dyn": 0.25,
+      "layers": [
+        "felt",
+        "strings"
+      ],
+      "felt_beats": 1
+    },
+    {
+      "bars": 8,
+      "chords": "Em | Em | Cmaj7 | Cmaj7 | Am9 | Am9 | B | B",
+      "dyn": 0.38,
+      "layers": [
+        "felt",
+        "strings",
+        "solo",
+        "sub"
+      ],
+      "felt_beats": 1,
+      "melody": "B4:3 C5:1 | B4:2 G4:2 | E4:4 | r:4 | A4:3 B4:1 | C5:2 E5:2 | D#5:4 | r:4",
+      "tune_on": "solo"
+    },
+    {
+      "bars": 8,
+      "chords": "Cmaj7 | Cmaj7 | G | G | Am9 | Am9 | B | B",
+      "dyn": 0.48,
+      "layers": [
+        "felt",
+        "strings",
+        "solo",
+        "sub",
+        "choir"
+      ],
+      "felt_beats": 1,
+      "melody": "E5:3 F#5:1 | G5:2 F#5:2 | E5:4 | D5:4 | C5:3 B4:1 | A4:2 C5:2 | B4:4 | r:4",
+      "tune_on": "solo"
+    },
+    {
+      "bars": 8,
+      "chords": "Em | Em | Cmaj7 | Cmaj7 | Am9 | Am9 | B | Em",
+      "dyn": 0.3,
+      "layers": [
+        "felt",
+        "strings",
+        "solo",
+        "sub"
+      ],
+      "felt_beats": 1,
+      "swell": -0.1,
+      "rit": true,
+      "melody": "B4:3 C5:1 | B4:2 G4:2 | E4:4 | r:4 | A4:3 G4:1 | F#4:2 A4:2 | G4:4 | E4:4",
+      "tune_on": "solo"
+    }
+  ]
+}

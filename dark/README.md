@@ -389,3 +389,26 @@ Trống và timpani chơi hết tiếng dù nốt ngắn (`loop_mode=one_shot`).
 |---|---|---|---|
 | `k44-thanh-pho-khong-ngu` (Thành phố không ngủ) | Sleepless City | La thứ, 96 bpm, 2:43 | Darkwave: bass synth, arp lạnh, trống nhẹ |
 | `k45-truoc-con-bao` (Trước cơn bão) | Before the Storm | Rê thứ, 60 bpm, 3:12 | Nhạc phim: dây, hợp xướng, timpani, cao trào |
+
+## Bốn hướng tự chọn (vòng X8)
+
+Người dùng: "hãy sáng tác thêm nhiều bài nữa, hướng bạn tự đề xuất". Bốn hướng, mỗi hướng hai bài:
+- Tân cổ điển u tối (`dien-anh`): piano nỉ hát, cây dây trầm đáp lại (`answer_on: "solo"`), hoặc piano nỉ
+  rải hợp âm dưới cây dây hát.
+- Lofi tối (kiểu mới `lofi-toi`, phòng ấm 1,8 giây): nhịp chậm nhẹ, piano nỉ chơi cả hợp âm (`felt_chords`),
+  bass mỗi phách (`bass_step: 1`).
+- Phương Đông u tối: tiếng mới `amb-pluck`, dây gảy (Karplus-Strong, tối dần khi tắt; nghe gần đàn hạc hơn
+  đàn tranh), giai điệu ngũ cung có nốt luyến nhỏ, hoặc rải hợp âm chậm (`pluckarp`); bát hát, drone.
+- Darkwave và nhạc phim: mỗi kiểu một bài.
+Thêm `tune_on`: đoạn tự chọn nhạc cụ cho giai điệu.
+
+| Bản | Tên tiếng Anh | Hướng | Giọng, nhịp |
+|---|---|---|---|
+| `k46-thu-khong-gui` (Thư không gửi) | The Unsent Letter | Tân cổ điển | Si thứ, 58 bpm |
+| `k47-hanh-lang-trong` (Hành lang trống) | Empty Corridor | Tân cổ điển | Mi thứ, 62 bpm |
+| `k48-den-duong-3-gio-sang` (Đèn đường 3 giờ sáng) | 3 AM Streetlight | Lofi tối | La thứ, 72 bpm |
+| `k49-quan-khuya` (Quán khuya) | Last Café Open | Lofi tối | Rê thứ, 76 bpm |
+| `k50-den-hoang` (Đền hoang) | Forgotten Temple | Phương Đông | La ngũ cung, 54 bpm |
+| `k51-suong-nui` (Sương núi) | Mountain Mist | Phương Đông | Mi thứ, 50 bpm |
+| `k52-tin-hieu-cuoi` (Tín hiệu cuối) | Last Transmission | Darkwave | Mi thứ, 88 bpm |
+| `k53-vuong-quoc-sup-do` (Vương quốc sụp đổ) | Fallen Kingdom | Nhạc phim | Đô thứ, 56 bpm |
