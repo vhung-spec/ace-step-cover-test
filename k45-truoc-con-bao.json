@@ -1,0 +1,96 @@
+{
+  "title": "Trước cơn bão",
+  "title_en": "Before the Storm",
+  "family": "dark-khac",
+  "about": "Round x7, as the user asked (\"hãy sáng tác thêm 2 bản nữa theo hướng khác\"): a new direction, dark cinematic: low strings alone at first, a single string singing a grave tune, then the choir and the timpani, one stroke a chord, building through a timpani roll to a climax with the great bell, and falling back into the dark. D minor at 60 bpm, about three and a half minutes. An original piece.",
+  "style": "dien-anh",
+  "bpm": 60,
+  "beats": 4,
+  "toll_low": 45,
+  "sections": [
+    {
+      "bars": 4,
+      "chords": "Dm | Dm | Bb | Bb",
+      "dyn": 0.25,
+      "layers": [
+        "strings",
+        "sub"
+      ],
+      "swell": 0.1
+    },
+    {
+      "bars": 8,
+      "chords": "Dm | Dm | Bb | Bb | Gm | Gm | A | A",
+      "dyn": 0.35,
+      "layers": [
+        "strings",
+        "sub",
+        "solo"
+      ],
+      "melody": "A4:3 Bb4:1 | A4:2 F4:2 | D4:4 | r:4 | G4:3 A4:1 | Bb4:2 D5:2 | C#5:4 | r:4"
+    },
+    {
+      "bars": 8,
+      "chords": "Dm | Dm/C | Bbmaj7 | Bbmaj7 | Gm | Eb | A | A",
+      "dyn": 0.45,
+      "layers": [
+        "strings",
+        "sub",
+        "solo",
+        "choir",
+        "timpani"
+      ],
+      "melody": "D5:3 E5:1 | F5:2 E5:2 | D5:4 | Bb4:4 | G4:3 Bb4:1 | Eb5:2 D5:2 | C#5:4 | A4:4"
+    },
+    {
+      "bars": 4,
+      "chords": "Gm | Gm | A | A",
+      "dyn": 0.4,
+      "layers": [
+        "strings",
+        "sub",
+        "choir",
+        "timpani"
+      ],
+      "swell": 0.45,
+      "timpani": "roll"
+    },
+    {
+      "bars": 8,
+      "chords": "Dm | Dm | Bb | Bb | Gm | Eb | A | A",
+      "dyn": 0.72,
+      "layers": [
+        "strings",
+        "sub",
+        "choir",
+        "timpani",
+        "toll",
+        "pad"
+      ],
+      "toll_every": 2,
+      "melody": "F5:3 G5:1 | A5:2 G5:2 | F5:4 | D5:4 | Bb4:3 D5:1 | G5:2 F5:2 | E5:4 | C#5:4"
+    },
+    {
+      "bars": 8,
+      "chords": "Dm | Dm | Bb | Bb | Gm | Gm | A | Dm",
+      "dyn": 0.35,
+      "layers": [
+        "strings",
+        "sub",
+        "solo"
+      ],
+      "swell": -0.15,
+      "melody": "A4:3 Bb4:1 | A4:2 F4:2 | D4:4 | r:4 | G4:3 A4:1 | Bb4:2 G4:2 | A4:4 | D4:4"
+    },
+    {
+      "bars": 4,
+      "chords": "Dm | Dm | Dm | Dm",
+      "dyn": 0.2,
+      "layers": [
+        "strings",
+        "sub"
+      ],
+      "swell": -0.1
+    }
+  ]
+}

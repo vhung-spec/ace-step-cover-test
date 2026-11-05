@@ -1,0 +1,72 @@
+{
+  "title": "Hang sâu yên tĩnh",
+  "title_en": "Quiet Cavern",
+  "family": "dark-khac",
+  "about": "Round x10, for sleep with improvised melodies (style ngu-ngon), as the user asked to go on (\"ok chúng ta hãy tiếp tục sáng tác nhạc\"), on the sounds the user liked most: a quiet cavern: a drop now and then far off, a singing bowl, the dark pad, the glass improvising softly in the echo. E Dorian. No drums, plucked string or organ. An original piece; its melody made up by the improviser in dark/ambient.py.",
+  "style": "ngu-ngon",
+  "bpm": 48,
+  "beats": 4,
+  "mode": "dorian",
+  "seed": 63,
+  "sections": [
+    {
+      "bars": 8,
+      "chords": "Em9 | Em9 | A/E | A/E | Em9 | Em9 | A/E | A/E",
+      "dyn": 0.18,
+      "layers": [
+        "pad",
+        "drops",
+        "bowl"
+      ],
+      "drops_per_bar": 1,
+      "bowl_every": 4
+    },
+    {
+      "bars": 24,
+      "chords": "Em9 | Em9 | A/E | A/E | Cmaj7 | Cmaj7 | Dadd9 | Dadd9 | Em9 | Em9 | A/E | A/E | Cmaj7 | Cmaj7 | Dadd9 | Dadd9 | Em9 | Em9 | A/E | A/E | Cmaj7 | Cmaj7 | Dadd9 | Dadd9",
+      "dyn": 0.26,
+      "layers": [
+        "pad",
+        "sub",
+        "drops",
+        "bowl"
+      ],
+      "drops_per_bar": 1,
+      "bowl_every": 4,
+      "improv": "glass",
+      "improv_range": [
+        62,
+        79
+      ],
+      "improv_density": 0.9
+    },
+    {
+      "bars": 16,
+      "chords": "Cmaj7 | Cmaj7 | Gmaj7 | Gmaj7 | Am9 | Am9 | Bsus4 | Em9 | Cmaj7 | Cmaj7 | Gmaj7 | Gmaj7 | Am9 | Am9 | Bsus4 | Em9",
+      "dyn": 0.27,
+      "layers": [
+        "pad",
+        "sub",
+        "bowl"
+      ],
+      "bowl_every": 4,
+      "improv": "glass",
+      "improv_range": [
+        62,
+        79
+      ],
+      "improv_density": 0.9
+    },
+    {
+      "bars": 8,
+      "chords": "Em9 | Em9 | A/E | A/E | Em9 | Em9 | A/E | A/E",
+      "dyn": 0.17,
+      "layers": [
+        "pad",
+        "drops"
+      ],
+      "drops_per_bar": 1,
+      "swell": -0.1
+    }
+  ]
+}

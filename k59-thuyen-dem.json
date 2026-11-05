@@ -1,0 +1,56 @@
+{
+  "title": "Thuyền đêm",
+  "title_en": "Night Boat",
+  "family": "dark-khac",
+  "about": "Round x9, for sleep with improvised melodies (style ngu-ngon), as the user asked (\"tôi muốn những bài âm thanh u tối nhưng dễ nghe để ngủ hơn, có thể thêm những giai điệu ngẫu hứng\"): a small boat drifting at night: the sea's swells, low strings rocking, the felt piano improvising like a lantern on the water. G Dorian. Softer harmony than before (added ninths, major sevenths, no Phrygian rub), nothing sudden. An original piece; its melody made up by the improviser in dark/ambient.py.",
+  "style": "ngu-ngon",
+  "bpm": 52,
+  "beats": 4,
+  "mode": "dorian",
+  "seed": 59,
+  "sections": [
+    {
+      "bars": 8,
+      "chords": "Gm9 | Gm9 | C/G | C/G | Gm9 | Gm9 | C/G | C/G",
+      "dyn": 0.2,
+      "layers": [
+        "waves",
+        "strings"
+      ]
+    },
+    {
+      "bars": 24,
+      "chords": "Gm9 | Gm9 | C/G | C/G | Ebmaj7 | Ebmaj7 | Fadd9 | Fadd9 | Gm9 | Gm9 | C/G | C/G | Ebmaj7 | Ebmaj7 | Fadd9 | Fadd9 | Gm9 | Gm9 | C/G | C/G | Ebmaj7 | Ebmaj7 | Fadd9 | Fadd9",
+      "dyn": 0.28,
+      "layers": [
+        "waves",
+        "strings",
+        "sub"
+      ],
+      "improv": "felt"
+    },
+    {
+      "bars": 16,
+      "chords": "Ebmaj7 | Ebmaj7 | Bbmaj7 | Bbmaj7 | Cm9 | Cm9 | Dsus4 | Gm9 | Ebmaj7 | Ebmaj7 | Bbmaj7 | Bbmaj7 | Cm9 | Cm9 | Dsus4 | Gm9",
+      "dyn": 0.3,
+      "layers": [
+        "waves",
+        "strings",
+        "sub"
+      ],
+      "improv": "felt"
+    },
+    {
+      "bars": 8,
+      "chords": "Gm9 | Gm9 | C/G | C/G | Gm9 | Gm9 | C/G | C/G",
+      "dyn": 0.18,
+      "layers": [
+        "waves",
+        "strings"
+      ],
+      "swell": -0.1,
+      "improv": "felt",
+      "improv_density": 0.6
+    }
+  ]
+}

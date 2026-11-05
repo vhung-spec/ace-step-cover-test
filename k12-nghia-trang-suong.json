@@ -1,0 +1,64 @@
+{
+  "title": "Nghĩa trang sương",
+  "family": "dark-khac",
+  "about": "Round x3 of the dark ambient style (khong-gian), as the user asked for many more versions (\"tôi rất thích các phiên bản bạn tạo, hãy tạo thêm cho tôi nhiều phiên bản khác\"): a graveyard in fog: the far choir and the high glass glinting, a bell tolling far away, almost no bass. G sharp minor at 46 bpm. An original piece.",
+  "style": "khong-gian",
+  "bpm": 46,
+  "beats": 4,
+  "choir_range": [
+    58,
+    74
+  ],
+  "gains": {
+    "choir": 3.0,
+    "shimmer": 3.0
+  },
+  "sections": [
+    {
+      "bars": 4,
+      "chords": "G#m | G#m | Emaj7 | Emaj7",
+      "dyn": 0.2,
+      "layers": [
+        "choir",
+        "shimmer"
+      ],
+      "swell": 0.2
+    },
+    {
+      "bars": 8,
+      "chords": "G#m | G#m | Emaj7 | Emaj7 | C#m9 | C#m9 | D#5 | D#5",
+      "dyn": 0.38,
+      "layers": [
+        "choir",
+        "shimmer",
+        "pad",
+        "toll"
+      ],
+      "toll_every": 2
+    },
+    {
+      "bars": 8,
+      "chords": "G#m | G#m | A/G# | A/G# | Emaj7 | Emaj7 | D#5 | D#5",
+      "dyn": 0.5,
+      "layers": [
+        "choir",
+        "shimmer",
+        "pad",
+        "toll"
+      ],
+      "toll_every": 2,
+      "swell": 0.1,
+      "melody": "r:4 | D#5:4 | r:4 | r:2 B4:2 | r:4 | G#4:4 | r:4 | r:4"
+    },
+    {
+      "bars": 6,
+      "chords": "G#m | G#m | A/G# | A/G# | G#m | G#m",
+      "dyn": 0.22,
+      "layers": [
+        "choir",
+        "shimmer"
+      ],
+      "swell": -0.12
+    }
+  ]
+}

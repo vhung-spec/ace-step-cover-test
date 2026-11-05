@@ -1,0 +1,77 @@
+{
+  "title": "Tín hiệu cuối",
+  "title_en": "Last Transmission",
+  "family": "dark-khac",
+  "about": "Round x8, in directions of my own choosing, as the user asked (\"hãy sáng tác thêm nhiều bài nữa, hướng bạn tự đề xuất\"): darkwave: the last signal from a lost station, the synth bass pulsing, the cold arpeggio in sixteenths, a soft beat, the far choir over it. E minor at 88 bpm. An original piece.",
+  "style": "toi-nhip",
+  "bpm": 88,
+  "beats": 4,
+  "pad_range": [
+    50,
+    69
+  ],
+  "gains": {
+    "pad": -4.0
+  },
+  "sections": [
+    {
+      "bars": 4,
+      "chords": "Em | Em | Cmaj7 | Cmaj7",
+      "dyn": 0.3,
+      "layers": [
+        "pad",
+        "arp"
+      ],
+      "arp16": true
+    },
+    {
+      "bars": 8,
+      "chords": "Em | Em | Cmaj7 | Cmaj7 | Am | Am | B | B",
+      "dyn": 0.4,
+      "layers": [
+        "pad",
+        "arp",
+        "bassline"
+      ],
+      "arp16": true
+    },
+    {
+      "bars": 16,
+      "chords": "Em | Em | Cmaj7 | Cmaj7 | Am | Am | B | B | Em | Em | Cmaj7 | Cmaj7 | Am | Am | B | B",
+      "dyn": 0.5,
+      "layers": [
+        "pad",
+        "arp",
+        "bassline",
+        "beat",
+        "choir"
+      ],
+      "arp16": true
+    },
+    {
+      "bars": 16,
+      "chords": "Cmaj7 | Cmaj7 | G | G | Am | Am | B | B | Cmaj7 | Cmaj7 | G | G | Am | Am | B | B",
+      "dyn": 0.55,
+      "layers": [
+        "pad",
+        "arp",
+        "bassline",
+        "beat",
+        "choir"
+      ],
+      "arp16": true,
+      "kick_and": true
+    },
+    {
+      "bars": 8,
+      "chords": "Em | Em | Cmaj7 | Cmaj7 | Am | Am | B | Em",
+      "dyn": 0.3,
+      "layers": [
+        "pad",
+        "arp"
+      ],
+      "arp16": true,
+      "swell": -0.15
+    }
+  ]
+}

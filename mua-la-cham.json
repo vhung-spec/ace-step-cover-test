@@ -1,0 +1,56 @@
+{
+  "title": "Mùa lá rụng (chậm, trong)",
+  "about": "after the user's ears on the muffled sound ('too fast, too muffled, the notes pile up'): slower, the filter opened or gone, the left hand lighter (fewer tones, notes let go, the pedal taken every two beats), a 2.8 s hall at 0.8",
+  "bpm": 80,
+  "beats": 4,
+  "piano": "upright",
+  "bass_low": 40,
+  "room": {
+    "rt60": 2.8,
+    "wet": 0.8
+  },
+  "piano_tone": {
+    "lowpass": 2800,
+    "lowpass_order": 2
+  },
+  "piano_reverb": 0.35,
+  "sections": [
+    {
+      "bars": 2,
+      "chords": "Bm | Em",
+      "texture": "flow",
+      "dyn": 0.25
+    },
+    {
+      "bars": 8,
+      "chords": "Bm | Em | A | D | G | C#m7b5 | F# | Bm",
+      "melody": "D5:2 C#5:1 B4:1 | E5:3 G5:1 | F#5:2 E5:1 C#5:1 | D5:3 r:1 | B4:1 D5:1 G5:2 | G5:1.5 F#5:0.5 E5:2 | A#4:2 C#5:2 | B4:3 r:1",
+      "texture": "flow",
+      "dyn": 0.35
+    },
+    {
+      "bars": 8,
+      "chords": "Bm | Em | A | D | G | C#m7b5 | F# | Bm",
+      "melody": "F#5:3 E5:0.5 D5:0.5 | G5:2 B5:2 | A5:2 G5:1 E5:1 | F#5:3 r:1 | D5:1 G5:1 B5:2 | A5:2 G5:1 E5:1 | F#5:2 E5:1 C#5:1 | D5:4",
+      "texture": "flow",
+      "dyn": 0.75
+    },
+    {
+      "bars": 8,
+      "chords": "Bm | Em | A | D | G | C#m7b5 | F# | Bm",
+      "melody": "D5:2 C#5:1 B4:1 | E5:3 G5:1 | F#5:2 E5:1 C#5:1 | D5:3 r:1 | B4:1 D5:1 G5:2 | G5:1.5 F#5:0.5 E5:2 | A#4:2 C#5:2 | B4:4",
+      "texture": "flow",
+      "dyn": 0.35
+    },
+    {
+      "bars": 2,
+      "chords": "G | Bm",
+      "melody": "D5:4 | B4:4",
+      "texture": "flow",
+      "dyn": 0.2
+    }
+  ],
+  "hold": 1.0,
+  "pedal_beats": 2,
+  "lh_soft": 6
+}

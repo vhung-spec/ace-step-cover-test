@@ -1,0 +1,68 @@
+{
+  "title": "Giấc mơ hợp xướng",
+  "title_en": "Choir Dream",
+  "family": "dark-khac",
+  "about": "Round x10, for sleep with improvised melodies (style ngu-ngon), as the user asked to go on (\"ok chúng ta hãy tiếp tục sáng tác nhạc\"), on the sounds the user liked most: a dream of a far choir: the choir and the pad breathing slowly, a single low string improvising over them, a deep sub. F minor. No drums, plucked string or organ. An original piece; its melody made up by the improviser in dark/ambient.py.",
+  "style": "ngu-ngon",
+  "bpm": 46,
+  "beats": 4,
+  "mode": "aeolian",
+  "seed": 69,
+  "choir_range": [
+    56,
+    73
+  ],
+  "sections": [
+    {
+      "bars": 8,
+      "chords": "Fmadd9 | Fmadd9 | Dbmaj7 | Dbmaj7 | Fmadd9 | Fmadd9 | Dbmaj7 | Dbmaj7",
+      "dyn": 0.18,
+      "layers": [
+        "choir",
+        "pad"
+      ]
+    },
+    {
+      "bars": 24,
+      "chords": "Fmadd9 | Fmadd9 | Dbmaj7 | Dbmaj7 | Bbm9 | Bbm9 | Csus4 | Csus4 | Fmadd9 | Fmadd9 | Dbmaj7 | Dbmaj7 | Bbm9 | Bbm9 | Csus4 | Csus4 | Fmadd9 | Fmadd9 | Dbmaj7 | Dbmaj7 | Bbm9 | Bbm9 | Csus4 | Csus4",
+      "dyn": 0.27,
+      "layers": [
+        "choir",
+        "pad",
+        "sub"
+      ],
+      "improv": "solo",
+      "improv_range": [
+        55,
+        72
+      ],
+      "improv_density": 0.75
+    },
+    {
+      "bars": 16,
+      "chords": "Dbmaj7 | Dbmaj7 | Abmaj7 | Abmaj7 | Bbm9 | Bbm9 | Csus4 | Fmadd9 | Dbmaj7 | Dbmaj7 | Abmaj7 | Abmaj7 | Bbm9 | Bbm9 | Csus4 | Fmadd9",
+      "dyn": 0.27,
+      "layers": [
+        "choir",
+        "pad",
+        "sub"
+      ],
+      "improv": "solo",
+      "improv_range": [
+        55,
+        72
+      ],
+      "improv_density": 0.75
+    },
+    {
+      "bars": 8,
+      "chords": "Fmadd9 | Fmadd9 | Dbmaj7 | Dbmaj7 | Fmadd9 | Fmadd9 | Dbmaj7 | Dbmaj7",
+      "dyn": 0.17,
+      "layers": [
+        "choir",
+        "pad"
+      ],
+      "swell": -0.1
+    }
+  ]
+}

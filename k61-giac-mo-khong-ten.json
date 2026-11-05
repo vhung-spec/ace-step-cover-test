@@ -1,0 +1,74 @@
+{
+  "title": "Giấc mơ không tên",
+  "title_en": "Nameless Dream",
+  "family": "dark-khac",
+  "about": "Round x9, for sleep with improvised melodies (style ngu-ngon), as the user asked (\"tôi muốn những bài âm thanh u tối nhưng dễ nghe để ngủ hơn, có thể thêm những giai điệu ngẫu hứng\"): a long dream, about seven minutes: the pad, a deep sub and a far choir, three voices improvising in turn (the felt piano, the single string, the glass), each in its own section, never together. Softer harmony than before (added ninths, major sevenths, no Phrygian rub), nothing sudden. An original piece; its melody made up by the improviser in dark/ambient.py.",
+  "style": "ngu-ngon",
+  "bpm": 46,
+  "beats": 4,
+  "mode": "aeolian",
+  "seed": 61,
+  "sections": [
+    {
+      "bars": 8,
+      "chords": "Dmadd9 | Dmadd9 | Bbmaj7 | Bbmaj7 | Dmadd9 | Dmadd9 | Bbmaj7 | Bbmaj7",
+      "dyn": 0.18,
+      "layers": [
+        "pad",
+        "sub"
+      ]
+    },
+    {
+      "bars": 16,
+      "chords": "Dmadd9 | Dmadd9 | Bbmaj7 | Bbmaj7 | Gm9 | Gm9 | Asus4 | Asus4 | Dmadd9 | Dmadd9 | Bbmaj7 | Bbmaj7 | Gm9 | Gm9 | Asus4 | Asus4",
+      "dyn": 0.27,
+      "layers": [
+        "pad",
+        "sub"
+      ],
+      "improv": "felt"
+    },
+    {
+      "bars": 16,
+      "chords": "Bbmaj7 | Bbmaj7 | Fmaj7 | Fmaj7 | Gm9 | Gm9 | Asus4 | Asus4 | Bbmaj7 | Bbmaj7 | Fmaj7 | Fmaj7 | Gm9 | Gm9 | Asus4 | Asus4",
+      "dyn": 0.28,
+      "layers": [
+        "pad",
+        "sub",
+        "choir"
+      ],
+      "improv": "solo",
+      "improv_range": [
+        57,
+        72
+      ],
+      "improv_density": 0.8
+    },
+    {
+      "bars": 16,
+      "chords": "Dmadd9 | Dmadd9 | Bbmaj7 | Bbmaj7 | Gm9 | Gm9 | Asus4 | Dmadd9 | Dmadd9 | Dmadd9 | Bbmaj7 | Bbmaj7 | Gm9 | Gm9 | Asus4 | Dmadd9",
+      "dyn": 0.27,
+      "layers": [
+        "pad",
+        "sub",
+        "choir"
+      ],
+      "improv": "glass",
+      "improv_range": [
+        62,
+        79
+      ],
+      "improv_density": 0.8
+    },
+    {
+      "bars": 8,
+      "chords": "Dmadd9 | Dmadd9 | Bbmaj7 | Bbmaj7 | Dmadd9 | Dmadd9 | Bbmaj7 | Bbmaj7",
+      "dyn": 0.16,
+      "layers": [
+        "pad",
+        "sub"
+      ],
+      "swell": -0.1
+    }
+  ]
+}

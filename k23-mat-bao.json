@@ -1,0 +1,71 @@
+{
+  "title": "Mắt bão",
+  "family": "dark-khac",
+  "about": "Round x4 of the dark ambient style (khong-gian), as the user asked (\"hãy sáng tác thêm cho tôi\"): the eye of a storm: the wind and the pad surging, a fast heartbeat and the great bell, then sudden stillness in the middle (only the glass and a drone), then the storm again and away. E minor at 56 bpm. An original piece.",
+  "style": "khong-gian",
+  "bpm": 56,
+  "beats": 4,
+  "sections": [
+    {
+      "bars": 4,
+      "chords": "Em | Em | Cmaj7 | Cmaj7",
+      "dyn": 0.35,
+      "layers": [
+        "wind",
+        "pad",
+        "sub"
+      ],
+      "swell": 0.3
+    },
+    {
+      "bars": 8,
+      "chords": "Em | Em | F/E | F/E | Cmaj7 | Cmaj7 | B5 | B5",
+      "dyn": 0.6,
+      "layers": [
+        "wind",
+        "pad",
+        "sub",
+        "pulse",
+        "toll"
+      ],
+      "pulse_beats": 2,
+      "toll_every": 2,
+      "swell": 0.1
+    },
+    {
+      "bars": 6,
+      "chords": "Em | Em | Em | Em | Em | Em",
+      "dyn": 0.15,
+      "layers": [
+        "drone",
+        "glass"
+      ],
+      "melody": "r:4 | B5:4 | r:4 | G5:4 | r:4 | E5:4"
+    },
+    {
+      "bars": 8,
+      "chords": "Em | Em | F/E | F/E | Am9 | Am9 | B5 | B5",
+      "dyn": 0.6,
+      "layers": [
+        "wind",
+        "pad",
+        "sub",
+        "pulse",
+        "toll",
+        "choir"
+      ],
+      "pulse_beats": 2,
+      "toll_every": 2
+    },
+    {
+      "bars": 6,
+      "chords": "Em | Em | Cmaj7 | Cmaj7 | Em | Em",
+      "dyn": 0.3,
+      "layers": [
+        "wind",
+        "pad"
+      ],
+      "swell": -0.2
+    }
+  ]
+}

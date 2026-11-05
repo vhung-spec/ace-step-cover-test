@@ -1,0 +1,66 @@
+{
+  "title": "Trôi về giấc mơ",
+  "title_en": "Drifting into Dreams",
+  "family": "dark-khac",
+  "about": "Round x6, for sleep (style ngu-ngon), as the user asked (\"hãy sáng tác thêm cho tôi nhiều bài nữa, phù hợp cho các người nghe có thể nghe để ngủ\"): drifting off: the old music box plays a gentle lullaby, slower and softer each time, the low strings rocking in three, the pad under them. B minor at 54 bpm in three, about four and a half minutes. Nothing sudden: no thunder, heartbeat or struck bells. An original piece.",
+  "style": "ngu-ngon",
+  "bpm": 54,
+  "beats": 3,
+  "sections": [
+    {
+      "bars": 8,
+      "chords": "Bm | Bm | Gmaj7 | Gmaj7 | Bm | Bm | Gmaj7 | Gmaj7",
+      "dyn": 0.18,
+      "layers": [
+        "strings",
+        "pad"
+      ]
+    },
+    {
+      "bars": 24,
+      "chords": "Bm | Bm | Gmaj7 | Gmaj7 | Em9 | Em9 | F#sus4 | F#sus4 | Bm | Bm | Gmaj7 | Gmaj7 | Em9 | Em9 | F#sus4 | F#sus4 | Bm | Bm | Gmaj7 | Gmaj7 | Em9 | Em9 | F#sus4 | F#sus4",
+      "dyn": 0.28,
+      "layers": [
+        "strings",
+        "pad",
+        "box",
+        "sub"
+      ],
+      "melody": "F#5:2 D5:1 | B4:3 | D5:2 E5:1 | F#5:3 | G5:2 F#5:1 | E5:3 | C#5:3 | r:3 | F#5:2 D5:1 | B4:3 | D5:2 E5:1 | F#5:3 | G5:2 F#5:1 | E5:3 | C#5:3 | r:3 | F#5:2 D5:1 | B4:3 | D5:2 E5:1 | F#5:3 | G5:2 F#5:1 | E5:3 | C#5:3 | r:3"
+    },
+    {
+      "bars": 16,
+      "chords": "Gmaj7 | Gmaj7 | Bm | Bm | Em9 | Em9 | F#sus4 | Bm | Gmaj7 | Gmaj7 | Bm | Bm | Em9 | Em9 | F#sus4 | Bm",
+      "dyn": 0.24,
+      "layers": [
+        "strings",
+        "pad",
+        "box",
+        "sub"
+      ],
+      "melody": "D5:2 B4:1 | F#4:3 | B4:2 C#5:1 | D5:3 | E5:2 D5:1 | B4:3 | A#4:3 | r:3 | D5:2 B4:1 | F#4:3 | B4:2 C#5:1 | D5:3 | E5:2 D5:1 | B4:3 | A#4:3 | r:3"
+    },
+    {
+      "bars": 24,
+      "chords": "Bm | Bm | Gmaj7 | Gmaj7 | Em9 | Em9 | F#sus4 | F#sus4 | Bm | Bm | Gmaj7 | Gmaj7 | Em9 | Em9 | F#sus4 | F#sus4 | Bm | Bm | Gmaj7 | Gmaj7 | Em9 | Em9 | F#sus4 | F#sus4",
+      "dyn": 0.22,
+      "layers": [
+        "strings",
+        "pad",
+        "box",
+        "sub"
+      ],
+      "melody": "F#5:2 D5:1 | B4:3 | D5:2 E5:1 | F#5:3 | G5:2 F#5:1 | E5:3 | C#5:3 | r:3 | F#5:2 D5:1 | B4:3 | D5:2 E5:1 | F#5:3 | G5:2 F#5:1 | E5:3 | C#5:3 | r:3 | F#5:2 D5:1 | B4:3 | D5:2 E5:1 | F#5:3 | G5:2 F#5:1 | E5:3 | C#5:3 | r:3"
+    },
+    {
+      "bars": 8,
+      "chords": "Bm | Bm | Gmaj7 | Gmaj7 | Bm | Bm | Gmaj7 | Gmaj7",
+      "dyn": 0.16,
+      "layers": [
+        "strings",
+        "pad"
+      ],
+      "swell": -0.1
+    }
+  ]
+}

@@ -1,0 +1,62 @@
+{
+  "title": "Phòng nhạc cũ",
+  "title_en": "The Old Music Room",
+  "family": "dark-khac",
+  "about": "Round x10, for sleep with improvised melodies (style ngu-ngon), as the user asked to go on (\"ok chúng ta hãy tiếp tục sáng tác nhạc\"), on the sounds the user liked most: an old music room at night: the music box improvising, the low strings soft and close under it, a deep sub. F sharp minor. No drums, plucked string or organ. An original piece; its melody made up by the improviser in dark/ambient.py.",
+  "style": "ngu-ngon",
+  "bpm": 52,
+  "beats": 4,
+  "mode": "aeolian",
+  "seed": 66,
+  "sections": [
+    {
+      "bars": 8,
+      "chords": "F#madd9 | F#madd9 | Dmaj7 | Dmaj7 | F#madd9 | F#madd9 | Dmaj7 | Dmaj7",
+      "dyn": 0.2,
+      "layers": [
+        "strings",
+        "sub"
+      ]
+    },
+    {
+      "bars": 24,
+      "chords": "F#madd9 | F#madd9 | Dmaj7 | Dmaj7 | Bm9 | Bm9 | C#sus4 | C#sus4 | F#madd9 | F#madd9 | Dmaj7 | Dmaj7 | Bm9 | Bm9 | C#sus4 | C#sus4 | F#madd9 | F#madd9 | Dmaj7 | Dmaj7 | Bm9 | Bm9 | C#sus4 | C#sus4",
+      "dyn": 0.28,
+      "layers": [
+        "strings",
+        "sub",
+        "pad"
+      ],
+      "improv": "box",
+      "improv_range": [
+        62,
+        81
+      ]
+    },
+    {
+      "bars": 16,
+      "chords": "Dmaj7 | Dmaj7 | Amaj7 | Amaj7 | Bm9 | Bm9 | C#sus4 | F#madd9 | Dmaj7 | Dmaj7 | Amaj7 | Amaj7 | Bm9 | Bm9 | C#sus4 | F#madd9",
+      "dyn": 0.28,
+      "layers": [
+        "strings",
+        "sub",
+        "pad"
+      ],
+      "improv": "box",
+      "improv_range": [
+        62,
+        81
+      ]
+    },
+    {
+      "bars": 8,
+      "chords": "F#madd9 | F#madd9 | Dmaj7 | Dmaj7 | F#madd9 | F#madd9 | Dmaj7 | Dmaj7",
+      "dyn": 0.18,
+      "layers": [
+        "strings",
+        "sub"
+      ],
+      "swell": -0.1
+    }
+  ]
+}

@@ -1,0 +1,60 @@
+{
+  "title": "Mùa đông năm ấy",
+  "about": "Round 21, for tam-tau-phim (\"tôi thích bản 1, hãy sáng tác thêm\"): B-flat minor at 60 bpm, the slowest, its tune lower (F4-A-flat5, D-flat6 at the peak), two-bar sentences ending on a held note for the cellos; a middle section in D-flat major; Ebm6 and Gbmaj7 for the dark colour. An original tune.",
+  "style": "tam-tau-phim",
+  "bpm": 60,
+  "beats": 4,
+  "sections": [
+    {
+      "bars": 2,
+      "chords": "Bbm | Gbmaj7",
+      "texture": "blocks",
+      "dyn": 0.22,
+      "layers": [
+        "cello-answer",
+        "viola-pad"
+      ]
+    },
+    {
+      "bars": 8,
+      "chords": "Bbm | Gbmaj7 | Ebm7 | F7 | Bbm | Gb | Ebm6 | F7",
+      "melody": "F4:1 Bb4:1 Db5:1.5 C5:0.5 | Bb4:3 r:1 | Gb4:1 Bb4:1 Eb5:1.5 Db5:0.5 | C5:3 r:1 | Db5:1 F5:1 Ab5:1 F5:1 | Gb5:2 F5:1 Db5:1 | Eb5:1 Gb5:1 C5:1 Eb5:1 | A4:3 r:1",
+      "dyn": 0.34,
+      "layers": [
+        "cello-answer",
+        "viola-pad"
+      ]
+    },
+    {
+      "bars": 8,
+      "chords": "Gb | Db/F | Ebm | Bbm/Db | Gb | Db/F | Ebm7 | F7",
+      "melody": "Bb4:1 Db5:1 Gb5:1.5 F5:0.5 | F5:3 r:1 | Gb5:1 Bb5:1 Ab5:1 Gb5:1 | Db5:3 r:1 | Db6:1.5 Bb5:0.5 Gb5:1 Bb5:1 | F5+Ab5:3 r:1 | Gb5:1 Eb5:1 Db5:1 Bb4:1 | A4+C5:4",
+      "dyn": 0.6,
+      "layers": [
+        "cello-answer",
+        "viola-pad"
+      ]
+    },
+    {
+      "bars": 8,
+      "chords": "Bbm | Gbmaj7 | Ebm7 | F7 | Bbm/Ab | Gbmaj7 | Ebm6:2 F7:2 | Bbm",
+      "melody": "F4:1 Bb4:1 Db5:1.5 C5:0.5 | Bb4:3 r:1 | Gb4:1 Bb4:1 Eb5:1.5 Db5:0.5 | C5:3 r:1 | Db5:1 F5:1 Bb5:1 Ab5:1 | F5:3 r:1 | Gb5:1 Eb5:1 C5:1 A4:1 | Bb4:4",
+      "rit": true,
+      "dyn": 0.3,
+      "layers": [
+        "cello-answer",
+        "viola-pad"
+      ]
+    },
+    {
+      "bars": 2,
+      "chords": "Gbmaj7 | Bbm",
+      "texture": "blocks",
+      "dyn": 0.18,
+      "layers": [
+        "cello-answer",
+        "viola-pad"
+      ]
+    }
+  ]
+}
