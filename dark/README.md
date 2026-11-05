@@ -446,3 +446,24 @@ cung Phrygian chỏi; kiểu `ngu-ngon`.
 - Nên: hộp nhạc, bát hát, thủy tinh, gió, giọt nước, dây trầm, piano nỉ, sóng, hợp xướng. Tránh: trống/nhịp
   lofi, dây gảy; đàn ống chỉ "tạm được". Vì vậy vòng X9 đổi ngẫu hứng dây gảy sang hộp nhạc (Mưa sao băng
   chậm, Khu vườn tối), Ngọn nến cuối bỏ đàn ống, dùng dây trầm và nền.
+
+## Bảy album, và vòng X10 (nhạc ngủ ngẫu hứng, tập 3)
+
+56 bài người dùng thích hoặc "tạm được" đã được chia thành 7 album để phát hành (Echoes of the Deep, Hollow
+Places, Night Weather, Faded Memory, Before the Storm, Sleep in the Dark Vol. 1 và 2), các file chỉ còn tên
+bài. **Từ nay không đổi cách `ambient.py` chơi các bài cũ**: bản phát hành phải dựng lại y như cũ; thêm gì mới
+thì thêm tuỳ chọn mới.
+
+Vòng X10, tám bài ngủ ngẫu hứng trên những tiếng người dùng thích nhất (hộp nhạc, thủy tinh, cây dây; sóng,
+gió, giọt nước, bát hát, hợp xướng), không trống, không dây gảy, không đàn ống:
+
+| Bản | Tên tiếng Anh | Giọng | Ngẫu hứng trên |
+|---|---|---|---|
+| `k62-tuyet-dem` (Tuyết đêm) | Snow at Night | La thứ | hộp nhạc |
+| `k63-hang-sau-yen-tinh` (Hang sâu yên tĩnh) | Quiet Cavern | Mi Dorian | thủy tinh, giọt nước, bát hát |
+| `k64-hai-dang-xa` (Ngọn hải đăng xa) | Far Lighthouse | Rê thứ | cây dây, sóng |
+| `k65-gio-qua-dong-co` (Gió qua đồng cỏ) | Wind over the Moor | Si thứ | thủy tinh, gió |
+| `k66-phong-nhac-cu` (Phòng nhạc cũ) | The Old Music Room | Fa thăng thứ | hộp nhạc, dây trầm |
+| `k67-dem-bat-hat` (Đêm bát hát) | Night of Singing Bowls | Đô thăng Dorian | thủy tinh, bát hát |
+| `k68-anh-trang-tren-ho` (Ánh trăng trên hồ) | Moonlight on the Lake | Son thứ | hộp nhạc rồi thủy tinh |
+| `k69-giac-mo-hop-xuong` (Giấc mơ hợp xướng) | Choir Dream | Fa thứ | cây dây, hợp xướng |
