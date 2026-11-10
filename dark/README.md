@@ -455,3 +455,12 @@ nguyên (0,431). Cả mười bài sang kiểu này; `suong-khuya` vẫn kiểu 
 đàn xa hơn của nó (piano gửi 0,48 thì "dark, scary ambient music" 30 %, theo kiểu 17 %); `dem-ram` đoạn hai dùng
 `cello-counter` thay `cello-answer` (20 % thành 11 %). Mười bài: "ambient, dreamy piano music for sleep" đứng đầu
 (69-100 %), "a gentle lullaby" đứng đầu (67-96 %), "relaxing piano music" 97-100 %. 89 bài khác soạn ra y hệt.
+
+## Piano gần lại, giữ không gian: `ke-chuyen-gan`, cả mười bài (vòng 32)
+
+Người dùng: "tôi vẫn thích tiếng piano gần tai hơn", rồi với bản thử `mua-thang-bay`: "như vậy ổn". Kiểu `ke-chuyen-gan`
+= `ke-chuyen-mong` (phòng vang, piano mờ, tiếng vọng) với piano gửi vào phòng vang như `ke-chuyen-relax` (0,25), rộng 0,8,
+chorus 0,2, búa 20 ms, Rhodes -4, tiếng vọng nhẹ hơn (0,22, mỗi lần 0,4). `mua-thang-bay`: "a piano recorded up close"
+0,445 (R1 0,427, `ke-chuyen-mong` 0,431), "ambient, dreamy piano music for sleep" 0,563 (0,551), "a gentle lullaby" 85 %.
+Mười bài: "ambient, dreamy piano music for sleep" đứng đầu (56-99 %), "up close" 0,41-0,45, "a gentle lullaby" đứng đầu ở
+chín bài (51-89 %; `xuan-muon` "a nostalgic, wistful melody"). 89 bài khác soạn ra y hệt.

@@ -360,6 +360,16 @@ STYLES["ke-chuyen-mong"] = STYLES["ke-chuyen-relax"] | {
     "piano_echo": {"beats": 1.0, "feedback": 0.42, "mix": 0.28, "lowpass": 2200},
     "gains": STYLES["ke-chuyen-relax"]["gains"] | {"piano-layer": -2.0}}
 
+# The piano near again ("tôi vẫn thích tiếng piano gần tai hơn"): ke-chuyen-mong's hall, haze and echo, but the
+# piano sending as little into the hall as ke-chuyen-relax's (0.25), narrower (0.8), a lighter chorus (0.2) and
+# strike (20 ms), the Rhodes as far under it (-4), the echo a little softer (0.22, each repeat 0.4).
+STYLES["ke-chuyen-gan"] = STYLES["ke-chuyen-mong"] | {
+    "piano_reverb": 0.25,
+    "piano_tone": {"eq": [list(p) for p in EQ_KEYS], "eq_amount": 0.75, "width": 0.8, "chorus": 0.2, "attack": 0.02,
+                   "lowpass": 4500},
+    "piano_echo": {"beats": 1.0, "feedback": 0.4, "mix": 0.22, "lowpass": 2200},
+    "gains": STYLES["ke-chuyen-mong"]["gains"] | {"piano-layer": -4.0}}
+
 # How loud each part sits against the piano (dB while it plays).
 ROLES = {"piano": 0.0, "bass": -9.0, "melody2": -6.0, "pad": -12.0, "low": -13.0, "drone": -15.0}
 

@@ -1,7 +1,7 @@
 {
   "title": "Sương khuya",
-  "about": "Round 30, (\"tôi thích nhất là âm thanh bản R1, hãy sáng tạo thêm, tiếng piano và âm thanh ambient có thể thay đổi linh hoạt theo đề xuất của bạn, tôi muốn nhạc nghe dễ ngủ\"): late-night dew, F minor at 56 bpm, its tune low (F4-Ab5). The piano as a felt piano: ke-chuyen-relax darkened more (EQ_KEYS at 0.85), its strike a little softer (25 ms) and lighter (34-54). Its motif falls slowly down the chord as dew gathers (C-Bb-Ab-F) and rests; the middle in A-flat. Written to be easy to sleep to: its tune moves mostly by step within about an octave and a half, low, its sentences come back with small changes, the left hand rocks in eighths (texture flow) through most of it, no chord is struck hard and the climax stays low. An original tune. Round 31 (\"tôi muốn nhạc ambient hơn, tiếng piano mờ ảo hơn\"): on ke-chuyen-mong, the piano a little further and hazier and through a soft echo, still as a felt piano (darkened at 0.9, its strike 30 ms, 34-54).",
-  "style": "ke-chuyen-mong",
+  "about": "Round 30, (\"tôi thích nhất là âm thanh bản R1, hãy sáng tạo thêm, tiếng piano và âm thanh ambient có thể thay đổi linh hoạt theo đề xuất của bạn, tôi muốn nhạc nghe dễ ngủ\"): late-night dew, F minor at 56 bpm, its tune low (F4-Ab5). The piano as a felt piano: ke-chuyen-relax darkened more (EQ_KEYS at 0.85), its strike a little softer (25 ms) and lighter (34-54). Its motif falls slowly down the chord as dew gathers (C-Bb-Ab-F) and rests; the middle in A-flat. Written to be easy to sleep to: its tune moves mostly by step within about an octave and a half, low, its sentences come back with small changes, the left hand rocks in eighths (texture flow) through most of it, no chord is struck hard and the climax stays low. An original tune. Round 31 (\"tôi muốn nhạc ambient hơn, tiếng piano mờ ảo hơn\"): on ke-chuyen-mong, the piano a little further and hazier and through a soft echo, still as a felt piano (darkened at 0.9, its strike 30 ms, 34-54). Round 32 (\"tôi vẫn thích tiếng piano gần tai hơn\"): on ke-chuyen-gan, the piano near again (as in ke-chuyen-relax), the hall, haze and echo kept, still as a felt piano.",
+  "style": "ke-chuyen-gan",
   "bpm": 56,
   "beats": 4,
   "piano_tone": {
@@ -48,8 +48,8 @@
       ]
     ],
     "eq_amount": 0.9,
-    "width": 0.9,
-    "chorus": 0.3,
+    "width": 0.8,
+    "chorus": 0.2,
     "attack": 0.03,
     "lowpass": 4500
   },
