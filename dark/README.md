@@ -473,3 +473,22 @@ gió, giọt nước, bát hát, hợp xướng), không trống, không dây g�
 Người dùng thích cả tám bài vòng X10; album 8 gồm đủ tám, theo thứ tự: Snow at Night, Wind over the Moor,
 Moonlight on the Lake, Quiet Cavern, The Old Music Room, Far Lighthouse, Night of Singing Bowls, Choir Dream
 (39 phút 31 giây, -17 LUFS). Bìa vẽ bằng máy (trăng trên hồ), file chỉ còn tên bài.
+
+## Hướng mới: ambient piano u buồn (vòng X11, kiểu `piano-am`)
+
+Người dùng gửi năm bài mẫu để lấy ý tưởng (chỉ phân tích chất âm và cách phối, không chép gì; bài mẫu không
+đưa vào kho). Điểm chung: piano là chính, rải hợp âm nhẹ và đều (khoảng 5 nốt mỗi giây), giai điệu đơn giản
+ở giữa bàn phím, nền synth mềm và tiếng ngân "ừm", có bài có bass rất sâu; buồn mà ấm (trưởng đi với thứ
+song song), không trống, vang dài; bài ngắn 1,5-2 phút, vào dần 15-20 giây rồi giữ đều; to hơn (-10 đến
+-19 LUFS), hẹp hơn. Kiểu mới `piano-am`: piano mô phỏng `model-dream` (không lọc), lớp `pianoarp` (bass rồi
+hợp âm lên xuống móc đơn), giai điệu ngẫu hứng một lần rồi lặp lại (`improv: keys`, `motif`), hợp xướng xa,
+nền, sub; phòng 5 giây; -14 LUFS.
+
+| Bản | Tên tiếng Anh | Giọng, nhịp |
+|---|---|---|
+| `k70-thu-gui-mua-dong` (Thư gửi mùa đông) | Letter to Winter | Mi thứ, 72 bpm |
+| `k71-cho-anh-sang` (Chờ ánh sáng) | Waiting for the Light | Son trưởng, 70 bpm |
+| `k72-day-ho` (Đáy hồ) | Beneath the Lake | Si thứ, 68 bpm, sub rất sâu |
+| `k73-sao-roi-cham` (Sao rơi chậm) | Slow Falling Stars | Rê trưởng, 74 bpm |
+| `k74-hoi-tho-cuoi-thu` (Hơi thở cuối thu) | Last Breath of Autumn | La thứ, 70 bpm, dây trầm |
+| `k75-anh-sang-xa` (Ánh sáng xa) | Distant Light | Fa thăng thứ, 76 bpm |

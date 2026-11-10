@@ -1,0 +1,91 @@
+{
+  "title": "Thư gửi mùa đông",
+  "title_en": "Letter to Winter",
+  "family": "dark-khac",
+  "about": "Round x11, a new direction after the user's five references (analysed for sound and arrangement only, nothing copied), as the user asked (\"ok hãy bắt đầu làm\"): ambient piano, the piano breaking E minor, C, G and D softly in eighths, a simple tune over it played again and again, a far humming choir joining, a deep sub. No drums. An original piece; its tune made up once by the improviser in dark/ambient.py and repeated.",
+  "style": "piano-am",
+  "bpm": 72,
+  "beats": 4,
+  "mode": "aeolian",
+  "seed": 70,
+  "sections": [
+    {
+      "bars": 4,
+      "chords": "Em | C | G | D",
+      "dyn": 0.3,
+      "layers": [
+        "pad",
+        "pianoarp"
+      ],
+      "arp_quarters": true
+    },
+    {
+      "bars": 16,
+      "chords": "Em | C | G | D | Em | C | G | Dsus4 | Em | C | G | D | Em | C | G | Dsus4",
+      "dyn": 0.42,
+      "layers": [
+        "pad",
+        "pianoarp",
+        "sub"
+      ],
+      "improv": "keys",
+      "motif": true,
+      "motif_bars": 8,
+      "improv_range": [
+        64,
+        79
+      ],
+      "improv_density": 1.3
+    },
+    {
+      "bars": 8,
+      "chords": "C | G | D | Em | C | G | Dsus4 | D",
+      "dyn": 0.5,
+      "layers": [
+        "pad",
+        "pianoarp",
+        "sub",
+        "choir"
+      ],
+      "improv": "keys",
+      "motif": true,
+      "motif_bars": 8,
+      "improv_range": [
+        64,
+        79
+      ],
+      "improv_density": 1.3
+    },
+    {
+      "bars": 8,
+      "chords": "Em | C | G | D | Em | C | G | Dsus4",
+      "dyn": 0.46,
+      "layers": [
+        "pad",
+        "pianoarp",
+        "sub",
+        "choir"
+      ],
+      "improv": "keys",
+      "motif": true,
+      "motif_bars": 8,
+      "improv_range": [
+        64,
+        79
+      ],
+      "improv_density": 1.3
+    },
+    {
+      "bars": 4,
+      "chords": "Em | C | G | Em",
+      "dyn": 0.3,
+      "layers": [
+        "pad",
+        "pianoarp"
+      ],
+      "arp_quarters": true,
+      "swell": -0.1,
+      "rit": true
+    }
+  ]
+}
