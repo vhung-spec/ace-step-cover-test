@@ -1,0 +1,62 @@
+{
+  "title": "Ngày đông không tuyết",
+  "about": "Round 27, ke-chuyen (\"hãy tiếp tục sáng tác\"), winter in the album of a year's waiting, a winter where no snow falls: B-flat minor at 56 bpm, the slowest and lowest of the set, its tune around F4-Db5. Its motif looks up a sixth (F-Db) and steps back down, as one looks at a sky that stays empty. The piano alone; the cellos' slow second line; a quiet middle in D-flat with the cellos answering and the violas' thin line, almost snowing; the climax kept late, the motif an octave up with the strings, the deepest basses and the piano's rolled chords, reaching F6 once; then the piano alone, low again, to the end. An original tune.",
+  "style": "ke-chuyen",
+  "bpm": 56,
+  "beats": 4,
+  "sections": [
+    {
+      "bars": 8,
+      "chords": "Bbm | Gb | Ebm7 | F7 | Bbm | Db | Ebm6 | F7",
+      "melody": "F4:1 Db5:2 C5:1 | Bb4:3 r:1 | Gb4:1 Eb5:2 Db5:1 | C5:3 r:1 | F4:1 Db5:2 C5:1 | Ab4:1 F5:2 Eb5:1 | Db5:1 C5:1 Gb4:1 Bb4:1 | A4:3 r:1",
+      "dyn": 0.28,
+      "layers": []
+    },
+    {
+      "bars": 8,
+      "chords": "Bbm | Gb | Ebm7 | F7 | Gbmaj7 | Db/F | Ebm7 | F7sus4:2 F7:2",
+      "melody": "F4:1 Db5:2 C5:1 | Bb4:3 r:1 | Gb4:1 Eb5:2 Db5:1 | C5:3 r:1 | Bb4:1 F5:2 Eb5:1 | Ab4:1 Ab5:2 F5:1 | Gb5:1.5 F5:0.5 Eb5:1 Db5:1 | Bb4:2 A4:1 r:1",
+      "dyn": 0.38,
+      "layers": [
+        "cello-counter"
+      ]
+    },
+    {
+      "bars": 8,
+      "chords": "Gb | Db/F | Ebm | Bbm | Gb | Db/F | Ebm7 | F7",
+      "melody": "Db5:1 Gb5:2 F5:1 | F5:3 r:1 | Eb5:1 Bb5:2 Ab5:1 | F5:3 r:1 | Gb5:1 Db6:2 Bb5:1 | Ab5:3 r:1 | Gb5:1 F5:1 Eb5:1 Db5:1 | C5:3 r:1",
+      "dyn": 0.48,
+      "layers": [
+        "cello-answer",
+        "viola-pad"
+      ]
+    },
+    {
+      "bars": 8,
+      "chords": "Bbm | Gb | Ebm7 | F7 | Gbmaj7 | Db/F | Ebm6:2 F7:2 | F7",
+      "melody": "F5:1 Db6:2 C6:1 | Bb5:3 r:1 | Gb5:1 Eb6:2 Db6:1 | C6:2 Eb6:1 C6:1 | Gb5:1 Bb5:1 Db6:2 | Ab5:1 F6:1 Eb6:1 Db6:1 | C6:1 Gb5:1 A5:1 C6:1 | A5+C6:4",
+      "texture": "blocks",
+      "dyn": 0.72,
+      "layers": [
+        "strings",
+        "basses",
+        "cello-counter"
+      ]
+    },
+    {
+      "bars": 8,
+      "chords": "Bbm | Gb | Ebm7 | F7 | Bbm | Gb | Ebm6:2 F7:2 | Bbm",
+      "melody": "F4:1 Db5:2 C5:1 | Bb4:3 r:1 | Gb4:1 Eb5:2 Db5:1 | C5:3 r:1 | F4:1 Db5:2 C5:1 | Bb4:2 Gb4:2 | Gb4:1 Eb4:1 F4:1 A4:1 | Bb4:4",
+      "dyn": 0.26,
+      "rit": true,
+      "layers": []
+    },
+    {
+      "bars": 2,
+      "chords": "Gbmaj7 | Bbm",
+      "melody": "F4:1 Db5:2 C5:1 | Bb4:4",
+      "dyn": 0.18,
+      "layers": []
+    }
+  ]
+}

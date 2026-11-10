@@ -353,3 +353,24 @@ là "tense horror music" ở 10 giây cuối). Đoạn dây hát một mình (`m
 Album mười bài (thứ tự nghe, một đêm tới sáng): "Stories Until Dawn" (Kể chuyện tới bình minh): 1 `nguoi-o-lai`, 2
 `buc-anh-cu`, 3 `khuc-ru-muon`, 4 `loi-chua-noi`, 5 `con-duong-ve`, 6 `tieng-goi-xa`, 7 `chiec-ghe-trong`, 8
 `bong-hinh`, 9 `loi-hua`, 10 `truoc-binh-minh`.
+
+## Album mới, "Một năm chờ": năm bài đầu (vòng 27)
+
+Người dùng: "hãy tiếp tục sáng tác". Vẫn kiểu `ke-chuyen` (mã không đổi, chỉ thêm bài), cho một album mới: một năm chờ đợi,
+mỗi bài một mùa, và mỗi bài thêm một nét kiểu này chưa có: tay trái rải đều như mưa (`texture` `flow`), điệu valse chậm
+(`sparse`), contrabass dưới cao trào (`basses`), viola hát (`melody_on: viola`) trên hợp âm thưa, piano chơi giai điệu
+bằng quãng tám (`octave`).
+
+| Bài | Giọng, nhịp | Mô-típ | Cung bậc (dB theo đoạn) |
+|---|---|---|---|
+| `mua-thang-bay` (Mưa tháng Bảy) | Mi giáng thứ, 66 bpm | Giọt rơi thành chuỗi quãng ba (Bb-Gb, Ab-F) đọng lại một nốt dài; đoạn hai tay trái rải đều (`flow`); cao trào giọt mưa đi lên | -26, -21, -18, -26, -22 |
+| `la-roi-truoc-ngo` (Lá rơi trước ngõ) | Đô thăng thứ, nhịp ba, 72 bpm | Rơi từng quãng ba qua ba ô, mỗi ô một nốt nghiêng; valse chậm (`sparse`); cao trào có Rê trưởng (Neapolitan) | -24, -19, -19, -16, -24, -22 |
+| `ngay-dong-khong-tuyet` (Ngày đông không tuyết) | Si giáng thứ, 56 bpm | Nhìn lên quãng sáu (F-Db) rồi bước xuống, giọng trầm; cao trào muộn có `basses`, chạm Fa 6 một lần | -25, -22, -22, -17, -24, -23 |
+| `xuan-muon` (Xuân muộn) | Rê Dorian, 76 bpm | Xuống theo hợp âm rồi nhảy quãng sáu lên Si bình (Dm6); đoạn hai viola hát thấp một quãng tám trên hợp âm thưa | -23, -19, -16, -21, -20 |
+| `mot-nam-cho` (Một năm chờ) | Son thứ, 66 bpm | Một giai điệu dài kể ba lần: piano, cello (thấp một quãng tám), piano với dàn dây; cao trào giai điệu lên quãng tám, `octave` và `basses` | -25, -24, -22, -19, -17, -25, -23 |
+
+CLAP: cả năm "a piano with cello and strings" (49-89 %; `la-roi-truoc-ngo` ngang "a piano and viola duet"), "sad, emotional,
+cinematic piano music" (81-100 %), "a warm, deep, dark piano" 100 %. Hai ô kết của `ngay-dong-khong-tuyet` để piano một mình:
+viola giữ nốt dưới hợp âm cuối thì 10 giây cuối nghe là "tense horror music". Đoạn viola hát trong `xuan-muon` giữ hợp âm
+thưa: chỉ một nốt trầm (`deep`) thì bớt dải trung trầm (4,7 dB thay vì 6,3) nhưng CLAP nghe "tense" nhiều hơn hẳn. Đoạn
+cello hát trong `mot-nam-cho`, như các đoạn dây hát một mình trước đây, CLAP vẫn nghe hơi "tense".
