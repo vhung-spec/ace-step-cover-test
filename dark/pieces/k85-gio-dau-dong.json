@@ -1,0 +1,95 @@
+{
+  "title": "Gió đầu đông",
+  "title_en": "First Winter Wind",
+  "family": "dark-khac",
+  "about": "Round x13, the user preferred the X11 sound to the electronic one (\"tôi vẫn thích kiểu cũ hơn, hãy quay lại sáng tác kiểu cũ\"): ambient piano (piano-am) as in X11, the piano breaking Cm, Ab, Eb, Bb softly in eighths, a simple tune improvised once and repeated, choir in the middle, a deep sub. No drums. An original piece.",
+  "style": "piano-am",
+  "bpm": 68,
+  "beats": 4,
+  "mode": "aeolian",
+  "seed": 85,
+  "sub_low": 24,
+  "gains": {
+    "sub": 4.0
+  },
+  "sections": [
+    {
+      "bars": 4,
+      "chords": "Cm | Ab | Eb | Bb",
+      "dyn": 0.3,
+      "layers": [
+        "pad",
+        "pianoarp"
+      ],
+      "arp_quarters": true
+    },
+    {
+      "bars": 16,
+      "chords": "Cm | Ab | Eb | Bb | Cm | Ab | Eb | Bbsus4 | Cm | Ab | Eb | Bb | Cm | Ab | Eb | Bbsus4",
+      "dyn": 0.42,
+      "layers": [
+        "pad",
+        "pianoarp",
+        "sub"
+      ],
+      "improv": "keys",
+      "motif": true,
+      "motif_bars": 8,
+      "improv_range": [
+        64,
+        79
+      ],
+      "improv_density": 1.3
+    },
+    {
+      "bars": 8,
+      "chords": "Ab | Eb | Bb | Cm | Ab | Eb | Fm7 | Gsus4",
+      "dyn": 0.5,
+      "layers": [
+        "pad",
+        "pianoarp",
+        "sub",
+        "choir"
+      ],
+      "improv": "keys",
+      "motif": true,
+      "motif_bars": 8,
+      "improv_range": [
+        64,
+        79
+      ],
+      "improv_density": 1.3
+    },
+    {
+      "bars": 8,
+      "chords": "Cm | Ab | Eb | Bb | Cm | Ab | Eb | Bbsus4",
+      "dyn": 0.46,
+      "layers": [
+        "pad",
+        "pianoarp",
+        "sub",
+        "choir"
+      ],
+      "improv": "keys",
+      "motif": true,
+      "motif_bars": 8,
+      "improv_range": [
+        64,
+        79
+      ],
+      "improv_density": 1.3
+    },
+    {
+      "bars": 4,
+      "chords": "Cm | Ab | Eb | Cm",
+      "dyn": 0.3,
+      "layers": [
+        "pad",
+        "pianoarp"
+      ],
+      "arp_quarters": true,
+      "swell": -0.1,
+      "rit": true
+    }
+  ]
+}

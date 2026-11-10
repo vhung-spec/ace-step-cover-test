@@ -509,3 +509,18 @@ không khí, tiếng đảo ngược, tiếng vọng. Kiểu mới `piano-dt` (t
 Sáu bài X11 làm lại bằng bộ tiếng này, cùng bản nhạc, để so trực tiếp: `k76-thu-gui-mua-dong-dien-tu`,
 `k77-cho-anh-sang-dien-tu`, `k78-day-ho-dien-tu`, `k79-sao-roi-cham-dien-tu`, `k80-hoi-tho-cuoi-thu-dien-tu`,
 `k81-anh-sang-xa-dien-tu` (tên tiếng Anh thêm "(Electronic)").
+
+## Vòng X13: quay lại ambient piano kiểu X11 (`piano-am`)
+
+Người dùng nghe X12: "tôi vẫn thích kiểu cũ hơn, hãy quay lại sáng tác kiểu cũ". Sáu bài mới theo đúng kiểu
+X11 (piano mô phỏng rải hợp âm, giai điệu ngẫu hứng một lần rồi lặp, nền, sub, hợp xướng hoặc dây ở giữa bài,
+phòng 5 giây, -14 LUFS), giọng và vòng hợp âm khác:
+
+| Bản | Tên tiếng Anh | Giọng, nhịp |
+|---|---|---|
+| `k82-mua-tren-mai-hien` (Mưa trên mái hiên) | Rain on the Porch | Rê thứ, 70 bpm |
+| `k83-o-cua-sang-den` (Ô cửa sáng đèn) | A Lit Window | Đô trưởng, 72 bpm, chuông lấp lánh |
+| `k84-con-duong-ve-nha` (Con đường về nhà) | The Road Home | La trưởng, 74 bpm, dây |
+| `k85-gio-dau-dong` (Gió đầu đông) | First Winter Wind | Đô thứ, 68 bpm, sub rất sâu |
+| `k86-trang-tren-song` (Trăng trên sông) | Moonlight on the River | Son thứ, 70 bpm, dây và hợp xướng |
+| `k87-giac-mo-mua-ha` (Giấc mơ mùa hạ) | Summer Dream | Fa trưởng, 72 bpm, chuông lấp lánh |
