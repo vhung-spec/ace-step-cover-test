@@ -63,8 +63,10 @@ common to two chords held across them; layers, per section:
   chord, or "timpani": "roll" in a section, swelling with it), pluck (the
   melody on the plucked string, first of all), pluckarp (the chord broken on
   it, pluck_beats); bass_step (the bassline's note length, beats), felt_chords
-  (the felt piano's chords whole), answer_on "solo" (the answer on the string), improv (a melody improvised through the
-  section on this instrument: felt, glass, pluck, box, bells or solo;
+  (the felt piano's chords whole), answer_on "solo" (the answer on the string), pianoarp (the ambient piano breaking the chord
+  in eighths, arp_quarters: quarters; keys_range), improv (a melody improvised
+  through the section on this instrument: felt, keys, glass, pluck, box, bells
+  or solo; motif: improvised once over motif_bars and repeated;
   improv_range, improv_density; the score's mode: aeolian, dorian, lydian,
   major, pentatonic; seed), tune_on (the
   instrument the section's tune is played on, before the order above), drops (water drops on the chord's tones, drops_per_bar); "answer", a second line beside the melody,
@@ -616,6 +618,8 @@ PARTS = {
     "thunder": ("amb-thunder", "low", -6.0, 0.0, 0.5),
     "waves": ("amb-waves", "pad", -9.0, 0.0, 0.2),
     "felt": ("model-dream", "melody2", -5.0, 0.0, 0.6),
+    "keys": ("model-dream", "piano", 0.0, 0.0, 0.6),
+    "keysarp": ("model-dream", "piano", -3.0, 0.0, 0.6),
     "bassline": ("amb-synbass", "bass", -3.0, 0.0, 0.1),
     "arp": ("amb-arp", "pad", -7.0, 0.0, 0.45),
     "kick": ("amb-kick", "low", -4.0, 0.0, 0.08),
@@ -692,11 +696,19 @@ def compose_ambient(score: dict, folder: Path) -> str:
 
     def part(name: str):
         instrument, role, _, pan, reverb = PARTS[name]
+        if name in ("keys", "keysarp") and score.get("keys"):  # the ambient piano: another of the modelled pianos
+            instrument = score["keys"]
         made = name not in piece.parts
         p = piece.part(name, instrument, role, pan, reverb)
         if made and name == "felt":  # the dark piano's dreamy felt piano, softer still, its strike eased
             p.tone.update({"attack": 0.06, "lowpass": 2500, "lowpass_order": 2, "width": 0.8})
             p.cap = 46
+        if made and name in ("keys", "keysarp"):  # ambient piano: the same dreamy piano, clearer, a little narrower
+            p.tone.update({"attack": 0.02, "lowpass": 4500, "lowpass_order": 2, "width": 0.8})
+            p.tone.update(score.get("keys_tone", {}))
+            if p.tone.get("lowpass") is None:
+                p.tone.pop("lowpass", None)
+            p.cap = 72
         return p
 
     def strength(tick: int, base: float, low: float = 30, span: float = 60) -> float:
@@ -796,6 +808,18 @@ def compose_ambient(score: dict, folder: Path) -> str:
                                         step * 4)
             else:
                 part("timpani").add(tick, note, strength(tick, 6, 46, 60), piece.bar * 2)
+        if "pianoarp" in wanted:  # ambient piano: a low bass note, then the chord's tones up and down in
+            # eighths across an octave and a half, softly, each left to ring under the pedal
+            arp = part("keysarp")
+            low = c.above(bass, score.get("arp_bass_low", 38))
+            ladder = [n for n in range(*score.get("keys_range", [55, 76])) if n % 12 in tones][:6]
+            order = [low] + ladder + ladder[-2:0:-1]
+            step = c.EIGHTH * (2 if section.get("arp_quarters") else 1) // (2 if section.get("arp_sixteenths") else 1)
+            for k, at in enumerate(range(tick, tick + length, step)):
+                n = order[k % len(order)]
+                arp.add(at + piece.ms(rng.gauss(0, 14)), n, strength(at, (6 if k == 0 else 0) - 6, 30, 26) + rng.uniform(-3, 3),
+                        3 * step)
+            arp.pedal += [(tick - 10, 0), (tick + 30, 100)]
         if "felt" in wanted:  # a felt piano, barely touched, the chord's tones rising and falling slowly
             ladder = [n for n in range(*score.get("felt_range", [55, 72])) if n % 12 in tones]
             step = round(section.get("felt_beats", 2) * c.TICKS)
@@ -850,8 +874,16 @@ def compose_ambient(score: dict, folder: Path) -> str:
         if not on:
             continue
         low, high = section.get("improv_range", score.get("improv_range", [57, 76]))
-        for at, n, beats in improvise(piece, c, section, start, end, irng, tonic,
-                                      score.get("mode", "aeolian"), low, high, section.get("improv_density", 1.2)):
+        if section.get("motif"):  # a melody made up once over the first motif_bars, then played again and again
+            cycle = section.get("motif_bars", 8) * piece.bar
+            once = improvise(piece, c, section, start, min(end, start + cycle + piece.bar), irng, tonic,
+                             score.get("mode", "aeolian"), low, high, section.get("improv_density", 1.2))
+            once = [(at, n, b) for at, n, b in once if at < start + cycle]
+            made = [(at + k * cycle, n, b) for k in range((end - start) // cycle) for at, n, b in once]
+        else:
+            made = improvise(piece, c, section, start, end, irng, tonic,
+                             score.get("mode", "aeolian"), low, high, section.get("improv_density", 1.2))
+        for at, n, beats in made:
             length = round(beats * c.TICKS)
             v = strength(at, 0, 32, 30) + irng.uniform(-3, 3)
             at += piece.ms(irng.gauss(0, 30))  # never quite on the grid
@@ -859,6 +891,8 @@ def compose_ambient(score: dict, folder: Path) -> str:
                 part("solo").add(at, n, v, length + piece.ms(150))
             elif on == "felt":
                 part("felt").add(at, n, v - 2, length + c.TICKS)
+            elif on == "keys":  # the ambient piano's tune, clearer than its arpeggio
+                part("keys").add(at, n, v + 8, length + c.TICKS)
             else:  # glass, pluck, box, bells: struck and left to ring
                 part(on).add(at, n, v, max(length, 2 * c.TICKS))
     for t, notes, length in piece.tune:  # the tune: on the bell or the glass, struck and left ringing

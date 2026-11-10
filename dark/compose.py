@@ -294,6 +294,14 @@ STYLES = {
     # "Ngủ ngon" (for sleep): the same sounds, nothing sudden (no thunder, heartbeat or struck bells in its
     # pieces), a longer, softer hall, quieter (-17 LUFS), the pieces long (5-6 min) and even.
     "ngu-ngon": {"kind": "ambient", "room": {"rt60": 7.5, "wet": 1.0}, "loudness": -17, "even_hall": True},
+    # "Piano âm" (ambient piano, after the user's references, round x11): the dreamy modelled piano breaking
+    # its chords softly in eighths with a simple repeated tune over them, a far humming choir, a pad and a
+    # deep sub; sad but warm (major and its relative minor), no drums, a long hall (5 s), -14 LUFS.
+    # Its piano open, not low-passed: of four tried on Letter to Winter (model-dream at 4.5 kHz, open,
+    # open in sixteenths; model-grand; model-bloom) the nearest the references to LAION CLAP (0.722 against
+    # 0.712), none harsh.
+    "piano-am": {"kind": "ambient", "room": {"rt60": 5.0, "wet": 0.9}, "loudness": -14, "even_hall": True,
+                 "keys_tone": {"lowpass": None}},
     # Darkwave ("toi-nhip", a dark beat): synth bass, a cold arpeggio, a soft steady beat, cold pads; a smaller
     # room (2.5 s), louder (-15 LUFS).
     "toi-nhip": {"kind": "ambient", "room": {"rt60": 2.5, "wet": 0.8}, "loudness": -15, "even_hall": True},
