@@ -419,3 +419,26 @@ Bốn bản thử trên `xuan-muon` (piano gửi 0,3/0,3/0,25/0,2; Rhodes +2/-4/
 Cả năm "relaxing piano music" 100 % trước "ambient synth music"; giờ "melancholic, sad piano music" đứng trước "peaceful,
 soothing music for sleep" (dù điểm "peaceful" không thấp hơn bản ambient: 0,48-0,51 với 0,46-0,50). 89 bài khác
 soạn ra y hệt.
+
+## Năm bài viết để dễ ngủ, theo âm thanh R1 (vòng 30)
+
+Người dùng: "tôi thích nhất là âm thanh bản R1, hãy sáng tạo thêm, tiếng piano và âm thanh ambient có thể thay đổi linh
+hoạt theo đề xuất của bạn, tôi muốn nhạc nghe dễ ngủ". R1 là `mua-thang-bay` trên `ke-chuyen-relax`. Năm bài mới cho đủ
+album mười bài, viết để dễ ngủ: giai điệu đi từng bậc trong khoảng một quãng tám rưỡi, thấp; các câu trở lại với ít thay
+đổi (mỗi đoạn giữa 16 ô: câu và biến thể của nó); tay trái rải đều đung đưa (`flow`) gần suốt bài; không hợp âm nào gõ
+mạnh, cao trào thấp; không kết bằng quãng ba cung (tritone). Mỗi bài đổi tiếng đàn một chút quanh R1, bằng các khoá của
+chính bài (không đổi mã): `dem-ram` đúng như R1; `suong-khuya` kiểu "felt" (`EQ_KEYS` 0,85, tiếng búa 25 ms, gõ 34-54);
+`pho-ngu` xa hơn một chút (piano gửi 0,35, chorus 0,25, rộng 0,9); `tam-chan-mong` thêm Rhodes (4 dB); `ngu-di-cho-sang`
+như R1, viola mỏng ở đoạn giữa.
+
+| Bài | Giọng, nhịp | Mô-típ | Độ dài | Cung bậc (dB theo đoạn) | "relaxing piano music" |
+|---|---|---|---|---|---|
+| `dem-ram` (Đêm rằm) | La thứ, nhịp ba, 60 bpm | Đung đưa xuống quãng ba rồi một bậc (E-C, D-B), mỗi câu dừng một ô, cello đáp | 3:05 | -25, -19, -17, -19, -25, -26 | 0,519 |
+| `suong-khuya` (Sương khuya) | Fa thứ, 56 bpm | Rơi chậm theo hợp âm (C-Bb-Ab-F) rồi nghỉ; đoạn giữa La giáng trưởng | 4:20 | -26, -20, -18, -20, -26, -24 | 0,531 |
+| `pho-ngu` (Phố ngủ) | Si thứ, 54 bpm | Mỗi ô bước xuống theo hợp âm (F#-D-B, D-B-G, G-E-B) như đèn tắt dần | 4:30 | -26, -19, -18, -20, -27, -26 | 0,518 |
+| `tam-chan-mong` (Tấm chăn mỏng) | Mi thứ, nhịp ba, 62 bpm | Bước xuống về chủ âm, nghỉ cả ô trên quãng năm, rồi leo ba bậc | 2:59 | -25, -19, -18, -19, -25, -23 | 0,568 |
+| `ngu-di-cho-sang` (Ngủ đi, chờ sáng) | Đô thứ sang Đô trưởng, 54 bpm | Leo nhẹ theo hợp âm (G-C-Eb) rồi bước xuống; câu cuối ở Đô trưởng, kết trên Mi | 3:55 | -26, -19, -18, -19, -27, -26 | 0,521 |
+
+CLAP (R1: "relaxing piano music" 0,550, "a soft, warm, clear piano" 0,646, "a piano recorded up close" 0,427): cả năm
+"relaxing piano music" 100 %, "a soft, warm, clear piano" 0,60-0,63, "up close" 0,42-0,44; `pho-ngu` nghe là "a gentle
+lullaby" (71 %), các bài khác "a nostalgic, wistful melody" trước "a gentle lullaby".

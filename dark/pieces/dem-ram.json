@@ -1,0 +1,62 @@
+{
+  "title": "Đêm rằm",
+  "about": "Round 30, ke-chuyen-relax (\"tôi thích nhất là âm thanh bản R1, hãy sáng tạo thêm, tiếng piano và âm thanh ambient có thể thay đổi linh hoạt theo đề xuất của bạn, tôi muốn nhạc nghe dễ ngủ\"), for the album of a year's waiting: a full-moon night, a lullaby in A minor in 3/4 at 60 bpm, on the sound the user liked best (R1: ke-chuyen-relax as it is). Its motif rocks down a third and a step (E-C, D-B), as a cradle does, and each sentence ends on a note held a whole bar, which the cellos answer from afar in the second section. The middle in C major (F, C/E, Dm, G) rises once to A5. Written to be easy to sleep to: its tune moves mostly by step within about an octave and a half, low, its sentences come back with small changes, the left hand rocks in eighths (texture flow) through most of it, no chord is struck hard and the climax stays low. An original tune.",
+  "style": "ke-chuyen-relax",
+  "bpm": 60,
+  "beats": 3,
+  "sections": [
+    {
+      "bars": 8,
+      "chords": "Am | G | F | E | Am | Dm | E7 | Am",
+      "melody": "E5:2 C5:1 | D5:2 B4:1 | C5:1.5 B4:0.5 A4:1 | B4:3 | E5:2 C5:1 | F5:2 D5:1 | D5:1 B4:1 G#4:1 | A4:3",
+      "dyn": 0.28,
+      "layers": []
+    },
+    {
+      "bars": 16,
+      "chords": "Am | G | F | E | Am | Dm | E7 | Am | Am | G | F | E | F | C/E | Dm | E",
+      "melody": "E5:2 C5:1 | D5:2 B4:1 | C5:1.5 B4:0.5 A4:1 | B4:3 | E5:2 C5:1 | F5:2 D5:1 | D5:1 B4:1 G#4:1 | A4:3 | E5:2 C5:1 | D5:2 B4:1 | C5:1.5 B4:0.5 A4:1 | B4:3 | A5:2 F5:1 | G5:2 E5:1 | F5:1 E5:1 D5:1 | E5:3",
+      "texture": "flow",
+      "dyn": 0.34,
+      "layers": [
+        "cello-answer"
+      ]
+    },
+    {
+      "bars": 8,
+      "chords": "F | C/E | Dm | G | Fmaj7 | C/E | Dm7 | E7sus4:1.5 E7:1.5",
+      "melody": "C5:1 F5:1 A5:1 | G5:2 E5:1 | F5:1.5 E5:0.5 D5:1 | B4:1 D5:1 G5:1 | A5:2 G5:1 | E5:2 C5:1 | D5:1 F5:1 A5:1 | A5:1.5 G#5:1.5",
+      "texture": "flow",
+      "dyn": 0.42,
+      "layers": [
+        "strings",
+        "cello-counter"
+      ]
+    },
+    {
+      "bars": 16,
+      "chords": "Am | G | F | E | Am | Dm | E7 | Am | Am | G | F | E | F | C/E | Dm | E",
+      "melody": "E5:2 C5:1 | D5:2 B4:1 | C5:1.5 B4:0.5 A4:1 | B4:3 | E5:2 C5:1 | F5:2 D5:1 | D5:1 B4:1 G#4:1 | A4:3 | E5:2 C5:1 | D5:2 B4:1 | C5:1.5 B4:0.5 A4:1 | B4:3 | A5:2 F5:1 | G5:2 E5:1 | F5:1 E5:1 D5:1 | E5:3",
+      "texture": "flow",
+      "dyn": 0.32,
+      "layers": [
+        "viola-end"
+      ]
+    },
+    {
+      "bars": 8,
+      "chords": "Am | G | F | E | Am | Dm | E7 | Am",
+      "melody": "E5:2 C5:1 | D5:2 B4:1 | C5:1.5 B4:0.5 A4:1 | B4:3 | E5:2 C5:1 | F5:2 D5:1 | D5:1 B4:1 G#4:1 | A4:3",
+      "dyn": 0.26,
+      "rit": true,
+      "layers": []
+    },
+    {
+      "bars": 2,
+      "chords": "Fmaj7 | Am",
+      "melody": "E5:2 C5:1 | A4:3",
+      "dyn": 0.2,
+      "layers": []
+    }
+  ]
+}
