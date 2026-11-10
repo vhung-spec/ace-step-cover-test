@@ -66,7 +66,10 @@ common to two chords held across them; layers, per section:
   (the felt piano's chords whole), answer_on "solo" (the answer on the string), pianoarp (the ambient piano breaking the chord
   in eighths, arp_quarters: quarters; keys_range), improv (a melody improvised
   through the section on this instrument: felt, keys, glass, pluck, box, bells
-  or solo; motif: improvised once over motif_bars and repeated;
+  or solo; motif: improvised once over motif_bars and repeated; keys_echo:
+  {beats, feedback, mix} a ping-pong delay on the keys' tune; keys_layer: the acoustic
+  piano under the keys; air (an airy high synth); swells (reversed notes
+  rising into each chord); the room's plate: true a brighter plate hall;
   improv_range, improv_density; the score's mode: aeolian, dorian, lydian,
   major, pentatonic; seed), tune_on (the
   instrument the section's tune is played on, before the order above), drops (water drops on the chord's tones, drops_per_bar); "answer", a second line beside the melody,
@@ -127,6 +130,11 @@ MODELS = {
                     "seconds": 6.0, "one_shot": True},
     "amb-pluck": {"attack": 0.001, "release": 1.2, "veltrack": 70, "keys": range(40, 90), "loop": False,
                   "seconds": 5.0},
+    "amb-epiano": {"attack": 0.002, "release": 0.6, "veltrack": 70, "keys": range(33, 97), "loop": False,
+                   "seconds": 7.0},
+    "amb-air": {"attack": 2.5, "release": 5.0, "veltrack": 60, "keys": range(60, 97), "loop": True},
+    "amb-swell": {"attack": 0.001, "release": 0.08, "veltrack": 60, "keys": range(48, 85), "loop": False,
+                  "seconds": 2.6, "one_shot": True},
 }
 
 
@@ -540,11 +548,40 @@ def pluck(key: int, n: int, rng: np.random.Generator) -> np.ndarray:
     return out
 
 
+def epiano(key: int, n: int, rng: np.random.Generator) -> np.ndarray:
+    """An electric piano, as a tine piano sounds (two-operator FM, the modulator at the note: bright as the
+    tine is struck, mellowing as the index falls), a soft high ping from the tine at the strike, dying
+    slower in the bass; the two sides a few cents apart, so it is wide before any chorus."""
+    f0 = hz(key)
+    t = np.arange(n) / RATE
+    index = 1.4 * np.exp(-t / 0.25) + 0.45
+    ring = 2.2 * (220 / f0) ** 0.4
+    out = np.zeros((2, n))
+    for side, cents in enumerate((-3, 3)):
+        f = f0 * 2 ** (cents / 1200)
+        tone = np.sin(2 * np.pi * f * t + index * np.sin(2 * np.pi * f * t + rng.random()))
+        ping = 0.06 * np.sin(2 * np.pi * min(f * 7.1, 9000) * t) * np.exp(-t / 0.04)
+        out[side] = (tone + ping) * np.exp(-t / ring) * (1 - np.exp(-t / 0.002))
+    return out
+
+
+def swell(key: int, n: int, rng: np.random.Generator) -> np.ndarray:
+    """A reversed electric-piano note: rising from nothing over its 2.6 s to a sudden stop, as a tape played
+    backwards; set to end where the next chord begins."""
+    note = epiano(key, int(3.2 * RATE), rng)
+    back = note[:, ::-1][:, -n:]
+    rise = np.linspace(0, 1, n) ** 2
+    back = back * rise
+    back[:, -int(0.01 * RATE):] *= np.linspace(1, 0, int(0.01 * RATE))
+    return back
+
+
 SYNTHS = {"amb-pad": pad, "amb-choir": choir, "amb-sub": sub, "amb-bell": bell, "amb-glass": glass, "amb-wind": wind, "amb-pulse": pulse, "amb-organ": organ,
           "amb-drop": drop, "amb-box": box, "amb-bowl": bowl,
           "amb-bowed": bowed, "amb-bowsolo": bowsolo, "amb-thunder": thunder, "amb-waves": waves,
           "amb-synbass": synbass, "amb-arp": arp, "amb-kick": kick, "amb-snare": snare, "amb-timpani": timpani,
-          "amb-pluck": pluck}
+          "amb-pluck": pluck, "amb-epiano": epiano, "amb-swell": swell,
+          "amb-air": pad}
 
 
 def sample(job: tuple) -> None:
@@ -620,6 +657,9 @@ PARTS = {
     "felt": ("model-dream", "melody2", -5.0, 0.0, 0.6),
     "keys": ("model-dream", "piano", 0.0, 0.0, 0.6),
     "keysarp": ("model-dream", "piano", -3.0, 0.0, 0.6),
+    "keyslayer": ("model-dream", "melody2", -5.0, 0.0, 0.6),
+    "air": ("amb-air", "pad", -13.0, 0.0, 0.9),
+    "swells": ("amb-swell", "pad", -9.0, 0.0, 0.8),
     "bassline": ("amb-synbass", "bass", -3.0, 0.0, 0.1),
     "arp": ("amb-arp", "pad", -7.0, 0.0, 0.45),
     "kick": ("amb-kick", "low", -4.0, 0.0, 0.08),
@@ -703,11 +743,19 @@ def compose_ambient(score: dict, folder: Path) -> str:
         if made and name == "felt":  # the dark piano's dreamy felt piano, softer still, its strike eased
             p.tone.update({"attack": 0.06, "lowpass": 2500, "lowpass_order": 2, "width": 0.8})
             p.cap = 46
+        if made and name == "air":  # an airy high synth: the pad high up, its body cut away
+            p.tone.update({"highpass": 700, "lowpass": 7000, "lowpass_order": 2, "width": 1.4})
+        if made and name == "keyslayer":  # the acoustic piano softly under an electric one: a digital piano
+            p.tone.update({"attack": 0.02, "width": 0.8})
         if made and name in ("keys", "keysarp"):  # ambient piano: the same dreamy piano, clearer, a little narrower
             p.tone.update({"attack": 0.02, "lowpass": 4500, "lowpass_order": 2, "width": 0.8})
             p.tone.update(score.get("keys_tone", {}))
             if p.tone.get("lowpass") is None:
                 p.tone.pop("lowpass", None)
+            if name == "keys" and score.get("keys_echo"):  # a ping-pong delay on the tune, so many beats
+                beats = score["keys_echo"].get("beats", 0.75)
+                p.tone["echo"] = {"seconds": round(beats * 60 / score["bpm"], 4),
+                                  **{k: v for k, v in score["keys_echo"].items() if k != "beats"}}
             p.cap = 72
         return p
 
@@ -747,7 +795,7 @@ def compose_ambient(score: dict, folder: Path) -> str:
         nxt = spans[index + 1] if index + 1 < len(spans) else None
         nxt_wanted = piece.section_at(nxt[0]).get("layers", []) if nxt else []
         bass, tones, root = c.chord(name)
-        for layer in ("pad", "choir", "sub", "wind", "organ", "strings", "waves"):
+        for layer in ("pad", "choir", "sub", "wind", "organ", "strings", "waves", "air"):
             if layer not in wanted:
                 continue
             if layer == "pad":
@@ -766,6 +814,9 @@ def compose_ambient(score: dict, folder: Path) -> str:
                 voices["strings"] = c.voice(voices.get("strings", [50, 55, 58]), tones,
                                             *score.get("strings_range", [45, 64]), 3)
                 notes = sorted(set(voices["strings"] + [c.above(bass, 33)]))
+            elif layer == "air":  # an airy high synth: three of the chord's tones well above the tune
+                voices["air"] = c.voice(voices.get("air", [76, 79, 83]), tones, 74, 88, 3)
+                notes = sorted(set(voices["air"]))
             elif layer == "waves":  # the sea: one held note (its key only seeds the sound)
                 notes = [48]
             elif layer == "wind":  # the wind sounding the chord's root and fifth, low-middle
@@ -773,7 +824,7 @@ def compose_ambient(score: dict, folder: Path) -> str:
             else:
                 notes = [c.above(bass, score.get("sub_low", 26))]
             ends = None if (nxt and layer in nxt_wanted) else tick + length + (tail if not nxt else piece.ms(800))
-            hold(layer, notes, tick, ends, strength(tick, {"pad": 0, "choir": -6, "sub": -4, "wind": -2, "organ": -4, "strings": -2, "waves": 0}[layer]))
+            hold(layer, notes, tick, ends, strength(tick, {"pad": 0, "choir": -6, "sub": -4, "wind": -2, "organ": -4, "strings": -2, "waves": 0, "air": -8}[layer]))
         if "thunder" in wanted and rng.random() < section.get("thunder_odds", 0.5):  # thunder far off, now and then
             part("thunder").add(tick + rng.randrange(0, max(1, length // 2)), 24 + rng.randrange(12),
                                 strength(tick, 0, 40, 50), piece.bar * 2)
@@ -820,6 +871,9 @@ def compose_ambient(score: dict, folder: Path) -> str:
                 arp.add(at + piece.ms(rng.gauss(0, 14)), n, strength(at, (6 if k == 0 else 0) - 6, 30, 26) + rng.uniform(-3, 3),
                         3 * step)
             arp.pedal += [(tick - 10, 0), (tick + 30, 100)]
+        if "swells" in wanted and index > 0:  # a reversed note rising into this chord, its root up high
+            back = round(piece.ms(2500))
+            part("swells").add(max(0, tick - back), c.above(root, 60), strength(tick, 0, 40, 30), back)
         if "felt" in wanted:  # a felt piano, barely touched, the chord's tones rising and falling slowly
             ladder = [n for n in range(*score.get("felt_range", [55, 72])) if n % 12 in tones]
             step = round(section.get("felt_beats", 2) * c.TICKS)
@@ -935,6 +989,12 @@ def compose_ambient(score: dict, folder: Path) -> str:
         if tick not in (start, end):
             raise ValueError(f"an answer lasting {(tick - start) / piece.bar} bars, not {(end - start) // piece.bar}")
 
+    if score.get("keys_layer"):  # the acoustic piano doubling the electric one, softly: a digital piano
+        layer = part("keyslayer")
+        for name in ("keys", "keysarp"):
+            if name in piece.parts:
+                layer.notes += [(t, n, max(1, v - 6), l) for t, n, v, l in piece.parts[name].notes]
+                layer.pedal += list(piece.parts[name].pedal)
     folder.mkdir(parents=True, exist_ok=True)
     sheet = []
     for name, p in piece.parts.items():
@@ -944,7 +1004,8 @@ def compose_ambient(score: dict, folder: Path) -> str:
                       "gain_db": PARTS[name][2] + gains.get(name, 0.0), "pan": p.pan,
                       "reverb": p.reverb, "tone": p.tone, "notes": len(p.notes)})
     room = score.get("room", {"rt60": 6.0, "wet": 1.0})
-    mix = {"hall": {"rt60": room["rt60"], "wet": room.get("wet", 1.0), "even": score.get("even_hall", False)},
+    mix = {"hall": {"rt60": room["rt60"], "wet": room.get("wet", 1.0), "even": score.get("even_hall", False),
+                    **({"plate": True} if room.get("plate") else {})},
            "parts": sheet,
            "master": {"tone": 0.0, "air": 0.0, "width": 0.0, "level": 0.0},
            "loudness": score.get("loudness", -16)}

@@ -211,6 +211,9 @@ INSTRUMENTS = {
     "amb-snare": ("model", "amb-snare.sfz", {"lowpass": 5000, "lowpass_order": 2, "width": 0.6}),
     "amb-timpani": ("model", "amb-timpani.sfz", {"highpass": 30, "lowpass": 2500, "lowpass_order": 2}),
     "amb-pluck": ("model", "amb-pluck.sfz", {"highpass": 70, "lowpass": 4500, "lowpass_order": 2}),
+    "amb-epiano": ("model", "amb-epiano.sfz", {"highpass": 40}),
+    "amb-air": ("model", "amb-air.sfz", {"highpass": 700, "lowpass": 7000, "lowpass_order": 2}),
+    "amb-swell": ("model", "amb-swell.sfz", {"highpass": 120, "lowpass": 6000, "lowpass_order": 2, "chorus": 0.3}),
     "amb-drop": ("model", "amb-drop.sfz", {"lowpass": 3500, "lowpass_order": 2}),
 }
 # Named styles: a piece's "style" fills in every setting it does not give itself.
@@ -300,6 +303,15 @@ STYLES = {
     # Its piano open, not low-passed: of four tried on Letter to Winter (model-dream at 4.5 kHz, open,
     # open in sixteenths; model-grand; model-bloom) the nearest the references to LAION CLAP (0.722 against
     # 0.712), none harsh.
+    # "Piano điện tử" (round x12, the user: "tiếng piano và độ vang chưa giống lắm, bài mẫu nghe cảm giác điện
+    # tử hơn"): to LAION CLAP the references are a digital / electric piano with chorus in a bright plate
+    # with a shimmer, an airy high synth and reversed swells; so the modelled electric piano (amb-epiano,
+    # chorus) with the dreamy acoustic one softly under it, a dotted-eighth ping-pong delay on the tune, an airy pad,
+    # reversed swells into each chord, a plate hall.
+    "piano-dt": {"kind": "ambient", "room": {"rt60": 4.0, "wet": 1.0, "plate": True}, "loudness": -14,
+                 "even_hall": True, "keys": "amb-epiano", "keys_layer": True,
+                 "keys_tone": {"lowpass": 7000, "lowpass_order": 2, "chorus": 0.35, "width": 1.0},
+                 "keys_echo": {"beats": 0.75, "feedback": 0.45, "mix": 0.45}, "gains": {"pad": -4.0}},
     "piano-am": {"kind": "ambient", "room": {"rt60": 5.0, "wet": 0.9}, "loudness": -14, "even_hall": True,
                  "keys_tone": {"lowpass": None}},
     # Darkwave ("toi-nhip", a dark beat): synth bass, a cold arpeggio, a soft steady beat, cold pads; a smaller

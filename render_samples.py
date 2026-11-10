@@ -216,6 +216,22 @@ def chorus(audio: np.ndarray, mix: float, rate: float = 0.5, depth: float = 0.00
     return out
 
 
+def echo(audio: np.ndarray, seconds: float, feedback: float = 0.45, mix: float = 0.4) -> np.ndarray:
+    """A ping-pong delay, as the electronic ambient pianos have: the part (its two sides summed) again
+    `seconds` later on the left, then the right, and so on, each repeat `feedback` times as loud as the
+    one before and a little darker (a 4.5 kHz lowpass each time), the first `mix` times as loud."""
+    n, d = audio.shape[1], max(1, round(seconds * RATE))
+    out = audio.copy()
+    tap = audio.mean(axis=0)
+    darker = butter(1, 4500, "low", fs=RATE, output="sos")
+    level, k = mix, 1
+    while level > 0.01 and k * d < n:
+        tap = sosfilt(darker, tap)
+        out[(k - 1) % 2, k * d:] += level * tap[: n - k * d]
+        level, k = level * feedback, k + 1
+    return out
+
+
 def hiss(audio: np.ndarray) -> float:
     """How much hiss shows when the music is quiet: the level from 4 to 16 kHz
     over the quietest tenth of the 50 ms moments where it sounds (within 50 dB
@@ -263,10 +279,14 @@ def pan(audio: np.ndarray, position: float) -> np.ndarray:
 # kept down, so it does not boom.
 HALL = np.array([(63, 1.15, -9), (125, 1.1, -4), (250, 1.05, -1), (500, 1.0, 0), (1000, 0.95, 0),
                  (2000, 0.85, -1), (4000, 0.65, -3), (8000, 0.45, -6), (16000, 0.3, -10)])
+# A plate, as the electronic ambient references have it (a mix sheet's hall "plate": true): the highs
+# ringing nearly as long as the mids and a little stronger, so the tail shines, the lows kept down.
+PLATE = np.array([(63, 0.9, -10), (125, 0.95, -6), (250, 1.0, -2), (500, 1.0, 0), (1000, 1.0, 0),
+                  (2000, 0.95, 0), (4000, 0.85, -1), (8000, 0.7, -3), (16000, 0.5, -8)])
 
 
 @lru_cache
-def hall_ir(rt60: float, seconds: float = 4.0, predelay: float = 0.025, seed: int = 1) -> np.ndarray:
+def hall_ir(rt60: float, seconds: float = 4.0, predelay: float = 0.025, seed: int = 1, plate: bool = False) -> np.ndarray:
     """Stereo impulse response of a warm hall: noise in third-octave bands, each
     dying at its own rate (HALL) and building up over 30 ms (the lows) to 80
     ms (the highs), so a note's attack does not set off a burst of hiss; no
@@ -284,7 +304,8 @@ def hall_ir(rt60: float, seconds: float = 4.0, predelay: float = 0.025, seed: in
     ir = np.zeros((2, n))
     for centre in 1000 * 2 ** (np.arange(-14, 14) / 3):  # 40 Hz to 20 kHz
         band = (freqs >= centre * 2 ** (-1 / 6)) & (freqs < centre * 2 ** (1 / 6))
-        decay, level = (np.interp(np.log2(centre), np.log2(HALL[:, 0]), HALL[:, k]) for k in (1, 2))
+        table = PLATE if plate else HALL
+        decay, level = (np.interp(np.log2(centre), np.log2(table[:, 0]), table[:, k]) for k in (1, 2))
         onset = np.interp(np.log2(centre), np.log2([250, 8000]), [0.03, 0.08]) * small
         tail = np.fft.irfft(spectrum * band, n=n, axis=-1) * np.exp(-6.91 * t / (rt60 * decay))
         tail *= 1 - np.exp(-t / onset)  # the reflections build up
@@ -295,12 +316,12 @@ def hall_ir(rt60: float, seconds: float = 4.0, predelay: float = 0.025, seed: in
 
 
 @lru_cache
-def even_hall_ir(rt60: float, seconds: float) -> np.ndarray:
+def even_hall_ir(rt60: float, seconds: float, plate: bool = False) -> np.ndarray:
     """The same hall, its right side made from its left through a chain of allpass filters (5-17 ms, flat
     in level at every frequency): as wide, but a nearly pure held tone (a drone, a singing bowl) rings
     equally loud on both sides. In hall_ir each side is its own noise, so at any one frequency the two
     differ by chance, up to 10 dB, and a lone pure tone leans to a side (a mix sheet's hall "even": true)."""
-    ir = hall_ir(rt60, seconds)
+    ir = hall_ir(rt60, seconds, plate=plate)
     right = ir[0].copy()
     for delay_ms, g in ((5.3, 0.6), (7.9, -0.6), (11.3, 0.55), (16.7, -0.5)):
         d = int(delay_ms * RATE / 1000)
@@ -398,7 +419,7 @@ def mix_folder(folder: Path, sfizz: str, libraries: dict, keep_parts: bool, prem
     rt60 = sheet["hall"]["rt60"]
     ir = hall_ir(rt60, seconds=4.0 if rt60 <= 2.8 else 1.5 * rt60)  # a longer hall rings out in full, as in the app
     if sheet["hall"].get("even"):  # pure held tones even on both sides (dark ambient)
-        ir = even_hall_ir(rt60, 4.0 if rt60 <= 2.8 else 1.5 * rt60)
+        ir = even_hall_ir(rt60, 4.0 if rt60 <= 2.8 else 1.5 * rt60, plate=bool(sheet["hall"].get("plate")))
     wet_level = sheet["hall"].get("wet", 1.0)  # every part's send into it, times this
 
     def render(entry: dict) -> np.ndarray:
@@ -414,6 +435,8 @@ def mix_folder(folder: Path, sfizz: str, libraries: dict, keep_parts: bool, prem
         audio, lean = image(apply_tone(audio, entry["tone"]), entry["tone"].get("width", 1.0))
         if entry["tone"].get("chorus"):
             audio = chorus(audio, entry["tone"]["chorus"])
+        if entry["tone"].get("echo"):  # {"seconds", "feedback", "mix"}
+            audio = echo(audio, **entry["tone"]["echo"])
         print(f"  {entry['part']}: {audio.shape[1] / RATE:.1f} s, peak {peak:.1f} dBFS, recorded "
               f"{abs(lean):.1f} dB to the {'left' if lean > 0 else 'right'}, hiss {hiss(audio):.0f} dB", flush=True)
         parts[entry["part"]] = (entry, audio)
@@ -428,7 +451,8 @@ def mix_folder(folder: Path, sfizz: str, libraries: dict, keep_parts: bool, prem
         send[:, : placed.shape[1]] += placed * entry["reverb"] * wet_level
         if not keep_parts:
             (folder / f"{name}.wav").unlink()
-    send = sosfilt(butter(2, 6000, "low", fs=RATE, output="sos"), send, axis=-1)  # no hiss into the hall
+    # no hiss into the hall; a plate (the models' clean tones) let shine to 10 kHz
+    send = sosfilt(butter(2, 10000 if sheet["hall"].get("plate") else 6000, "low", fs=RATE, output="sos"), send, axis=-1)
     wet = np.stack([fftconvolve(send[c], ir[c])[:n] for c in range(2)])
     rumble = butter(2, 30, "high", fs=RATE, output="sos")
     mixed = fade_tail(sosfilt(rumble, dry + wet, axis=-1))
