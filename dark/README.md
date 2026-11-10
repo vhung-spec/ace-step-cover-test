@@ -492,3 +492,20 @@ nền, sub; phòng 5 giây; -14 LUFS.
 | `k73-sao-roi-cham` (Sao rơi chậm) | Slow Falling Stars | Rê trưởng, 74 bpm |
 | `k74-hoi-tho-cuoi-thu` (Hơi thở cuối thu) | Last Breath of Autumn | La thứ, 70 bpm, dây trầm |
 | `k75-anh-sang-xa` (Ánh sáng xa) | Distant Light | Fa thăng thứ, 76 bpm |
+
+## Vòng X12: piano "điện tử" (kiểu `piano-dt`)
+
+Người dùng nghe X11: "tiếng piano và độ vang chưa giống lắm, bài mẫu nghe cảm giác điện tử hơn". So bằng
+LAION CLAP, bài mẫu nghiêng về piano số / piano điện, chorus, vang plate sáng có lớp ngân cao, synth cao như
+không khí, tiếng đảo ngược, tiếng vọng. Kiểu mới `piano-dt` (tất cả là tùy chọn mới, bài cũ không đổi):
+
+- `amb-epiano`: piano điện tự tổng hợp (FM hai bộ dao động như tiếng thanh kim loại của Rhodes, sáng lúc gõ
+  rồi dịu đi; không dùng bản thu nào), thêm chorus; piano mô phỏng `model-dream` lót nhẹ bên dưới
+  (`keys_layer`) cho ra tiếng "piano số".
+- Tiếng vọng qua lại hai tai (delay chấm dôi móc đơn, `keys_echo`, hiệu ứng `echo` mới trong mixer).
+- Lớp `air` (synth cao `amb-air`), lớp `swells` (nốt piano điện đảo ngược dâng lên vào mỗi hợp âm).
+- Vang plate (`"plate": true`): tiếng cao ngân gần dài bằng tiếng giữa, phòng 4 giây.
+
+Sáu bài X11 làm lại bằng bộ tiếng này, cùng bản nhạc, để so trực tiếp: `k76-thu-gui-mua-dong-dien-tu`,
+`k77-cho-anh-sang-dien-tu`, `k78-day-ho-dien-tu`, `k79-sao-roi-cham-dien-tu`, `k80-hoi-tho-cuoi-thu-dien-tu`,
+`k81-anh-sang-xa-dien-tu` (tên tiếng Anh thêm "(Electronic)").
