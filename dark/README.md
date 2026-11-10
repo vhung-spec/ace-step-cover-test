@@ -545,3 +545,10 @@ cây dây, piano nỉ, bát hát), không trống, không đàn gảy, không or
 | `k97-hoi-am-cuoi-ngay` (Hơi ấm cuối ngày) | Last Warmth of the Day | Son thăng thứ, 48 bpm, dàn dây, hộp nhạc rồi piano nỉ |
 
 Hai bài cuối (`k96`, `k97`) người dùng xin thêm "để đủ album".
+
+### Album 9: Sleep in the Dark, Vol. 4
+
+Người dùng chấm vòng X14: sáu bài thích, bốn bài tạm được, không bài nào không thích; album 9 gồm đủ mười, theo
+thứ tự: Night Rain on Leaves, Night Sea Breeze, Slow Drifting Clouds, The Milky Way, The Warm Room, Sleeping
+Pines, Fireflies, Back into the Dream, Last Warmth of the Day, Bowls under the Moon (49 phút 48 giây, -17 LUFS).
+Bìa vẽ bằng máy (rừng thông và đom đóm), file chỉ còn tên bài.
