@@ -1,0 +1,72 @@
+{
+  "title": "Mưa đêm trên lá",
+  "title_en": "Night Rain on Leaves",
+  "family": "dark-khac",
+  "about": "Round x14, the user: \"tôi thích kiểu giống album 6-7-8\" (Sleep in the Dark): sleep music as in rounds S/X10, slow (50 bpm), soft and dark, pad, drops, sub, an improvised glass tune. An original piece.",
+  "style": "ngu-ngon",
+  "bpm": 50,
+  "beats": 4,
+  "mode": "aeolian",
+  "seed": 88,
+  "sections": [
+    {
+      "bars": 8,
+      "chords": "Emadd9 | Emadd9 | Cmaj7 | Cmaj7 | Emadd9 | Emadd9 | Cmaj7 | Cmaj7",
+      "dyn": 0.18,
+      "layers": [
+        "pad",
+        "drops"
+      ],
+      "drops_per_bar": 2
+    },
+    {
+      "bars": 24,
+      "chords": "Emadd9 | Emadd9 | Cmaj7 | Cmaj7 | Am9 | Am9 | Bsus4 | Bsus4 | Emadd9 | Emadd9 | Cmaj7 | Cmaj7 | Am9 | Am9 | Bsus4 | Bsus4 | Emadd9 | Emadd9 | Cmaj7 | Cmaj7 | Am9 | Am9 | Bsus4 | Bsus4",
+      "dyn": 0.27,
+      "layers": [
+        "pad",
+        "drops",
+        "sub"
+      ],
+      "improv": "glass",
+      "improv_range": [
+        62,
+        79
+      ],
+      "drops_per_bar": 2
+    },
+    {
+      "bars": 16,
+      "chords": "Cmaj7 | Cmaj7 | Gmaj7 | Gmaj7 | Am9 | Am9 | Bsus4 | Emadd9 | Cmaj7 | Cmaj7 | Gmaj7 | Gmaj7 | Am9 | Am9 | Bsus4 | Emadd9",
+      "dyn": 0.28,
+      "layers": [
+        "pad",
+        "sub",
+        "choir"
+      ],
+      "improv": "glass",
+      "improv_range": [
+        62,
+        79
+      ],
+      "improv_density": 0.9
+    },
+    {
+      "bars": 8,
+      "chords": "Emadd9 | Emadd9 | Cmaj7 | Cmaj7 | Emadd9 | Emadd9 | Cmaj7 | Cmaj7",
+      "dyn": 0.17,
+      "layers": [
+        "pad",
+        "drops"
+      ],
+      "swell": -0.1,
+      "improv": "glass",
+      "improv_density": 0.6,
+      "improv_range": [
+        62,
+        79
+      ],
+      "drops_per_bar": 2
+    }
+  ]
+}

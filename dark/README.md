@@ -524,3 +524,20 @@ phòng 5 giây, -14 LUFS), giọng và vòng hợp âm khác:
 | `k85-gio-dau-dong` (Gió đầu đông) | First Winter Wind | Đô thứ, 68 bpm, sub rất sâu |
 | `k86-trang-tren-song` (Trăng trên sông) | Moonlight on the River | Son thứ, 70 bpm, dây và hợp xướng |
 | `k87-giac-mo-mua-ha` (Giấc mơ mùa hạ) | Summer Dream | Fa trưởng, 72 bpm, chuông lấp lánh |
+
+## Vòng X14: nhạc ngủ như album 6-8 (`ngu-ngon`)
+
+Người dùng: "tôi thích kiểu giống album 6-7-8" (Sleep in the Dark). Tám bài ngủ mới, chậm (44-52 bpm), khoảng
+4,5-5,5 phút, mỗi bài một giai điệu ngẫu hứng trên những tiếng người dùng thích (hộp nhạc, chuông thủy tinh,
+cây dây, piano nỉ, bát hát), không trống, không đàn gảy, không organ:
+
+| Bản | Tên tiếng Anh | Giọng, nhịp |
+|---|---|---|
+| `k88-mua-dem-tren-la` (Mưa đêm trên lá) | Night Rain on Leaves | Mi thứ, 50 bpm, giọt nước, chuông thủy tinh |
+| `k89-song-ngan` (Sông Ngân) | The Milky Way | Rê thứ, 48 bpm, lấp lánh, hộp nhạc |
+| `k90-gio-bien-dem` (Gió biển đêm) | Night Sea Breeze | Đô thứ, 50 bpm, sóng và gió, cây dây |
+| `k91-rung-thong-ngu` (Rừng thông ngủ) | Sleeping Pines | Son thứ, 52 bpm, dàn dây, piano nỉ |
+| `k92-may-troi-cham` (Mây trôi chậm) | Slow Drifting Clouds | Fa thứ, 46 bpm, hợp xướng, chuông thủy tinh |
+| `k93-bat-hat-duoi-trang` (Bát hát dưới trăng) | Bowls under the Moon | La thứ, 44 bpm, bát hát, hộp nhạc |
+| `k94-can-phong-am` (Căn phòng ấm) | The Warm Room | Si thứ, 50 bpm, dàn dây, hộp nhạc |
+| `k95-ve-lai-giac-mo` (Về lại giấc mơ) | Back into the Dream | Fa thăng thứ, 48 bpm, sóng, cây dây |
