@@ -541,3 +541,7 @@ cây dây, piano nỉ, bát hát), không trống, không đàn gảy, không or
 | `k93-bat-hat-duoi-trang` (Bát hát dưới trăng) | Bowls under the Moon | La thứ, 44 bpm, bát hát, hộp nhạc |
 | `k94-can-phong-am` (Căn phòng ấm) | The Warm Room | Si thứ, 50 bpm, dàn dây, hộp nhạc |
 | `k95-ve-lai-giac-mo` (Về lại giấc mơ) | Back into the Dream | Fa thăng thứ, 48 bpm, sóng, cây dây |
+| `k96-dom-dom` (Đom đóm) | Fireflies | Đô thăng thứ, 50 bpm, lấp lánh, chuông thủy tinh rồi hộp nhạc |
+| `k97-hoi-am-cuoi-ngay` (Hơi ấm cuối ngày) | Last Warmth of the Day | Son thăng thứ, 48 bpm, dàn dây, hộp nhạc rồi piano nỉ |
+
+Hai bài cuối (`k96`, `k97`) người dùng xin thêm "để đủ album".
