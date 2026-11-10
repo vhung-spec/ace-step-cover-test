@@ -467,3 +467,9 @@ gió, giọt nước, bát hát, hợp xướng), không trống, không dây g�
 | `k67-dem-bat-hat` (Đêm bát hát) | Night of Singing Bowls | Đô thăng Dorian | thủy tinh, bát hát |
 | `k68-anh-trang-tren-ho` (Ánh trăng trên hồ) | Moonlight on the Lake | Son thứ | hộp nhạc rồi thủy tinh |
 | `k69-giac-mo-hop-xuong` (Giấc mơ hợp xướng) | Choir Dream | Fa thứ | cây dây, hợp xướng |
+
+### Album 8: Sleep in the Dark, Vol. 3
+
+Người dùng thích cả tám bài vòng X10; album 8 gồm đủ tám, theo thứ tự: Snow at Night, Wind over the Moor,
+Moonlight on the Lake, Quiet Cavern, The Old Music Room, Far Lighthouse, Night of Singing Bowls, Choir Dream
+(39 phút 31 giây, -17 LUFS). Bìa vẽ bằng máy (trăng trên hồ), file chỉ còn tên bài.
