@@ -374,3 +374,27 @@ cinematic piano music" (81-100 %), "a warm, deep, dark piano" 100 %. Hai ô kế
 viola giữ nốt dưới hợp âm cuối thì 10 giây cuối nghe là "tense horror music". Đoạn viola hát trong `xuan-muon` giữ hợp âm
 thưa: chỉ một nốt trầm (`deep`) thì bớt dải trung trầm (4,7 dB thay vì 6,3) nhưng CLAP nghe "tense" nhiều hơn hẳn. Đoạn
 cello hát trong `mot-nam-cho`, như các đoạn dây hát một mình trước đây, CLAP vẫn nghe hơi "tense".
+
+## "Một năm chờ" ambient, dễ ngủ: kiểu `ke-chuyen-mo` (vòng 28)
+
+Người dùng: "tôi muốn các bài sẽ có không gian giống ambient hơn, tiếng piano mờ ảo hơn, nhạc dễ ngủ hơn". Kiểu mới
+`ke-chuyen-mo`: cùng đàn và dàn dây, phòng vang 4,8 s (thay vì 2,8), mọi thứ gửi vào nhiều hơn; piano gõ nhẹ hơn (36-58),
+rộng hơn, tiếng búa mềm (30 ms), cắt bớt phần cao (3,2 kHz), Rhodes tối hơn; dàn dây vào chậm (0,5-0,9 s) và tối hơn;
+-16 LUFS. Mới trong mã: `tones` (một kiểu đổi màu từng phần theo tên), 94 bài cũ soạn ra y hệt. Năm bài vòng 27 chuyển
+sang kiểu này: chậm hơn 12 %, `dyn` thấp hơn 15 % và không quá 0,5, hợp âm rải ở cao trào thành `sparse`, bỏ tiếng gảy và
+quãng tám.
+
+Thử trên `xuan-muon` (CLAP): phòng 4,8 s, piano cắt ở 3,2 kHz, dàn dây chỉ ở nơi bài có: "a gentle lullaby" 80 % (bản
+`ke-chuyen`: 2 %, "a nostalgic, wistful melody" 97 %), "a piano far away in a big, echoing space" 87 % (51 %). Dàn dây giữ
+nhẹ dưới mọi đoạn làm nền thì thành "a spooky, unsettling soundtrack" (50-89 %); phòng 6 s càng thế (96 %).
+
+| Bài | Nhịp (trước) | Độ dài | Cung bậc (dB theo đoạn) | "a gentle lullaby" | "ambient, dreamy piano music for sleep" |
+|---|---|---|---|---|---|
+| `mua-thang-bay` | 58 (66) | 2:34 | -25, -18, -18, -24, -23 | 97 % | 99 % |
+| `la-roi-truoc-ngo` | 63 (72) | 2:11 | -24, -19, -18, -18, -24, -24 | 93 % | 93 % |
+| `ngay-dong-khong-tuyet` | 49 (56) | 3:39 | -23, -22, -21, -17, -23, -22 | 94 % | 80 % |
+| `xuan-muon` | 67 (76) | 2:14 | -25, -18, -17, -24, -24 | 80 % | 90 % |
+| `mot-nam-cho` | 58 (66) | 3:39 | -24, -23, -21, -18, -17, -23, -23 | 79 % | 86 % |
+
+Cả năm "peaceful, soothing music for sleep" 82-99 %. Qua loa điện thoại nhỏ đi nhiều hơn (7,6-10,9 dB, trước 6,2-8,3):
+tiếng mờ và xa mất nhiều ở loa nhỏ.

@@ -307,6 +307,29 @@ STYLES = {
                   "human": {"amount": 0.8, "vary": True},
                   "gains": {"piano-layer": 2.0, "viola-end": -2.0, "cello-counter": -4.0, "violas": 2.0,
                             "cellos-pad": 2.0}},
+    # "Kể chuyện" asleep ("tôi muốn các bài sẽ có không gian giống ambient hơn, tiếng piano mờ ảo hơn, nhạc
+    # dễ ngủ hơn"): the same keyboard piano and strings in a hall nearly twice as long (4.8 s, everything sent
+    # into it more), the piano struck softer (36-58) and wider, its hammer softened (30 ms) and its top
+    # rounded off (3.2 kHz), the Rhodes under it darker; the strings swelling in slowly (0.5-0.9 s) and
+    # darker; -16 LUFS. The pieces played this way are 12 % slower and softer, their climaxes low (dyn 0.5 at
+    # most, sparse chords for rolled ones), with no plucks or octaves. Of Xuân muộn's trials, to LAION CLAP:
+    # "ambient, dreamy piano music for sleep" 90 % (as ke-chuyen, 85 %), "a piano far away in a big, echoing
+    # space" 87 % (51 %), "a gentle lullaby" 80 % (2 %; "a nostalgic, wistful melody" 97 %). The strings
+    # held softly under every section, as an ambient bed, made it "a spooky, unsettling soundtrack" (50-89 %),
+    # so they stay only where a piece's arc has them; the hall at 6 s, more so (96 %).
+    "ke-chuyen-mo": {"piano": "salamander", "bass_low": 40, "texture": "deep", "pedal_beats": 2,
+                     "room": {"rt60": 4.8, "wet": 1.0}, "piano_reverb": 0.55, "loudness": -16,
+                     "piano_tone": {"eq": [list(p) for p in EQ_KEYS], "width": 0.9, "chorus": 0.4, "attack": 0.03,
+                                    "lowpass": 3200},
+                     "melody_velocity": [36, 58], "piano_layer": "rhodes", "piano_layer_tone": {"lowpass": 3000},
+                     "ending_velocity": 30, "human": {"amount": 0.8, "vary": True},
+                     "gains": {"piano-layer": 2.0, "viola-end": -2.0, "cello-counter": -4.0},
+                     "tones": {"violas": {"attack": 0.9, "lowpass": 2500}, "cellos-pad": {"attack": 0.9, "lowpass": 2200},
+                               "basses": {"attack": 0.9}, "viola": {"attack": 0.9},
+                               "cello-counter": {"attack": 0.5, "lowpass": 2500},
+                               "cello-answer": {"attack": 0.4, "lowpass": 2500},
+                               "viola-end": {"attack": 0.6, "lowpass": 3000},
+                               "viola-tune": {"attack": 0.3}, "cello-tune": {"attack": 0.3}}},
     "dem-diu": {"piano": "model-dream", "bass_low": 40, "texture": "flow", "hold": 1.0, "pedal_beats": 2, "lh_soft": 6,
                 "melody_velocity": [38, 60], "velocity_cap": 64,
                 "room": {"rt60": 3.6, "wet": 0.85}, "piano_reverb": 0.35, "loudness": -14,
@@ -1106,7 +1129,8 @@ def compose(score: dict, folder: Path) -> str:
         library, sfz, _ = INSTRUMENTS[part.instrument]
         sheet.append({"part": name, "library": library, "sfz": sfz, "role": part.role,
                       "gain_db": ROLES[part.role] + score.get("gains", {}).get(name, 0.0), "pan": part.pan,
-                      "reverb": part.reverb, "tone": part.tone, "notes": len(part.notes)})
+                      "reverb": part.reverb, "tone": part.tone | score.get("tones", {}).get(name, {}),
+                      "notes": len(part.notes)})
     room = score.get("room", {"rt60": 1.2})
     mix = {"hall": {"rt60": room["rt60"], "wet": room.get("wet", 1.0)}, "parts": sheet,
            "master": {"tone": 0.0, "air": 0.0, "width": 0.0, "level": 0.0}}

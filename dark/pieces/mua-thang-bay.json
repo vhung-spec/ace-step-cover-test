@@ -1,15 +1,15 @@
 {
   "title": "Mưa tháng Bảy",
-  "about": "Round 27, ke-chuyen (\"hãy tiếp tục sáng tác\"), the first of a new album, a year of waiting told season by season: E-flat minor at 66 bpm, summer rain. Its motif falls in thirds in quick drops (Bb-Gb, Ab-F) onto a held note, and the sentence answers it a step lower each time; Abm6 for its colour. The arc: the piano alone; then its left hand starts to move, rocking in eighths like the rain setting in (texture flow), the cellos' slow second line under the drops sung a third lower; the climax in G-flat major with the strings and the piano's rolled chords, the drops turned upward; the piano again with the violas at the sentences' ends; the last drops over the cellos plucking. An original tune.",
-  "style": "ke-chuyen",
-  "bpm": 66,
+  "about": "Round 27, ke-chuyen (\"hãy tiếp tục sáng tác\"), the first of a new album, a year of waiting told season by season: E-flat minor at 66 bpm, summer rain. Its motif falls in thirds in quick drops (Bb-Gb, Ab-F) onto a held note, and the sentence answers it a step lower each time; Abm6 for its colour. The arc: the piano alone; then its left hand starts to move, rocking in eighths like the rain setting in (texture flow), the cellos' slow second line under the drops sung a third lower; the climax in G-flat major with the strings and the piano's rolled chords, the drops turned upward; the piano again with the violas at the sentences' ends; the last drops over the cellos plucking. An original tune. Round 28 (\"tôi muốn các bài sẽ có không gian giống ambient hơn, tiếng piano mờ ảo hơn, nhạc dễ ngủ hơn\"): on ke-chuyen-mo, a hall nearly twice as long, the piano softer and hazier, 58 bpm (was 66), every section softer and the climax low, sparse chords for the rolled ones, the plucked cellos and the octaves left out.",
+  "style": "ke-chuyen-mo",
+  "bpm": 58,
   "beats": 4,
   "sections": [
     {
       "bars": 8,
       "chords": "Ebm | Cb | Abm6 | Bb7 | Ebm | Gb | Abm7 | Bb7",
       "melody": "Bb5:0.5 Gb5:0.5 Ab5:0.5 F5:0.5 Gb5:2 | Eb5:3 r:1 | Ab5:0.5 F5:0.5 Gb5:0.5 Eb5:0.5 F5:2 | D5:3 r:1 | Bb5:0.5 Gb5:0.5 Ab5:0.5 F5:0.5 Gb5:2 | Bb5:1.5 Ab5:0.5 Gb5:1 Db6:1 | Cb6:1 Bb5:1 Ab5:1 Gb5:1 | F5:3 r:1",
-      "dyn": 0.3,
+      "dyn": 0.26,
       "layers": []
     },
     {
@@ -17,7 +17,7 @@
       "chords": "Ebm | Cb | Abm6 | Bb7 | Cb | Gb/Bb | Abm7 | Bb7sus4:2 Bb7:2",
       "melody": "Bb5:0.5 Gb5:0.5 Ab5:0.5 F5:0.5 Gb5:2 | Eb5:3 r:1 | Ab5:0.5 F5:0.5 Gb5:0.5 Eb5:0.5 F5:2 | D5:3 r:1 | Gb5:0.5 Eb5:0.5 F5:0.5 Db5:0.5 Eb5:2 | Db5:1.5 Eb5:0.5 Gb5:1 Bb5:1 | Cb6:1.5 Bb5:0.5 Ab5:1 Eb5:1 | Eb5:2 D5:1 r:1",
       "texture": "flow",
-      "dyn": 0.42,
+      "dyn": 0.36,
       "layers": [
         "cello-counter"
       ]
@@ -26,8 +26,8 @@
       "bars": 8,
       "chords": "Gb | Db/F | Ebm7 | Bbm | Cb | Gb/Bb | Abm7:2 Bb7:2 | Bb7",
       "melody": "Gb5:0.5 Bb5:0.5 Ab5:0.5 Db6:0.5 Bb5:2 | Ab5:3 r:1 | Gb5:0.5 Bb5:0.5 Ab5:0.5 Eb6:0.5 Db6:2 | Bb5:3 r:1 | Eb6:1.5 Db6:0.5 Cb6:1 Gb5:1 | Db6:2 Bb5:1 Gb5:1 | Cb6:1 Eb6:1 D6:1 Bb5:1 | Ab5+D6:4",
-      "texture": "blocks",
-      "dyn": 0.7,
+      "texture": "sparse",
+      "dyn": 0.5,
       "layers": [
         "strings",
         "cello-counter"
@@ -37,7 +37,7 @@
       "bars": 8,
       "chords": "Ebm | Cb | Abm6 | Bb7 | Ebm | Cb | Abm6:2 Bb7:2 | Ebm",
       "melody": "Bb5:0.5 Gb5:0.5 Ab5:0.5 F5:0.5 Gb5:2 | Eb5:3 r:1 | Ab5:0.5 F5:0.5 Gb5:0.5 Eb5:0.5 F5:2 | D5:3 r:1 | Bb5:0.5 Gb5:0.5 Ab5:0.5 F5:0.5 Gb5:2 | Eb5:2 Gb5:1 Eb5:1 | F5:1 Cb5:1 D5:1 Bb4:1 | Eb5:4",
-      "dyn": 0.3,
+      "dyn": 0.26,
       "rit": true,
       "layers": [
         "viola-end"
@@ -47,10 +47,8 @@
       "bars": 2,
       "chords": "Cb | Ebm",
       "melody": "Gb5:0.5 Eb5:0.5 F5:0.5 Db5:0.5 Eb5:2 | Bb4:4",
-      "dyn": 0.2,
-      "layers": [
-        "cello-pizz"
-      ]
+      "dyn": 0.17,
+      "layers": []
     }
   ]
 }
