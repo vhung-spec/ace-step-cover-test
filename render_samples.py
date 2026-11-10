@@ -216,6 +216,29 @@ def chorus(audio: np.ndarray, mix: float, rate: float = 0.5, depth: float = 0.00
     return out
 
 
+def echo(audio: np.ndarray, seconds: float, feedback: float = 0.35, mix: float = 0.22, lowpass: float = 2500.0,
+         floor_db: float = -50.0) -> np.ndarray:
+    """A soft echo, as ambient pianists play through one: the part (its two
+    sides summed) heard again every `seconds`, the first time `mix` times as
+    loud, each time after `feedback` times the one before and darker (low-passed
+    again at `lowpass`), on alternate sides (a third of it on the other), until
+    it is `floor_db` under the part; the part is lengthened to hold the last."""
+    step = int(round(seconds * RATE))
+    count = max(1, int(np.ceil(np.log(10 ** (floor_db / 20) / mix) / np.log(feedback))) + 1)
+    n = audio.shape[1]
+    out = np.zeros((2, n + count * step))
+    out[:, :n] = audio
+    darker = butter(1, lowpass, "low", fs=RATE, output="sos")
+    tap, gain = audio.mean(axis=0), mix
+    for k in range(1, count + 1):
+        tap = sosfilt(darker, tap)
+        side = k % 2  # the first on the right, then the left, ...
+        out[side, k * step: k * step + n] += gain * tap
+        out[1 - side, k * step: k * step + n] += gain / 3 * tap
+        gain *= feedback
+    return out
+
+
 def hiss(audio: np.ndarray) -> float:
     """How much hiss shows when the music is quiet: the level from 4 to 16 kHz
     over the quietest tenth of the 50 ms moments where it sounds (within 50 dB
@@ -396,6 +419,8 @@ def mix_folder(folder: Path, sfizz: str, libraries: dict, keep_parts: bool, prem
         audio, lean = image(apply_tone(audio, entry["tone"]), entry["tone"].get("width", 1.0))
         if entry["tone"].get("chorus"):
             audio = chorus(audio, entry["tone"]["chorus"])
+        if entry["tone"].get("echo"):
+            audio = echo(audio, **entry["tone"]["echo"])
         print(f"  {entry['part']}: {audio.shape[1] / RATE:.1f} s, peak {peak:.1f} dBFS, recorded "
               f"{abs(lean):.1f} dB to the {'left' if lean > 0 else 'right'}, hiss {hiss(audio):.0f} dB", flush=True)
         parts[entry["part"]] = (entry, audio)

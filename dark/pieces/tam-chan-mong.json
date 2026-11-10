@@ -1,7 +1,7 @@
 {
   "title": "Tấm chăn mỏng",
-  "about": "Round 30, (\"tôi thích nhất là âm thanh bản R1, hãy sáng tạo thêm, tiếng piano và âm thanh ambient có thể thay đổi linh hoạt theo đề xuất của bạn, tôi muốn nhạc nghe dễ ngủ\"): a thin blanket on a cool night, E minor in 3/4 at 62 bpm, the warmest of the set: the Rhodes 4 dB more under the piano than in R1, a little more chorus. Its motif steps down to the tonic and rests a whole bar on the fifth (G-F#-E, B), then climbs back three steps (C-D-E); the middle in G major reaches C6. Written to be easy to sleep to: its tune moves mostly by step within about an octave and a half, low, its sentences come back with small changes, the left hand rocks in eighths (texture flow) through most of it, no chord is struck hard and the climax stays low. An original tune.",
-  "style": "ke-chuyen-relax",
+  "about": "Round 30, (\"tôi thích nhất là âm thanh bản R1, hãy sáng tạo thêm, tiếng piano và âm thanh ambient có thể thay đổi linh hoạt theo đề xuất của bạn, tôi muốn nhạc nghe dễ ngủ\"): a thin blanket on a cool night, E minor in 3/4 at 62 bpm, the warmest of the set: the Rhodes 4 dB more under the piano than in R1, a little more chorus. Its motif steps down to the tonic and rests a whole bar on the fifth (G-F#-E, B), then climbs back three steps (C-D-E); the middle in G major reaches C6. Written to be easy to sleep to: its tune moves mostly by step within about an octave and a half, low, its sentences come back with small changes, the left hand rocks in eighths (texture flow) through most of it, no chord is struck hard and the climax stays low. An original tune. Round 31 (\"tôi muốn nhạc ambient hơn, tiếng piano mờ ảo hơn\"): on ke-chuyen-mong, the piano a little further and hazier and through a soft echo, still with more of the Rhodes (4 dB).",
+  "style": "ke-chuyen-mong",
   "bpm": 62,
   "beats": 3,
   "piano_tone": {
@@ -47,13 +47,14 @@
         -18
       ]
     ],
-    "eq_amount": 0.6,
-    "width": 0.8,
-    "chorus": 0.25,
-    "attack": 0.015
+    "eq_amount": 0.75,
+    "width": 0.9,
+    "chorus": 0.3,
+    "attack": 0.025,
+    "lowpass": 4500
   },
   "gains": {
-    "piano-layer": 0.0,
+    "piano-layer": 2.0,
     "viola-end": -2.0,
     "cello-counter": -4.0
   },

@@ -442,3 +442,16 @@ như R1, viola mỏng ở đoạn giữa.
 CLAP (R1: "relaxing piano music" 0,550, "a soft, warm, clear piano" 0,646, "a piano recorded up close" 0,427): cả năm
 "relaxing piano music" 100 %, "a soft, warm, clear piano" 0,60-0,63, "up close" 0,42-0,44; `pho-ngu` nghe là "a gentle
 lullaby" (71 %), các bài khác "a nostalgic, wistful melody" trước "a gentle lullaby".
+
+## Mờ ảo hơn, có tiếng vọng: `ke-chuyen-mong`, cả mười bài (vòng 31)
+
+Người dùng: "tôi muốn nhạc ambient hơn, tiếng piano mờ ảo hơn". Mới trong mã: `render_samples.echo` (một tiếng vọng nhẹ:
+phần đó, gộp hai bên, nghe lại sau mỗi `seconds`, lần đầu 0,28, mỗi lần sau 0,42 lần trước và tối hơn, lần lượt trái phải)
+và khoá `piano_echo` của `compose.py` (thời gian theo phách, ở nhịp của bài). Kiểu `ke-chuyen-mong`: giữa `ke-chuyen-mo` và
+`ke-chuyen-relax` (piano gửi 0,4, `EQ_KEYS` 0,75, cắt 4,5 kHz, chorus 0,3, búa 25 ms, Rhodes -2) và tiếng vọng một phách.
+Bốn bản thử trên `mua-thang-bay`: không tiếng vọng / tiếng vọng nửa phách rưỡi / R1 với tiếng vọng / tiếng vọng một phách
+mạnh hơn; bản cuối "ambient, dreamy piano music for sleep" 0,551 và "a gentle lullaby" 95 % (R1: 22 %), "up close" giữ
+nguyên (0,431). Cả mười bài sang kiểu này; `suong-khuya` vẫn kiểu felt, `tam-chan-mong` vẫn thêm Rhodes; `pho-ngu` bỏ tiếng
+đàn xa hơn của nó (piano gửi 0,48 thì "dark, scary ambient music" 30 %, theo kiểu 17 %); `dem-ram` đoạn hai dùng
+`cello-counter` thay `cello-answer` (20 % thành 11 %). Mười bài: "ambient, dreamy piano music for sleep" đứng đầu
+(69-100 %), "a gentle lullaby" đứng đầu (67-96 %), "relaxing piano music" 97-100 %. 89 bài khác soạn ra y hệt.

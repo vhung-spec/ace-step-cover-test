@@ -1,7 +1,7 @@
 {
   "title": "Đêm rằm",
-  "about": "Round 30, ke-chuyen-relax (\"tôi thích nhất là âm thanh bản R1, hãy sáng tạo thêm, tiếng piano và âm thanh ambient có thể thay đổi linh hoạt theo đề xuất của bạn, tôi muốn nhạc nghe dễ ngủ\"), for the album of a year's waiting: a full-moon night, a lullaby in A minor in 3/4 at 60 bpm, on the sound the user liked best (R1: ke-chuyen-relax as it is). Its motif rocks down a third and a step (E-C, D-B), as a cradle does, and each sentence ends on a note held a whole bar, which the cellos answer from afar in the second section. The middle in C major (F, C/E, Dm, G) rises once to A5. Written to be easy to sleep to: its tune moves mostly by step within about an octave and a half, low, its sentences come back with small changes, the left hand rocks in eighths (texture flow) through most of it, no chord is struck hard and the climax stays low. An original tune.",
-  "style": "ke-chuyen-relax",
+  "about": "Round 30, ke-chuyen-relax (\"tôi thích nhất là âm thanh bản R1, hãy sáng tạo thêm, tiếng piano và âm thanh ambient có thể thay đổi linh hoạt theo đề xuất của bạn, tôi muốn nhạc nghe dễ ngủ\"), for the album of a year's waiting: a full-moon night, a lullaby in A minor in 3/4 at 60 bpm, on the sound the user liked best (R1: ke-chuyen-relax as it is). Its motif rocks down a third and a step (E-C, D-B), as a cradle does, and each sentence ends on a note held a whole bar. The middle in C major (F, C/E, Dm, G) rises once to A5. Written to be easy to sleep to: its tune moves mostly by step within about an octave and a half, low, its sentences come back with small changes, the left hand rocks in eighths (texture flow) through most of it, no chord is struck hard and the climax stays low. An original tune. Round 31 (\"tôi muốn nhạc ambient hơn, tiếng piano mờ ảo hơn\"): on ke-chuyen-mong, the piano a little further and hazier and through a soft echo. The cellos' slow second line in the second section, not their answers (CLAP: \"dark, scary ambient music\" 11 %, with the answers 20 %).",
+  "style": "ke-chuyen-mong",
   "bpm": 60,
   "beats": 3,
   "sections": [
@@ -19,7 +19,7 @@
       "texture": "flow",
       "dyn": 0.34,
       "layers": [
-        "cello-answer"
+        "cello-counter"
       ]
     },
     {

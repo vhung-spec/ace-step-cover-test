@@ -1,58 +1,9 @@
 {
   "title": "Phố ngủ",
-  "about": "Round 30, (\"tôi thích nhất là âm thanh bản R1, hãy sáng tạo thêm, tiếng piano và âm thanh ambient có thể thay đổi linh hoạt theo đề xuất của bạn, tôi muốn nhạc nghe dễ ngủ\"): the street asleep, B minor at 54 bpm, the slowest of the set. The piano a little further off than R1 (more of it into the hall, 0.35, a wider chorus), dreamier. Its motif steps down the chord a bar at a time (F#-D-B, D-B-G, G-E-B), as lights go out one by one; the middle in D major. Written to be easy to sleep to: its tune moves mostly by step within about an octave and a half, low, its sentences come back with small changes, the left hand rocks in eighths (texture flow) through most of it, no chord is struck hard and the climax stays low. An original tune.",
-  "style": "ke-chuyen-relax",
+  "about": "Round 30, (\"tôi thích nhất là âm thanh bản R1, hãy sáng tạo thêm, tiếng piano và âm thanh ambient có thể thay đổi linh hoạt theo đề xuất của bạn, tôi muốn nhạc nghe dễ ngủ\"): the street asleep, B minor at 54 bpm, the slowest of the set. Its motif steps down the chord a bar at a time (F#-D-B, D-B-G, G-E-B), as lights go out one by one; the middle in D major. Written to be easy to sleep to: its tune moves mostly by step within about an octave and a half, low, its sentences come back with small changes, the left hand rocks in eighths (texture flow) through most of it, no chord is struck hard and the climax stays low. An original tune. Round 31 (\"tôi muốn nhạc ambient hơn, tiếng piano mờ ảo hơn\"): on ke-chuyen-mong, the piano a little further and hazier and through a soft echo; its own farther piano left behind (0.48 into the hall made it \"dark, scary ambient music\" 30 % to LAION CLAP, on the style's own 17 %).",
+  "style": "ke-chuyen-mong",
   "bpm": 54,
   "beats": 4,
-  "piano_reverb": 0.35,
-  "piano_tone": {
-    "eq": [
-      [
-        80,
-        2
-      ],
-      [
-        150,
-        3
-      ],
-      [
-        250,
-        2.5
-      ],
-      [
-        400,
-        1
-      ],
-      [
-        700,
-        0
-      ],
-      [
-        1200,
-        -2
-      ],
-      [
-        2000,
-        -6
-      ],
-      [
-        3000,
-        -10
-      ],
-      [
-        5000,
-        -14
-      ],
-      [
-        8000,
-        -18
-      ]
-    ],
-    "eq_amount": 0.6,
-    "width": 0.9,
-    "chorus": 0.25,
-    "attack": 0.015
-  },
   "sections": [
     {
       "bars": 8,

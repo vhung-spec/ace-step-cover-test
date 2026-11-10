@@ -346,6 +346,20 @@ STYLES["ke-chuyen-relax"] = STYLES["ke-chuyen-mo"] | {
     "piano_tone": {"eq": [list(p) for p in EQ_KEYS], "eq_amount": 0.6, "width": 0.8, "chorus": 0.15, "attack": 0.015},
     "gains": STYLES["ke-chuyen-mo"]["gains"] | {"piano-layer": -4.0}}
 
+# Dreamier ("tôi muốn nhạc ambient hơn, tiếng piano mờ ảo hơn"), between ke-chuyen-mo and ke-chuyen-relax: the
+# piano sending 0.4 into the hall, darkened at 0.75 and rounded off at 4.5 kHz, a wider chorus (0.3), a softer
+# strike (25 ms), the Rhodes 2 dB more than in ke-chuyen-relax, and a soft echo (render_samples.echo): a beat
+# later, 0.28 as loud, each repeat 0.42 of the one before and darker (2.2 kHz), side to side. Of Mưa tháng Bảy's
+# trials, to LAION CLAP: "ambient, dreamy piano music for sleep" first (0.551; as ke-chuyen-relax "sad,
+# emotional, cinematic piano music" first, 0.590), "a gentle lullaby" 95 % (22 %), "a piano recorded up
+# close" 0.431 (0.427), "a spooky, unsettling soundtrack" 2 % (0 %).
+STYLES["ke-chuyen-mong"] = STYLES["ke-chuyen-relax"] | {
+    "piano_reverb": 0.4,
+    "piano_tone": {"eq": [list(p) for p in EQ_KEYS], "eq_amount": 0.75, "width": 0.9, "chorus": 0.3, "attack": 0.025,
+                   "lowpass": 4500},
+    "piano_echo": {"beats": 1.0, "feedback": 0.42, "mix": 0.28, "lowpass": 2200},
+    "gains": STYLES["ke-chuyen-relax"]["gains"] | {"piano-layer": -2.0}}
+
 # How loud each part sits against the piano (dB while it plays).
 ROLES = {"piano": 0.0, "bass": -9.0, "melody2": -6.0, "pad": -12.0, "low": -13.0, "drone": -15.0}
 
@@ -1129,10 +1143,15 @@ def compose(score: dict, folder: Path) -> str:
     left_hand(piece, piano)
     layers(piece)
     ending(piece, piano)
+    if score.get("piano_echo"):  # the piano through a soft echo: its time in beats, at the piece's tempo
+        settings = dict(score["piano_echo"])
+        piano.tone["echo"] = {"seconds": round(settings.pop("beats") * 60 / piece.bpm, 4)} | settings
     if score.get("piano_layer"):  # a second keyboard doubling every note the piano plays, as a keyboard's layered sound
         double = piece.part("piano-layer", score["piano_layer"], "melody2", 0.0, reverb=score.get("piano_reverb", 0.35))
         double.notes, double.pedal, double.cap = list(piano.notes), list(piano.pedal), piano.cap
         double.tone.update(score.get("piano_layer_tone", {}))
+        if "echo" in piano.tone:
+            double.tone["echo"] = piano.tone["echo"]
     folder.mkdir(parents=True, exist_ok=True)
     sheet = []
     for name, part in piece.parts.items():
