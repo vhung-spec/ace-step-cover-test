@@ -398,3 +398,24 @@ nhẹ dưới mọi đoạn làm nền thì thành "a spooky, unsettling soundtr
 
 Cả năm "peaceful, soothing music for sleep" 82-99 %. Qua loa điện thoại nhỏ đi nhiều hơn (7,6-10,9 dB, trước 6,2-8,3):
 tiếng mờ và xa mất nhiều ở loa nhỏ.
+
+## Piano gần tai, kiểu piano relax: `ke-chuyen-relax` (vòng 29)
+
+Người dùng: "tôi thấy không gian ambient đã ổn nhưng muốn tiếng piano gần tai hơn, độ vang và tiếng giống tiếng piano relax
+hơn". Kiểu `ke-chuyen-relax` = `ke-chuyen-mo` với: piano gửi vào phòng vang 0,25 (thay vì 0,55; phòng 4,8 s giữ nguyên cho
+dàn dây), `EQ_KEYS` ở 0,6, bỏ cắt 3,2 kHz, chorus 0,15 (0,4), tiếng búa 15 ms (30), rộng 0,8 (0,9), Rhodes thấp hơn 6 dB.
+Bốn bản thử trên `xuan-muon` (piano gửi 0,3/0,3/0,25/0,2; Rhodes +2/-4/-4/-8; `EQ_KEYS` 1/1/0,6/0,6): bản thứ ba gần
+"relaxing piano music" nhất (0,552; bản ambient 0,424) và "a soft, warm, clear piano" (0,622; 0,509); bản thứ tư (Rhodes
+-8, vang 0,2) không hơn.
+
+| Bài | "relaxing piano music" | "a soft, warm, clear piano" | "a piano recorded up close" | Cung bậc (dB theo đoạn) | Loa điện thoại |
+|---|---|---|---|---|---|
+| `mua-thang-bay` | 0,550 | 0,646 | 0,427 | -25, -19, -18, -24, -21 | -6,8 dB |
+| `la-roi-truoc-ngo` | 0,556 | 0,632 | 0,412 | -25, -19, -18, -17, -24, -22 | -8,7 dB |
+| `ngay-dong-khong-tuyet` | 0,538 | 0,632 | 0,416 | -24, -22, -20, -17, -24, -23 | -7,1 dB |
+| `xuan-muon` | 0,552 | 0,622 | 0,413 | -25, -18, -17, -23, -23 | -9,0 dB |
+| `mot-nam-cho` | 0,557 | 0,623 | 0,404 | -24, -22, -20, -17, -17, -24, -23 | -8,0 dB |
+
+Cả năm "relaxing piano music" 100 % trước "ambient synth music"; giờ "melancholic, sad piano music" đứng trước "peaceful,
+soothing music for sleep" (dù điểm "peaceful" không thấp hơn bản ambient: 0,48-0,51 với 0,46-0,50). 89 bài khác
+soạn ra y hệt.

@@ -335,6 +335,17 @@ STYLES = {
                 "room": {"rt60": 3.6, "wet": 0.85}, "piano_reverb": 0.35, "loudness": -14,
                 "piano_tone": {"attack": 0.045, "width": 0.85}, "human": {"amount": 1.0, "vary": True}},
 }
+# The same, the piano nearer ("tôi thấy không gian ambient đã ổn nhưng muốn tiếng piano gần tai hơn, độ vang và
+# tiếng giống tiếng piano relax hơn"): the hall as it is, but the piano sending half as much into it (0.25),
+# its tone less darkened (EQ_KEYS at 0.6), no longer rounded off, a lighter chorus, its strike nearly as recorded
+# (15 ms), the Rhodes 6 dB further under it. Of Xuân muộn's trials, to LAION CLAP: "relaxing piano music"
+# 0.552 (as ke-chuyen-mo, 0.424), "a soft, warm, clear piano" 0.622 (0.509), "a piano recorded up close" 0.413
+# (0.388); "peaceful, soothing music for sleep" 0.508 (0.498), now behind "melancholic, sad piano music".
+STYLES["ke-chuyen-relax"] = STYLES["ke-chuyen-mo"] | {
+    "piano_reverb": 0.25,
+    "piano_tone": {"eq": [list(p) for p in EQ_KEYS], "eq_amount": 0.6, "width": 0.8, "chorus": 0.15, "attack": 0.015},
+    "gains": STYLES["ke-chuyen-mo"]["gains"] | {"piano-layer": -4.0}}
+
 # How loud each part sits against the piano (dB while it plays).
 ROLES = {"piano": 0.0, "bass": -9.0, "melody2": -6.0, "pad": -12.0, "low": -13.0, "drone": -15.0}
 
