@@ -1,0 +1,80 @@
+{
+  "title": "Giấc mơ tổng hợp",
+  "title_en": "Synthetic Dream",
+  "family": "dark-khac",
+  "about": "Round x15 (album 10), the user: \"hãy sáng tác album thứ 10, hãy thử phong cách âm thanh điện tử hơn, vẫn là nhạc ambient phù hợp ngủ\": electronic sleep ambient (style ngu-dt), slow (50 bpm), pad, pianoarp, air, sub, choir, an improvised glass tune with a long echo. No drums. An original piece.",
+  "style": "ngu-dt",
+  "bpm": 50,
+  "beats": 4,
+  "mode": "aeolian",
+  "seed": 106,
+  "gains": {
+    "arp": -6.0,
+    "air": -4.0
+  },
+  "sections": [
+    {
+      "bars": 8,
+      "chords": "Fmadd9 | Fmadd9 | Dbmaj7 | Dbmaj7 | Fmadd9 | Fmadd9 | Dbmaj7 | Dbmaj7",
+      "dyn": 0.18,
+      "layers": [
+        "pad",
+        "pianoarp"
+      ],
+      "arp_quarters": true
+    },
+    {
+      "bars": 24,
+      "chords": "Fmadd9 | Fmadd9 | Dbmaj7 | Dbmaj7 | Bbm9 | Bbm9 | Csus4 | Csus4 | Fmadd9 | Fmadd9 | Dbmaj7 | Dbmaj7 | Bbm9 | Bbm9 | Csus4 | Csus4 | Fmadd9 | Fmadd9 | Dbmaj7 | Dbmaj7 | Bbm9 | Bbm9 | Csus4 | Csus4",
+      "dyn": 0.27,
+      "layers": [
+        "pad",
+        "pianoarp",
+        "air",
+        "sub"
+      ],
+      "arp_quarters": true,
+      "improv": "glass",
+      "improv_range": [
+        62,
+        79
+      ]
+    },
+    {
+      "bars": 16,
+      "chords": "Dbmaj7 | Dbmaj7 | Abmaj7 | Abmaj7 | Bbm9 | Bbm9 | Csus4 | Fmadd9 | Dbmaj7 | Dbmaj7 | Abmaj7 | Abmaj7 | Bbm9 | Bbm9 | Csus4 | Fmadd9",
+      "dyn": 0.28,
+      "layers": [
+        "pad",
+        "pianoarp",
+        "air",
+        "sub",
+        "choir"
+      ],
+      "arp_quarters": true,
+      "improv": "keys",
+      "improv_range": [
+        60,
+        77
+      ],
+      "improv_density": 0.8
+    },
+    {
+      "bars": 8,
+      "chords": "Fmadd9 | Fmadd9 | Dbmaj7 | Dbmaj7 | Fmadd9 | Fmadd9 | Dbmaj7 | Dbmaj7",
+      "dyn": 0.17,
+      "layers": [
+        "pad",
+        "pianoarp"
+      ],
+      "arp_quarters": true,
+      "improv": "glass",
+      "improv_range": [
+        62,
+        79
+      ],
+      "improv_density": 0.5,
+      "swell": -0.1
+    }
+  ]
+}

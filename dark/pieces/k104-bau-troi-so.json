@@ -1,0 +1,78 @@
+{
+  "title": "Bầu trời số",
+  "title_en": "Digital Sky",
+  "family": "dark-khac",
+  "about": "Round x15 (album 10), the user: \"hãy sáng tác album thứ 10, hãy thử phong cách âm thanh điện tử hơn, vẫn là nhạc ambient phù hợp ngủ\": electronic sleep ambient (style ngu-dt), slow (48 bpm), pad, air, shimmer, sub, an improvised keys tune with a long echo. No drums. An original piece.",
+  "style": "ngu-dt",
+  "bpm": 48,
+  "beats": 4,
+  "mode": "aeolian",
+  "seed": 104,
+  "gains": {
+    "arp": -6.0,
+    "air": -4.0
+  },
+  "sections": [
+    {
+      "bars": 8,
+      "chords": "Gmadd9 | Gmadd9 | Ebmaj7 | Ebmaj7 | Gmadd9 | Gmadd9 | Ebmaj7 | Ebmaj7",
+      "dyn": 0.18,
+      "layers": [
+        "pad",
+        "air",
+        "shimmer"
+      ]
+    },
+    {
+      "bars": 24,
+      "chords": "Gmadd9 | Gmadd9 | Ebmaj7 | Ebmaj7 | Cm9 | Cm9 | Dsus4 | Dsus4 | Gmadd9 | Gmadd9 | Ebmaj7 | Ebmaj7 | Cm9 | Cm9 | Dsus4 | Dsus4 | Gmadd9 | Gmadd9 | Ebmaj7 | Ebmaj7 | Cm9 | Cm9 | Dsus4 | Dsus4",
+      "dyn": 0.27,
+      "layers": [
+        "pad",
+        "air",
+        "shimmer",
+        "sub"
+      ],
+      "improv": "keys",
+      "improv_range": [
+        60,
+        77
+      ],
+      "improv_density": 0.8
+    },
+    {
+      "bars": 16,
+      "chords": "Ebmaj7 | Ebmaj7 | Bbmaj7 | Bbmaj7 | Cm9 | Cm9 | Dsus4 | Gmadd9 | Ebmaj7 | Ebmaj7 | Bbmaj7 | Bbmaj7 | Cm9 | Cm9 | Dsus4 | Gmadd9",
+      "dyn": 0.28,
+      "layers": [
+        "pad",
+        "air",
+        "sub",
+        "shimmer"
+      ],
+      "improv": "keys",
+      "improv_range": [
+        60,
+        77
+      ],
+      "improv_density": 0.8
+    },
+    {
+      "bars": 8,
+      "chords": "Gmadd9 | Gmadd9 | Ebmaj7 | Ebmaj7 | Gmadd9 | Gmadd9 | Ebmaj7 | Ebmaj7",
+      "dyn": 0.17,
+      "layers": [
+        "pad",
+        "air",
+        "shimmer"
+      ],
+      "improv": "keys",
+      "improv_range": [
+        60,
+        77
+      ],
+      "improv_density": 0.5,
+      "swell": -0.1
+    }
+  ]
+}
