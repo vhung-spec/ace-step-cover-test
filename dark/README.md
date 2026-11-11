@@ -552,3 +552,25 @@ Người dùng chấm vòng X14: sáu bài thích, bốn bài tạm được, kh
 thứ tự: Night Rain on Leaves, Night Sea Breeze, Slow Drifting Clouds, The Milky Way, The Warm Room, Sleeping
 Pines, Fireflies, Back into the Dream, Last Warmth of the Day, Bowls under the Moon (49 phút 48 giây, -17 LUFS).
 Bìa vẽ bằng máy (rừng thông và đom đóm), file chỉ còn tên bài.
+
+## Vòng X15: album 10, nhạc ngủ điện tử (kiểu `ngu-dt`)
+
+Người dùng: "hãy sáng tác album thứ 10, hãy thử phong cách âm thanh điện tử hơn, vẫn là nhạc ambient phù hợp
+ngủ". Kiểu mới `ngu-dt`: khung nhạc ngủ (chậm, êm, -17 LUFS, không trống) với bộ tiếng điện tử của vòng X12 làm
+dịu lại: piano điện tự tạo tối và khẽ (lọc 3,2 kHz) hát giai điệu ngẫu hứng, tiếng vọng qua lại dài (1,5 phách);
+chuỗi nốt synth chậm (`arp`, lọc 1,8 kHz, có tiếng vọng); lớp synth cao `air` rất nhỏ; tiếng đảo ngược
+`swells`; vang plate 6,5 giây. Tùy chọn mới `tones` (giọng riêng cho từng lớp, có `echo_beats`). Bản đầu đo thấy
+sáng hơn các album ngủ trước, nên lớp `air` hạ xuống -10 dB, `swells` -3 dB.
+
+| Bản | Tên tiếng Anh | Giọng, nhịp |
+|---|---|---|
+| `k98-tin-hieu-sao-xa` (Tín hiệu sao xa) | Distant Star Signal | Mi thứ, 50 bpm |
+| `k99-thanh-pho-ngu` (Thành phố ngủ) | Sleeping City | La thứ, 52 bpm |
+| `k100-quy-dao-cham` (Quỹ đạo chậm) | Slow Orbit | Rê thứ, 48 bpm |
+| `k101-neon-duoi-mua` (Đèn neon dưới mưa) | Neon in the Rain | Đô thứ, 50 bpm |
+| `k102-tram-vu-tru-ngu` (Trạm vũ trụ ngủ) | Sleeping Space Station | Fa thăng thứ, 46 bpm |
+| `k103-song-radio-dem` (Sóng radio đêm) | Night Radio Waves | Si thứ, 50 bpm |
+| `k104-bau-troi-so` (Bầu trời số) | Digital Sky | Son thứ, 48 bpm |
+| `k105-bien-sao-dien-tu` (Biển sao điện tử) | Electric Sea of Stars | Đô thăng thứ, 50 bpm |
+| `k106-giac-mo-tong-hop` (Giấc mơ tổng hợp) | Synthetic Dream | Fa thứ, 50 bpm |
+| `k107-tat-den` (Tắt đèn) | Lights Out | Rê thứ, 44 bpm |
