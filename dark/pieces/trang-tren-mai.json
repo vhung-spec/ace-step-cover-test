@@ -1,0 +1,62 @@
+{
+  "title": "Trăng trên mái",
+  "about": "Round 33, ke-chuyen-gan (\"hãy tiếp tục sáng tác album mới, theo phong cách ambient và dễ ngủ\"), for a new album, Những giấc mơ nhỏ: the moon on the roof, A-flat major at 54 bpm with its Lydian D natural (Bb over Ab), a dreamy colour. Its motif steps down the chord, then the same shape lifts onto the D natural; the middle in F minor. Written to sleep to, on the sound the user settled on (ke-chuyen-gan: the piano near, a wide hall, a soft echo): its tune moves by step and stays low, its sentences come back with small changes (each middle section 16 bars, a sentence and its variation), the left hand rocks in eighths through most of it, the climax stays low. An original tune.",
+  "style": "ke-chuyen-gan",
+  "bpm": 54,
+  "beats": 4,
+  "sections": [
+    {
+      "bars": 8,
+      "chords": "Ab | Bb/Ab | Ab | Bb/Ab | Fm | Db | Eb | Eb7",
+      "melody": "Eb5:2 C5:1 Ab4:1 | D5:2 F5:1 Bb4:1 | C5:1.5 Eb5:0.5 Ab5:2 | F5:3 r:1 | C5:1 F5:1 Ab5:2 | F5:1.5 Eb5:0.5 Db5:2 | G5:1 Eb5:1 Bb4:2 | Db5:3 r:1",
+      "dyn": 0.26,
+      "layers": []
+    },
+    {
+      "bars": 16,
+      "chords": "Ab | Bb/Ab | Ab | Bb/Ab | Fm | Db | Eb | Eb7 | Ab | Bb/Ab | Ab | Bb/Ab | Db | Ab/C | Bbm7:2 Eb7:2 | Ab",
+      "melody": "Eb5:2 C5:1 Ab4:1 | D5:2 F5:1 Bb4:1 | C5:1.5 Eb5:0.5 Ab5:2 | F5:3 r:1 | C5:1 F5:1 Ab5:2 | F5:1.5 Eb5:0.5 Db5:2 | G5:1 Eb5:1 Bb4:2 | Db5:3 r:1 | Eb5:2 C5:1 Ab4:1 | D5:2 F5:1 Bb4:1 | C5:1.5 Eb5:0.5 Ab5:2 | F5:3 r:1 | Db5:1 F5:1 Ab5:2 | Eb5:1.5 C5:0.5 Ab4:2 | Db5:1 F5:1 G5:1 Eb5:1 | Ab4:3 r:1",
+      "texture": "flow",
+      "dyn": 0.32,
+      "layers": [
+        "cello-counter"
+      ]
+    },
+    {
+      "bars": 8,
+      "chords": "Db | Ab/C | Bbm | Fm | Db | Ab/C | Bbm7 | Eb7",
+      "melody": "F5:2 Ab5:2 | C5:1 Eb5:1 Ab5:2 | Db5:1 F5:1 Bb5:2 | Ab5:3 r:1 | Ab5:1.5 F5:0.5 Db5:2 | Eb5:2 C5:2 | Db5:1 F5:1 Ab5:1.5 G5:0.5 | G5:3 r:1",
+      "texture": "flow",
+      "dyn": 0.4,
+      "layers": [
+        "strings",
+        "cello-counter"
+      ]
+    },
+    {
+      "bars": 16,
+      "chords": "Ab | Bb/Ab | Ab | Bb/Ab | Fm | Db | Eb | Eb7 | Ab | Bb/Ab | Ab | Bb/Ab | Db | Ab/C | Bbm7:2 Eb7:2 | Ab",
+      "melody": "Eb5:2 C5:1 Ab4:1 | D5:2 F5:1 Bb4:1 | C5:1.5 Eb5:0.5 Ab5:2 | F5:3 r:1 | C5:1 F5:1 Ab5:2 | F5:1.5 Eb5:0.5 Db5:2 | G5:1 Eb5:1 Bb4:2 | Db5:3 r:1 | Eb5:2 C5:1 Ab4:1 | D5:2 F5:1 Bb4:1 | C5:1.5 Eb5:0.5 Ab5:2 | F5:3 r:1 | Db5:1 F5:1 Ab5:2 | Eb5:1.5 C5:0.5 Ab4:2 | Db5:1 F5:1 G5:1 Eb5:1 | Ab4:3 r:1",
+      "texture": "flow",
+      "dyn": 0.3,
+      "layers": [
+        "viola-end"
+      ]
+    },
+    {
+      "bars": 8,
+      "chords": "Ab | Bb/Ab | Ab | Bb/Ab | Db | Ab/C | Bbm7:2 Eb7:2 | Ab",
+      "melody": "Eb5:2 C5:1 Ab4:1 | D5:2 F5:1 Bb4:1 | C5:1.5 Eb5:0.5 Ab5:2 | F5:3 r:1 | Db5:1 F5:1 Ab5:2 | Eb5:1.5 C5:0.5 Ab4:2 | Db5:1 F5:1 G5:1 Eb5:1 | Ab4:3 r:1",
+      "rit": true,
+      "dyn": 0.24,
+      "layers": []
+    },
+    {
+      "bars": 2,
+      "chords": "Bb/Ab | Ab",
+      "melody": "D5:2 F5:1 Bb4:1 | C5:4",
+      "dyn": 0.18,
+      "layers": []
+    }
+  ]
+}

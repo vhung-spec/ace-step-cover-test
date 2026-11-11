@@ -464,3 +464,27 @@ chorus 0,2, búa 20 ms, Rhodes -4, tiếng vọng nhẹ hơn (0,22, mỗi lần 
 0,445 (R1 0,427, `ke-chuyen-mong` 0,431), "ambient, dreamy piano music for sleep" 0,563 (0,551), "a gentle lullaby" 85 %.
 Mười bài: "ambient, dreamy piano music for sleep" đứng đầu (56-99 %), "up close" 0,41-0,45, "a gentle lullaby" đứng đầu ở
 chín bài (51-89 %; `xuan-muon` "a nostalgic, wistful melody"). 89 bài khác soạn ra y hệt.
+
+## Album mới, "Những giấc mơ nhỏ": mười bài ambient, dễ ngủ (vòng 33)
+
+Người dùng: "hãy tiếp tục sáng tác album mới, theo phong cách ambient và dễ ngủ". Âm thanh người dùng chốt
+(`ke-chuyen-gan`), mã không đổi (chỉ thêm bài). Mười hình ảnh nhỏ trước khi ngủ; năm bài giọng trưởng (album trước gần như
+toàn giọng thứ), năm bài nhịp ba, 52-62 bpm. Cùng một khung: câu A một mình (`deep`); A và biến thể A2 (kết về chủ âm) với
+bè cello chậm, tay trái rải (`flow`); đoạn giữa 8 ô (dàn dây, hoặc chỉ viola mỏng ở năm bài); A và A2 với viola cuối câu;
+A2 một mình, chậm dần; hai ô kết. `goi-may` kiểu felt, `chu-meo-ngu` thêm Rhodes 4 dB.
+
+| Bài | Giọng, nhịp | Mô-típ | Độ dài |
+|---|---|---|---|
+| `thuyen-giay` (Thuyền giấy) | Fa trưởng, nhịp ba, 60 bpm | Xuống quãng ba rồi leo từng bậc (C-A, Bb-C-D), như thuyền giấy lên sóng | 3:05 |
+| `dom-dom` (Đom đóm) | Rê thứ, 56 bpm | Lấp lánh quanh một nốt (A-Bb-A) rồi đáp lên quãng bốn | 4:21 |
+| `sao-roi` (Sao rơi) | Mi giáng trưởng, 54 bpm | Rơi từng bậc từ G5 (G-F-Eb-Bb) rồi ngân | 4:31 |
+| `goi-may` (Gối mây) | Si giáng trưởng, nhịp ba, 58 bpm | Nốt dài bồng bềnh xuống theo hợp âm rồi lên lại | 3:11 |
+| `ho-sen-dem` (Hồ sen đêm) | Son Dorian, 52 bpm | Bước xuống theo hợp âm rồi lên Mi bình trên Đô trưởng | 4:40 |
+| `chu-meo-ngu` (Chú mèo ngủ) | Đô trưởng, nhịp ba, 62 bpm | Xoay quanh một nốt của hợp âm (E-G-E) rồi bước xuống | 2:59 |
+| `ba-ke-chuyen` (Bà kể chuyện) | Mi thứ, 58 bpm | Một nốt nói hai lần rồi lên hợp âm (B-B-E-G), đáp bằng tiếng thở xuống | 4:12 |
+| `gio-qua-rem` (Gió qua rèm) | Fa thăng thứ, nhịp ba, 56 bpm | Đung đưa lên quãng bảy rồi về (C#-F#-E) | 3:18 |
+| `trang-tren-mai` (Trăng trên mái) | La giáng trưởng (Lydian), 54 bpm | Xuống theo hợp âm, rồi cùng dáng đó trên Rê bình (Bb/Ab) | 4:30 |
+| `giac-mo-nho` (Giấc mơ nhỏ) | Rê trưởng, 52 bpm | Nghiêng xuống một bậc rồi lắng (F#-E-D); đoạn giữa chỉ viola mỏng | 4:41 |
+
+CLAP: cả mười "ambient, dreamy piano music for sleep" đứng đầu (77-95 %), "a piano recorded up close" 0,43-0,45, "a gentle
+lullaby" đứng đầu ở chín bài (61-81 %; `goi-may` ngang "a nostalgic, wistful melody"), "dark, scary ambient music" 0-1 %.
