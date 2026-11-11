@@ -33,7 +33,9 @@ concurrency:
 jobs:
   dark:
     runs-on: ubuntu-24.04
-    timeout-minutes: 90
+    # 150, not 90: ten pieces with the strings and double basses took 78 minutes on a slow runner (run
+    # 42948025033), close to the old limit.
+    timeout-minutes: 150
     env:
       PIECES: ${{ inputs.pieces }}
       SFIZZ_VERSION: '1.2.3'
