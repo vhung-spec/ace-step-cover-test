@@ -581,3 +581,7 @@ Người dùng chấm vòng X15: bảy bài thích, một bài tạm được, h
 Station) bị bỏ như các album trước. Album 10 gồm tám bài: Distant Star Signal, Sleeping City, Digital Sky, Night
 Radio Waves, Slow Orbit, Synthetic Dream, Electric Sea of Stars, Lights Out (39 phút 17 giây, -17 LUFS). Bìa vẽ
 bằng máy (vòng sáng như tín hiệu lan ra trên đường chân trời tối), file chỉ còn tên bài.
+
+Người dùng sau đó: "hãy thêm D4 D5 vào album". Album 10 thành mười bài: Distant Star Signal, Sleeping City,
+Neon in the Rain, Digital Sky, Night Radio Waves, Slow Orbit, Synthetic Dream, Electric Sea of Stars, Sleeping
+Space Station, Lights Out (49 phút 18 giây).
