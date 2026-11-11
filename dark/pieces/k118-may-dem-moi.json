@@ -1,0 +1,71 @@
+{
+  "title": "Mây đêm",
+  "title_en": "Night Clouds",
+  "family": "dark-khac",
+  "about": "A replacement for k37 (Night Clouds, album 6), whose plain pad on a common D minor 9 / B-flat progression drew a 10-second Content ID match (the user: \"bài 2 night cloud trong album bị dính content id nhạc khoảng 10s\"); k37 is left as it was. Clouds drifting across a night sky, as before, but in F sharp minor on another progression, with an improvised glass tune and a music box in the middle, so it sounds and fingerprints nothing like the first. Sleep style (ngu-ngon). An original piece.",
+  "style": "ngu-ngon",
+  "bpm": 46,
+  "beats": 4,
+  "mode": "aeolian",
+  "seed": 118,
+  "sections": [
+    {
+      "bars": 8,
+      "chords": "F#madd9 | F#madd9 | Bm9 | Bm9 | Dmaj7 | Dmaj7 | C#m7 | C#m7",
+      "dyn": 0.18,
+      "layers": [
+        "pad",
+        "choir"
+      ],
+      "swell": 0.1
+    },
+    {
+      "bars": 24,
+      "chords": "F#madd9 | Bm9 | Dmaj7 | Amaj7 | Bm9 | Bm9 | C#sus4 | C#sus4 | F#madd9 | Bm9 | Dmaj7 | Amaj7 | Bm9 | Bm9 | C#sus4 | C#sus4 | F#madd9 | Bm9 | Dmaj7 | Amaj7 | Bm9 | Bm9 | C#sus4 | C#sus4",
+      "dyn": 0.27,
+      "layers": [
+        "pad",
+        "sub",
+        "choir"
+      ],
+      "improv": "glass",
+      "improv_range": [
+        62,
+        79
+      ],
+      "improv_density": 0.9
+    },
+    {
+      "bars": 16,
+      "chords": "Dmaj7 | Amaj7 | Bm9 | C#m7 | Dmaj7 | Amaj7 | C#sus4 | F#madd9 | Dmaj7 | Amaj7 | Bm9 | C#m7 | Dmaj7 | Amaj7 | C#sus4 | F#madd9",
+      "dyn": 0.29,
+      "layers": [
+        "pad",
+        "sub",
+        "choir",
+        "shimmer"
+      ],
+      "improv": "box",
+      "improv_range": [
+        62,
+        81
+      ]
+    },
+    {
+      "bars": 8,
+      "chords": "F#madd9 | F#madd9 | Bm9 | Bm9 | Dmaj7 | Dmaj7 | C#m7 | C#m7",
+      "dyn": 0.18,
+      "layers": [
+        "pad",
+        "choir"
+      ],
+      "swell": -0.1,
+      "improv": "glass",
+      "improv_range": [
+        62,
+        79
+      ],
+      "improv_density": 0.6
+    }
+  ]
+}

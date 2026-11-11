@@ -603,3 +603,10 @@ bản cuối của album 10: `air` -10 dB, `swells` -3 dB, `arp` -6 dB), pha th�
 | `k115-mat-trang-xanh` (Mặt trăng xanh) | Blue Moon Hum | Đô thăng thứ, 48 bpm |
 | `k116-toa-do-cuoi` (Tọa độ cuối) | Last Coordinates | Fa thứ, 50 bpm |
 | `k117-ngu-sau-trong-may` (Ngủ sâu trong mây) | Deep in the Clouds | Son thăng thứ, 44 bpm |
+
+## Bản thay thế Night Clouds (album 6)
+
+Người dùng: "bài 2 night cloud trong album bị dính content id nhạc khoảng 10s". `k37-may-dem` chỉ có nền synth
+trên vòng Rê thứ 9 / Si giáng trưởng 7 rất phổ biến, không giai điệu, nên dễ bị khớp nhầm. Bản thay
+`k118-may-dem-moi` (cùng tên Mây đêm / Night Clouds): Fa thăng thứ, vòng hợp âm khác, chuông thủy tinh ngẫu
+hứng, hộp nhạc ở giữa, 46 bpm. `k37` giữ nguyên.
