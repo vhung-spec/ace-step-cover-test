@@ -70,6 +70,8 @@ common to two chords held across them; layers, per section:
   {beats, feedback, mix} a ping-pong delay on the keys' tune; keys_layer: the acoustic
   piano under the keys; air (an airy high synth); swells (reversed notes
   rising into each chord); the room's plate: true a brighter plate hall;
+  tones: {part: tone} a part's own tone (echo_beats, echo_feedback, echo_mix
+  a ping-pong delay);
   improv_range, improv_density; the score's mode: aeolian, dorian, lydian,
   major, pentatonic; seed), tune_on (the
   instrument the section's tune is played on, before the order above), drops (water drops on the chord's tones, drops_per_bar); "answer", a second line beside the melody,
@@ -757,6 +759,12 @@ def compose_ambient(score: dict, folder: Path) -> str:
                 p.tone["echo"] = {"seconds": round(beats * 60 / score["bpm"], 4),
                                   **{k: v for k, v in score["keys_echo"].items() if k != "beats"}}
             p.cap = 72
+        extra = dict(score.get("tones", {}).get(name, {}))  # a style's or piece's own tone for a part
+        if made and extra:
+            if "echo_beats" in extra:  # a ping-pong delay so many beats long
+                extra["echo"] = {"seconds": round(extra.pop("echo_beats") * 60 / score["bpm"], 4),
+                                 "feedback": extra.pop("echo_feedback", 0.4), "mix": extra.pop("echo_mix", 0.35)}
+            p.tone.update(extra)
         return p
 
     def strength(tick: int, base: float, low: float = 30, span: float = 60) -> float:

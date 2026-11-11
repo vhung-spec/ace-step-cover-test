@@ -297,6 +297,17 @@ STYLES = {
     # "Ngủ ngon" (for sleep): the same sounds, nothing sudden (no thunder, heartbeat or struck bells in its
     # pieces), a longer, softer hall, quieter (-17 LUFS), the pieces long (5-6 min) and even.
     "ngu-ngon": {"kind": "ambient", "room": {"rt60": 7.5, "wet": 1.0}, "loudness": -17, "even_hall": True},
+    # "Ngủ điện tử" (round x15, album 10, the user: "hãy thử phong cách âm thanh điện tử hơn, vẫn là nhạc
+    # ambient phù hợp ngủ"): the sleep style with the electronic sounds of round x12 made gentle: the modelled
+    # electric piano darker and softer, a long ping-pong echo on its tune, a slow soft synth arpeggio with an
+    # echo of its own, an airy high synth, reversed swells; a plate hall, long (6.5 s); -17 LUFS.
+    "ngu-dt": {"kind": "ambient", "room": {"rt60": 6.5, "wet": 1.0, "plate": True}, "loudness": -17,
+               "even_hall": True, "keys": "amb-epiano",
+               "keys_tone": {"lowpass": 3200, "lowpass_order": 2, "chorus": 0.35, "width": 1.0, "attack": 0.01},
+               "keys_echo": {"beats": 1.5, "feedback": 0.45, "mix": 0.4},
+               "arp_range": [60, 77],
+               "tones": {"arp": {"lowpass": 1800, "lowpass_order": 2, "width": 1.3, "echo_beats": 0.75},
+                         "swells": {"lowpass": 3500}, "air": {"lowpass": 5000}}},
     # "Piano âm" (ambient piano, after the user's references, round x11): the dreamy modelled piano breaking
     # its chords softly in eighths with a simple repeated tune over them, a far humming choir, a pad and a
     # deep sub; sad but warm (major and its relative minor), no drums, a long hall (5 s), -14 LUFS.
