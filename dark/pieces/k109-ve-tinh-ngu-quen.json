@@ -1,0 +1,76 @@
+{
+  "title": "Vệ tinh ngủ quên",
+  "title_en": "The Dozing Satellite",
+  "family": "dark-khac",
+  "about": "Round x16 (album 11), the user: \"hãy sáng tác album 11\", after album 10 (electronic sleep) was kept whole: more electronic sleep ambient (style ngu-dt), slow (50 bpm), pad, arp, sub, air, an improvised keys tune with a long echo. No drums. An original piece.",
+  "style": "ngu-dt",
+  "bpm": 50,
+  "beats": 4,
+  "mode": "aeolian",
+  "seed": 109,
+  "gains": {
+    "arp": -6.0,
+    "air": -10.0,
+    "swells": -3.0
+  },
+  "sections": [
+    {
+      "bars": 8,
+      "chords": "Gmadd9 | Gmadd9 | Ebmaj7 | Ebmaj7 | Gmadd9 | Gmadd9 | Ebmaj7 | Ebmaj7",
+      "dyn": 0.18,
+      "layers": [
+        "pad",
+        "arp"
+      ]
+    },
+    {
+      "bars": 24,
+      "chords": "Gmadd9 | Gmadd9 | Ebmaj7 | Ebmaj7 | Cm9 | Cm9 | Dsus4 | Dsus4 | Gmadd9 | Gmadd9 | Ebmaj7 | Ebmaj7 | Cm9 | Cm9 | Dsus4 | Dsus4 | Gmadd9 | Gmadd9 | Ebmaj7 | Ebmaj7 | Cm9 | Cm9 | Dsus4 | Dsus4",
+      "dyn": 0.27,
+      "layers": [
+        "pad",
+        "arp",
+        "sub"
+      ],
+      "improv": "keys",
+      "improv_range": [
+        60,
+        77
+      ],
+      "improv_density": 0.8
+    },
+    {
+      "bars": 16,
+      "chords": "Ebmaj7 | Ebmaj7 | Bbmaj7 | Bbmaj7 | Cm9 | Cm9 | Dsus4 | Gmadd9 | Ebmaj7 | Ebmaj7 | Bbmaj7 | Bbmaj7 | Cm9 | Cm9 | Dsus4 | Gmadd9",
+      "dyn": 0.28,
+      "layers": [
+        "pad",
+        "arp",
+        "sub",
+        "air"
+      ],
+      "improv": "keys",
+      "improv_range": [
+        60,
+        77
+      ],
+      "improv_density": 0.8
+    },
+    {
+      "bars": 8,
+      "chords": "Gmadd9 | Gmadd9 | Ebmaj7 | Ebmaj7 | Gmadd9 | Gmadd9 | Ebmaj7 | Ebmaj7",
+      "dyn": 0.17,
+      "layers": [
+        "pad",
+        "arp"
+      ],
+      "improv": "keys",
+      "improv_range": [
+        60,
+        77
+      ],
+      "improv_density": 0.5,
+      "swell": -0.1
+    }
+  ]
+}

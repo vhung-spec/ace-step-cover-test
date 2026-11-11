@@ -1,0 +1,77 @@
+{
+  "title": "Ngủ sâu trong mây",
+  "title_en": "Deep in the Clouds",
+  "family": "dark-khac",
+  "about": "Round x16 (album 11), the user: \"hãy sáng tác album 11\", after album 10 (electronic sleep) was kept whole: more electronic sleep ambient (style ngu-dt), slow (44 bpm), pad, air, sub, choir, swells, an improvised keys tune with a long echo. No drums. An original piece.",
+  "style": "ngu-dt",
+  "bpm": 44,
+  "beats": 4,
+  "mode": "aeolian",
+  "seed": 117,
+  "gains": {
+    "arp": -6.0,
+    "air": -10.0,
+    "swells": -3.0
+  },
+  "sections": [
+    {
+      "bars": 8,
+      "chords": "G#madd9 | G#madd9 | Emaj7 | Emaj7 | G#madd9 | G#madd9 | Emaj7 | Emaj7",
+      "dyn": 0.18,
+      "layers": [
+        "pad",
+        "air"
+      ]
+    },
+    {
+      "bars": 24,
+      "chords": "G#madd9 | G#madd9 | Emaj7 | Emaj7 | C#m9 | C#m9 | D#sus4 | D#sus4 | G#madd9 | G#madd9 | Emaj7 | Emaj7 | C#m9 | C#m9 | D#sus4 | D#sus4 | G#madd9 | G#madd9 | Emaj7 | Emaj7 | C#m9 | C#m9 | D#sus4 | D#sus4",
+      "dyn": 0.27,
+      "layers": [
+        "pad",
+        "air",
+        "sub"
+      ],
+      "improv": "keys",
+      "improv_range": [
+        60,
+        77
+      ],
+      "improv_density": 0.7
+    },
+    {
+      "bars": 16,
+      "chords": "Emaj7 | Emaj7 | Bmaj7 | Bmaj7 | C#m9 | C#m9 | D#sus4 | G#madd9 | Emaj7 | Emaj7 | Bmaj7 | Bmaj7 | C#m9 | C#m9 | D#sus4 | G#madd9",
+      "dyn": 0.28,
+      "layers": [
+        "pad",
+        "air",
+        "sub",
+        "choir",
+        "swells"
+      ],
+      "improv": "keys",
+      "improv_range": [
+        60,
+        77
+      ],
+      "improv_density": 0.7
+    },
+    {
+      "bars": 8,
+      "chords": "G#madd9 | G#madd9 | Emaj7 | Emaj7 | G#madd9 | G#madd9 | Emaj7 | Emaj7",
+      "dyn": 0.17,
+      "layers": [
+        "pad",
+        "air"
+      ],
+      "improv": "keys",
+      "improv_range": [
+        60,
+        77
+      ],
+      "improv_density": 0.5,
+      "swell": -0.1
+    }
+  ]
+}

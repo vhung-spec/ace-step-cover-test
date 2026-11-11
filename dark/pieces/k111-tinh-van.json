@@ -1,0 +1,80 @@
+{
+  "title": "Tinh vân",
+  "title_en": "Nebula",
+  "family": "dark-khac",
+  "about": "Round x16 (album 11), the user: \"hãy sáng tác album 11\", after album 10 (electronic sleep) was kept whole: more electronic sleep ambient (style ngu-dt), slow (46 bpm), drone, pad, air, sub, swells, choir, an improvised keys tune with a long echo. No drums. An original piece.",
+  "style": "ngu-dt",
+  "bpm": 46,
+  "beats": 4,
+  "mode": "aeolian",
+  "seed": 111,
+  "gains": {
+    "arp": -6.0,
+    "air": -10.0,
+    "swells": -3.0
+  },
+  "sections": [
+    {
+      "bars": 8,
+      "chords": "F#madd9 | F#madd9 | Dmaj7 | Dmaj7 | F#madd9 | F#madd9 | Dmaj7 | Dmaj7",
+      "dyn": 0.18,
+      "layers": [
+        "drone",
+        "pad",
+        "air"
+      ]
+    },
+    {
+      "bars": 24,
+      "chords": "F#madd9 | F#madd9 | Dmaj7 | Dmaj7 | Bm9 | Bm9 | C#sus4 | C#sus4 | F#madd9 | F#madd9 | Dmaj7 | Dmaj7 | Bm9 | Bm9 | C#sus4 | C#sus4 | F#madd9 | F#madd9 | Dmaj7 | Dmaj7 | Bm9 | Bm9 | C#sus4 | C#sus4",
+      "dyn": 0.27,
+      "layers": [
+        "drone",
+        "pad",
+        "air",
+        "sub",
+        "swells"
+      ],
+      "improv": "keys",
+      "improv_range": [
+        60,
+        77
+      ],
+      "improv_density": 0.8
+    },
+    {
+      "bars": 16,
+      "chords": "Dmaj7 | Dmaj7 | Amaj7 | Amaj7 | Bm9 | Bm9 | C#sus4 | F#madd9 | Dmaj7 | Dmaj7 | Amaj7 | Amaj7 | Bm9 | Bm9 | C#sus4 | F#madd9",
+      "dyn": 0.28,
+      "layers": [
+        "pad",
+        "air",
+        "sub",
+        "choir"
+      ],
+      "improv": "glass",
+      "improv_range": [
+        62,
+        79
+      ],
+      "improv_density": 0.9
+    },
+    {
+      "bars": 8,
+      "chords": "F#madd9 | F#madd9 | Dmaj7 | Dmaj7 | F#madd9 | F#madd9 | Dmaj7 | Dmaj7",
+      "dyn": 0.17,
+      "layers": [
+        "drone",
+        "pad",
+        "air"
+      ],
+      "improv": "keys",
+      "improv_range": [
+        60,
+        77
+      ],
+      "improv_density": 0.5,
+      "swell": -0.1
+    }
+  ]
+}

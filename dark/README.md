@@ -585,3 +585,21 @@ bằng máy (vòng sáng như tín hiệu lan ra trên đường chân trời t�
 Người dùng sau đó: "hãy thêm D4 D5 vào album". Album 10 thành mười bài: Distant Star Signal, Sleeping City,
 Neon in the Rain, Digital Sky, Night Radio Waves, Slow Orbit, Synthetic Dream, Electric Sea of Stars, Sleeping
 Space Station, Lights Out (49 phút 18 giây).
+
+## Vòng X16: album 11, nhạc ngủ điện tử tiếp (kiểu `ngu-dt`)
+
+Người dùng: "hãy sáng tác album 11", sau khi giữ trọn album 10. Mười bài mới cùng kiểu `ngu-dt` (đã làm êm như
+bản cuối của album 10: `air` -10 dB, `swells` -3 dB, `arp` -6 dB), pha thêm dàn dây, sóng, hộp nhạc:
+
+| Bản | Tên tiếng Anh | Giọng, nhịp |
+|---|---|---|
+| `k108-cuc-quang` (Cực quang) | Aurora Drift | Rê thứ, 48 bpm |
+| `k109-ve-tinh-ngu-quen` (Vệ tinh ngủ quên) | The Dozing Satellite | Son thứ, 50 bpm |
+| `k110-chuyen-tau-nua-dem` (Chuyến tàu nửa đêm) | Midnight Train | Mi thứ, 52 bpm, dây |
+| `k111-tinh-van` (Tinh vân) | Nebula | Fa thăng thứ, 46 bpm |
+| `k112-thuy-trieu-dem` (Thủy triều đêm) | Night Tide | La thứ, 50 bpm, sóng |
+| `k113-bang-cu` (Băng cassette cũ) | Old Cassette Dreams | Đô thứ, 50 bpm, dây, hộp nhạc |
+| `k114-den-khuya` (Đèn khuya) | Late Night Lamp | Si thứ, 52 bpm |
+| `k115-mat-trang-xanh` (Mặt trăng xanh) | Blue Moon Hum | Đô thăng thứ, 48 bpm |
+| `k116-toa-do-cuoi` (Tọa độ cuối) | Last Coordinates | Fa thứ, 50 bpm |
+| `k117-ngu-sau-trong-may` (Ngủ sâu trong mây) | Deep in the Clouds | Son thăng thứ, 44 bpm |
