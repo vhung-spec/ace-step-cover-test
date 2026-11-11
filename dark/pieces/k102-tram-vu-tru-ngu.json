@@ -10,7 +10,8 @@
   "seed": 102,
   "gains": {
     "arp": -6.0,
-    "air": -4.0
+    "air": -10.0,
+    "swells": -3.0
   },
   "sections": [
     {
