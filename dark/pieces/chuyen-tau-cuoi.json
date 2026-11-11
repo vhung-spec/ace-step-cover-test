@@ -1,0 +1,96 @@
+{
+  "title": "Chuyến tàu cuối",
+  "about": "Round 34, ke-chuyen-gan (\"hãy làm album và sáng tác album mới giai điệu nhanh hơn,dark hơn\"), for a new album, Trắng đêm: the last train, C minor at 84 bpm. Its motif runs on one note like wheels on rails (G-G-C-G) and drops a third; the left hand circles three notes in eighths with a low toll each bar; the middle in A-flat. Faster and darker than the sleep albums, on the same sound (ke-chuyen-gan: the piano near, a wide hall, a soft echo, here a little softer for the quicker tune): a minor key, the tune moving in eighths and sixteenths, the left hand in motion from a four-bar opening of its own, the cellos answering the tune (darker than their second line), the double basses under the middle, and at the climax the strings, the piano doubling its tune an octave down and the harmony turning through the Neapolitan chord; then back to the piano alone. An original tune.",
+  "style": "ke-chuyen-gan",
+  "bpm": 84,
+  "beats": 4,
+  "melody_velocity": [
+    40,
+    66
+  ],
+  "piano_echo": {
+    "beats": 1.0,
+    "feedback": 0.35,
+    "mix": 0.18,
+    "lowpass": 2200
+  },
+  "sections": [
+    {
+      "bars": 4,
+      "chords": "Cm | Cm/Bb | Ab | G7",
+      "melody": "",
+      "texture": "ostinato",
+      "dyn": 0.3,
+      "layers": []
+    },
+    {
+      "bars": 8,
+      "chords": "Cm | Cm/Bb | Ab | G7 | Cm | Eb/Bb | Ab | G",
+      "melody": "G4:0.5 G4:0.5 C5:0.5 G4:0.5 Eb5:1 D5:0.5 C5:0.5 | Eb5:1 D5:0.5 C5:0.5 G4:2 | Ab4:0.5 Ab4:0.5 C5:0.5 Ab4:0.5 F5:1 Eb5:0.5 C5:0.5 | D5:1.5 B4:0.5 G4:2 | G4:0.5 G4:0.5 C5:0.5 Eb5:0.5 G5:1 F5:0.5 Eb5:0.5 | Bb4:0.5 Eb5:0.5 G5:1.5 F5:0.5 Eb5:1 | C5:0.5 Eb5:0.5 Ab5:1 G5:0.5 F5:0.5 Eb5:1 | D5:3 r:1",
+      "texture": "ostinato",
+      "dyn": 0.34,
+      "layers": []
+    },
+    {
+      "bars": 16,
+      "chords": "Cm | Cm/Bb | Ab | G7 | Cm | Eb/Bb | Ab | G | Cm | Cm/Bb | Ab | G7 | Fm | Cm/Eb | Dm7b5:2 G7:2 | Cm",
+      "melody": "G4:0.5 G4:0.5 C5:0.5 G4:0.5 Eb5:1 D5:0.5 C5:0.5 | Eb5:1 D5:0.5 C5:0.5 G4:2 | Ab4:0.5 Ab4:0.5 C5:0.5 Ab4:0.5 F5:1 Eb5:0.5 C5:0.5 | D5:1.5 B4:0.5 G4:2 | G4:0.5 G4:0.5 C5:0.5 Eb5:0.5 G5:1 F5:0.5 Eb5:0.5 | Bb4:0.5 Eb5:0.5 G5:1.5 F5:0.5 Eb5:1 | C5:0.5 Eb5:0.5 Ab5:1 G5:0.5 F5:0.5 Eb5:1 | D5:3 r:1 | G4:0.5 G4:0.5 C5:0.5 G4:0.5 Eb5:1 D5:0.5 C5:0.5 | Eb5:1 D5:0.5 C5:0.5 G4:2 | Ab4:0.5 Ab4:0.5 C5:0.5 Ab4:0.5 F5:1 Eb5:0.5 C5:0.5 | D5:1.5 B4:0.5 G4:2 | F4:0.5 Ab4:0.5 C5:0.5 F5:0.5 Ab5:1 G5:0.5 F5:0.5 | Eb5:1.5 D5:0.5 C5:1 G4:1 | D5:0.5 F5:0.5 Ab5:1 G5:0.5 F5:0.5 D5:0.5 B4:0.5 | C5:3 r:1",
+      "texture": "ostinato",
+      "dyn": 0.42,
+      "layers": [
+        "cello-answer"
+      ]
+    },
+    {
+      "bars": 8,
+      "chords": "Ab | Eb/G | Fm7 | Bb | Ab | Eb/G | Fm7 | G7",
+      "melody": "C5:0.5 Eb5:0.5 Ab5:1.5 G5:0.5 F5:0.5 Eb5:0.5 | G5:1.5 Eb5:0.5 Bb4:2 | Ab4:0.5 C5:0.5 F5:1.5 Eb5:0.5 C5:0.5 Ab4:0.5 | D5:3 r:1 | C5:0.5 Eb5:0.5 Ab5:1.5 Bb5:0.5 C6:1 | Bb5:1.5 G5:0.5 Eb5:2 | F5:0.5 Ab5:0.5 G5:0.5 F5:0.5 Eb5:1 C5:1 | B4:3 r:1",
+      "texture": "ostinato",
+      "dyn": 0.5,
+      "layers": [
+        "cello-counter",
+        "basses"
+      ]
+    },
+    {
+      "bars": 8,
+      "chords": "Ab | Eb/G | Fm | Cm | Db | Fm | Dm7b5 | G7",
+      "melody": "Eb5:0.5 Ab5:0.5 C6:1.5 Bb5:0.5 Ab5:1 | G5:1 Bb5:1 Eb5:2 | F5:0.5 Ab5:0.5 C6:1.5 Ab5:0.5 F5:1 | G5:1.5 Eb5:0.5 C5:2 | Db5:0.5 F5:0.5 Ab5:1 Db6:1 C6:1 | Ab5:0.5 G5:0.5 F5:1 C5:1 F5:1 | Ab5:1 F5:0.5 D5:0.5 F5:1 Ab4:1 | G4:0.5 B4:0.5 D5:0.5 F5:0.5 B4:2",
+      "texture": "arp",
+      "dyn": 0.6,
+      "layers": [
+        "strings",
+        "basses",
+        "octave"
+      ]
+    },
+    {
+      "bars": 16,
+      "chords": "Cm | Cm/Bb | Ab | G7 | Cm | Eb/Bb | Ab | G | Cm | Cm/Bb | Ab | G7 | Fm | Cm/Eb | Dm7b5:2 G7:2 | Cm",
+      "melody": "G4:0.5 G4:0.5 C5:0.5 G4:0.5 Eb5:1 D5:0.5 C5:0.5 | Eb5:1 D5:0.5 C5:0.5 G4:2 | Ab4:0.5 Ab4:0.5 C5:0.5 Ab4:0.5 F5:1 Eb5:0.5 C5:0.5 | D5:1.5 B4:0.5 G4:2 | G4:0.5 G4:0.5 C5:0.5 Eb5:0.5 G5:1 F5:0.5 Eb5:0.5 | Bb4:0.5 Eb5:0.5 G5:1.5 F5:0.5 Eb5:1 | C5:0.5 Eb5:0.5 Ab5:1 G5:0.5 F5:0.5 Eb5:1 | D5:3 r:1 | G4:0.5 G4:0.5 C5:0.5 G4:0.5 Eb5:1 D5:0.5 C5:0.5 | Eb5:1 D5:0.5 C5:0.5 G4:2 | Ab4:0.5 Ab4:0.5 C5:0.5 Ab4:0.5 F5:1 Eb5:0.5 C5:0.5 | D5:1.5 B4:0.5 G4:2 | F4:0.5 Ab4:0.5 C5:0.5 F5:0.5 Ab5:1 G5:0.5 F5:0.5 | Eb5:1.5 D5:0.5 C5:1 G4:1 | D5:0.5 F5:0.5 Ab5:1 G5:0.5 F5:0.5 D5:0.5 B4:0.5 | C5:3 r:1",
+      "texture": "ostinato",
+      "dyn": 0.4,
+      "layers": [
+        "cello-answer",
+        "viola-end"
+      ]
+    },
+    {
+      "bars": 8,
+      "chords": "Cm | Cm/Bb | Ab | G7 | Fm | Cm/Eb | Dm7b5:2 G7:2 | Cm",
+      "melody": "G4:0.5 G4:0.5 C5:0.5 G4:0.5 Eb5:1 D5:0.5 C5:0.5 | Eb5:1 D5:0.5 C5:0.5 G4:2 | Ab4:0.5 Ab4:0.5 C5:0.5 Ab4:0.5 F5:1 Eb5:0.5 C5:0.5 | D5:1.5 B4:0.5 G4:2 | F4:0.5 Ab4:0.5 C5:0.5 F5:0.5 Ab5:1 G5:0.5 F5:0.5 | Eb5:1.5 D5:0.5 C5:1 G4:1 | D5:0.5 F5:0.5 Ab5:1 G5:0.5 F5:0.5 D5:0.5 B4:0.5 | C5:3 r:1",
+      "texture": "flow",
+      "rit": true,
+      "dyn": 0.28,
+      "layers": []
+    },
+    {
+      "bars": 2,
+      "chords": "Ab | Cm",
+      "melody": "C5:1 Eb5:1 Ab4:2 | G4:4",
+      "texture": "deep",
+      "dyn": 0.2,
+      "layers": []
+    }
+  ]
+}

@@ -488,3 +488,34 @@ A2 một mình, chậm dần; hai ô kết. `goi-may` kiểu felt, `chu-meo-ngu`
 
 CLAP: cả mười "ambient, dreamy piano music for sleep" đứng đầu (77-95 %), "a piano recorded up close" 0,43-0,45, "a gentle
 lullaby" đứng đầu ở chín bài (61-81 %; `goi-may` ngang "a nostalgic, wistful melody"), "dark, scary ambient music" 0-1 %.
+
+## Album mới, "Trắng đêm": mười bài nhanh hơn, tối hơn (vòng 34)
+
+Người dùng: "hãy làm album và sáng tác album mới giai điệu nhanh hơn,dark hơn". Vẫn âm thanh `ke-chuyen-gan` (piano gần,
+phòng vang rộng, tiếng vọng), mã không đổi (chỉ thêm bài); tiếng vọng nhẹ hơn một chút cho giai điệu nhanh (0,18, mỗi lần
+0,35), giai điệu đánh mạnh hơn (40-66). Cả mười bài giọng thứ, 72-90 bpm (album trước 52-62), giai điệu đi bằng móc đơn và
+móc kép. Cùng một khung, 70 ô: bốn ô tay trái một mình (rải, ostinato, nhịp tim hay hợp âm vỡ trên bass trầm, tùy bài);
+câu A; A và biến thể A2 với cello đáp (tối hơn bè cello chậm; `nguoi-la-tren-pho`: cello gảy như bước chân); đoạn giữa B ở
+giọng song song với bè cello chậm và contrabass; cao trào B2 với dàn dây, contrabass, piano chồng giai điệu quãng tám dưới,
+hòa âm đi qua hợp âm Neapolitan; A và A2 với cello đáp và viola cuối câu; A2 một mình, chậm dần; hai ô kết. `ga-vang`,
+`khu-rung-toi`, `duong-ham`: piano tối hơn (EQ 0,85, cắt trên 3,8 kHz).
+
+| Bài | Giọng, nhịp | Mô-típ | Độ dài |
+|---|---|---|---|
+| `chuyen-tau-cuoi` (Chuyến tàu cuối) | Đô thứ, 84 bpm | Chạy trên một nốt như bánh xe trên ray (G-G-C-G) rồi rơi quãng ba; tay trái ostinato | 3:29 |
+| `con-giong` (Cơn giông) | Rê thứ, 88 bpm | Một vòng xoáy nhanh (D-E-F-E-D) rồi rơi lại; tay trái rải suốt bài | 3:20 |
+| `ga-vang` (Ga vắng) | Fa thứ, 76 bpm | Leo lên quãng sáu thứ rồi trượt về (C-F-G-Ab-G); đoạn giữa nhịp tim | 3:51 |
+| `khu-rung-toi` (Khu rừng tối) | Mi thứ (Phrygian), 80 bpm | Leo hợp âm bằng móc đơn, tựa vào Fa (F/E) | 3:39 |
+| `song-ngam` (Sóng ngầm) | Son thứ, 86 bpm | Lăn xuống rồi lên hợp âm như sóng dưới mặt nước | 3:24 |
+| `nguoi-la-tren-pho` (Người lạ trên phố) | Si thứ, 82 bpm | Bước chấm dôi (F#-B-D-C#-B) như tiếng chân phía sau | 3:34 |
+| `lua-tan` (Lửa tàn) | Si giáng thứ, 72 bpm | Những đốm móc kép (Bb-C, F-Eb) trên nốt dài | 4:03 |
+| `chim-dem` (Chim đêm) | Đô thăng thứ, 90 bpm | Tiếng gọi xoay nhanh (E-D#-E) rồi nhảy lên hợp âm | 3:15 |
+| `duong-ham` (Đường hầm) | Fa thăng thứ, 78 bpm | Đẩy lên hợp âm rồi đứt; dưới là nhịp tim | 3:45 |
+| `trang-dem` (Trắng đêm) | La thứ, 80 bpm | Leo hợp âm rồi xoay, bass rơi A-G-F-E như bài than | 3:39 |
+
+CLAP (`darkfit`): "fast, flowing, restless piano music" đứng đầu ở cả mười (80-99 %; album trước "slow, calm, sparse" 99 %),
+"a piano recorded up close" 0,43-0,45, "a spooky, unsettling horror soundtrack" 0 % (cos 0,30-0,34, album trước 0,35-0,37).
+"dark, brooding, melancholic" 0,60-0,64, như album trước (0,58-0,61): CLAP không phân biệt giọng trưởng với giọng thứ (cả
+những bài ru giọng trưởng cũng 0,60), và đọc giai điệu nhanh là sáng hơn ("happy, bright" 0,33-0,39, album trước 0,27-0,30).
+Thử trên `chuyen-tau-cuoi` thêm contrabass dưới các đoạn A, piano tối hơn và bớt Rhodes, hay hạ cả bài một quãng ba hoặc bốn:
+không khác (chênh dưới 0,01), nên giữ như viết. Mất trên loa điện thoại 6,8-8,3 dB.
