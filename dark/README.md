@@ -574,3 +574,10 @@ sáng hơn các album ngủ trước, nên lớp `air` hạ xuống -10 dB, `swe
 | `k105-bien-sao-dien-tu` (Biển sao điện tử) | Electric Sea of Stars | Đô thăng thứ, 50 bpm |
 | `k106-giac-mo-tong-hop` (Giấc mơ tổng hợp) | Synthetic Dream | Fa thứ, 50 bpm |
 | `k107-tat-den` (Tắt đèn) | Lights Out | Rê thứ, 44 bpm |
+
+### Album 10: Sleep Signals
+
+Người dùng chấm vòng X15: bảy bài thích, một bài tạm được, hai bài chưa chấm (Neon in the Rain, Sleeping Space
+Station) bị bỏ như các album trước. Album 10 gồm tám bài: Distant Star Signal, Sleeping City, Digital Sky, Night
+Radio Waves, Slow Orbit, Synthetic Dream, Electric Sea of Stars, Lights Out (39 phút 17 giây, -17 LUFS). Bìa vẽ
+bằng máy (vòng sáng như tín hiệu lan ra trên đường chân trời tối), file chỉ còn tên bài.
