@@ -1,0 +1,76 @@
+{
+  "title": "Một năm chờ",
+  "about": "Round 27, ke-chuyen (\"hãy tiếp tục sáng tác\"), the title piece of the album of a year's waiting: G minor at 66 bpm, one long tune told three times. Its sentences fall (D-C-Bb-G) and rise again (Bb-Eb-G), as a day of waiting goes and the next begins. The piano tells it alone; the cellos sing it an octave lower, the violas' thin line above them; the piano again with the cellos' second line and the violas at the sentences' ends; a first wave in B-flat with the strings; then the climax, the tune an octave up, doubled in octaves by the piano, the strings and the deepest basses under it; and the piano alone once more, after a year, still waiting, ending on the fifth. An original tune. Round 28 (\"tôi muốn các bài sẽ có không gian giống ambient hơn, tiếng piano mờ ảo hơn, nhạc dễ ngủ hơn\"): on ke-chuyen-mo, a hall nearly twice as long, the piano softer and hazier, 58 bpm (was 66), every section softer and the climax low, sparse chords for the rolled ones, the plucked cellos and the octaves left out. Round 29 (\"tôi thấy không gian ambient đã ổn nhưng muốn tiếng piano gần tai hơn, độ vang và tiếng giống tiếng piano relax hơn\"): on ke-chuyen-relax, the same hall, the piano nearer, clearer and less of the Rhodes under it. Round 31 (\"tôi muốn nhạc ambient hơn, tiếng piano mờ ảo hơn\"): on ke-chuyen-mong, the piano a little further and hazier and through a soft echo. Round 32 (\"tôi vẫn thích tiếng piano gần tai hơn\"): on ke-chuyen-gan, the piano near again (as in ke-chuyen-relax), the hall, haze and echo kept.",
+  "style": "ke-chuyen-gan",
+  "bpm": 58,
+  "beats": 4,
+  "sections": [
+    {
+      "bars": 8,
+      "chords": "Gm | Eb | Cm | D7 | Gm/Bb | Eb | Am7b5 | D7",
+      "melody": "D5:1.5 C5:0.5 Bb4:1 G4:1 | Bb4:1 Eb5:1 G5:2 | G5:1.5 F5:0.5 Eb5:1 C5:1 | A4:3 r:1 | D5:1.5 C5:0.5 Bb4:1 G4:1 | Bb4:1 Eb5:1 Bb5:2 | G5:1.5 F5:0.5 Eb5:1 C5:1 | F#5:3 r:1",
+      "dyn": 0.26,
+      "layers": []
+    },
+    {
+      "bars": 8,
+      "chords": "Gm | Eb | Cm | D7 | Gm/Bb | Eb | Am7b5 | D7",
+      "melody": "D4:1.5 C4:0.5 Bb3:1 G3:1 | Bb3:1 Eb4:1 G4:2 | G4:1.5 F4:0.5 Eb4:1 C4:1 | A3:3 r:1 | D4:1.5 C4:0.5 Bb3:1 G3:1 | G3:1 Bb3:1 Eb4:2 | G4:1.5 F4:0.5 Eb4:1 C4:1 | F#4:3 r:1",
+      "melody_on": "cello",
+      "dyn": 0.36,
+      "layers": [
+        "viola-pad"
+      ]
+    },
+    {
+      "bars": 8,
+      "chords": "Gm | Eb | Cm | D7 | Bb | F/A | Gm7 | D7sus4:2 D7:2",
+      "melody": "D5:1.5 C5:0.5 Bb4:1 G4:1 | Bb4:1 Eb5:1 G5:2 | G5:1.5 F5:0.5 Eb5:1 C5:1 | A4:3 r:1 | F5:1.5 Eb5:0.5 D5:1 Bb4:1 | C5:1 F5:1 A5:2 | Bb5:1.5 A5:0.5 G5:1 D5:1 | G5:2 F#5:1 r:1",
+      "dyn": 0.39,
+      "layers": [
+        "cello-counter",
+        "viola-end"
+      ]
+    },
+    {
+      "bars": 8,
+      "chords": "Eb | Bb/D | Cm | F | Eb | Bb/D | Cm7 | D7",
+      "melody": "G5:1.5 F5:0.5 Eb5:1 Bb4:1 | D5:1 F5:1 Bb5:2 | C6:1.5 Bb5:0.5 G5:1 Eb5:1 | A5:3 r:1 | Bb5:1.5 Ab5:0.5 G5:1 Eb5:1 | F5:1 Bb5:1 D6:2 | Eb6:1.5 D6:0.5 C6:1 G5:1 | F#5+A5:3 r:1",
+      "texture": "sparse",
+      "dyn": 0.5,
+      "layers": [
+        "strings",
+        "cello-counter"
+      ]
+    },
+    {
+      "bars": 8,
+      "chords": "Gm | Eb | Cm | D7 | Gm/Bb | Eb | Am7b5 | D7",
+      "melody": "D6:1.5 C6:0.5 Bb5:1 G5:1 | Bb5:1 G5:1 Eb6:2 | Eb6:1.5 D6:0.5 C6:1 G5:1 | A5:3 r:1 | D6:1.5 C6:0.5 Bb5:1 G5:1 | G5:1 Bb5:1 Eb6:2 | Eb6:1 C6:1 A5:1 G5:1 | F#5+D6:4",
+      "texture": "sparse",
+      "dyn": 0.5,
+      "layers": [
+        "strings",
+        "basses",
+        "cello-counter"
+      ]
+    },
+    {
+      "bars": 8,
+      "chords": "Gm | Eb | Cm | D7 | Gm/Bb | Eb | Cm6:2 D7:2 | Gm",
+      "melody": "D5:1.5 C5:0.5 Bb4:1 G4:1 | Bb4:1 Eb5:1 G5:2 | G5:1.5 F5:0.5 Eb5:1 C5:1 | A4:3 r:1 | D5:1.5 C5:0.5 Bb4:1 G4:1 | Bb4:1 Eb5:1 G5:2 | Eb5:1 A4:1 C5:1 F#4:1 | G4:4",
+      "dyn": 0.26,
+      "rit": true,
+      "layers": [
+        "viola-end"
+      ]
+    },
+    {
+      "bars": 2,
+      "chords": "Ebmaj7 | Gm",
+      "melody": "D5:1.5 C5:0.5 Bb4:1 G4:1 | D5:4",
+      "dyn": 0.15,
+      "layers": []
+    }
+  ]
+}

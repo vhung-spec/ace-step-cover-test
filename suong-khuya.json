@@ -1,0 +1,115 @@
+{
+  "title": "Sương khuya",
+  "about": "Round 30, (\"tôi thích nhất là âm thanh bản R1, hãy sáng tạo thêm, tiếng piano và âm thanh ambient có thể thay đổi linh hoạt theo đề xuất của bạn, tôi muốn nhạc nghe dễ ngủ\"): late-night dew, F minor at 56 bpm, its tune low (F4-Ab5). The piano as a felt piano: ke-chuyen-relax darkened more (EQ_KEYS at 0.85), its strike a little softer (25 ms) and lighter (34-54). Its motif falls slowly down the chord as dew gathers (C-Bb-Ab-F) and rests; the middle in A-flat. Written to be easy to sleep to: its tune moves mostly by step within about an octave and a half, low, its sentences come back with small changes, the left hand rocks in eighths (texture flow) through most of it, no chord is struck hard and the climax stays low. An original tune. Round 31 (\"tôi muốn nhạc ambient hơn, tiếng piano mờ ảo hơn\"): on ke-chuyen-mong, the piano a little further and hazier and through a soft echo, still as a felt piano (darkened at 0.9, its strike 30 ms, 34-54). Round 32 (\"tôi vẫn thích tiếng piano gần tai hơn\"): on ke-chuyen-gan, the piano near again (as in ke-chuyen-relax), the hall, haze and echo kept, still as a felt piano.",
+  "style": "ke-chuyen-gan",
+  "bpm": 56,
+  "beats": 4,
+  "piano_tone": {
+    "eq": [
+      [
+        80,
+        2
+      ],
+      [
+        150,
+        3
+      ],
+      [
+        250,
+        2.5
+      ],
+      [
+        400,
+        1
+      ],
+      [
+        700,
+        0
+      ],
+      [
+        1200,
+        -2
+      ],
+      [
+        2000,
+        -6
+      ],
+      [
+        3000,
+        -10
+      ],
+      [
+        5000,
+        -14
+      ],
+      [
+        8000,
+        -18
+      ]
+    ],
+    "eq_amount": 0.9,
+    "width": 0.8,
+    "chorus": 0.2,
+    "attack": 0.03,
+    "lowpass": 4500
+  },
+  "melody_velocity": [
+    34,
+    54
+  ],
+  "sections": [
+    {
+      "bars": 8,
+      "chords": "Fm | Db | Bbm | C7 | Fm | Ab/Eb | Dbmaj7 | C7",
+      "melody": "C5:1.5 Bb4:0.5 Ab4:1 F4:1 | Ab4:3 r:1 | Db5:1.5 C5:0.5 Bb4:1 F4:1 | G4:3 r:1 | C5:1.5 Bb4:0.5 Ab4:1 C5:1 | Eb5:3 r:1 | F5:1.5 Eb5:0.5 Db5:1 C5:1 | E5:3 r:1",
+      "dyn": 0.26,
+      "layers": []
+    },
+    {
+      "bars": 16,
+      "chords": "Fm | Db | Bbm | C7 | Fm | Ab/Eb | Dbmaj7 | C7 | Fm | Db | Bbm | C7 | Db | Ab | Bbm7 | C7",
+      "melody": "C5:1.5 Bb4:0.5 Ab4:1 F4:1 | Ab4:3 r:1 | Db5:1.5 C5:0.5 Bb4:1 F4:1 | G4:3 r:1 | C5:1.5 Bb4:0.5 Ab4:1 C5:1 | Eb5:3 r:1 | F5:1.5 Eb5:0.5 Db5:1 C5:1 | E5:3 r:1 | C5:1.5 Bb4:0.5 Ab4:1 F4:1 | Ab4:3 r:1 | Db5:1.5 C5:0.5 Bb4:1 F4:1 | G4:3 r:1 | F5:1.5 Eb5:0.5 Db5:1 Ab4:1 | C5:3 r:1 | Db5:1 F5:1 Ab5:1.5 G5:0.5 | G5:3 r:1",
+      "texture": "flow",
+      "dyn": 0.32,
+      "layers": [
+        "cello-counter"
+      ]
+    },
+    {
+      "bars": 8,
+      "chords": "Db | Ab/C | Bbm7 | Eb | Db | Ab/C | Bbm7:2 C7:2 | C7",
+      "melody": "F5:2 Ab5:2 | Ab5:1.5 G5:0.5 Eb5:2 | Db5:1 F5:1 Ab5:2 | G5:3 r:1 | F5:1.5 Eb5:0.5 Db5:2 | C5:1 Eb5:1 Ab5:2 | Ab5:1 F5:1 G5:1 E5:1 | G4:3 r:1",
+      "texture": "flow",
+      "dyn": 0.4,
+      "layers": [
+        "strings",
+        "cello-counter"
+      ]
+    },
+    {
+      "bars": 16,
+      "chords": "Fm | Db | Bbm | C7 | Fm | Ab/Eb | Dbmaj7 | C7 | Fm | Db | Bbm | C7 | Db | Ab | Bbm7 | C7",
+      "melody": "C5:1.5 Bb4:0.5 Ab4:1 F4:1 | Ab4:3 r:1 | Db5:1.5 C5:0.5 Bb4:1 F4:1 | G4:3 r:1 | C5:1.5 Bb4:0.5 Ab4:1 C5:1 | Eb5:3 r:1 | F5:1.5 Eb5:0.5 Db5:1 C5:1 | E5:3 r:1 | C5:1.5 Bb4:0.5 Ab4:1 F4:1 | Ab4:3 r:1 | Db5:1.5 C5:0.5 Bb4:1 F4:1 | G4:3 r:1 | F5:1.5 Eb5:0.5 Db5:1 Ab4:1 | C5:3 r:1 | Db5:1 F5:1 Ab5:1.5 G5:0.5 | G5:3 r:1",
+      "texture": "flow",
+      "dyn": 0.3,
+      "layers": [
+        "viola-end"
+      ]
+    },
+    {
+      "bars": 8,
+      "chords": "Fm | Db | Bbm | C7 | Fm | Ab/Eb | Bbm6:2 C7:2 | Fm",
+      "melody": "C5:1.5 Bb4:0.5 Ab4:1 F4:1 | Ab4:3 r:1 | Db5:1.5 C5:0.5 Bb4:1 F4:1 | G4:3 r:1 | C5:1.5 Bb4:0.5 Ab4:1 C5:1 | Eb5:3 r:1 | Db5:1 Bb4:1 G4:1 E4:1 | F4:4",
+      "dyn": 0.24,
+      "rit": true,
+      "layers": []
+    },
+    {
+      "bars": 2,
+      "chords": "Dbmaj7 | Fm",
+      "melody": "C5:1.5 Bb4:0.5 Ab4:1 F4:1 | F4:4",
+      "dyn": 0.18,
+      "layers": []
+    }
+  ]
+}

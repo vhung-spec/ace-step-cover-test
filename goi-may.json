@@ -1,0 +1,115 @@
+{
+  "title": "Gối mây",
+  "about": "Round 33, ke-chuyen-gan (\"hãy tiếp tục sáng tác album mới, theo phong cách ambient và dễ ngủ\"), for a new album, Những giấc mơ nhỏ: a cloud for a pillow, B-flat major in 3/4 at 58 bpm, the piano as a felt piano (darker, struck softer). Its motif floats on long notes down the chord and up again; the middle in G minor reaches C6; the violas' thin line under it. Written to sleep to, on the sound the user settled on (ke-chuyen-gan: the piano near, a wide hall, a soft echo): its tune moves by step and stays low, its sentences come back with small changes (each middle section 16 bars, a sentence and its variation), the left hand rocks in eighths through most of it, the climax stays low. An original tune.",
+  "style": "ke-chuyen-gan",
+  "bpm": 58,
+  "beats": 3,
+  "sections": [
+    {
+      "bars": 8,
+      "chords": "Bb | Gm | Eb | F | Bb | Dm | Eb | F",
+      "melody": "F5:2 D5:1 | D5:2 Bb4:1 | Bb4:1 Eb5:1 G5:1 | F5:3 | D5:2 F5:1 | A5:2 F5:1 | G5:1 F5:1 Eb5:1 | C5:3",
+      "dyn": 0.26,
+      "layers": []
+    },
+    {
+      "bars": 16,
+      "chords": "Bb | Gm | Eb | F | Bb | Dm | Eb | F | Bb | Gm | Eb | F | Gm | Eb | Cm7:1.5 F7:1.5 | Bb",
+      "melody": "F5:2 D5:1 | D5:2 Bb4:1 | Bb4:1 Eb5:1 G5:1 | F5:3 | D5:2 F5:1 | A5:2 F5:1 | G5:1 F5:1 Eb5:1 | C5:3 | F5:2 D5:1 | D5:2 Bb4:1 | Bb4:1 Eb5:1 G5:1 | F5:3 | D5:2 G5:1 | G5:2 Eb5:1 | Eb5:1.5 C5:1.5 | D5:3",
+      "texture": "flow",
+      "dyn": 0.32,
+      "layers": [
+        "cello-counter"
+      ]
+    },
+    {
+      "bars": 8,
+      "chords": "Gm | Dm | Eb | Bb | Cm | Gm/Bb | Am7b5 | D7",
+      "melody": "Bb4:1 D5:1 G5:1 | F5:2 A4:1 | G5:2 Eb5:1 | D5:3 | Eb5:1 G5:1 C6:1 | Bb5:2 G5:1 | A5:1 G5:1 Eb5:1 | F#5:3",
+      "texture": "flow",
+      "dyn": 0.4,
+      "layers": [
+        "viola-pad",
+        "cello-counter"
+      ]
+    },
+    {
+      "bars": 16,
+      "chords": "Bb | Gm | Eb | F | Bb | Dm | Eb | F | Bb | Gm | Eb | F | Gm | Eb | Cm7:1.5 F7:1.5 | Bb",
+      "melody": "F5:2 D5:1 | D5:2 Bb4:1 | Bb4:1 Eb5:1 G5:1 | F5:3 | D5:2 F5:1 | A5:2 F5:1 | G5:1 F5:1 Eb5:1 | C5:3 | F5:2 D5:1 | D5:2 Bb4:1 | Bb4:1 Eb5:1 G5:1 | F5:3 | D5:2 G5:1 | G5:2 Eb5:1 | Eb5:1.5 C5:1.5 | D5:3",
+      "texture": "flow",
+      "dyn": 0.3,
+      "layers": [
+        "viola-end"
+      ]
+    },
+    {
+      "bars": 8,
+      "chords": "Bb | Gm | Eb | F | Gm | Eb | Cm7:1.5 F7:1.5 | Bb",
+      "melody": "F5:2 D5:1 | D5:2 Bb4:1 | Bb4:1 Eb5:1 G5:1 | F5:3 | D5:2 G5:1 | G5:2 Eb5:1 | Eb5:1.5 C5:1.5 | D5:3",
+      "rit": true,
+      "dyn": 0.24,
+      "layers": []
+    },
+    {
+      "bars": 2,
+      "chords": "Eb | Bb",
+      "melody": "Bb4:1 Eb5:1 G5:1 | F5:3",
+      "dyn": 0.18,
+      "layers": []
+    }
+  ],
+  "piano_tone": {
+    "eq": [
+      [
+        80,
+        2
+      ],
+      [
+        150,
+        3
+      ],
+      [
+        250,
+        2.5
+      ],
+      [
+        400,
+        1
+      ],
+      [
+        700,
+        0
+      ],
+      [
+        1200,
+        -2
+      ],
+      [
+        2000,
+        -6
+      ],
+      [
+        3000,
+        -10
+      ],
+      [
+        5000,
+        -14
+      ],
+      [
+        8000,
+        -18
+      ]
+    ],
+    "eq_amount": 0.9,
+    "width": 0.8,
+    "chorus": 0.2,
+    "attack": 0.03,
+    "lowpass": 4500
+  },
+  "melody_velocity": [
+    34,
+    54
+  ]
+}

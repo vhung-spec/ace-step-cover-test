@@ -1,0 +1,63 @@
+{
+  "title": "Bức ảnh cũ",
+  "about": "Round 26, ke-chuyen (\"làm luôn 7 bài cho đủ album\"): C minor at 62 bpm. Its motif wavers on one note (G-Ab-G), as a memory flickers, then rises up the chord (C-Eb) and settles a step below on the next chord's third; sung again from C over A-flat. The arc: the piano alone; the cellos' slow second line; in the middle the cellos sing a new tune of their own in E-flat while the violas hold a thin line above and the piano only its deep notes; then the piano takes that tune two octaves up for the climax, the strings holding the chords and the piano rolling them, the wavering motif at its top; the piano again with the violas at the sentences' ends; the motif once more to close, on the fifth. An original tune.",
+  "style": "ke-chuyen",
+  "bpm": 62,
+  "beats": 4,
+  "sections": [
+    {
+      "bars": 8,
+      "chords": "Cm | Bb/D | Ab | Eb/G | Fm | Cm/Eb | Dm7b5 | G7",
+      "melody": "G4:0.5 Ab4:0.5 G4:1 C5:1 Eb5:1 | D5:3 r:1 | C5:0.5 Db5:0.5 C5:1 Eb5:1 Ab5:1 | G5:3 r:1 | Ab5:1.5 G5:0.5 F5:1 C5:1 | Eb5:2 D5:1 C5:1 | F5:1 Ab5:1 D5:1.5 C5:0.5 | B4:3 r:1",
+      "dyn": 0.3,
+      "layers": []
+    },
+    {
+      "bars": 8,
+      "chords": "Cm | Bb/D | Ab | Eb/G | Abmaj7 | Fm7 | Dm7b5:2 G7:2 | G7",
+      "melody": "G4:0.5 Ab4:0.5 G4:1 C5:1 Eb5:1 | D5:3 r:1 | C5:0.5 Db5:0.5 C5:1 Eb5:1 Ab5:1 | G5:3 r:1 | C6:1.5 Bb5:0.5 G5:1 Eb5:1 | F5:2 Ab5:1 C6:1 | D6:1 C6:1 B5:1 G5:1 | Ab5:1 G5:2 r:1",
+      "dyn": 0.42,
+      "layers": [
+        "cello-counter"
+      ]
+    },
+    {
+      "bars": 8,
+      "chords": "Ab | Eb/G | Fm7 | Bb | Ab | Eb/G | Fm6 | G7",
+      "melody": "Eb3:1 Ab3:1 C4:1.5 Bb3:0.5 | Bb3:3 r:1 | Ab3:1 C4:1 Eb4:1.5 D4:0.5 | D4:3 r:1 | C4:1 Eb4:1 Ab4:1 G4:1 | G4:2 F4:1 Eb4:1 | F4:1 D4:1 Ab3:1 C4:1 | B3:3 r:1",
+      "melody_on": "cello",
+      "dyn": 0.5,
+      "layers": [
+        "viola-pad"
+      ]
+    },
+    {
+      "bars": 8,
+      "chords": "Ab | Eb/G | Fm7 | Bb | Cm | Ab | Fm6:2 G7:2 | G7",
+      "melody": "Eb5:1 Ab5:1 C6:1.5 Bb5:0.5 | Bb5:2 G5:2 | Ab5:1 C6:1 Eb6:1.5 D6:0.5 | D6:2 F6:1 D6:1 | Eb6:1.5 D6:0.5 C6:1 G5:1 | C6:0.5 Db6:0.5 C6:1 Ab5:1 Eb6:1 | D6:1 C6:1 B5:1 D6:1 | D5+B5:4",
+      "texture": "blocks",
+      "dyn": 0.72,
+      "layers": [
+        "strings",
+        "cello-counter"
+      ]
+    },
+    {
+      "bars": 8,
+      "chords": "Cm | Bb/D | Ab | Eb/G | Fm | Cm/Eb | Fm6:2 G7:2 | Cm",
+      "melody": "G4:0.5 Ab4:0.5 G4:1 C5:1 Eb5:1 | D5:3 r:1 | C5:0.5 Db5:0.5 C5:1 Eb5:1 Ab5:1 | G5:3 r:1 | Ab5:1 G5:1 F5:1 C5:1 | Eb5:2 D5:1 C5:1 | Ab4:1 F4:1 D5:1 B4:1 | C5:4",
+      "dyn": 0.3,
+      "rit": true,
+      "layers": [
+        "viola-end"
+      ]
+    },
+    {
+      "bars": 2,
+      "chords": "Abmaj7 | Cm",
+      "melody": "G4:0.5 Ab4:0.5 G4:1 Eb5:2 | G4:4",
+      "dyn": 0.2,
+      "layers": []
+    }
+  ]
+}

@@ -1,0 +1,55 @@
+{
+  "title": "Tiếng gọi xa",
+  "about": "Round 25, ke-chuyen (\"bạn hãy tự sáng tác những bản khác hay hơn, phối theo kiểu bạn đề xuất\"): G-sharp minor at 68 bpm. Its motif is a call: one note struck twice, then a leap up a sixth (D#-D#-B), answered from afar by the cellos each time the tune holds; sung again a step lower over C#m; the middle section in B major climbs to E6, D#sus4 resolving to D#7. The arc here: the piano and the cellos' far answers first; the violas join with a thin line; the climax with the strings and the piano's rolled chords; the piano alone to the last call, and the cellos answer it once more. An original tune.",
+  "style": "ke-chuyen",
+  "bpm": 68,
+  "beats": 4,
+  "sections": [
+    {
+      "bars": 8,
+      "chords": "G#m | E | C#m | D#7 | G#m | E | C#m6 | D#7",
+      "melody": "D#5:1 D#5:1 B5:2 | G#5:1.5 F#5:0.5 E5:2 | C#5:1 C#5:1 G#5:2 | G5:3 r:1 | D#5:1 D#5:1 B5:1 C#6:1 | D#6:2 B5:2 | A#5:1 G#5:1 E5:1 C#5:1 | D#5:3 r:1",
+      "dyn": 0.34,
+      "layers": [
+        "cello-answer"
+      ]
+    },
+    {
+      "bars": 8,
+      "chords": "G#m | E | C#m | D#7 | E | B/D# | C#m7 | D#7",
+      "melody": "D#5:1 D#5:1 B5:2 | G#5:1.5 F#5:0.5 E5:2 | C#5:1 C#5:1 G#5:2 | G5:3 r:1 | E5:1 G#5:1 B5:2 | F#5:3 r:1 | E5:1 G#5:1 B5:1 C#6:1 | A#5:3 r:1",
+      "dyn": 0.44,
+      "layers": [
+        "cello-answer",
+        "viola-pad"
+      ]
+    },
+    {
+      "bars": 8,
+      "chords": "E | B/D# | C#m | G#m | E | F# | D#sus4:2 D#7:2 | D#7",
+      "melody": "E5:1 G#5:1 B5:2 | F#5:1.5 E5:0.5 D#5:2 | E5:1 G#5:1 C#6:2 | B5:3 r:1 | E6:1.5 D#6:0.5 B5:2 | A#5+C#6:3 r:1 | G#5:2 G5:2 | D#5+A#5:4",
+      "texture": "blocks",
+      "dyn": 0.7,
+      "layers": [
+        "strings"
+      ]
+    },
+    {
+      "bars": 8,
+      "chords": "G#m | E | C#m | D#7 | G#m | E | C#m6:2 D#7:2 | G#m",
+      "melody": "D#5:1 D#5:1 B5:2 | G#5:1.5 F#5:0.5 E5:2 | C#5:1 C#5:1 G#5:2 | G5:3 r:1 | D#5:1 D#5:1 B4:2 | G#4:2 B4:2 | A#4:2 G4:2 | G#4:4",
+      "rit": true,
+      "dyn": 0.3,
+      "layers": []
+    },
+    {
+      "bars": 2,
+      "chords": "E | G#m",
+      "melody": "D#5:1 D#5:1 B5:2 | G#5:4",
+      "dyn": 0.2,
+      "layers": [
+        "cello-answer"
+      ]
+    }
+  ]
+}

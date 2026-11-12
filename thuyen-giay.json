@@ -1,0 +1,62 @@
+{
+  "title": "Thuyền giấy",
+  "about": "Round 33, ke-chuyen-gan (\"hãy tiếp tục sáng tác album mới, theo phong cách ambient và dễ ngủ\"), for a new album, Những giấc mơ nhỏ: a paper boat, F major in 3/4 at 60 bpm. Its motif rocks down a third and climbs back by step (C-A, Bb-C-D), as a paper boat rides a ripple; the middle in D minor reaches A5; the violas' thin line under it. Written to sleep to, on the sound the user settled on (ke-chuyen-gan: the piano near, a wide hall, a soft echo): its tune moves by step and stays low, its sentences come back with small changes (each middle section 16 bars, a sentence and its variation), the left hand rocks in eighths through most of it, the climax stays low. An original tune.",
+  "style": "ke-chuyen-gan",
+  "bpm": 60,
+  "beats": 3,
+  "sections": [
+    {
+      "bars": 8,
+      "chords": "F | Bb/F | F | C | Dm | Bb | Gm7 | C",
+      "melody": "C5:2 A4:1 | Bb4:1 C5:1 D5:1 | C5:2 F5:1 | E5:3 | F5:2 D5:1 | D5:1 C5:1 Bb4:1 | Bb4:1 D5:1 F5:1 | C5:3",
+      "dyn": 0.26,
+      "layers": []
+    },
+    {
+      "bars": 16,
+      "chords": "F | Bb/F | F | C | Dm | Bb | Gm7 | C | F | Bb/F | F | C | Bb | F/A | Gm7:1.5 C7:1.5 | F",
+      "melody": "C5:2 A4:1 | Bb4:1 C5:1 D5:1 | C5:2 F5:1 | E5:3 | F5:2 D5:1 | D5:1 C5:1 Bb4:1 | Bb4:1 D5:1 F5:1 | C5:3 | C5:2 A4:1 | Bb4:1 C5:1 D5:1 | C5:2 F5:1 | E5:3 | D5:2 Bb4:1 | C5:2 A4:1 | Bb4:1.5 G4:1.5 | F4:3",
+      "texture": "flow",
+      "dyn": 0.32,
+      "layers": [
+        "cello-counter"
+      ]
+    },
+    {
+      "bars": 8,
+      "chords": "Dm | Am | Bb | F | Gm | Dm/F | Bb | C7",
+      "melody": "F5:1 E5:1 D5:1 | C5:2 E5:1 | D5:2 F5:1 | A5:3 | G5:1 F5:1 D5:1 | F5:2 A4:1 | Bb4:1 D5:1 F5:1 | E5:2 C5:1",
+      "texture": "flow",
+      "dyn": 0.4,
+      "layers": [
+        "viola-pad",
+        "cello-counter"
+      ]
+    },
+    {
+      "bars": 16,
+      "chords": "F | Bb/F | F | C | Dm | Bb | Gm7 | C | F | Bb/F | F | C | Bb | F/A | Gm7:1.5 C7:1.5 | F",
+      "melody": "C5:2 A4:1 | Bb4:1 C5:1 D5:1 | C5:2 F5:1 | E5:3 | F5:2 D5:1 | D5:1 C5:1 Bb4:1 | Bb4:1 D5:1 F5:1 | C5:3 | C5:2 A4:1 | Bb4:1 C5:1 D5:1 | C5:2 F5:1 | E5:3 | D5:2 Bb4:1 | C5:2 A4:1 | Bb4:1.5 G4:1.5 | F4:3",
+      "texture": "flow",
+      "dyn": 0.3,
+      "layers": [
+        "viola-end"
+      ]
+    },
+    {
+      "bars": 8,
+      "chords": "F | Bb/F | F | C | Bb | F/A | Gm7:1.5 C7:1.5 | F",
+      "melody": "C5:2 A4:1 | Bb4:1 C5:1 D5:1 | C5:2 F5:1 | E5:3 | D5:2 Bb4:1 | C5:2 A4:1 | Bb4:1.5 G4:1.5 | F4:3",
+      "rit": true,
+      "dyn": 0.24,
+      "layers": []
+    },
+    {
+      "bars": 2,
+      "chords": "Bb | F",
+      "melody": "D5:2 C5:1 | A4:3",
+      "dyn": 0.18,
+      "layers": []
+    }
+  ]
+}

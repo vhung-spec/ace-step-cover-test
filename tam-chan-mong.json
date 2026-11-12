@@ -1,0 +1,116 @@
+{
+  "title": "Tấm chăn mỏng",
+  "about": "Round 30, (\"tôi thích nhất là âm thanh bản R1, hãy sáng tạo thêm, tiếng piano và âm thanh ambient có thể thay đổi linh hoạt theo đề xuất của bạn, tôi muốn nhạc nghe dễ ngủ\"): a thin blanket on a cool night, E minor in 3/4 at 62 bpm, the warmest of the set: the Rhodes 4 dB more under the piano than in R1, a little more chorus. Its motif steps down to the tonic and rests a whole bar on the fifth (G-F#-E, B), then climbs back three steps (C-D-E); the middle in G major reaches C6. Written to be easy to sleep to: its tune moves mostly by step within about an octave and a half, low, its sentences come back with small changes, the left hand rocks in eighths (texture flow) through most of it, no chord is struck hard and the climax stays low. An original tune. Round 31 (\"tôi muốn nhạc ambient hơn, tiếng piano mờ ảo hơn\"): on ke-chuyen-mong, the piano a little further and hazier and through a soft echo, still with more of the Rhodes (4 dB). Round 32 (\"tôi vẫn thích tiếng piano gần tai hơn\"): on ke-chuyen-gan, the piano near again (as in ke-chuyen-relax), the hall, haze and echo kept, still with 4 dB more of the Rhodes.",
+  "style": "ke-chuyen-gan",
+  "bpm": 62,
+  "beats": 3,
+  "piano_tone": {
+    "eq": [
+      [
+        80,
+        2
+      ],
+      [
+        150,
+        3
+      ],
+      [
+        250,
+        2.5
+      ],
+      [
+        400,
+        1
+      ],
+      [
+        700,
+        0
+      ],
+      [
+        1200,
+        -2
+      ],
+      [
+        2000,
+        -6
+      ],
+      [
+        3000,
+        -10
+      ],
+      [
+        5000,
+        -14
+      ],
+      [
+        8000,
+        -18
+      ]
+    ],
+    "eq_amount": 0.75,
+    "width": 0.8,
+    "chorus": 0.2,
+    "attack": 0.02,
+    "lowpass": 4500
+  },
+  "gains": {
+    "piano-layer": 0.0,
+    "viola-end": -2.0,
+    "cello-counter": -4.0
+  },
+  "sections": [
+    {
+      "bars": 8,
+      "chords": "Em | Em/D | C | G | Am7 | D | C | B7",
+      "melody": "G5:1 F#5:1 E5:1 | B4:3 | C5:1 D5:1 E5:1 | D5:3 | A5:1 G5:1 E5:1 | F#5:3 | E5:1 D5:1 C5:1 | D#5:3",
+      "dyn": 0.28,
+      "layers": []
+    },
+    {
+      "bars": 16,
+      "chords": "Em | Em/D | C | G | Am7 | D | C | B7 | Em | Em/D | C | G | Am | Em/G | Am6 | B7",
+      "melody": "G5:1 F#5:1 E5:1 | B4:3 | C5:1 D5:1 E5:1 | D5:3 | A5:1 G5:1 E5:1 | F#5:3 | E5:1 D5:1 C5:1 | D#5:3 | G5:1 F#5:1 E5:1 | B4:3 | C5:1 D5:1 E5:1 | D5:3 | C5:1 E5:1 A5:1 | G5:2 B4:1 | F#5:1 E5:1 C5:1 | B4:3",
+      "texture": "flow",
+      "dyn": 0.34,
+      "layers": [
+        "cello-counter"
+      ]
+    },
+    {
+      "bars": 8,
+      "chords": "C | G/B | Am7 | D | Cmaj7 | G/B | Am7 | B7",
+      "melody": "E5:1 G5:1 C6:1 | B5:2 G5:1 | C6:1.5 B5:0.5 A5:1 | F#5:3 | E5:1 G5:1 B5:1 | B5:1.5 A5:0.5 G5:1 | E5:1 G5:1 A5:1 | D#5:3",
+      "texture": "flow",
+      "dyn": 0.42,
+      "layers": [
+        "strings",
+        "cello-counter"
+      ]
+    },
+    {
+      "bars": 16,
+      "chords": "Em | Em/D | C | G | Am7 | D | C | B7 | Em | Em/D | C | G | Am | Em/G | Am6 | B7",
+      "melody": "G5:1 F#5:1 E5:1 | B4:3 | C5:1 D5:1 E5:1 | D5:3 | A5:1 G5:1 E5:1 | F#5:3 | E5:1 D5:1 C5:1 | D#5:3 | G5:1 F#5:1 E5:1 | B4:3 | C5:1 D5:1 E5:1 | D5:3 | C5:1 E5:1 A5:1 | G5:2 B4:1 | F#5:1 E5:1 C5:1 | B4:3",
+      "texture": "flow",
+      "dyn": 0.32,
+      "layers": [
+        "viola-end"
+      ]
+    },
+    {
+      "bars": 8,
+      "chords": "Em | Em/D | C | G | Am | Em/G | Am6:1.5 B7:1.5 | Em",
+      "melody": "G5:1 F#5:1 E5:1 | B4:3 | C5:1 D5:1 E5:1 | D5:3 | C5:1 E5:1 A5:1 | G5:2 B4:1 | F#5:1.5 D#5:1.5 | E5:3",
+      "dyn": 0.26,
+      "rit": true,
+      "layers": []
+    },
+    {
+      "bars": 2,
+      "chords": "Cmaj7 | Em",
+      "melody": "G5:1 F#5:1 E5:1 | B4:3",
+      "dyn": 0.2,
+      "layers": []
+    }
+  ]
+}
