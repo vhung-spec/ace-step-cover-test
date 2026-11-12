@@ -1,13 +1,9 @@
 {
   "title": "Cơn giông",
-  "about": "Round 34, ke-chuyen-gan (\"hãy làm album và sáng tác album mới giai điệu nhanh hơn,dark hơn\"), for a new album, Trắng đêm: the gathering storm, D minor at 88 bpm. Its motif lifts on a quick turn (D-E-F-E-D) and falls back; the left hand broken in eighths from a deep bass throughout, as gusts; the middle in F. Faster and darker than the sleep albums, on the same sound (ke-chuyen-gan: the piano near, a wide hall, a soft echo, here a little softer for the quicker tune): a minor key, the tune moving in eighths and sixteenths, the left hand in motion from a four-bar opening of its own, the cellos answering the tune (darker than their second line), the double basses under the middle, and at the climax the strings, the piano doubling its tune an octave down and the harmony turning through the Neapolitan chord; then back to the piano alone. An original tune.",
-  "style": "ke-chuyen-gan",
+  "about": "Round 34, ke-chuyen-gan (\"hãy làm album và sáng tác album mới giai điệu nhanh hơn,dark hơn\"), for a new album, Trắng đêm: the gathering storm, D minor at 88 bpm. Its motif lifts on a quick turn (D-E-F-E-D) and falls back; the left hand broken in eighths from a deep bass throughout, as gusts; the middle in F. Faster and darker than the sleep albums, on the same sound (ke-chuyen-gan: the piano near, a wide hall, a soft echo, here a little softer for the quicker tune): a minor key, the tune moving in eighths and sixteenths, the left hand in motion from a four-bar opening of its own, the cellos answering the tune (darker than their second line), the double basses under the middle, and at the climax the strings, the piano doubling its tune an octave down and the harmony turning through the Neapolitan chord; then back to the piano alone. An original tune. Round 35 (\"tôi chọn bản B, làm lại album\"): on ke-chuyen-khe, the piano struck softer and darker.",
+  "style": "ke-chuyen-khe",
   "bpm": 88,
   "beats": 4,
-  "melody_velocity": [
-    40,
-    66
-  ],
   "piano_echo": {
     "beats": 1.0,
     "feedback": 0.35,

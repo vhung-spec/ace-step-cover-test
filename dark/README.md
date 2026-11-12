@@ -519,3 +519,22 @@ CLAP (`darkfit`): "fast, flowing, restless piano music" đứng đầu ở cả 
 những bài ru giọng trưởng cũng 0,60), và đọc giai điệu nhanh là sáng hơn ("happy, bright" 0,33-0,39, album trước 0,27-0,30).
 Thử trên `chuyen-tau-cuoi` thêm contrabass dưới các đoạn A, piano tối hơn và bớt Rhodes, hay hạ cả bài một quãng ba hoặc bốn:
 không khác (chênh dưới 0,01), nên giữ như viết. Mất trên loa điện thoại 6,8-8,3 dB.
+
+## "Trắng đêm" chơi khẽ: `ke-chuyen-khe`, cả mười bài (vòng 35)
+
+Người dùng: "tôi muốn tiếng piano buồn hơn, dark hơn". Ba bản thử trên `trang-dem` và `ga-vang`: B, đánh khẽ (giai điệu
+32-54, tay trái nhẹ hơn 4, hợp âm cuối 30; các lớp đánh nhẹ của Salamander tự nhiên tối hơn), cắt trên 3,2 kHz, EQ 0,85,
+chorus 0,25, búa mềm 25 ms, Rhodes cắt trên 2,5 kHz; C, như B nhưng hạ cả bài (La thứ xuống Mi thứ, Fa thứ xuống Rê thứ);
+D, piano nỉ (cắt trên 1,9 kHz, 28-48, Rhodes thấp hơn 4 dB). Người dùng chọn B ("tôi chọn bản B, làm lại album"), nay là
+`ke-chuyen-khe` (`ke-chuyen-gan` với các thay đổi đó); mười bài chuyển sang, bỏ cường độ và EQ riêng của từng bài.
+
+| | Trên 2 kHz | Trên 4 kHz | "dark, muffled" hơn "bright, clear" | "sad, sorrowful" (cos) | Mất trên điện thoại |
+|---|---|---|---|---|---|
+| A (album vòng 34) | -35,2 / -34,1 dB | -65,7 / -65,6 dB | 0,048 / 0,055 | 0,599 / 0,599 | 8,3 / 7,1 dB |
+| B (chọn) | -36,5 / -35,0 | -68,5 / -67,3 | 0,081 / 0,082 | 0,566 / 0,580 | 9,1 / 7,9 |
+| C (trầm hơn) | -35,2 / -35,3 | -66,1 / -67,7 | 0,060 / 0,081 | 0,586 / 0,572 | 8,6 / 9,5 |
+| D (piano nỉ) | -37,6 / -35,6 | -69,5 / -68,2 | 0,106 / 0,115 | 0,538 / 0,536 | 9,6 / 8,3 |
+
+(`trang-dem` / `ga-vang`; CLAP nhóm `tone` và `sad`, cả bảy bản "sad, sorrowful, melancholic piano music" đứng đầu nhóm.)
+CLAP nghe rõ tiếng tối hơn, nhưng tiếng càng bị nén càng ít giống "nhạc piano buồn" với nó: với CLAP, piano buồn là tiếng
+mộc, trong.

@@ -1,13 +1,9 @@
 {
   "title": "Trắng đêm",
-  "about": "Round 34, ke-chuyen-gan (\"hãy làm album và sáng tác album mới giai điệu nhanh hơn,dark hơn\"), for a new album, Trắng đêm: a sleepless night, the title piece, A minor at 80 bpm, its bass falling A-G-F-E as a lament under a tune that climbs the chord and turns; the left hand broken in eighths; the middle in C over a circling left hand, the climax through B-flat, the Neapolitan. Faster and darker than the sleep albums, on the same sound (ke-chuyen-gan: the piano near, a wide hall, a soft echo, here a little softer for the quicker tune): a minor key, the tune moving in eighths and sixteenths, the left hand in motion from a four-bar opening of its own, the cellos answering the tune (darker than their second line), the double basses under the middle, and at the climax the strings, the piano doubling its tune an octave down and the harmony turning through the Neapolitan chord; then back to the piano alone. An original tune.",
-  "style": "ke-chuyen-gan",
+  "about": "Round 34, ke-chuyen-gan (\"hãy làm album và sáng tác album mới giai điệu nhanh hơn,dark hơn\"), for a new album, Trắng đêm: a sleepless night, the title piece, A minor at 80 bpm, its bass falling A-G-F-E as a lament under a tune that climbs the chord and turns; the left hand broken in eighths; the middle in C over a circling left hand, the climax through B-flat, the Neapolitan. Faster and darker than the sleep albums, on the same sound (ke-chuyen-gan: the piano near, a wide hall, a soft echo, here a little softer for the quicker tune): a minor key, the tune moving in eighths and sixteenths, the left hand in motion from a four-bar opening of its own, the cellos answering the tune (darker than their second line), the double basses under the middle, and at the climax the strings, the piano doubling its tune an octave down and the harmony turning through the Neapolitan chord; then back to the piano alone. An original tune. Round 35 (\"tôi chọn bản B, làm lại album\"): on ke-chuyen-khe, the piano struck softer and darker.",
+  "style": "ke-chuyen-khe",
   "bpm": 80,
   "beats": 4,
-  "melody_velocity": [
-    40,
-    66
-  ],
   "piano_echo": {
     "beats": 1.0,
     "feedback": 0.35,
