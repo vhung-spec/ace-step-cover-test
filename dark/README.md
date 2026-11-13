@@ -649,3 +649,6 @@ Mỗi lần xuất album, xuất đúng cách này để nhập thẳng vào Kho
    (Nhạc của phiên này: mọi tiếng tự tổng hợp, không sample nào cần ghi công.)
 
 Ví dụ: `NHẠC DARK\The Year I Waited\01 - July Rain.wav`, `...\cover.jpg`, `...\Tracklist.txt`.
+
+Người dùng chọn: mọi album của phiên này xuất vào thư mục chủ đề `Nhạc Dark Ambient`; cách xuất mới áp dụng từ
+album 11 (album 1-10 giữ như đã gửi); nhạc ngủ giữ khoảng -17 LUFS.
