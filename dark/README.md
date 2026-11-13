@@ -660,3 +660,22 @@ Dozing Satellite, Night Tide, Midnight Train, Old Cassette Dreams, Late Night La
 Coordinates, Nebula, Deep in the Clouds (49 phút 11 giây, -17 LUFS). Xuất vào `Nhạc Dark Ambient\Orbit of Sleep\`:
 WAV 44,1 kHz 16 bit chỉ có tag tên bài, `cover.jpg` 1400x1400 (cực quang trên hồ, vẽ bằng máy), `Tracklist.txt`
 đúng mẫu (Ab minor thay G# minor vì kho chỉ nhận các tên nốt trong danh sách).
+
+## Vòng X17: album 12, Sleep in the Dark kiểu an toàn (`ngu-ngon`)
+
+Người dùng: "hãy sáng tác album tiếp theo". Mười bài ngủ kiểu Sleep in the Dark (hộp nhạc, chuông thủy tinh,
+dàn dây, piano nỉ, cây dây, sóng, gió, bát hát; không trống, đàn gảy, organ), mỗi bài trên một trong năm khung
+hợp âm ít gặp (bốn khung của album 11 và một khung đi xuống i - bVII/i - bVI maj7#11), không i-VI-iv-V thuần:
+
+| Bản | Tên tiếng Anh | Giọng, nhịp |
+|---|---|---|
+| `k121-suong-gia` (Sương giá) | First Frost | Mi thứ, 50 bpm |
+| `k122-den-long-tren-song` (Đèn lồng trên sông) | Lanterns on the River | Son thứ, 48 bpm |
+| `k123-cu-dem` (Cú đêm) | The Night Owl | Si thứ, 52 bpm |
+| `k124-thung-lung-ngu` (Thung lũng ngủ) | Sleeping Valley | Rê Dorian, 46 bpm |
+| `k125-gac-mai-cu` (Gác mái cũ) | The Old Attic | Đô thứ, 50 bpm |
+| `k126-mua-tuyet-nhe` (Mưa tuyết nhẹ) | Soft Snowfall | La thứ, 48 bpm |
+| `k127-ho-tinh` (Hồ tĩnh) | Still Lake | Fa thăng thứ, 44 bpm |
+| `k128-chan-am` (Chăn ấm) | Warm Blanket | Fa thứ, 50 bpm |
+| `k129-bau-troi-dau-sao` (Bầu trời đầy sao) | Starlit Sky | Đô thăng Dorian, 48 bpm |
+| `k130-lang-im` (Lặng im) | Hush | Mi giáng thứ, 42 bpm |

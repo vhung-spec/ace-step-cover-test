@@ -1,0 +1,71 @@
+{
+  "title": "Gác mái cũ",
+  "title_en": "The Old Attic",
+  "family": "dark-khac",
+  "about": "Round x17 (album 12), the user: \"hãy sáng tác album tiếp theo\": sleep music in the style of Sleep in the Dark (ngu-ngon), on a less common progression of its own (template 2; after the Content ID matches on plain i-VI-iv-V pieces), slow (50 bpm), strings, pad, sub, an improvised box tune, then felt. No drums, plucked string or organ. An original piece.",
+  "style": "ngu-ngon",
+  "bpm": 50,
+  "beats": 4,
+  "mode": "aeolian",
+  "seed": 125,
+  "gains": {
+    "pad": -3.0
+  },
+  "sections": [
+    {
+      "bars": 8,
+      "chords": "Cm9 | Cm9 | Abmaj7/C | Abmaj7/C | Fm6 | Fm6 | Cm9 | Cm9",
+      "dyn": 0.18,
+      "layers": [
+        "strings",
+        "pad"
+      ]
+    },
+    {
+      "bars": 24,
+      "chords": "Cm9 | Ebmaj7 | Fm6 | Dbmaj7#11 | Cm9 | Bbadd9 | Abmaj7 | G7sus4 | Cm9 | Ebmaj7 | Fm6 | Dbmaj7#11 | Cm9 | Bbadd9 | Abmaj7 | G7sus4 | Cm9 | Ebmaj7 | Fm6 | Dbmaj7#11 | Cm9 | Bbadd9 | Abmaj7 | G7sus4",
+      "dyn": 0.27,
+      "layers": [
+        "strings",
+        "pad",
+        "sub"
+      ],
+      "improv": "box",
+      "improv_range": [
+        62,
+        81
+      ]
+    },
+    {
+      "bars": 16,
+      "chords": "Dbmaj7#11 | Ebadd9 | Fm9 | Abmaj7 | Dbmaj7#11 | Cm9 | G7sus4 | Cm9 | Dbmaj7#11 | Ebadd9 | Fm9 | Abmaj7 | Dbmaj7#11 | Cm9 | G7sus4 | Cm9",
+      "dyn": 0.28,
+      "layers": [
+        "strings",
+        "sub",
+        "pad"
+      ],
+      "improv": "felt",
+      "improv_range": [
+        55,
+        74
+      ]
+    },
+    {
+      "bars": 8,
+      "chords": "Cm9 | Cm9 | Abmaj7/C | Abmaj7/C | Fm6 | Fm6 | Cm9 | Cm9",
+      "dyn": 0.17,
+      "layers": [
+        "strings",
+        "pad"
+      ],
+      "improv": "box",
+      "improv_range": [
+        62,
+        81
+      ],
+      "improv_density": 0.6,
+      "swell": -0.1
+    }
+  ]
+}
