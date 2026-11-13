@@ -1,0 +1,69 @@
+{
+  "title": "Thánh đường chìm",
+  "family": "dark-khac",
+  "about": "Round x5 of the dark ambient style (khong-gian), as the user asked (\"hãy sáng tác thêm cho tôi nhiều bài nữa\"): a cathedral sunk under the sea: the organ heard as if through water, low and soft, the choir far away, drops and the bell rising out of the deep. E flat minor at 44 bpm. An original piece.",
+  "style": "khong-gian",
+  "bpm": 44,
+  "beats": 4,
+  "organ_range": [
+    48,
+    66
+  ],
+  "gains": {
+    "organ": -2.0
+  },
+  "sections": [
+    {
+      "bars": 4,
+      "chords": "Ebm | Ebm | Cbmaj7 | Cbmaj7",
+      "dyn": 0.25,
+      "layers": [
+        "organ",
+        "sub",
+        "drops"
+      ],
+      "drops_per_bar": 0.5,
+      "swell": 0.15
+    },
+    {
+      "bars": 8,
+      "chords": "Ebm | Ebm | Cbmaj7 | Cbmaj7 | Abm9 | Abm9 | Bb5 | Bb5",
+      "dyn": 0.4,
+      "layers": [
+        "organ",
+        "sub",
+        "drops",
+        "toll"
+      ],
+      "drops_per_bar": 0.75,
+      "toll_every": 2
+    },
+    {
+      "bars": 8,
+      "chords": "Ebm | Ebm | Fb/Eb | Fb/Eb | Cbmaj7 | Cbmaj7 | Bb5 | Bb5",
+      "dyn": 0.52,
+      "layers": [
+        "organ",
+        "sub",
+        "choir",
+        "toll",
+        "drops"
+      ],
+      "drops_per_bar": 0.75,
+      "toll_every": 2,
+      "swell": 0.1
+    },
+    {
+      "bars": 6,
+      "chords": "Ebm | Ebm | Fb/Eb | Fb/Eb | Ebm | Ebm",
+      "dyn": 0.25,
+      "layers": [
+        "organ",
+        "sub",
+        "drops"
+      ],
+      "drops_per_bar": 0.5,
+      "swell": -0.12
+    }
+  ]
+}

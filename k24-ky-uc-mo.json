@@ -1,0 +1,57 @@
+{
+  "title": "Ký ức mờ",
+  "family": "dark-khac",
+  "about": "Round x4 of the dark ambient style (khong-gian), as the user asked (\"hãy sáng tác thêm cho tôi\"): a faded memory, the most tune of this round: the music box plays a whole slow melody, the glass answering it far off, the pad and choir under them. B minor at 58 bpm, warming to D and G in the middle. An original piece.",
+  "style": "khong-gian",
+  "bpm": 58,
+  "beats": 4,
+  "sections": [
+    {
+      "bars": 4,
+      "chords": "Bm | Bm | Gmaj7 | Gmaj7",
+      "dyn": 0.22,
+      "layers": [
+        "pad",
+        "shimmer"
+      ],
+      "swell": 0.15
+    },
+    {
+      "bars": 8,
+      "chords": "Bm | Bm | Gmaj7 | Gmaj7 | Em9 | Em9 | F#5 | F#5",
+      "dyn": 0.38,
+      "layers": [
+        "pad",
+        "box",
+        "sub"
+      ],
+      "melody": "F#5:1 D5:1 B4:2 | C#5:2 D5:2 | E5:1 D5:1 B4:2 | F#4:4 | G4:1 B4:1 E5:2 | D5:2 C#5:2 | C#5:4 | r:4"
+    },
+    {
+      "bars": 8,
+      "chords": "D | D | Gmaj7 | Gmaj7 | Em9 | Em9 | F#5 | F#5",
+      "dyn": 0.48,
+      "layers": [
+        "pad",
+        "box",
+        "sub",
+        "choir"
+      ],
+      "swell": 0.08,
+      "melody": "A5:1 F#5:1 D5:2 | E5:2 F#5:2 | B5:1 A5:1 F#5:2 | D5:4 | E5:1 G5:1 B5:2 | A5:2 G5:2 | F#5:4 | r:4",
+      "answer": "r:4 | r:2 D4:2 | r:4 | r:2 G3:2 | r:4 | r:2 E3:2 | r:4 | F#3:4"
+    },
+    {
+      "bars": 6,
+      "chords": "Bm | Bm | Gmaj7 | Gmaj7 | Bm | Bm",
+      "dyn": 0.22,
+      "layers": [
+        "pad",
+        "box"
+      ],
+      "swell": -0.1,
+      "rit": true,
+      "melody": "F#5:1 D5:1 B4:2 | C#5:2 D5:2 | B4:4 | r:4 | r:4 | r:4"
+    }
+  ]
+}

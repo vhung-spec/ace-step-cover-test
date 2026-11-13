@@ -1,0 +1,16 @@
+{
+  "title": "Nhịp tim",
+  "family": "dark-khac",
+  "about": "Round x2 of the dark ambient style (khong-gian): a slow heartbeat. A deep lub-dub on the chord's root every bar, under the dark pad and wind; it quickens to every two beats where the piece grows tense and slows again at the end. G minor at 56 bpm. An original piece.",
+  "style": "khong-gian",
+  "bpm": 56,
+  "beats": 4,
+  "sections": [
+    {"bars": 4, "chords": "Gm | Gm | Gm | Gm", "dyn": 0.25, "swell": 0.1, "layers": ["pulse", "sub"]},
+    {"bars": 8, "chords": "Gm | Gm | Eb | Eb | Cm9 | Cm9 | D5 | D5", "dyn": 0.38, "layers": ["pulse", "pad", "sub"]},
+    {"bars": 8, "chords": "Gm | Gm | Ab/G | Ab/G | Eb | Eb | D5 | D5", "dyn": 0.52, "swell": 0.12, "pulse_beats": 2,
+     "melody": "r:4 | r:2 D5:2 | r:4 | Eb5:4 | r:4 | r:2 Bb4:2 | r:4 | A4:4",
+     "layers": ["pulse", "pad", "sub", "wind"]},
+    {"bars": 6, "chords": "Gm | Gm | Ab/G | Ab/G | Gm | Gm", "dyn": 0.25, "swell": -0.15, "layers": ["pulse", "pad"]}
+  ]
+}

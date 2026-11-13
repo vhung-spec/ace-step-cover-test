@@ -1,0 +1,18 @@
+{
+  "title": "Hầm mộ",
+  "family": "dark-khac",
+  "about": "Round k2 of the dark ambient style (khong-gian): gothic, C minor at 46 bpm, a far choir on \"oo\" over the dark pad and a drone, a low bell tolling on each new chord, the D flat of the Phrygian mode darkening the close. No tune but the choir's slow moving tones and a few glass notes. An original piece.",
+  "style": "khong-gian",
+  "bpm": 46,
+  "beats": 4,
+  "sections": [
+    {"bars": 4, "chords": "Cm | Cm | Cm | Cm", "dyn": 0.15, "swell": 0.2, "layers": ["pad", "drone"]},
+    {"bars": 8, "chords": "Cm | Cm | Ab | Ab | Fm | Fm | G5 | G5", "dyn": 0.35, "toll_every": 2,
+     "layers": ["pad", "choir", "sub", "toll"]},
+    {"bars": 8, "chords": "Cm | Cm | Abmaj7 | Abmaj7 | Fm9 | Fm9 | Db/C | Db/C", "dyn": 0.5, "swell": 0.15,
+     "toll_every": 2, "melody": "r:4 | r:2 G5:2 | r:4 | Eb5:4 | r:4 | r:2 C5:2 | r:4 | Db5:4",
+     "layers": ["pad", "choir", "sub", "toll", "glass"]},
+    {"bars": 6, "chords": "Cm | Cm | Db/C | Db/C | Cm | Cm", "dyn": 0.25, "swell": -0.12, "toll_every": 2,
+     "layers": ["pad", "choir", "sub", "toll"]}
+  ]
+}

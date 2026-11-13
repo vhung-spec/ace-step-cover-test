@@ -1,0 +1,77 @@
+{
+  "title": "Thủy triều đêm",
+  "title_en": "Night Tide",
+  "family": "dark-khac",
+  "about": "Round x16 (album 11), the user: \"hãy sáng tác album 11\", after album 10 (electronic sleep) was kept whole: more electronic sleep ambient (style ngu-dt), slow (50 bpm), waves, pad, arp, sub, an improvised keys tune with a long echo. No drums. Remade before release on a less common progression of its own (the user, after Content ID matches on plain i-VI-iv-V pieces: \"ok làm lại album 11 an toàn hơn\"). An original piece.",
+  "style": "ngu-dt",
+  "bpm": 50,
+  "beats": 4,
+  "mode": "aeolian",
+  "seed": 112,
+  "gains": {
+    "arp": -6.0,
+    "air": -10.0,
+    "swells": -3.0
+  },
+  "sections": [
+    {
+      "bars": 8,
+      "chords": "Amadd9 | Amadd9 | Dm6/A | Dm6/A | Amadd9 | Amadd9 | Fmaj7#11 | Fmaj7#11",
+      "dyn": 0.18,
+      "layers": [
+        "waves",
+        "pad"
+      ]
+    },
+    {
+      "bars": 24,
+      "chords": "Amadd9 | Cmaj7/E | Dm6 | Fmaj7#11 | Amadd9 | Gadd9 | Fmaj7#11 | E7sus4 | Amadd9 | Cmaj7/E | Dm6 | Fmaj7#11 | Amadd9 | Gadd9 | Fmaj7#11 | E7sus4 | Amadd9 | Cmaj7/E | Dm6 | Fmaj7#11 | Amadd9 | Gadd9 | Fmaj7#11 | E7sus4",
+      "dyn": 0.27,
+      "layers": [
+        "waves",
+        "pad",
+        "arp",
+        "sub"
+      ],
+      "improv": "keys",
+      "improv_range": [
+        60,
+        77
+      ],
+      "improv_density": 0.8
+    },
+    {
+      "bars": 16,
+      "chords": "Dm9 | Cmaj7/F# | Fmaj7#11 | Gadd9 | Bbmaj7#11 | Amadd9 | E7sus4 | Amadd9 | Dm9 | Cmaj7/F# | Fmaj7#11 | Gadd9 | Bbmaj7#11 | Amadd9 | E7sus4 | Amadd9",
+      "dyn": 0.28,
+      "layers": [
+        "waves",
+        "pad",
+        "arp",
+        "sub"
+      ],
+      "improv": "keys",
+      "improv_range": [
+        60,
+        77
+      ],
+      "improv_density": 0.8
+    },
+    {
+      "bars": 8,
+      "chords": "Amadd9 | Amadd9 | Dm6/A | Dm6/A | Amadd9 | Amadd9 | Fmaj7#11 | Fmaj7#11",
+      "dyn": 0.17,
+      "layers": [
+        "waves",
+        "pad"
+      ],
+      "improv": "keys",
+      "improv_range": [
+        60,
+        77
+      ],
+      "improv_density": 0.5,
+      "swell": -0.1
+    }
+  ]
+}

@@ -1,0 +1,91 @@
+{
+  "title": "Con đường về nhà",
+  "title_en": "The Road Home",
+  "family": "dark-khac",
+  "about": "Round x13, the user preferred the X11 sound to the electronic one (\"tôi vẫn thích kiểu cũ hơn, hãy quay lại sáng tác kiểu cũ\"): ambient piano (piano-am) as in X11, the piano breaking Aadd9, E/G#, F#m, Dmaj7 softly in eighths, a simple tune improvised once and repeated, strings in the middle, a deep sub. No drums. An original piece.",
+  "style": "piano-am",
+  "bpm": 74,
+  "beats": 4,
+  "mode": "major",
+  "seed": 84,
+  "sections": [
+    {
+      "bars": 4,
+      "chords": "Aadd9 | E/G# | F#m | Dmaj7",
+      "dyn": 0.3,
+      "layers": [
+        "pad",
+        "pianoarp"
+      ],
+      "arp_quarters": true
+    },
+    {
+      "bars": 16,
+      "chords": "Aadd9 | E/G# | F#m | Dmaj7 | Aadd9 | E/G# | F#m | Esus4 | Aadd9 | E/G# | F#m | Dmaj7 | Aadd9 | E/G# | F#m | Esus4",
+      "dyn": 0.42,
+      "layers": [
+        "pad",
+        "pianoarp",
+        "sub"
+      ],
+      "improv": "keys",
+      "motif": true,
+      "motif_bars": 8,
+      "improv_range": [
+        64,
+        79
+      ],
+      "improv_density": 1.3
+    },
+    {
+      "bars": 8,
+      "chords": "F#m | Dmaj7 | Aadd9 | E | F#m | Dmaj7 | Bm7 | Esus4",
+      "dyn": 0.5,
+      "layers": [
+        "pad",
+        "pianoarp",
+        "sub",
+        "strings"
+      ],
+      "improv": "keys",
+      "motif": true,
+      "motif_bars": 8,
+      "improv_range": [
+        64,
+        79
+      ],
+      "improv_density": 1.3
+    },
+    {
+      "bars": 8,
+      "chords": "Aadd9 | E/G# | F#m | Dmaj7 | Aadd9 | E/G# | F#m | Esus4",
+      "dyn": 0.46,
+      "layers": [
+        "pad",
+        "pianoarp",
+        "sub",
+        "strings"
+      ],
+      "improv": "keys",
+      "motif": true,
+      "motif_bars": 8,
+      "improv_range": [
+        64,
+        79
+      ],
+      "improv_density": 1.3
+    },
+    {
+      "bars": 4,
+      "chords": "Aadd9 | E/G# | F#m | Aadd9",
+      "dyn": 0.3,
+      "layers": [
+        "pad",
+        "pianoarp"
+      ],
+      "arp_quarters": true,
+      "swell": -0.1,
+      "rit": true
+    }
+  ]
+}

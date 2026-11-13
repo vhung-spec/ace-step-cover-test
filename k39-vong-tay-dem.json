@@ -1,0 +1,62 @@
+{
+  "title": "Vòng tay đêm",
+  "title_en": "Embrace of the Night",
+  "family": "dark-khac",
+  "about": "Round x6, for sleep (style ngu-ngon), as the user asked (\"hãy sáng tác thêm cho tôi nhiều bài nữa, phù hợp cho các người nghe có thể nghe để ngủ\"): held by the night: low strings, soft and close, rocking between two chords, a deep sub and the pad under them; once, a single string sings a short tune. C minor at 48 bpm, about six minutes. Nothing sudden: no thunder, heartbeat or struck bells. An original piece.",
+  "style": "ngu-ngon",
+  "bpm": 48,
+  "beats": 4,
+  "sections": [
+    {
+      "bars": 8,
+      "chords": "Cm | Cm | Abmaj7 | Abmaj7 | Cm | Cm | Abmaj7 | Abmaj7",
+      "dyn": 0.18,
+      "layers": [
+        "strings",
+        "sub"
+      ]
+    },
+    {
+      "bars": 24,
+      "chords": "Cm | Cm | Abmaj7 | Abmaj7 | Fm9 | Fm9 | Gsus4 | Gsus4 | Cm | Cm | Abmaj7 | Abmaj7 | Fm9 | Fm9 | Gsus4 | Gsus4 | Cm | Cm | Abmaj7 | Abmaj7 | Fm9 | Fm9 | Gsus4 | Gsus4",
+      "dyn": 0.28,
+      "layers": [
+        "strings",
+        "sub",
+        "pad"
+      ]
+    },
+    {
+      "bars": 16,
+      "chords": "Abmaj7 | Abmaj7 | Cm | Cm | Fm9 | Fm9 | Gsus4 | Cm | Abmaj7 | Abmaj7 | Cm | Cm | Fm9 | Fm9 | Gsus4 | Cm",
+      "dyn": 0.3,
+      "layers": [
+        "strings",
+        "sub",
+        "pad",
+        "solo"
+      ],
+      "melody": "G4:4 | Eb4:4 | C4:4 | r:4 | F4:4 | Ab4:4 | G4:4 | r:4 | G4:4 | Eb4:4 | C4:4 | r:4 | F4:4 | Ab4:4 | G4:4 | r:4"
+    },
+    {
+      "bars": 8,
+      "chords": "Cm | Cm | Abmaj7 | Abmaj7 | Fm9 | Fm9 | Gsus4 | Cm",
+      "dyn": 0.25,
+      "layers": [
+        "strings",
+        "sub",
+        "pad"
+      ]
+    },
+    {
+      "bars": 8,
+      "chords": "Cm | Cm | Abmaj7 | Abmaj7 | Cm | Cm | Abmaj7 | Abmaj7",
+      "dyn": 0.18,
+      "layers": [
+        "strings",
+        "sub"
+      ],
+      "swell": -0.1
+    }
+  ]
+}

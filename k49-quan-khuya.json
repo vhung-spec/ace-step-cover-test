@@ -1,0 +1,74 @@
+{
+  "title": "Quán khuya",
+  "title_en": "Last Café Open",
+  "family": "dark-khac",
+  "about": "Round x8, in directions of my own choosing, as the user asked (\"hãy sáng tác thêm nhiều bài nữa, hướng bạn tự đề xuất\"): dark lofi: the last café open in the rain-dark city, the felt piano's chords on a slow beat, a deep bass, the old music box humming a tune now and then. D minor at 76 bpm. An original piece.",
+  "style": "lofi-toi",
+  "bpm": 76,
+  "beats": 4,
+  "pad_range": [
+    48,
+    64
+  ],
+  "gains": {
+    "pad": -6.0,
+    "kick": -3.0
+  },
+  "sections": [
+    {
+      "bars": 4,
+      "chords": "Dm9 | Dm9 | Bbmaj7 | Bbmaj7",
+      "dyn": 0.3,
+      "layers": [
+        "felt",
+        "pad"
+      ],
+      "felt_chords": true,
+      "felt_beats": 2
+    },
+    {
+      "bars": 16,
+      "chords": "Dm9 | Dm9 | Bbmaj7 | Bbmaj7 | Gm9 | Gm9 | A7sus4 | A7 | Dm9 | Dm9 | Bbmaj7 | Bbmaj7 | Gm9 | Gm9 | A7sus4 | A7",
+      "dyn": 0.42,
+      "layers": [
+        "felt",
+        "pad",
+        "beat",
+        "bassline"
+      ],
+      "felt_chords": true,
+      "felt_beats": 2,
+      "bass_step": 1
+    },
+    {
+      "bars": 16,
+      "chords": "Bbmaj7 | Bbmaj7 | Am7 | Am7 | Gm9 | Gm9 | A7sus4 | A7 | Bbmaj7 | Bbmaj7 | Am7 | Am7 | Gm9 | Gm9 | A7sus4 | A7",
+      "dyn": 0.48,
+      "layers": [
+        "felt",
+        "pad",
+        "beat",
+        "bassline",
+        "box"
+      ],
+      "felt_chords": true,
+      "felt_beats": 2,
+      "bass_step": 1,
+      "kick_and": true,
+      "melody": "F5:2 E5:1 D5:1 | A4:4 | r:4 | r:4 | G5:2 F5:1 E5:1 | C#5:4 | r:4 | r:4 | F5:2 E5:1 D5:1 | A4:4 | r:4 | r:4 | G5:2 F5:1 E5:1 | C#5:4 | r:4 | r:4",
+      "tune_on": "box"
+    },
+    {
+      "bars": 8,
+      "chords": "Dm9 | Dm9 | Bbmaj7 | Bbmaj7 | Gm9 | Gm9 | A7sus4 | Dm9",
+      "dyn": 0.3,
+      "layers": [
+        "felt",
+        "pad"
+      ],
+      "felt_chords": true,
+      "felt_beats": 2,
+      "swell": -0.1
+    }
+  ]
+}

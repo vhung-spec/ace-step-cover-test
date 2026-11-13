@@ -1,0 +1,68 @@
+{
+  "title": "Ru trong bóng tối",
+  "family": "dark-khac",
+  "about": "Round x5 of the dark ambient style (khong-gian), as the user asked (\"hãy sáng tác thêm cho tôi nhiều bài nữa\"): a lullaby sung in the dark: the music box with its tune, the low strings rocking under it in three, the far choir joining the second time. E minor at 58 bpm, in three. An original piece.",
+  "style": "khong-gian",
+  "bpm": 58,
+  "beats": 3,
+  "sections": [
+    {
+      "bars": 4,
+      "chords": "Em | Em | C | B7",
+      "dyn": 0.22,
+      "layers": [
+        "strings",
+        "box"
+      ],
+      "melody": "B4:2 G4:1 | E4:3 | E5:2 C5:1 | B4:3"
+    },
+    {
+      "bars": 8,
+      "chords": "Em | Em | Am | Am | C | C | B | B",
+      "dyn": 0.36,
+      "layers": [
+        "strings",
+        "box",
+        "sub"
+      ],
+      "melody": "B4:2 E5:1 | G5:2 F#5:1 | E5:2 C5:1 | A4:3 | G4:2 A4:1 | B4:2 C5:1 | B4:3 | D#5:3"
+    },
+    {
+      "bars": 8,
+      "chords": "Em | Em | Am | Am | C | Am | B | B",
+      "dyn": 0.46,
+      "layers": [
+        "strings",
+        "box",
+        "sub",
+        "choir"
+      ],
+      "swell": 0.06,
+      "melody": "B4:2 E5:1 | G5:2 F#5:1 | E5:2 C5:1 | A4:3 | G4:2 E4:1 | C5:2 A4:1 | B4:3 | r:3"
+    },
+    {
+      "bars": 8,
+      "chords": "C | C | Am | Am | Em | Em | B | B",
+      "dyn": 0.4,
+      "layers": [
+        "strings",
+        "box",
+        "sub",
+        "choir"
+      ],
+      "melody": "G5:2 E5:1 | C5:3 | A4:2 C5:1 | E5:3 | G5:2 F#5:1 | E5:3 | D#5:3 | B4:3"
+    },
+    {
+      "bars": 6,
+      "chords": "Em | Em | Am | Am | Em | Em",
+      "dyn": 0.22,
+      "layers": [
+        "strings",
+        "box"
+      ],
+      "swell": -0.1,
+      "rit": true,
+      "melody": "B4:2 G4:1 | E4:3 | C5:2 A4:1 | E4:3 | r:3 | r:3"
+    }
+  ]
+}

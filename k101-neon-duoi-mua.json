@@ -1,0 +1,80 @@
+{
+  "title": "Đèn neon dưới mưa",
+  "title_en": "Neon in the Rain",
+  "family": "dark-khac",
+  "about": "Round x15 (album 10), the user: \"hãy sáng tác album thứ 10, hãy thử phong cách âm thanh điện tử hơn, vẫn là nhạc ambient phù hợp ngủ\": electronic sleep ambient (style ngu-dt), slow (50 bpm), pad, drops, arp, sub, air, an improvised keys tune with a long echo. No drums. An original piece.",
+  "style": "ngu-dt",
+  "bpm": 50,
+  "beats": 4,
+  "mode": "aeolian",
+  "seed": 101,
+  "gains": {
+    "arp": -6.0,
+    "air": -10.0,
+    "swells": -3.0
+  },
+  "sections": [
+    {
+      "bars": 8,
+      "chords": "Cmadd9 | Cmadd9 | Abmaj7 | Abmaj7 | Cmadd9 | Cmadd9 | Abmaj7 | Abmaj7",
+      "dyn": 0.18,
+      "layers": [
+        "pad",
+        "drops"
+      ],
+      "drops_per_bar": 1
+    },
+    {
+      "bars": 24,
+      "chords": "Cmadd9 | Cmadd9 | Abmaj7 | Abmaj7 | Fm9 | Fm9 | Gsus4 | Gsus4 | Cmadd9 | Cmadd9 | Abmaj7 | Abmaj7 | Fm9 | Fm9 | Gsus4 | Gsus4 | Cmadd9 | Cmadd9 | Abmaj7 | Abmaj7 | Fm9 | Fm9 | Gsus4 | Gsus4",
+      "dyn": 0.27,
+      "layers": [
+        "pad",
+        "drops",
+        "arp",
+        "sub"
+      ],
+      "drops_per_bar": 1,
+      "improv": "keys",
+      "improv_range": [
+        60,
+        77
+      ],
+      "improv_density": 0.8
+    },
+    {
+      "bars": 16,
+      "chords": "Abmaj7 | Abmaj7 | Ebmaj7 | Ebmaj7 | Fm9 | Fm9 | Gsus4 | Cmadd9 | Abmaj7 | Abmaj7 | Ebmaj7 | Ebmaj7 | Fm9 | Fm9 | Gsus4 | Cmadd9",
+      "dyn": 0.28,
+      "layers": [
+        "pad",
+        "arp",
+        "sub",
+        "air"
+      ],
+      "improv": "keys",
+      "improv_range": [
+        60,
+        77
+      ],
+      "improv_density": 0.8
+    },
+    {
+      "bars": 8,
+      "chords": "Cmadd9 | Cmadd9 | Abmaj7 | Abmaj7 | Cmadd9 | Cmadd9 | Abmaj7 | Abmaj7",
+      "dyn": 0.17,
+      "layers": [
+        "pad",
+        "drops"
+      ],
+      "drops_per_bar": 1,
+      "improv": "keys",
+      "improv_range": [
+        60,
+        77
+      ],
+      "improv_density": 0.5,
+      "swell": -0.1
+    }
+  ]
+}

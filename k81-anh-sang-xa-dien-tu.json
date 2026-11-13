@@ -1,0 +1,112 @@
+{
+  "title": "Ánh sáng xa (điện tử)",
+  "title_en": "Distant Light (Electronic)",
+  "family": "dark-khac",
+  "about": "Round x12, the user: \"tiếng piano và độ vang chưa giống lắm, bài mẫu nghe cảm giác điện tử hơn\". k75 remade with the electronic sound (style piano-dt): the modelled electric piano with the acoustic one softly under it, an echo on the tune, an airy high synth, reversed swells into each chord, a plate hall. Same composition and seed as k75; an original piece.",
+  "style": "piano-dt",
+  "bpm": 76,
+  "beats": 4,
+  "mode": "aeolian",
+  "seed": 75,
+  "choir_range": [
+    56,
+    72
+  ],
+  "gains": {
+    "choir": 3.0,
+    "pad": -4.0
+  },
+  "sections": [
+    {
+      "bars": 4,
+      "chords": "F#m | D | A | E",
+      "dyn": 0.3,
+      "layers": [
+        "pad",
+        "pianoarp",
+        "choir",
+        "air",
+        "swells"
+      ],
+      "arp_quarters": true
+    },
+    {
+      "bars": 16,
+      "chords": "F#m | D | A | E | F#m | D | A | Esus4 | F#m | D | A | E | F#m | D | A | Esus4",
+      "dyn": 0.42,
+      "layers": [
+        "pad",
+        "pianoarp",
+        "sub",
+        "choir",
+        "air",
+        "swells"
+      ],
+      "improv": "keys",
+      "motif": true,
+      "motif_bars": 8,
+      "improv_range": [
+        64,
+        79
+      ],
+      "improv_density": 1.3
+    },
+    {
+      "bars": 8,
+      "chords": "D | A | E | F#m | D | A | Bm7 | C#sus4",
+      "dyn": 0.5,
+      "layers": [
+        "pad",
+        "pianoarp",
+        "sub",
+        "choir",
+        "air",
+        "swells"
+      ],
+      "improv": "keys",
+      "motif": true,
+      "motif_bars": 8,
+      "improv_range": [
+        64,
+        79
+      ],
+      "improv_density": 1.3
+    },
+    {
+      "bars": 8,
+      "chords": "F#m | D | A | E | F#m | D | A | Esus4",
+      "dyn": 0.46,
+      "layers": [
+        "pad",
+        "pianoarp",
+        "sub",
+        "choir",
+        "air",
+        "swells"
+      ],
+      "improv": "keys",
+      "motif": true,
+      "motif_bars": 8,
+      "improv_range": [
+        64,
+        79
+      ],
+      "improv_density": 1.3
+    },
+    {
+      "bars": 4,
+      "chords": "F#m | D | A | F#m",
+      "dyn": 0.3,
+      "layers": [
+        "pad",
+        "pianoarp",
+        "choir",
+        "air",
+        "swells"
+      ],
+      "arp_quarters": true,
+      "swell": -0.1,
+      "rit": true
+    }
+  ]
+}

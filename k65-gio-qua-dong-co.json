@@ -1,0 +1,71 @@
+{
+  "title": "Gió qua đồng cỏ",
+  "title_en": "Wind over the Moor",
+  "family": "dark-khac",
+  "about": "Round x10, for sleep with improvised melodies (style ngu-ngon), as the user asked to go on (\"ok chúng ta hãy tiếp tục sáng tác nhạc\"), on the sounds the user liked most: a soft wind over a moor at night, the pad and a deep sub, the glass improvising like lights far off. B minor. No drums, plucked string or organ. An original piece; its melody made up by the improviser in dark/ambient.py.",
+  "style": "ngu-ngon",
+  "bpm": 50,
+  "beats": 4,
+  "mode": "aeolian",
+  "seed": 65,
+  "sections": [
+    {
+      "bars": 8,
+      "chords": "Bmadd9 | Bmadd9 | Gmaj7 | Gmaj7 | Bmadd9 | Bmadd9 | Gmaj7 | Gmaj7",
+      "dyn": 0.18,
+      "layers": [
+        "wind",
+        "pad"
+      ]
+    },
+    {
+      "bars": 24,
+      "chords": "Bmadd9 | Bmadd9 | Gmaj7 | Gmaj7 | Em9 | Em9 | F#sus4 | F#sus4 | Bmadd9 | Bmadd9 | Gmaj7 | Gmaj7 | Em9 | Em9 | F#sus4 | F#sus4 | Bmadd9 | Bmadd9 | Gmaj7 | Gmaj7 | Em9 | Em9 | F#sus4 | F#sus4",
+      "dyn": 0.26,
+      "layers": [
+        "wind",
+        "pad",
+        "sub"
+      ],
+      "improv": "glass",
+      "improv_range": [
+        62,
+        79
+      ],
+      "improv_density": 0.9
+    },
+    {
+      "bars": 16,
+      "chords": "Gmaj7 | Gmaj7 | Dmaj7 | Dmaj7 | Em9 | Em9 | F#sus4 | Bmadd9 | Gmaj7 | Gmaj7 | Dmaj7 | Dmaj7 | Em9 | Em9 | F#sus4 | Bmadd9",
+      "dyn": 0.27,
+      "layers": [
+        "wind",
+        "pad",
+        "sub",
+        "choir"
+      ],
+      "improv": "glass",
+      "improv_range": [
+        62,
+        79
+      ],
+      "improv_density": 0.9
+    },
+    {
+      "bars": 8,
+      "chords": "Bmadd9 | Bmadd9 | Gmaj7 | Gmaj7 | Bmadd9 | Bmadd9 | Gmaj7 | Gmaj7",
+      "dyn": 0.17,
+      "layers": [
+        "wind",
+        "pad"
+      ],
+      "swell": -0.1,
+      "improv": "glass",
+      "improv_range": [
+        62,
+        79
+      ],
+      "improv_density": 0.5
+    }
+  ]
+}

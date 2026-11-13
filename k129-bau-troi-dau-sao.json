@@ -1,0 +1,69 @@
+{
+  "title": "Bầu trời đầy sao",
+  "title_en": "Starlit Sky",
+  "family": "dark-khac",
+  "about": "Round x17 (album 12), the user: \"hãy sáng tác album tiếp theo\": sleep music in the style of Sleep in the Dark (ngu-ngon), on a less common progression of its own (template 4; after the Content ID matches on plain i-VI-iv-V pieces), slow (48 bpm), pad, shimmer, sub, choir, an improvised box tune, then glass. No drums, plucked string or organ. An original piece.",
+  "style": "ngu-ngon",
+  "bpm": 48,
+  "beats": 4,
+  "mode": "dorian",
+  "seed": 129,
+  "sections": [
+    {
+      "bars": 8,
+      "chords": "C#m9 | C#m9 | F#add9/C# | F#add9/C# | Emaj7 | Emaj7 | C#m9 | C#m9",
+      "dyn": 0.18,
+      "layers": [
+        "pad",
+        "shimmer"
+      ]
+    },
+    {
+      "bars": 24,
+      "chords": "C#m9 | F#add9 | Emaj7 | Ebm7 | C#m9 | B6 | F#add9 | Abm7 | C#m9 | F#add9 | Emaj7 | Ebm7 | C#m9 | B6 | F#add9 | Abm7 | C#m9 | F#add9 | Emaj7 | Ebm7 | C#m9 | B6 | F#add9 | Abm7",
+      "dyn": 0.27,
+      "layers": [
+        "pad",
+        "shimmer",
+        "sub"
+      ],
+      "improv": "box",
+      "improv_range": [
+        62,
+        81
+      ]
+    },
+    {
+      "bars": 16,
+      "chords": "Emaj7 | F#add9 | B6 | C#m9 | Bbm7b5 | F#add9 | Abm7 | C#m9 | Emaj7 | F#add9 | B6 | C#m9 | Bbm7b5 | F#add9 | Abm7 | C#m9",
+      "dyn": 0.28,
+      "layers": [
+        "pad",
+        "sub",
+        "choir"
+      ],
+      "improv": "glass",
+      "improv_range": [
+        62,
+        79
+      ],
+      "improv_density": 0.9
+    },
+    {
+      "bars": 8,
+      "chords": "C#m9 | C#m9 | F#add9/C# | F#add9/C# | Emaj7 | Emaj7 | C#m9 | C#m9",
+      "dyn": 0.17,
+      "layers": [
+        "pad",
+        "shimmer"
+      ],
+      "improv": "box",
+      "improv_range": [
+        62,
+        81
+      ],
+      "improv_density": 0.6,
+      "swell": -0.1
+    }
+  ]
+}

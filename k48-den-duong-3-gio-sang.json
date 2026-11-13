@@ -1,0 +1,74 @@
+{
+  "title": "Đèn đường 3 giờ sáng",
+  "title_en": "3 AM Streetlight",
+  "family": "dark-khac",
+  "about": "Round x8, in directions of my own choosing, as the user asked (\"hãy sáng tác thêm nhiều bài nữa, hướng bạn tự đề xuất\"): dark lofi: a slow, soft beat, the felt piano's chords, a deep bass on each beat, a cold pad; the glass picks out a short tune in the middle. A minor 9th colours at 72 bpm. An original piece.",
+  "style": "lofi-toi",
+  "bpm": 72,
+  "beats": 4,
+  "pad_range": [
+    48,
+    64
+  ],
+  "gains": {
+    "pad": -6.0,
+    "kick": -3.0
+  },
+  "sections": [
+    {
+      "bars": 4,
+      "chords": "Am9 | Am9 | Fmaj7 | Fmaj7",
+      "dyn": 0.3,
+      "layers": [
+        "felt",
+        "pad"
+      ],
+      "felt_chords": true,
+      "felt_beats": 2
+    },
+    {
+      "bars": 16,
+      "chords": "Am9 | Am9 | Fmaj7 | Fmaj7 | Dm9 | Dm9 | E7sus4 | E7 | Am9 | Am9 | Fmaj7 | Fmaj7 | Dm9 | Dm9 | E7sus4 | E7",
+      "dyn": 0.42,
+      "layers": [
+        "felt",
+        "pad",
+        "beat",
+        "bassline"
+      ],
+      "felt_chords": true,
+      "felt_beats": 2,
+      "bass_step": 1
+    },
+    {
+      "bars": 16,
+      "chords": "Fmaj7 | Fmaj7 | Em7 | Em7 | Dm9 | Dm9 | E7sus4 | E7 | Fmaj7 | Fmaj7 | Em7 | Em7 | Dm9 | Dm9 | E7sus4 | E7",
+      "dyn": 0.48,
+      "layers": [
+        "felt",
+        "pad",
+        "beat",
+        "bassline",
+        "glass"
+      ],
+      "felt_chords": true,
+      "felt_beats": 2,
+      "bass_step": 1,
+      "melody": "E5:2 C5:2 | B4:4 | r:4 | r:4 | D5:2 C5:2 | A4:4 | r:4 | r:4 | E5:2 C5:2 | B4:4 | r:4 | r:4 | D5:2 C5:2 | A4:4 | r:4 | r:4",
+      "tune_on": "glass"
+    },
+    {
+      "bars": 8,
+      "chords": "Am9 | Am9 | Fmaj7 | Fmaj7 | Dm9 | Dm9 | E7sus4 | Am9",
+      "dyn": 0.3,
+      "layers": [
+        "felt",
+        "pad"
+      ],
+      "felt_chords": true,
+      "felt_beats": 2,
+      "swell": -0.1
+    }
+  ],
+  "loudness": -16
+}

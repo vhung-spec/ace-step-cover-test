@@ -1,0 +1,62 @@
+{
+  "title": "Thành phố chết",
+  "family": "dark-khac",
+  "about": "Round x3 of the dark ambient style (khong-gian), as the user asked for many more versions (\"tôi rất thích các phiên bản bạn tạo, hãy tạo thêm cho tôi nhiều phiên bản khác\"): a dead city at night: a slow heartbeat under wind, the dark pad, and a lonely tune on the bell, its long notes answered low. A minor at 52 bpm. An original piece.",
+  "style": "khong-gian",
+  "bpm": 52,
+  "beats": 4,
+  "sections": [
+    {
+      "bars": 4,
+      "chords": "Am | Am | Am | Am",
+      "dyn": 0.22,
+      "layers": [
+        "wind",
+        "pulse"
+      ],
+      "swell": 0.15,
+      "pulse_beats": 8
+    },
+    {
+      "bars": 8,
+      "chords": "Am | Am | Fmaj7 | Fmaj7 | Dm9 | Dm9 | E5 | E5",
+      "dyn": 0.4,
+      "layers": [
+        "wind",
+        "pulse",
+        "pad",
+        "sub"
+      ],
+      "pulse_beats": 4,
+      "melody": "E5:2 C5:1 B4:1 | A4:4 | r:4 | r:4 | D5:2 C5:1 A4:1 | B4:4 | r:4 | r:4",
+      "answer": "r:4 | r:4 | r:2 A3:2 | E3:4 | r:4 | r:4 | r:2 E3:2 | B2:4"
+    },
+    {
+      "bars": 8,
+      "chords": "Am | Am | Bb/A | Bb/A | Fmaj7 | Fmaj7 | E5 | E5",
+      "dyn": 0.52,
+      "layers": [
+        "wind",
+        "pulse",
+        "pad",
+        "sub"
+      ],
+      "pulse_beats": 4,
+      "swell": 0.1,
+      "melody": "A5:2 G5:1 E5:1 | F5:4 | r:4 | r:4 | E5:2 D5:1 C5:1 | B4:4 | r:4 | r:4",
+      "answer": "r:4 | r:4 | r:2 F3:2 | Bb2:4 | r:4 | r:4 | r:2 E3:2 | A2:4"
+    },
+    {
+      "bars": 6,
+      "chords": "Am | Am | Bb/A | Bb/A | Am | Am",
+      "dyn": 0.24,
+      "layers": [
+        "wind",
+        "pulse",
+        "pad"
+      ],
+      "swell": -0.12,
+      "pulse_beats": 8
+    }
+  ]
+}

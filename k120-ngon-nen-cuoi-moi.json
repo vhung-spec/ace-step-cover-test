@@ -1,0 +1,75 @@
+{
+  "title": "Ngọn nến cuối",
+  "title_en": "The Last Candle",
+  "family": "dark-khac",
+  "about": "A replacement for k58 (The Last Candle, album 7), which drew a YouTube Content ID match: k58's C minor i-VI-iv-V on strings and a felt piano is common ground. Here B minor on a less usual progression (with Lydian colour), a music box improvising, then the solo string, strings, pad, a far choir. Sleep style (ngu-ngon). k58 is left as it was. An original piece.",
+  "style": "ngu-ngon",
+  "bpm": 46,
+  "beats": 4,
+  "mode": "aeolian",
+  "seed": 120,
+  "gains": {
+    "pad": -3.0
+  },
+  "sections": [
+    {
+      "bars": 8,
+      "chords": "Bmadd9 | Bmadd9 | Dmaj7/A | Dmaj7/A | Em9 | Em9 | Gmaj7 | Gmaj7",
+      "dyn": 0.2,
+      "layers": [
+        "strings",
+        "sub",
+        "pad"
+      ]
+    },
+    {
+      "bars": 24,
+      "chords": "Bmadd9 | A6 | Gmaj7 | F#sus4 | Em9 | Cmaj7#11 | F#sus4 | F#sus4 | Bmadd9 | A6 | Gmaj7 | F#sus4 | Em9 | Cmaj7#11 | F#sus4 | F#sus4 | Bmadd9 | A6 | Gmaj7 | F#sus4 | Em9 | Cmaj7#11 | F#sus4 | F#sus4",
+      "dyn": 0.28,
+      "layers": [
+        "strings",
+        "sub",
+        "pad"
+      ],
+      "improv": "box",
+      "improv_range": [
+        62,
+        81
+      ]
+    },
+    {
+      "bars": 16,
+      "chords": "Gmaj7 | Em9 | Cmaj7#11 | Cmaj7#11 | Dmaj7/A | A6 | F#sus4 | Bmadd9 | Gmaj7 | Em9 | Cmaj7#11 | Cmaj7#11 | Dmaj7/A | A6 | F#sus4 | Bmadd9",
+      "dyn": 0.28,
+      "layers": [
+        "strings",
+        "sub",
+        "pad",
+        "choir"
+      ],
+      "improv": "solo",
+      "improv_range": [
+        55,
+        74
+      ],
+      "improv_density": 0.8
+    },
+    {
+      "bars": 8,
+      "chords": "Bmadd9 | Bmadd9 | Dmaj7/A | Dmaj7/A | Em9 | Em9 | Gmaj7 | Gmaj7",
+      "dyn": 0.18,
+      "layers": [
+        "strings",
+        "sub",
+        "pad"
+      ],
+      "swell": -0.1,
+      "improv": "box",
+      "improv_range": [
+        62,
+        81
+      ],
+      "improv_density": 0.6
+    }
+  ]
+}

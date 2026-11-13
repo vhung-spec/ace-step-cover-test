@@ -1,0 +1,70 @@
+{
+  "title": "Sóng và thủy tinh",
+  "title_en": "Glass and Waves",
+  "family": "dark-khac",
+  "about": "Round x9, for sleep with improvised melodies (style ngu-ngon), as the user asked (\"tôi muốn những bài âm thanh u tối nhưng dễ nghe để ngủ hơn, có thể thêm những giai điệu ngẫu hứng\"): the far sea's slow swells, a pad, and soft glass improvising a few notes at a time above them, in D Dorian, warmer than minor. Softer harmony than before (added ninths, major sevenths, no Phrygian rub), nothing sudden. An original piece; its melody made up by the improviser in dark/ambient.py.",
+  "style": "ngu-ngon",
+  "bpm": 50,
+  "beats": 4,
+  "mode": "dorian",
+  "seed": 55,
+  "sections": [
+    {
+      "bars": 8,
+      "chords": "Dm9 | Dm9 | G/D | G/D | Dm9 | Dm9 | G/D | G/D",
+      "dyn": 0.18,
+      "layers": [
+        "waves",
+        "pad"
+      ]
+    },
+    {
+      "bars": 24,
+      "chords": "Dm9 | Dm9 | G/D | G/D | Fmaj7 | Fmaj7 | Cadd9 | Cadd9 | Dm9 | Dm9 | G/D | G/D | Fmaj7 | Fmaj7 | Cadd9 | Cadd9 | Dm9 | Dm9 | G/D | G/D | Fmaj7 | Fmaj7 | Cadd9 | Cadd9",
+      "dyn": 0.28,
+      "layers": [
+        "waves",
+        "pad",
+        "sub"
+      ],
+      "improv": "glass",
+      "improv_range": [
+        62,
+        79
+      ],
+      "improv_density": 0.9
+    },
+    {
+      "bars": 16,
+      "chords": "Bbmaj7 | Bbmaj7 | Fmaj7 | Fmaj7 | Gm9 | Gm9 | Asus4 | Dm9 | Bbmaj7 | Bbmaj7 | Fmaj7 | Fmaj7 | Gm9 | Gm9 | Asus4 | Dm9",
+      "dyn": 0.3,
+      "layers": [
+        "waves",
+        "pad",
+        "sub"
+      ],
+      "improv": "glass",
+      "improv_range": [
+        62,
+        79
+      ],
+      "improv_density": 0.9
+    },
+    {
+      "bars": 8,
+      "chords": "Dm9 | Dm9 | G/D | G/D | Dm9 | Dm9 | G/D | G/D",
+      "dyn": 0.18,
+      "layers": [
+        "waves",
+        "pad"
+      ],
+      "swell": -0.1,
+      "improv": "glass",
+      "improv_range": [
+        62,
+        79
+      ],
+      "improv_density": 0.5
+    }
+  ]
+}

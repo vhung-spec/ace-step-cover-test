@@ -1,0 +1,18 @@
+{
+  "title": "Vực thẳm",
+  "family": "dark-khac",
+  "about": "Round x2 of the dark ambient style (khong-gian): the abyss, the darkest and lowest. The pad held deep (under middle C), the sub, the drone, a great bell very low on every second chord; nothing high at all. D minor at 42 bpm, sinking by half steps (D, C sharp, C) as it goes. An original piece.",
+  "style": "khong-gian",
+  "bpm": 42,
+  "beats": 4,
+  "pad_range": [38, 58],
+  "toll_low": 40,
+  "sections": [
+    {"bars": 4, "chords": "Dm | Dm | Dm | Dm", "dyn": 0.2, "swell": 0.2, "layers": ["drone", "sub", "pad"]},
+    {"bars": 8, "chords": "Dm | Dm | Bb/D | Bb/D | C#dim/D | C#dim/D | Dm | Dm", "dyn": 0.4, "toll_every": 2,
+     "layers": ["drone", "sub", "pad", "toll"]},
+    {"bars": 8, "chords": "Dm/C | Dm/C | Bbmaj7 | Bbmaj7 | Gm/Bb | Gm/Bb | A5 | A5", "dyn": 0.55, "swell": 0.1,
+     "toll_every": 2, "layers": ["drone", "sub", "pad", "toll", "wind"]},
+    {"bars": 6, "chords": "Dm | Dm | Eb/D | Eb/D | Dm | Dm", "dyn": 0.25, "swell": -0.15, "layers": ["drone", "sub", "pad"]}
+  ]
+}

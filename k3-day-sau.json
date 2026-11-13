@@ -1,0 +1,23 @@
+{
+  "title": "Đáy sâu",
+  "family": "dark-khac",
+  "about": "Round k3 of the dark ambient style (khong-gian): E minor at 50 bpm, deep and slow; a glass bowl calling a four-note figure high and far, a low bell answering it two octaves down where the glass rests (the call and response the user liked in the dark piano), the dark pad and sub under them. An original piece.",
+  "style": "khong-gian",
+  "bpm": 50,
+  "beats": 4,
+  "sections": [
+    {"bars": 4, "chords": "Em | Em | Cmaj7/E | Cmaj7/E", "dyn": 0.15, "swell": 0.2, "layers": ["pad", "sub"]},
+    {"bars": 8, "chords": "Em | Em | Cmaj7 | Cmaj7 | Am9 | Am9 | B5 | B5", "dyn": 0.35,
+     "melody": "B4:1 E5:1 G5:2 | r:4 | r:4 | r:4 | A4:1 C5:1 E5:2 | r:4 | r:4 | r:4",
+     "answer": "r:4 | r:2 G3:2 | E3:4 | r:4 | r:4 | r:2 E3:2 | C3:4 | r:4",
+     "layers": ["pad", "sub", "glass"]},
+    {"bars": 8, "chords": "Em | Em | Cmaj7 | Cmaj7 | Am9 | Am9 | F/E | F/E", "dyn": 0.48, "swell": 0.12,
+     "melody": "B4:1 E5:1 G5:1 B5:1 | r:4 | r:4 | r:4 | A4:1 C5:1 E5:1 A5:1 | r:4 | r:4 | r:4",
+     "answer": "r:4 | r:2 B3:2 | G3:4 | r:4 | r:4 | r:2 C4:2 | A3:4 | r:4",
+     "layers": ["pad", "sub", "glass", "choir"]},
+    {"bars": 6, "chords": "Em | Em | Cmaj7/E | Cmaj7/E | Em | Em", "dyn": 0.22, "swell": -0.12,
+     "melody": "B4:1 E5:1 G5:2 | r:4 | r:4 | r:4 | r:4 | r:4",
+     "answer": "r:4 | r:2 E3:2 | r:4 | r:4 | r:4 | r:4",
+     "layers": ["pad", "sub", "glass"]}
+  ]
+}

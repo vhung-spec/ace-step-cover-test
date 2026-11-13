@@ -1,0 +1,80 @@
+{
+  "title": "Đèn khuya",
+  "title_en": "Late Night Lamp",
+  "family": "dark-khac",
+  "about": "Round x16 (album 11), the user: \"hãy sáng tác album 11\", after album 10 (electronic sleep) was kept whole: more electronic sleep ambient (style ngu-dt), slow (52 bpm), pad, pianoarp, sub, air, choir, an improvised glass tune with a long echo. No drums. Remade before release on a less common progression of its own (the user, after Content ID matches on plain i-VI-iv-V pieces: \"ok làm lại album 11 an toàn hơn\"). An original piece.",
+  "style": "ngu-dt",
+  "bpm": 52,
+  "beats": 4,
+  "mode": "aeolian",
+  "seed": 114,
+  "gains": {
+    "arp": -6.0,
+    "air": -10.0,
+    "swells": -3.0
+  },
+  "sections": [
+    {
+      "bars": 8,
+      "chords": "Bm9 | Bm9 | Gmaj7/B | Gmaj7/B | Em6 | Em6 | Bm9 | Bm9",
+      "dyn": 0.18,
+      "layers": [
+        "pad",
+        "pianoarp"
+      ],
+      "arp_quarters": true
+    },
+    {
+      "bars": 24,
+      "chords": "Bm9 | Aadd9 | Gmaj7 | F#7sus4 | Bm9 | Dmaj7 | Em6 | Cmaj7#11 | Bm9 | Aadd9 | Gmaj7 | F#7sus4 | Bm9 | Dmaj7 | Em6 | Cmaj7#11 | Bm9 | Aadd9 | Gmaj7 | F#7sus4 | Bm9 | Dmaj7 | Em6 | Cmaj7#11",
+      "dyn": 0.27,
+      "layers": [
+        "pad",
+        "pianoarp",
+        "sub",
+        "air"
+      ],
+      "arp_quarters": true,
+      "improv": "glass",
+      "improv_range": [
+        62,
+        79
+      ]
+    },
+    {
+      "bars": 16,
+      "chords": "Cmaj7#11 | Dadd9 | Em9 | Gmaj7 | Cmaj7#11 | Bm9 | F#7sus4 | Bm9 | Cmaj7#11 | Dadd9 | Em9 | Gmaj7 | Cmaj7#11 | Bm9 | F#7sus4 | Bm9",
+      "dyn": 0.28,
+      "layers": [
+        "pad",
+        "pianoarp",
+        "sub",
+        "choir"
+      ],
+      "arp_quarters": true,
+      "improv": "keys",
+      "improv_range": [
+        60,
+        77
+      ],
+      "improv_density": 0.8
+    },
+    {
+      "bars": 8,
+      "chords": "Bm9 | Bm9 | Gmaj7/B | Gmaj7/B | Em6 | Em6 | Bm9 | Bm9",
+      "dyn": 0.17,
+      "layers": [
+        "pad",
+        "pianoarp"
+      ],
+      "arp_quarters": true,
+      "improv": "glass",
+      "improv_range": [
+        62,
+        79
+      ],
+      "improv_density": 0.5,
+      "swell": -0.1
+    }
+  ]
+}

@@ -1,0 +1,55 @@
+{
+  "title": "Dây trầm",
+  "family": "dark-khac",
+  "about": "Round x5 of the dark ambient style (khong-gian), as the user asked (\"hãy sáng tác thêm cho tôi nhiều bài nữa\"): low strings in the dark, as a film's slow, grave scene: the section holding close low chords, a single string singing a sad tune over it, the great bell under the climax. C minor at 48 bpm. An original piece.",
+  "style": "khong-gian",
+  "bpm": 48,
+  "beats": 4,
+  "sections": [
+    {
+      "bars": 4,
+      "chords": "Cm | Cm | Abmaj7 | Abmaj7",
+      "dyn": 0.25,
+      "layers": [
+        "strings",
+        "sub"
+      ],
+      "swell": 0.15
+    },
+    {
+      "bars": 8,
+      "chords": "Cm | Cm | Abmaj7 | Abmaj7 | Fm9 | Fm9 | G | G",
+      "dyn": 0.38,
+      "layers": [
+        "strings",
+        "sub",
+        "solo"
+      ],
+      "melody": "G4:3 Ab4:1 | G4:2 Eb4:2 | C4:4 | r:4 | F4:3 G4:1 | Ab4:2 C5:2 | B4:4 | r:4"
+    },
+    {
+      "bars": 8,
+      "chords": "Cm | Cm/Bb | Abmaj7 | Abmaj7 | Fm | Db/F | G | G",
+      "dyn": 0.55,
+      "layers": [
+        "strings",
+        "sub",
+        "solo",
+        "toll"
+      ],
+      "swell": 0.1,
+      "toll_every": 2,
+      "melody": "C5:3 D5:1 | Eb5:2 D5:2 | C5:4 | Ab4:4 | F4:3 Ab4:1 | Db5:2 C5:2 | B4:4 | G4:4"
+    },
+    {
+      "bars": 6,
+      "chords": "Cm | Cm | Abmaj7 | Abmaj7 | Cm | Cm",
+      "dyn": 0.24,
+      "layers": [
+        "strings",
+        "sub"
+      ],
+      "swell": -0.12
+    }
+  ]
+}

@@ -1,0 +1,60 @@
+{
+  "title": "Hang nước",
+  "family": "dark-khac",
+  "about": "Round x3 of the dark ambient style (khong-gian), as the user asked for many more versions (\"tôi rất thích các phiên bản bạn tạo, hãy tạo thêm cho tôi nhiều phiên bản khác\"): a cave with water: drops falling into a still pool on the chord's tones, the wind in the hollow and the dark pad; E minor at 50 bpm, a slow sway to C and the Phrygian F. An original piece.",
+  "style": "khong-gian",
+  "bpm": 50,
+  "beats": 4,
+  "sections": [
+    {
+      "bars": 4,
+      "chords": "Em | Em | Em | Em",
+      "dyn": 0.2,
+      "layers": [
+        "drops",
+        "wind",
+        "sub"
+      ],
+      "swell": 0.2,
+      "drops_per_bar": 2
+    },
+    {
+      "bars": 8,
+      "chords": "Em | Em | Cmaj7 | Cmaj7 | Am9 | Am9 | F/E | F/E",
+      "dyn": 0.38,
+      "layers": [
+        "drops",
+        "wind",
+        "pad",
+        "sub"
+      ]
+    },
+    {
+      "bars": 8,
+      "chords": "Em | Em | Cmaj7 | Cmaj7 | Am | Am | B5 | B5",
+      "dyn": 0.5,
+      "layers": [
+        "drops",
+        "pad",
+        "sub",
+        "toll"
+      ],
+      "swell": 0.1,
+      "toll_every": 2,
+      "drops_per_bar": 4,
+      "melody": "r:4 | B4:4 | r:4 | r:2 G4:2 | r:4 | E4:4 | r:4 | r:4"
+    },
+    {
+      "bars": 6,
+      "chords": "Em | Em | F/E | F/E | Em | Em",
+      "dyn": 0.22,
+      "layers": [
+        "drops",
+        "wind",
+        "sub"
+      ],
+      "swell": -0.12,
+      "drops_per_bar": 2
+    }
+  ]
+}

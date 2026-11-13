@@ -1,0 +1,76 @@
+{
+  "title": "Sóng radio đêm",
+  "title_en": "Night Radio Waves",
+  "family": "dark-khac",
+  "about": "Round x15 (album 10), the user: \"hãy sáng tác album thứ 10, hãy thử phong cách âm thanh điện tử hơn, vẫn là nhạc ambient phù hợp ngủ\": electronic sleep ambient (style ngu-dt), slow (50 bpm), pad, arp, sub, choir, an improvised keys tune with a long echo. No drums. An original piece.",
+  "style": "ngu-dt",
+  "bpm": 50,
+  "beats": 4,
+  "mode": "aeolian",
+  "seed": 103,
+  "gains": {
+    "arp": -6.0,
+    "air": -10.0,
+    "swells": -3.0
+  },
+  "sections": [
+    {
+      "bars": 8,
+      "chords": "Bmadd9 | Bmadd9 | Gmaj7 | Gmaj7 | Bmadd9 | Bmadd9 | Gmaj7 | Gmaj7",
+      "dyn": 0.18,
+      "layers": [
+        "pad",
+        "arp"
+      ]
+    },
+    {
+      "bars": 24,
+      "chords": "Bmadd9 | Bmadd9 | Gmaj7 | Gmaj7 | Em9 | Em9 | F#sus4 | F#sus4 | Bmadd9 | Bmadd9 | Gmaj7 | Gmaj7 | Em9 | Em9 | F#sus4 | F#sus4 | Bmadd9 | Bmadd9 | Gmaj7 | Gmaj7 | Em9 | Em9 | F#sus4 | F#sus4",
+      "dyn": 0.27,
+      "layers": [
+        "pad",
+        "arp",
+        "sub"
+      ],
+      "improv": "keys",
+      "improv_range": [
+        60,
+        77
+      ],
+      "improv_density": 0.8
+    },
+    {
+      "bars": 16,
+      "chords": "Gmaj7 | Gmaj7 | Dmaj7 | Dmaj7 | Em9 | Em9 | F#sus4 | Bmadd9 | Gmaj7 | Gmaj7 | Dmaj7 | Dmaj7 | Em9 | Em9 | F#sus4 | Bmadd9",
+      "dyn": 0.28,
+      "layers": [
+        "pad",
+        "arp",
+        "sub",
+        "choir"
+      ],
+      "improv": "glass",
+      "improv_range": [
+        62,
+        79
+      ],
+      "improv_density": 0.9
+    },
+    {
+      "bars": 8,
+      "chords": "Bmadd9 | Bmadd9 | Gmaj7 | Gmaj7 | Bmadd9 | Bmadd9 | Gmaj7 | Gmaj7",
+      "dyn": 0.17,
+      "layers": [
+        "pad",
+        "arp"
+      ],
+      "improv": "keys",
+      "improv_range": [
+        60,
+        77
+      ],
+      "improv_density": 0.5,
+      "swell": -0.1
+    }
+  ]
+}

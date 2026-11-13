@@ -1,0 +1,133 @@
+{
+  "title": "Thư cuối D2 (nhẹ tay, tối hơn chút)",
+  "about": "C3 (the user's choice, now the dem-diu style) after the user asked for a piano 'a little less harsh': 30 % of its tune's notes were struck above 65, on the upright's harder, brighter samples, and in its quiet passages the tune stood out over a very soft left hand (brighter there than in its loud ones; the references are darker when quiet). D2: D1, and 1-4 dB less from 630 Hz up",
+  "style": "dem-diu-h3",
+  "bpm": 80,
+  "beats": 4,
+  "piano_tone": {
+    "attack": 0.025,
+    "eq": [
+      [
+        62,
+        0
+      ],
+      [
+        79,
+        0
+      ],
+      [
+        99,
+        0
+      ],
+      [
+        125,
+        -2.4
+      ],
+      [
+        157,
+        -2.3
+      ],
+      [
+        198,
+        -1.9
+      ],
+      [
+        250,
+        -1.3
+      ],
+      [
+        315,
+        3.1
+      ],
+      [
+        397,
+        4.6
+      ],
+      [
+        500,
+        0.2
+      ],
+      [
+        630,
+        -4.3
+      ],
+      [
+        794,
+        -3
+      ],
+      [
+        1000,
+        -1.8
+      ],
+      [
+        1260,
+        -7.9
+      ],
+      [
+        1587,
+        -14.9
+      ],
+      [
+        2000,
+        -20.3
+      ],
+      [
+        2520,
+        -24.7
+      ],
+      [
+        3175,
+        -27.8
+      ],
+      [
+        4000,
+        -28
+      ],
+      [
+        5040,
+        -28
+      ]
+    ]
+  },
+  "melody_velocity": [
+    38,
+    60
+  ],
+  "velocity_cap": 64,
+  "sections": [
+    {
+      "bars": 2,
+      "chords": "Cm | Ab",
+      "dyn": 0.25
+    },
+    {
+      "bars": 8,
+      "chords": "Cm | Fm | G | Cm | Ab | Fm | G | G",
+      "melody": "Eb5:3 D5:0.5 C5:0.5 | C5:2 Ab4:2 | B4:1 D5:1 G5:2 | Eb5:3 r:1 | C5:2 Eb5:1 Ab5:1 | G5:2 F5:1 Eb5:1 | D5:2 F5:1 Eb5:1 | D5:3 r:1",
+      "dyn": 0.35
+    },
+    {
+      "bars": 8,
+      "chords": "Ab | Eb | Fm | Cm | Ab | Bb | G | G",
+      "melody": "Ab5:2 G5:1 F5:1 | G5:3 Eb5:1 | F5:1.5 G5:0.5 Ab5:2 | G5:3 r:1 | Eb5:2 C5:1 Eb5:1 | D5:2 F5:2 | G5:2 F5:1 D5:1 | B4:3 r:1",
+      "dyn": 0.75
+    },
+    {
+      "bars": 8,
+      "chords": "Cm | Fm | G | Cm | Ab | Fm | G | Cm",
+      "melody": "G5:3 Eb5:0.5 D5:0.5 | C5:2 F5:2 | D5:1.5 Eb5:0.5 D5:1 B4:1 | C5:4 | Eb5:2 Ab5:2 | G5:1.5 F5:0.5 Eb5:2 | D5:2 B4:2 | C5:4",
+      "dyn": 0.35
+    },
+    {
+      "bars": 2,
+      "chords": "Ab | Cm",
+      "melody": "Eb5:4 | C5:4",
+      "dyn": 0.2
+    }
+  ],
+  "room": {
+    "rt60": 2.8,
+    "wet": 0.8
+  },
+  "loudness": -16
+}

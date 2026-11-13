@@ -1,0 +1,81 @@
+{
+  "title": "Hộp nhạc cũ",
+  "family": "dark-khac",
+  "about": "Round x4 of the dark ambient style (khong-gian), as the user asked (\"hãy sáng tác thêm cho tôi\"): an old music box found in an attic, a little out of tune, playing a slow lullaby in three over the dark pad and a deep sub; it winds down at the end. D minor at 60 bpm, in three. Its tune heard twice, the second time with the choir. An original piece.",
+  "style": "khong-gian",
+  "bpm": 60,
+  "beats": 3,
+  "sections": [
+    {
+      "bars": 4,
+      "chords": "Dm | Dm | Bb | A",
+      "dyn": 0.2,
+      "layers": [
+        "pad",
+        "sub"
+      ],
+      "swell": 0.15
+    },
+    {
+      "bars": 8,
+      "chords": "Dm | Dm | Gm | Gm | Bb | Bb | A | A",
+      "dyn": 0.38,
+      "layers": [
+        "pad",
+        "sub",
+        "box"
+      ],
+      "melody": "A5:2 F5:1 | D5:3 | Bb5:2 G5:1 | D5:3 | F5:1 E5:1 D5:1 | Bb4:2 D5:1 | E5:3 | C#5:3"
+    },
+    {
+      "bars": 8,
+      "chords": "Dm | Dm | Gm | Gm | Bb | Gm | A | A",
+      "dyn": 0.48,
+      "layers": [
+        "pad",
+        "sub",
+        "box",
+        "choir"
+      ],
+      "swell": 0.08,
+      "melody": "A5:2 F5:1 | D5:3 | Bb5:2 G5:1 | D5:3 | F5:1 E5:1 D5:1 | Bb4:1 G4:1 Bb4:1 | A4:3 | r:3"
+    },
+    {
+      "bars": 8,
+      "chords": "Dm | Dm | Gm | Gm | Bb | Bb | A | A",
+      "dyn": 0.42,
+      "layers": [
+        "box",
+        "choir",
+        "pad",
+        "sub"
+      ],
+      "melody": "A5:2 F5:1 | D5:3 | Bb5:2 G5:1 | D5:3 | F5:1 E5:1 D5:1 | Bb4:2 D5:1 | E5:3 | C#5:3"
+    },
+    {
+      "bars": 8,
+      "chords": "Dm | Dm | Gm | Gm | Bb | Gm | A | A",
+      "dyn": 0.52,
+      "layers": [
+        "pad",
+        "sub",
+        "box",
+        "choir"
+      ],
+      "swell": 0.08,
+      "melody": "A5:2 F5:1 | D5:3 | Bb5:2 G5:1 | D5:3 | F5:1 E5:1 D5:1 | Bb4:1 G4:1 Bb4:1 | A4:3 | r:3"
+    },
+    {
+      "bars": 6,
+      "chords": "Dm | Dm | Gm | Gm | Dm | Dm",
+      "dyn": 0.25,
+      "layers": [
+        "pad",
+        "box"
+      ],
+      "swell": -0.12,
+      "rit": true,
+      "melody": "A5:2 F5:1 | D5:3 | Bb5:2 G5:1 | D5:3 | r:3 | r:3"
+    }
+  ]
+}

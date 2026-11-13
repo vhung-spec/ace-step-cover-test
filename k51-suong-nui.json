@@ -1,0 +1,59 @@
+{
+  "title": "Sương núi",
+  "title_en": "Mountain Mist",
+  "family": "dark-khac",
+  "about": "Round x8, in directions of my own choosing, as the user asked (\"hãy sáng tác thêm nhiều bài nữa, hướng bạn tự đề xuất\"): eastern dark: mist on the mountains at night; the plucked string breaking the chords slowly, a far choir and the pad, a bowl now and then. E minor pentatonic colours at 50 bpm. An original piece.",
+  "style": "khong-gian",
+  "bpm": 50,
+  "beats": 4,
+  "sections": [
+    {
+      "bars": 4,
+      "chords": "Em | Em | Em | Em",
+      "dyn": 0.25,
+      "layers": [
+        "pluckarp",
+        "pad"
+      ],
+      "pluck_beats": 2
+    },
+    {
+      "bars": 8,
+      "chords": "Em | Em | Am/E | Am/E | D/E | D/E | Em | Em",
+      "dyn": 0.36,
+      "layers": [
+        "pluckarp",
+        "pad",
+        "sub",
+        "bowl"
+      ],
+      "pluck_beats": 1,
+      "bowl_every": 4
+    },
+    {
+      "bars": 8,
+      "chords": "C | C | D | D | Bm | Bm | Em | Em",
+      "dyn": 0.44,
+      "layers": [
+        "pluckarp",
+        "pad",
+        "sub",
+        "choir"
+      ],
+      "pluck_beats": 1
+    },
+    {
+      "bars": 8,
+      "chords": "Em | Em | Am/E | Am/E | D/E | D/E | Em | Em",
+      "dyn": 0.28,
+      "layers": [
+        "pluckarp",
+        "pad",
+        "bowl"
+      ],
+      "pluck_beats": 2,
+      "bowl_every": 4,
+      "swell": -0.1
+    }
+  ]
+}

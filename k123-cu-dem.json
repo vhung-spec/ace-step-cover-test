@@ -1,0 +1,68 @@
+{
+  "title": "Cú đêm",
+  "title_en": "The Night Owl",
+  "family": "dark-khac",
+  "about": "Round x17 (album 12), the user: \"hãy sáng tác album tiếp theo\": sleep music in the style of Sleep in the Dark (ngu-ngon), on a less common progression of its own (template 3; after the Content ID matches on plain i-VI-iv-V pieces), slow (52 bpm), strings, pad, sub, an improvised felt tune, then box. No drums, plucked string or organ. An original piece.",
+  "style": "ngu-ngon",
+  "bpm": 52,
+  "beats": 4,
+  "mode": "aeolian",
+  "seed": 123,
+  "sections": [
+    {
+      "bars": 8,
+      "chords": "Bmadd9 | Bmadd9 | Emadd9/B | Emadd9/B | Gmaj7 | Gmaj7 | A6 | A6",
+      "dyn": 0.18,
+      "layers": [
+        "strings",
+        "pad"
+      ]
+    },
+    {
+      "bars": 24,
+      "chords": "Bmadd9 | D6 | Emadd9 | Cmaj7#11 | Bmadd9 | Aadd9 | Gmaj7 | F#7sus4 | Bmadd9 | D6 | Emadd9 | Cmaj7#11 | Bmadd9 | Aadd9 | Gmaj7 | F#7sus4 | Bmadd9 | D6 | Emadd9 | Cmaj7#11 | Bmadd9 | Aadd9 | Gmaj7 | F#7sus4",
+      "dyn": 0.27,
+      "layers": [
+        "strings",
+        "pad",
+        "sub"
+      ],
+      "improv": "felt",
+      "improv_range": [
+        55,
+        74
+      ]
+    },
+    {
+      "bars": 16,
+      "chords": "Gmaj7 | A6 | F#m7 | Bmadd9 | Cmaj7#11 | D6 | Emadd9 | F#7sus4 | Gmaj7 | A6 | F#m7 | Bmadd9 | Cmaj7#11 | D6 | Emadd9 | F#7sus4",
+      "dyn": 0.28,
+      "layers": [
+        "strings",
+        "sub",
+        "pad"
+      ],
+      "improv": "box",
+      "improv_range": [
+        62,
+        81
+      ]
+    },
+    {
+      "bars": 8,
+      "chords": "Bmadd9 | Bmadd9 | Emadd9/B | Emadd9/B | Gmaj7 | Gmaj7 | A6 | A6",
+      "dyn": 0.17,
+      "layers": [
+        "strings",
+        "pad"
+      ],
+      "improv": "felt",
+      "improv_range": [
+        55,
+        74
+      ],
+      "improv_density": 0.6,
+      "swell": -0.1
+    }
+  ]
+}
