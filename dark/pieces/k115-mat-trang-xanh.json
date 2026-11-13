@@ -2,11 +2,11 @@
   "title": "Mặt trăng xanh",
   "title_en": "Blue Moon Hum",
   "family": "dark-khac",
-  "about": "Round x16 (album 11), the user: \"hãy sáng tác album 11\", after album 10 (electronic sleep) was kept whole: more electronic sleep ambient (style ngu-dt), slow (48 bpm), pad, air, shimmer, sub, swells, an improvised keys tune with a long echo. No drums. An original piece.",
+  "about": "Round x16 (album 11), the user: \"hãy sáng tác album 11\", after album 10 (electronic sleep) was kept whole: more electronic sleep ambient (style ngu-dt), slow (48 bpm), pad, air, shimmer, sub, swells, an improvised keys tune with a long echo. No drums. Remade before release on a less common progression of its own (the user, after Content ID matches on plain i-VI-iv-V pieces: \"ok làm lại album 11 an toàn hơn\"). An original piece.",
   "style": "ngu-dt",
   "bpm": 48,
   "beats": 4,
-  "mode": "aeolian",
+  "mode": "dorian",
   "seed": 115,
   "gains": {
     "arp": -6.0,
@@ -16,7 +16,7 @@
   "sections": [
     {
       "bars": 8,
-      "chords": "C#madd9 | C#madd9 | Amaj7 | Amaj7 | C#madd9 | C#madd9 | Amaj7 | Amaj7",
+      "chords": "C#m9 | C#m9 | F#add9/C# | F#add9/C# | Emaj7 | Emaj7 | C#m9 | C#m9",
       "dyn": 0.18,
       "layers": [
         "pad",
@@ -26,7 +26,7 @@
     },
     {
       "bars": 24,
-      "chords": "C#madd9 | C#madd9 | Amaj7 | Amaj7 | F#m9 | F#m9 | G#sus4 | G#sus4 | C#madd9 | C#madd9 | Amaj7 | Amaj7 | F#m9 | F#m9 | G#sus4 | G#sus4 | C#madd9 | C#madd9 | Amaj7 | Amaj7 | F#m9 | F#m9 | G#sus4 | G#sus4",
+      "chords": "C#m9 | B6 | F#add9 | G#m7 | C#m9 | F#add9 | Emaj7 | D#m7 | C#m9 | B6 | F#add9 | G#m7 | C#m9 | F#add9 | Emaj7 | D#m7 | C#m9 | B6 | F#add9 | G#m7 | C#m9 | F#add9 | Emaj7 | D#m7",
       "dyn": 0.27,
       "layers": [
         "pad",
@@ -43,7 +43,7 @@
     },
     {
       "bars": 16,
-      "chords": "Amaj7 | Amaj7 | Emaj7 | Emaj7 | F#m9 | F#m9 | G#sus4 | C#madd9 | Amaj7 | Amaj7 | Emaj7 | Emaj7 | F#m9 | F#m9 | G#sus4 | C#madd9",
+      "chords": "Emaj7 | F#add9 | B6 | C#m9 | A#m7b5 | F#add9 | G#m7 | C#m9 | Emaj7 | F#add9 | B6 | C#m9 | A#m7b5 | F#add9 | G#m7 | C#m9",
       "dyn": 0.28,
       "layers": [
         "pad",
@@ -60,7 +60,7 @@
     },
     {
       "bars": 8,
-      "chords": "C#madd9 | C#madd9 | Amaj7 | Amaj7 | C#madd9 | C#madd9 | Amaj7 | Amaj7",
+      "chords": "C#m9 | C#m9 | F#add9/C# | F#add9/C# | Emaj7 | Emaj7 | C#m9 | C#m9",
       "dyn": 0.17,
       "layers": [
         "pad",

@@ -2,7 +2,7 @@
   "title": "Vệ tinh ngủ quên",
   "title_en": "The Dozing Satellite",
   "family": "dark-khac",
-  "about": "Round x16 (album 11), the user: \"hãy sáng tác album 11\", after album 10 (electronic sleep) was kept whole: more electronic sleep ambient (style ngu-dt), slow (50 bpm), pad, arp, sub, air, an improvised keys tune with a long echo. No drums. An original piece.",
+  "about": "Round x16 (album 11), the user: \"hãy sáng tác album 11\", after album 10 (electronic sleep) was kept whole: more electronic sleep ambient (style ngu-dt), slow (50 bpm), pad, arp, sub, air, an improvised keys tune with a long echo. No drums. Remade before release on a less common progression of its own (the user, after Content ID matches on plain i-VI-iv-V pieces: \"ok làm lại album 11 an toàn hơn\"). An original piece.",
   "style": "ngu-dt",
   "bpm": 50,
   "beats": 4,
@@ -16,7 +16,7 @@
   "sections": [
     {
       "bars": 8,
-      "chords": "Gmadd9 | Gmadd9 | Ebmaj7 | Ebmaj7 | Gmadd9 | Gmadd9 | Ebmaj7 | Ebmaj7",
+      "chords": "Gm9 | Gm9 | Ebmaj7/G | Ebmaj7/G | Cm6 | Cm6 | Gm9 | Gm9",
       "dyn": 0.18,
       "layers": [
         "pad",
@@ -25,7 +25,7 @@
     },
     {
       "bars": 24,
-      "chords": "Gmadd9 | Gmadd9 | Ebmaj7 | Ebmaj7 | Cm9 | Cm9 | Dsus4 | Dsus4 | Gmadd9 | Gmadd9 | Ebmaj7 | Ebmaj7 | Cm9 | Cm9 | Dsus4 | Dsus4 | Gmadd9 | Gmadd9 | Ebmaj7 | Ebmaj7 | Cm9 | Cm9 | Dsus4 | Dsus4",
+      "chords": "Gm9 | Bbmaj7 | Cm6 | Abmaj7#11 | Gm9 | Fadd9 | Ebmaj7 | D7sus4 | Gm9 | Bbmaj7 | Cm6 | Abmaj7#11 | Gm9 | Fadd9 | Ebmaj7 | D7sus4 | Gm9 | Bbmaj7 | Cm6 | Abmaj7#11 | Gm9 | Fadd9 | Ebmaj7 | D7sus4",
       "dyn": 0.27,
       "layers": [
         "pad",
@@ -41,7 +41,7 @@
     },
     {
       "bars": 16,
-      "chords": "Ebmaj7 | Ebmaj7 | Bbmaj7 | Bbmaj7 | Cm9 | Cm9 | Dsus4 | Gmadd9 | Ebmaj7 | Ebmaj7 | Bbmaj7 | Bbmaj7 | Cm9 | Cm9 | Dsus4 | Gmadd9",
+      "chords": "Abmaj7#11 | Bbadd9 | Cm9 | Ebmaj7 | Abmaj7#11 | Gm9 | D7sus4 | Gm9 | Abmaj7#11 | Bbadd9 | Cm9 | Ebmaj7 | Abmaj7#11 | Gm9 | D7sus4 | Gm9",
       "dyn": 0.28,
       "layers": [
         "pad",
@@ -58,7 +58,7 @@
     },
     {
       "bars": 8,
-      "chords": "Gmadd9 | Gmadd9 | Ebmaj7 | Ebmaj7 | Gmadd9 | Gmadd9 | Ebmaj7 | Ebmaj7",
+      "chords": "Gm9 | Gm9 | Ebmaj7/G | Ebmaj7/G | Cm6 | Cm6 | Gm9 | Gm9",
       "dyn": 0.17,
       "layers": [
         "pad",

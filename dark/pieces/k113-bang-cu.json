@@ -2,7 +2,7 @@
   "title": "Băng cassette cũ",
   "title_en": "Old Cassette Dreams",
   "family": "dark-khac",
-  "about": "Round x16 (album 11), the user: \"hãy sáng tác album 11\", after album 10 (electronic sleep) was kept whole: more electronic sleep ambient (style ngu-dt), slow (50 bpm), pad, strings, sub, air, an improvised keys tune with a long echo. No drums. An original piece.",
+  "about": "Round x16 (album 11), the user: \"hãy sáng tác album 11\", after album 10 (electronic sleep) was kept whole: more electronic sleep ambient (style ngu-dt), slow (50 bpm), pad, strings, sub, air, an improvised keys tune with a long echo. No drums. Remade before release on a less common progression of its own (the user, after Content ID matches on plain i-VI-iv-V pieces: \"ok làm lại album 11 an toàn hơn\"). An original piece.",
   "style": "ngu-dt",
   "bpm": 50,
   "beats": 4,
@@ -16,7 +16,7 @@
   "sections": [
     {
       "bars": 8,
-      "chords": "Cmadd9 | Cmadd9 | Abmaj7 | Abmaj7 | Cmadd9 | Cmadd9 | Abmaj7 | Abmaj7",
+      "chords": "Cmadd9 | Cmadd9 | Fmadd9/C | Fmadd9/C | Abmaj7 | Abmaj7 | Bb6 | Bb6",
       "dyn": 0.18,
       "layers": [
         "pad",
@@ -25,7 +25,7 @@
     },
     {
       "bars": 24,
-      "chords": "Cmadd9 | Cmadd9 | Abmaj7 | Abmaj7 | Fm9 | Fm9 | Gsus4 | Gsus4 | Cmadd9 | Cmadd9 | Abmaj7 | Abmaj7 | Fm9 | Fm9 | Gsus4 | Gsus4 | Cmadd9 | Cmadd9 | Abmaj7 | Abmaj7 | Fm9 | Fm9 | Gsus4 | Gsus4",
+      "chords": "Cmadd9 | Bbadd9 | Abmaj7 | G7sus4 | Cmadd9 | Eb6 | Fmadd9 | Dbmaj7#11 | Cmadd9 | Bbadd9 | Abmaj7 | G7sus4 | Cmadd9 | Eb6 | Fmadd9 | Dbmaj7#11 | Cmadd9 | Bbadd9 | Abmaj7 | G7sus4 | Cmadd9 | Eb6 | Fmadd9 | Dbmaj7#11",
       "dyn": 0.27,
       "layers": [
         "pad",
@@ -41,7 +41,7 @@
     },
     {
       "bars": 16,
-      "chords": "Abmaj7 | Abmaj7 | Ebmaj7 | Ebmaj7 | Fm9 | Fm9 | Gsus4 | Cmadd9 | Abmaj7 | Abmaj7 | Ebmaj7 | Ebmaj7 | Fm9 | Fm9 | Gsus4 | Cmadd9",
+      "chords": "Abmaj7 | Bb6 | Gm7 | Cmadd9 | Dbmaj7#11 | Eb6 | Fmadd9 | G7sus4 | Abmaj7 | Bb6 | Gm7 | Cmadd9 | Dbmaj7#11 | Eb6 | Fmadd9 | G7sus4",
       "dyn": 0.28,
       "layers": [
         "pad",
@@ -58,7 +58,7 @@
     },
     {
       "bars": 8,
-      "chords": "Cmadd9 | Cmadd9 | Abmaj7 | Abmaj7 | Cmadd9 | Cmadd9 | Abmaj7 | Abmaj7",
+      "chords": "Cmadd9 | Cmadd9 | Fmadd9/C | Fmadd9/C | Abmaj7 | Abmaj7 | Bb6 | Bb6",
       "dyn": 0.17,
       "layers": [
         "pad",

@@ -2,7 +2,7 @@
   "title": "Ngủ sâu trong mây",
   "title_en": "Deep in the Clouds",
   "family": "dark-khac",
-  "about": "Round x16 (album 11), the user: \"hãy sáng tác album 11\", after album 10 (electronic sleep) was kept whole: more electronic sleep ambient (style ngu-dt), slow (44 bpm), pad, air, sub, choir, swells, an improvised keys tune with a long echo. No drums. An original piece.",
+  "about": "Round x16 (album 11), the user: \"hãy sáng tác album 11\", after album 10 (electronic sleep) was kept whole: more electronic sleep ambient (style ngu-dt), slow (44 bpm), pad, air, sub, choir, swells, an improvised keys tune with a long echo. No drums. Remade before release on a less common progression of its own (the user, after Content ID matches on plain i-VI-iv-V pieces: \"ok làm lại album 11 an toàn hơn\"). An original piece.",
   "style": "ngu-dt",
   "bpm": 44,
   "beats": 4,
@@ -16,7 +16,7 @@
   "sections": [
     {
       "bars": 8,
-      "chords": "G#madd9 | G#madd9 | Emaj7 | Emaj7 | G#madd9 | G#madd9 | Emaj7 | Emaj7",
+      "chords": "G#madd9 | G#madd9 | C#m6/G# | C#m6/G# | G#madd9 | G#madd9 | Emaj7#11 | Emaj7#11",
       "dyn": 0.18,
       "layers": [
         "pad",
@@ -25,7 +25,7 @@
     },
     {
       "bars": 24,
-      "chords": "G#madd9 | G#madd9 | Emaj7 | Emaj7 | C#m9 | C#m9 | D#sus4 | D#sus4 | G#madd9 | G#madd9 | Emaj7 | Emaj7 | C#m9 | C#m9 | D#sus4 | D#sus4 | G#madd9 | G#madd9 | Emaj7 | Emaj7 | C#m9 | C#m9 | D#sus4 | D#sus4",
+      "chords": "G#madd9 | F#add9 | Emaj7#11 | D#7sus4 | G#madd9 | Bmaj7/D# | C#m6 | Emaj7#11 | G#madd9 | F#add9 | Emaj7#11 | D#7sus4 | G#madd9 | Bmaj7/D# | C#m6 | Emaj7#11 | G#madd9 | F#add9 | Emaj7#11 | D#7sus4 | G#madd9 | Bmaj7/D# | C#m6 | Emaj7#11",
       "dyn": 0.27,
       "layers": [
         "pad",
@@ -41,7 +41,7 @@
     },
     {
       "bars": 16,
-      "chords": "Emaj7 | Emaj7 | Bmaj7 | Bmaj7 | C#m9 | C#m9 | D#sus4 | G#madd9 | Emaj7 | Emaj7 | Bmaj7 | Bmaj7 | C#m9 | C#m9 | D#sus4 | G#madd9",
+      "chords": "C#m9 | Bmaj7/F | Emaj7#11 | F#add9 | Amaj7#11 | G#madd9 | D#7sus4 | G#madd9 | C#m9 | Bmaj7/F | Emaj7#11 | F#add9 | Amaj7#11 | G#madd9 | D#7sus4 | G#madd9",
       "dyn": 0.28,
       "layers": [
         "pad",
@@ -59,7 +59,7 @@
     },
     {
       "bars": 8,
-      "chords": "G#madd9 | G#madd9 | Emaj7 | Emaj7 | G#madd9 | G#madd9 | Emaj7 | Emaj7",
+      "chords": "G#madd9 | G#madd9 | C#m6/G# | C#m6/G# | G#madd9 | G#madd9 | Emaj7#11 | Emaj7#11",
       "dyn": 0.17,
       "layers": [
         "pad",

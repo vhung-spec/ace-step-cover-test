@@ -2,7 +2,7 @@
   "title": "Cực quang",
   "title_en": "Aurora Drift",
   "family": "dark-khac",
-  "about": "Round x16 (album 11), the user: \"hãy sáng tác album 11\", after album 10 (electronic sleep) was kept whole: more electronic sleep ambient (style ngu-dt), slow (48 bpm), pad, air, sub, swells, choir, an improvised keys tune with a long echo. No drums. An original piece.",
+  "about": "Round x16 (album 11), the user: \"hãy sáng tác album 11\", after album 10 (electronic sleep) was kept whole: more electronic sleep ambient (style ngu-dt), slow (48 bpm), pad, air, sub, swells, choir, an improvised keys tune with a long echo. No drums. Remade before release on a less common progression of its own (the user, after Content ID matches on plain i-VI-iv-V pieces: \"ok làm lại album 11 an toàn hơn\"). An original piece.",
   "style": "ngu-dt",
   "bpm": 48,
   "beats": 4,
@@ -16,7 +16,7 @@
   "sections": [
     {
       "bars": 8,
-      "chords": "Dmadd9 | Dmadd9 | Bbmaj7 | Bbmaj7 | Dmadd9 | Dmadd9 | Bbmaj7 | Bbmaj7",
+      "chords": "Dmadd9 | Dmadd9 | Gm6/D | Gm6/D | Dmadd9 | Dmadd9 | Bbmaj7#11 | Bbmaj7#11",
       "dyn": 0.18,
       "layers": [
         "pad",
@@ -25,7 +25,7 @@
     },
     {
       "bars": 24,
-      "chords": "Dmadd9 | Dmadd9 | Bbmaj7 | Bbmaj7 | Gm9 | Gm9 | Asus4 | Asus4 | Dmadd9 | Dmadd9 | Bbmaj7 | Bbmaj7 | Gm9 | Gm9 | Asus4 | Asus4 | Dmadd9 | Dmadd9 | Bbmaj7 | Bbmaj7 | Gm9 | Gm9 | Asus4 | Asus4",
+      "chords": "Dmadd9 | Fmaj7/A | Gm6 | Bbmaj7#11 | Dmadd9 | Cadd9 | Bbmaj7#11 | A7sus4 | Dmadd9 | Fmaj7/A | Gm6 | Bbmaj7#11 | Dmadd9 | Cadd9 | Bbmaj7#11 | A7sus4 | Dmadd9 | Fmaj7/A | Gm6 | Bbmaj7#11 | Dmadd9 | Cadd9 | Bbmaj7#11 | A7sus4",
       "dyn": 0.27,
       "layers": [
         "pad",
@@ -42,7 +42,7 @@
     },
     {
       "bars": 16,
-      "chords": "Bbmaj7 | Bbmaj7 | Fmaj7 | Fmaj7 | Gm9 | Gm9 | Asus4 | Dmadd9 | Bbmaj7 | Bbmaj7 | Fmaj7 | Fmaj7 | Gm9 | Gm9 | Asus4 | Dmadd9",
+      "chords": "Gm9 | Fmaj7/B | Bbmaj7#11 | Cadd9 | Ebmaj7#11 | Dmadd9 | A7sus4 | Dmadd9 | Gm9 | Fmaj7/B | Bbmaj7#11 | Cadd9 | Ebmaj7#11 | Dmadd9 | A7sus4 | Dmadd9",
       "dyn": 0.28,
       "layers": [
         "pad",
@@ -59,7 +59,7 @@
     },
     {
       "bars": 8,
-      "chords": "Dmadd9 | Dmadd9 | Bbmaj7 | Bbmaj7 | Dmadd9 | Dmadd9 | Bbmaj7 | Bbmaj7",
+      "chords": "Dmadd9 | Dmadd9 | Gm6/D | Gm6/D | Dmadd9 | Dmadd9 | Bbmaj7#11 | Bbmaj7#11",
       "dyn": 0.17,
       "layers": [
         "pad",

@@ -619,3 +619,10 @@ phổ biến; `k45` còn có giai điệu viết sẵn kiểu nhạc phim quen t
 giai điệu viết sẵn, dây, hợp xướng, timpani, 58 bpm) và `k120-ngon-nen-cuoi-moi` (Si thứ, vòng Bmadd9 -
 Dmaj7/A - Em9 - Gmaj7 ..., hộp nhạc rồi cây dây ngẫu hứng, 46 bpm). Thêm hợp âm `6` và `maj7#11` vào
 compose.py. `k45`, `k58` giữ nguyên.
+
+### Album 11 làm lại an toàn hơn
+
+Người dùng: "ok làm lại album 11 an toàn hơn" (sau ba bài bị Content ID khớp, đều trên vòng i-VI-iv-V phổ
+biến). Mười bài `k108`-`k117` giữ chủ đề, tiếng và giai điệu ngẫu hứng, nhưng đổi sang bốn khung hợp âm ít gặp
+(không còn i-VI-iv-V thuần): hợp âm iv6 trên bass chủ, VI maj7#11, II giáng maj7#11 (màu Phrygian), V 7sus4;
+hai bài (`k111`, `k115`) theo Dorian (IV trưởng, ii, vi m7b5). Năm bài sau bắt đầu vòng giữa từ nửa sau.

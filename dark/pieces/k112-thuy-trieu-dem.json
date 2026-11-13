@@ -2,7 +2,7 @@
   "title": "Thủy triều đêm",
   "title_en": "Night Tide",
   "family": "dark-khac",
-  "about": "Round x16 (album 11), the user: \"hãy sáng tác album 11\", after album 10 (electronic sleep) was kept whole: more electronic sleep ambient (style ngu-dt), slow (50 bpm), waves, pad, arp, sub, an improvised keys tune with a long echo. No drums. An original piece.",
+  "about": "Round x16 (album 11), the user: \"hãy sáng tác album 11\", after album 10 (electronic sleep) was kept whole: more electronic sleep ambient (style ngu-dt), slow (50 bpm), waves, pad, arp, sub, an improvised keys tune with a long echo. No drums. Remade before release on a less common progression of its own (the user, after Content ID matches on plain i-VI-iv-V pieces: \"ok làm lại album 11 an toàn hơn\"). An original piece.",
   "style": "ngu-dt",
   "bpm": 50,
   "beats": 4,
@@ -16,7 +16,7 @@
   "sections": [
     {
       "bars": 8,
-      "chords": "Amadd9 | Amadd9 | Fmaj7 | Fmaj7 | Amadd9 | Amadd9 | Fmaj7 | Fmaj7",
+      "chords": "Amadd9 | Amadd9 | Dm6/A | Dm6/A | Amadd9 | Amadd9 | Fmaj7#11 | Fmaj7#11",
       "dyn": 0.18,
       "layers": [
         "waves",
@@ -25,7 +25,7 @@
     },
     {
       "bars": 24,
-      "chords": "Amadd9 | Amadd9 | Fmaj7 | Fmaj7 | Dm9 | Dm9 | Esus4 | Esus4 | Amadd9 | Amadd9 | Fmaj7 | Fmaj7 | Dm9 | Dm9 | Esus4 | Esus4 | Amadd9 | Amadd9 | Fmaj7 | Fmaj7 | Dm9 | Dm9 | Esus4 | Esus4",
+      "chords": "Amadd9 | Cmaj7/E | Dm6 | Fmaj7#11 | Amadd9 | Gadd9 | Fmaj7#11 | E7sus4 | Amadd9 | Cmaj7/E | Dm6 | Fmaj7#11 | Amadd9 | Gadd9 | Fmaj7#11 | E7sus4 | Amadd9 | Cmaj7/E | Dm6 | Fmaj7#11 | Amadd9 | Gadd9 | Fmaj7#11 | E7sus4",
       "dyn": 0.27,
       "layers": [
         "waves",
@@ -42,7 +42,7 @@
     },
     {
       "bars": 16,
-      "chords": "Fmaj7 | Fmaj7 | Cmaj7 | Cmaj7 | Dm9 | Dm9 | Esus4 | Amadd9 | Fmaj7 | Fmaj7 | Cmaj7 | Cmaj7 | Dm9 | Dm9 | Esus4 | Amadd9",
+      "chords": "Dm9 | Cmaj7/F# | Fmaj7#11 | Gadd9 | Bbmaj7#11 | Amadd9 | E7sus4 | Amadd9 | Dm9 | Cmaj7/F# | Fmaj7#11 | Gadd9 | Bbmaj7#11 | Amadd9 | E7sus4 | Amadd9",
       "dyn": 0.28,
       "layers": [
         "waves",
@@ -59,7 +59,7 @@
     },
     {
       "bars": 8,
-      "chords": "Amadd9 | Amadd9 | Fmaj7 | Fmaj7 | Amadd9 | Amadd9 | Fmaj7 | Fmaj7",
+      "chords": "Amadd9 | Amadd9 | Dm6/A | Dm6/A | Amadd9 | Amadd9 | Fmaj7#11 | Fmaj7#11",
       "dyn": 0.17,
       "layers": [
         "waves",
