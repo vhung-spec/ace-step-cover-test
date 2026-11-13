@@ -610,3 +610,12 @@ Người dùng: "bài 2 night cloud trong album bị dính content id nhạc kho
 trên vòng Rê thứ 9 / Si giáng trưởng 7 rất phổ biến, không giai điệu, nên dễ bị khớp nhầm. Bản thay
 `k118-may-dem-moi` (cùng tên Mây đêm / Night Clouds): Fa thăng thứ, vòng hợp âm khác, chuông thủy tinh ngẫu
 hứng, hộp nhạc ở giữa, 46 bpm. `k37` giữ nguyên.
+
+## Bản thay thế Before the Storm (album 5) và The Last Candle (album 7)
+
+Người dùng: "2 bài số 6 trong 2 album này bị dính content id youtube". Cả hai dùng vòng i-VI-iv-V cung thứ rất
+phổ biến; `k45` còn có giai điệu viết sẵn kiểu nhạc phim quen thuộc. Bản thay (cùng tên):
+`k119-truoc-con-bao-moi` (Mi thứ màu Dorian/Lydian, vòng Em9 - Cmaj7/G - Am9 - D6 ..., cây dây ngẫu hứng thay
+giai điệu viết sẵn, dây, hợp xướng, timpani, 58 bpm) và `k120-ngon-nen-cuoi-moi` (Si thứ, vòng Bmadd9 -
+Dmaj7/A - Em9 - Gmaj7 ..., hộp nhạc rồi cây dây ngẫu hứng, 46 bpm). Thêm hợp âm `6` và `maj7#11` vào
+compose.py. `k45`, `k58` giữ nguyên.
