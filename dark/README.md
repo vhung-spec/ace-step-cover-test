@@ -626,3 +626,26 @@ Người dùng: "ok làm lại album 11 an toàn hơn" (sau ba bài bị Content
 biến). Mười bài `k108`-`k117` giữ chủ đề, tiếng và giai điệu ngẫu hứng, nhưng đổi sang bốn khung hợp âm ít gặp
 (không còn i-VI-iv-V thuần): hợp âm iv6 trên bass chủ, VI maj7#11, II giáng maj7#11 (màu Phrygian), V 7sus4;
 hai bài (`k111`, `k115`) theo Dorian (IV trưởng, ii, vi m7b5). Năm bài sau bắt đầu vòng giữa từ nửa sau.
+
+## Quy tắc xuất album (từ 13/11/2026, theo yêu cầu người dùng)
+
+Mỗi lần xuất album, xuất đúng cách này để nhập thẳng vào Kho nhạc của công ty:
+
+1. Thư mục `<Tên chủ đề>\<Tên album>\`. Tên chủ đề viết GIỐNG HỆT tên chủ đề trong Dashboard YouTube (ví dụ
+   `Jazz`, `NHẠC DARK`). Mỗi album một thư mục, không lồng thư mục MP3/WAV bên trong.
+2. Chỉ WAV: 44,1 hoặc 48 kHz, 16 hoặc 24 bit, stereo, khoảng -16 LUFS. Tên file `01 - Tên bài tiếng Anh.wav`
+   (hai chữ số, cách " - "). Không xuất MP3. Tag trong file chỉ có tên bài.
+3. `cover.jpg` vuông (ví dụ 1400x1400) trong thư mục album.
+4. `Tracklist.txt` (UTF-8) trong thư mục album:
+   - Dòng 1: `<Tên album tiếng Anh> / <Tên album tiếng Việt>`
+   - Dòng 2: `<Thể loại>, <N> tracks / <N> bài`
+   - Một dòng trống, có thể vài dòng mô tả, nhạc cụ, giấy phép.
+   - Bảng, các cột cách nhau ít nhất hai khoảng trắng, dòng đầu là tiêu đề:
+     `No. English title  Tên tiếng Việt  Key  BPM  Length`. English title trùng tên trong tên file (không số
+     đầu). Key dạng `<nốt> major` / `<nốt> minor` (C, C#, Db, D, Eb, E, F, F#, G, Ab, A, Bb, B), có thể thêm
+     `, 3/4`; không ghi "Dorian", "to C major". BPM là số; Length dạng m:ss.
+5. Không kèm Excel "Kho bài hát.xlsx", không đặt danh-sach.csv hay bokin-music.csv trong thư mục.
+6. Nhạc có dùng sample hay nhạc cụ ảo cần ghi công (CC-BY...) thì ghi trong phần mô tả của Tracklist.txt.
+   (Nhạc của phiên này: mọi tiếng tự tổng hợp, không sample nào cần ghi công.)
+
+Ví dụ: `NHẠC DARK\The Year I Waited\01 - July Rain.wav`, `...\cover.jpg`, `...\Tracklist.txt`.
