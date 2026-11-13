@@ -652,3 +652,11 @@ Ví dụ: `NHẠC DARK\The Year I Waited\01 - July Rain.wav`, `...\cover.jpg`, `
 
 Người dùng chọn: mọi album của phiên này xuất vào thư mục chủ đề `Nhạc Dark Ambient`; cách xuất mới áp dụng từ
 album 11 (album 1-10 giữ như đã gửi); nhạc ngủ giữ khoảng -17 LUFS.
+
+### Album 11: Orbit of Sleep (xuất theo quy tắc mới)
+
+Người dùng chấm album 11 làm lại: chín thích, một tạm được; album gồm đủ mười, theo thứ tự: Aurora Drift, The
+Dozing Satellite, Night Tide, Midnight Train, Old Cassette Dreams, Late Night Lamp, Blue Moon Hum, Last
+Coordinates, Nebula, Deep in the Clouds (49 phút 11 giây, -17 LUFS). Xuất vào `Nhạc Dark Ambient\Orbit of Sleep\`:
+WAV 44,1 kHz 16 bit chỉ có tag tên bài, `cover.jpg` 1400x1400 (cực quang trên hồ, vẽ bằng máy), `Tracklist.txt`
+đúng mẫu (Ab minor thay G# minor vì kho chỉ nhận các tên nốt trong danh sách).
