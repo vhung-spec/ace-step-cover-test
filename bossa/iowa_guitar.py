@@ -48,6 +48,7 @@ AGENT = "bokin-bossa-sketches/1.0 (GitHub Actions; fetched once, then cached)"
 RATE = 44100
 DYNAMICS = ("pp", "mf", "ff")
 VELOCITY = {"pp": (1, 50), "mf": (51, 95), "ff": (96, 127)}  # when all three are there
+LOWEST = 40  # the guitar's lowest note, E2: if its pluck is missed, the nearest within two half steps plays it
 NAMES = {"C": 0, "D": 2, "E": 4, "F": 5, "G": 7, "A": 9, "B": 11}
 
 
@@ -99,12 +100,18 @@ def notes_in(audio: np.ndarray, rate: int, count: int | None = None) -> list[tup
     took those ripples for plucks: the first run cut a file of 12 notes into
     hundreds of pieces); a note starts where the level rises 15 dB over its
     lowest of the 300 ms before, the next not before 1.2 s later. When the
-    file name says how many notes it holds, the strongest rises are kept."""
+    file name says how many notes it holds, the strongest rises are kept.
+    Before the file, 300 ms at its quietest level: many files start with
+    their first pluck at once, and a search needing 300 ms of level before a
+    rise missed every such note (the open strings among them: the low E
+    string's E2 was never mapped, so a bolero's E7 lost its bass)."""
     mono = np.abs(audio).max(axis=1)
     hop = max(1, rate // 100)  # 10 ms
     level = 20 * np.log10(uniform_filter1d(mono, size=max(1, rate // 20))[::hop] + 1e-9)
     peak = level.max()
-    found, i = [], 30
+    lead = 30  # frames of the lead-in
+    level = np.concatenate([np.full(lead, level.min()), level])
+    found, i = [], lead
     while i < len(level) - 10:
         floor = level[i - 30: i].min()
         if level[i] - floor >= 15 and level[i: i + 10].max() > peak - 45:
@@ -120,8 +127,8 @@ def notes_in(audio: np.ndarray, rate: int, count: int | None = None) -> list[tup
         found = strongest
     spans = []
     for k, (i, _) in enumerate(found):
-        start = max(0, i * hop - int(0.005 * rate))
-        end = found[k + 1][0] * hop - int(0.01 * rate) if k + 1 < len(found) else len(mono)
+        start = max(0, (i - lead) * hop - int(0.005 * rate))
+        end = (found[k + 1][0] - lead) * hop - int(0.01 * rate) if k + 1 < len(found) else len(mono)
         spans.append((start, end))
     return spans
 
@@ -266,7 +273,7 @@ def main(dest: str, downloads: str, summary_path: str | None = None) -> int:
              "// restrictions; mapped for the Bokin bossa nova sketches by bossa/iowa_guitar.py",
              "<control>", "default_path=samples/",
              "<global>", "ampeg_release=0.3", "amp_veltrack=45", "amp_random=1", "pitch_random=3"]
-    low = min(open_note.values())
+    low = min(min(open_note.values()), LOWEST)
     high = max(r[2] for r in rows)
     mapped = 0
     for key in range(low, high + 1):
