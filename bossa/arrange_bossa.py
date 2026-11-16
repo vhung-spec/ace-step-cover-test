@@ -46,12 +46,14 @@ EIGHTH = TICKS // 2
 
 
 class Part:
-    """The notes of one instrument, (tick, note, velocity, length), and how it
-    sits in the mix (gain_db: its level against the melody, if not its role's)."""
+    """The notes of one instrument, (tick, note, velocity, length), its pitch
+    bends (tick, -8192..8191), and how it sits in the mix (gain_db: its level
+    against the melody, if not its role's)."""
 
     def __init__(self, instrument: str, role: str, pan: float, reverb: float, tone: dict):
         self.instrument, self.role, self.pan, self.reverb, self.tone = instrument, role, pan, reverb, dict(tone)
         self.notes = []
+        self.bends = []
         self.gain_db = None
 
     def add(self, tick: int, note: int, velocity: int, length: int) -> None:
@@ -83,6 +85,8 @@ def write_part(part: Part, tempos: list, path: Path, beats: int) -> None:
     for tick, note, velocity, length in untangle(part.notes):
         messages.append((tick + length, 0, mido.Message("note_off", note=note, velocity=0)))
         messages.append((tick, 2, mido.Message("note_on", note=note, velocity=velocity)))
+    for tick, value in part.bends:  # before a note struck at the same tick
+        messages.append((max(0, int(tick)), 1, mido.Message("pitchwheel", pitch=max(-8192, min(8191, int(value))))))
     for tick, bpm in tempos:
         messages.append((tick, -1, mido.MetaMessage("set_tempo", tempo=mido.bpm2tempo(bpm))))
     midi = mido.MidiFile(ticks_per_beat=TICKS)

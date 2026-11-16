@@ -43,7 +43,12 @@ LIBRARIES = {
     "swirly": ("https://github.com/sfzinstruments/karoryfer.swirly-drums", "c40dafe0011cb2e54c0c220ff0fa308a11fc60f5"),
     "meatbass": ("https://github.com/sfzinstruments/karoryfer.meatbass", "ac9e859564bda286ab5ec672d00ff1aa2fef2895"),
     "rusty": ("https://github.com/sfzinstruments/karoryfer.big-rusty-drums", "f07ce00df34a46b6b08375be56fe116cf15782bc"),
+    "emily": ("https://github.com/sfzinstruments/karoryfer.emilyguitar", "b4920dc662fd9cad6dcaccdeecffdd91c8725d8c"),
+    "fashionbass": ("https://github.com/sfzinstruments/karoryfer.fashionbass", "0703973b300a6bacb837602be9b588ab64732a72"),
 }
+# Libraries played straight from one of their own SFZ files: (the file, the
+# folders it plays from are found in it)
+MAPPED = {"emily": "emily_clean.sfz", "fashionbass": "fashionbass_clean.sfz"}
 GUITAR = "SpanishClassicalGuitar-20190618.sfz"
 # The brush kit: key -> (sample folder, file pattern, opcodes)
 KIT = {
@@ -198,14 +203,33 @@ def rusty(root: Path) -> None:
     (dest / "bossa_rusty_kit.sfz").write_text("\n".join(lines) + "\n")
 
 
+def mapped(name: str, root: Path) -> None:
+    """A Karoryfer library played by its own SFZ file (MAPPED): Emilyguitar
+    (an Epiphone electric, four velocity layers, three round robins, CC0),
+    Fashionbass (a jazz bass, five layers, three round robins, CC0); their
+    Windows sample paths turned to forward slashes, only the folders the
+    file plays fetched."""
+    sfz_name = MAPPED[name]
+    dest = fetch(name, root, ["/*.sfz", "/LICENSE", "/readme.txt"])
+    sfz = dest / sfz_name
+    text = sfz.read_text(errors="replace").replace("\\", "/")
+    folders = {str(PurePosixPath(s.strip()).parent) for s in re.findall(r"sample=([^\n]+?\.(?:wav|flac))", text)}
+    with (dest / ".git" / "info" / "sparse-checkout").open("a") as f:
+        f.writelines(f"/{folder}/\n" for folder in sorted(folders))
+    git(dest, "sparse-checkout", "reapply")
+    sfz.write_text(text)
+    print(f"{name}: {sfz_name}, {len(list(dest.rglob('*.wav')))} samples")
+
+
 def main(out: str, libs: str) -> int:
     needed = set()
     for sheet in Path(out).glob("*/mix.json"):
         for entry in json.loads(sheet.read_text())["parts"]:
             needed |= {entry["library"], entry.get("fallback", {}).get("library")}
     root = Path(libs)
-    for name, step in (("freepats", guitar), ("smolken", bass), ("swirly", drums), ("meatbass", meatbass),
-                       ("rusty", rusty)):
+    steps = [("freepats", guitar), ("smolken", bass), ("swirly", drums), ("meatbass", meatbass), ("rusty", rusty)]
+    steps += [(name, lambda r, n=name: mapped(n, r)) for name in MAPPED]
+    for name, step in steps:
         if name in needed:
             step(root)
     return 0

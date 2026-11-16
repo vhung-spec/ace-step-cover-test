@@ -23,7 +23,8 @@ def main() -> None:
     parser.add_argument("--keep-parts", action="store_true", help="keep each part's WAV (to check a part alone)")
     args = parser.parse_args()
     libraries = {name: args.libs / name for name in ("vcsl", "vsco", "jrhodes", "freepats", "smolken", "swirly",
-                                                      "meatbass", "rusty", "iowa")}
+                                                      "meatbass", "rusty", "iowa", "emily", "fashionbass")}
+    libraries["local"] = Path(__file__).resolve().parent.parent / "instruments"  # our own (the synth pad)
     for folder in sorted(p for p in args.out.iterdir() if (p / "mix.json").is_file()):
         print(f"== {folder.name}", flush=True)
         sheet = json.loads((folder / "mix.json").read_text())
