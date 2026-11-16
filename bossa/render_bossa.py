@@ -14,6 +14,24 @@ sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
 import render_samples  # noqa: E402
 
+_sfz_copy = render_samples.sfz_copy
+
+
+def sfz_copy(sfz: Path, part: str, db: float, tone: dict) -> Path:
+    """render_samples.sfz_copy, the part's level set in every <global> of
+    the file, not only its first: Virtuosity Drums opens one a microphone,
+    and each <global> starts afresh (the level set in the first would move
+    the kick's microphone alone)."""
+    copy = _sfz_copy(sfz, part, db, tone)
+    text = copy.read_text()
+    line = f"global_volume={db:g}"
+    first = text.find("<global>") + len("<global>")
+    copy.write_text(text[:first] + text[first:].replace("<global>", f"<global>\n{line}"))
+    return copy
+
+
+render_samples.sfz_copy = sfz_copy  # render_part looks it up by name
+
 
 def main() -> None:
     parser = argparse.ArgumentParser()
@@ -23,7 +41,8 @@ def main() -> None:
     parser.add_argument("--keep-parts", action="store_true", help="keep each part's WAV (to check a part alone)")
     args = parser.parse_args()
     libraries = {name: args.libs / name for name in ("vcsl", "vsco", "jrhodes", "freepats", "smolken", "swirly",
-                                                      "meatbass", "rusty", "iowa", "emily", "fashionbass")}
+                                                      "meatbass", "rusty", "iowa", "emily", "fashionbass",
+                                                      "virtuosity")}
     libraries["local"] = Path(__file__).resolve().parent.parent / "instruments"  # our own (the synth pad)
     for folder in sorted(p for p in args.out.iterdir() if (p / "mix.json").is_file()):
         print(f"== {folder.name}", flush=True)

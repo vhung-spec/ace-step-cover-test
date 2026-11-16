@@ -19,6 +19,12 @@ user's references):
   (muted taps, an open tone on the "and" of 2 and of 4, a roll at the end
   of a phrase); for nhạc sống, a soft kit: the kick on 1 and 3, the
   cross-stick on 2, its "and" and 4, the hi-hat in eighths;
+- a drummer's bolero on a real kit, as on Vietnamese bolero records (the
+  user asked for drums like VPROD's Bolero drum loops, a paid pack this
+  code does not use): that groove on Virtuosity Drums with fills (dồn) at
+  the phrases' ends and into each section, a crash on each section's first
+  beat, the hi-hat opening in the refrain; congas (a muted slap on 2, the
+  tumba open on 4 and its "and") and a shaker from the same room;
 - the guitar phím lõm's voice: an electric guitar's notes scooped up a
   whole tone into the note (nhấn) and shaken once held (rung), as pitch
   bends: the intro (dạo đầu: the song's last phrase), a short answer after
@@ -66,6 +72,9 @@ INSTRUMENTS = BASE_INSTRUMENTS | {
     "maracas": ("vcsl", "Idiophones/Struck Idiophones/Shaker, Small.sfz"),
     "bongos": ("vcsl", "Membranophones/Struck Membranophones/Bongos.sfz"),
     "sax": ("vcsl", "Aerophones/Reed Aerophones/Tenor Saxophone - Vibrato.sfz"),
+    # Versilian's Virtuosity Drums (CC0): a kit played with sticks and its
+    # Latin percussion, one room (bolero_kit.sfz, written by fetch_bossa.py)
+    "virtuosity": ("virtuosity", "Programs/bolero_kit.sfz"),
 }
 TONES = BASE_TONES | {
     # recorded straight from the pickups, nearly mono: a chorus widens it, the room carries it
@@ -77,9 +86,12 @@ TONES = BASE_TONES | {
     "bongos": {"highpass": 100, "width": 0.5},
     "sax": {"highpass": 90, "lowpass": 7500, "width": 0.6},
     "rusty": {"highpass": 45, "width": 0.6},
+    "virtuosity": {"highpass": 35, "width": 0.8},
+    "virtuosity-congas": {"highpass": 70, "width": 0.5},
+    "virtuosity-shaker": {"highpass": 400, "shelf": [9000, -2], "width": 0.5},
 }
 ROLES = {"melody": 0.0, "guitar": -4.0, "bass": -3.0, "drums": -10.0, "maracas": -20.0, "bongos": -15.0,
-         "pad": -13.0}
+         "pad": -13.0, "kit": -7.0, "congas": -12.0}
 
 BEND_RANGE = 1200  # cents a full pitch wheel bends Emilyguitar (its SFZ's bend_up)
 # The kit's keys (bossa_rusty_kit.sfz) and the bongos' and maracas' (VCSL).
@@ -87,6 +99,13 @@ KICK, XSTICK, HAT = 36, 37, 42
 BONGO_OPEN, BONGO_MUTED, BONGO_ROLL, BONGO_LOW = 60, 61, 62, 63
 SHAKE_DOWN, SHAKE_UP = 64, 65
 BOLERO_FIGURE = {0, 2, 3, 4, 6}  # quarter, two eighths, quarter, quarter: the strokes the maracas lean on
+# Virtuosity Drums' keys (its keymaps/keymap.sfz): the kit, then its percussion
+V_KICK, V_SNARE, V_XSTICK, V_ROLL = 36, 38, 88, 96
+V_HAT, V_HAT_FOOT, V_HAT_OPEN = 42, 44, 46
+V_LTOM, V_HTOM, V_CRASH, V_RIDE = 41, 48, 49, 51
+V_CONGA_MUTED, V_CONGA_OPEN, V_TUMBA = 62, 63, 64
+V_SHAKE_UP, V_SHAKE_DOWN = 70, 82
+SIXTEENTH = EIGHTH // 2
 
 
 def ms_ticks(sk: Sketch, ms: float) -> int:
@@ -208,11 +227,92 @@ def bass_bolero(sk: Sketch, part: Part, velocity: int, start: int, end: int) -> 
                      2 * EIGHTH - 30)
 
 
-def maracas(sk: Sketch, part: Part, velocity: int, start: int, end: int) -> None:
+def maracas(sk: Sketch, part: Part, velocity: int, start: int, end: int, down: int = SHAKE_DOWN,
+            up: int = SHAKE_UP) -> None:
     for bar_tick in range(start, end, sk.bar):
         for e in range(8):
             v = velocity - (0 if e in BOLERO_FIGURE else 14) + sk.rng.randint(-5, 5)
-            part.add(sk.lay_back(bar_tick + e * EIGHTH, 6), SHAKE_DOWN if e % 2 == 0 else SHAKE_UP, v, EIGHTH)
+            part.add(sk.lay_back(bar_tick + e * EIGHTH, 6), down if e % 2 == 0 else up, v, EIGHTH)
+
+
+def bars_of(sk: Sketch, start: int, end: int):
+    """Each bar from start to end: (its tick, the tune's bar, negative in the
+    intro; a fill closes it: None, "short" (a phrase's end) or "long" (into
+    a section, out of the intro, into the last chord))."""
+    first = sk.starts[0]
+    sections = {first + bar * sk.bar for bar, _ in sk.tune.sections} | {first, sk.end}
+    for bar_tick in range(start, end, sk.bar):
+        k = (bar_tick - first) // sk.bar
+        following = bar_tick + sk.bar
+        fill = "long" if following in sections else "short" if k >= 0 and k % 4 == 3 else None
+        yield bar_tick, k, fill
+
+
+def kit_live(sk: Sketch, part: Part, velocity: int, start: int, end: int) -> None:
+    """A drummer's bolero on a real kit (Virtuosity Drums): the kick on 1 and
+    3, led into on the "and" of 4 every other bar; the cross-stick (tiếng
+    cắc) on 2, its "and" and 4, the bolero figure's upper strokes over the
+    kick's lower ones; the hi-hat closed in eighths, its beats louder, opened
+    on the last "and" of every other bar of the refrain. A short fill (dồn)
+    on the snare closes each four-bar phrase, a longer one down the toms
+    leads into each section (and out of the intro, softer there), and a
+    crash marks each section's first beat."""
+    sk.stir = False
+    refrain = sk.starts[0] + 8 * sk.bar
+    for bar_tick, k, fill in bars_of(sk, start, end):
+        v = velocity - (10 if k < 0 else 0) + (4 if bar_tick >= refrain else 0)
+        if k == 0 or bar_tick == refrain:
+            part.add(bar_tick, V_CRASH, v + 14, 4 * TICKS)
+        part.add(bar_tick, V_KICK, v + 8 + sk.rng.randint(-3, 3), EIGHTH)
+        if fill != "long":
+            part.add(bar_tick + 4 * EIGHTH, V_KICK, v + sk.rng.randint(-3, 3), EIGHTH)
+        if k % 2 and not fill:
+            part.add(bar_tick + 7 * EIGHTH, V_KICK, v - 18, EIGHTH)
+        busy = range(4, 8) if fill == "long" else range(6, 8) if fill == "short" else ()
+        for e, dv in ((2, -2), (3, -12), (6, 0)):
+            if e not in busy:
+                part.add(sk.lay_back(bar_tick + e * EIGHTH, 6), V_XSTICK, v + dv + sk.rng.randint(-4, 3), EIGHTH)
+        for e in range(8):
+            if e in busy:
+                continue
+            open_hat = bar_tick >= refrain and e == 7 and k % 2 == 1
+            part.add(sk.lay_back(bar_tick + e * EIGHTH, 4), V_HAT_OPEN if open_hat else V_HAT,
+                     v - (12 if e % 2 == 0 else 22) - (6 if open_hat else 0) + sk.rng.randint(-4, 4), EIGHTH)
+        if fill == "short":  # beat 4 on the snare, in sixteenths, growing
+            for i in range(4):
+                part.add(bar_tick + 6 * EIGHTH + i * SIXTEENTH, V_SNARE, v - 22 + 6 * i + sk.rng.randint(-3, 3),
+                         SIXTEENTH)
+            part.add(bar_tick + 6 * EIGHTH, V_HAT_FOOT, v - 20, EIGHTH)
+        elif fill == "long":  # beats 3 and 4: the snare, then down the toms
+            soft = 12 if k < 0 else 0
+            for i, key in enumerate([V_SNARE] * 4 + [V_HTOM, V_HTOM, V_LTOM, V_LTOM]):
+                part.add(bar_tick + 4 * EIGHTH + i * SIXTEENTH, key, v - 18 - soft + 4 * i + sk.rng.randint(-3, 3),
+                         SIXTEENTH)
+            part.add(bar_tick + 4 * EIGHTH, V_HAT_FOOT, v - 20, EIGHTH)
+
+
+def congas_live(sk: Sketch, part: Part, velocity: int, start: int, end: int) -> None:
+    """The congas' bolero: a muted slap on 2, the conga open on its "and",
+    the tumba (the low drum) open on 4 and its "and", the tumbao's two open
+    tones; in the refrain, a muted stroke on the "and" of 1 and an open one
+    on the "and" of 3 besides. They rest under the drums' long fills."""
+    refrain = sk.starts[0] + 8 * sk.bar
+    for bar_tick, k, fill in bars_of(sk, start, end):
+        strokes = [(2, V_CONGA_MUTED, -6), (3, V_CONGA_OPEN, -16), (6, V_TUMBA, 0), (7, V_TUMBA, -8)]
+        if bar_tick >= refrain:
+            strokes += [(1, V_CONGA_MUTED, -20), (5, V_CONGA_OPEN, -14)]
+        for e, key, dv in strokes:
+            if fill == "long" and e >= 4:
+                continue
+            part.add(sk.lay_back(bar_tick + e * EIGHTH, 8), key, velocity + dv + sk.rng.randint(-5, 4), EIGHTH)
+
+
+def finale(sk: Sketch, kit: Part, congas: Part | None, velocity: int) -> None:
+    """The last chord's hits: the crash and the kick, the tumba with them."""
+    kit.add(sk.end, V_CRASH, velocity + 16, 6 * TICKS)
+    kit.add(sk.end, V_KICK, velocity + 10, EIGHTH)
+    if congas is not None:
+        congas.add(sk.end, V_TUMBA, velocity, EIGHTH)
 
 
 def bongos(sk: Sketch, part: Part, velocity: int, start: int, end: int) -> None:
@@ -300,7 +400,47 @@ def build(sk: Sketch, comp: str = "rai", band: str = "moc", lead: str = "emily",
     play_lead(sk, ld, [(sk.end + 30, nearest(root, 69, 64, 76), 6 * TICKS)], 70, bends=lead == "emily")
 
 
+def build_live(sk: Sketch, comp: str = "quat", lead: str = "emily", beat_only: bool = True,
+               loop: bool = False) -> None:
+    """Bolero on a real kit with congas and a shaker (Virtuosity Drums, one
+    room), the sound of a Vietnamese bolero record's drummer (the user asked
+    for drums like VPROD's Bolero drum loops): the guitar, an electric bass,
+    the lead's intro and answers, strings in the refrain. loop: the drums
+    and percussion alone, as a drum loop."""
+    kit = sk.part("kit", "virtuosity", "kit", 0.0, 0.22, TONES["virtuosity"])
+    kit_live(sk, kit, 74, 0, sk.end)
+    cg = sk.part("congas", "virtuosity", "congas", -0.3, 0.25, TONES["virtuosity-congas"])
+    congas_live(sk, cg, 76, sk.starts[0], sk.end)
+    mr = sk.part("maracas", "virtuosity", "maracas", 0.35, 0.25, TONES["virtuosity-shaker"])
+    maracas(sk, mr, 58, 0, sk.end, V_SHAKE_DOWN, V_SHAKE_UP)
+    finale(sk, kit, cg, 80)
+    if loop:
+        return
+    g = sk.part("guitar", "iowa-nylon", "guitar", -0.2, 0.35, TONES["iowa-nylon"])
+    (guitar_rai if comp == "rai" else guitar_quat)(sk, g, 66, 0, sk.end)
+    b = sk.part("bass", "fashionbass", "bass", 0.0, 0.05, TONES["fashionbass"])
+    bass_bolero(sk, b, 80, sk.intro, sk.end)
+    va = sk.part("violas", "violas", "pad", -0.3, 0.6, TONES["violas"])
+    vc = sk.part("cellos", "cellos", "pad", 0.3, 0.55, TONES["cellos"])
+    string_pad(sk, va, vc, 40, sk.starts[0] + 8 * sk.bar, sk.end, [])
+    ld = sk.part("lead", lead, "melody", 0.15, 0.6, TONES[lead])
+    play_lead(sk, ld, lead_notes(sk, beat_only), 72, bends=lead == "emily")
+    ending(sk, sk.parts, 66)
+    root = parse(sk.tune.final or sk.tune.chords[-1][-1])[0]
+    play_lead(sk, ld, [(sk.end + 30, nearest(root, 69, 64, 76), 6 * TICKS)], 70, bends=lead == "emily")
+
+
 STYLES = {
+    "bolero-trong-that": Style("Bolero trống thật", "pho-nho", 66, 1.8, 0.45,
+                               lambda sk: build_live(sk, "quat"),
+                               "Trống jazz thu thật, conga, shaker; guitar quạt, bass điện, dàn dây ở điệp khúc; "
+                               "phím lõm dạo đầu và trả câu."),
+    "bolero-trong-that-rai": Style("Bolero trống thật, guitar rải", "pho-nho", 66, 1.8, 0.45,
+                                   lambda sk: build_live(sk, "rai"),
+                                   "Như Bolero trống thật, guitar đệm rải."),
+    "bolero-trong-loop": Style("Bolero: trống và bộ gõ", "pho-nho", 66, 1.6, 0.4,
+                               lambda sk: build_live(sk, loop=True),
+                               "Chỉ trống, conga và shaker: dạo, đoạn A, dồn, điệp khúc, kết."),
     "bolero-moc": Style("Bolero mộc", "pho-nho", 66, 1.8, 0.5, lambda sk: build(sk, "rai", "moc", "emily"),
                         "Guitar nylon rải, contrabass, maracas và bongo nhẹ; guitar phím lõm dạo đầu và trả câu."),
     "bolero-nhac-song": Style("Bolero nhạc sống", "pho-nho", 66, 2.0, 0.55,

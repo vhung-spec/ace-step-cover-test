@@ -23,7 +23,14 @@ writes the SFZ files the arranger plays them by:
   each sound from its close microphone with the overheads under it: the
   cross-stick (side stick: the "tall" one, woody, and the plain one,
   brighter), the hi-hat closed tight (stick, or brush), its foot, the kick,
-  the brush on the snare and its stir, the ride with a brush.
+  the brush on the snare and its stir, the ride with a brush;
+- virtuosity: Versilian Studios' Virtuosity Drums, CC0: a pop kit played
+  with sticks and its Latin percussion, recorded by eight microphones.
+  bolero_kit.sfz is its full kit (every technique: the cross-stick, rolls,
+  muted and open hi-hats) from the three microphones it plays by default
+  (the kick's, the snare's, the overheads), the percussion (congas,
+  bongos, shakers, guiro, claves) close and from the overheads; the other
+  microphones' samples are not fetched.
 
 The guitar of the University of Iowa (MIS) comes from iowa_guitar.py.
 
@@ -45,6 +52,7 @@ LIBRARIES = {
     "rusty": ("https://github.com/sfzinstruments/karoryfer.big-rusty-drums", "f07ce00df34a46b6b08375be56fe116cf15782bc"),
     "emily": ("https://github.com/sfzinstruments/karoryfer.emilyguitar", "b4920dc662fd9cad6dcaccdeecffdd91c8725d8c"),
     "fashionbass": ("https://github.com/sfzinstruments/karoryfer.fashionbass", "0703973b300a6bacb837602be9b588ab64732a72"),
+    "virtuosity": ("https://github.com/sfzinstruments/virtuosity_drums", "9f04cf9a734527edfbb0a4eee1f674e45bbf71bc"),
 }
 # Libraries played straight from one of their own SFZ files: (the file, the
 # folders it plays from are found in it)
@@ -221,6 +229,31 @@ def mapped(name: str, root: Path) -> None:
     print(f"{name}: {sfz_name}, {len(list(dest.rglob('*.wav')))} samples")
 
 
+# Virtuosity Drums' microphones the bolero kit plays: those its full kit
+# plays by default (the mid, room and vintage ones start at zero)
+VIRTUOSITY_MICS = ("kickmic", "snaremic", "oh")
+
+
+def virtuosity(root: Path) -> None:
+    """bolero_kit.sfz: Virtuosity Drums' 02-full-kit.sfz with only the
+    sections of VIRTUOSITY_MICS (each microphone opens a <global> of its
+    own) and the percussion heard by them."""
+    dest = fetch("virtuosity", root, ["/LICENSE", "/Programs/"] + [f"/Samples/{m}/" for m in VIRTUOSITY_MICS]
+                 + ["/Samples/perc/close/", "/Samples/perc/oh/"])
+    programs = dest / "Programs"
+    head, *sections = re.split(r"(?=<global>)", (programs / "02-full-kit.sfz").read_text())
+    kept = [s for s in sections if re.search(r'#include "mappings/(?:' + "|".join(VIRTUOSITY_MICS) + r')_all\.sfz"', s)]
+    if len(kept) != len(VIRTUOSITY_MICS):
+        raise RuntimeError(f"virtuosity: {len(kept)} of the microphones' sections found in 02-full-kit.sfz")
+    kept = [re.sub(r'#include "mappings/mutecurves\.sfz"\s*', "", s) for s in kept]
+    text = ("// The bolero kit: Virtuosity Drums' full kit (Versilian Studios, CC0) from its kick, snare and\n"
+            "// overhead microphones; written by bossa/fetch_bossa.py\n" + head + "".join(kept)
+            + '#include "mappings/mutecurves.sfz"\n')
+    (programs / "bolero_kit.sfz").write_text(text)
+    samples = sum(1 for f in (dest / "Samples").rglob("*") if f.suffix in (".wav", ".flac"))
+    print(f"virtuosity: bolero_kit.sfz, {len(kept)} microphones, {samples} samples")
+
+
 def main(out: str, libs: str) -> int:
     needed = set()
     for sheet in Path(out).glob("*/mix.json"):
@@ -228,7 +261,7 @@ def main(out: str, libs: str) -> int:
             needed |= {entry["library"], entry.get("fallback", {}).get("library")}
     root = Path(libs)
     steps = [("freepats", guitar), ("smolken", bass), ("swirly", drums), ("meatbass", meatbass), ("rusty", rusty)]
-    steps += [(name, lambda r, n=name: mapped(n, r)) for name in MAPPED]
+    steps += [(name, lambda r, n=name: mapped(n, r)) for name in MAPPED] + [("virtuosity", virtuosity)]
     for name, step in steps:
         if name in needed:
             step(root)
