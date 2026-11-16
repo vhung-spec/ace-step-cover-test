@@ -3,7 +3,7 @@
   "style": "airy-human",
   "title": "We Wish You a Merry Christmas · Kiểu 3",
   "heard": "\"hãy dựng kiểu mới theo cách phối này\" (build a new style the way this project is arranged)",
-  "about": "v1b: the arrangement of the user's own FL Studio project (Angels We Have Heard on High), as the user asked (\"hãy dựng kiểu mới theo cách phối này\"), on our instruments: the tune half as fast as sung and an octave up, the left hand unfolding a tone a beat, the warm pad from the first bar, the cellos' slow line, plucked basses from about an eighth of the piece, voices, the violins' line and the violas' chords from a little past a third, bells now and then; 60 a minute, three verses; on the Yamaha upright the user chose for the gentle styles (Kiểu 1 3a's tone: the treble's knock mended).",
+  "about": "v1b: the arrangement of the user's own FL Studio project (Angels We Have Heard on High), as the user asked (\"hãy dựng kiểu mới theo cách phối này\"), on our instruments: the tune half as fast as sung and an octave up, the left hand unfolding a tone a beat, the warm pad from the first bar, the cellos' slow line, plucked basses from about an eighth of the piece, voices, the violins' line and the violas' chords from a little past a third, bells now and then; 60 a minute, three verses; on the Yamaha upright the user chose for the gentle styles (Kiểu 1 3a's tone: the treble's knock mended). Its echo as 1a's, about 3 dB under the dry mix: the upright drier than the grand, its far hall's sends at 0.9 (2.3 dB under at 1).",
   "changes": {
     "piano": "yamaha",
     "tones": {
@@ -17,6 +17,7 @@
         },
         "lowpass": 7000
       }
-    }
+    },
+    "far_wet": 0.9
   }
 }

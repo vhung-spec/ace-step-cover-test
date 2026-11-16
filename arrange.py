@@ -2488,9 +2488,9 @@ def sparkles(arr: Arrangement, start: int, end: int, every: int = 8) -> None:
     players = []
     for name, instrument, pan in (("glock", "glock", 0.25), ("chimes", "chimes", -0.25), ("vibes", "vibes", 0.1)):
         part = arr.part(name, instrument, "shimmer", pan, reverb=0.45)
-        part.far = 0.5
+        part.far = 0.4
         players.append(part)
-    players[0].tone["layer"] = "_soft_"
+    players[0].tone.update(layer="_soft_", peaks_db=17)  # its attacks held down, as the piano's
     turn, next_at = 0, start
     for tick, note, length, verse, _ in arr.melody():
         if verse < 0 or tick < next_at or tick >= end or length < 2 * arr.beat:
@@ -2513,32 +2513,41 @@ def arrange_airy(arr: Arrangement) -> None:
     bar, plucked basses from about an eighth of the piece, voices ("ooh"),
     the violins' line under the tune and the violas' two-tone chords from a
     little past a third (the violas gone for the last quarter), bells now and
-    then; the sustained parts in the far hall behind the room."""
+    then; the sustained parts in the far hall behind the room (their echo
+    with the room's about 3 dB under the dry mix, as airy as the project
+    wants and no wetter than the user likes; first rendered at 0.7-1.5 dB,
+    with the far hall's sends half again as high). The piano's, the plucked
+    basses' and the glockenspiel's attacks are held down (peaks_db), so the
+    piece reaches -14 LUFS (first: -15.3, the limiter at its 3 dB); the
+    voices sit a little right, the violins nearer the middle (first: the last
+    half leaning 1.2-1.6 dB to the left once the violas stop)."""
     piano = gentle_piano(arr)
+    piano.tone["peaks_db"] = 17  # the tune's high attacks held down, as 12a's (else the whole piece is turned down)
     tune = gentle_melody(arr, piano, 56, 62, up=tuple(range(arr.last + 1)), harmony=False, swell=6)
     unfolding(arr, piano, 0, arr.end, 44, avoid=tune)
     pedal_by_chord(arr, piano, 0, arr.end)
     gentle_end(arr, piano, tune, 46)
     pad = arr.part("pad", "pad-warm", "haze", 0.0, reverb=0.4)
-    pad.far = 0.5
+    pad.far = 0.42
     held_bed(arr, pad, 0, arr.end + 2 * arr.bar, 40, 52, 64)
     cellos = arr.part("cellos", "cellos", "descant", 0.15, reverb=0.3)
-    cellos.far = 0.4
+    cellos.far = 0.32
     counter_line(arr, cellos, arr.verses[0] + arr.bar, arr.end, 46)
     basses_from, full_from, thin_from = phrase_at(arr, 0.12), phrase_at(arr, 0.36), phrase_at(arr, 0.75)
     pizz = arr.part("basses-pizz", "basses-pizz", "low", 0.3, reverb=0.3)
+    pizz.tone["peaks_db"] = 15  # its plucks' attacks held down
     for tick, length, chord in arr.chord_spans(basses_from, arr.end):
         if (tick - arr.verses[0]) % arr.bar == 0:
             pizz.add(tick + arr.jitter(4), bass_note(chord, 38), 70 + arr.rng.randint(-3, 3), arr.beat)
     pizz.add(arr.end + arr.jitter(4), bass_note(arr.chord_at(arr.end), 38), 66, arr.beat)
-    choir = arr.part("choir", "oohs", "bed", -0.2, reverb=0.3)
-    choir.far = 0.7
+    choir = arr.part("choir", "oohs", "bed", 0.1, reverb=0.3)
+    choir.far = 0.58
     held_bed(arr, choir, full_from, arr.end + arr.bar, 48, 53, 65, count=2, ahead=EIGHTH, overlap=EIGHTH)
-    violins = arr.part("violins", "violins", "bed", -0.15, reverb=0.3)
-    violins.far = 0.6
+    violins = arr.part("violins", "violins", "bed", -0.1, reverb=0.3)
+    violins.far = 0.48
     under_line(arr, violins, full_from, arr.end, 46)
     violas = arr.part("violas", "violas", "bed", 0.15, reverb=0.3)
-    violas.far = 0.6
+    violas.far = 0.48
     held_bed(arr, violas, full_from, thin_from, 42, 55, 69, count=2)
     for part, top in ((choir, 1.0), (violins, 1.0), (violas, 0.9)):
         swell(arr, part, [(full_from - arr.beat, thin_from, 0.8 * top), (thin_from, arr.end, top)], 60, 104)
@@ -2682,6 +2691,7 @@ class Style:
     harmony: str | None = None  # "chorale": the carol harmonized as a hymnal does (chorale.harmonize)
     perform: Perform | None = None  # played as a person plays it, shaping each phrase (perform)
     far: float | None = None  # a far, longer hall (rt60, s) behind the room, for the parts sent to it (Part.far)
+    far_wet: float = 1.0  # every part's send into the far hall, times this (as wet for the room)
     breaths: tuple | None = None  # the bars (from 0) that end a phrase, instead of the carol's own
     written: str | list | None = None  # parts another hand wrote (infill.py), files under versions/ (lay_in)
     written_end: bool = False  # the written parts end as the tune does (held_end), else as written
@@ -2989,7 +2999,8 @@ def write_piece(arr: Arrangement, style: Style, folder: Path, levels: dict | Non
         sheet.append({"part": part_name, "library": library, "sfz": sfz, "role": part.role,
                       "gain_db": gain if change is None else round(gain + change, 2), "pan": part.pan,
                       "reverb": part.reverb, "tone": part.tone, "notes": len(part.notes)}
-                     | ({"far": part.far} if part.far else {}))
+                     | ({"far": part.far if style.far_wet == 1.0 else round(part.far * style.far_wet, 3)}
+                        if part.far else {}))
     hall = ({"rt60": style.hall} | ({"wet": style.wet} if style.wet != 1.0 else {})
             | ({"together": style.together} if style.together else {})
             | ({"sway": style.sway} if style.sway else {}))
