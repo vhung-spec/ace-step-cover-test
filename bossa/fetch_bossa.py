@@ -237,11 +237,18 @@ VIRTUOSITY_MICS = ("kickmic", "snaremic", "oh")
 def virtuosity(root: Path) -> None:
     """bolero_kit.sfz: Virtuosity Drums' 02-full-kit.sfz with only the
     sections of VIRTUOSITY_MICS (each microphone opens a <global> of its
-    own) and the percussion heard by them."""
+    own) and the percussion heard by them, on the General MIDI keys of its
+    keymaps/default (the hi-hat closed on 42, open on 46): the keymap.sfz
+    the kit includes is its e-drum one, every hi-hat on 42 opened as far as
+    the pedal's CC 4 says, and CC 4 starts at 0, wide open (the first
+    render's closed hi-hats all rang open)."""
     dest = fetch("virtuosity", root, ["/LICENSE", "/Programs/"] + [f"/Samples/{m}/" for m in VIRTUOSITY_MICS]
                  + ["/Samples/perc/close/", "/Samples/perc/oh/"])
     programs = dest / "Programs"
     head, *sections = re.split(r"(?=<global>)", (programs / "02-full-kit.sfz").read_text())
+    if '#include "keymaps/keymap.sfz"' not in head or not (programs / "keymaps/default/keymap.sfz").is_file():
+        raise RuntimeError("virtuosity: 02-full-kit.sfz no longer includes keymaps/keymap.sfz")
+    head = head.replace('#include "keymaps/keymap.sfz"', '#include "keymaps/default/keymap.sfz"')
     kept = [s for s in sections if re.search(r'#include "mappings/(?:' + "|".join(VIRTUOSITY_MICS) + r')_all\.sfz"', s)]
     if len(kept) != len(VIRTUOSITY_MICS):
         raise RuntimeError(f"virtuosity: {len(kept)} of the microphones' sections found in 02-full-kit.sfz")
