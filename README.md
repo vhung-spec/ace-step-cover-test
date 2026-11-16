@@ -253,6 +253,13 @@ runs/<mã khác>/covers/lego-woodwinds/stem_01.mp3:0.7` (nhiều lượt cách n
        giai điệu, cello đi nốt gốc của hợp âm; lượt cuối violin vào dưới giai điệu. Bản `answering` thêm một bè cello
        "đáp lời" mỗi khi giai điệu ngân cả ô nhịp: ba nốt đi liền bậc tới hợp âm kế (Sol La Si tới Đô).
      - `felt-written-human`: piano nỉ trơn, để đặt vào các bè do mô hình AI viết (`infill.py`, xem dưới).
+   - `airy-human` (Kiểu 3, "piano thoáng"): dựng theo cách phối trong dự án FL Studio của bạn (Angels We Have Heard
+     on High), bằng nhạc cụ của mình, không chép nốt nào. 60 nhịp/phút, giai điệu chậm một nửa và cao một quãng tám
+     trên đàn grand gõ nhẹ. Tay trái mỗi hợp âm ba nốt (bass, quãng năm, quãng mười) vào lần lượt từng phách rồi
+     ngân tới hết hợp âm. Pad ấm từ ô đầu, cello đi một đường chậm ngược chiều giai điệu, contrabass gảy mỗi ô một
+     nốt từ khoảng 1/8 bài. Từ khoảng 1/3 bài có hợp xướng "ooh", violin đi dưới giai điệu và viola giữ hợp âm;
+     viola nghỉ ở 1/4 cuối. Glockenspiel gõ nhẹ, chuông tay và vibraphone thay phiên, mỗi lần 2-3 nốt trên nốt
+     giai điệu ngân. Bè ngân nằm trong hội trường xa 2,4 giây.
    - `salamander`: như `piano` nhưng trên đàn Salamander Grand Piano (không chạy mặc định).
 
    Các kiểu piano nhẹ nhàng (chill, lullaby, flowing, hymn, piano-strings, felt, felt-noise) chơi trên đàn

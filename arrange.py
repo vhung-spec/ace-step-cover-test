@@ -2387,6 +2387,164 @@ def arrange_church_ensemble(arr: Arrangement, hum: bool = False, organ: str = "l
     church_bell(arr, bell)
 
 
+# The user's own FL Studio project (Angels We Have Heard on High, FL 25.1),
+# read as the user asked ("hãy dựng kiểu mới theo cách phối này"): its notes,
+# plugins and mixer read, none of its notes copied. The tune half as fast as
+# it is sung (its quarters held two beats at 120 a minute) and an octave up,
+# on a soft grand (Keyscape's LA Custom C7, its softest layer), struck about
+# 15 harder than the left hand; the left hand three tones a chord, the bass,
+# the fifth and the tenth, one a beat from the downbeat, each held to the
+# chord's end, the pedal changed with the chord; a soft pad (Serum) holding
+# the chords from the first bar; a cello line from the second, slow (two to
+# six beats a note), mostly by step; plucked basses, a short note on each
+# downbeat, from an eighth of the way in; from a little past a third, voices
+# ("ooh"), violins on a slow line and the strings' chords, the chords gone
+# for the last quarter; a toy piano's and two bells' two or three notes,
+# turn and turn about, every eight bars or so each; a room, a large hall and a
+# plate. Played here on our own instruments, at 60 a minute.
+def phrase_at(arr: Arrangement, share: float) -> int:
+    """The start of the phrase nearest a share (0-1) of the piece."""
+    return min((start for start, _ in phrase_spans(arr)), key=lambda start: abs(start - share * arr.end))
+
+
+def unfolding(arr: Arrangement, part: Part, start: int, end: int, velocity: int, avoid: list = (),
+              low: int = 45) -> None:
+    """The project's left hand: each chord laid down a tone a beat from its
+    downbeat, its bass (from low up), fifth and tenth, each held to the
+    chord's end under the pedal; a chord of one beat has its bass alone."""
+    for tick, length, chord in arr.chord_spans(start, end):
+        tones = ladder(chord, bass_note(chord, low))
+        for i, name in enumerate(("root", "fifth", "tenth")):
+            at = tick + i * arr.beat
+            if at >= tick + length:
+                break
+            if not busy(avoid, tones[name], at, tick + length - at):
+                part.add(at + arr.jitter(4), tones[name], velocity - 3 * i + arr.rng.randint(-2, 2),
+                         tick + length - at)
+
+
+def counter_line(arr: Arrangement, part: Part, start: int, end: int, velocity: int, low: int = 48,
+                 high: int = 62) -> None:
+    """A slow line against the tune (the project's cello): a chord tone a
+    chord between low and high, held through a short chord it fits, moving to
+    the nearest tone, by step where it can and the other way from the tune,
+    the root (the bass's) only when nothing else is near; each note flowing
+    into the next."""
+    tune = sorted((t, n) for t, n, _, verse, _ in arr.melody() if verse >= 0)
+    sung = lambda tick: next((n for t, n in reversed(tune) if t <= tick), None)
+    previous, last_tick = None, None
+    for tick, length, chord in arr.chord_spans(start, end):
+        root, intervals = CHORDS[chord]
+        tones = {(root + i) % 12 for i in intervals}
+        if previous is not None and length < arr.bar // 2 and previous % 12 in tones:
+            part.add(tick, previous, velocity, length + EIGHTH, tie=True)
+            continue
+        now, before = sung(tick), sung(last_tick) if last_tick is not None else None
+        rising = None if now is None or before is None or now == before else now > before
+
+        def cost(n: int) -> float:
+            move = 0 if previous is None else n - previous
+            c = abs(move) if previous is not None else abs(n - (low + high) / 2) / 2
+            c += 3 if n % 12 == root else 0
+            c += 2 if move == 0 and previous is not None else 0
+            if rising is not None and move:
+                c += -1 if (move < 0) == rising else 1
+            return c
+
+        note = min(chord_notes(chord, low, high), key=cost)
+        part.add(tick + arr.jitter(4), note, velocity + arr.rng.randint(-2, 2), length + EIGHTH, tie=True)
+        previous, last_tick = note, tick
+
+
+def under_line(arr: Arrangement, part: Part, start: int, end: int, velocity: int, floor: int = 62,
+               ceiling: int = 76) -> None:
+    """A slow line under the tune (the project's violins): a chord tone a
+    chord, at least a minor third under the tune sounding with it (between
+    floor and ceiling), moving to a near tone, each flowing into the next,
+    with a gentle vibrato on its longer notes."""
+    tune = [(t, n + 12 * (verse >= 0), l) for t, n, l, verse, _ in arr.melody()]
+    previous = None
+    for tick, length, chord in arr.chord_spans(start, end):
+        bottom = min((n for t, n, l in tune if t < tick + length and tick < t + l), default=ceiling + 3)
+        options = chord_notes(chord, floor, min(ceiling, bottom - 3))
+        if not options:
+            previous = None
+            continue
+        root = CHORDS[chord][0]
+        note = min(options, key=lambda n: abs(n - (previous or (floor + ceiling) // 2)) + 2 * ((n - root) % 12 == 0))
+        at = tick - (EIGHTH if previous else 0) + arr.jitter(4)
+        part.add(at, note, velocity, length + 2 * EIGHTH + (EIGHTH if previous else 0), tie=True)
+        if note != previous:
+            vibrato(arr, part, at, length)
+        previous = note
+
+
+def sparkles(arr: Arrangement, start: int, end: int, every: int = 8) -> None:
+    """The project's toy piano and bells: on a held note of the tune (two
+    beats or more), every `every` bars or so, two or three of its chord's
+    tones rising an eighth apart, under the tune, from three instruments in
+    turn: the glockenspiel struck softly (its soft samples alone), hand
+    chimes, the soft-mallet vibraphone."""
+    players = []
+    for name, instrument, pan in (("glock", "glock", 0.25), ("chimes", "chimes", -0.25), ("vibes", "vibes", 0.1)):
+        part = arr.part(name, instrument, "shimmer", pan, reverb=0.45)
+        part.far = 0.5
+        players.append(part)
+    players[0].tone["layer"] = "_soft_"
+    turn, next_at = 0, start
+    for tick, note, length, verse, _ in arr.melody():
+        if verse < 0 or tick < next_at or tick >= end or length < 2 * arr.beat:
+            continue
+        part = players[turn % len(players)]
+        chord = arr.chord_at(tick + arr.beat)
+        tune = note + 12
+        keys = chord_notes(chord, tune - 12, tune - 1)[-3:] if part is not players[0] else \
+            chord_notes(chord, tune - 24, tune - 13)[-3:]  # the glockenspiel sounds an octave over its keys
+        for i, key in enumerate(keys[-(2 + turn % 2):]):
+            part.add(tick + arr.beat + i * EIGHTH + arr.jitter(3), key, 44 - 2 * i, 2 * arr.beat)
+        turn += 1
+        next_at = tick + every * arr.bar // len(players)
+
+
+def arrange_airy(arr: Arrangement) -> None:
+    """The arrangement of the user's FL project (above) on our instruments:
+    the piano (the tune an octave up over the unfolding left hand), the warm
+    pad from the first bar, the cellos' line from the first verse's second
+    bar, plucked basses from about an eighth of the piece, voices ("ooh"),
+    the violins' line under the tune and the violas' two-tone chords from a
+    little past a third (the violas gone for the last quarter), bells now and
+    then; the sustained parts in the far hall behind the room."""
+    piano = gentle_piano(arr)
+    tune = gentle_melody(arr, piano, 56, 62, up=tuple(range(arr.last + 1)), harmony=False, swell=6)
+    unfolding(arr, piano, 0, arr.end, 44, avoid=tune)
+    pedal_by_chord(arr, piano, 0, arr.end)
+    gentle_end(arr, piano, tune, 46)
+    pad = arr.part("pad", "pad-warm", "haze", 0.0, reverb=0.4)
+    pad.far = 0.5
+    held_bed(arr, pad, 0, arr.end + 2 * arr.bar, 40, 52, 64)
+    cellos = arr.part("cellos", "cellos", "descant", 0.15, reverb=0.3)
+    cellos.far = 0.4
+    counter_line(arr, cellos, arr.verses[0] + arr.bar, arr.end, 46)
+    basses_from, full_from, thin_from = phrase_at(arr, 0.12), phrase_at(arr, 0.36), phrase_at(arr, 0.75)
+    pizz = arr.part("basses-pizz", "basses-pizz", "low", 0.3, reverb=0.3)
+    for tick, length, chord in arr.chord_spans(basses_from, arr.end):
+        if (tick - arr.verses[0]) % arr.bar == 0:
+            pizz.add(tick + arr.jitter(4), bass_note(chord, 38), 70 + arr.rng.randint(-3, 3), arr.beat)
+    pizz.add(arr.end + arr.jitter(4), bass_note(arr.chord_at(arr.end), 38), 66, arr.beat)
+    choir = arr.part("choir", "oohs", "bed", -0.2, reverb=0.3)
+    choir.far = 0.7
+    held_bed(arr, choir, full_from, arr.end + arr.bar, 48, 53, 65, count=2, ahead=EIGHTH, overlap=EIGHTH)
+    violins = arr.part("violins", "violins", "bed", -0.15, reverb=0.3)
+    violins.far = 0.6
+    under_line(arr, violins, full_from, arr.end, 46)
+    violas = arr.part("violas", "violas", "bed", 0.15, reverb=0.3)
+    violas.far = 0.6
+    held_bed(arr, violas, full_from, thin_from, 42, 55, 69, count=2)
+    for part, top in ((choir, 1.0), (violins, 1.0), (violas, 0.9)):
+        swell(arr, part, [(full_from - arr.beat, thin_from, 0.8 * top), (thin_from, arr.end, top)], 60, 104)
+    sparkles(arr, arr.verses[0], arr.verses[-1] + arr.verse)
+
+
 # A player, after the arrangement (perform): the tempo swings over each phrase
 # as the KTH performance rules' phrase arch has it (slower at its ends, a
 # little faster just after its middle, around the arrangement's own tempo and
@@ -2708,6 +2866,14 @@ for _bed, _name in (("fitting", "felt-fitting-human"), ("answering", "felt-answe
                     ("none", "felt-written-human")):
     STYLES[_name] = dataclasses.replace(STYLES["felt-carol-human"],
                                         arrange=lambda arr, bed=_bed: arrange_felt_bed(arr, bed))
+# The arrangement of the user's own FL project (arrange_airy): at 60 a minute,
+# a room, and a far hall behind it for the sustained parts, the last chord let
+# go after four beats; the Steinway grand (its warm tone) as the project's
+# soft grand, its top keys a little softer.
+AIRY_PLAYER = Perform(rubato=0.08, swell=5.0, under=4.0, high=2.0, long=2.0, loose=0.5, ceiling=65,
+                      treble_db=-3.0, treble_from=79, treble_to=91)
+STYLES["airy-human"] = Style(arrange_airy, bpm=60, breath=0.9, hall=0.8, wet=0.4, far=2.4, repeat_short=True,
+                             piano="piano", perform=AIRY_PLAYER, ring_beats=4, tail={"fade": 2.0, "below": 50})
 
 
 def untangle(notes: list) -> tuple[list, int]:

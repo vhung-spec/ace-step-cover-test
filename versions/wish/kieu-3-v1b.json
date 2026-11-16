@@ -1,0 +1,22 @@
+{
+  "song": "wish",
+  "style": "airy-human",
+  "title": "We Wish You a Merry Christmas · Kiểu 3",
+  "heard": "\"hãy dựng kiểu mới theo cách phối này\" (build a new style the way this project is arranged)",
+  "about": "v1b: the arrangement of the user's own FL Studio project (Angels We Have Heard on High), as the user asked (\"hãy dựng kiểu mới theo cách phối này\"), on our instruments: the tune half as fast as sung and an octave up, the left hand unfolding a tone a beat, the warm pad from the first bar, the cellos' slow line, plucked basses from about an eighth of the piece, voices, the violins' line and the violas' chords from a little past a third, bells now and then; 60 a minute, three verses; on the Yamaha upright the user chose for the gentle styles (Kiểu 1 3a's tone: the treble's knock mended).",
+  "changes": {
+    "piano": "yamaha",
+    "tones": {
+      "piano": {
+        "swap_samples": {
+          "Upright1_Sus_C5_vl1_rr1.wav": "Upright1_Sus_C5_vl1_rr2.wav"
+        },
+        "treble_filter": {
+          "from": 79,
+          "ratio": 0.8
+        },
+        "lowpass": 7000
+      }
+    }
+  }
+}
