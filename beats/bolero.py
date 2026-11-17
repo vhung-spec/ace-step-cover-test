@@ -456,10 +456,11 @@ STYLES = {
 
 
 def make(style_name: str, out: Path, seed: int = 7, styles: dict | None = None, tunes: dict | None = None,
-         roles: dict | None = None) -> Path:
+         roles: dict | None = None, instruments: dict | None = None) -> Path:
     """One style's MIDI files and mix.json (another arranger, such as
-    rumba.py, passes its own styles, tunes and roles)."""
+    rumba.py, passes its own styles, tunes, roles and instruments)."""
     styles, tunes, roles = styles or STYLES, tunes or TUNES, roles or ROLES
+    instruments = instruments or INSTRUMENTS
     style = styles[style_name]
     tune = tunes[style.tune]
     sk = Sketch(tune, style.passes, style.bpm, seed, intro_bars=4)
@@ -469,11 +470,11 @@ def make(style_name: str, out: Path, seed: int = 7, styles: dict | None = None, 
     sheet = []
     for name, part in sk.parts.items():
         write_part(part, sk.tempos(), folder / f"{name}.mid", tune.beats)
-        library, sfz = INSTRUMENTS[part.instrument]
+        library, sfz = instruments[part.instrument]
         backup = {}
         if part.instrument in FALLBACK:
             spare = FALLBACK[part.instrument]
-            backup = {"fallback": {"library": INSTRUMENTS[spare][0], "sfz": INSTRUMENTS[spare][1],
+            backup = {"fallback": {"library": instruments[spare][0], "sfz": instruments[spare][1],
                                    "tone": TONES.get(spare, {}) | part.tone}}
         sheet.append({"part": name, "library": library, "sfz": sfz, "role": part.role, **backup,
                       "gain_db": roles[part.role] if part.gain_db is None else part.gain_db,

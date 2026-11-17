@@ -40,8 +40,9 @@ sys.path.insert(0, str(HERE.parent / "bossa"))
 
 from arrange_bossa import (EIGHTH, KINDS, TICKS, Part, Sketch, ending, fifth, nearest, parse,  # noqa: E402
                            string_pad, voice_lead)
-from bolero import (SIXTEENTH, TONES as BOLERO_TONES, V_CONGA_MUTED, V_CRASH, V_HAT, V_HAT_FOOT, V_HTOM,  # noqa: E402
-                    V_KICK, V_LTOM, V_SHAKE_DOWN, V_SHAKE_UP, V_SNARE, V_TUMBA, V_XSTICK, Style, make, wheel)
+from bolero import (INSTRUMENTS as BOLERO_INSTRUMENTS, SIXTEENTH, TONES as BOLERO_TONES, V_CONGA_MUTED,  # noqa: E402
+                    V_CRASH, V_HAT, V_HAT_FOOT, V_HTOM, V_KICK, V_LTOM, V_SHAKE_DOWN, V_SHAKE_UP, V_SNARE, V_TUMBA,
+                    V_XSTICK, Style, make, wheel)
 from tunes import Tune, check, chords, melody  # noqa: E402
 
 # An original tune for the sketches: A minor, verse (A) and refrain (B), the
@@ -60,6 +61,10 @@ r:1 A4:1 D5:1 F5:5 | G5:2 F5:2 D5:2 B4:2 | C5:3 B4:1 G#4:2 B4:1 D5:1 | A4:8 |"""
 check(NANG_SOM)
 TUNES = {NANG_SOM.name: NANG_SOM}
 
+INSTRUMENTS = BOLERO_INSTRUMENTS | {
+    # FreePats' Spanish classical guitar (CC0) by its own mapping, to set against Iowa's
+    "nylon-fp": ("freepats", "SpanishClassicalGuitar-20190618.sfz"),
+}
 TONES = BOLERO_TONES | {
     # The first sketches against the references: 20-60 Hz 20 dB short, 8-16
     # kHz 6-10 dB short, 0.5-2 kHz 2 dB over, the drums 3-4 dB under, wider
@@ -251,16 +256,19 @@ def congas_rumba(sk: Sketch, part: Part, velocity: int, start: int, end: int) ->
             part.add(sk.lay_back(bar_tick + e * EIGHTH, 6), key, velocity + dv + sk.rng.randint(-5, 4), EIGHTH)
 
 
-def build(sk: Sketch, lead: str = "nylon") -> None:
+def build(sk: Sketch, lead: str = "nylon", guitar: str = "iowa-nylon") -> None:
     """The band, and the lead: the nylon guitar (double stops), the electric
-    guitar (a light shake on held notes, a chorus), or the tenor sax."""
+    guitar (a light shake on held notes, a chorus), or the tenor sax; the
+    nylon guitars Iowa's or FreePats'. PaSST heard the nylon sketches as a
+    harp (0.79, guitar 0.02) with the guitars sent 0.35-0.45 into a 2.6 s
+    hall: they are sent less now (0.15, 0.25), the hall shorter."""
     kit = sk.part("kit", "virtuosity", "kit", 0.0, 0.25, TONES["kit-warm"])
     kit_rumba(sk, kit, 72, 0, sk.end)
     sh = sk.part("maracas", "virtuosity", "maracas", 0.35, 0.25, TONES["rumba-shaker"])
     shaker_rumba(sk, sh, 60, 0, sk.end)
     cg = sk.part("congas", "virtuosity", "congas", -0.35, 0.25, TONES["virtuosity-congas"])
     congas_rumba(sk, cg, 70, sk.starts[0], sk.end)
-    g = sk.part("guitar", "iowa-nylon", "guitar", -0.3, 0.35, TONES["rhythm-nylon"])
+    g = sk.part("guitar", guitar, "guitar", -0.3, 0.15, TONES["rhythm-nylon"])
     rhythm_guitar(sk, g, 60, 0, sk.end)
     b = sk.part("bass", "fashionbass", "bass", 0.0, 0.05, TONES["fashionbass"])
     bass_rumba(sk, b, 84, 0, sk.end)
@@ -268,9 +276,9 @@ def build(sk: Sketch, lead: str = "nylon") -> None:
     vc = sk.part("cellos", "cellos", "pad", 0.3, 0.55, TONES["cellos"])
     for start in sk.starts:
         string_pad(sk, va, vc, 38, start + 8 * sk.bar, start + 16 * sk.bar, [])
-    instrument, tone = {"nylon": ("iowa-nylon", "lead-nylon"), "electric": ("emily", "lead-electric"),
+    instrument, tone = {"nylon": (guitar, "lead-nylon"), "electric": ("emily", "lead-electric"),
                         "sax": ("sax", "lead-sax")}[lead]
-    ld = sk.part("lead", instrument, "melody", 0.1, 0.45, TONES[tone])
+    ld = sk.part("lead", instrument, "melody", 0.1, 0.25 if lead == "nylon" else 0.4, TONES[tone])
     lead_line(sk, ld, 78 if lead == "nylon" else 72, harmony=lead != "sax", hammer=lead != "sax")
     ending(sk, sk.parts, 66)
     root = parse(sk.tune.final or sk.tune.chords[-1][-1])[0]
@@ -283,12 +291,15 @@ def build(sk: Sketch, lead: str = "nylon") -> None:
 
 
 STYLES = {
-    "rumba-guitar": Style("Rumba guitar", "nang-som", 95, 2.6, 0.36, lambda sk: build(sk, "nylon"),
+    "rumba-guitar": Style("Rumba guitar", "nang-som", 95, 2.0, 0.36, lambda sk: build(sk, "nylon"),
                           "Hòa tấu rumba: guitar nylon dẫn giai điệu, guitar quạt, bass điện, trống, shaker, conga.",
                           passes=2),
-    "rumba-guitar-dien": Style("Rumba guitar điện", "nang-som", 95, 2.6, 0.36, lambda sk: build(sk, "electric"),
+    "rumba-guitar-fp": Style("Rumba guitar (FreePats)", "nang-som", 95, 2.0, 0.36,
+                             lambda sk: build(sk, "nylon", "nylon-fp"),
+                             "Như Rumba guitar, hai cây guitar nylon của FreePats.", passes=2),
+    "rumba-guitar-dien": Style("Rumba guitar điện", "nang-som", 95, 2.0, 0.36, lambda sk: build(sk, "electric"),
                                "Như Rumba guitar, guitar điện (chorus, rung nhẹ) dẫn giai điệu.", passes=2),
-    "rumba-sax": Style("Rumba sax", "nang-som", 95, 2.6, 0.36, lambda sk: build(sk, "sax"),
+    "rumba-sax": Style("Rumba sax", "nang-som", 95, 2.0, 0.36, lambda sk: build(sk, "sax"),
                        "Như Rumba guitar, kèn saxophone dẫn giai điệu.", passes=2),
 }
 
@@ -300,7 +311,7 @@ def main() -> None:
     parser.add_argument("--seed", type=int, default=7)
     args = parser.parse_args()
     for name in args.styles:
-        make(name, args.out, args.seed, styles=STYLES, tunes=TUNES, roles=ROLES)
+        make(name, args.out, args.seed, styles=STYLES, tunes=TUNES, roles=ROLES, instruments=INSTRUMENTS)
 
 
 if __name__ == "__main__":
