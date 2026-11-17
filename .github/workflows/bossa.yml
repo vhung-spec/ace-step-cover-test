@@ -70,7 +70,10 @@ jobs:
           BEATS="$(cat beats/render.txt 2>/dev/null)"
           mkdir -p out/bossa
           if [ -n "$STYLES" ]; then "$RUNNER_TEMP/venv/bin/python" bossa/arrange_bossa.py out/bossa --styles $STYLES; fi
-          if [ -n "$BEATS" ]; then "$RUNNER_TEMP/venv/bin/python" beats/bolero.py out/bossa --styles $BEATS; fi
+          BOLERO=""; RUMBA=""  # each beat's own arranger, by its name
+          for s in $BEATS; do case "$s" in rumba-*) RUMBA="$RUMBA $s" ;; *) BOLERO="$BOLERO $s" ;; esac; done
+          if [ -n "$BOLERO" ]; then "$RUNNER_TEMP/venv/bin/python" beats/bolero.py out/bossa --styles $BOLERO; fi
+          if [ -n "$RUMBA" ]; then "$RUNNER_TEMP/venv/bin/python" beats/rumba.py out/bossa --styles $RUMBA; fi
 
       - name: The Iowa guitar's downloads from the cache
         uses: actions/cache@v4

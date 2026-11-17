@@ -370,6 +370,7 @@ class Style:
     build: callable = None
     about: str = ""
     extra: dict = field(default_factory=dict)
+    passes: int = 1  # times through the tune
 
 
 def build(sk: Sketch, comp: str = "rai", band: str = "moc", lead: str = "emily", beat_only: bool = True) -> None:
@@ -454,10 +455,14 @@ STYLES = {
 }
 
 
-def make(style_name: str, out: Path, seed: int = 7) -> Path:
-    style = STYLES[style_name]
-    tune = TUNES[style.tune]
-    sk = Sketch(tune, 1, style.bpm, seed, intro_bars=4)
+def make(style_name: str, out: Path, seed: int = 7, styles: dict | None = None, tunes: dict | None = None,
+         roles: dict | None = None) -> Path:
+    """One style's MIDI files and mix.json (another arranger, such as
+    rumba.py, passes its own styles, tunes and roles)."""
+    styles, tunes, roles = styles or STYLES, tunes or TUNES, roles or ROLES
+    style = styles[style_name]
+    tune = tunes[style.tune]
+    sk = Sketch(tune, style.passes, style.bpm, seed, intro_bars=4)
     style.build(sk)
     folder = out / style_name
     folder.mkdir(parents=True, exist_ok=True)
@@ -471,7 +476,7 @@ def make(style_name: str, out: Path, seed: int = 7) -> Path:
             backup = {"fallback": {"library": INSTRUMENTS[spare][0], "sfz": INSTRUMENTS[spare][1],
                                    "tone": TONES.get(spare, {}) | part.tone}}
         sheet.append({"part": name, "library": library, "sfz": sfz, "role": part.role, **backup,
-                      "gain_db": ROLES[part.role] if part.gain_db is None else part.gain_db,
+                      "gain_db": roles[part.role] if part.gain_db is None else part.gain_db,
                       "pan": part.pan, "reverb": part.reverb, "tone": part.tone, "notes": len(part.notes),
                       "bends": len(part.bends)})
     mix = {"hall": {"rt60": style.rt60, "wet": style.wet, "highpass": 250}, "parts": sheet,

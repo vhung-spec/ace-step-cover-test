@@ -16,6 +16,15 @@ in `render.txt`) to the `bossa-renders` branch.
   each section, a crash on its first beat) with congas and a shaker from
   the same room; bolero-trong-loop is the drums and percussion alone.
 
+- `rumba.py`: rumba guitar instrumentals (hòa tấu rumba guitar, nhạc
+  không lời): a lead guitar (nylon, or electric) or a tenor sax plucking or
+  singing the tune over a rumba band, as measured on instrumentals of the
+  kind (92-97 bpm; the kick on 1, the "and" of 2 and 3; the bass on 1, the
+  "and" of 2, 3 and, early, the next bar's root on the "and" of 4; the
+  rhythm guitar's strum loudest on its "ands"; the hi-hat in eighths, a
+  shaker in sixteenths; warm, a long room). The sketches play an original
+  tune, Nắng Sớm (A minor, 95 bpm), twice.
+
 Instruments: the University of Iowa's nylon guitar, Karoryfer's Meatbass,
 Fashionbass, Emilyguitar and Big Rusty Drums (CC0), VCSL's maracas, bongos
 and tenor saxophone, VSCO-2-CE's strings, Versilian's Virtuosity Drums
