@@ -315,7 +315,9 @@ INSTRUMENTS |= {
     "vc-shaker": ("vcsl", "Idiophones/Struck Idiophones/Shaker, Small.sfz"),
 }
 TONES |= {
-    "steel-strum": {"highpass": 140, "lowpass": 12000, "width": 0.4},
+    "steel-strum": {"highpass": 140, "lowpass": 12000, "shelf": [6000, -2], "width": 0.4},
+    # Emilyguitar picked harder (its mf layer) and less chorus: PaSST heard the soft, chorused lead as keys
+    "lead-electric-2": {"highpass": 120, "lowpass": 9000, "width": 0.0, "chorus": 0.12},
     "nylon-stabs": {"highpass": 160, "lowpass": 10000, "width": 0.4},
     "echo": {"highpass": 300, "lowpass": 5000, "width": 0.3},  # a darker repeat, as a tape echo's
     "warm-bass": {"highpass": 30, "lowpass": 1800, "width": 0.0},
@@ -323,7 +325,7 @@ TONES |= {
     "vc-congas": {"highpass": 70, "width": 0.4},
     "vc-shaker": {"highpass": 500, "width": 0.4},
 }
-ROLES |= {"echo": -13.0, "stabs": -11.0, "cajon": -5.0}
+ROLES |= {"echo": -13.0, "stabs": -11.0, "cajon": -7.0}
 
 
 def bend(cents: float, bend_range: float) -> int:
@@ -484,6 +486,7 @@ def build_band(sk: Sketch, lead: str = "nylon", drums: str = "cajon") -> None:
         cg = sk.part("congas", "virtuosity", "congas", -0.35, 0.22, TONES["virtuosity-congas"])
         congas_rumba(sk, cg, 70, sk.starts[0], sk.end)
         sh = sk.part("maracas", "virtuosity", "maracas", 0.35, 0.2, TONES["rumba-shaker"])
+        sh.gain_db = -21.0  # PaSST heard maracas 0.14 at -18
         shaker_rumba(sk, sh, 52, 0, sk.end, V_SHAKE_DOWN, V_SHAKE_UP)
     g = sk.part("guitar", "shiny", "guitar", -0.5, 0.15, TONES["steel-strum"])
     strum_steel(sk, g, 84, 0, sk.end)
@@ -495,10 +498,10 @@ def build_band(sk: Sketch, lead: str = "nylon", drums: str = "cajon") -> None:
     vc = sk.part("cellos", "cellos", "pad", 0.3, 0.55, TONES["cellos"])
     for start in sk.starts:
         string_pad(sk, va, vc, 36, start + 8 * sk.bar, start + 16 * sk.bar, [])
-    instrument, tone, bend_range = {"nylon": ("iowa-nylon", "lead-nylon", 200), "electric": ("emily", "lead-electric",
-                                                                                              1200)}[lead]
+    instrument, tone, bend_range = {"nylon": ("iowa-nylon", "lead-nylon", 200),
+                                    "electric": ("emily", "lead-electric-2", 1200)}[lead]
     ld = sk.part("lead", instrument, "melody", -0.05, 0.35, TONES[tone])
-    lead_line(sk, ld, 100 if lead == "nylon" else 76, harmony=True, hammer=True)
+    lead_line(sk, ld, 100, harmony=True, hammer=True)
     ending(sk, sk.parts, 66)
     root = parse(sk.tune.final or sk.tune.chords[-1][-1])[0]
     ld.add(sk.end + 30, nearest(root, 69, 64, 76), 84 if lead == "nylon" else 70, 6 * TICKS)
