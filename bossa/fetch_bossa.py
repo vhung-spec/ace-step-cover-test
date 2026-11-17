@@ -35,7 +35,10 @@ writes the SFZ files the arranger plays them by:
   microphone and its pickup, CC0. bossa_shiny_acoustic.sfz is its own
   main.sfz with the microphone alone (the blend at 127, one voice), its
   notes (four layers, four round robins) and its noises (the strings
-  muted, a chuck, on 18-21); only the microphone's samples are fetched.
+  muted, a chuck, on 18-21); only the microphone's samples are fetched;
+- gu: S. Christian Collins' GeneralUser GS SoundFont (v2.0.3), played by
+  FluidSynth (render_bossa.py): its licence lets it make any music, private
+  or commercial (its author cannot vouch for every sample's origin).
 
 The guitar of the University of Iowa (MIS) comes from iowa_guitar.py.
 
@@ -59,6 +62,7 @@ LIBRARIES = {
     "fashionbass": ("https://github.com/sfzinstruments/karoryfer.fashionbass", "0703973b300a6bacb837602be9b588ab64732a72"),
     "virtuosity": ("https://github.com/sfzinstruments/virtuosity_drums", "9f04cf9a734527edfbb0a4eee1f674e45bbf71bc"),
     "shiny": ("https://github.com/sfzinstruments/karoryfer.shinyguitar", "57243cca85277dbcc120ce17c6178032f93c80f3"),
+    "gu": ("https://github.com/mrbumpy409/GeneralUser-GS", "684543d5e5efaef08d02be50dcda8d552478fa60"),
 }
 # Libraries played straight from one of their own SFZ files: (the file, the
 # folders it plays from are found in it)
@@ -299,6 +303,11 @@ def shiny(root: Path) -> None:
     print(f"shiny: bossa_shiny_acoustic.sfz, {len(list((dest / 'Samples' / 'acoustic').glob('*.wav')))} samples")
 
 
+def general_user(root: Path) -> None:
+    dest = fetch("gu", root, ["/GeneralUser-GS.sf2", "/documentation/LICENSE.txt"])
+    print(f"gu: GeneralUser-GS.sf2, {(dest / 'GeneralUser-GS.sf2').stat().st_size / 1e6:.0f} MB")
+
+
 def main(out: str, libs: str) -> int:
     needed = set()
     for sheet in Path(out).glob("*/mix.json"):
@@ -306,7 +315,8 @@ def main(out: str, libs: str) -> int:
             needed |= {entry["library"], entry.get("fallback", {}).get("library")}
     root = Path(libs)
     steps = [("freepats", guitar), ("smolken", bass), ("swirly", drums), ("meatbass", meatbass), ("rusty", rusty)]
-    steps += [(name, lambda r, n=name: mapped(n, r)) for name in MAPPED] + [("virtuosity", virtuosity), ("shiny", shiny)]
+    steps += [(name, lambda r, n=name: mapped(n, r)) for name in MAPPED] + [("virtuosity", virtuosity), ("shiny", shiny),
+                                                                    ("gu", general_user)]
     for name, step in steps:
         if name in needed:
             step(root)

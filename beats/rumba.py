@@ -344,7 +344,8 @@ def bend(cents: float, bend_range: float) -> int:
     return int(round(max(-1.0, min(1.0, cents / bend_range)) * 8191))
 
 
-def strum_steel(sk: Sketch, part: Part, velocity: int, start: int, end: int, chuck_keys: bool = True) -> None:
+def strum_steel(sk: Sketch, part: Part, velocity: int, start: int, end: int, chuck_keys: bool = True,
+                chucks_on: Part | None = None) -> None:
     """The rumba strum on the archtop (steel strings, its microphone): down
     on 1 and 3 (five strings from the fifth up), up on the "ands" (the top
     three; the "and" of 4 the loudest), and on 2 and 4 the strings muted, a
@@ -365,8 +366,10 @@ def strum_steel(sk: Sketch, part: Part, velocity: int, start: int, end: int, chu
                 chucks += 1
                 continue
             if stroke == "chuck":  # no muted strings to play: the chord struck and stopped at once, soft
+                target = chucks_on if chucks_on is not None else part  # or on a muted guitar (GM's 28)
+                lift = 4 if chucks_on is not None else -6
                 for i, n in enumerate(list(reversed(previous or voice_lead(None, sk.chord_at(tick), 4, 50, 74, 62)))):
-                    part.add(at + 4 * i, n, velocity + dv - 6 - 2 * i + sk.rng.randint(-4, 3), 50)
+                    target.add(at + 4 * i, n, velocity + dv + lift - 2 * i + sk.rng.randint(-4, 3), 50)
                 continue
             name = sk.chord_at(tick)
             chord = voice_lead(previous, name, 4, 50, 74, 62)
@@ -590,6 +593,63 @@ def build_gm(sk: Sketch) -> None:
     echo_of(sk, ld, "echo", 0.4, TONES["gm-echo"])
 
 
+# Four guitars on S. Christian Collins' GeneralUser GS (v2.0.3, pinned; its
+# licence: any music, private or commercial; its author cannot vouch for
+# every sample's origin): the user found the FluidR3 guitars not good. The
+# same band under each (GS's jazz kit, its fingered bass and strings), the
+# strum's chucks on GS's muted guitar; one pass, about 50 s, to compare.
+INSTRUMENTS |= {"gu": ("gu", "GeneralUser-GS.sf2")}
+GU_GUITARS = {  # name: (lead program, lead bank, strum program, strum bank)
+    "nylon": (24, 0, 24, 0),
+    "steel": (25, 0, 25, 8),  # the strum on the 12-string
+    "jazz": (26, 0, 24, 0),
+    "clean": (27, 0, 25, 0),
+}
+
+
+def gu(program: int, bank: int = 0, **tone) -> dict:
+    return {"program": program, "bank": bank} | tone
+
+
+def build_gu(sk: Sketch, guitars: str) -> None:
+    """The rumba production on GeneralUser GS, the guitars as GU_GUITARS
+    names them."""
+    lead_program, lead_bank, strum_program, strum_bank = GU_GUITARS[guitars]
+    drums = {"drums": True, "remap": {"88": 37}}
+    kit = sk.part("kit", "gu", "kit", 0.0, 0.2, gu(32, highpass=30, width=0.6, compress=GM_SNAP, **drums))
+    kit_rumba(sk, kit, 70, 0, sk.end)
+    cg = sk.part("congas", "gu", "congas", -0.35, 0.22, gu(32, highpass=70, width=0.4, compress=HIT, **drums))
+    congas_rumba(sk, cg, 76, sk.starts[0], sk.end)
+    sh = sk.part("maracas", "gu", "maracas", 0.35, 0.2, gu(32, highpass=400, width=0.4, **drums))
+    sh.gain_db = -21.0
+    shaker_rumba(sk, sh, 60, 0, sk.end, V_SHAKE_DOWN, V_SHAKE_UP)
+    g = sk.part("guitar", "gu", "guitar", -0.5, 0.15, gu(strum_program, strum_bank, highpass=140, width=0.4,
+                                                          compress=GM_SNAP))
+    mute = sk.part("chucks", "gu", "stabs", -0.45, 0.1, gu(28, highpass=200, width=0.3, compress=GM_SNAP))
+    strum_steel(sk, g, 84, 0, sk.end, chuck_keys=False, chucks_on=mute)
+    st = sk.part("stabs", "gu", "stabs", 0.5, 0.18, gu(24, highpass=160, width=0.4, compress=GM_SNAP))
+    stabs_nylon(sk, st, 80, 0, sk.end)
+    b = sk.part("bass", "gu", "bass", 0.0, 0.03, gu(33, highpass=30, lowpass=2500, width=0.0,
+                                                     compress={"ratio": 4.0, "attack": 0.008, "release": 0.12}))
+    bass_rumba(sk, b, 90, 0, sk.end)
+    va = sk.part("violas", "gu", "pad", -0.3, 0.6, gu(48, highpass=100, width=0.8))
+    vc = sk.part("cellos", "gu", "pad", 0.3, 0.55, gu(48, highpass=100, width=0.8))
+    for start in sk.starts:
+        string_pad(sk, va, vc, 50, start + 8 * sk.bar, start + 16 * sk.bar, [])
+    ld = sk.part("lead", "gu", "melody", -0.05, 0.35, gu(lead_program, lead_bank, highpass=100, width=0.3,
+                                                          compress={"ratio": 2.5, "attack": 0.004, "release": 0.1}))
+    lead_line(sk, ld, 96, harmony=True, hammer=True)
+    ending(sk, sk.parts, 66)
+    root = parse(sk.tune.final or sk.tune.chords[-1][-1])[0]
+    ld.add(sk.end + 30, nearest(root, 69, 64, 76), 84, 6 * TICKS)
+    for i, n in enumerate(voice_lead(None, sk.tune.final or sk.tune.chords[-1][-1], 3, 59, 76, 67)):
+        st.add(sk.end + 20 * i, n, 72 - 3 * i, 6 * TICKS)
+    kit.add(sk.end, V_CRASH, 80, 6 * TICKS)
+    kit.add(sk.end, V_KICK, 80, EIGHTH)
+    expressive(sk, ld, 200, 22, 5.5, 0.25)
+    echo_of(sk, ld, "echo", 0.4, gu(lead_program, lead_bank, highpass=300, lowpass=5000, width=0.3, compress=GM_SNAP))
+
+
 # Louder than the engine's -16 LUFS (the references: -12.7 to -15.1), the
 # limiter allowed 4 dB (render_bossa.py reads it from mix.json)
 LOUD = {"loudness": {"target": -15.0, "most_limiting_db": 4.0, "quietest": -17.0}}
@@ -600,6 +660,10 @@ STYLES = {
                        "ở điệp khúc.", extra=LOUD, passes=2),
     "rumba-trong": Style("Rumba trống", "nang-som", 96, 2.2, 0.32, lambda sk: build_band(sk, "nylon", "kit"),
                          "Như Rumba mộc, trống jazz nhẹ thay cajón.", extra=LOUD, passes=2),
+    **{f"rumba-gu-{name}": Style(f"Rumba, guitar {name} (GeneralUser GS)", "nang-som", 96, 2.2, 0.32,
+                                 lambda sk, n=name: build_gu(sk, n),
+                                 f"Rumba trên GeneralUser GS, guitar {name}.", extra=LOUD, passes=1)
+       for name in GU_GUITARS},
     "rumba-gm": Style("Rumba (tiếng mô phỏng GM)", "nang-som", 96, 2.2, 0.32, build_gm,
                       "Bản phối Rumba trống trên bộ tiếng mô phỏng General MIDI (soundfont FluidR3, MIT).",
                       extra=LOUD, passes=2),

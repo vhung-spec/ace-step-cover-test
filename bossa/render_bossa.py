@@ -92,6 +92,8 @@ def render_sf2(sf2: Path, part: str, midi: Path, wav: Path, tone: dict) -> np.nd
     copy = mido.MidiFile(ticks_per_beat=source.ticks_per_beat)
     for track in source.tracks:
         out = mido.MidiTrack()
+        if tone.get("bank") and not tone.get("drums"):  # a variation bank (GS: 8 for the 12-string guitar)
+            out.append(mido.Message("control_change", control=0, value=int(tone["bank"]), channel=channel, time=0))
         out.append(mido.Message("program_change", program=int(tone.get("program", 0)), channel=channel, time=0))
         for msg in track:
             if msg.type in ("note_on", "note_off"):
@@ -135,6 +137,7 @@ def main() -> None:
                                                       "virtuosity", "shiny")}
     libraries["local"] = Path(__file__).resolve().parent.parent / "instruments"  # our own (the synth pad)
     libraries["gm"] = Path("/usr/share/sounds/sf2")  # FluidR3_GM.sf2 (MIT), from Ubuntu's fluid-soundfont-gm
+    libraries["gu"] = args.libs / "gu"  # GeneralUser GS, fetched by fetch_bossa.py
     for folder in sorted(p for p in args.out.iterdir() if (p / "mix.json").is_file()):
         print(f"== {folder.name}", flush=True)
         sheet = json.loads((folder / "mix.json").read_text())
