@@ -61,16 +61,20 @@ check(NANG_SOM)
 TUNES = {NANG_SOM.name: NANG_SOM}
 
 TONES = BOLERO_TONES | {
-    # the references are warm and dark on top: the guitars rolled off above 8-9 kHz
-    "lead-nylon": {"highpass": 100, "lowpass": 9000, "shelf": [5000, -2], "width": 0.4},
-    "rhythm-nylon": {"highpass": 140, "lowpass": 8000, "shelf": [4000, -3], "width": 0.9},
-    "lead-electric": {"highpass": 120, "lowpass": 7000, "shelf": [3000, -2], "width": 0.0, "chorus": 0.3},
-    "lead-sax": {"highpass": 110, "lowpass": 7500, "width": 0.5},
-    "kit-warm": {"highpass": 35, "shelf": [7000, -4], "width": 0.8},
-    "fashionbass": {"highpass": 35, "lowpass": 2500, "width": 0.0},
+    # The first sketches against the references: 20-60 Hz 20 dB short, 8-16
+    # kHz 6-10 dB short, 0.5-2 kHz 2 dB over, the drums 3-4 dB under, wider
+    # (side 5-8 dB under mid, theirs 10). So the guitars keep their top, the
+    # kit and shaker their sheen, the images narrower.
+    "lead-nylon": {"highpass": 100, "width": 0.3},
+    "rhythm-nylon": {"highpass": 150, "shelf": [2500, -2], "width": 0.6},
+    "lead-electric": {"highpass": 120, "lowpass": 9000, "width": 0.0, "chorus": 0.25},
+    "lead-sax": {"highpass": 110, "lowpass": 9000, "width": 0.3},
+    "kit-warm": {"highpass": 30, "width": 0.6},
+    "rumba-shaker": {"highpass": 400, "width": 0.4},
+    "fashionbass": {"highpass": 28, "lowpass": 2500, "width": 0.0},
 }
-ROLES = {"melody": 0.0, "guitar": -6.0, "bass": -4.0, "kit": -6.0, "congas": -16.0, "maracas": -18.0,
-         "pad": -14.0}
+ROLES = {"melody": 0.0, "guitar": -8.0, "bass": -1.0, "kit": -3.0, "congas": -13.0, "maracas": -14.0,
+         "pad": -15.0}
 # A guitar's strum over a bar of eighths: (eighth, stroke, loudness): its
 # "ands" the loudest, the "and" of 4 most of all, beat 2 the softest (as the
 # references' guitar band rises).
@@ -96,20 +100,32 @@ def fill_of(sk: Sketch, bar_tick: int) -> str | None:
     return "short" if k >= 0 and k % 4 == 3 else None
 
 
-def lead_line(sk: Sketch, part: Part, velocity: int, harmony: bool = True) -> None:
+def lead_line(sk: Sketch, part: Part, velocity: int, harmony: bool = True, tremolo: bool = False) -> None:
     """The tune plucked note by note, the notes on a beat a little louder,
     after an intro on its last phrase; a held note (3 eighths or more) on a
     beat doubled by the chord's highest tone a third to a sixth under it, a
-    guitarist's double stop."""
+    guitarist's double stop. tremolo (the nylon guitar, whose high notes die
+    20 dB within half a second): a held note re-plucked in sixteenth-note
+    triplets after its first pluck, the classical guitar's tremolo, each
+    beat leaning (the references' lead plays mostly notes of 0.12-0.16 s)."""
     tune = sk.melody()
     first = sk.starts[0] + (len(sk.tune.chords) - 4) * sk.bar
     notes = [(t - first, n, l) for t, n, l, p in tune if p == 0 and t >= first]
     notes += [(t, n, l) for t, n, l, _ in tune]
+    step = TICKS // 6
     for tick, note, length in notes:
         on_beat = tick % TICKS == 0
         v = velocity + (4 if on_beat else 0) + sk.rng.randint(-4, 3)
         at = sk.lay_back(tick, 4)
-        part.add(at, note, v, length - 10)
+        if tremolo and length >= 3 * EIGHTH:
+            part.add(at, note, v, step)
+            t = tick + step
+            while t < tick + length - step // 2:
+                lean = 0 if (t - tick) % TICKS == 0 else -7
+                part.add(t + sk.rng.randint(-4, 4), note, v - 9 + lean + sk.rng.randint(-4, 3), step - 4)
+                t += step
+        else:
+            part.add(at, note, v, length - 10)
         if harmony and on_beat and length >= 3 * EIGHTH:
             root, kind = parse(sk.chord_at(tick))
             tones = {(root + i) % 12 for i in KINDS[kind]}
@@ -162,19 +178,19 @@ def bass_rumba(sk: Sketch, part: Part, velocity: int, start: int, end: int) -> N
     """The bass on 1 (root), the "and" of 2 (root again, short), 3 (the
     fifth) and the "and" of 4: the next bar's root, early, held over its
     downbeat, where it sounds again."""
-    previous = 40
+    previous = 33  # around A1: the references' 20-60 Hz is 8-12 dB under the total (the first sketches' 32)
     for bar_tick in range(start, end, sk.bar):
         name = sk.chord_at(bar_tick)
-        root = nearest(parse(name)[0], previous, 28, 45)
+        root = nearest(parse(name)[0], previous, 28, 40)
         previous = root
         part.add(bar_tick, root, velocity + sk.rng.randint(-3, 3), 3 * EIGHTH - 30)
         part.add(bar_tick + 3 * EIGHTH, root, velocity - 12, EIGHTH - 20)
         mid = sk.chord_at(bar_tick + 4 * EIGHTH)
-        part.add(bar_tick + 4 * EIGHTH, nearest(parse(mid)[0] + fifth(mid), root, 28, 50), velocity - 7,
+        part.add(bar_tick + 4 * EIGHTH, nearest(parse(mid)[0] + fifth(mid), root, 28, 45), velocity - 7,
                  3 * EIGHTH - 30)
         if bar_tick + sk.bar < end:
             following = sk.chord_at(bar_tick + sk.bar)
-            part.add(bar_tick + 7 * EIGHTH, nearest(parse(following)[0], root, 28, 45), velocity - 5, EIGHTH + 40)
+            part.add(bar_tick + 7 * EIGHTH, nearest(parse(following)[0], root, 28, 40), velocity - 5, EIGHTH + 40)
 
 
 def kit_rumba(sk: Sketch, part: Part, velocity: int, start: int, end: int) -> None:
@@ -240,7 +256,7 @@ def build(sk: Sketch, lead: str = "nylon") -> None:
     guitar (a light shake on held notes, a chorus), or the tenor sax."""
     kit = sk.part("kit", "virtuosity", "kit", 0.0, 0.25, TONES["kit-warm"])
     kit_rumba(sk, kit, 72, 0, sk.end)
-    sh = sk.part("maracas", "virtuosity", "maracas", 0.35, 0.25, TONES["virtuosity-shaker"])
+    sh = sk.part("maracas", "virtuosity", "maracas", 0.35, 0.25, TONES["rumba-shaker"])
     shaker_rumba(sk, sh, 60, 0, sk.end)
     cg = sk.part("congas", "virtuosity", "congas", -0.35, 0.25, TONES["virtuosity-congas"])
     congas_rumba(sk, cg, 70, sk.starts[0], sk.end)
@@ -255,7 +271,7 @@ def build(sk: Sketch, lead: str = "nylon") -> None:
     instrument, tone = {"nylon": ("iowa-nylon", "lead-nylon"), "electric": ("emily", "lead-electric"),
                         "sax": ("sax", "lead-sax")}[lead]
     ld = sk.part("lead", instrument, "melody", 0.1, 0.45, TONES[tone])
-    lead_line(sk, ld, 78 if lead == "nylon" else 72, harmony=lead != "sax")
+    lead_line(sk, ld, 78 if lead == "nylon" else 72, harmony=lead != "sax", tremolo=lead == "nylon")
     ending(sk, sk.parts, 66)
     root = parse(sk.tune.final or sk.tune.chords[-1][-1])[0]
     ld.add(sk.end + 30, nearest(root, 69, 64, 76), 70, 6 * TICKS)
@@ -267,12 +283,12 @@ def build(sk: Sketch, lead: str = "nylon") -> None:
 
 
 STYLES = {
-    "rumba-guitar": Style("Rumba guitar", "nang-som", 95, 2.6, 0.45, lambda sk: build(sk, "nylon"),
-                          "Hòa tấu rumba: guitar nylon dẫn giai điệu, guitar quạt, bass điện, trống, shaker, conga.",
+    "rumba-guitar": Style("Rumba guitar", "nang-som", 95, 2.6, 0.36, lambda sk: build(sk, "nylon"),
+                          "Hòa tấu rumba: guitar nylon dẫn giai điệu (vê ở nốt dài), guitar quạt, bass điện, trống, shaker, conga.",
                           passes=2),
-    "rumba-guitar-dien": Style("Rumba guitar điện", "nang-som", 95, 2.6, 0.45, lambda sk: build(sk, "electric"),
+    "rumba-guitar-dien": Style("Rumba guitar điện", "nang-som", 95, 2.6, 0.36, lambda sk: build(sk, "electric"),
                                "Như Rumba guitar, guitar điện (chorus, rung nhẹ) dẫn giai điệu.", passes=2),
-    "rumba-sax": Style("Rumba sax", "nang-som", 95, 2.6, 0.45, lambda sk: build(sk, "sax"),
+    "rumba-sax": Style("Rumba sax", "nang-som", 95, 2.6, 0.36, lambda sk: build(sk, "sax"),
                        "Như Rumba guitar, kèn saxophone dẫn giai điệu.", passes=2),
 }
 
