@@ -1,0 +1,80 @@
+{
+  "title": "Vầng sáng cực",
+  "title_en": "Polar Glow",
+  "family": "dark-khac",
+  "about": "Round x18 (album 13), the user: \"làm album và chuyển sang sáng tác album tiếp theo\": electronic sleep ambient (style ngu-dt) as albums 10-11, on a less common progression of its own (template 4), slow (46 bpm), drone, pad, air, sub, swells, choir, an improvised keys tune with a long echo. No drums. An original piece.",
+  "style": "ngu-dt",
+  "bpm": 46,
+  "beats": 4,
+  "mode": "dorian",
+  "seed": 139,
+  "gains": {
+    "arp": -6.0,
+    "air": -10.0,
+    "swells": -3.0
+  },
+  "sections": [
+    {
+      "bars": 8,
+      "chords": "C#m9 | C#m9 | F#add9/C# | F#add9/C# | Emaj7 | Emaj7 | C#m9 | C#m9",
+      "dyn": 0.18,
+      "layers": [
+        "drone",
+        "pad",
+        "air"
+      ]
+    },
+    {
+      "bars": 24,
+      "chords": "C#m9 | F#add9 | Emaj7 | Ebm7 | C#m9 | B6 | F#add9 | Abm7 | C#m9 | F#add9 | Emaj7 | Ebm7 | C#m9 | B6 | F#add9 | Abm7 | C#m9 | F#add9 | Emaj7 | Ebm7 | C#m9 | B6 | F#add9 | Abm7",
+      "dyn": 0.27,
+      "layers": [
+        "drone",
+        "pad",
+        "air",
+        "sub",
+        "swells"
+      ],
+      "improv": "keys",
+      "improv_range": [
+        60,
+        77
+      ],
+      "improv_density": 0.8
+    },
+    {
+      "bars": 16,
+      "chords": "Emaj7 | F#add9 | B6 | C#m9 | Bbm7b5 | F#add9 | Abm7 | C#m9 | Emaj7 | F#add9 | B6 | C#m9 | Bbm7b5 | F#add9 | Abm7 | C#m9",
+      "dyn": 0.28,
+      "layers": [
+        "pad",
+        "air",
+        "sub",
+        "choir"
+      ],
+      "improv": "glass",
+      "improv_range": [
+        62,
+        79
+      ],
+      "improv_density": 0.9
+    },
+    {
+      "bars": 8,
+      "chords": "C#m9 | C#m9 | F#add9/C# | F#add9/C# | Emaj7 | Emaj7 | C#m9 | C#m9",
+      "dyn": 0.17,
+      "layers": [
+        "drone",
+        "pad",
+        "air"
+      ],
+      "improv": "keys",
+      "improv_range": [
+        60,
+        77
+      ],
+      "improv_density": 0.5,
+      "swell": -0.1
+    }
+  ]
+}

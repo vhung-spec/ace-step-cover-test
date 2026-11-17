@@ -679,3 +679,17 @@ hợp âm ít gặp (bốn khung của album 11 và một khung đi xuống i - 
 | `k128-chan-am` (Chăn ấm) | Warm Blanket | Fa thứ, 50 bpm |
 | `k129-bau-troi-dau-sao` (Bầu trời đầy sao) | Starlit Sky | Đô thăng Dorian, 48 bpm |
 | `k130-lang-im` (Lặng im) | Hush | Mi giáng thứ, 42 bpm |
+
+### Album 12: Sleep in the Dark, Vol. 5 (xuất theo quy tắc mới)
+
+Người dùng chấm vòng X17: chín thích, một tạm được; album gồm đủ mười (Lanterns on the River, The Night Owl, Soft
+Snowfall, The Old Attic, Warm Blanket, Starlit Sky, Sleeping Valley, First Frost, Still Lake, Hush; 50 phút 41
+giây, -17 LUFS), xuất vào `Nhạc Dark Ambient\Sleep in the Dark, Vol. 5\`, bìa đèn lồng trên sông.
+
+## Vòng X18: album 13, nhạc ngủ điện tử kiểu an toàn (`ngu-dt`)
+
+Người dùng: "làm album và chuyển sang sáng tác album tiếp theo". Mười bài điện tử êm như album 10-11, mỗi bài trên
+một trong năm khung hợp âm ít gặp (bài số chẵn bắt đầu vòng giữa từ nửa sau): `k131` Glacier Night (Mi thứ),
+`k132` Slow Comet (La thứ), `k133` Last Subway Home (Đô thứ), `k134` Distant Night Ocean (Son thứ), `k135` Quiet
+Frequency (Fa thăng Dorian), `k136` Sleeping Crystal (Rê thứ), `k137` Night Ferry (Si thứ), `k138` Snow City Lights
+(Fa thứ), `k139` Polar Glow (Đô thăng Dorian), `k140` Quiet Standby (Mi giáng thứ, 44 bpm).

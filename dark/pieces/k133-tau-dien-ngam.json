@@ -1,0 +1,79 @@
+{
+  "title": "Tàu điện ngầm cuối",
+  "title_en": "Last Subway Home",
+  "family": "dark-khac",
+  "about": "Round x18 (album 13), the user: \"làm album và chuyển sang sáng tác album tiếp theo\": electronic sleep ambient (style ngu-dt) as albums 10-11, on a less common progression of its own (template 3), slow (52 bpm), pad, pianoarp, sub, strings, an improvised glass tune with a long echo. No drums. An original piece.",
+  "style": "ngu-dt",
+  "bpm": 52,
+  "beats": 4,
+  "mode": "aeolian",
+  "seed": 133,
+  "gains": {
+    "arp": -6.0,
+    "air": -10.0,
+    "swells": -3.0
+  },
+  "sections": [
+    {
+      "bars": 8,
+      "chords": "Cmadd9 | Cmadd9 | Fmadd9/C | Fmadd9/C | Abmaj7 | Abmaj7 | Bb6 | Bb6",
+      "dyn": 0.18,
+      "layers": [
+        "pad",
+        "pianoarp"
+      ],
+      "arp_quarters": true
+    },
+    {
+      "bars": 24,
+      "chords": "Cmadd9 | Eb6 | Fmadd9 | Dbmaj7#11 | Cmadd9 | Bbadd9 | Abmaj7 | G7sus4 | Cmadd9 | Eb6 | Fmadd9 | Dbmaj7#11 | Cmadd9 | Bbadd9 | Abmaj7 | G7sus4 | Cmadd9 | Eb6 | Fmadd9 | Dbmaj7#11 | Cmadd9 | Bbadd9 | Abmaj7 | G7sus4",
+      "dyn": 0.27,
+      "layers": [
+        "pad",
+        "pianoarp",
+        "sub"
+      ],
+      "arp_quarters": true,
+      "improv": "glass",
+      "improv_range": [
+        62,
+        79
+      ]
+    },
+    {
+      "bars": 16,
+      "chords": "Abmaj7 | Bb6 | Gm7 | Cmadd9 | Dbmaj7#11 | Eb6 | Fmadd9 | G7sus4 | Abmaj7 | Bb6 | Gm7 | Cmadd9 | Dbmaj7#11 | Eb6 | Fmadd9 | G7sus4",
+      "dyn": 0.28,
+      "layers": [
+        "pad",
+        "pianoarp",
+        "sub",
+        "strings"
+      ],
+      "arp_quarters": true,
+      "improv": "keys",
+      "improv_range": [
+        60,
+        77
+      ],
+      "improv_density": 0.8
+    },
+    {
+      "bars": 8,
+      "chords": "Cmadd9 | Cmadd9 | Fmadd9/C | Fmadd9/C | Abmaj7 | Abmaj7 | Bb6 | Bb6",
+      "dyn": 0.17,
+      "layers": [
+        "pad",
+        "pianoarp"
+      ],
+      "arp_quarters": true,
+      "improv": "glass",
+      "improv_range": [
+        62,
+        79
+      ],
+      "improv_density": 0.5,
+      "swell": -0.1
+    }
+  ]
+}

@@ -1,0 +1,76 @@
+{
+  "title": "Tần số lặng",
+  "title_en": "Quiet Frequency",
+  "family": "dark-khac",
+  "about": "Round x18 (album 13), the user: \"làm album và chuyển sang sáng tác album tiếp theo\": electronic sleep ambient (style ngu-dt) as albums 10-11, on a less common progression of its own (template 4), slow (50 bpm), pad, arp, sub, choir, an improvised keys tune with a long echo. No drums. An original piece.",
+  "style": "ngu-dt",
+  "bpm": 50,
+  "beats": 4,
+  "mode": "dorian",
+  "seed": 135,
+  "gains": {
+    "arp": -6.0,
+    "air": -10.0,
+    "swells": -3.0
+  },
+  "sections": [
+    {
+      "bars": 8,
+      "chords": "F#m9 | F#m9 | Badd9/F# | Badd9/F# | Amaj7 | Amaj7 | F#m9 | F#m9",
+      "dyn": 0.18,
+      "layers": [
+        "pad",
+        "arp"
+      ]
+    },
+    {
+      "bars": 24,
+      "chords": "F#m9 | Badd9 | Amaj7 | Abm7 | F#m9 | E6 | Badd9 | C#m7 | F#m9 | Badd9 | Amaj7 | Abm7 | F#m9 | E6 | Badd9 | C#m7 | F#m9 | Badd9 | Amaj7 | Abm7 | F#m9 | E6 | Badd9 | C#m7",
+      "dyn": 0.27,
+      "layers": [
+        "pad",
+        "arp",
+        "sub"
+      ],
+      "improv": "keys",
+      "improv_range": [
+        60,
+        77
+      ],
+      "improv_density": 0.8
+    },
+    {
+      "bars": 16,
+      "chords": "Amaj7 | Badd9 | E6 | F#m9 | Ebm7b5 | Badd9 | C#m7 | F#m9 | Amaj7 | Badd9 | E6 | F#m9 | Ebm7b5 | Badd9 | C#m7 | F#m9",
+      "dyn": 0.28,
+      "layers": [
+        "pad",
+        "arp",
+        "sub",
+        "choir"
+      ],
+      "improv": "glass",
+      "improv_range": [
+        62,
+        79
+      ],
+      "improv_density": 0.9
+    },
+    {
+      "bars": 8,
+      "chords": "F#m9 | F#m9 | Badd9/F# | Badd9/F# | Amaj7 | Amaj7 | F#m9 | F#m9",
+      "dyn": 0.17,
+      "layers": [
+        "pad",
+        "arp"
+      ],
+      "improv": "keys",
+      "improv_range": [
+        60,
+        77
+      ],
+      "improv_density": 0.5,
+      "swell": -0.1
+    }
+  ]
+}

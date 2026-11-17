@@ -1,0 +1,80 @@
+{
+  "title": "Thành phố tuyết",
+  "title_en": "Snow City Lights",
+  "family": "dark-khac",
+  "about": "Round x18 (album 13), the user: \"làm album và chuyển sang sáng tác album tiếp theo\": electronic sleep ambient (style ngu-dt) as albums 10-11, on a less common progression of its own (template 2), slow (52 bpm), pad, pianoarp, sub, air, choir, an improvised glass tune with a long echo. No drums. An original piece.",
+  "style": "ngu-dt",
+  "bpm": 52,
+  "beats": 4,
+  "mode": "aeolian",
+  "seed": 138,
+  "gains": {
+    "arp": -6.0,
+    "air": -10.0,
+    "swells": -3.0
+  },
+  "sections": [
+    {
+      "bars": 8,
+      "chords": "Fm9 | Fm9 | Dbmaj7/F | Dbmaj7/F | Bbm6 | Bbm6 | Fm9 | Fm9",
+      "dyn": 0.18,
+      "layers": [
+        "pad",
+        "pianoarp"
+      ],
+      "arp_quarters": true
+    },
+    {
+      "bars": 24,
+      "chords": "Fm9 | Ebadd9 | Dbmaj7 | C7sus4 | Fm9 | Abmaj7 | Bbm6 | Gbmaj7#11 | Fm9 | Ebadd9 | Dbmaj7 | C7sus4 | Fm9 | Abmaj7 | Bbm6 | Gbmaj7#11 | Fm9 | Ebadd9 | Dbmaj7 | C7sus4 | Fm9 | Abmaj7 | Bbm6 | Gbmaj7#11",
+      "dyn": 0.27,
+      "layers": [
+        "pad",
+        "pianoarp",
+        "sub",
+        "air"
+      ],
+      "arp_quarters": true,
+      "improv": "glass",
+      "improv_range": [
+        62,
+        79
+      ]
+    },
+    {
+      "bars": 16,
+      "chords": "Gbmaj7#11 | Abadd9 | Bbm9 | Dbmaj7 | Gbmaj7#11 | Fm9 | C7sus4 | Fm9 | Gbmaj7#11 | Abadd9 | Bbm9 | Dbmaj7 | Gbmaj7#11 | Fm9 | C7sus4 | Fm9",
+      "dyn": 0.28,
+      "layers": [
+        "pad",
+        "pianoarp",
+        "sub",
+        "choir"
+      ],
+      "arp_quarters": true,
+      "improv": "keys",
+      "improv_range": [
+        60,
+        77
+      ],
+      "improv_density": 0.8
+    },
+    {
+      "bars": 8,
+      "chords": "Fm9 | Fm9 | Dbmaj7/F | Dbmaj7/F | Bbm6 | Bbm6 | Fm9 | Fm9",
+      "dyn": 0.17,
+      "layers": [
+        "pad",
+        "pianoarp"
+      ],
+      "arp_quarters": true,
+      "improv": "glass",
+      "improv_range": [
+        62,
+        79
+      ],
+      "improv_density": 0.5,
+      "swell": -0.1
+    }
+  ]
+}

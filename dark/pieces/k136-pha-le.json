@@ -1,0 +1,79 @@
+{
+  "title": "Pha lê ngủ",
+  "title_en": "Sleeping Crystal",
+  "family": "dark-khac",
+  "about": "Round x18 (album 13), the user: \"làm album và chuyển sang sáng tác album tiếp theo\": electronic sleep ambient (style ngu-dt) as albums 10-11, on a less common progression of its own (template 3), slow (48 bpm), pad, air, shimmer, sub, swells, an improvised keys tune with a long echo. No drums. An original piece.",
+  "style": "ngu-dt",
+  "bpm": 48,
+  "beats": 4,
+  "mode": "aeolian",
+  "seed": 136,
+  "gains": {
+    "arp": -6.0,
+    "air": -10.0,
+    "swells": -3.0
+  },
+  "sections": [
+    {
+      "bars": 8,
+      "chords": "Dmadd9 | Dmadd9 | Gmadd9/D | Gmadd9/D | Bbmaj7 | Bbmaj7 | C6 | C6",
+      "dyn": 0.18,
+      "layers": [
+        "pad",
+        "air",
+        "shimmer"
+      ]
+    },
+    {
+      "bars": 24,
+      "chords": "Dmadd9 | Cadd9 | Bbmaj7 | A7sus4 | Dmadd9 | F6 | Gmadd9 | Ebmaj7#11 | Dmadd9 | Cadd9 | Bbmaj7 | A7sus4 | Dmadd9 | F6 | Gmadd9 | Ebmaj7#11 | Dmadd9 | Cadd9 | Bbmaj7 | A7sus4 | Dmadd9 | F6 | Gmadd9 | Ebmaj7#11",
+      "dyn": 0.27,
+      "layers": [
+        "pad",
+        "air",
+        "shimmer",
+        "sub"
+      ],
+      "improv": "keys",
+      "improv_range": [
+        60,
+        77
+      ],
+      "improv_density": 0.8
+    },
+    {
+      "bars": 16,
+      "chords": "Bbmaj7 | C6 | Am7 | Dmadd9 | Ebmaj7#11 | F6 | Gmadd9 | A7sus4 | Bbmaj7 | C6 | Am7 | Dmadd9 | Ebmaj7#11 | F6 | Gmadd9 | A7sus4",
+      "dyn": 0.28,
+      "layers": [
+        "pad",
+        "air",
+        "sub",
+        "swells"
+      ],
+      "improv": "keys",
+      "improv_range": [
+        60,
+        77
+      ],
+      "improv_density": 0.8
+    },
+    {
+      "bars": 8,
+      "chords": "Dmadd9 | Dmadd9 | Gmadd9/D | Gmadd9/D | Bbmaj7 | Bbmaj7 | C6 | C6",
+      "dyn": 0.17,
+      "layers": [
+        "pad",
+        "air",
+        "shimmer"
+      ],
+      "improv": "keys",
+      "improv_range": [
+        60,
+        77
+      ],
+      "improv_density": 0.5,
+      "swell": -0.1
+    }
+  ]
+}
