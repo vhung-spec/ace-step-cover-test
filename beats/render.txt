@@ -1,1 +1,1 @@
-rumba-guitar rumba-guitar-fp rumba-guitar-dien rumba-sax
+rumba-moc rumba-dien

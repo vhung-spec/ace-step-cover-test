@@ -23,9 +23,15 @@ in `render.txt`) to the `bossa-renders` branch.
   "and" of 2, 3 and, early, the next bar's root on the "and" of 4; the
   rhythm guitar's strum loudest on its "ands"; the hi-hat in eighths, a
   shaker in sixteenths; warm, a long room). The sketches play an original
-  tune, Nắng Sớm (A minor, 95 bpm), twice.
+  tune, Nắng Sớm (A minor, 95 bpm), twice. rumba-moc and rumba-dien are a
+  fuller production of it: two guitars interlocking (Karoryfer's
+  Shinyguitar, an archtop, strumming with muted-string chucks on 2 and 4;
+  the Iowa nylon striking with the bass's rhythm), a cajón (or the kit)
+  with congas and a shaker, a warm bass, strings in the refrains, and the
+  lead (the nylon guitar, or Emilyguitar) with vibrato, slides, hammer-ons
+  and an echo a dotted quarter later.
 
 Instruments: the University of Iowa's nylon guitar, Karoryfer's Meatbass,
 Fashionbass, Emilyguitar and Big Rusty Drums (CC0), VCSL's maracas, bongos
-and tenor saxophone, VSCO-2-CE's strings, Versilian's Virtuosity Drums
-(CC0).
+cajón, congas and tenor saxophone, VSCO-2-CE's strings, Versilian's
+Virtuosity Drums, Karoryfer's Shinyguitar (CC0).

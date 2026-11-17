@@ -42,7 +42,7 @@ def main() -> None:
     args = parser.parse_args()
     libraries = {name: args.libs / name for name in ("vcsl", "vsco", "jrhodes", "freepats", "smolken", "swirly",
                                                       "meatbass", "rusty", "iowa", "emily", "fashionbass",
-                                                      "virtuosity")}
+                                                      "virtuosity", "shiny")}
     libraries["local"] = Path(__file__).resolve().parent.parent / "instruments"  # our own (the synth pad)
     for folder in sorted(p for p in args.out.iterdir() if (p / "mix.json").is_file()):
         print(f"== {folder.name}", flush=True)

@@ -30,7 +30,12 @@ writes the SFZ files the arranger plays them by:
   muted and open hi-hats) from the three microphones it plays by default
   (the kick's, the snare's, the overheads), the percussion (congas,
   bongos, shakers, guiro, claves) close and from the overheads; the other
-  microphones' samples are not fetched.
+  microphones' samples are not fetched;
+- shiny: Karoryfer's Shinyguitar, an archtop (steel strings) recorded by a
+  microphone and its pickup, CC0. bossa_shiny_acoustic.sfz is its own
+  main.sfz with the microphone alone (the blend at 127, one voice), its
+  notes (four layers, four round robins) and its noises (the strings
+  muted, a chuck, on 18-21); only the microphone's samples are fetched.
 
 The guitar of the University of Iowa (MIS) comes from iowa_guitar.py.
 
@@ -53,6 +58,7 @@ LIBRARIES = {
     "emily": ("https://github.com/sfzinstruments/karoryfer.emilyguitar", "b4920dc662fd9cad6dcaccdeecffdd91c8725d8c"),
     "fashionbass": ("https://github.com/sfzinstruments/karoryfer.fashionbass", "0703973b300a6bacb837602be9b588ab64732a72"),
     "virtuosity": ("https://github.com/sfzinstruments/virtuosity_drums", "9f04cf9a734527edfbb0a4eee1f674e45bbf71bc"),
+    "shiny": ("https://github.com/sfzinstruments/karoryfer.shinyguitar", "57243cca85277dbcc120ce17c6178032f93c80f3"),
 }
 # Libraries played straight from one of their own SFZ files: (the file, the
 # folders it plays from are found in it)
@@ -269,6 +275,30 @@ def virtuosity(root: Path) -> None:
     print(f"virtuosity: bolero_kit.sfz, {len(kept)} microphones, {samples} samples")
 
 
+def shiny(root: Path) -> None:
+    """bossa_shiny_acoustic.sfz: Shinyguitar's main.sfz (its controls, its
+    envelope and tone filter) playing the microphone alone, one voice: its
+    sample folder set (main.sfz leaves $sample_dir to the player that loads
+    its bank), its blend at 127 (all microphone), only acoustic_one.sfz (the
+    notes) and acoustic_noises.sfz (the muted strings and the body's knocks)
+    included, their Windows paths turned to forward slashes."""
+    dest = fetch("shiny", root, ["/LICENSE", "/readme.txt", "/Programs/", "/Samples/acoustic/"])
+    programs = dest / "Programs"
+    for name in ("acoustic_one.sfz", "acoustic_noises.sfz"):
+        path = programs / name
+        path.write_text(path.read_text(errors="replace").replace("\\", "/"))
+    text = (programs / "main.sfz").read_text(errors="replace")
+    for old, new in (("default_path=$sample_dir/", "default_path=../Samples/"), ("set_cc100=0", "set_cc100=127")):
+        if old not in text:
+            raise RuntimeError(f"shiny: main.sfz has no {old!r}")
+        text = text.replace(old, new)
+    keep = ('#include "acoustic_one.sfz"', '#include "acoustic_noises.sfz"')
+    text = "\n".join(line for line in text.splitlines() if not line.startswith("#include") or line.strip() in keep)
+    (programs / "bossa_shiny_acoustic.sfz").write_text("// Shinyguitar's microphone alone; written by bossa/fetch_bossa.py\n"
+                                                        + text + "\n")
+    print(f"shiny: bossa_shiny_acoustic.sfz, {len(list((dest / 'Samples' / 'acoustic').glob('*.wav')))} samples")
+
+
 def main(out: str, libs: str) -> int:
     needed = set()
     for sheet in Path(out).glob("*/mix.json"):
@@ -276,7 +306,7 @@ def main(out: str, libs: str) -> int:
             needed |= {entry["library"], entry.get("fallback", {}).get("library")}
     root = Path(libs)
     steps = [("freepats", guitar), ("smolken", bass), ("swirly", drums), ("meatbass", meatbass), ("rusty", rusty)]
-    steps += [(name, lambda r, n=name: mapped(n, r)) for name in MAPPED] + [("virtuosity", virtuosity)]
+    steps += [(name, lambda r, n=name: mapped(n, r)) for name in MAPPED] + [("virtuosity", virtuosity), ("shiny", shiny)]
     for name, step in steps:
         if name in needed:
             step(root)
