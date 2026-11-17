@@ -341,8 +341,8 @@ def strum_steel(sk: Sketch, part: Part, velocity: int, start: int, end: int) -> 
     three; the "and" of 4 the loudest), and on 2 and 4 the strings muted, a
     chuck (the golpe: the references' guitar band is weakest on 2). A long
     fill stops it after 3."""
-    pattern = [(0, "down", -2), (1, "up", -8), (2, "chuck", -6), (3, "up", 0), (4, "down", -4), (5, "up", -6),
-               (6, "chuck", -6), (7, "up", 4)]
+    pattern = [(0, "down", -2), (1, "up", -8), (2, "chuck", -10), (3, "up", 0), (4, "down", -4), (5, "up", -6),
+               (6, "chuck", -10), (7, "up", 4)]
     previous, chucks = None, 0
     for bar_tick in range(start, end, sk.bar):
         fill = fill_of(sk, bar_tick)
@@ -394,7 +394,8 @@ def cajon_rumba(sk: Sketch, part: Part, velocity: int, start: int, end: int) -> 
         k, _ = bar_of(sk, bar_tick)
         fill = fill_of(sk, bar_tick)
         v = velocity - (8 if k < 0 else 0)
-        hits = [(0, CAJON_BASS, 6), (6, CAJON_BASS, 2), (8, CAJON_BASS, 0), (4, CAJON_SLAP, 2), (12, CAJON_SLAP, 4),
+        # the slaps a little under the bass: on 2 and 4 they land with the chuck and the conga
+        hits = [(0, CAJON_BASS, 6), (6, CAJON_BASS, 2), (8, CAJON_BASS, 0), (4, CAJON_SLAP, -2), (12, CAJON_SLAP, 0),
                 (3, CAJON_SLAP, -24), (11, CAJON_SLAP, -24)]
         if k % 2 and not fill:
             hits.append((14, CAJON_DEEP, -10))
@@ -518,14 +519,20 @@ def build_band(sk: Sketch, lead: str = "nylon", drums: str = "cajon") -> None:
     echo_of(sk, ld, "echo", 0.4)
 
 
+# Louder than the engine's -16 LUFS (the references: -12.7 to -15.1), the
+# limiter allowed 4 dB (render_bossa.py reads it from mix.json)
+LOUD = {"loudness": {"target": -15.0, "most_limiting_db": 4.0, "quietest": -17.0}}
 STYLES = {
     "rumba-moc": Style("Rumba mộc", "nang-som", 96, 2.2, 0.32, lambda sk: build_band(sk, "nylon", "cajon"),
                        "Rumba mộc: guitar nylon dẫn (rung, vuốt, láy, tiếng vọng); guitar dây sắt quạt có chặn "
                        "dây bên trái, guitar nylon bắt nhịp bên phải; cajón, conga, shaker; bass ấm; dàn dây "
-                       "ở điệp khúc.", passes=2),
+                       "ở điệp khúc.", extra=LOUD, passes=2),
+    "rumba-trong": Style("Rumba trống", "nang-som", 96, 2.2, 0.32, lambda sk: build_band(sk, "nylon", "kit"),
+                         "Như Rumba mộc, trống jazz nhẹ thay cajón.", extra=LOUD, passes=2),
+    # the electric lead: PaSST heard Emilyguitar's clean lead as keys (piano 0.07), picked soft or hard
     "rumba-dien": Style("Rumba guitar điện", "nang-som", 96, 2.2, 0.32,
                         lambda sk: build_band(sk, "electric", "kit"),
-                        "Như Rumba mộc, guitar điện dẫn và trống jazz nhẹ thay cajón.", passes=2),
+                        "Như Rumba mộc, guitar điện dẫn và trống jazz nhẹ thay cajón.", extra=LOUD, passes=2),
     "rumba-guitar": Style("Rumba guitar", "nang-som", 95, 2.0, 0.36, lambda sk: build(sk, "nylon"),
                           "Hòa tấu rumba: guitar nylon dẫn giai điệu, guitar quạt, bass điện, trống, shaker, conga.",
                           passes=2),

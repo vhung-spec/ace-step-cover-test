@@ -53,7 +53,18 @@ def main() -> None:
                       flush=True)
                 entry.update({k: entry["fallback"][k] for k in ("library", "sfz", "tone")})
         (folder / "mix.json").write_text(json.dumps(sheet, indent=2, ensure_ascii=False))
-        render_samples.mix_folder(folder, args.sfizz, libraries, keep_parts=args.keep_parts)
+        # a style's own loudness (the beats aim at their references' -15 LUFS, not the engine's -16), the
+        # engine's limiter allowed that much more: its settings for this piece only
+        engine = (render_samples.TARGET_LUFS, render_samples.MOST_LIMITING_DB, render_samples.QUIETEST_LUFS)
+        loud = sheet.get("loudness")
+        if loud:
+            render_samples.TARGET_LUFS = loud["target"]
+            render_samples.MOST_LIMITING_DB = loud.get("most_limiting_db", engine[1])
+            render_samples.QUIETEST_LUFS = loud.get("quietest", engine[2])
+        try:
+            render_samples.mix_folder(folder, args.sfizz, libraries, keep_parts=args.keep_parts)
+        finally:
+            render_samples.TARGET_LUFS, render_samples.MOST_LIMITING_DB, render_samples.QUIETEST_LUFS = engine
 
 
 if __name__ == "__main__":

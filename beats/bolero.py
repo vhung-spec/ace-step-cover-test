@@ -482,7 +482,7 @@ def make(style_name: str, out: Path, seed: int = 7, styles: dict | None = None, 
                       "bends": len(part.bends)})
     mix = {"hall": {"rt60": style.rt60, "wet": style.wet, "highpass": 250}, "parts": sheet,
            "about": {"title": style.title, "tune": tune.title, "tune_about": tune.about, "bpm": style.bpm,
-                     "text": style.about}}
+                     "text": style.about}} | style.extra  # e.g. "loudness" (render_bossa.py)
     (folder / "mix.json").write_text(json.dumps(mix, indent=2, ensure_ascii=False))
     seconds = sk.end / TICKS * 60 / style.bpm + 5
     print(f"{folder.name}: {tune.title}, {style.bpm} bpm, about {seconds:.0f} s, parts "
