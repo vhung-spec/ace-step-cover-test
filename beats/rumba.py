@@ -66,14 +66,14 @@ TONES = BOLERO_TONES | {
     # (side 5-8 dB under mid, theirs 10). So the guitars keep their top, the
     # kit and shaker their sheen, the images narrower.
     "lead-nylon": {"highpass": 100, "width": 0.3},
-    "rhythm-nylon": {"highpass": 150, "shelf": [2500, -2], "width": 0.6},
+    "rhythm-nylon": {"highpass": 120, "width": 0.6},
     "lead-electric": {"highpass": 120, "lowpass": 9000, "width": 0.0, "chorus": 0.25},
     "lead-sax": {"highpass": 110, "lowpass": 9000, "width": 0.3},
     "kit-warm": {"highpass": 30, "width": 0.6},
     "rumba-shaker": {"highpass": 400, "width": 0.4},
     "fashionbass": {"highpass": 28, "lowpass": 2500, "width": 0.0},
 }
-ROLES = {"melody": 0.0, "guitar": -8.0, "bass": -1.0, "kit": -3.0, "congas": -13.0, "maracas": -14.0,
+ROLES = {"melody": 0.0, "guitar": -5.0, "bass": -1.0, "kit": -3.0, "congas": -13.0, "maracas": -18.0,
          "pad": -15.0}
 # A guitar's strum over a bar of eighths: (eighth, stroke, loudness): its
 # "ands" the loudest, the "and" of 4 most of all, beat 2 the softest (as the
@@ -100,30 +100,27 @@ def fill_of(sk: Sketch, bar_tick: int) -> str | None:
     return "short" if k >= 0 and k % 4 == 3 else None
 
 
-def lead_line(sk: Sketch, part: Part, velocity: int, harmony: bool = True, tremolo: bool = False) -> None:
+def lead_line(sk: Sketch, part: Part, velocity: int, harmony: bool = True, hammer: bool = False) -> None:
     """The tune plucked note by note, the notes on a beat a little louder,
     after an intro on its last phrase; a held note (3 eighths or more) on a
     beat doubled by the chord's highest tone a third to a sixth under it, a
-    guitarist's double stop. tremolo (the nylon guitar, whose high notes die
-    20 dB within half a second): a held note re-plucked in sixteenth-note
-    triplets after its first pluck, the classical guitar's tremolo, each
-    beat leaning (the references' lead plays mostly notes of 0.12-0.16 s)."""
+    guitarist's double stop. hammer: a third of the held notes reached by a
+    hammer-on from the scale's step under them (a quick grace note, the
+    note itself softer, unplucked). (A tremolo on held notes, tried for the
+    nylon's short ring, made PaSST hear a harp, 0.58, and no guitar.)"""
     tune = sk.melody()
     first = sk.starts[0] + (len(sk.tune.chords) - 4) * sk.bar
     notes = [(t - first, n, l) for t, n, l, p in tune if p == 0 and t >= first]
     notes += [(t, n, l) for t, n, l, _ in tune]
-    step = TICKS // 6
+    scale = {9, 11, 0, 2, 4, 5, 7, 8}  # A minor, harmonic G# with it
     for tick, note, length in notes:
         on_beat = tick % TICKS == 0
         v = velocity + (4 if on_beat else 0) + sk.rng.randint(-4, 3)
         at = sk.lay_back(tick, 4)
-        if tremolo and length >= 3 * EIGHTH:
-            part.add(at, note, v, step)
-            t = tick + step
-            while t < tick + length - step // 2:
-                lean = 0 if (t - tick) % TICKS == 0 else -7
-                part.add(t + sk.rng.randint(-4, 4), note, v - 9 + lean + sk.rng.randint(-4, 3), step - 4)
-                t += step
+        if hammer and length >= 3 * EIGHTH and sk.rng.random() < 0.35:
+            grace = next(g for g in (note - 2, note - 1) if g % 12 in scale)
+            part.add(at - 45, grace, v - 4, 50)
+            part.add(at + 5, note, v - 8, length - 15)
         else:
             part.add(at, note, v, length - 10)
         if harmony and on_beat and length >= 3 * EIGHTH:
@@ -151,8 +148,9 @@ def vibrato(sk: Sketch, part: Part, cents: float, rate: float = 4.0) -> None:
 
 
 def rhythm_guitar(sk: Sketch, part: Part, velocity: int, start: int, end: int) -> None:
-    """The rumba strum: the thumb's bass on 1 and 3 (root, fifth), three
-    upper strings struck down and up in eighths (STRUM); a long fill's last
+    """The rumba strum: the thumb's bass on 1 and 3 (root, fifth), the strings
+    struck down (four, from the fifth up) and up (the top three) in eighths
+    (STRUM); a long fill's last
     two beats left to the drums but for a chord on 3."""
     previous = None
     for bar_tick in range(start, end, sk.bar):
@@ -166,9 +164,11 @@ def rhythm_guitar(sk: Sketch, part: Part, velocity: int, start: int, end: int) -
             if fill == "long" and e > 4:
                 continue
             tick = bar_tick + e * EIGHTH
-            chord = voice_lead(previous, sk.chord_at(tick), 3, 55, 71, 62)
+            name = sk.chord_at(tick)
+            chord = voice_lead(previous, name, 3, 55, 71, 62)
             previous = chord
-            notes = chord if stroke == "down" else list(reversed(chord))
+            # a down stroke sweeps from the bass string up (four strings), an up stroke the top three
+            notes = [nearest(parse(name)[0] + fifth(name), 50, 43, 54)] + chord if stroke == "down" else list(reversed(chord))
             at = sk.lay_back(tick, 3)
             for i, n in enumerate(notes):
                 part.add(at + 9 * i, n, velocity + dv - 2 * i + sk.rng.randint(-4, 3), EIGHTH - 25)
@@ -271,7 +271,7 @@ def build(sk: Sketch, lead: str = "nylon") -> None:
     instrument, tone = {"nylon": ("iowa-nylon", "lead-nylon"), "electric": ("emily", "lead-electric"),
                         "sax": ("sax", "lead-sax")}[lead]
     ld = sk.part("lead", instrument, "melody", 0.1, 0.45, TONES[tone])
-    lead_line(sk, ld, 78 if lead == "nylon" else 72, harmony=lead != "sax", tremolo=lead == "nylon")
+    lead_line(sk, ld, 78 if lead == "nylon" else 72, harmony=lead != "sax", hammer=lead != "sax")
     ending(sk, sk.parts, 66)
     root = parse(sk.tune.final or sk.tune.chords[-1][-1])[0]
     ld.add(sk.end + 30, nearest(root, 69, 64, 76), 70, 6 * TICKS)
@@ -284,7 +284,7 @@ def build(sk: Sketch, lead: str = "nylon") -> None:
 
 STYLES = {
     "rumba-guitar": Style("Rumba guitar", "nang-som", 95, 2.6, 0.36, lambda sk: build(sk, "nylon"),
-                          "Hòa tấu rumba: guitar nylon dẫn giai điệu (vê ở nốt dài), guitar quạt, bass điện, trống, shaker, conga.",
+                          "Hòa tấu rumba: guitar nylon dẫn giai điệu, guitar quạt, bass điện, trống, shaker, conga.",
                           passes=2),
     "rumba-guitar-dien": Style("Rumba guitar điện", "nang-som", 95, 2.6, 0.36, lambda sk: build(sk, "electric"),
                                "Như Rumba guitar, guitar điện (chorus, rung nhẹ) dẫn giai điệu.", passes=2),
