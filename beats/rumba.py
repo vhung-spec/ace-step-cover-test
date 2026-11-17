@@ -314,15 +314,24 @@ INSTRUMENTS |= {
     "vc-congas": ("vcsl", "Membranophones/Struck Membranophones/Conga.sfz"),
     "vc-shaker": ("vcsl", "Idiophones/Struck Idiophones/Shaker, Small.sfz"),
 }
+# Each part compressed (render_bossa.py's compress()): its attacks left the
+# mixes 16 dB of peak over their loudness, the references 11.
+SNAP = {"ratio": 3.0, "attack": 0.003, "release": 0.1}
+HIT = {"ratio": 3.0, "attack": 0.002, "release": 0.08}
 TONES |= {
-    "steel-strum": {"highpass": 140, "lowpass": 12000, "shelf": [6000, -2], "width": 0.4},
+    "steel-strum": {"highpass": 140, "lowpass": 12000, "shelf": [6000, -2], "width": 0.4, "compress": SNAP},
     # Emilyguitar picked harder (its mf layer) and less chorus: PaSST heard the soft, chorused lead as keys
-    "lead-electric-2": {"highpass": 120, "lowpass": 9000, "width": 0.0, "chorus": 0.12},
-    "nylon-stabs": {"highpass": 160, "lowpass": 10000, "width": 0.4},
-    "echo": {"highpass": 300, "lowpass": 5000, "width": 0.3},  # a darker repeat, as a tape echo's
-    "warm-bass": {"highpass": 30, "lowpass": 1800, "width": 0.0},
-    "cajon": {"highpass": 40, "width": 0.4},
-    "vc-congas": {"highpass": 70, "width": 0.4},
+    "lead-electric-2": {"highpass": 120, "lowpass": 9000, "width": 0.0, "chorus": 0.12,
+                        "compress": {"ratio": 2.5, "attack": 0.004, "release": 0.1}},
+    "lead-nylon-2": {"highpass": 100, "width": 0.3, "compress": {"ratio": 2.5, "attack": 0.004, "release": 0.1}},
+    "nylon-stabs": {"highpass": 160, "lowpass": 10000, "width": 0.4, "compress": SNAP},
+    "echo": {"highpass": 300, "lowpass": 5000, "width": 0.3, "compress": SNAP},  # darker, as a tape echo's
+    "warm-bass": {"highpass": 30, "lowpass": 1800, "width": 0.0,
+                  "compress": {"ratio": 4.0, "attack": 0.008, "release": 0.12}},
+    "cajon": {"highpass": 40, "width": 0.4, "compress": HIT},
+    "vc-congas": {"highpass": 70, "width": 0.4, "compress": HIT},
+    "kit-glued": {"highpass": 30, "width": 0.6, "compress": {"ratio": 2.5, "attack": 0.003, "release": 0.1}},
+    "v-congas-glued": {"highpass": 70, "width": 0.5, "compress": HIT},
     "vc-shaker": {"highpass": 500, "width": 0.4},
 }
 ROLES |= {"echo": -13.0, "stabs": -11.0, "cajon": -7.0}
@@ -482,9 +491,9 @@ def build_band(sk: Sketch, lead: str = "nylon", drums: str = "cajon") -> None:
         sh = sk.part("maracas", "vc-shaker", "maracas", 0.35, 0.2, TONES["vc-shaker"])
         shaker_rumba(sk, sh, 56, 0, sk.end, VC_SHAKE_DOWN, VC_SHAKE_UP)
     else:
-        kit = sk.part("kit", "virtuosity", "kit", 0.0, 0.2, TONES["kit-warm"])
+        kit = sk.part("kit", "virtuosity", "kit", 0.0, 0.2, TONES["kit-glued"])
         kit_rumba(sk, kit, 64, 0, sk.end)
-        cg = sk.part("congas", "virtuosity", "congas", -0.35, 0.22, TONES["virtuosity-congas"])
+        cg = sk.part("congas", "virtuosity", "congas", -0.35, 0.22, TONES["v-congas-glued"])
         congas_rumba(sk, cg, 70, sk.starts[0], sk.end)
         sh = sk.part("maracas", "virtuosity", "maracas", 0.35, 0.2, TONES["rumba-shaker"])
         sh.gain_db = -21.0  # PaSST heard maracas 0.14 at -18
@@ -499,7 +508,7 @@ def build_band(sk: Sketch, lead: str = "nylon", drums: str = "cajon") -> None:
     vc = sk.part("cellos", "cellos", "pad", 0.3, 0.55, TONES["cellos"])
     for start in sk.starts:
         string_pad(sk, va, vc, 36, start + 8 * sk.bar, start + 16 * sk.bar, [])
-    instrument, tone, bend_range = {"nylon": ("iowa-nylon", "lead-nylon", 200),
+    instrument, tone, bend_range = {"nylon": ("iowa-nylon", "lead-nylon-2", 200),
                                     "electric": ("emily", "lead-electric-2", 1200)}[lead]
     ld = sk.part("lead", instrument, "melody", -0.05, 0.35, TONES[tone])
     lead_line(sk, ld, 100, harmony=True, hammer=True)

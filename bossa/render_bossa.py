@@ -10,6 +10,9 @@ import json
 import sys
 from pathlib import Path
 
+import numpy as np
+from scipy.ndimage import maximum_filter1d, uniform_filter1d
+
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
 import render_samples  # noqa: E402
@@ -31,6 +34,46 @@ def sfz_copy(sfz: Path, part: str, db: float, tone: dict) -> Path:
 
 
 render_samples.sfz_copy = sfz_copy  # render_part looks it up by name
+
+_apply_tone = render_samples.apply_tone
+
+
+def compress(audio: np.ndarray, ratio: float = 3.0, attack: float = 0.005, release: float = 0.12,
+             above_db: float = 3.0) -> np.ndarray:
+    """A part's compressor, vectorized as render_samples.limit is: its level
+    (the louder channel, averaged over the attack) over a threshold set from
+    the part's own playing level (the upper quartile of its level, plus
+    above_db), cut by the ratio, the cut reached over the attack and let go
+    at 10 dB per `release` seconds. No make-up: the mix sets each part's
+    level after it. Real instruments' attacks (a finger-plucked bass, a nylon
+    string plucked hard, a cajón) left the rumba mixes 16 dB of peak over
+    their loudness (the references 11): 3 to 5 dB less a part with it."""
+    rate = render_samples.RATE
+    level = np.abs(audio).max(axis=0)
+    size = max(1, int(attack * rate))
+    env_db = 20 * np.log10(uniform_filter1d(level, size=size) + 1e-9)
+    sounding = env_db > env_db.max() - 50
+    if not sounding.any():
+        return audio
+    threshold = np.percentile(env_db[sounding], 75) + above_db
+    cut = np.maximum(0.0, env_db - threshold) * (1 - 1 / ratio)
+    cut = uniform_filter1d(maximum_filter1d(cut, size=2 * size + 1), size=2 * size + 1)
+    n = np.arange(len(cut))
+    step = 10.0 / (release * rate)  # dB a sample
+    held = np.maximum.accumulate(cut + n * step) - n * step
+    print(f"    compressed: at most {held.max():.1f} dB, {100 * np.mean(held > 1):.0f} % of the time over 1 dB",
+          flush=True)
+    return audio * 10 ** (-held / 20)
+
+
+def apply_tone(audio: np.ndarray, tone: dict) -> np.ndarray:
+    """render_samples.apply_tone, then the tone's compressor if it names one
+    ("compress": compress()'s settings)."""
+    audio = _apply_tone(audio, tone)
+    return compress(audio, **tone["compress"]) if tone.get("compress") else audio
+
+
+render_samples.apply_tone = apply_tone  # mix_folder looks it up by name
 
 
 def main() -> None:
