@@ -40,6 +40,8 @@ jobs:
 
       - name: Python tools and ffmpeg
         run: |
+          # FluidSynth and the FluidR3 General MIDI SoundFont (MIT), for the styles played on emulated sounds
+          sudo apt-get update -q && sudo apt-get install -y -q fluidsynth fluid-soundfont-gm
           uv venv -q --python 3.12 "$RUNNER_TEMP/venv"
           uv pip install -q --python "$RUNNER_TEMP/venv/bin/python" numpy scipy soundfile mido pyloudnorm imageio-ffmpeg librosa
           sudo ln -sf "$("$RUNNER_TEMP/venv/bin/python" -c 'import imageio_ffmpeg; print(imageio_ffmpeg.get_ffmpeg_exe())')" \

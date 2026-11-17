@@ -7,10 +7,13 @@ each part's tone and level, the room, loudness), from the libraries
 
 import argparse
 import json
+import subprocess
 import sys
 from pathlib import Path
 
+import mido
 import numpy as np
+import soundfile as sf
 from scipy.ndimage import maximum_filter1d, uniform_filter1d
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
@@ -75,6 +78,50 @@ def apply_tone(audio: np.ndarray, tone: dict) -> np.ndarray:
 
 render_samples.apply_tone = apply_tone  # mix_folder looks it up by name
 
+_render_part = render_samples.render_part
+
+
+def render_sf2(sf2: Path, part: str, midi: Path, wav: Path, tone: dict) -> np.ndarray:
+    """A part played on a SoundFont by FluidSynth, its own reverb and chorus
+    off (the mix has its room): the part's MIDI on channel 1 with the tone's
+    General MIDI program, or on channel 10 (the drum kits) with its keys
+    moved as the tone's remap says ({"88": 37}: a cross-stick to GM's)."""
+    channel = 9 if tone.get("drums") else 0
+    remap = {int(k): int(v) for k, v in tone.get("remap", {}).items()}
+    source = mido.MidiFile(midi)
+    copy = mido.MidiFile(ticks_per_beat=source.ticks_per_beat)
+    for track in source.tracks:
+        out = mido.MidiTrack()
+        out.append(mido.Message("program_change", program=int(tone.get("program", 0)), channel=channel, time=0))
+        for msg in track:
+            if msg.type in ("note_on", "note_off"):
+                msg = msg.copy(channel=channel, note=remap.get(msg.note, msg.note))
+            elif msg.type == "pitchwheel":
+                msg = msg.copy(channel=channel)
+            out.append(msg)
+        copy.tracks.append(out)
+    gm_midi = wav.with_suffix(".gm.mid")
+    copy.save(gm_midi)
+    rate = render_samples.RATE
+    subprocess.run(["fluidsynth", "-ni", "-R", "0", "-C", "0", "-g", "0.6", "-r", str(rate), "-O", "float",
+                    "-T", "wav", "-F", str(wav), str(sf2), str(gm_midi)], check=True, capture_output=True, timeout=900)
+    audio, got = sf.read(wav, always_2d=True, dtype="float32")
+    if got != rate:
+        raise ValueError(f"{wav}: {got} Hz")
+    print(f"    {part} on {sf2.name}, program {tone.get('program', 0)}{' (drums)' if channel == 9 else ''}: "
+          f"peak {20 * np.log10(np.abs(audio).max() + 1e-12):.1f} dBFS", flush=True)
+    return audio.T if audio.shape[1] == 2 else np.repeat(audio.T, 2, axis=0)
+
+
+def render_part(sfizz: str, sfz: Path, part: str, midi: Path, wav: Path, tone: dict) -> np.ndarray:
+    """render_samples.render_part, or FluidSynth for a SoundFont (.sf2)."""
+    if Path(sfz).suffix.lower() == ".sf2":
+        return render_sf2(Path(sfz), part, midi, wav, tone)
+    return _render_part(sfizz, sfz, part, midi, wav, tone)
+
+
+render_samples.render_part = render_part  # mix_folder looks it up by name
+
 
 def main() -> None:
     parser = argparse.ArgumentParser()
@@ -87,6 +134,7 @@ def main() -> None:
                                                       "meatbass", "rusty", "iowa", "emily", "fashionbass",
                                                       "virtuosity", "shiny")}
     libraries["local"] = Path(__file__).resolve().parent.parent / "instruments"  # our own (the synth pad)
+    libraries["gm"] = Path("/usr/share/sounds/sf2")  # FluidR3_GM.sf2 (MIT), from Ubuntu's fluid-soundfont-gm
     for folder in sorted(p for p in args.out.iterdir() if (p / "mix.json").is_file()):
         print(f"== {folder.name}", flush=True)
         sheet = json.loads((folder / "mix.json").read_text())

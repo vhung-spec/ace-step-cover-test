@@ -344,7 +344,7 @@ def bend(cents: float, bend_range: float) -> int:
     return int(round(max(-1.0, min(1.0, cents / bend_range)) * 8191))
 
 
-def strum_steel(sk: Sketch, part: Part, velocity: int, start: int, end: int) -> None:
+def strum_steel(sk: Sketch, part: Part, velocity: int, start: int, end: int, chuck_keys: bool = True) -> None:
     """The rumba strum on the archtop (steel strings, its microphone): down
     on 1 and 3 (five strings from the fifth up), up on the "ands" (the top
     three; the "and" of 4 the loudest), and on 2 and 4 the strings muted, a
@@ -360,9 +360,13 @@ def strum_steel(sk: Sketch, part: Part, velocity: int, start: int, end: int) -> 
                 continue
             tick = bar_tick + e * EIGHTH
             at = sk.lay_back(tick, 3)
-            if stroke == "chuck":
+            if stroke == "chuck" and chuck_keys:
                 part.add(at, SHINY_CHUCK[chucks % len(SHINY_CHUCK)], velocity + dv + sk.rng.randint(-4, 3), EIGHTH // 2)
                 chucks += 1
+                continue
+            if stroke == "chuck":  # no muted strings to play: the chord struck and stopped at once, soft
+                for i, n in enumerate(list(reversed(previous or voice_lead(None, sk.chord_at(tick), 4, 50, 74, 62)))):
+                    part.add(at + 4 * i, n, velocity + dv - 6 - 2 * i + sk.rng.randint(-4, 3), 50)
                 continue
             name = sk.chord_at(tick)
             chord = voice_lead(previous, name, 4, 50, 74, 62)
@@ -466,10 +470,10 @@ def expressive(sk: Sketch, part: Part, bend_range: float, depth: float, rate: fl
         previous = note
 
 
-def echo_of(sk: Sketch, lead: Part, name: str, pan: float) -> Part:
+def echo_of(sk: Sketch, lead: Part, name: str, pan: float, tone: dict | None = None) -> Part:
     """The lead repeated a dotted quarter later, softer, darker and wider in
     the room, on the other side: an echo, its bends with it."""
-    echo = sk.part(name, lead.instrument, "echo", pan, 0.55, TONES["echo"])
+    echo = sk.part(name, lead.instrument, "echo", pan, 0.55, tone or TONES["echo"])
     for tick, note, velocity, length in lead.notes:
         echo.add(tick + ECHO, note, velocity - 14, length)
     echo.bends = [(t + ECHO, v) for t, v in lead.bends]
@@ -528,6 +532,64 @@ def build_band(sk: Sketch, lead: str = "nylon", drums: str = "cajon") -> None:
     echo_of(sk, ld, "echo", 0.4)
 
 
+# The same production on General MIDI's sounds (the user: "hãy tìm các bộ âm
+# thanh mô phỏng, không cần tiếng nhạc cụ thật"): Frank Wen's FluidR3_GM
+# SoundFont (MIT), played by FluidSynth (render_bossa.py), each part a GM
+# program, the drums on channel 10 (the kit's cross-stick moved to GM's 37).
+INSTRUMENTS |= {"gm": ("gm", "FluidR3_GM.sf2")}
+GM_SNAP = {"ratio": 3.0, "attack": 0.003, "release": 0.1}
+TONES |= {
+    "gm-kit": {"program": 0, "drums": True, "remap": {"88": 37}, "highpass": 30, "width": 0.6,
+               "compress": {"ratio": 2.5, "attack": 0.003, "release": 0.1}},
+    "gm-perc": {"program": 0, "drums": True, "highpass": 70, "width": 0.4, "compress": HIT},
+    "gm-shaker": {"program": 0, "drums": True, "highpass": 400, "width": 0.4},
+    "gm-steel": {"program": 25, "highpass": 140, "width": 0.4, "compress": GM_SNAP},
+    "gm-nylon-stabs": {"program": 24, "highpass": 160, "width": 0.4, "compress": GM_SNAP},
+    "gm-bass": {"program": 33, "highpass": 30, "lowpass": 2500, "width": 0.0,
+                "compress": {"ratio": 4.0, "attack": 0.008, "release": 0.12}},
+    "gm-strings": {"program": 48, "highpass": 100, "width": 0.8},
+    "gm-lead": {"program": 24, "highpass": 100, "width": 0.3,
+                "compress": {"ratio": 2.5, "attack": 0.004, "release": 0.1}},
+    "gm-echo": {"program": 24, "highpass": 300, "lowpass": 5000, "width": 0.3, "compress": GM_SNAP},
+}
+
+
+def build_gm(sk: Sketch) -> None:
+    """build_band's production (the kit version) on General MIDI's sounds:
+    the kit, congas and shaker on GM's standard kit, the strum on the steel
+    guitar (its chucks as dead chords), the stabs and the lead on the nylon
+    guitar (bends within GM's two half steps), the fingered bass, the
+    strings."""
+    kit = sk.part("kit", "gm", "kit", 0.0, 0.2, TONES["gm-kit"])
+    kit_rumba(sk, kit, 70, 0, sk.end)
+    cg = sk.part("congas", "gm", "congas", -0.35, 0.22, TONES["gm-perc"])
+    congas_rumba(sk, cg, 76, sk.starts[0], sk.end)
+    sh = sk.part("maracas", "gm", "maracas", 0.35, 0.2, TONES["gm-shaker"])
+    sh.gain_db = -21.0
+    shaker_rumba(sk, sh, 60, 0, sk.end, V_SHAKE_DOWN, V_SHAKE_UP)
+    g = sk.part("guitar", "gm", "guitar", -0.5, 0.15, TONES["gm-steel"])
+    strum_steel(sk, g, 84, 0, sk.end, chuck_keys=False)
+    st = sk.part("stabs", "gm", "stabs", 0.5, 0.18, TONES["gm-nylon-stabs"])
+    stabs_nylon(sk, st, 80, 0, sk.end)
+    b = sk.part("bass", "gm", "bass", 0.0, 0.03, TONES["gm-bass"])
+    bass_rumba(sk, b, 90, 0, sk.end)
+    va = sk.part("violas", "gm", "pad", -0.3, 0.6, TONES["gm-strings"])
+    vc = sk.part("cellos", "gm", "pad", 0.3, 0.55, TONES["gm-strings"])
+    for start in sk.starts:
+        string_pad(sk, va, vc, 50, start + 8 * sk.bar, start + 16 * sk.bar, [])
+    ld = sk.part("lead", "gm", "melody", -0.05, 0.35, TONES["gm-lead"])
+    lead_line(sk, ld, 100, harmony=True, hammer=True)
+    ending(sk, sk.parts, 66)
+    root = parse(sk.tune.final or sk.tune.chords[-1][-1])[0]
+    ld.add(sk.end + 30, nearest(root, 69, 64, 76), 84, 6 * TICKS)
+    for i, n in enumerate(voice_lead(None, sk.tune.final or sk.tune.chords[-1][-1], 3, 59, 76, 67)):
+        st.add(sk.end + 20 * i, n, 72 - 3 * i, 6 * TICKS)
+    kit.add(sk.end, V_CRASH, 80, 6 * TICKS)
+    kit.add(sk.end, V_KICK, 80, EIGHTH)
+    expressive(sk, ld, 200, 22, 5.5, 0.25)
+    echo_of(sk, ld, "echo", 0.4, TONES["gm-echo"])
+
+
 # Louder than the engine's -16 LUFS (the references: -12.7 to -15.1), the
 # limiter allowed 4 dB (render_bossa.py reads it from mix.json)
 LOUD = {"loudness": {"target": -15.0, "most_limiting_db": 4.0, "quietest": -17.0}}
@@ -538,6 +600,9 @@ STYLES = {
                        "ở điệp khúc.", extra=LOUD, passes=2),
     "rumba-trong": Style("Rumba trống", "nang-som", 96, 2.2, 0.32, lambda sk: build_band(sk, "nylon", "kit"),
                          "Như Rumba mộc, trống jazz nhẹ thay cajón.", extra=LOUD, passes=2),
+    "rumba-gm": Style("Rumba (tiếng mô phỏng GM)", "nang-som", 96, 2.2, 0.32, build_gm,
+                      "Bản phối Rumba trống trên bộ tiếng mô phỏng General MIDI (soundfont FluidR3, MIT).",
+                      extra=LOUD, passes=2),
     # the electric lead: PaSST heard Emilyguitar's clean lead as keys (piano 0.07), picked soft or hard
     "rumba-dien": Style("Rumba guitar điện", "nang-som", 96, 2.2, 0.32,
                         lambda sk: build_band(sk, "electric", "kit"),
