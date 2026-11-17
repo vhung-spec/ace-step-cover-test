@@ -84,7 +84,7 @@ ROLES = {"melody": 0.0, "guitar": -5.0, "bass": -1.0, "kit": -3.0, "congas": -13
 # "ands" the loudest, the "and" of 4 most of all, beat 2 the softest (as the
 # references' guitar band rises).
 STRUM = [(0, "down", -3), (1, "up", -6), (2, "down", -16), (3, "up", 0), (4, "down", -5), (5, "up", -2),
-         (6, "down", -9), (7, "up", 3)]
+         (6, "down", -9), (7, "up", 6)]
 
 
 def bar_of(sk: Sketch, tick: int) -> tuple[int, int]:
@@ -108,8 +108,8 @@ def fill_of(sk: Sketch, bar_tick: int) -> str | None:
 def lead_line(sk: Sketch, part: Part, velocity: int, harmony: bool = True, hammer: bool = False) -> None:
     """The tune plucked note by note, the notes on a beat a little louder,
     after an intro on its last phrase; a held note (3 eighths or more) on a
-    beat doubled by the chord's highest tone a third to a sixth under it, a
-    guitarist's double stop. hammer: a third of the held notes reached by a
+    beat (half of those of 4 eighths or more) doubled by the chord's highest
+    tone a third to a sixth under it, a guitarist's double stop. hammer: a third of the held notes reached by a
     hammer-on from the scale's step under them (a quick grace note, the
     note itself softer, unplucked). (A tremolo on held notes, tried for the
     nylon's short ring, made PaSST hear a harp, 0.58, and no guitar.)"""
@@ -128,7 +128,7 @@ def lead_line(sk: Sketch, part: Part, velocity: int, harmony: bool = True, hamme
             part.add(at + 5, note, v - 8, length - 15)
         else:
             part.add(at, note, v, length - 10)
-        if harmony and on_beat and length >= 3 * EIGHTH:
+        if harmony and on_beat and length >= 4 * EIGHTH and sk.rng.random() < 0.5:
             root, kind = parse(sk.chord_at(tick))
             tones = {(root + i) % 12 for i in KINDS[kind]}
             below = [n for n in range(note - 9, note - 2) if n % 12 in tones]
@@ -154,8 +154,9 @@ def vibrato(sk: Sketch, part: Part, cents: float, rate: float = 4.0) -> None:
 
 def rhythm_guitar(sk: Sketch, part: Part, velocity: int, start: int, end: int) -> None:
     """The rumba strum: the thumb's bass on 1 and 3 (root, fifth), the strings
-    struck down (four, from the fifth up) and up (the top three) in eighths
-    (STRUM); a long fill's last
+    struck down (five, from the fifth up, 6 ticks apart) and up (the top
+    three) in eighths (STRUM), hard enough that its accents sound the Iowa
+    guitar's loudest layer; a long fill's last
     two beats left to the drums but for a chord on 3."""
     previous = None
     for bar_tick in range(start, end, sk.bar):
@@ -170,13 +171,16 @@ def rhythm_guitar(sk: Sketch, part: Part, velocity: int, start: int, end: int) -
                 continue
             tick = bar_tick + e * EIGHTH
             name = sk.chord_at(tick)
-            chord = voice_lead(previous, name, 3, 55, 71, 62)
+            chord = voice_lead(previous, name, 4, 50, 74, 62)
             previous = chord
-            # a down stroke sweeps from the bass string up (four strings), an up stroke the top three
-            notes = [nearest(parse(name)[0] + fifth(name), 50, 43, 54)] + chord if stroke == "down" else list(reversed(chord))
+            # a down stroke sweeps five strings from the fifth up, an up stroke the top three
+            if stroke == "down":
+                notes, gap = [nearest(parse(name)[0] + fifth(name), 47, 40, 51)] + chord, 6
+            else:
+                notes, gap = list(reversed(chord))[:3], 5
             at = sk.lay_back(tick, 3)
             for i, n in enumerate(notes):
-                part.add(at + 9 * i, n, velocity + dv - 2 * i + sk.rng.randint(-4, 3), EIGHTH - 25)
+                part.add(at + gap * i, n, velocity + dv - 2 * i + sk.rng.randint(-4, 3), EIGHTH - 25)
 
 
 def bass_rumba(sk: Sketch, part: Part, velocity: int, start: int, end: int) -> None:
@@ -269,7 +273,7 @@ def build(sk: Sketch, lead: str = "nylon", guitar: str = "iowa-nylon") -> None:
     cg = sk.part("congas", "virtuosity", "congas", -0.35, 0.25, TONES["virtuosity-congas"])
     congas_rumba(sk, cg, 70, sk.starts[0], sk.end)
     g = sk.part("guitar", guitar, "guitar", -0.3, 0.15, TONES["rhythm-nylon"])
-    rhythm_guitar(sk, g, 60, 0, sk.end)
+    rhythm_guitar(sk, g, 90, 0, sk.end)
     b = sk.part("bass", "fashionbass", "bass", 0.0, 0.05, TONES["fashionbass"])
     bass_rumba(sk, b, 84, 0, sk.end)
     va = sk.part("violas", "violas", "pad", -0.3, 0.6, TONES["violas"])
@@ -279,7 +283,8 @@ def build(sk: Sketch, lead: str = "nylon", guitar: str = "iowa-nylon") -> None:
     instrument, tone = {"nylon": (guitar, "lead-nylon"), "electric": ("emily", "lead-electric"),
                         "sax": ("sax", "lead-sax")}[lead]
     ld = sk.part("lead", instrument, "melody", 0.1, 0.25 if lead == "nylon" else 0.4, TONES[tone])
-    lead_line(sk, ld, 78 if lead == "nylon" else 72, harmony=lead != "sax", hammer=lead != "sax")
+    # the nylon lead plucked hard (its loudest layer, brighter, more of a guitar's bite than a harp's)
+    lead_line(sk, ld, 100 if lead == "nylon" else 72, harmony=lead != "sax", hammer=lead != "sax")
     ending(sk, sk.parts, 66)
     root = parse(sk.tune.final or sk.tune.chords[-1][-1])[0]
     ld.add(sk.end + 30, nearest(root, 69, 64, 76), 70, 6 * TICKS)
