@@ -1,0 +1,262 @@
+{
+  "hall": {
+    "rt60": 2.2,
+    "wet": 0.32,
+    "highpass": 250
+  },
+  "parts": [
+    {
+      "part": "kit",
+      "library": "gu",
+      "sfz": "GeneralUser-GS.sf2",
+      "role": "kit",
+      "gain_db": -3.0,
+      "pan": 0.0,
+      "reverb": 0.2,
+      "tone": {
+        "program": 32,
+        "bank": 0,
+        "highpass": 30,
+        "width": 0.6,
+        "compress": {
+          "ratio": 3.0,
+          "attack": 0.003,
+          "release": 0.1
+        },
+        "drums": true,
+        "remap": {
+          "88": 37
+        }
+      },
+      "notes": 282,
+      "bends": 0
+    },
+    {
+      "part": "congas",
+      "library": "gu",
+      "sfz": "GeneralUser-GS.sf2",
+      "role": "congas",
+      "gain_db": -13.0,
+      "pan": -0.35,
+      "reverb": 0.22,
+      "tone": {
+        "program": 32,
+        "bank": 0,
+        "highpass": 70,
+        "width": 0.4,
+        "compress": {
+          "ratio": 3.0,
+          "attack": 0.002,
+          "release": 0.08
+        },
+        "drums": true,
+        "remap": {
+          "88": 37
+        }
+      },
+      "notes": 44,
+      "bends": 0
+    },
+    {
+      "part": "maracas",
+      "library": "gu",
+      "sfz": "GeneralUser-GS.sf2",
+      "role": "maracas",
+      "gain_db": -21.0,
+      "pan": 0.35,
+      "reverb": 0.2,
+      "tone": {
+        "program": 32,
+        "bank": 0,
+        "highpass": 400,
+        "width": 0.4,
+        "drums": true,
+        "remap": {
+          "88": 37
+        }
+      },
+      "notes": 320,
+      "bends": 0
+    },
+    {
+      "part": "guitar",
+      "library": "gu",
+      "sfz": "GeneralUser-GS.sf2",
+      "role": "guitar",
+      "gain_db": -5.0,
+      "pan": -0.5,
+      "reverb": 0.15,
+      "tone": {
+        "program": 24,
+        "bank": 0,
+        "highpass": 140,
+        "width": 0.4,
+        "compress": {
+          "ratio": 3.0,
+          "attack": 0.003,
+          "release": 0.1
+        }
+      },
+      "notes": 426,
+      "bends": 0
+    },
+    {
+      "part": "chucks",
+      "library": "gu",
+      "sfz": "GeneralUser-GS.sf2",
+      "role": "stabs",
+      "gain_db": -11.0,
+      "pan": -0.45,
+      "reverb": 0.1,
+      "tone": {
+        "program": 28,
+        "bank": 0,
+        "highpass": 200,
+        "width": 0.3,
+        "compress": {
+          "ratio": 3.0,
+          "attack": 0.003,
+          "release": 0.1
+        }
+      },
+      "notes": 148,
+      "bends": 0
+    },
+    {
+      "part": "stabs",
+      "library": "gu",
+      "sfz": "GeneralUser-GS.sf2",
+      "role": "stabs",
+      "gain_db": -11.0,
+      "pan": 0.5,
+      "reverb": 0.18,
+      "tone": {
+        "program": 24,
+        "bank": 0,
+        "highpass": 160,
+        "width": 0.4,
+        "compress": {
+          "ratio": 3.0,
+          "attack": 0.003,
+          "release": 0.1
+        }
+      },
+      "notes": 234,
+      "bends": 0
+    },
+    {
+      "part": "bass",
+      "library": "gu",
+      "sfz": "GeneralUser-GS.sf2",
+      "role": "bass",
+      "gain_db": -1.0,
+      "pan": 0.0,
+      "reverb": 0.03,
+      "tone": {
+        "program": 33,
+        "bank": 0,
+        "highpass": 30,
+        "lowpass": 2500,
+        "width": 0.0,
+        "compress": {
+          "ratio": 4.0,
+          "attack": 0.008,
+          "release": 0.12
+        }
+      },
+      "notes": 80,
+      "bends": 0
+    },
+    {
+      "part": "violas",
+      "library": "gu",
+      "sfz": "GeneralUser-GS.sf2",
+      "role": "pad",
+      "gain_db": -15.0,
+      "pan": -0.3,
+      "reverb": 0.6,
+      "tone": {
+        "program": 48,
+        "bank": 0,
+        "highpass": 100,
+        "width": 0.8
+      },
+      "notes": 24,
+      "bends": 0
+    },
+    {
+      "part": "cellos",
+      "library": "gu",
+      "sfz": "GeneralUser-GS.sf2",
+      "role": "pad",
+      "gain_db": -15.0,
+      "pan": 0.3,
+      "reverb": 0.55,
+      "tone": {
+        "program": 48,
+        "bank": 0,
+        "highpass": 100,
+        "width": 0.8
+      },
+      "notes": 8,
+      "bends": 0
+    },
+    {
+      "part": "lead",
+      "library": "gu",
+      "sfz": "GeneralUser-GS.sf2",
+      "role": "melody",
+      "gain_db": 0.0,
+      "pan": -0.05,
+      "reverb": 0.35,
+      "tone": {
+        "program": 24,
+        "bank": 0,
+        "highpass": 100,
+        "width": 0.3,
+        "compress": {
+          "ratio": 2.5,
+          "attack": 0.004,
+          "release": 0.1
+        }
+      },
+      "notes": 86,
+      "bends": 1347
+    },
+    {
+      "part": "echo",
+      "library": "gu",
+      "sfz": "GeneralUser-GS.sf2",
+      "role": "echo",
+      "gain_db": -13.0,
+      "pan": 0.4,
+      "reverb": 0.55,
+      "tone": {
+        "program": 24,
+        "bank": 0,
+        "highpass": 300,
+        "lowpass": 5000,
+        "width": 0.3,
+        "compress": {
+          "ratio": 3.0,
+          "attack": 0.003,
+          "release": 0.1
+        }
+      },
+      "notes": 86,
+      "bends": 1347
+    }
+  ],
+  "about": {
+    "title": "Rumba, guitar nylon (GeneralUser GS)",
+    "tune": "Nắng Sớm",
+    "tune_about": "original (Bokin, 2026), rumba in A minor",
+    "bpm": 96,
+    "text": "Rumba trên GeneralUser GS, guitar nylon."
+  },
+  "loudness": {
+    "target": -15.0,
+    "most_limiting_db": 4.0,
+    "quietest": -17.0
+  }
+}

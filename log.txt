@@ -1,0 +1,132 @@
+== rumba-gu-clean
+    congas on GeneralUser-GS.sf2, program 32 (drums): peak -17.0 dBFS
+    maracas on GeneralUser-GS.sf2, program 32 (drums): peak -21.2 dBFS
+    guitar on GeneralUser-GS.sf2, program 25: peak -14.2 dBFS
+    chucks on GeneralUser-GS.sf2, program 28: peak -13.0 dBFS
+    kit on GeneralUser-GS.sf2, program 32 (drums): peak -16.6 dBFS
+    stabs on GeneralUser-GS.sf2, program 24: peak -13.6 dBFS
+    bass on GeneralUser-GS.sf2, program 33: peak -17.6 dBFS
+    violas on GeneralUser-GS.sf2, program 48: peak -22.4 dBFS
+    cellos on GeneralUser-GS.sf2, program 48: peak -27.4 dBFS
+    lead on GeneralUser-GS.sf2, program 27: peak -14.9 dBFS
+    echo on GeneralUser-GS.sf2, program 27: peak -18.5 dBFS
+    compressed: at most 11.7 dB, 11 % of the time over 1 dB
+  kit: 92.2 s, peak -16.6 dBFS, recorded 0.3 dB to the right, hiss -45 dB
+    compressed: at most 3.9 dB, 1 % of the time over 1 dB
+  congas: 57.8 s, peak -17.0 dBFS, recorded 6.5 dB to the left, hiss -45 dB
+  maracas: 58.6 s, peak -21.2 dBFS, recorded 7.6 dB to the right, hiss -8 dB
+    compressed: at most 5.1 dB, 6 % of the time over 1 dB
+  guitar: 63.5 s, peak -14.2 dBFS, recorded 0.0 dB to the right, hiss -57 dB
+    compressed: at most 3.8 dB, 2 % of the time over 1 dB
+  chucks: 57.8 s, peak -13.0 dBFS, recorded 0.0 dB to the right, hiss -71 dB
+    compressed: at most 5.1 dB, 11 % of the time over 1 dB
+  stabs: 63.4 s, peak -13.6 dBFS, recorded 0.0 dB to the right, hiss -62 dB
+    compressed: at most 3.3 dB, 9 % of the time over 1 dB
+  bass: 63.3 s, peak -17.6 dBFS, recorded 0.0 dB to the right, hiss -69 dB
+  violas: 58.6 s, peak -22.4 dBFS, recorded 0.0 dB to the left, hiss -29 dB
+  cellos: 58.6 s, peak -27.4 dBFS, recorded 3.9 dB to the right, hiss -44 dB
+    compressed: at most 3.4 dB, 5 % of the time over 1 dB
+  lead: 63.4 s, peak -14.9 dBFS, recorded 0.0 dB to the right, hiss -42 dB
+    compressed: at most 3.6 dB, 5 % of the time over 1 dB
+  echo: 64.5 s, peak -18.5 dBFS, recorded 0.0 dB to the right, hiss -49 dB
+  limiter: at most 0.3 dB, 0.0 % of the time over 1 dB; left-right balance +0.4 dB (quarters +0.4, +0.3, +0.4, +0.4); hiss -31 dB
+rumba-gu-clean: 60 s, hall 2.2 s (sends x0.32), -15.0 LUFS, peak -1.5 dBFS -> out/bossa/rumba-gu-clean.mp3
+== rumba-gu-jazz
+    congas on GeneralUser-GS.sf2, program 32 (drums): peak -17.0 dBFS
+    maracas on GeneralUser-GS.sf2, program 32 (drums): peak -21.2 dBFS
+    chucks on GeneralUser-GS.sf2, program 28: peak -13.0 dBFS
+    guitar on GeneralUser-GS.sf2, program 24: peak -12.9 dBFS
+    kit on GeneralUser-GS.sf2, program 32 (drums): peak -16.6 dBFS
+    stabs on GeneralUser-GS.sf2, program 24: peak -13.6 dBFS
+    bass on GeneralUser-GS.sf2, program 33: peak -17.6 dBFS
+    violas on GeneralUser-GS.sf2, program 48: peak -22.4 dBFS
+    cellos on GeneralUser-GS.sf2, program 48: peak -27.4 dBFS
+    lead on GeneralUser-GS.sf2, program 26: peak -14.9 dBFS
+    echo on GeneralUser-GS.sf2, program 26: peak -17.8 dBFS
+    compressed: at most 11.7 dB, 11 % of the time over 1 dB
+  kit: 92.2 s, peak -16.6 dBFS, recorded 0.3 dB to the right, hiss -45 dB
+    compressed: at most 3.9 dB, 1 % of the time over 1 dB
+  congas: 57.8 s, peak -17.0 dBFS, recorded 6.5 dB to the left, hiss -45 dB
+  maracas: 58.6 s, peak -21.2 dBFS, recorded 7.6 dB to the right, hiss -8 dB
+    compressed: at most 5.2 dB, 14 % of the time over 1 dB
+  guitar: 63.5 s, peak -12.9 dBFS, recorded 0.0 dB to the right, hiss -58 dB
+    compressed: at most 3.8 dB, 2 % of the time over 1 dB
+  chucks: 57.8 s, peak -13.0 dBFS, recorded 0.0 dB to the right, hiss -71 dB
+    compressed: at most 5.1 dB, 11 % of the time over 1 dB
+  stabs: 63.4 s, peak -13.6 dBFS, recorded 0.0 dB to the right, hiss -62 dB
+    compressed: at most 3.3 dB, 9 % of the time over 1 dB
+  bass: 63.3 s, peak -17.6 dBFS, recorded 0.0 dB to the right, hiss -69 dB
+  violas: 58.6 s, peak -22.4 dBFS, recorded 0.0 dB to the left, hiss -29 dB
+  cellos: 58.6 s, peak -27.4 dBFS, recorded 3.9 dB to the right, hiss -44 dB
+    compressed: at most 4.0 dB, 5 % of the time over 1 dB
+  lead: 63.4 s, peak -14.9 dBFS, recorded 0.0 dB to the right, hiss -72 dB
+    compressed: at most 4.3 dB, 6 % of the time over 1 dB
+  echo: 64.5 s, peak -17.8 dBFS, recorded 0.0 dB to the right, hiss -81 dB
+  limiter: at most 0.6 dB, 0.0 % of the time over 1 dB; left-right balance +0.2 dB (quarters +0.2, +0.2, +0.3, +0.2); hiss -32 dB
+rumba-gu-jazz: 60 s, hall 2.2 s (sends x0.32), -15.0 LUFS, peak -1.5 dBFS -> out/bossa/rumba-gu-jazz.mp3
+== rumba-gu-nylon
+    congas on GeneralUser-GS.sf2, program 32 (drums): peak -17.0 dBFS
+    maracas on GeneralUser-GS.sf2, program 32 (drums): peak -21.2 dBFS
+    chucks on GeneralUser-GS.sf2, program 28: peak -13.0 dBFS
+    guitar on GeneralUser-GS.sf2, program 24: peak -12.9 dBFS
+    kit on GeneralUser-GS.sf2, program 32 (drums): peak -16.6 dBFS
+    stabs on GeneralUser-GS.sf2, program 24: peak -13.6 dBFS
+    bass on GeneralUser-GS.sf2, program 33: peak -17.6 dBFS
+    violas on GeneralUser-GS.sf2, program 48: peak -22.4 dBFS
+    cellos on GeneralUser-GS.sf2, program 48: peak -27.4 dBFS
+    lead on GeneralUser-GS.sf2, program 24: peak -16.7 dBFS
+    echo on GeneralUser-GS.sf2, program 24: peak -19.3 dBFS
+    compressed: at most 11.7 dB, 11 % of the time over 1 dB
+  kit: 92.2 s, peak -16.6 dBFS, recorded 0.3 dB to the right, hiss -45 dB
+    compressed: at most 3.9 dB, 1 % of the time over 1 dB
+  congas: 57.8 s, peak -17.0 dBFS, recorded 6.5 dB to the left, hiss -45 dB
+  maracas: 58.6 s, peak -21.2 dBFS, recorded 7.6 dB to the right, hiss -8 dB
+    compressed: at most 5.2 dB, 14 % of the time over 1 dB
+  guitar: 63.5 s, peak -12.9 dBFS, recorded 0.0 dB to the right, hiss -58 dB
+    compressed: at most 3.8 dB, 2 % of the time over 1 dB
+  chucks: 57.8 s, peak -13.0 dBFS, recorded 0.0 dB to the right, hiss -71 dB
+    compressed: at most 5.1 dB, 11 % of the time over 1 dB
+  stabs: 63.4 s, peak -13.6 dBFS, recorded 0.0 dB to the right, hiss -62 dB
+    compressed: at most 3.3 dB, 9 % of the time over 1 dB
+  bass: 63.3 s, peak -17.6 dBFS, recorded 0.0 dB to the right, hiss -69 dB
+  violas: 58.6 s, peak -22.4 dBFS, recorded 0.0 dB to the left, hiss -29 dB
+  cellos: 58.6 s, peak -27.4 dBFS, recorded 3.9 dB to the right, hiss -44 dB
+    compressed: at most 6.2 dB, 8 % of the time over 1 dB
+  lead: 63.4 s, peak -16.7 dBFS, recorded 0.0 dB to the right, hiss -58 dB
+    compressed: at most 6.8 dB, 9 % of the time over 1 dB
+  echo: 64.5 s, peak -19.3 dBFS, recorded 0.0 dB to the right, hiss -55 dB
+  limiter: at most 0.8 dB, 0.0 % of the time over 1 dB; left-right balance +0.6 dB (quarters +0.6, +0.5, +0.5, +0.8); hiss -32 dB
+rumba-gu-nylon: 60 s, hall 2.2 s (sends x0.32), -15.0 LUFS, peak -1.5 dBFS -> out/bossa/rumba-gu-nylon.mp3
+== rumba-gu-steel
+    congas on GeneralUser-GS.sf2, program 32 (drums): peak -17.0 dBFS
+    maracas on GeneralUser-GS.sf2, program 32 (drums): peak -21.2 dBFS
+    chucks on GeneralUser-GS.sf2, program 28: peak -13.0 dBFS
+    kit on GeneralUser-GS.sf2, program 32 (drums): peak -16.6 dBFS
+    guitar on GeneralUser-GS.sf2, program 25: peak -15.2 dBFS
+    stabs on GeneralUser-GS.sf2, program 24: peak -13.6 dBFS
+    bass on GeneralUser-GS.sf2, program 33: peak -17.6 dBFS
+    violas on GeneralUser-GS.sf2, program 48: peak -22.4 dBFS
+    cellos on GeneralUser-GS.sf2, program 48: peak -27.4 dBFS
+    lead on GeneralUser-GS.sf2, program 25: peak -19.9 dBFS
+    echo on GeneralUser-GS.sf2, program 25: peak -21.7 dBFS
+    compressed: at most 11.7 dB, 11 % of the time over 1 dB
+  kit: 92.2 s, peak -16.6 dBFS, recorded 0.3 dB to the right, hiss -45 dB
+    compressed: at most 3.9 dB, 1 % of the time over 1 dB
+  congas: 57.8 s, peak -17.0 dBFS, recorded 6.5 dB to the left, hiss -45 dB
+  maracas: 58.6 s, peak -21.2 dBFS, recorded 7.6 dB to the right, hiss -8 dB
+    compressed: at most 3.9 dB, 4 % of the time over 1 dB
+  guitar: 63.5 s, peak -15.2 dBFS, recorded 0.2 dB to the right, hiss -56 dB
+    compressed: at most 3.8 dB, 2 % of the time over 1 dB
+  chucks: 57.8 s, peak -13.0 dBFS, recorded 0.0 dB to the right, hiss -71 dB
+    compressed: at most 5.1 dB, 11 % of the time over 1 dB
+  stabs: 63.4 s, peak -13.6 dBFS, recorded 0.0 dB to the right, hiss -62 dB
+    compressed: at most 3.3 dB, 9 % of the time over 1 dB
+  bass: 63.3 s, peak -17.6 dBFS, recorded 0.0 dB to the right, hiss -69 dB
+  violas: 58.6 s, peak -22.4 dBFS, recorded 0.0 dB to the left, hiss -29 dB
+  cellos: 58.6 s, peak -27.4 dBFS, recorded 3.9 dB to the right, hiss -44 dB
+    compressed: at most 4.5 dB, 8 % of the time over 1 dB
+  lead: 63.4 s, peak -19.9 dBFS, recorded 0.0 dB to the right, hiss -44 dB
+    compressed: at most 5.0 dB, 8 % of the time over 1 dB
+  echo: 64.5 s, peak -21.7 dBFS, recorded 0.0 dB to the right, hiss -47 dB
+  limiter: at most -0.0 dB, 0.0 % of the time over 1 dB; left-right balance +0.6 dB (quarters +0.6, +0.6, +0.7, +0.8); hiss -28 dB
+rumba-gu-steel: 61 s, hall 2.2 s (sends x0.32), -15.0 LUFS, peak -1.8 dBFS -> out/bossa/rumba-gu-steel.mp3
