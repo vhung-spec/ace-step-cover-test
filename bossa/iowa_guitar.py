@@ -153,6 +153,21 @@ def pitch_of(audio: np.ndarray, rate: int, lo: int | None = None, hi: int | None
     return float(librosa.hz_to_midi(np.median(f0[voiced])))
 
 
+def cents_off(audio: np.ndarray, rate: int, midi: int) -> float:
+    """How far the note rings from its label (cents), by YIN within a half
+    step and a half of it over 100-800 ms (pYIN's pitch is in 10-cent
+    steps): the guitar was tuned about 17 cents flat, against a bass 12
+    cents sharp in the first rumba sketches. 0 if it cannot tell."""
+    mono = audio.mean(axis=1)[int(0.1 * rate): int(0.8 * rate)]
+    if len(mono) < rate // 5:
+        return 0.0
+    small = librosa.resample(mono, orig_sr=rate, target_sr=22050)
+    f0 = librosa.yin(small, fmin=librosa.midi_to_hz(midi - 1.5), fmax=librosa.midi_to_hz(midi + 1.5), sr=22050,
+                     frame_length=4096, hop_length=512)
+    cents = 100 * (float(librosa.hz_to_midi(np.median(f0))) - midi)
+    return cents if abs(cents) <= 50 else 0.0
+
+
 def trim(audio: np.ndarray, rate: int) -> np.ndarray:
     """Ends a note where it has sunk 70 dB under its peak, or into the noise,
     with a 20 ms fade."""
@@ -239,6 +254,7 @@ def main(dest: str, downloads: str, summary_path: str | None = None) -> int:
         for midi, k in sorted(best.items()):
             start, end = spans[k]
             note = audio[start:end]
+            cents = cents_off(note, rate, midi)
             note = trim(note, rate)
             if rate != RATE:
                 g = np.gcd(RATE, rate)
@@ -250,7 +266,7 @@ def main(dest: str, downloads: str, summary_path: str | None = None) -> int:
                 continue  # a longer take of the same note is kept
             sf.write(out, note, RATE, subtype="PCM_24")
             found.append((info["dynamic"], info["string"], midi, out.name, float(peak),
-                          float(20 * np.log10(np.median(tail) + 1e-12)), len(note) / RATE))
+                          float(20 * np.log10(np.median(tail) + 1e-12)), len(note) / RATE, cents))
         print(f"  {path.name}: {rate} Hz, {audio.shape[1]} ch, {len(spans)} onsets, {len(best)} notes kept "
               f"of the {len(expected) if expected else '?'} its name gives", flush=True)
 
@@ -296,7 +312,7 @@ def main(dest: str, downloads: str, summary_path: str | None = None) -> int:
             shares = [(0.0, 1.0)] if len(takes) == 1 else [(0.0, 0.65), (0.65, 1.0)]
             for row, (lo_r, hi_r) in zip(takes, shares):
                 lines.append(f"<region> sample={row[3]} key={key} pitch_keycenter={pitch} lovel={lovel} hivel={hivel} "
-                             f"lorand={lo_r:.2f} hirand={hi_r:.2f}")
+                             f"lorand={lo_r:.2f} hirand={hi_r:.2f} tune={-round(row[7])}")
             mapped += 1
     (root / "iowa_guitar.sfz").write_text("\n".join(lines) + "\n")
     summary = {
@@ -309,6 +325,8 @@ def main(dest: str, downloads: str, summary_path: str | None = None) -> int:
                          "median_seconds": round(float(np.median([r[6] for r in rows if r[0] == d])), 2)}
                      for d in dynamics},
         "keys": [low, high], "regions_mapped": mapped, "samples": len(rows),
+        "cents_off": {"median": round(float(np.median([r[7] for r in rows])), 1),
+                      "quartiles": [round(float(np.percentile([r[7] for r in rows], q)), 1) for q in (25, 75)]},
     }
     print("iowa: " + json.dumps(summary), flush=True)
     if summary_path:

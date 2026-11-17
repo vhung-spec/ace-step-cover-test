@@ -57,6 +57,10 @@ LIBRARIES = {
 # Libraries played straight from one of their own SFZ files: (the file, the
 # folders it plays from are found in it)
 MAPPED = {"emily": "emily_clean.sfz", "fashionbass": "fashionbass_clean.sfz"}
+# Each one's tuning put right (cents, every region): Fashionbass rang 12
+# cents sharp in the first rumba sketches (YIN on 144 notes, quartiles +9 and
+# +16); Emilyguitar +4, left as it is
+MAPPED_TUNE = {"fashionbass": -12}
 GUITAR = "SpanishClassicalGuitar-20190618.sfz"
 # The brush kit: key -> (sample folder, file pattern, opcodes)
 KIT = {
@@ -221,6 +225,10 @@ def mapped(name: str, root: Path) -> None:
     dest = fetch(name, root, ["/*.sfz", "/LICENSE", "/readme.txt"])
     sfz = dest / sfz_name
     text = sfz.read_text(errors="replace").replace("\\", "/")
+    if name in MAPPED_TUNE:
+        if "tune=" in text:
+            raise RuntimeError(f"{name}: {sfz_name} tunes some regions itself")
+        text = text.replace("<region>", f"<region> tune={MAPPED_TUNE[name]}")
     folders = {str(PurePosixPath(s.strip()).parent) for s in re.findall(r"sample=([^\n]+?\.(?:wav|flac))", text)}
     with (dest / ".git" / "info" / "sparse-checkout").open("a") as f:
         f.writelines(f"/{folder}/\n" for folder in sorted(folders))

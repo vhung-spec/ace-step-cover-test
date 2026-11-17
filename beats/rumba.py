@@ -115,7 +115,7 @@ def lead_line(sk: Sketch, part: Part, velocity: int, harmony: bool = True) -> No
             tones = {(root + i) % 12 for i in KINDS[kind]}
             below = [n for n in range(note - 9, note - 2) if n % 12 in tones]
             if below:
-                part.add(at + 12, max(below), v - 14, length - 20)
+                part.add(at + 12, max(below), v - 20, length - 20)  # under the tune, not over it
 
 
 def vibrato(sk: Sketch, part: Part, cents: float, rate: float = 4.0) -> None:
