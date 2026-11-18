@@ -538,3 +538,27 @@ D, piano nỉ (cắt trên 1,9 kHz, 28-48, Rhodes thấp hơn 4 dB). Người d�
 (`trang-dem` / `ga-vang`; CLAP nhóm `tone` và `sad`, cả bảy bản "sad, sorrowful, melancholic piano music" đứng đầu nhóm.)
 CLAP nghe rõ tiếng tối hơn, nhưng tiếng càng bị nén càng ít giống "nhạc piano buồn" với nó: với CLAP, piano buồn là tiếng
 mộc, trong.
+
+## Album mới, "Khẽ khàng, chúc ngủ ngon" (Softly, Goodnight): mười bài nhẹ nhàng, dễ ngủ (vòng 36)
+
+Người dùng: "sáng tác album tiếp theo, album nghe nhẹ nhàng, dễ ngủ". Vẫn âm thanh người dùng giữ cho nhạc ngủ
+(`ke-chuyen-gan`: piano gần, phòng vang rộng, tiếng vọng nhẹ), mã không đổi (chỉ thêm bài). Mười hình ảnh một buổi tối
+mùa hè ở quê, từ đồng lúa lúc chiều tới lời chúc ngủ ngon; sáu bài giọng trưởng, ba bài nhịp ba, 48-60 bpm, chậm dần về
+cuối album. Nhẹ hơn "Những giấc mơ nhỏ": mọi đoạn chơi khẽ hơn (0,24-0,36, album trước 0,26-0,40), đỉnh giai điệu thường
+ở G5. Cùng một khung: câu A một mình (`deep`); A và biến thể A2 (kết về chủ âm) với bè cello chậm, tay trái rải (`flow`);
+đoạn giữa 8 ô (viola mỏng; dàn dây khẽ ở ba bài); A và A2 với viola cuối câu; ở ba bài nhịp ba thêm đoạn giữa biến thể
+và A, A2 lần nữa; A2 một mình, chậm dần; hai ô kết. Hai hợp âm đổi để tay trái không chạm quãng chín thứ với giai điệu
+(`tieng-de` ô 7: Cmaj7 thành C; `oai-huong` ô 7: Bbmaj7 thành Bb).
+
+| Bài | Giọng, nhịp | Mô-típ | Độ dài |
+|---|---|---|---|
+| `dong-lua-chieu` (Đồng lúa chiều) | Rê trưởng, 58 bpm | Đung đưa A-B-A-F# rồi lên D, như gió chạy trên đồng lúa | 4:11 |
+| `luy-tre-lang` (Lũy tre làng) | La thứ, 56 bpm | Nghiêng E-D-C-A rồi lên lại, như tre cong rồi đứng thẳng | 4:20 |
+| `ly-sua-am` (Ly sữa ấm) | Son trưởng, nhịp ba, 60 bpm | Lắng xuống B-A, G-A-C, B-D, gần và ấm | 4:15 |
+| `tieng-de` (Tiếng dế) | Mi thứ, 54 bpm | Một nốt nhắc khẽ (B-B-A-G), như tiếng dế gọi rồi im | 4:29 |
+| `quat-nan` (Quạt nan của mẹ) | Si giáng trưởng, nhịp ba, 56 bpm | Đưa xuống rồi về (D-C, Bb-G, F-Bb-D), như chiếc quạt nan | 4:34 |
+| `chuong-gio` (Chuông gió) | Mi giáng trưởng, 54 bpm | Rơi G-F-Eb-Bb, như ống chuông gió chạm nhau | 4:29 |
+| `vong-dua` (Võng đưa) | La trưởng, nhịp ba, 54 bpm | Đưa lên theo hợp âm rồi về (A-C#-E, F#-D, E-C#-A), như cánh võng | 4:44 |
+| `oai-huong` (Cánh đồng oải hương) | Fa trưởng, 52 bpm | Nốt dài nán lại (A-C-A, G-E), như hàng hoa lượn sóng | 4:40 |
+| `con-nuoc-hien` (Con nước hiền) | Si thứ, 50 bpm | Dâng B-C#-D-F# rồi rút qua hai ô, như con sóng nhỏ | 4:51 |
+| `chuc-ngu-ngon` (Khẽ khàng, chúc ngủ ngon) | Đô trưởng, 48 bpm | Nói khẽ E-D-C, D-B, mỗi lần lắng thấp hơn | 5:03 |

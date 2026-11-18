@@ -1,0 +1,62 @@
+{
+  "title": "Chuông gió",
+  "about": "Round 36, ke-chuyen-gan (\"sáng tác album tiếp theo, album nghe nhẹ nhàng, dễ ngủ\"), for a new album, Khẽ khàng, chúc ngủ ngon (Softly, Goodnight): a wind chime by the window, Eb major at 54 bpm. Its motif falls G-F-Eb-Bb, as the chime's tubes touch and ring; the middle in C minor reaches Ab5 once. Written to sleep to, gentler than Những giấc mơ nhỏ, on the sound the user kept for sleep (ke-chuyen-gan: the piano near, a wide hall, a soft echo): its tune moves mostly by step and stays low, its sentences come back with small changes, the left hand rocks in eighths through most of it, every section played softer than before (0.24-0.36) and the climax kept low. An original tune.",
+  "style": "ke-chuyen-gan",
+  "bpm": 54,
+  "beats": 4,
+  "sections": [
+    {
+      "bars": 8,
+      "chords": "Eb | Abmaj7 | Eb/G | Bb | Cm | Ab | Fm7 | Bb7sus4:2 Bb7:2",
+      "melody": "G5:1 F5:0.5 Eb5:0.5 Bb4:2 | C5:1 Eb5:1 C5:2 | Bb4:1 G4:1 Bb4:1 Eb5:1 | D5:3 r:1 | G5:1 F5:0.5 Eb5:0.5 C5:2 | Eb5:1 C5:1 Ab4:2 | Ab4:1 C5:1 F5:1 Eb5:1 | Eb5:2 D5:2",
+      "dyn": 0.24,
+      "layers": []
+    },
+    {
+      "bars": 16,
+      "chords": "Eb | Abmaj7 | Eb/G | Bb | Cm | Ab | Fm7 | Bb7sus4:2 Bb7:2 | Eb | Abmaj7 | Eb/G | Bb | Cm | Ab | Fm7:2 Bb7:2 | Eb",
+      "melody": "G5:1 F5:0.5 Eb5:0.5 Bb4:2 | C5:1 Eb5:1 C5:2 | Bb4:1 G4:1 Bb4:1 Eb5:1 | D5:3 r:1 | G5:1 F5:0.5 Eb5:0.5 C5:2 | Eb5:1 C5:1 Ab4:2 | Ab4:1 C5:1 F5:1 Eb5:1 | Eb5:2 D5:2 | G5:1 F5:0.5 Eb5:0.5 Bb4:2 | C5:1 Eb5:1 C5:2 | Bb4:1 G4:1 Bb4:1 Eb5:1 | D5:3 r:1 | G5:1 F5:0.5 Eb5:0.5 G5:2 | F5:1 Eb5:1 C5:2 | C5:1 Bb4:1 Ab4:1 F4:1 | Eb5:3 r:1",
+      "texture": "flow",
+      "dyn": 0.3,
+      "layers": [
+        "cello-counter"
+      ]
+    },
+    {
+      "bars": 8,
+      "chords": "Ab | Bb | Gm7 | Cm | Fm7 | Bb | Eb/G | Ab:2 Bb:2",
+      "melody": "C5:1 Eb5:1 F5:2 | F5:1 D5:1 Bb4:2 | Bb4:1 D5:1 F5:1.5 Eb5:0.5 | Eb5:3 r:1 | Ab5:1 G5:1 F5:1 Eb5:1 | D5:2 F5:2 | Eb5:1 Bb4:1 G4:2 | C5:2 D5:2",
+      "texture": "flow",
+      "dyn": 0.36,
+      "layers": [
+        "viola-pad",
+        "cello-counter"
+      ]
+    },
+    {
+      "bars": 16,
+      "chords": "Eb | Abmaj7 | Eb/G | Bb | Cm | Ab | Fm7 | Bb7sus4:2 Bb7:2 | Eb | Abmaj7 | Eb/G | Bb | Cm | Ab | Fm7:2 Bb7:2 | Eb",
+      "melody": "G5:1 F5:0.5 Eb5:0.5 Bb4:2 | C5:1 Eb5:1 C5:2 | Bb4:1 G4:1 Bb4:1 Eb5:1 | D5:3 r:1 | G5:1 F5:0.5 Eb5:0.5 C5:2 | Eb5:1 C5:1 Ab4:2 | Ab4:1 C5:1 F5:1 Eb5:1 | Eb5:2 D5:2 | G5:1 F5:0.5 Eb5:0.5 Bb4:2 | C5:1 Eb5:1 C5:2 | Bb4:1 G4:1 Bb4:1 Eb5:1 | D5:3 r:1 | G5:1 F5:0.5 Eb5:0.5 G5:2 | F5:1 Eb5:1 C5:2 | C5:1 Bb4:1 Ab4:1 F4:1 | Eb5:3 r:1",
+      "texture": "flow",
+      "dyn": 0.28,
+      "layers": [
+        "viola-end"
+      ]
+    },
+    {
+      "bars": 8,
+      "chords": "Eb | Abmaj7 | Eb/G | Bb | Cm | Ab | Fm7:2 Bb7:2 | Eb",
+      "melody": "G5:1 F5:0.5 Eb5:0.5 Bb4:2 | C5:1 Eb5:1 C5:2 | Bb4:1 G4:1 Bb4:1 Eb5:1 | D5:3 r:1 | G5:1 F5:0.5 Eb5:0.5 G5:2 | F5:1 Eb5:1 C5:2 | C5:1 Bb4:1 Ab4:1 F4:1 | Eb5:3 r:1",
+      "rit": true,
+      "dyn": 0.22,
+      "layers": []
+    },
+    {
+      "bars": 2,
+      "chords": "Abmaj7 | Eb",
+      "melody": "C5:2 Bb4:2 | G4:4",
+      "dyn": 0.16,
+      "layers": []
+    }
+  ]
+}
