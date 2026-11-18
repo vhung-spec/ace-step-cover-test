@@ -1,0 +1,77 @@
+{
+  "title": "Chuyến phà đêm",
+  "title_en": "Night Ferry",
+  "family": "dark-khac",
+  "about": "Round x18 (album 13), the user: \"làm album và chuyển sang sáng tác album tiếp theo\": electronic sleep ambient (style ngu-dt) as albums 10-11, on a less common progression of its own (template 5), slow (50 bpm), waves, pad, arp, sub, an improvised keys tune with a long echo. No drums. An original piece.",
+  "style": "ngu-dt",
+  "bpm": 50,
+  "beats": 4,
+  "mode": "aeolian",
+  "seed": 137,
+  "gains": {
+    "arp": -6.0,
+    "air": -10.0,
+    "swells": -3.0
+  },
+  "sections": [
+    {
+      "bars": 8,
+      "chords": "Bmadd9 | Bmadd9 | Aadd9/B | Aadd9/B | Gmaj7#11 | Gmaj7#11 | Bmadd9 | Bmadd9",
+      "dyn": 0.18,
+      "layers": [
+        "waves",
+        "pad"
+      ]
+    },
+    {
+      "bars": 24,
+      "chords": "Bmadd9 | A6 | Gmaj7#11 | F#m7 | Em9 | Dadd9 | C#m7b5 | F#7sus4 | Bmadd9 | A6 | Gmaj7#11 | F#m7 | Em9 | Dadd9 | C#m7b5 | F#7sus4 | Bmadd9 | A6 | Gmaj7#11 | F#m7 | Em9 | Dadd9 | C#m7b5 | F#7sus4",
+      "dyn": 0.27,
+      "layers": [
+        "waves",
+        "pad",
+        "arp",
+        "sub"
+      ],
+      "improv": "keys",
+      "improv_range": [
+        60,
+        77
+      ],
+      "improv_density": 0.8
+    },
+    {
+      "bars": 16,
+      "chords": "Dmaj7 | Aadd9/C# | Bm9 | Gmaj7#11 | Em6 | Dmaj7 | F#7sus4 | Bmadd9 | Dmaj7 | Aadd9/C# | Bm9 | Gmaj7#11 | Em6 | Dmaj7 | F#7sus4 | Bmadd9",
+      "dyn": 0.28,
+      "layers": [
+        "waves",
+        "pad",
+        "arp",
+        "sub"
+      ],
+      "improv": "keys",
+      "improv_range": [
+        60,
+        77
+      ],
+      "improv_density": 0.8
+    },
+    {
+      "bars": 8,
+      "chords": "Bmadd9 | Bmadd9 | Aadd9/B | Aadd9/B | Gmaj7#11 | Gmaj7#11 | Bmadd9 | Bmadd9",
+      "dyn": 0.17,
+      "layers": [
+        "waves",
+        "pad"
+      ],
+      "improv": "keys",
+      "improv_range": [
+        60,
+        77
+      ],
+      "improv_density": 0.5,
+      "swell": -0.1
+    }
+  ]
+}

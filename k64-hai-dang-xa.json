@@ -1,0 +1,65 @@
+{
+  "title": "Ngọn hải đăng xa",
+  "title_en": "Far Lighthouse",
+  "family": "dark-khac",
+  "about": "Round x10, for sleep with improvised melodies (style ngu-ngon), as the user asked to go on (\"ok chúng ta hãy tiếp tục sáng tác nhạc\"), on the sounds the user liked most: a lighthouse far across the night sea: the swells, a soft pad, a single low string improvising a slow song. D minor. No drums, plucked string or organ. An original piece; its melody made up by the improviser in dark/ambient.py.",
+  "style": "ngu-ngon",
+  "bpm": 50,
+  "beats": 4,
+  "mode": "aeolian",
+  "seed": 64,
+  "sections": [
+    {
+      "bars": 8,
+      "chords": "Dmadd9 | Dmadd9 | Bbmaj7 | Bbmaj7 | Dmadd9 | Dmadd9 | Bbmaj7 | Bbmaj7",
+      "dyn": 0.18,
+      "layers": [
+        "waves",
+        "pad"
+      ]
+    },
+    {
+      "bars": 24,
+      "chords": "Dmadd9 | Dmadd9 | Bbmaj7 | Bbmaj7 | Gm9 | Gm9 | Asus4 | Asus4 | Dmadd9 | Dmadd9 | Bbmaj7 | Bbmaj7 | Gm9 | Gm9 | Asus4 | Asus4 | Dmadd9 | Dmadd9 | Bbmaj7 | Bbmaj7 | Gm9 | Gm9 | Asus4 | Asus4",
+      "dyn": 0.28,
+      "layers": [
+        "waves",
+        "pad",
+        "sub"
+      ],
+      "improv": "solo",
+      "improv_range": [
+        55,
+        72
+      ],
+      "improv_density": 0.8
+    },
+    {
+      "bars": 16,
+      "chords": "Bbmaj7 | Bbmaj7 | Fmaj7 | Fmaj7 | Gm9 | Gm9 | Asus4 | Dmadd9 | Bbmaj7 | Bbmaj7 | Fmaj7 | Fmaj7 | Gm9 | Gm9 | Asus4 | Dmadd9",
+      "dyn": 0.28,
+      "layers": [
+        "waves",
+        "pad",
+        "sub",
+        "choir"
+      ],
+      "improv": "solo",
+      "improv_range": [
+        55,
+        72
+      ],
+      "improv_density": 0.8
+    },
+    {
+      "bars": 8,
+      "chords": "Dmadd9 | Dmadd9 | Bbmaj7 | Bbmaj7 | Dmadd9 | Dmadd9 | Bbmaj7 | Bbmaj7",
+      "dyn": 0.17,
+      "layers": [
+        "waves",
+        "pad"
+      ],
+      "swell": -0.1
+    }
+  ]
+}

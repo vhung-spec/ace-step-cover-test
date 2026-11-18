@@ -1,0 +1,70 @@
+{
+  "title": "Lặng im",
+  "title_en": "Hush",
+  "family": "dark-khac",
+  "about": "Round x17 (album 12), the user: \"hãy sáng tác album tiếp theo\": sleep music in the style of Sleep in the Dark (ngu-ngon), on a less common progression of its own (template 2; after the Content ID matches on plain i-VI-iv-V pieces), slow (42 bpm), pad, choir, sub, an improvised glass tune, then solo. No drums, plucked string or organ. An original piece.",
+  "style": "ngu-ngon",
+  "bpm": 42,
+  "beats": 4,
+  "mode": "aeolian",
+  "seed": 130,
+  "sections": [
+    {
+      "bars": 8,
+      "chords": "Ebm9 | Ebm9 | Bmaj7/Eb | Bmaj7/Eb | Abm6 | Abm6 | Ebm9 | Ebm9",
+      "dyn": 0.18,
+      "layers": [
+        "pad",
+        "choir"
+      ]
+    },
+    {
+      "bars": 24,
+      "chords": "Ebm9 | Gbmaj7 | Abm6 | Emaj7#11 | Ebm9 | Dbadd9 | Bmaj7 | Bb7sus4 | Ebm9 | Gbmaj7 | Abm6 | Emaj7#11 | Ebm9 | Dbadd9 | Bmaj7 | Bb7sus4 | Ebm9 | Gbmaj7 | Abm6 | Emaj7#11 | Ebm9 | Dbadd9 | Bmaj7 | Bb7sus4",
+      "dyn": 0.27,
+      "layers": [
+        "pad",
+        "choir",
+        "sub"
+      ],
+      "improv": "glass",
+      "improv_range": [
+        62,
+        79
+      ],
+      "improv_density": 0.7
+    },
+    {
+      "bars": 16,
+      "chords": "Emaj7#11 | Gbadd9 | Abm9 | Bmaj7 | Emaj7#11 | Ebm9 | Bb7sus4 | Ebm9 | Emaj7#11 | Gbadd9 | Abm9 | Bmaj7 | Emaj7#11 | Ebm9 | Bb7sus4 | Ebm9",
+      "dyn": 0.28,
+      "layers": [
+        "pad",
+        "sub",
+        "choir"
+      ],
+      "improv": "solo",
+      "improv_range": [
+        55,
+        74
+      ],
+      "improv_density": 0.7
+    },
+    {
+      "bars": 8,
+      "chords": "Ebm9 | Ebm9 | Bmaj7/Eb | Bmaj7/Eb | Abm6 | Abm6 | Ebm9 | Ebm9",
+      "dyn": 0.17,
+      "layers": [
+        "pad",
+        "choir"
+      ],
+      "improv": "glass",
+      "improv_range": [
+        62,
+        79
+      ],
+      "improv_density": 0.6,
+      "swell": -0.1
+    }
+  ]
+}

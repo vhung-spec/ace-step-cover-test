@@ -1,0 +1,77 @@
+{
+  "title": "Đêm sông băng",
+  "title_en": "Glacier Night",
+  "family": "dark-khac",
+  "about": "Round x18 (album 13), the user: \"làm album và chuyển sang sáng tác album tiếp theo\": electronic sleep ambient (style ngu-dt) as albums 10-11, on a less common progression of its own (template 5), slow (48 bpm), pad, air, sub, swells, choir, an improvised keys tune with a long echo. No drums. An original piece.",
+  "style": "ngu-dt",
+  "bpm": 48,
+  "beats": 4,
+  "mode": "aeolian",
+  "seed": 131,
+  "gains": {
+    "arp": -6.0,
+    "air": -10.0,
+    "swells": -3.0
+  },
+  "sections": [
+    {
+      "bars": 8,
+      "chords": "Emadd9 | Emadd9 | Dadd9/E | Dadd9/E | Cmaj7#11 | Cmaj7#11 | Emadd9 | Emadd9",
+      "dyn": 0.18,
+      "layers": [
+        "pad",
+        "air"
+      ]
+    },
+    {
+      "bars": 24,
+      "chords": "Emadd9 | D6 | Cmaj7#11 | Bm7 | Am9 | Gadd9 | F#m7b5 | B7sus4 | Emadd9 | D6 | Cmaj7#11 | Bm7 | Am9 | Gadd9 | F#m7b5 | B7sus4 | Emadd9 | D6 | Cmaj7#11 | Bm7 | Am9 | Gadd9 | F#m7b5 | B7sus4",
+      "dyn": 0.27,
+      "layers": [
+        "pad",
+        "air",
+        "sub",
+        "swells"
+      ],
+      "improv": "keys",
+      "improv_range": [
+        60,
+        77
+      ],
+      "improv_density": 0.8
+    },
+    {
+      "bars": 16,
+      "chords": "Gmaj7 | Dadd9/F# | Em9 | Cmaj7#11 | Am6 | Gmaj7 | B7sus4 | Emadd9 | Gmaj7 | Dadd9/F# | Em9 | Cmaj7#11 | Am6 | Gmaj7 | B7sus4 | Emadd9",
+      "dyn": 0.28,
+      "layers": [
+        "pad",
+        "air",
+        "sub",
+        "choir"
+      ],
+      "improv": "glass",
+      "improv_range": [
+        62,
+        79
+      ],
+      "improv_density": 0.9
+    },
+    {
+      "bars": 8,
+      "chords": "Emadd9 | Emadd9 | Dadd9/E | Dadd9/E | Cmaj7#11 | Cmaj7#11 | Emadd9 | Emadd9",
+      "dyn": 0.17,
+      "layers": [
+        "pad",
+        "air"
+      ],
+      "improv": "keys",
+      "improv_range": [
+        60,
+        77
+      ],
+      "improv_density": 0.5,
+      "swell": -0.1
+    }
+  ]
+}

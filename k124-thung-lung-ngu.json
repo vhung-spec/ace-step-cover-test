@@ -1,0 +1,70 @@
+{
+  "title": "Thung lũng ngủ",
+  "title_en": "Sleeping Valley",
+  "family": "dark-khac",
+  "about": "Round x17 (album 12), the user: \"hãy sáng tác album tiếp theo\": sleep music in the style of Sleep in the Dark (ngu-ngon), on a less common progression of its own (template 4; after the Content ID matches on plain i-VI-iv-V pieces), slow (46 bpm), pad, wind, sub, choir, an improvised solo tune, then glass. No drums, plucked string or organ. An original piece.",
+  "style": "ngu-ngon",
+  "bpm": 46,
+  "beats": 4,
+  "mode": "dorian",
+  "seed": 124,
+  "sections": [
+    {
+      "bars": 8,
+      "chords": "Dm9 | Dm9 | Gadd9/D | Gadd9/D | Fmaj7 | Fmaj7 | Dm9 | Dm9",
+      "dyn": 0.18,
+      "layers": [
+        "pad",
+        "wind"
+      ]
+    },
+    {
+      "bars": 24,
+      "chords": "Dm9 | Gadd9 | Fmaj7 | Em7 | Dm9 | C6 | Gadd9 | Am7 | Dm9 | Gadd9 | Fmaj7 | Em7 | Dm9 | C6 | Gadd9 | Am7 | Dm9 | Gadd9 | Fmaj7 | Em7 | Dm9 | C6 | Gadd9 | Am7",
+      "dyn": 0.27,
+      "layers": [
+        "pad",
+        "wind",
+        "sub"
+      ],
+      "improv": "solo",
+      "improv_range": [
+        55,
+        74
+      ]
+    },
+    {
+      "bars": 16,
+      "chords": "Fmaj7 | Gadd9 | C6 | Dm9 | Bm7b5 | Gadd9 | Am7 | Dm9 | Fmaj7 | Gadd9 | C6 | Dm9 | Bm7b5 | Gadd9 | Am7 | Dm9",
+      "dyn": 0.28,
+      "layers": [
+        "pad",
+        "wind",
+        "sub",
+        "choir"
+      ],
+      "improv": "glass",
+      "improv_range": [
+        62,
+        79
+      ],
+      "improv_density": 0.9
+    },
+    {
+      "bars": 8,
+      "chords": "Dm9 | Dm9 | Gadd9/D | Gadd9/D | Fmaj7 | Fmaj7 | Dm9 | Dm9",
+      "dyn": 0.17,
+      "layers": [
+        "pad",
+        "wind"
+      ],
+      "improv": "solo",
+      "improv_range": [
+        55,
+        74
+      ],
+      "improv_density": 0.6,
+      "swell": -0.1
+    }
+  ]
+}

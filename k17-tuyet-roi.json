@@ -1,0 +1,63 @@
+{
+  "title": "Tuyết rơi",
+  "family": "dark-khac",
+  "about": "Round x3 of the dark ambient style (khong-gian), as the user asked for many more versions (\"tôi rất thích các phiên bản bạn tạo, hãy tạo thêm cho tôi nhiều phiên bản khác\"): snow falling at night: soft high glass and a few water-drop notes like flakes, a thin pad held high, no deep bass at all; quiet and cold. A minor at 52 bpm, its F and C. An original piece.",
+  "style": "khong-gian",
+  "bpm": 52,
+  "beats": 4,
+  "pad_range": [
+    55,
+    70
+  ],
+  "gains": {
+    "shimmer": 4.0,
+    "pad": -4.0
+  },
+  "sections": [
+    {
+      "bars": 4,
+      "chords": "Am | Am | Fmaj7 | Fmaj7",
+      "dyn": 0.18,
+      "layers": [
+        "shimmer",
+        "pad"
+      ],
+      "swell": 0.15
+    },
+    {
+      "bars": 8,
+      "chords": "Am | Am | Fmaj7 | Fmaj7 | Cmaj7 | Cmaj7 | Esus4 | E",
+      "dyn": 0.32,
+      "layers": [
+        "shimmer",
+        "pad",
+        "drops"
+      ],
+      "drops_per_bar": 1.5
+    },
+    {
+      "bars": 8,
+      "chords": "Dm9 | Dm9 | Am | Am | Fmaj7 | Fmaj7 | Esus4 | E",
+      "dyn": 0.42,
+      "layers": [
+        "shimmer",
+        "pad",
+        "drops",
+        "choir"
+      ],
+      "drops_per_bar": 2,
+      "swell": 0.08,
+      "melody": "r:4 | E5:4 | r:4 | r:2 C5:2 | r:4 | A4:4 | r:4 | r:4"
+    },
+    {
+      "bars": 6,
+      "chords": "Am | Am | Fmaj7 | Fmaj7 | Am | Am",
+      "dyn": 0.18,
+      "layers": [
+        "shimmer",
+        "pad"
+      ],
+      "swell": -0.1
+    }
+  ]
+}

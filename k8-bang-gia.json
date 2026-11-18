@@ -1,0 +1,20 @@
+{
+  "title": "Băng giá",
+  "family": "dark-khac",
+  "about": "Round x2 of the dark ambient style (khong-gian): frozen. Cold, high glass glinting at random on the chords' tones and a deep sub, with a thin pad between, the middle left empty; a few glass notes far apart. C sharp minor at 50 bpm. An original piece.",
+  "style": "khong-gian",
+  "bpm": 50,
+  "beats": 4,
+  "pad_range": [52, 64],
+  "gains": {"shimmer": 6.0, "pad": -3.0},
+  "sections": [
+    {"bars": 4, "chords": "C#m | C#m | Amaj7 | Amaj7", "dyn": 0.2, "swell": 0.2, "layers": ["sub", "shimmer", "pad"]},
+    {"bars": 8, "chords": "C#m | C#m | Amaj7 | Amaj7 | F#m9 | F#m9 | G#5 | G#5", "dyn": 0.35,
+     "melody": "r:4 | G#5:4 | r:4 | r:2 E5:2 | r:4 | C#5:4 | r:4 | r:4",
+     "layers": ["sub", "shimmer", "pad", "glass"]},
+    {"bars": 8, "chords": "C#m | C#m | D/C# | D/C# | Amaj7 | Amaj7 | G#5 | G#5", "dyn": 0.45, "swell": 0.1,
+     "melody": "r:4 | E5:4 | r:4 | r:2 D5:2 | r:4 | C#5:4 | r:4 | B4:4",
+     "layers": ["sub", "shimmer", "pad", "glass", "wind"]},
+    {"bars": 6, "chords": "C#m | C#m | D/C# | D/C# | C#m | C#m", "dyn": 0.2, "swell": -0.1, "layers": ["sub", "shimmer"]}
+  ]
+}

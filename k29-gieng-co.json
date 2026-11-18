@@ -1,0 +1,64 @@
+{
+  "title": "Giếng cổ",
+  "family": "dark-khac",
+  "about": "Round x5 of the dark ambient style (khong-gian), as the user asked (\"hãy sáng tác thêm cho tôi nhiều bài nữa\"): an old well: a drop now and then echoing deep down, a singing bowl and the darkest pad, the sub. F sharp minor at 44 bpm. An original piece.",
+  "style": "khong-gian",
+  "bpm": 44,
+  "beats": 4,
+  "pad_range": [
+    40,
+    60
+  ],
+  "sections": [
+    {
+      "bars": 4,
+      "chords": "F#m | F#m | F#m | F#m",
+      "dyn": 0.2,
+      "layers": [
+        "drops",
+        "sub"
+      ],
+      "drops_per_bar": 0.75
+    },
+    {
+      "bars": 8,
+      "chords": "F#m | F#m | Dmaj7 | Dmaj7 | Bm9 | Bm9 | C#5 | C#5",
+      "dyn": 0.36,
+      "layers": [
+        "drops",
+        "sub",
+        "pad",
+        "bowl"
+      ],
+      "drops_per_bar": 0.75,
+      "bowl_every": 2
+    },
+    {
+      "bars": 8,
+      "chords": "F#m | F#m | G/F# | G/F# | Dmaj7 | Dmaj7 | C#5 | C#5",
+      "dyn": 0.46,
+      "layers": [
+        "drops",
+        "sub",
+        "pad",
+        "bowl",
+        "wind"
+      ],
+      "drops_per_bar": 1,
+      "bowl_every": 2,
+      "swell": 0.08
+    },
+    {
+      "bars": 6,
+      "chords": "F#m | F#m | G/F# | G/F# | F#m | F#m",
+      "dyn": 0.2,
+      "layers": [
+        "drops",
+        "sub",
+        "bowl"
+      ],
+      "drops_per_bar": 0.5,
+      "bowl_every": 3
+    }
+  ]
+}

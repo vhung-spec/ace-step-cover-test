@@ -1,0 +1,90 @@
+{
+  "title": "Phòng trẻ bỏ hoang",
+  "family": "dark-khac",
+  "about": "Round x4 of the dark ambient style (khong-gian), as the user asked (\"hãy sáng tác thêm cho tôi\"): an abandoned nursery: the out-of-tune music box picking out a nursery tune, water dripping, the far choir; eerie. A minor at 54 bpm, in three. Its tune heard twice, the second time with the choir. An original piece.",
+  "style": "khong-gian",
+  "bpm": 54,
+  "beats": 3,
+  "sections": [
+    {
+      "bars": 4,
+      "chords": "Am | Am | Am | Am",
+      "dyn": 0.2,
+      "layers": [
+        "drops",
+        "pad"
+      ],
+      "drops_per_bar": 1
+    },
+    {
+      "bars": 8,
+      "chords": "Am | Am | Dm | Dm | E | E | Am | Am",
+      "dyn": 0.36,
+      "layers": [
+        "box",
+        "drops",
+        "pad",
+        "sub"
+      ],
+      "drops_per_bar": 1,
+      "melody": "E5:1 A5:1 E5:1 | C5:3 | D5:1 F5:1 D5:1 | A4:3 | B4:1 D5:1 B4:1 | G#4:3 | A4:3 | r:3"
+    },
+    {
+      "bars": 8,
+      "chords": "Fmaj7 | Fmaj7 | Dm | Dm | Bb/A | Bb/A | E | E",
+      "dyn": 0.46,
+      "layers": [
+        "box",
+        "drops",
+        "choir",
+        "pad",
+        "sub"
+      ],
+      "drops_per_bar": 1.5,
+      "swell": 0.08,
+      "melody": "C6:1 A5:1 F5:1 | E5:3 | D5:1 F5:1 A5:1 | G#5:3 | F5:1 D5:1 Bb4:1 | A4:3 | G#4:3 | B4:3"
+    },
+    {
+      "bars": 8,
+      "chords": "Am | Am | Dm | Dm | E | E | Am | Am",
+      "dyn": 0.42,
+      "layers": [
+        "box",
+        "choir",
+        "drops",
+        "pad",
+        "sub"
+      ],
+      "drops_per_bar": 1,
+      "melody": "E5:1 A5:1 E5:1 | C5:3 | D5:1 F5:1 D5:1 | A4:3 | B4:1 D5:1 B4:1 | G#4:3 | A4:3 | r:3"
+    },
+    {
+      "bars": 8,
+      "chords": "Fmaj7 | Fmaj7 | Dm | Dm | Bb/A | Bb/A | E | E",
+      "dyn": 0.52,
+      "layers": [
+        "box",
+        "drops",
+        "choir",
+        "pad",
+        "sub"
+      ],
+      "drops_per_bar": 1.5,
+      "swell": 0.08,
+      "melody": "C6:1 A5:1 F5:1 | E5:3 | D5:1 F5:1 A5:1 | G#5:3 | F5:1 D5:1 Bb4:1 | A4:3 | G#4:3 | B4:3"
+    },
+    {
+      "bars": 6,
+      "chords": "Am | Am | Bb/A | Bb/A | Am | Am",
+      "dyn": 0.22,
+      "layers": [
+        "box",
+        "drops",
+        "pad"
+      ],
+      "swell": -0.1,
+      "drops_per_bar": 1,
+      "melody": "E5:1 A5:1 E5:1 | C5:3 | r:3 | r:3 | r:3 | r:3"
+    }
+  ]
+}

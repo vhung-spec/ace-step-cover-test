@@ -1,0 +1,95 @@
+{
+  "title": "Đáy hồ",
+  "title_en": "Beneath the Lake",
+  "family": "dark-khac",
+  "about": "Round x11, a new direction after the user's five references (analysed for sound and arrangement only, nothing copied), as the user asked (\"ok hãy bắt đầu làm\"): ambient piano, deep and slow: B minor, G, D and A, a very deep sub swelling under the piano's eighths, a repeated tune in the middle of the keys, the choir humming far off. No drums. An original piece; its tune made up once by the improviser in dark/ambient.py and repeated.",
+  "style": "piano-am",
+  "bpm": 68,
+  "beats": 4,
+  "mode": "aeolian",
+  "seed": 72,
+  "sub_low": 24,
+  "gains": {
+    "sub": 4.0
+  },
+  "sections": [
+    {
+      "bars": 4,
+      "chords": "Bm | G | D | A",
+      "dyn": 0.3,
+      "layers": [
+        "sub",
+        "pianoarp"
+      ],
+      "arp_quarters": true
+    },
+    {
+      "bars": 16,
+      "chords": "Bm | G | D | A | Bm | G | Em | F#sus4 | Bm | G | D | A | Bm | G | Em | F#sus4",
+      "dyn": 0.42,
+      "layers": [
+        "sub",
+        "pad",
+        "pianoarp"
+      ],
+      "improv": "keys",
+      "motif": true,
+      "motif_bars": 8,
+      "improv_range": [
+        64,
+        79
+      ],
+      "improv_density": 1.3
+    },
+    {
+      "bars": 8,
+      "chords": "G | D | A | Bm | G | D | Em | F#",
+      "dyn": 0.5,
+      "layers": [
+        "sub",
+        "pad",
+        "pianoarp",
+        "choir"
+      ],
+      "improv": "keys",
+      "motif": true,
+      "motif_bars": 8,
+      "improv_range": [
+        64,
+        79
+      ],
+      "improv_density": 1.3
+    },
+    {
+      "bars": 8,
+      "chords": "Bm | G | D | A | Bm | G | Em | F#sus4",
+      "dyn": 0.46,
+      "layers": [
+        "sub",
+        "pad",
+        "pianoarp",
+        "choir"
+      ],
+      "improv": "keys",
+      "motif": true,
+      "motif_bars": 8,
+      "improv_range": [
+        64,
+        79
+      ],
+      "improv_density": 1.3
+    },
+    {
+      "bars": 4,
+      "chords": "Bm | G | D | Bm",
+      "dyn": 0.3,
+      "layers": [
+        "sub",
+        "pianoarp"
+      ],
+      "arp_quarters": true,
+      "swell": -0.1,
+      "rit": true
+    }
+  ]
+}

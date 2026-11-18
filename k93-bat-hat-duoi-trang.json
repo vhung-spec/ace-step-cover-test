@@ -1,0 +1,69 @@
+{
+  "title": "Bát hát dưới trăng",
+  "title_en": "Bowls under the Moon",
+  "family": "dark-khac",
+  "about": "Round x14, the user: \"tôi thích kiểu giống album 6-7-8\" (Sleep in the Dark): sleep music as in rounds S/X10, slow (44 bpm), soft and dark, bowl, drone, pad, sub, an improvised box tune. An original piece.",
+  "style": "ngu-ngon",
+  "bpm": 44,
+  "beats": 4,
+  "mode": "aeolian",
+  "seed": 93,
+  "sections": [
+    {
+      "bars": 8,
+      "chords": "Amadd9 | Amadd9 | Fmaj7 | Fmaj7 | Amadd9 | Amadd9 | Fmaj7 | Fmaj7",
+      "dyn": 0.18,
+      "layers": [
+        "bowl",
+        "drone"
+      ]
+    },
+    {
+      "bars": 24,
+      "chords": "Amadd9 | Amadd9 | Fmaj7 | Fmaj7 | Dm9 | Dm9 | Esus4 | Esus4 | Amadd9 | Amadd9 | Fmaj7 | Fmaj7 | Dm9 | Dm9 | Esus4 | Esus4 | Amadd9 | Amadd9 | Fmaj7 | Fmaj7 | Dm9 | Dm9 | Esus4 | Esus4",
+      "dyn": 0.27,
+      "layers": [
+        "bowl",
+        "drone",
+        "pad",
+        "sub"
+      ],
+      "improv": "box",
+      "improv_range": [
+        62,
+        81
+      ]
+    },
+    {
+      "bars": 16,
+      "chords": "Fmaj7 | Fmaj7 | Cmaj7 | Cmaj7 | Dm9 | Dm9 | Esus4 | Amadd9 | Fmaj7 | Fmaj7 | Cmaj7 | Cmaj7 | Dm9 | Dm9 | Esus4 | Amadd9",
+      "dyn": 0.28,
+      "layers": [
+        "bowl",
+        "pad",
+        "sub"
+      ],
+      "improv": "box",
+      "improv_range": [
+        62,
+        81
+      ]
+    },
+    {
+      "bars": 8,
+      "chords": "Amadd9 | Amadd9 | Fmaj7 | Fmaj7 | Amadd9 | Amadd9 | Fmaj7 | Fmaj7",
+      "dyn": 0.17,
+      "layers": [
+        "bowl",
+        "drone"
+      ],
+      "swell": -0.1,
+      "improv": "box",
+      "improv_density": 0.6,
+      "improv_range": [
+        62,
+        81
+      ]
+    }
+  ]
+}

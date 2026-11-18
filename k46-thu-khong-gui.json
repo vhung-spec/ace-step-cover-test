@@ -1,0 +1,63 @@
+{
+  "title": "Thư không gửi",
+  "title_en": "The Unsent Letter",
+  "family": "dark-khac",
+  "about": "Round x8, in directions of my own choosing, as the user asked (\"hãy sáng tác thêm nhiều bài nữa, hướng bạn tự đề xuất\"): dark neoclassical: the felt piano sings a slow tune, a single low string answers each phrase where the piano holds (the call and response the user liked), low strings under them. B minor at 58 bpm. An original piece.",
+  "style": "dien-anh",
+  "bpm": 58,
+  "beats": 4,
+  "sections": [
+    {
+      "bars": 4,
+      "chords": "Bm | Bm | Gmaj7 | Gmaj7",
+      "dyn": 0.25,
+      "layers": [
+        "strings",
+        "felt"
+      ],
+      "felt_beats": 2
+    },
+    {
+      "bars": 8,
+      "chords": "Bm | Bm | Gmaj7 | Gmaj7 | Em9 | Em9 | F#sus4 | F#",
+      "dyn": 0.35,
+      "layers": [
+        "strings",
+        "felt",
+        "sub"
+      ],
+      "melody": "F#5:1 D5:1 B4:2 | r:4 | E5:1 D5:1 C#5:2 | r:4 | G5:1 F#5:1 E5:2 | r:4 | C#5:3 D5:1 | C#5:4",
+      "answer": "r:4 | r:2 B3:2 | r:4 | r:2 G3:2 | r:4 | r:2 E3:2 | r:4 | r:2 F#3:2",
+      "answer_on": "solo"
+    },
+    {
+      "bars": 8,
+      "chords": "D | D | Gmaj7 | Gmaj7 | Em9 | Em9 | F#sus4 | F#",
+      "dyn": 0.45,
+      "layers": [
+        "strings",
+        "felt",
+        "sub",
+        "choir"
+      ],
+      "melody": "A5:1 F#5:1 D5:2 | r:4 | B5:1 A5:1 G5:2 | r:4 | G5:1 F#5:1 E5:2 | r:4 | E5:3 D5:1 | C#5:4",
+      "answer": "r:4 | r:2 D4:2 | r:4 | r:2 B3:2 | r:4 | r:2 G3:2 | r:4 | r:2 A#3:2",
+      "answer_on": "solo"
+    },
+    {
+      "bars": 8,
+      "chords": "Bm | Bm | Gmaj7 | Gmaj7 | Em9 | Em9 | F#sus4 | Bm",
+      "dyn": 0.3,
+      "layers": [
+        "strings",
+        "felt",
+        "sub"
+      ],
+      "swell": -0.1,
+      "rit": true,
+      "melody": "F#5:1 D5:1 B4:2 | r:4 | E5:1 D5:1 C#5:2 | r:4 | D5:1 C#5:1 B4:2 | r:4 | A#4:4 | B4:4",
+      "answer": "r:4 | r:2 B3:2 | r:4 | r:2 G3:2 | r:4 | r:2 E3:2 | r:4 | B2:4",
+      "answer_on": "solo"
+    }
+  ]
+}

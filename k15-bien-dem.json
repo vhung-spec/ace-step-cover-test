@@ -1,0 +1,81 @@
+{
+  "title": "Biển đêm",
+  "family": "dark-khac",
+  "about": "Round x3 of the dark ambient style (khong-gian), as the user asked for many more versions (\"tôi rất thích các phiên bản bạn tạo, hãy tạo thêm cho tôi nhiều phiên bản khác\"): the sea at night: the dark pad and the wind rising and falling in long waves, section by section, over a deep sub; a bell far out now and then. F sharp minor at 48 bpm. An original piece.",
+  "style": "khong-gian",
+  "bpm": 48,
+  "beats": 4,
+  "sections": [
+    {
+      "bars": 4,
+      "chords": "F#m | F#m | Dmaj7 | Dmaj7",
+      "dyn": 0.2,
+      "layers": [
+        "pad",
+        "wind",
+        "sub"
+      ],
+      "swell": 0.35
+    },
+    {
+      "bars": 4,
+      "chords": "Bm9 | Bm9 | C#5 | C#5",
+      "dyn": 0.55,
+      "layers": [
+        "pad",
+        "wind",
+        "sub",
+        "toll"
+      ],
+      "swell": -0.35,
+      "toll_every": 4
+    },
+    {
+      "bars": 4,
+      "chords": "F#m | F#m | Dmaj7 | Dmaj7",
+      "dyn": 0.25,
+      "layers": [
+        "pad",
+        "wind",
+        "sub"
+      ],
+      "swell": 0.4
+    },
+    {
+      "bars": 4,
+      "chords": "G/F# | G/F# | C#5 | C#5",
+      "dyn": 0.62,
+      "layers": [
+        "pad",
+        "wind",
+        "sub",
+        "toll",
+        "choir"
+      ],
+      "swell": -0.4,
+      "toll_every": 2
+    },
+    {
+      "bars": 4,
+      "chords": "F#m | F#m | Dmaj7 | Dmaj7",
+      "dyn": 0.25,
+      "layers": [
+        "pad",
+        "wind",
+        "sub"
+      ],
+      "swell": 0.3
+    },
+    {
+      "bars": 6,
+      "chords": "Bm9 | Bm9 | G/F# | G/F# | F#m | F#m",
+      "dyn": 0.5,
+      "layers": [
+        "pad",
+        "wind",
+        "sub"
+      ],
+      "swell": -0.35
+    }
+  ]
+}

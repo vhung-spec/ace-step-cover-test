@@ -1,0 +1,58 @@
+{
+  "title": "Bình minh xám",
+  "family": "dark-khac",
+  "about": "Round x5 of the dark ambient style (khong-gian), as the user asked (\"hãy sáng tác thêm cho tôi nhiều bài nữa\"): a grey dawn after a long night: still dark, but the choir and strings slowly open from G minor to E flat and B flat, the glass singing a little higher each time. G minor at 52 bpm. An original piece.",
+  "style": "khong-gian",
+  "bpm": 52,
+  "beats": 4,
+  "sections": [
+    {
+      "bars": 4,
+      "chords": "Gm | Gm | Ebmaj7 | Ebmaj7",
+      "dyn": 0.2,
+      "layers": [
+        "pad",
+        "strings"
+      ],
+      "swell": 0.15
+    },
+    {
+      "bars": 8,
+      "chords": "Gm | Gm | Ebmaj7 | Ebmaj7 | Cm9 | Cm9 | D5 | D5",
+      "dyn": 0.36,
+      "layers": [
+        "pad",
+        "strings",
+        "sub",
+        "glass"
+      ],
+      "melody": "r:4 | D5:4 | r:4 | r:2 Bb4:2 | r:4 | C5:4 | r:4 | A4:4"
+    },
+    {
+      "bars": 8,
+      "chords": "Ebmaj7 | Ebmaj7 | Bb | Bb | Cm9 | Cm9 | F | F",
+      "dyn": 0.48,
+      "layers": [
+        "pad",
+        "strings",
+        "sub",
+        "glass",
+        "choir"
+      ],
+      "swell": 0.1,
+      "melody": "r:4 | G5:4 | r:4 | r:2 F5:2 | r:4 | Eb5:4 | r:4 | F5:4"
+    },
+    {
+      "bars": 6,
+      "chords": "Ebmaj7 | Ebmaj7 | Bb | Bb | Gm | Gm",
+      "dyn": 0.3,
+      "layers": [
+        "pad",
+        "strings",
+        "choir",
+        "shimmer"
+      ],
+      "swell": -0.1
+    }
+  ]
+}

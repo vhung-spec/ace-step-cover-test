@@ -1,0 +1,92 @@
+{
+  "title": "Sao rơi chậm",
+  "title_en": "Slow Falling Stars",
+  "family": "dark-khac",
+  "about": "Round x11, a new direction after the user's five references (analysed for sound and arrangement only, nothing copied), as the user asked (\"ok hãy bắt đầu làm\"): ambient piano, D major and B minor, the piano's eighths, a repeated tune, a little soft glass glinting high above like falling stars, the choir and the pad. No drums. An original piece; its tune made up once by the improviser in dark/ambient.py and repeated.",
+  "style": "piano-am",
+  "bpm": 74,
+  "beats": 4,
+  "mode": "major",
+  "seed": 73,
+  "sections": [
+    {
+      "bars": 4,
+      "chords": "Dadd9 | A/C# | Bm | Gmaj7",
+      "dyn": 0.3,
+      "layers": [
+        "pad",
+        "pianoarp"
+      ],
+      "arp_quarters": true
+    },
+    {
+      "bars": 16,
+      "chords": "Dadd9 | A/C# | Bm | Gmaj7 | Dadd9 | A/C# | Gmaj7 | Asus4 | Dadd9 | A/C# | Bm | Gmaj7 | Dadd9 | A/C# | Gmaj7 | Asus4",
+      "dyn": 0.42,
+      "layers": [
+        "pad",
+        "pianoarp",
+        "sub"
+      ],
+      "improv": "keys",
+      "motif": true,
+      "motif_bars": 8,
+      "improv_range": [
+        64,
+        79
+      ],
+      "improv_density": 1.3
+    },
+    {
+      "bars": 8,
+      "chords": "Bm | Gmaj7 | Dadd9 | A | Bm | Gmaj7 | Em7 | Asus4",
+      "dyn": 0.5,
+      "layers": [
+        "pad",
+        "pianoarp",
+        "sub",
+        "choir",
+        "shimmer"
+      ],
+      "improv": "keys",
+      "motif": true,
+      "motif_bars": 8,
+      "improv_range": [
+        64,
+        79
+      ],
+      "improv_density": 1.3
+    },
+    {
+      "bars": 8,
+      "chords": "Dadd9 | A/C# | Bm | Gmaj7 | Dadd9 | A/C# | Gmaj7 | Asus4",
+      "dyn": 0.46,
+      "layers": [
+        "pad",
+        "pianoarp",
+        "sub",
+        "choir"
+      ],
+      "improv": "keys",
+      "motif": true,
+      "motif_bars": 8,
+      "improv_range": [
+        64,
+        79
+      ],
+      "improv_density": 1.3
+    },
+    {
+      "bars": 4,
+      "chords": "Dadd9 | A/C# | Gmaj7 | Dadd9",
+      "dyn": 0.3,
+      "layers": [
+        "pad",
+        "pianoarp"
+      ],
+      "arp_quarters": true,
+      "swell": -0.1,
+      "rit": true
+    }
+  ]
+}

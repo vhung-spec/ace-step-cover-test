@@ -1,0 +1,80 @@
+{
+  "title": "Ánh trăng trên hồ",
+  "title_en": "Moonlight on the Lake",
+  "family": "dark-khac",
+  "about": "Round x10, for sleep with improvised melodies (style ngu-ngon), as the user asked to go on (\"ok chúng ta hãy tiếp tục sáng tác nhạc\"), on the sounds the user liked most: moonlight on a still lake: gentle swells, the pad and the far choir, the music box improvising first, then the glass. G minor. No drums, plucked string or organ. An original piece; its melody made up by the improviser in dark/ambient.py.",
+  "style": "ngu-ngon",
+  "bpm": 50,
+  "beats": 4,
+  "mode": "aeolian",
+  "seed": 68,
+  "sections": [
+    {
+      "bars": 8,
+      "chords": "Gmadd9 | Gmadd9 | Ebmaj7 | Ebmaj7 | Gmadd9 | Gmadd9 | Ebmaj7 | Ebmaj7",
+      "dyn": 0.18,
+      "layers": [
+        "waves",
+        "pad"
+      ]
+    },
+    {
+      "bars": 16,
+      "chords": "Gmadd9 | Gmadd9 | Ebmaj7 | Ebmaj7 | Cm9 | Cm9 | Dsus4 | Dsus4 | Gmadd9 | Gmadd9 | Ebmaj7 | Ebmaj7 | Cm9 | Cm9 | Dsus4 | Dsus4",
+      "dyn": 0.27,
+      "layers": [
+        "waves",
+        "pad",
+        "sub"
+      ],
+      "improv": "box",
+      "improv_range": [
+        62,
+        81
+      ]
+    },
+    {
+      "bars": 16,
+      "chords": "Ebmaj7 | Ebmaj7 | Bbmaj7 | Bbmaj7 | Cm9 | Cm9 | Dsus4 | Gmadd9 | Ebmaj7 | Ebmaj7 | Bbmaj7 | Bbmaj7 | Cm9 | Cm9 | Dsus4 | Gmadd9",
+      "dyn": 0.28,
+      "layers": [
+        "waves",
+        "pad",
+        "sub",
+        "choir"
+      ],
+      "improv": "glass",
+      "improv_range": [
+        62,
+        79
+      ],
+      "improv_density": 0.9
+    },
+    {
+      "bars": 8,
+      "chords": "Gmadd9 | Gmadd9 | Ebmaj7 | Ebmaj7 | Cm9 | Cm9 | Dsus4 | Gmadd9",
+      "dyn": 0.24,
+      "layers": [
+        "waves",
+        "pad",
+        "sub"
+      ],
+      "improv": "box",
+      "improv_density": 0.7,
+      "improv_range": [
+        62,
+        81
+      ]
+    },
+    {
+      "bars": 8,
+      "chords": "Gmadd9 | Gmadd9 | Ebmaj7 | Ebmaj7 | Gmadd9 | Gmadd9 | Ebmaj7 | Ebmaj7",
+      "dyn": 0.17,
+      "layers": [
+        "waves",
+        "pad"
+      ],
+      "swell": -0.1
+    }
+  ]
+}

@@ -1,0 +1,22 @@
+{
+  "title": "Trôi trong đêm",
+  "family": "dark-khac",
+  "about": "Round x2 of the dark ambient style (khong-gian): floating, with more of a tune than the others. The glass plays a slow, whole melody over the pad, a low bell answering its long notes; soft high glass shimmering on the chords. F minor at 54 bpm. An original piece.",
+  "style": "khong-gian",
+  "bpm": 54,
+  "beats": 4,
+  "sections": [
+    {"bars": 4, "chords": "Fm | Fm | Dbmaj7 | Dbmaj7", "dyn": 0.2, "swell": 0.2, "layers": ["pad", "sub", "shimmer"]},
+    {"bars": 8, "chords": "Fm | Fm | Dbmaj7 | Dbmaj7 | Bbm9 | Bbm9 | C5 | C5", "dyn": 0.38,
+     "melody": "C5:2 Ab4:1 G4:1 | F4:4 | Ab4:2 C5:1 Db5:1 | C5:4 | Bb4:2 Db5:1 F5:1 | Eb5:3 Db5:1 | C5:4 | r:4",
+     "answer": "r:4 | r:2 C3:2 | r:4 | r:2 Ab2:2 | r:4 | r:2 Bb2:2 | r:4 | C3:4",
+     "layers": ["pad", "sub", "glass", "shimmer"]},
+    {"bars": 8, "chords": "Fm | Fm | Dbmaj7 | Dbmaj7 | Bbm9 | Bbm9 | Db/C | C5", "dyn": 0.5, "swell": 0.1,
+     "melody": "F5:2 Eb5:1 C5:1 | Ab4:4 | Db5:2 C5:1 Ab4:1 | F4:4 | Bb4:2 C5:1 Db5:1 | F5:3 Eb5:1 | Db5:2 C5:2 | r:4",
+     "answer": "r:4 | r:2 F2:2 | r:4 | r:2 Db3:2 | r:4 | r:2 Bb2:2 | r:4 | C3:4",
+     "layers": ["pad", "sub", "glass", "shimmer", "choir"]},
+    {"bars": 6, "chords": "Fm | Fm | Dbmaj7 | Dbmaj7 | Fm | Fm", "dyn": 0.24, "swell": -0.12,
+     "melody": "C5:2 Ab4:1 G4:1 | F4:4 | r:4 | r:4 | r:4 | r:4",
+     "layers": ["pad", "sub", "glass"]}
+  ]
+}

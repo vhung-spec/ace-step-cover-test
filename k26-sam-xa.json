@@ -1,0 +1,62 @@
+{
+  "title": "Sấm xa",
+  "family": "dark-khac",
+  "about": "Round x5 of the dark ambient style (khong-gian), as the user asked (\"hãy sáng tác thêm cho tôi nhiều bài nữa\"): a storm passing far off: thunder rolling now and then under the dark pad and a deep sub, a few bell notes between the rolls. D minor at 50 bpm. An original piece.",
+  "style": "khong-gian",
+  "bpm": 50,
+  "beats": 4,
+  "sections": [
+    {
+      "bars": 4,
+      "chords": "Dm | Dm | Bbmaj7 | Bbmaj7",
+      "dyn": 0.25,
+      "layers": [
+        "pad",
+        "sub",
+        "thunder"
+      ],
+      "swell": 0.15,
+      "thunder_odds": 0.5
+    },
+    {
+      "bars": 8,
+      "chords": "Dm | Dm | Bbmaj7 | Bbmaj7 | Gm9 | Gm9 | A5 | A5",
+      "dyn": 0.4,
+      "layers": [
+        "pad",
+        "sub",
+        "thunder",
+        "wind"
+      ],
+      "thunder_odds": 0.35,
+      "melody": "r:4 | A4:4 | r:4 | r:2 F4:2 | r:4 | D5:4 | r:4 | r:4"
+    },
+    {
+      "bars": 8,
+      "chords": "Dm | Dm | Eb/D | Eb/D | Bbmaj7 | Bbmaj7 | A5 | A5",
+      "dyn": 0.52,
+      "layers": [
+        "pad",
+        "sub",
+        "thunder",
+        "wind",
+        "choir"
+      ],
+      "swell": 0.1,
+      "thunder_odds": 0.5,
+      "melody": "r:4 | D5:4 | r:4 | r:2 Eb5:2 | r:4 | D5:4 | r:4 | C#5:4"
+    },
+    {
+      "bars": 6,
+      "chords": "Dm | Dm | Bbmaj7 | Bbmaj7 | Dm | Dm",
+      "dyn": 0.24,
+      "layers": [
+        "pad",
+        "sub",
+        "thunder"
+      ],
+      "swell": -0.12,
+      "thunder_odds": 0.3
+    }
+  ]
+}

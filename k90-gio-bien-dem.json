@@ -1,0 +1,71 @@
+{
+  "title": "Gió biển đêm",
+  "title_en": "Night Sea Breeze",
+  "family": "dark-khac",
+  "about": "Round x14, the user: \"tôi thích kiểu giống album 6-7-8\" (Sleep in the Dark): sleep music as in rounds S/X10, slow (50 bpm), soft and dark, waves, wind, pad, sub, an improvised solo tune. An original piece.",
+  "style": "ngu-ngon",
+  "bpm": 50,
+  "beats": 4,
+  "mode": "aeolian",
+  "seed": 90,
+  "sections": [
+    {
+      "bars": 8,
+      "chords": "Cmadd9 | Cmadd9 | Abmaj7 | Abmaj7 | Cmadd9 | Cmadd9 | Abmaj7 | Abmaj7",
+      "dyn": 0.18,
+      "layers": [
+        "waves",
+        "wind"
+      ]
+    },
+    {
+      "bars": 24,
+      "chords": "Cmadd9 | Cmadd9 | Abmaj7 | Abmaj7 | Fm9 | Fm9 | Gsus4 | Gsus4 | Cmadd9 | Cmadd9 | Abmaj7 | Abmaj7 | Fm9 | Fm9 | Gsus4 | Gsus4 | Cmadd9 | Cmadd9 | Abmaj7 | Abmaj7 | Fm9 | Fm9 | Gsus4 | Gsus4",
+      "dyn": 0.27,
+      "layers": [
+        "waves",
+        "wind",
+        "pad",
+        "sub"
+      ],
+      "improv": "solo",
+      "improv_range": [
+        55,
+        74
+      ]
+    },
+    {
+      "bars": 16,
+      "chords": "Abmaj7 | Abmaj7 | Ebmaj7 | Ebmaj7 | Fm9 | Fm9 | Gsus4 | Cmadd9 | Abmaj7 | Abmaj7 | Ebmaj7 | Ebmaj7 | Fm9 | Fm9 | Gsus4 | Cmadd9",
+      "dyn": 0.28,
+      "layers": [
+        "waves",
+        "pad",
+        "sub",
+        "choir"
+      ],
+      "improv": "glass",
+      "improv_range": [
+        62,
+        79
+      ],
+      "improv_density": 0.9
+    },
+    {
+      "bars": 8,
+      "chords": "Cmadd9 | Cmadd9 | Abmaj7 | Abmaj7 | Cmadd9 | Cmadd9 | Abmaj7 | Abmaj7",
+      "dyn": 0.17,
+      "layers": [
+        "waves",
+        "wind"
+      ],
+      "swell": -0.1,
+      "improv": "solo",
+      "improv_density": 0.6,
+      "improv_range": [
+        55,
+        74
+      ]
+    }
+  ]
+}

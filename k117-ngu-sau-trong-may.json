@@ -1,0 +1,77 @@
+{
+  "title": "Ngủ sâu trong mây",
+  "title_en": "Deep in the Clouds",
+  "family": "dark-khac",
+  "about": "Round x16 (album 11), the user: \"hãy sáng tác album 11\", after album 10 (electronic sleep) was kept whole: more electronic sleep ambient (style ngu-dt), slow (44 bpm), pad, air, sub, choir, swells, an improvised keys tune with a long echo. No drums. Remade before release on a less common progression of its own (the user, after Content ID matches on plain i-VI-iv-V pieces: \"ok làm lại album 11 an toàn hơn\"). An original piece.",
+  "style": "ngu-dt",
+  "bpm": 44,
+  "beats": 4,
+  "mode": "aeolian",
+  "seed": 117,
+  "gains": {
+    "arp": -6.0,
+    "air": -10.0,
+    "swells": -3.0
+  },
+  "sections": [
+    {
+      "bars": 8,
+      "chords": "G#madd9 | G#madd9 | C#m6/G# | C#m6/G# | G#madd9 | G#madd9 | Emaj7#11 | Emaj7#11",
+      "dyn": 0.18,
+      "layers": [
+        "pad",
+        "air"
+      ]
+    },
+    {
+      "bars": 24,
+      "chords": "G#madd9 | F#add9 | Emaj7#11 | D#7sus4 | G#madd9 | Bmaj7/D# | C#m6 | Emaj7#11 | G#madd9 | F#add9 | Emaj7#11 | D#7sus4 | G#madd9 | Bmaj7/D# | C#m6 | Emaj7#11 | G#madd9 | F#add9 | Emaj7#11 | D#7sus4 | G#madd9 | Bmaj7/D# | C#m6 | Emaj7#11",
+      "dyn": 0.27,
+      "layers": [
+        "pad",
+        "air",
+        "sub"
+      ],
+      "improv": "keys",
+      "improv_range": [
+        60,
+        77
+      ],
+      "improv_density": 0.7
+    },
+    {
+      "bars": 16,
+      "chords": "C#m9 | Bmaj7/F | Emaj7#11 | F#add9 | Amaj7#11 | G#madd9 | D#7sus4 | G#madd9 | C#m9 | Bmaj7/F | Emaj7#11 | F#add9 | Amaj7#11 | G#madd9 | D#7sus4 | G#madd9",
+      "dyn": 0.28,
+      "layers": [
+        "pad",
+        "air",
+        "sub",
+        "choir",
+        "swells"
+      ],
+      "improv": "keys",
+      "improv_range": [
+        60,
+        77
+      ],
+      "improv_density": 0.7
+    },
+    {
+      "bars": 8,
+      "chords": "G#madd9 | G#madd9 | C#m6/G# | C#m6/G# | G#madd9 | G#madd9 | Emaj7#11 | Emaj7#11",
+      "dyn": 0.17,
+      "layers": [
+        "pad",
+        "air"
+      ],
+      "improv": "keys",
+      "improv_range": [
+        60,
+        77
+      ],
+      "improv_density": 0.5,
+      "swell": -0.1
+    }
+  ]
+}

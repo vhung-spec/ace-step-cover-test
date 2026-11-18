@@ -1,0 +1,58 @@
+{
+  "title": "Giấc mơ tối",
+  "family": "dark-khac",
+  "about": "Round x3 of the dark ambient style (khong-gian), as the user asked for many more versions (\"tôi rất thích các phiên bản bạn tạo, hãy tạo thêm cho tôi nhiều phiên bản khác\"): a dark dream, with a tune: the glass sings a slow melody, the choir and the pad under it, soft high glass around it; B flat minor at 54 bpm, its G flat and D flat chords warming it a little. An original piece.",
+  "style": "khong-gian",
+  "bpm": 54,
+  "beats": 4,
+  "sections": [
+    {
+      "bars": 4,
+      "chords": "Bbm | Bbm | Gbmaj7 | Gbmaj7",
+      "dyn": 0.2,
+      "layers": [
+        "pad",
+        "shimmer"
+      ],
+      "swell": 0.2
+    },
+    {
+      "bars": 8,
+      "chords": "Bbm | Bbm | Gbmaj7 | Gbmaj7 | Dbadd9 | Dbadd9 | F5 | F5",
+      "dyn": 0.38,
+      "layers": [
+        "pad",
+        "glass",
+        "sub",
+        "shimmer"
+      ],
+      "melody": "F5:2 Db5:1 C5:1 | Bb4:4 | Db5:2 Eb5:1 F5:1 | Gb5:4 | F5:2 Eb5:1 Db5:1 | Eb5:3 F5:1 | C5:4 | r:4"
+    },
+    {
+      "bars": 8,
+      "chords": "Gbmaj7 | Gbmaj7 | Dbadd9 | Dbadd9 | Ebm9 | Ebm9 | F5 | F5",
+      "dyn": 0.5,
+      "layers": [
+        "pad",
+        "glass",
+        "sub",
+        "choir"
+      ],
+      "swell": 0.1,
+      "melody": "Bb5:2 Ab5:1 F5:1 | Gb5:4 | F5:2 Eb5:1 Db5:1 | F5:4 | Eb5:2 Db5:1 Bb4:1 | Db5:3 C5:1 | C5:4 | r:4",
+      "answer": "r:4 | r:2 Gb3:2 | r:4 | r:2 Db3:2 | r:4 | r:2 Eb3:2 | r:4 | F3:4"
+    },
+    {
+      "bars": 6,
+      "chords": "Bbm | Bbm | Gbmaj7 | Gbmaj7 | Bbm | Bbm",
+      "dyn": 0.22,
+      "layers": [
+        "pad",
+        "glass",
+        "shimmer"
+      ],
+      "swell": -0.12,
+      "melody": "F5:2 Db5:1 C5:1 | Bb4:4 | r:4 | r:4 | r:4 | r:4"
+    }
+  ]
+}

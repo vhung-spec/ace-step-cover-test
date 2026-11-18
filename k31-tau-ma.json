@@ -1,0 +1,60 @@
+{
+  "title": "Tàu ma",
+  "family": "dark-khac",
+  "about": "Round x5 of the dark ambient style (khong-gian), as the user asked (\"hãy sáng tác thêm cho tôi nhiều bài nữa\"): a ghost ship drifting in fog: low strings swaying, wind, a slow heartbeat like timbers, a bell tolling from it now and then. B flat minor at 50 bpm. An original piece.",
+  "style": "khong-gian",
+  "bpm": 50,
+  "beats": 4,
+  "sections": [
+    {
+      "bars": 4,
+      "chords": "Bbm | Bbm | Gbmaj7 | Gbmaj7",
+      "dyn": 0.25,
+      "layers": [
+        "wind",
+        "strings"
+      ],
+      "swell": 0.15
+    },
+    {
+      "bars": 8,
+      "chords": "Bbm | Bbm | Gbmaj7 | Gbmaj7 | Ebm9 | Ebm9 | F5 | F5",
+      "dyn": 0.4,
+      "layers": [
+        "wind",
+        "strings",
+        "pulse",
+        "sub",
+        "toll"
+      ],
+      "pulse_beats": 8,
+      "toll_every": 4
+    },
+    {
+      "bars": 8,
+      "chords": "Bbm | Bbm | Cb/Bb | Cb/Bb | Gbmaj7 | Gbmaj7 | F5 | F5",
+      "dyn": 0.52,
+      "layers": [
+        "wind",
+        "strings",
+        "pulse",
+        "sub",
+        "toll",
+        "choir"
+      ],
+      "pulse_beats": 8,
+      "toll_every": 2,
+      "swell": 0.1
+    },
+    {
+      "bars": 6,
+      "chords": "Bbm | Bbm | Cb/Bb | Cb/Bb | Bbm | Bbm",
+      "dyn": 0.25,
+      "layers": [
+        "wind",
+        "strings"
+      ],
+      "swell": -0.12
+    }
+  ]
+}

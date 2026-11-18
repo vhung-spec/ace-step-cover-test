@@ -1,0 +1,102 @@
+{
+  "title": "Sao rơi chậm (điện tử)",
+  "title_en": "Slow Falling Stars (Electronic)",
+  "family": "dark-khac",
+  "about": "Round x12, the user: \"tiếng piano và độ vang chưa giống lắm, bài mẫu nghe cảm giác điện tử hơn\". k73 remade with the electronic sound (style piano-dt): the modelled electric piano with the acoustic one softly under it, an echo on the tune, an airy high synth, reversed swells into each chord, a plate hall. Same composition and seed as k73; an original piece.",
+  "style": "piano-dt",
+  "bpm": 74,
+  "beats": 4,
+  "mode": "major",
+  "seed": 73,
+  "sections": [
+    {
+      "bars": 4,
+      "chords": "Dadd9 | A/C# | Bm | Gmaj7",
+      "dyn": 0.3,
+      "layers": [
+        "pad",
+        "pianoarp",
+        "air",
+        "swells"
+      ],
+      "arp_quarters": true
+    },
+    {
+      "bars": 16,
+      "chords": "Dadd9 | A/C# | Bm | Gmaj7 | Dadd9 | A/C# | Gmaj7 | Asus4 | Dadd9 | A/C# | Bm | Gmaj7 | Dadd9 | A/C# | Gmaj7 | Asus4",
+      "dyn": 0.42,
+      "layers": [
+        "pad",
+        "pianoarp",
+        "sub",
+        "air",
+        "swells"
+      ],
+      "improv": "keys",
+      "motif": true,
+      "motif_bars": 8,
+      "improv_range": [
+        64,
+        79
+      ],
+      "improv_density": 1.3
+    },
+    {
+      "bars": 8,
+      "chords": "Bm | Gmaj7 | Dadd9 | A | Bm | Gmaj7 | Em7 | Asus4",
+      "dyn": 0.5,
+      "layers": [
+        "pad",
+        "pianoarp",
+        "sub",
+        "choir",
+        "shimmer",
+        "air",
+        "swells"
+      ],
+      "improv": "keys",
+      "motif": true,
+      "motif_bars": 8,
+      "improv_range": [
+        64,
+        79
+      ],
+      "improv_density": 1.3
+    },
+    {
+      "bars": 8,
+      "chords": "Dadd9 | A/C# | Bm | Gmaj7 | Dadd9 | A/C# | Gmaj7 | Asus4",
+      "dyn": 0.46,
+      "layers": [
+        "pad",
+        "pianoarp",
+        "sub",
+        "choir",
+        "air",
+        "swells"
+      ],
+      "improv": "keys",
+      "motif": true,
+      "motif_bars": 8,
+      "improv_range": [
+        64,
+        79
+      ],
+      "improv_density": 1.3
+    },
+    {
+      "bars": 4,
+      "chords": "Dadd9 | A/C# | Gmaj7 | Dadd9",
+      "dyn": 0.3,
+      "layers": [
+        "pad",
+        "pianoarp",
+        "air",
+        "swells"
+      ],
+      "arp_quarters": true,
+      "swell": -0.1,
+      "rit": true
+    }
+  ]
+}

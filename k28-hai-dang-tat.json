@@ -1,0 +1,61 @@
+{
+  "title": "Hải đăng tắt",
+  "family": "dark-khac",
+  "about": "Round x5 of the dark ambient style (khong-gian), as the user asked (\"hãy sáng tác thêm cho tôi nhiều bài nữa\"): a lighthouse gone dark: wind off the sea, a deep bell like a fog signal on every chord, the glass far out singing a few notes. A minor at 46 bpm. An original piece.",
+  "style": "khong-gian",
+  "bpm": 46,
+  "beats": 4,
+  "toll_low": 43,
+  "sections": [
+    {
+      "bars": 4,
+      "chords": "Am | Am | Am | Am",
+      "dyn": 0.25,
+      "layers": [
+        "wind",
+        "toll"
+      ],
+      "toll_every": 2
+    },
+    {
+      "bars": 8,
+      "chords": "Am | Am | Fmaj7 | Fmaj7 | Dm9 | Dm9 | E5 | E5",
+      "dyn": 0.4,
+      "layers": [
+        "wind",
+        "toll",
+        "pad",
+        "sub",
+        "glass"
+      ],
+      "toll_every": 2,
+      "melody": "r:4 | E5:4 | r:4 | r:2 C5:2 | r:4 | A4:4 | r:4 | B4:4"
+    },
+    {
+      "bars": 8,
+      "chords": "Am | Am | Bb/A | Bb/A | Fmaj7 | Fmaj7 | E5 | E5",
+      "dyn": 0.5,
+      "layers": [
+        "wind",
+        "toll",
+        "pad",
+        "sub",
+        "glass"
+      ],
+      "swell": 0.1,
+      "toll_every": 2,
+      "melody": "r:4 | A5:4 | r:4 | r:2 F5:2 | r:4 | E5:4 | r:4 | r:4"
+    },
+    {
+      "bars": 6,
+      "chords": "Am | Am | Am | Am | Am | Am",
+      "dyn": 0.24,
+      "layers": [
+        "wind",
+        "toll"
+      ],
+      "swell": -0.12,
+      "toll_every": 3
+    }
+  ]
+}

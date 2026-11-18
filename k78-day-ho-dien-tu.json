@@ -1,0 +1,106 @@
+{
+  "title": "Đáy hồ (điện tử)",
+  "title_en": "Beneath the Lake (Electronic)",
+  "family": "dark-khac",
+  "about": "Round x12, the user: \"tiếng piano và độ vang chưa giống lắm, bài mẫu nghe cảm giác điện tử hơn\". k72 remade with the electronic sound (style piano-dt): the modelled electric piano with the acoustic one softly under it, an echo on the tune, an airy high synth, reversed swells into each chord, a plate hall. Same composition and seed as k72; an original piece.",
+  "style": "piano-dt",
+  "bpm": 68,
+  "beats": 4,
+  "mode": "aeolian",
+  "seed": 72,
+  "sub_low": 24,
+  "gains": {
+    "sub": 4.0,
+    "pad": -4.0
+  },
+  "sections": [
+    {
+      "bars": 4,
+      "chords": "Bm | G | D | A",
+      "dyn": 0.3,
+      "layers": [
+        "sub",
+        "pianoarp",
+        "air",
+        "swells"
+      ],
+      "arp_quarters": true
+    },
+    {
+      "bars": 16,
+      "chords": "Bm | G | D | A | Bm | G | Em | F#sus4 | Bm | G | D | A | Bm | G | Em | F#sus4",
+      "dyn": 0.42,
+      "layers": [
+        "sub",
+        "pad",
+        "pianoarp",
+        "air",
+        "swells"
+      ],
+      "improv": "keys",
+      "motif": true,
+      "motif_bars": 8,
+      "improv_range": [
+        64,
+        79
+      ],
+      "improv_density": 1.3
+    },
+    {
+      "bars": 8,
+      "chords": "G | D | A | Bm | G | D | Em | F#",
+      "dyn": 0.5,
+      "layers": [
+        "sub",
+        "pad",
+        "pianoarp",
+        "choir",
+        "air",
+        "swells"
+      ],
+      "improv": "keys",
+      "motif": true,
+      "motif_bars": 8,
+      "improv_range": [
+        64,
+        79
+      ],
+      "improv_density": 1.3
+    },
+    {
+      "bars": 8,
+      "chords": "Bm | G | D | A | Bm | G | Em | F#sus4",
+      "dyn": 0.46,
+      "layers": [
+        "sub",
+        "pad",
+        "pianoarp",
+        "choir",
+        "air",
+        "swells"
+      ],
+      "improv": "keys",
+      "motif": true,
+      "motif_bars": 8,
+      "improv_range": [
+        64,
+        79
+      ],
+      "improv_density": 1.3
+    },
+    {
+      "bars": 4,
+      "chords": "Bm | G | D | Bm",
+      "dyn": 0.3,
+      "layers": [
+        "sub",
+        "pianoarp",
+        "air",
+        "swells"
+      ],
+      "arp_quarters": true,
+      "swell": -0.1,
+      "rit": true
+    }
+  ]
+}

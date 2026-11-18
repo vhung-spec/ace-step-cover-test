@@ -1,0 +1,64 @@
+{
+  "title": "Dây đàn trong mơ",
+  "title_en": "Strings in a Dream",
+  "family": "dark-khac",
+  "about": "Round x9, for sleep with improvised melodies (style ngu-ngon), as the user asked (\"tôi muốn những bài âm thanh u tối nhưng dễ nghe để ngủ hơn, có thể thêm những giai điệu ngẫu hứng\"): low strings soft and close, a single string improvising a slow song over them, long notes, long rests. E minor. Softer harmony than before (added ninths, major sevenths, no Phrygian rub), nothing sudden. An original piece; its melody made up by the improviser in dark/ambient.py.",
+  "style": "ngu-ngon",
+  "bpm": 50,
+  "beats": 4,
+  "mode": "aeolian",
+  "seed": 56,
+  "sections": [
+    {
+      "bars": 8,
+      "chords": "Emadd9 | Emadd9 | Cmaj7 | Cmaj7 | Emadd9 | Emadd9 | Cmaj7 | Cmaj7",
+      "dyn": 0.2,
+      "layers": [
+        "strings",
+        "sub"
+      ]
+    },
+    {
+      "bars": 24,
+      "chords": "Emadd9 | Emadd9 | Cmaj7 | Cmaj7 | Am9 | Am9 | Bsus4 | Bsus4 | Emadd9 | Emadd9 | Cmaj7 | Cmaj7 | Am9 | Am9 | Bsus4 | Bsus4 | Emadd9 | Emadd9 | Cmaj7 | Cmaj7 | Am9 | Am9 | Bsus4 | Bsus4",
+      "dyn": 0.3,
+      "layers": [
+        "strings",
+        "sub",
+        "pad"
+      ],
+      "improv": "solo",
+      "improv_range": [
+        55,
+        72
+      ],
+      "improv_density": 0.8
+    },
+    {
+      "bars": 16,
+      "chords": "Cmaj7 | Cmaj7 | G | G | Am9 | Am9 | Bsus4 | Emadd9 | Cmaj7 | Cmaj7 | G | G | Am9 | Am9 | Bsus4 | Emadd9",
+      "dyn": 0.3,
+      "layers": [
+        "strings",
+        "sub",
+        "pad"
+      ],
+      "improv": "solo",
+      "improv_range": [
+        55,
+        72
+      ],
+      "improv_density": 0.8
+    },
+    {
+      "bars": 8,
+      "chords": "Emadd9 | Emadd9 | Cmaj7 | Cmaj7 | Emadd9 | Emadd9 | Cmaj7 | Cmaj7",
+      "dyn": 0.2,
+      "layers": [
+        "strings",
+        "sub"
+      ],
+      "swell": -0.1
+    }
+  ]
+}

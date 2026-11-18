@@ -1,0 +1,54 @@
+{
+  "title": "Đàn ống xa",
+  "family": "dark-khac",
+  "about": "Round x3 of the dark ambient style (khong-gian), as the user asked for many more versions (\"tôi rất thích các phiên bản bạn tạo, hãy tạo thêm cho tôi nhiều phiên bản khác\"): a pipe organ far off in a stone church, soft, its chords moving slowly; a great bell tolling, the far choir joining in the middle. D minor at 44 bpm, the plagal G minor and the Phrygian E flat. An original piece.",
+  "style": "khong-gian",
+  "bpm": 44,
+  "beats": 4,
+  "sections": [
+    {
+      "bars": 4,
+      "chords": "Dm | Dm | Gm/D | Dm",
+      "dyn": 0.25,
+      "layers": [
+        "organ",
+        "sub"
+      ],
+      "swell": 0.15
+    },
+    {
+      "bars": 8,
+      "chords": "Dm | Dm | Bb | Bb | Gm | Gm | A | A",
+      "dyn": 0.4,
+      "layers": [
+        "organ",
+        "sub",
+        "toll"
+      ],
+      "toll_every": 2
+    },
+    {
+      "bars": 8,
+      "chords": "Dm | Dm/C | Bbmaj7 | Bbmaj7 | Gm9 | Gm9 | Eb/D | Eb/D",
+      "dyn": 0.55,
+      "layers": [
+        "organ",
+        "choir",
+        "sub",
+        "toll"
+      ],
+      "swell": 0.1,
+      "toll_every": 2
+    },
+    {
+      "bars": 6,
+      "chords": "Dm | Dm | Gm/D | Gm/D | Dm | Dm",
+      "dyn": 0.28,
+      "layers": [
+        "organ",
+        "sub"
+      ],
+      "swell": -0.15
+    }
+  ]
+}

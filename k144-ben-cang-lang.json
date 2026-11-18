@@ -1,0 +1,70 @@
+{
+  "title": "Bến cảng lặng",
+  "title_en": "Quiet Harbor",
+  "family": "dark-khac",
+  "about": "Round x19 (album 14), the user: \"làm album và chuyển sang sáng tác album mới\": sleep music in the style of Sleep in the Dark (ngu-ngon), on a less common progression of its own (template 3), slow (48 bpm), waves, pad, sub, choir, an improvised solo tune, then glass. No drums, plucked string or organ. An original piece.",
+  "style": "ngu-ngon",
+  "bpm": 48,
+  "beats": 4,
+  "mode": "aeolian",
+  "seed": 144,
+  "sections": [
+    {
+      "bars": 8,
+      "chords": "Gmadd9 | Gmadd9 | Cmadd9/G | Cmadd9/G | Ebmaj7 | Ebmaj7 | F6 | F6",
+      "dyn": 0.18,
+      "layers": [
+        "waves",
+        "pad"
+      ]
+    },
+    {
+      "bars": 24,
+      "chords": "Gmadd9 | Bb6 | Cmadd9 | Abmaj7#11 | Gmadd9 | Fadd9 | Ebmaj7 | D7sus4 | Gmadd9 | Bb6 | Cmadd9 | Abmaj7#11 | Gmadd9 | Fadd9 | Ebmaj7 | D7sus4 | Gmadd9 | Bb6 | Cmadd9 | Abmaj7#11 | Gmadd9 | Fadd9 | Ebmaj7 | D7sus4",
+      "dyn": 0.27,
+      "layers": [
+        "waves",
+        "pad",
+        "sub"
+      ],
+      "improv": "solo",
+      "improv_range": [
+        55,
+        74
+      ]
+    },
+    {
+      "bars": 16,
+      "chords": "Ebmaj7 | F6 | Dm7 | Gmadd9 | Abmaj7#11 | Bb6 | Cmadd9 | D7sus4 | Ebmaj7 | F6 | Dm7 | Gmadd9 | Abmaj7#11 | Bb6 | Cmadd9 | D7sus4",
+      "dyn": 0.28,
+      "layers": [
+        "waves",
+        "pad",
+        "sub",
+        "choir"
+      ],
+      "improv": "glass",
+      "improv_range": [
+        62,
+        79
+      ],
+      "improv_density": 0.9
+    },
+    {
+      "bars": 8,
+      "chords": "Gmadd9 | Gmadd9 | Cmadd9/G | Cmadd9/G | Ebmaj7 | Ebmaj7 | F6 | F6",
+      "dyn": 0.17,
+      "layers": [
+        "waves",
+        "pad"
+      ],
+      "improv": "solo",
+      "improv_range": [
+        55,
+        74
+      ],
+      "improv_density": 0.6,
+      "swell": -0.1
+    }
+  ]
+}

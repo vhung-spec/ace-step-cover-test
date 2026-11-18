@@ -1,0 +1,85 @@
+{
+  "title": "Thành phố không ngủ",
+  "title_en": "Sleepless City",
+  "family": "dark-khac",
+  "about": "Round x7, as the user asked (\"hãy sáng tác thêm 2 bản nữa theo hướng khác\"): a new direction, darkwave: a dark synth bass pulsing in eighths, a cold arpeggio, a soft steady beat and cold pads, a city at three in the morning; the glass sings a short tune over it in the middle. A minor at 96 bpm, about three and a half minutes. An original piece.",
+  "style": "toi-nhip",
+  "bpm": 96,
+  "beats": 4,
+  "pad_range": [
+    50,
+    69
+  ],
+  "gains": {
+    "pad": -4.0
+  },
+  "sections": [
+    {
+      "bars": 4,
+      "chords": "Am | Am | Fmaj7 | Fmaj7",
+      "dyn": 0.3,
+      "layers": [
+        "pad",
+        "arp"
+      ],
+      "swell": 0.15
+    },
+    {
+      "bars": 8,
+      "chords": "Am | Am | Fmaj7 | Fmaj7 | Dm | Dm | E | E",
+      "dyn": 0.4,
+      "layers": [
+        "pad",
+        "arp",
+        "bassline"
+      ]
+    },
+    {
+      "bars": 16,
+      "chords": "Am | Am | Fmaj7 | Fmaj7 | Dm | Dm | E | E | Am | Am | Fmaj7 | Fmaj7 | Dm | Dm | E | E",
+      "dyn": 0.5,
+      "layers": [
+        "pad",
+        "arp",
+        "bassline",
+        "beat"
+      ]
+    },
+    {
+      "bars": 16,
+      "chords": "Fmaj7 | Fmaj7 | C | C | Dm | Dm | E | E | Fmaj7 | Fmaj7 | C | C | Dm | Dm | E | E",
+      "dyn": 0.58,
+      "layers": [
+        "pad",
+        "arp",
+        "bassline",
+        "beat",
+        "glass"
+      ],
+      "arp16": true,
+      "kick_and": true,
+      "melody": "E5:4 | C5:2 B4:2 | A4:4 | r:4 | D5:4 | E5:2 F5:2 | E5:4 | r:4 | E5:4 | C5:2 B4:2 | A4:4 | r:4 | D5:4 | E5:2 F5:2 | E5:4 | r:4"
+    },
+    {
+      "bars": 8,
+      "chords": "Am | Am | Fmaj7 | Fmaj7 | Dm | Dm | E | E",
+      "dyn": 0.45,
+      "layers": [
+        "pad",
+        "arp",
+        "bassline",
+        "beat"
+      ]
+    },
+    {
+      "bars": 8,
+      "chords": "Am | Am | Fmaj7 | Fmaj7 | Dm | Dm | E | Am",
+      "dyn": 0.3,
+      "layers": [
+        "pad",
+        "arp"
+      ],
+      "swell": -0.15
+    }
+  ]
+}

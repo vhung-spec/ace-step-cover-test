@@ -1,0 +1,68 @@
+{
+  "title": "Tuyết đêm",
+  "title_en": "Snow at Night",
+  "family": "dark-khac",
+  "about": "Round x10, for sleep with improvised melodies (style ngu-ngon), as the user asked to go on (\"ok chúng ta hãy tiếp tục sáng tác nhạc\"), on the sounds the user liked most: snow falling at night: the old music box improvising slowly, soft high glass glinting now and then, the pad and a far choir. No drums, plucked string or organ. An original piece; its melody made up by the improviser in dark/ambient.py.",
+  "style": "ngu-ngon",
+  "bpm": 50,
+  "beats": 4,
+  "mode": "aeolian",
+  "seed": 62,
+  "sections": [
+    {
+      "bars": 8,
+      "chords": "Amadd9 | Amadd9 | Fmaj7 | Fmaj7 | Amadd9 | Amadd9 | Fmaj7 | Fmaj7",
+      "dyn": 0.18,
+      "layers": [
+        "pad",
+        "shimmer"
+      ]
+    },
+    {
+      "bars": 24,
+      "chords": "Amadd9 | Amadd9 | Fmaj7 | Fmaj7 | Dm9 | Dm9 | Esus4 | Esus4 | Amadd9 | Amadd9 | Fmaj7 | Fmaj7 | Dm9 | Dm9 | Esus4 | Esus4 | Amadd9 | Amadd9 | Fmaj7 | Fmaj7 | Dm9 | Dm9 | Esus4 | Esus4",
+      "dyn": 0.27,
+      "layers": [
+        "pad",
+        "sub",
+        "shimmer"
+      ],
+      "improv": "box",
+      "improv_range": [
+        62,
+        81
+      ]
+    },
+    {
+      "bars": 16,
+      "chords": "Fmaj7 | Fmaj7 | Cmaj7 | Cmaj7 | Dm9 | Dm9 | Esus4 | Amadd9 | Fmaj7 | Fmaj7 | Cmaj7 | Cmaj7 | Dm9 | Dm9 | Esus4 | Amadd9",
+      "dyn": 0.28,
+      "layers": [
+        "pad",
+        "sub",
+        "choir"
+      ],
+      "improv": "box",
+      "improv_range": [
+        62,
+        81
+      ]
+    },
+    {
+      "bars": 8,
+      "chords": "Amadd9 | Amadd9 | Fmaj7 | Fmaj7 | Amadd9 | Amadd9 | Fmaj7 | Fmaj7",
+      "dyn": 0.18,
+      "layers": [
+        "pad",
+        "shimmer"
+      ],
+      "swell": -0.1,
+      "improv": "box",
+      "improv_density": 0.6,
+      "improv_range": [
+        62,
+        81
+      ]
+    }
+  ]
+}

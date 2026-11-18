@@ -1,0 +1,77 @@
+{
+  "title": "Giấc ngủ tĩnh lặng",
+  "title_en": "Quiet Standby",
+  "family": "dark-khac",
+  "about": "Round x18 (album 13), the user: \"làm album và chuyển sang sáng tác album tiếp theo\": electronic sleep ambient (style ngu-dt) as albums 10-11, on a less common progression of its own (template 1), slow (44 bpm), pad, air, sub, choir, swells, an improvised keys tune with a long echo. No drums. An original piece.",
+  "style": "ngu-dt",
+  "bpm": 44,
+  "beats": 4,
+  "mode": "aeolian",
+  "seed": 140,
+  "gains": {
+    "arp": -6.0,
+    "air": -10.0,
+    "swells": -3.0
+  },
+  "sections": [
+    {
+      "bars": 8,
+      "chords": "Ebmadd9 | Ebmadd9 | Abm6/Eb | Abm6/Eb | Ebmadd9 | Ebmadd9 | Bmaj7#11 | Bmaj7#11",
+      "dyn": 0.18,
+      "layers": [
+        "pad",
+        "air"
+      ]
+    },
+    {
+      "bars": 24,
+      "chords": "Ebmadd9 | Dbadd9 | Bmaj7#11 | Bb7sus4 | Ebmadd9 | Gbmaj7/Bb | Abm6 | Bmaj7#11 | Ebmadd9 | Dbadd9 | Bmaj7#11 | Bb7sus4 | Ebmadd9 | Gbmaj7/Bb | Abm6 | Bmaj7#11 | Ebmadd9 | Dbadd9 | Bmaj7#11 | Bb7sus4 | Ebmadd9 | Gbmaj7/Bb | Abm6 | Bmaj7#11",
+      "dyn": 0.27,
+      "layers": [
+        "pad",
+        "air",
+        "sub"
+      ],
+      "improv": "keys",
+      "improv_range": [
+        60,
+        77
+      ],
+      "improv_density": 0.7
+    },
+    {
+      "bars": 16,
+      "chords": "Abm9 | Gbmaj7/C | Bmaj7#11 | Dbadd9 | Emaj7#11 | Ebmadd9 | Bb7sus4 | Ebmadd9 | Abm9 | Gbmaj7/C | Bmaj7#11 | Dbadd9 | Emaj7#11 | Ebmadd9 | Bb7sus4 | Ebmadd9",
+      "dyn": 0.28,
+      "layers": [
+        "pad",
+        "air",
+        "sub",
+        "choir",
+        "swells"
+      ],
+      "improv": "keys",
+      "improv_range": [
+        60,
+        77
+      ],
+      "improv_density": 0.7
+    },
+    {
+      "bars": 8,
+      "chords": "Ebmadd9 | Ebmadd9 | Abm6/Eb | Abm6/Eb | Ebmadd9 | Ebmadd9 | Bmaj7#11 | Bmaj7#11",
+      "dyn": 0.17,
+      "layers": [
+        "pad",
+        "air"
+      ],
+      "improv": "keys",
+      "improv_range": [
+        60,
+        77
+      ],
+      "improv_density": 0.5,
+      "swell": -0.1
+    }
+  ]
+}

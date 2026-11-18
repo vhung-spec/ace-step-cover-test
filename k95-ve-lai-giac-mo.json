@@ -1,0 +1,70 @@
+{
+  "title": "Về lại giấc mơ",
+  "title_en": "Back into the Dream",
+  "family": "dark-khac",
+  "about": "Round x14, the user: \"tôi thích kiểu giống album 6-7-8\" (Sleep in the Dark): sleep music as in rounds S/X10, slow (48 bpm), soft and dark, waves, pad, sub, an improvised solo tune. An original piece.",
+  "style": "ngu-ngon",
+  "bpm": 48,
+  "beats": 4,
+  "mode": "aeolian",
+  "seed": 95,
+  "sections": [
+    {
+      "bars": 8,
+      "chords": "F#madd9 | F#madd9 | Dmaj7 | Dmaj7 | F#madd9 | F#madd9 | Dmaj7 | Dmaj7",
+      "dyn": 0.18,
+      "layers": [
+        "waves",
+        "pad"
+      ]
+    },
+    {
+      "bars": 24,
+      "chords": "F#madd9 | F#madd9 | Dmaj7 | Dmaj7 | Bm9 | Bm9 | C#sus4 | C#sus4 | F#madd9 | F#madd9 | Dmaj7 | Dmaj7 | Bm9 | Bm9 | C#sus4 | C#sus4 | F#madd9 | F#madd9 | Dmaj7 | Dmaj7 | Bm9 | Bm9 | C#sus4 | C#sus4",
+      "dyn": 0.27,
+      "layers": [
+        "waves",
+        "pad",
+        "sub"
+      ],
+      "improv": "solo",
+      "improv_range": [
+        55,
+        74
+      ]
+    },
+    {
+      "bars": 16,
+      "chords": "Dmaj7 | Dmaj7 | Amaj7 | Amaj7 | Bm9 | Bm9 | C#sus4 | F#madd9 | Dmaj7 | Dmaj7 | Amaj7 | Amaj7 | Bm9 | Bm9 | C#sus4 | F#madd9",
+      "dyn": 0.28,
+      "layers": [
+        "waves",
+        "pad",
+        "sub",
+        "choir"
+      ],
+      "improv": "glass",
+      "improv_range": [
+        62,
+        79
+      ],
+      "improv_density": 0.9
+    },
+    {
+      "bars": 8,
+      "chords": "F#madd9 | F#madd9 | Dmaj7 | Dmaj7 | F#madd9 | F#madd9 | Dmaj7 | Dmaj7",
+      "dyn": 0.17,
+      "layers": [
+        "waves",
+        "pad"
+      ],
+      "swell": -0.1,
+      "improv": "solo",
+      "improv_density": 0.6,
+      "improv_range": [
+        55,
+        74
+      ]
+    }
+  ]
+}

@@ -1,0 +1,58 @@
+{
+  "title": "Lặng",
+  "family": "dark-khac",
+  "about": "Round x4 of the dark ambient style (khong-gian), as the user asked (\"hãy sáng tác thêm cho tôi\"): silence: the sparest of all, a deep sub and pad barely there, a singing bowl now and then and the great bell twice; long empty spaces to rest in. A flat minor at 40 bpm. An original piece.",
+  "style": "khong-gian",
+  "bpm": 40,
+  "beats": 4,
+  "gains": {
+    "pad": -3.0
+  },
+  "sections": [
+    {
+      "bars": 4,
+      "chords": "Abm | Abm | Abm | Abm",
+      "dyn": 0.15,
+      "layers": [
+        "sub",
+        "bowl"
+      ],
+      "bowl_every": 4
+    },
+    {
+      "bars": 8,
+      "chords": "Abm | Abm | Fbmaj7 | Fbmaj7 | Dbm9 | Dbm9 | Eb5 | Eb5",
+      "dyn": 0.3,
+      "layers": [
+        "sub",
+        "pad",
+        "bowl"
+      ],
+      "bowl_every": 4
+    },
+    {
+      "bars": 8,
+      "chords": "Abm | Abm | Fbmaj7 | Fbmaj7 | Abm | Abm | Eb5 | Eb5",
+      "dyn": 0.35,
+      "layers": [
+        "sub",
+        "pad",
+        "bowl",
+        "toll"
+      ],
+      "bowl_every": 4,
+      "toll_every": 4
+    },
+    {
+      "bars": 6,
+      "chords": "Abm | Abm | Abm | Abm | Abm | Abm",
+      "dyn": 0.15,
+      "layers": [
+        "sub",
+        "bowl"
+      ],
+      "bowl_every": 4,
+      "swell": -0.1
+    }
+  ]
+}

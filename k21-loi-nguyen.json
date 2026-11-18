@@ -1,0 +1,70 @@
+{
+  "title": "Lời nguyện",
+  "family": "dark-khac",
+  "about": "Round x4 of the dark ambient style (khong-gian), as the user asked (\"hãy sáng tác thêm cho tôi\"): a prayer in the dark: the far choir and a low organ holding a slow hymn, a singing bowl rubbed under them, the great bell at the end. F minor at 44 bpm. An original piece.",
+  "style": "khong-gian",
+  "bpm": 44,
+  "beats": 4,
+  "choir_range": [
+    57,
+    74
+  ],
+  "organ_range": [
+    48,
+    64
+  ],
+  "gains": {
+    "choir": 3.0,
+    "organ": -3.0
+  },
+  "sections": [
+    {
+      "bars": 4,
+      "chords": "Fm | Fm | Db | Db",
+      "dyn": 0.25,
+      "layers": [
+        "choir",
+        "bowl"
+      ],
+      "swell": 0.15,
+      "bowl_every": 2
+    },
+    {
+      "bars": 8,
+      "chords": "Fm | Fm | Bbm | Bbm | Db | Db | C | C",
+      "dyn": 0.4,
+      "layers": [
+        "choir",
+        "organ",
+        "bowl",
+        "sub"
+      ],
+      "bowl_every": 2
+    },
+    {
+      "bars": 8,
+      "chords": "Fm | Ab | Db | Bbm9 | Fm/C | Fm/C | Csus4 | C",
+      "dyn": 0.55,
+      "layers": [
+        "choir",
+        "organ",
+        "bowl",
+        "sub"
+      ],
+      "swell": 0.1,
+      "bowl_every": 2
+    },
+    {
+      "bars": 6,
+      "chords": "Fm | Fm | Gb/F | Gb/F | Fm | Fm",
+      "dyn": 0.28,
+      "layers": [
+        "choir",
+        "organ",
+        "toll"
+      ],
+      "swell": -0.15,
+      "toll_every": 2
+    }
+  ]
+}

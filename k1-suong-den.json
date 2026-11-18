@@ -1,0 +1,21 @@
+{
+  "title": "Sương đen",
+  "family": "dark-khac",
+  "about": "Round k1 of the dark ambient style (khong-gian), the first the user chose (\"Không gian u tối\"): D minor at 52 bpm, a dark pad held chord to chord (its tones common to two chords held across them), a deep sub under it, a low bell on the root now and then, a few bell notes far apart for a tune; the shadow of E flat (the Phrygian second) over a held D. An original piece.",
+  "style": "khong-gian",
+  "bpm": 52,
+  "beats": 4,
+  "sections": [
+    {"bars": 4, "chords": "Dm | Dm | Dm | Dm", "dyn": 0.15, "swell": 0.2, "layers": ["pad", "sub"]},
+    {"bars": 8, "chords": "Dm | Dm | Bbmaj7 | Bbmaj7 | Gm9 | Gm9 | Eb/D | Eb/D", "dyn": 0.35,
+     "melody": "r:4 | r:2 A4:2 | r:4 | F4:4 | r:4 | r:2 D5:2 | r:4 | Bb4:4",
+     "toll_every": 2, "layers": ["pad", "sub", "toll"]},
+    {"bars": 8, "chords": "Dm | Dm | Bb/D | Bb/D | Gm/D | Gm/D | A5 | A5", "dyn": 0.5, "swell": 0.15,
+     "melody": "r:2 D5:2 | r:4 | F5:2 E5:2 | r:4 | D5:4 | r:4 | r:2 E5:2 | r:4",
+     "answer": "r:4 | r:2 A3:2 | r:4 | r:2 D4:2 | r:4 | r:2 Bb3:2 | r:4 | r:2 A3:2",
+     "toll_every": 2, "layers": ["pad", "sub", "toll"]},
+    {"bars": 6, "chords": "Dm | Dm | Eb/D | Eb/D | Dm | Dm", "dyn": 0.22, "swell": -0.12,
+     "melody": "r:4 | A4:4 | r:4 | r:4 | r:2 D4:2 | r:4",
+     "layers": ["pad", "sub"]}
+  ]
+}

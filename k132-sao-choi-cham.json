@@ -1,0 +1,76 @@
+{
+  "title": "Sao chổi chậm",
+  "title_en": "Slow Comet",
+  "family": "dark-khac",
+  "about": "Round x18 (album 13), the user: \"làm album và chuyển sang sáng tác album tiếp theo\": electronic sleep ambient (style ngu-dt) as albums 10-11, on a less common progression of its own (template 2), slow (50 bpm), pad, arp, sub, air, an improvised keys tune with a long echo. No drums. An original piece.",
+  "style": "ngu-dt",
+  "bpm": 50,
+  "beats": 4,
+  "mode": "aeolian",
+  "seed": 132,
+  "gains": {
+    "arp": -6.0,
+    "air": -10.0,
+    "swells": -3.0
+  },
+  "sections": [
+    {
+      "bars": 8,
+      "chords": "Am9 | Am9 | Fmaj7/A | Fmaj7/A | Dm6 | Dm6 | Am9 | Am9",
+      "dyn": 0.18,
+      "layers": [
+        "pad",
+        "arp"
+      ]
+    },
+    {
+      "bars": 24,
+      "chords": "Am9 | Gadd9 | Fmaj7 | E7sus4 | Am9 | Cmaj7 | Dm6 | Bbmaj7#11 | Am9 | Gadd9 | Fmaj7 | E7sus4 | Am9 | Cmaj7 | Dm6 | Bbmaj7#11 | Am9 | Gadd9 | Fmaj7 | E7sus4 | Am9 | Cmaj7 | Dm6 | Bbmaj7#11",
+      "dyn": 0.27,
+      "layers": [
+        "pad",
+        "arp",
+        "sub"
+      ],
+      "improv": "keys",
+      "improv_range": [
+        60,
+        77
+      ],
+      "improv_density": 0.8
+    },
+    {
+      "bars": 16,
+      "chords": "Bbmaj7#11 | Cadd9 | Dm9 | Fmaj7 | Bbmaj7#11 | Am9 | E7sus4 | Am9 | Bbmaj7#11 | Cadd9 | Dm9 | Fmaj7 | Bbmaj7#11 | Am9 | E7sus4 | Am9",
+      "dyn": 0.28,
+      "layers": [
+        "pad",
+        "arp",
+        "sub",
+        "air"
+      ],
+      "improv": "keys",
+      "improv_range": [
+        60,
+        77
+      ],
+      "improv_density": 0.8
+    },
+    {
+      "bars": 8,
+      "chords": "Am9 | Am9 | Fmaj7/A | Fmaj7/A | Dm6 | Dm6 | Am9 | Am9",
+      "dyn": 0.17,
+      "layers": [
+        "pad",
+        "arp"
+      ],
+      "improv": "keys",
+      "improv_range": [
+        60,
+        77
+      ],
+      "improv_density": 0.5,
+      "swell": -0.1
+    }
+  ]
+}

@@ -1,0 +1,93 @@
+{
+  "title": "Trăng trên sông",
+  "title_en": "Moonlight on the River",
+  "family": "dark-khac",
+  "about": "Round x13, the user preferred the X11 sound to the electronic one (\"tôi vẫn thích kiểu cũ hơn, hãy quay lại sáng tác kiểu cũ\"): ambient piano (piano-am) as in X11, the piano breaking Gm, Eb, Bb, F softly in eighths, a simple tune improvised once and repeated, strings, choir in the middle, a deep sub. No drums. An original piece.",
+  "style": "piano-am",
+  "bpm": 70,
+  "beats": 4,
+  "mode": "aeolian",
+  "seed": 86,
+  "sections": [
+    {
+      "bars": 4,
+      "chords": "Gm | Eb | Bb | F",
+      "dyn": 0.3,
+      "layers": [
+        "pad",
+        "pianoarp"
+      ],
+      "arp_quarters": true
+    },
+    {
+      "bars": 16,
+      "chords": "Gm | Eb | Bb | F | Gm | Eb | Bb | Fsus4 | Gm | Eb | Bb | F | Gm | Eb | Bb | Fsus4",
+      "dyn": 0.42,
+      "layers": [
+        "pad",
+        "pianoarp",
+        "sub"
+      ],
+      "improv": "keys",
+      "motif": true,
+      "motif_bars": 8,
+      "improv_range": [
+        64,
+        79
+      ],
+      "improv_density": 1.3
+    },
+    {
+      "bars": 8,
+      "chords": "Eb | Bb | F | Gm | Eb | Bb | Cm7 | Dsus4",
+      "dyn": 0.5,
+      "layers": [
+        "pad",
+        "pianoarp",
+        "sub",
+        "strings",
+        "choir"
+      ],
+      "improv": "keys",
+      "motif": true,
+      "motif_bars": 8,
+      "improv_range": [
+        64,
+        79
+      ],
+      "improv_density": 1.3
+    },
+    {
+      "bars": 8,
+      "chords": "Gm | Eb | Bb | F | Gm | Eb | Bb | Fsus4",
+      "dyn": 0.46,
+      "layers": [
+        "pad",
+        "pianoarp",
+        "sub",
+        "strings",
+        "choir"
+      ],
+      "improv": "keys",
+      "motif": true,
+      "motif_bars": 8,
+      "improv_range": [
+        64,
+        79
+      ],
+      "improv_density": 1.3
+    },
+    {
+      "bars": 4,
+      "chords": "Gm | Eb | Bb | Gm",
+      "dyn": 0.3,
+      "layers": [
+        "pad",
+        "pianoarp"
+      ],
+      "arp_quarters": true,
+      "swell": -0.1,
+      "rit": true
+    }
+  ]
+}

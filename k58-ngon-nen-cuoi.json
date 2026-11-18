@@ -1,0 +1,61 @@
+{
+  "title": "Ngọn nến cuối",
+  "title_en": "The Last Candle",
+  "family": "dark-khac",
+  "about": "Round x9, for sleep with improvised melodies (style ngu-ngon), as the user asked (\"tôi muốn những bài âm thanh u tối nhưng dễ nghe để ngủ hơn, có thể thêm những giai điệu ngẫu hứng\"): the last candle in a dark room: low strings and the pad, very soft and warm (the organ pieces were only 'maybe'), the felt piano improvising quietly over it, a deep sub. C minor. Softer harmony than before (added ninths, major sevenths, no Phrygian rub), nothing sudden. An original piece; its melody made up by the improviser in dark/ambient.py.",
+  "style": "ngu-ngon",
+  "bpm": 48,
+  "beats": 4,
+  "mode": "aeolian",
+  "seed": 58,
+  "gains": {
+    "pad": -3.0
+  },
+  "sections": [
+    {
+      "bars": 8,
+      "chords": "Cmadd9 | Cmadd9 | Abmaj7 | Abmaj7 | Cmadd9 | Cmadd9 | Abmaj7 | Abmaj7",
+      "dyn": 0.2,
+      "layers": [
+        "strings",
+        "sub",
+        "pad"
+      ]
+    },
+    {
+      "bars": 24,
+      "chords": "Cmadd9 | Cmadd9 | Abmaj7 | Abmaj7 | Fm9 | Fm9 | Gsus4 | Gsus4 | Cmadd9 | Cmadd9 | Abmaj7 | Abmaj7 | Fm9 | Fm9 | Gsus4 | Gsus4 | Cmadd9 | Cmadd9 | Abmaj7 | Abmaj7 | Fm9 | Fm9 | Gsus4 | Gsus4",
+      "dyn": 0.28,
+      "layers": [
+        "strings",
+        "sub",
+        "pad"
+      ],
+      "improv": "felt",
+      "improv_density": 1.0
+    },
+    {
+      "bars": 16,
+      "chords": "Abmaj7 | Abmaj7 | Ebmaj7 | Ebmaj7 | Fm9 | Fm9 | Gsus4 | Cmadd9 | Abmaj7 | Abmaj7 | Ebmaj7 | Ebmaj7 | Fm9 | Fm9 | Gsus4 | Cmadd9",
+      "dyn": 0.28,
+      "layers": [
+        "strings",
+        "sub",
+        "pad"
+      ],
+      "improv": "felt",
+      "improv_density": 1.0
+    },
+    {
+      "bars": 8,
+      "chords": "Cmadd9 | Cmadd9 | Abmaj7 | Abmaj7 | Cmadd9 | Cmadd9 | Abmaj7 | Abmaj7",
+      "dyn": 0.18,
+      "layers": [
+        "strings",
+        "sub",
+        "pad"
+      ],
+      "swell": -0.1
+    }
+  ]
+}

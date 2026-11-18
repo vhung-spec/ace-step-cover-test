@@ -1,0 +1,61 @@
+{
+  "title": "Rừng đêm",
+  "family": "dark-khac",
+  "about": "Round x4 of the dark ambient style (khong-gian), as the user asked (\"hãy sáng tác thêm cho tôi\"): a forest at night: wind in the trees, a soft heartbeat, glass glinting like eyes in the dark, a lonely bell line answered low. G minor at 50 bpm. An original piece.",
+  "style": "khong-gian",
+  "bpm": 50,
+  "beats": 4,
+  "sections": [
+    {
+      "bars": 4,
+      "chords": "Gm | Gm | Ebmaj7 | Ebmaj7",
+      "dyn": 0.22,
+      "layers": [
+        "wind",
+        "shimmer"
+      ],
+      "swell": 0.15
+    },
+    {
+      "bars": 8,
+      "chords": "Gm | Gm | Ebmaj7 | Ebmaj7 | Cm9 | Cm9 | D5 | D5",
+      "dyn": 0.38,
+      "layers": [
+        "wind",
+        "shimmer",
+        "pad",
+        "pulse",
+        "sub"
+      ],
+      "pulse_beats": 8,
+      "melody": "D5:2 Bb4:1 A4:1 | G4:4 | r:4 | r:4 | Eb5:2 D5:1 C5:1 | D5:4 | r:4 | r:4",
+      "answer": "r:4 | r:4 | r:2 G3:2 | D3:4 | r:4 | r:4 | r:2 A3:2 | D3:4"
+    },
+    {
+      "bars": 8,
+      "chords": "Gm | Gm | Ab/G | Ab/G | Ebmaj7 | Ebmaj7 | D5 | D5",
+      "dyn": 0.5,
+      "layers": [
+        "wind",
+        "shimmer",
+        "pad",
+        "pulse",
+        "sub"
+      ],
+      "pulse_beats": 4,
+      "swell": 0.1,
+      "melody": "G5:2 F5:1 D5:1 | Eb5:4 | r:4 | r:4 | D5:2 C5:1 Bb4:1 | A4:4 | r:4 | r:4",
+      "answer": "r:4 | r:4 | r:2 C4:2 | Ab3:4 | r:4 | r:4 | r:2 D3:2 | G3:4"
+    },
+    {
+      "bars": 6,
+      "chords": "Gm | Gm | Ab/G | Ab/G | Gm | Gm",
+      "dyn": 0.22,
+      "layers": [
+        "wind",
+        "shimmer"
+      ],
+      "swell": -0.1
+    }
+  ]
+}

@@ -1,0 +1,17 @@
+{
+  "title": "Gió hoang",
+  "family": "dark-khac",
+  "about": "Round x2 of the dark ambient style (khong-gian), as the user asked for more versions: a wasteland. Wind through a hollow, sounding the chord's root and fifth in gusts, over the dark pad and a deep sub; a low bell far off now and then. B minor at 48 bpm, the C of the Phrygian mode leaning on it. An original piece.",
+  "style": "khong-gian",
+  "bpm": 48,
+  "beats": 4,
+  "sections": [
+    {"bars": 4, "chords": "Bm | Bm | Bm | Bm", "dyn": 0.2, "swell": 0.2, "layers": ["wind", "sub"]},
+    {"bars": 8, "chords": "Bm | Bm | C/B | C/B | Gmaj7 | Gmaj7 | Em9 | F#5", "dyn": 0.4, "toll_every": 2,
+     "layers": ["wind", "pad", "sub", "toll"]},
+    {"bars": 8, "chords": "Bm | Bm | Gmaj7 | Gmaj7 | C/B | C/B | Em | F#5", "dyn": 0.55, "swell": 0.1, "toll_every": 2,
+     "melody": "r:4 | r:2 F#5:2 | r:4 | D5:4 | r:4 | r:2 C5:2 | r:4 | B4:4",
+     "layers": ["wind", "pad", "sub", "toll"]},
+    {"bars": 6, "chords": "Bm | Bm | C/B | C/B | Bm | Bm", "dyn": 0.25, "swell": -0.15, "layers": ["wind", "sub"]}
+  ]
+}

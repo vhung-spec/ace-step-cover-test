@@ -1,0 +1,69 @@
+{
+  "title": "Đêm bát hát",
+  "title_en": "Night of Singing Bowls",
+  "family": "dark-khac",
+  "about": "Round x10, for sleep with improvised melodies (style ngu-ngon), as the user asked to go on (\"ok chúng ta hãy tiếp tục sáng tác nhạc\"), on the sounds the user liked most: singing bowls in the dark, one every few breaths, a low drone, the glass improvising very slowly between them. C sharp Dorian. No drums, plucked string or organ. An original piece; its melody made up by the improviser in dark/ambient.py.",
+  "style": "ngu-ngon",
+  "bpm": 46,
+  "beats": 4,
+  "mode": "dorian",
+  "seed": 67,
+  "sections": [
+    {
+      "bars": 8,
+      "chords": "C#m9 | C#m9 | F#/C# | F#/C# | C#m9 | C#m9 | F#/C# | F#/C#",
+      "dyn": 0.2,
+      "layers": [
+        "bowl",
+        "drone"
+      ],
+      "bowl_every": 2
+    },
+    {
+      "bars": 24,
+      "chords": "C#m9 | C#m9 | F#/C# | F#/C# | Amaj7 | Amaj7 | Badd9 | Badd9 | C#m9 | C#m9 | F#/C# | F#/C# | Amaj7 | Amaj7 | Badd9 | Badd9 | C#m9 | C#m9 | F#/C# | F#/C# | Amaj7 | Amaj7 | Badd9 | Badd9",
+      "dyn": 0.27,
+      "layers": [
+        "bowl",
+        "drone",
+        "pad"
+      ],
+      "bowl_every": 2,
+      "improv": "glass",
+      "improv_range": [
+        61,
+        78
+      ],
+      "improv_density": 0.7
+    },
+    {
+      "bars": 16,
+      "chords": "Amaj7 | Amaj7 | Emaj7 | Emaj7 | F#m9 | F#m9 | G#sus4 | C#m9 | Amaj7 | Amaj7 | Emaj7 | Emaj7 | F#m9 | F#m9 | G#sus4 | C#m9",
+      "dyn": 0.27,
+      "layers": [
+        "bowl",
+        "drone",
+        "pad",
+        "sub"
+      ],
+      "bowl_every": 2,
+      "improv": "glass",
+      "improv_range": [
+        61,
+        78
+      ],
+      "improv_density": 0.7
+    },
+    {
+      "bars": 8,
+      "chords": "C#m9 | C#m9 | F#/C# | F#/C# | C#m9 | C#m9 | F#/C# | F#/C#",
+      "dyn": 0.18,
+      "layers": [
+        "bowl",
+        "drone"
+      ],
+      "bowl_every": 3,
+      "swell": -0.1
+    }
+  ]
+}

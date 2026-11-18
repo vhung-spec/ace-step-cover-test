@@ -1,0 +1,61 @@
+{
+  "title": "Bóng người",
+  "family": "dark-khac",
+  "about": "Round x5 of the dark ambient style (khong-gian), as the user asked (\"hãy sáng tác thêm cho tôi nhiều bài nữa\"): a figure in the shadows: low strings creeping by half steps, a soft heartbeat, the glass calling and a low bell answering, always a step behind. A minor at 54 bpm. An original piece.",
+  "style": "khong-gian",
+  "bpm": 54,
+  "beats": 4,
+  "sections": [
+    {
+      "bars": 4,
+      "chords": "Am | Am | Bb/A | Am",
+      "dyn": 0.25,
+      "layers": [
+        "strings",
+        "pulse"
+      ],
+      "pulse_beats": 8
+    },
+    {
+      "bars": 8,
+      "chords": "Am | Bb/A | Am | G#dim7/A | Am | Bb/A | Fmaj7 | E5",
+      "dyn": 0.4,
+      "layers": [
+        "strings",
+        "pulse",
+        "sub",
+        "glass"
+      ],
+      "pulse_beats": 4,
+      "melody": "E5:1 F5:1 E5:2 | r:4 | r:4 | r:4 | C5:1 D5:1 C5:2 | r:4 | r:4 | r:4",
+      "answer": "r:4 | r:2 E3:2 | F3:4 | r:4 | r:4 | r:2 C3:2 | D3:4 | r:4"
+    },
+    {
+      "bars": 8,
+      "chords": "Dm9 | Dm9 | Bb/A | Bb/A | Fmaj7 | Fmaj7 | E | E",
+      "dyn": 0.52,
+      "layers": [
+        "strings",
+        "pulse",
+        "sub",
+        "glass",
+        "wind"
+      ],
+      "pulse_beats": 4,
+      "swell": 0.1,
+      "melody": "A5:1 Bb5:1 A5:2 | r:4 | r:4 | r:4 | E5:1 F5:1 E5:2 | r:4 | r:4 | G#4:4",
+      "answer": "r:4 | r:2 A3:2 | Bb3:4 | r:4 | r:4 | r:2 E3:2 | F3:4 | E3:4"
+    },
+    {
+      "bars": 6,
+      "chords": "Am | Bb/A | Am | Bb/A | Am | Am",
+      "dyn": 0.24,
+      "layers": [
+        "strings",
+        "pulse"
+      ],
+      "pulse_beats": 8,
+      "swell": -0.12
+    }
+  ]
+}

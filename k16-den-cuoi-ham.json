@@ -1,0 +1,62 @@
+{
+  "title": "Đèn cuối hầm",
+  "family": "dark-khac",
+  "about": "Round x3 of the dark ambient style (khong-gian), as the user asked for many more versions (\"tôi rất thích các phiên bản bạn tạo, hãy tạo thêm cho tôi nhiều phiên bản khác\"): a light at the end of a tunnel: the far organ, a slow heartbeat, the glass calling a figure and a low bell answering it; C minor at 50 bpm, opening to E flat at the end. An original piece.",
+  "style": "khong-gian",
+  "bpm": 50,
+  "beats": 4,
+  "sections": [
+    {
+      "bars": 4,
+      "chords": "Cm | Cm | Cm | Cm",
+      "dyn": 0.22,
+      "layers": [
+        "organ",
+        "pulse"
+      ],
+      "swell": 0.15,
+      "pulse_beats": 8
+    },
+    {
+      "bars": 8,
+      "chords": "Cm | Cm | Abmaj7 | Abmaj7 | Fm9 | Fm9 | G5 | G5",
+      "dyn": 0.4,
+      "layers": [
+        "organ",
+        "pulse",
+        "sub",
+        "glass"
+      ],
+      "pulse_beats": 4,
+      "melody": "G4:1 C5:1 Eb5:2 | r:4 | r:4 | r:4 | F4:1 Ab4:1 C5:2 | r:4 | r:4 | r:4",
+      "answer": "r:4 | r:2 Eb3:2 | C3:4 | r:4 | r:4 | r:2 C3:2 | Ab2:4 | r:4"
+    },
+    {
+      "bars": 8,
+      "chords": "Cm | Cm | Abmaj7 | Abmaj7 | Fm9 | Fm9 | Bb | Bb",
+      "dyn": 0.52,
+      "layers": [
+        "organ",
+        "pulse",
+        "sub",
+        "glass",
+        "choir"
+      ],
+      "pulse_beats": 4,
+      "swell": 0.1,
+      "melody": "G4:1 C5:1 Eb5:1 G5:1 | r:4 | r:4 | r:4 | Ab4:1 C5:1 F5:1 Ab5:1 | r:4 | r:4 | r:4",
+      "answer": "r:4 | r:2 G3:2 | Eb3:4 | r:4 | r:4 | r:2 F3:2 | D3:4 | r:4"
+    },
+    {
+      "bars": 6,
+      "chords": "Ebmaj7 | Ebmaj7 | Abmaj7 | Abmaj7 | Ebmaj7 | Ebmaj7",
+      "dyn": 0.26,
+      "layers": [
+        "organ",
+        "sub",
+        "shimmer"
+      ],
+      "swell": -0.12
+    }
+  ]
+}

@@ -1,0 +1,91 @@
+{
+  "title": "Chờ ánh sáng",
+  "title_en": "Waiting for the Light",
+  "family": "dark-khac",
+  "about": "Round x11, a new direction after the user's five references (analysed for sound and arrangement only, nothing copied), as the user asked (\"ok hãy bắt đầu làm\"): ambient piano, hopeful and sad at once: G major falling to E minor and C, the piano's soft eighths, a repeated tune, the humming choir and the pad. No drums. An original piece; its tune made up once by the improviser in dark/ambient.py and repeated.",
+  "style": "piano-am",
+  "bpm": 70,
+  "beats": 4,
+  "mode": "major",
+  "seed": 71,
+  "sections": [
+    {
+      "bars": 4,
+      "chords": "Gadd9 | D/F# | Em | Cmaj7",
+      "dyn": 0.3,
+      "layers": [
+        "pad",
+        "pianoarp"
+      ],
+      "arp_quarters": true
+    },
+    {
+      "bars": 16,
+      "chords": "Gadd9 | D/F# | Em | Cmaj7 | Gadd9 | D/F# | Cmaj7 | Dsus4 | Gadd9 | D/F# | Em | Cmaj7 | Gadd9 | D/F# | Cmaj7 | Dsus4",
+      "dyn": 0.42,
+      "layers": [
+        "pad",
+        "pianoarp",
+        "sub"
+      ],
+      "improv": "keys",
+      "motif": true,
+      "motif_bars": 8,
+      "improv_range": [
+        64,
+        79
+      ],
+      "improv_density": 1.3
+    },
+    {
+      "bars": 8,
+      "chords": "Em | Cmaj7 | Gadd9 | D | Em | Cmaj7 | Am7 | Dsus4",
+      "dyn": 0.5,
+      "layers": [
+        "pad",
+        "pianoarp",
+        "sub",
+        "choir"
+      ],
+      "improv": "keys",
+      "motif": true,
+      "motif_bars": 8,
+      "improv_range": [
+        64,
+        79
+      ],
+      "improv_density": 1.3
+    },
+    {
+      "bars": 8,
+      "chords": "Gadd9 | D/F# | Em | Cmaj7 | Gadd9 | D/F# | Cmaj7 | Dsus4",
+      "dyn": 0.46,
+      "layers": [
+        "pad",
+        "pianoarp",
+        "sub",
+        "choir"
+      ],
+      "improv": "keys",
+      "motif": true,
+      "motif_bars": 8,
+      "improv_range": [
+        64,
+        79
+      ],
+      "improv_density": 1.3
+    },
+    {
+      "bars": 4,
+      "chords": "Gadd9 | D/F# | Cmaj7 | Gadd9",
+      "dyn": 0.3,
+      "layers": [
+        "pad",
+        "pianoarp"
+      ],
+      "arp_quarters": true,
+      "swell": -0.1,
+      "rit": true
+    }
+  ]
+}

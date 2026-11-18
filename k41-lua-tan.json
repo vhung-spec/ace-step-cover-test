@@ -1,0 +1,59 @@
+{
+  "title": "Lửa tàn",
+  "title_en": "Dying Embers",
+  "family": "dark-khac",
+  "about": "Round x6, for sleep (style ngu-ngon), as the user asked (\"hãy sáng tác thêm cho tôi nhiều bài nữa, phù hợp cho các người nghe có thể nghe để ngủ\"): the last embers of a fire: a far organ, very soft and warm, the felt piano now and then, a deep sub; it grows quieter and quieter. G minor at 46 bpm, about six minutes. Nothing sudden: no thunder, heartbeat or struck bells. An original piece.",
+  "style": "ngu-ngon",
+  "bpm": 46,
+  "beats": 4,
+  "organ_range": [
+    50,
+    67
+  ],
+  "gains": {
+    "organ": -3.0
+  },
+  "sections": [
+    {
+      "bars": 8,
+      "chords": "Gm | Gm | Ebmaj7 | Ebmaj7 | Gm | Gm | Ebmaj7 | Ebmaj7",
+      "dyn": 0.22,
+      "layers": [
+        "organ",
+        "sub"
+      ]
+    },
+    {
+      "bars": 24,
+      "chords": "Gm | Gm | Ebmaj7 | Ebmaj7 | Cm9 | Cm9 | Dsus4 | Dsus4 | Gm | Gm | Ebmaj7 | Ebmaj7 | Cm9 | Cm9 | Dsus4 | Dsus4 | Gm | Gm | Ebmaj7 | Ebmaj7 | Cm9 | Cm9 | Dsus4 | Dsus4",
+      "dyn": 0.28,
+      "layers": [
+        "organ",
+        "sub",
+        "felt"
+      ],
+      "felt_beats": 4
+    },
+    {
+      "bars": 16,
+      "chords": "Ebmaj7 | Ebmaj7 | Bb | Bb | Cm9 | Cm9 | Dsus4 | Gm | Ebmaj7 | Ebmaj7 | Bb | Bb | Cm9 | Cm9 | Dsus4 | Gm",
+      "dyn": 0.25,
+      "layers": [
+        "organ",
+        "sub",
+        "felt"
+      ],
+      "felt_beats": 4
+    },
+    {
+      "bars": 8,
+      "chords": "Gm | Gm | Ebmaj7 | Ebmaj7 | Gm | Gm | Ebmaj7 | Ebmaj7",
+      "dyn": 0.18,
+      "layers": [
+        "organ",
+        "sub"
+      ],
+      "swell": -0.1
+    }
+  ]
+}

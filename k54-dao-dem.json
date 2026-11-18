@@ -1,0 +1,55 @@
+{
+  "title": "Dạo đêm",
+  "title_en": "Night Wandering",
+  "family": "dark-khac",
+  "about": "Round x9, for sleep with improvised melodies (style ngu-ngon), as the user asked (\"tôi muốn những bài âm thanh u tối nhưng dễ nghe để ngủ hơn, có thể thêm những giai điệu ngẫu hứng\"): the felt piano improvising slowly at night, a phrase and a long breath, over a soft dark pad and a deep sub. Softer harmony than before (added ninths, major sevenths, no Phrygian rub), nothing sudden. An original piece; its melody made up by the improviser in dark/ambient.py.",
+  "style": "ngu-ngon",
+  "bpm": 54,
+  "beats": 4,
+  "mode": "aeolian",
+  "seed": 54,
+  "sections": [
+    {
+      "bars": 8,
+      "chords": "Amadd9 | Amadd9 | Fmaj7 | Fmaj7 | Amadd9 | Amadd9 | Fmaj7 | Fmaj7",
+      "dyn": 0.18,
+      "layers": [
+        "pad",
+        "sub"
+      ]
+    },
+    {
+      "bars": 24,
+      "chords": "Amadd9 | Amadd9 | Fmaj7 | Fmaj7 | Dm9 | Dm9 | Esus4 | Esus4 | Amadd9 | Amadd9 | Fmaj7 | Fmaj7 | Dm9 | Dm9 | Esus4 | Esus4 | Amadd9 | Amadd9 | Fmaj7 | Fmaj7 | Dm9 | Dm9 | Esus4 | Esus4",
+      "dyn": 0.28,
+      "layers": [
+        "pad",
+        "sub"
+      ],
+      "improv": "felt"
+    },
+    {
+      "bars": 24,
+      "chords": "Fmaj7 | Fmaj7 | Cmaj7 | Cmaj7 | Dm9 | Dm9 | Esus4 | Amadd9 | Fmaj7 | Fmaj7 | Cmaj7 | Cmaj7 | Dm9 | Dm9 | Esus4 | Amadd9 | Fmaj7 | Fmaj7 | Cmaj7 | Cmaj7 | Dm9 | Dm9 | Esus4 | Amadd9",
+      "dyn": 0.3,
+      "layers": [
+        "pad",
+        "sub",
+        "choir"
+      ],
+      "improv": "felt"
+    },
+    {
+      "bars": 8,
+      "chords": "Amadd9 | Amadd9 | Fmaj7 | Fmaj7 | Amadd9 | Amadd9 | Fmaj7 | Fmaj7",
+      "dyn": 0.2,
+      "layers": [
+        "pad",
+        "sub"
+      ],
+      "swell": -0.1,
+      "improv": "felt",
+      "improv_density": 0.6
+    }
+  ]
+}

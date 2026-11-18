@@ -1,0 +1,68 @@
+{
+  "title": "Đom đóm",
+  "title_en": "Fireflies",
+  "family": "dark-khac",
+  "about": "Round x14, two more to fill the album, as the user asked (\"hãy sáng tác thêm 2 bài nữa để đủ album\"): sleep music in the style of albums 6-8, slow (50 bpm), pad, shimmer, sub, an improvised glass tune, then box. An original piece.",
+  "style": "ngu-ngon",
+  "bpm": 50,
+  "beats": 4,
+  "mode": "aeolian",
+  "seed": 96,
+  "sections": [
+    {
+      "bars": 8,
+      "chords": "C#madd9 | C#madd9 | Amaj7 | Amaj7 | C#madd9 | C#madd9 | Amaj7 | Amaj7",
+      "dyn": 0.18,
+      "layers": [
+        "pad",
+        "shimmer"
+      ]
+    },
+    {
+      "bars": 24,
+      "chords": "C#madd9 | C#madd9 | Amaj7 | Amaj7 | F#m9 | F#m9 | G#sus4 | G#sus4 | C#madd9 | C#madd9 | Amaj7 | Amaj7 | F#m9 | F#m9 | G#sus4 | G#sus4 | C#madd9 | C#madd9 | Amaj7 | Amaj7 | F#m9 | F#m9 | G#sus4 | G#sus4",
+      "dyn": 0.27,
+      "layers": [
+        "pad",
+        "shimmer",
+        "sub"
+      ],
+      "improv": "glass",
+      "improv_range": [
+        62,
+        79
+      ]
+    },
+    {
+      "bars": 16,
+      "chords": "Amaj7 | Amaj7 | Emaj7 | Emaj7 | F#m9 | F#m9 | G#sus4 | C#madd9 | Amaj7 | Amaj7 | Emaj7 | Emaj7 | F#m9 | F#m9 | G#sus4 | C#madd9",
+      "dyn": 0.28,
+      "layers": [
+        "pad",
+        "sub",
+        "choir"
+      ],
+      "improv": "box",
+      "improv_range": [
+        62,
+        81
+      ]
+    },
+    {
+      "bars": 8,
+      "chords": "C#madd9 | C#madd9 | Amaj7 | Amaj7 | C#madd9 | C#madd9 | Amaj7 | Amaj7",
+      "dyn": 0.17,
+      "layers": [
+        "pad",
+        "shimmer"
+      ],
+      "swell": -0.1,
+      "improv": "glass",
+      "improv_density": 0.6,
+      "improv_range": [
+        62,
+        79
+      ]
+    }
+  ]
+}

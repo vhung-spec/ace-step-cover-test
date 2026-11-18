@@ -1,0 +1,19 @@
+{
+  "title": "Nhà thờ bỏ hoang",
+  "family": "dark-khac",
+  "about": "Round x2 of the dark ambient style (khong-gian): an abandoned church. The far choir in front, lower and fuller than in Hầm mộ, a great bell tolling on every chord, the pad and drone under them; A minor at 44 bpm with the F and D minor of a slow hymn, the Phrygian B flat at the close. An original piece.",
+  "style": "khong-gian",
+  "bpm": 44,
+  "beats": 4,
+  "choir_range": [55, 72],
+  "gains": {"choir": 4.0, "toll": 2.0},
+  "sections": [
+    {"bars": 4, "chords": "Am | Am | Am | Am", "dyn": 0.2, "swell": 0.2, "layers": ["choir", "drone", "toll"], "toll_every": 4},
+    {"bars": 8, "chords": "Am | Am | F | F | Dm | Dm | Esus4 | E", "dyn": 0.4, "layers": ["choir", "pad", "sub", "toll"],
+     "toll_every": 2},
+    {"bars": 8, "chords": "Am | Am | Fmaj7 | Fmaj7 | Dm9 | Dm9 | Bb/A | Bb/A", "dyn": 0.55, "swell": 0.1,
+     "layers": ["choir", "pad", "sub", "toll"], "toll_every": 2},
+    {"bars": 6, "chords": "Am | Am | Bb/A | Bb/A | Am | Am", "dyn": 0.28, "swell": -0.15,
+     "layers": ["choir", "drone", "toll"], "toll_every": 2}
+  ]
+}
