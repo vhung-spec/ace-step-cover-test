@@ -1,0 +1,69 @@
+{
+  "title": "Thuyền giấy",
+  "title_en": "Paper Boats",
+  "family": "dark-khac",
+  "about": "Round x19 (album 14), the user: \"làm album và chuyển sang sáng tác album mới\": sleep music in the style of Sleep in the Dark (ngu-ngon), on a less common progression of its own (template 5), slow (48 bpm), waves, pad, sub, choir, an improvised glass tune, then box. No drums, plucked string or organ. An original piece.",
+  "style": "ngu-ngon",
+  "bpm": 48,
+  "beats": 4,
+  "mode": "aeolian",
+  "seed": 142,
+  "sections": [
+    {
+      "bars": 8,
+      "chords": "Amadd9 | Amadd9 | Gadd9/A | Gadd9/A | Fmaj7#11 | Fmaj7#11 | Amadd9 | Amadd9",
+      "dyn": 0.18,
+      "layers": [
+        "waves",
+        "pad"
+      ]
+    },
+    {
+      "bars": 24,
+      "chords": "Amadd9 | G6 | Fmaj7#11 | Em7 | Dm9 | Cadd9 | Bm7b5 | E7sus4 | Amadd9 | G6 | Fmaj7#11 | Em7 | Dm9 | Cadd9 | Bm7b5 | E7sus4 | Amadd9 | G6 | Fmaj7#11 | Em7 | Dm9 | Cadd9 | Bm7b5 | E7sus4",
+      "dyn": 0.27,
+      "layers": [
+        "waves",
+        "pad",
+        "sub"
+      ],
+      "improv": "glass",
+      "improv_range": [
+        62,
+        79
+      ]
+    },
+    {
+      "bars": 16,
+      "chords": "Cmaj7 | Gadd9/B | Am9 | Fmaj7#11 | Dm6 | Cmaj7 | E7sus4 | Amadd9 | Cmaj7 | Gadd9/B | Am9 | Fmaj7#11 | Dm6 | Cmaj7 | E7sus4 | Amadd9",
+      "dyn": 0.28,
+      "layers": [
+        "waves",
+        "pad",
+        "sub",
+        "choir"
+      ],
+      "improv": "box",
+      "improv_range": [
+        62,
+        81
+      ]
+    },
+    {
+      "bars": 8,
+      "chords": "Amadd9 | Amadd9 | Gadd9/A | Gadd9/A | Fmaj7#11 | Fmaj7#11 | Amadd9 | Amadd9",
+      "dyn": 0.17,
+      "layers": [
+        "waves",
+        "pad"
+      ],
+      "improv": "glass",
+      "improv_range": [
+        62,
+        79
+      ],
+      "improv_density": 0.6,
+      "swell": -0.1
+    }
+  ]
+}

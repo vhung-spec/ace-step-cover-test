@@ -693,3 +693,17 @@ một trong năm khung hợp âm ít gặp (bài số chẵn bắt đầu vòng 
 `k132` Slow Comet (La thứ), `k133` Last Subway Home (Đô thứ), `k134` Distant Night Ocean (Son thứ), `k135` Quiet
 Frequency (Fa thăng Dorian), `k136` Sleeping Crystal (Rê thứ), `k137` Night Ferry (Si thứ), `k138` Snow City Lights
 (Fa thứ), `k139` Polar Glow (Đô thăng Dorian), `k140` Quiet Standby (Mi giáng thứ, 44 bpm).
+
+### Album 13: Night Frequencies (xuất theo quy tắc mới)
+
+Người dùng chấm vòng X18: bảy thích, ba tạm được; album gồm đủ mười (Glacier Night, Last Subway Home, Sleeping
+Crystal, Night Ferry, Slow Comet, Snow City Lights, Quiet Frequency, Distant Night Ocean, Polar Glow, Quiet
+Standby; -17 LUFS), xuất vào `Nhạc Dark Ambient\Night Frequencies\`, bìa thành phố đêm tuyết rơi.
+
+## Vòng X19: album 14, Sleep in the Dark kiểu an toàn (`ngu-ngon`)
+
+Người dùng: "làm album và chuyển sang sáng tác album mới". Mười bài ngủ kiểu Sleep in the Dark trên năm khung hợp
+âm ít gặp (bài số lẻ bắt đầu vòng giữa từ nửa sau): `k141` Candlelit Library (Rê thứ), `k142` Paper Boats (La
+thứ), `k143` Moss and Stone (Mi thứ), `k144` Quiet Harbor (Son thứ), `k145` The Old Clock Tower (Si thứ), `k146`
+Winter Orchard (Fa thăng Dorian), `k147` Moon Hill (Đô thứ), `k148` Wooden Cabin (Fa thứ), `k149` Velvet Night (Đô
+thăng Dorian), `k150` Sleep Well (Si giáng thứ, 42 bpm).

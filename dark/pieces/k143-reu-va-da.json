@@ -1,0 +1,74 @@
+{
+  "title": "Rêu và đá",
+  "title_en": "Moss and Stone",
+  "family": "dark-khac",
+  "about": "Round x19 (album 14), the user: \"làm album và chuyển sang sáng tác album mới\": sleep music in the style of Sleep in the Dark (ngu-ngon), on a less common progression of its own (template 1), slow (46 bpm), pad, drops, bowl, sub, an improvised glass tune, then box. No drums, plucked string or organ. An original piece.",
+  "style": "ngu-ngon",
+  "bpm": 46,
+  "beats": 4,
+  "mode": "aeolian",
+  "seed": 143,
+  "sections": [
+    {
+      "bars": 8,
+      "chords": "Emadd9 | Emadd9 | Am6/E | Am6/E | Emadd9 | Emadd9 | Cmaj7#11 | Cmaj7#11",
+      "dyn": 0.18,
+      "layers": [
+        "pad",
+        "drops",
+        "bowl"
+      ],
+      "drops_per_bar": 1
+    },
+    {
+      "bars": 24,
+      "chords": "Emadd9 | Dadd9 | Cmaj7#11 | B7sus4 | Emadd9 | Gmaj7/B | Am6 | Cmaj7#11 | Emadd9 | Dadd9 | Cmaj7#11 | B7sus4 | Emadd9 | Gmaj7/B | Am6 | Cmaj7#11 | Emadd9 | Dadd9 | Cmaj7#11 | B7sus4 | Emadd9 | Gmaj7/B | Am6 | Cmaj7#11",
+      "dyn": 0.27,
+      "layers": [
+        "pad",
+        "drops",
+        "bowl",
+        "sub"
+      ],
+      "drops_per_bar": 1,
+      "improv": "glass",
+      "improv_range": [
+        62,
+        79
+      ]
+    },
+    {
+      "bars": 16,
+      "chords": "Am9 | Gmaj7/C# | Cmaj7#11 | Dadd9 | Fmaj7#11 | Emadd9 | B7sus4 | Emadd9 | Am9 | Gmaj7/C# | Cmaj7#11 | Dadd9 | Fmaj7#11 | Emadd9 | B7sus4 | Emadd9",
+      "dyn": 0.28,
+      "layers": [
+        "pad",
+        "sub",
+        "bowl"
+      ],
+      "improv": "box",
+      "improv_range": [
+        62,
+        81
+      ]
+    },
+    {
+      "bars": 8,
+      "chords": "Emadd9 | Emadd9 | Am6/E | Am6/E | Emadd9 | Emadd9 | Cmaj7#11 | Cmaj7#11",
+      "dyn": 0.17,
+      "layers": [
+        "pad",
+        "drops",
+        "bowl"
+      ],
+      "drops_per_bar": 1,
+      "improv": "glass",
+      "improv_range": [
+        62,
+        79
+      ],
+      "improv_density": 0.6,
+      "swell": -0.1
+    }
+  ]
+}

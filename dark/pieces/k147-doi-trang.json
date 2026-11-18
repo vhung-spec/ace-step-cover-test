@@ -1,0 +1,70 @@
+{
+  "title": "Đồi trăng",
+  "title_en": "Moon Hill",
+  "family": "dark-khac",
+  "about": "Round x19 (album 14), the user: \"làm album và chuyển sang sáng tác album mới\": sleep music in the style of Sleep in the Dark (ngu-ngon), on a less common progression of its own (template 5), slow (48 bpm), pad, choir, sub, shimmer, an improvised solo tune, then glass. No drums, plucked string or organ. An original piece.",
+  "style": "ngu-ngon",
+  "bpm": 48,
+  "beats": 4,
+  "mode": "aeolian",
+  "seed": 147,
+  "sections": [
+    {
+      "bars": 8,
+      "chords": "Cmadd9 | Cmadd9 | Bbadd9/C | Bbadd9/C | Abmaj7#11 | Abmaj7#11 | Cmadd9 | Cmadd9",
+      "dyn": 0.18,
+      "layers": [
+        "pad",
+        "choir"
+      ]
+    },
+    {
+      "bars": 24,
+      "chords": "Fm9 | Ebadd9 | Dm7b5 | G7sus4 | Cmadd9 | Bb6 | Abmaj7#11 | Gm7 | Fm9 | Ebadd9 | Dm7b5 | G7sus4 | Cmadd9 | Bb6 | Abmaj7#11 | Gm7 | Fm9 | Ebadd9 | Dm7b5 | G7sus4 | Cmadd9 | Bb6 | Abmaj7#11 | Gm7",
+      "dyn": 0.27,
+      "layers": [
+        "pad",
+        "choir",
+        "sub"
+      ],
+      "improv": "solo",
+      "improv_range": [
+        55,
+        74
+      ]
+    },
+    {
+      "bars": 16,
+      "chords": "Ebmaj7 | Bbadd9/D | Cm9 | Abmaj7#11 | Fm6 | Ebmaj7 | G7sus4 | Cmadd9 | Ebmaj7 | Bbadd9/D | Cm9 | Abmaj7#11 | Fm6 | Ebmaj7 | G7sus4 | Cmadd9",
+      "dyn": 0.28,
+      "layers": [
+        "pad",
+        "sub",
+        "choir",
+        "shimmer"
+      ],
+      "improv": "glass",
+      "improv_range": [
+        62,
+        79
+      ],
+      "improv_density": 0.9
+    },
+    {
+      "bars": 8,
+      "chords": "Cmadd9 | Cmadd9 | Bbadd9/C | Bbadd9/C | Abmaj7#11 | Abmaj7#11 | Cmadd9 | Cmadd9",
+      "dyn": 0.17,
+      "layers": [
+        "pad",
+        "choir"
+      ],
+      "improv": "solo",
+      "improv_range": [
+        55,
+        74
+      ],
+      "improv_density": 0.6,
+      "swell": -0.1
+    }
+  ]
+}
