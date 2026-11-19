@@ -562,3 +562,27 @@ và A, A2 lần nữa; A2 một mình, chậm dần; hai ô kết. Hai hợp âm
 | `oai-huong` (Cánh đồng oải hương) | Fa trưởng, 52 bpm | Nốt dài nán lại (A-C-A, G-E), như hàng hoa lượn sóng | 4:40 |
 | `con-nuoc-hien` (Con nước hiền) | Si thứ, 50 bpm | Dâng B-C#-D-F# rồi rút qua hai ô, như con sóng nhỏ | 4:51 |
 | `chuc-ngu-ngon` (Khẽ khàng, chúc ngủ ngon) | Đô trưởng, 48 bpm | Nói khẽ E-D-C, D-B, mỗi lần lắng thấp hơn | 5:03 |
+
+## "Khẽ khàng, chúc ngủ ngon" trên piano nỉ, một mình: `ke-chuyen-ni` (vòng 37-39)
+
+Người dùng: "tôi nghĩ âm thanh piano kiểu Muted Piano sẽ hợp hơn". Ba kiểu piano nỉ trên `ly-sua-am` và `con-nuoc-hien`
+(đánh khẽ 28-46, bỏ Rhodes, gần hơn, tiếng vọng nhẹ hơn): A Salamander lót nỉ (cắt từ 1,6 kHz), B piano đứng Yamaha của
+VCSL lót nỉ (từ 1,5 kHz), C piano nỉ mô phỏng (`model-close`). Người dùng: "tôi chọn B nhưng thử bỏ tiếng viola đi"; rồi
+"các bài giai điệu tiếng cello chưa hay": X cello hát một bè viết tay, Y chỉ piano, Z cello giữ nốt gốc trầm. Người dùng:
+"kiểu X thì tiếng cello bị to quá, kiểu Y tôi thấy dễ nghe nhất, những nhạc cụ khác muốn thêm vào tôi nghĩ nên để âm
+lượng nhỏ để tiếng piano chủ đạo". Cả mười bài sang `ke-chuyen-ni` (B), chỉ piano; bỏ mọi lớp đàn dây.
+
+LAION CLAP, "peaceful, soothing music for sleep" (Ly sữa ấm / Con nước hiền):
+
+| Bản | Êm, dễ ngủ | Đứng đầu |
+|---|---|---|
+| Album như chơi lần đầu (`ke-chuyen-gan`, cello và viola) | 10 % / 7 % | "melancholic, sad piano music" |
+| A Salamander lót nỉ | 79 % / 19 % | / "dark, scary ambient music" 79 % |
+| B piano đứng lót nỉ, cello và viola | 72 % / 44 % | |
+| C piano nỉ mô phỏng | 100 % / 97 % | |
+| B, bỏ viola (cello tự sinh) | 14 % / 15 % | "melancholic, sad piano music" |
+| X: B, cello hát bè viết tay | 88 % / 43 % | |
+| Y: B, chỉ piano (người dùng chọn) | 0 % / 0 % | "melancholic, sad piano music" 100 % |
+| Z: B, cello giữ nốt trầm | 1 % / 1 % | "melancholic, sad piano music" |
+
+Máy đo và tai người nghe khác nhau ở đây: người dùng thấy Y dễ nghe nhất. Từ nay, nhạc cụ nào thêm vào đứng nhỏ dưới piano.

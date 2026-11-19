@@ -1,7 +1,7 @@
 {
   "title": "Quạt nan của mẹ",
-  "about": "Round 36, ke-chuyen-gan (\"sáng tác album tiếp theo, album nghe nhẹ nhàng, dễ ngủ\"), for a new album, Khẽ khàng, chúc ngủ ngon (Softly, Goodnight): a mother fanning her child to sleep on a summer night, Bb major in 3/4 at 56 bpm. Its motif sways down and back (D-C, Bb-G, F-Bb-D), as the bamboo fan goes to and fro; the middle in G minor reaches G5. Written to sleep to, gentler than Những giấc mơ nhỏ, on the sound the user kept for sleep (ke-chuyen-gan: the piano near, a wide hall, a soft echo): its tune moves mostly by step and stays low, its sentences come back with small changes, the left hand rocks in eighths through most of it, every section played softer than before (0.24-0.36) and the climax kept low. An original tune.",
-  "style": "ke-chuyen-gan",
+  "about": "Round 36, ke-chuyen-gan (\"sáng tác album tiếp theo, album nghe nhẹ nhàng, dễ ngủ\"), for a new album, Khẽ khàng, chúc ngủ ngon (Softly, Goodnight): a mother fanning her child to sleep on a summer night, Bb major in 3/4 at 56 bpm. Its motif sways down and back (D-C, Bb-G, F-Bb-D), as the bamboo fan goes to and fro; the middle in G minor reaches G5. Written to sleep to, gentler than Những giấc mơ nhỏ, on the sound the user kept for sleep (ke-chuyen-gan: the piano near, a wide hall, a soft echo): its tune moves mostly by step and stays low, its sentences come back with small changes, the left hand rocks in eighths through most of it, every section played softer than before (0.24-0.36) and the climax kept low. An original tune. Rounds 37-39 (\"tôi nghĩ âm thanh piano kiểu Muted Piano sẽ hợp hơn\"; \"tôi chọn B nhưng thử bỏ tiếng viola đi\"; \"kiểu Y tôi thấy dễ nghe nhất\"): on ke-chuyen-ni, the felt upright alone, no strings.",
+  "style": "ke-chuyen-ni",
   "bpm": 56,
   "beats": 3,
   "sections": [
@@ -18,9 +18,7 @@
       "melody": "D5:2 C5:1 | Bb4:2 G4:1 | F4:1 Bb4:1 D5:1 | C5:3 | D5:2 Bb4:1 | G4:1 Bb4:1 Eb5:1 | D5:1 C5:1 Bb4:1 | C5:2 A4:1 | D5:2 C5:1 | Bb4:2 G4:1 | F4:1 Bb4:1 D5:1 | C5:3 | D5:2 G5:1 | F5:1 Eb5:1 C5:1 | D5:1.5 C5:1.5 | Bb4:3",
       "texture": "flow",
       "dyn": 0.3,
-      "layers": [
-        "cello-counter"
-      ]
+      "layers": []
     },
     {
       "bars": 8,
@@ -28,10 +26,7 @@
       "melody": "G4:1 Bb4:1 D5:1 | F5:2 D5:1 | G5:2 Eb5:1 | D5:3 | Eb5:1 D5:1 C5:1 | Bb4:2 D5:1 | C5:1 Bb4:1 G4:1 | A4:2 C5:1",
       "texture": "flow",
       "dyn": 0.36,
-      "layers": [
-        "viola-pad",
-        "cello-counter"
-      ]
+      "layers": []
     },
     {
       "bars": 16,
@@ -39,9 +34,7 @@
       "melody": "D5:2 C5:1 | Bb4:2 G4:1 | F4:1 Bb4:1 D5:1 | C5:3 | D5:2 Bb4:1 | G4:1 Bb4:1 Eb5:1 | D5:1 C5:1 Bb4:1 | C5:2 A4:1 | D5:2 C5:1 | Bb4:2 G4:1 | F4:1 Bb4:1 D5:1 | C5:3 | D5:2 G5:1 | F5:1 Eb5:1 C5:1 | D5:1.5 C5:1.5 | Bb4:3",
       "texture": "flow",
       "dyn": 0.28,
-      "layers": [
-        "viola-end"
-      ]
+      "layers": []
     },
     {
       "bars": 8,
@@ -49,9 +42,7 @@
       "melody": "G4:1 Bb4:1 D5:1 | F5:2 D5:1 | Eb5:2 C5:1 | Bb4:3 | C5:1 Eb5:1 G5:1 | F5:2 D5:1 | Eb5:1 D5:1 Bb4:1 | C5:3",
       "texture": "flow",
       "dyn": 0.34,
-      "layers": [
-        "viola-pad"
-      ]
+      "layers": []
     },
     {
       "bars": 16,
@@ -59,9 +50,7 @@
       "melody": "D5:2 C5:1 | Bb4:2 G4:1 | F4:1 Bb4:1 D5:1 | C5:3 | D5:2 Bb4:1 | G4:1 Bb4:1 Eb5:1 | D5:1 C5:1 Bb4:1 | C5:2 A4:1 | D5:2 C5:1 | Bb4:2 G4:1 | F4:1 Bb4:1 D5:1 | C5:3 | D5:2 G5:1 | F5:1 Eb5:1 C5:1 | D5:1.5 C5:1.5 | Bb4:3",
       "texture": "flow",
       "dyn": 0.27,
-      "layers": [
-        "cello-counter"
-      ]
+      "layers": []
     },
     {
       "bars": 8,

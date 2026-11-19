@@ -385,6 +385,20 @@ STYLES["ke-chuyen-khe"] = STYLES["ke-chuyen-gan"] | {
                    "lowpass": 3200},
     "piano_layer_tone": {"lowpass": 2500}}
 
+# A muted piano, alone ("tôi nghĩ âm thanh piano kiểu Muted Piano sẽ hợp hơn"; of three, "tôi chọn B"; with no
+# viola, "thử bỏ tiếng viola đi"; of the cello as a written line, not at all or a low held root, "kiểu Y tôi thấy dễ
+# nghe nhất", and "những nhạc cụ khác muốn thêm vào ... nên để âm lượng nhỏ để tiếng piano chủ đạo"): VCSL's Yamaha
+# upright with felt (its highs from 1.5 kHz), struck softly (28-46, the left hand 6 softer, the last chord 26), the
+# strike softened (30 ms), narrower (0.7), nearer (0.22 into the hall), no Rhodes under it, a lighter echo (0.16,
+# each repeat 0.35, darker from 1.8 kHz); its pieces play the piano alone. Of Ly sữa ấm's and Con nước hiền's
+# trials, to LAION CLAP: "a gentle lullaby" 55 %/84 % with violas and cellos (the album as first played, 49 %/78 %),
+# "peaceful, soothing music for sleep" 72 %/44 % (10 %/7 %); without the violas 14 %/15 %; the piano alone
+# "melancholic, sad piano music" first (100 %), the one the user found easiest to hear.
+STYLES["ke-chuyen-ni"] = STYLES["ke-chuyen-gan"] | {
+    "piano": "felt", "piano_tone": {"width": 0.7, "attack": 0.03, "lowpass": 1500},
+    "melody_velocity": [28, 46], "lh_soft": 6, "ending_velocity": 26, "piano_layer": None, "piano_reverb": 0.22,
+    "piano_echo": {"beats": 1.0, "feedback": 0.35, "mix": 0.16, "lowpass": 1800}}
+
 # How loud each part sits against the piano (dB while it plays).
 ROLES = {"piano": 0.0, "bass": -9.0, "melody2": -6.0, "pad": -12.0, "low": -13.0, "drone": -15.0}
 
