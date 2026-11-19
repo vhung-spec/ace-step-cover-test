@@ -1,0 +1,42 @@
+{
+ "style": "dem-diu-h3",
+ "bpm": 80,
+ "beats": 4,
+ "sections": [
+  {
+   "bars": 2,
+   "chords": "Cm | Ab",
+   "dyn": 0.25
+  },
+  {
+   "bars": 8,
+   "chords": "Cm | Fm | G | Cm | Ab | Fm | G | G",
+   "melody": "Eb5:3 D5:0.5 C5:0.5 | C5:2 Ab4:2 | B4:1 D5:1 G5:2 | Eb5:3 r:1 | C5:2 Eb5:1 Ab5:1 | G5:2 F5:1 Eb5:1 | D5:2 F5:1 Eb5:1 | D5:3 r:1",
+   "dyn": 0.35
+  },
+  {
+   "bars": 8,
+   "chords": "Ab | Eb | Fm | Cm | Ab | Bb | G | G",
+   "melody": "Ab5:2 G5:1 F5:1 | G5:3 Eb5:1 | F5:1.5 G5:0.5 Ab5:2 | G5:3 r:1 | Eb5:2 C5:1 Eb5:1 | D5:2 F5:2 | G5:2 F5:1 D5:1 | B4:3 r:1",
+   "dyn": 0.75
+  },
+  {
+   "bars": 8,
+   "chords": "Cm | Fm | G | Cm | Ab | Fm | G | Cm",
+   "melody": "G5:3 Eb5:0.5 D5:0.5 | C5:2 F5:2 | D5:1.5 Eb5:0.5 D5:1 B4:1 | C5:4 | Eb5:2 Ab5:2 | G5:1.5 F5:0.5 Eb5:2 | D5:2 B4:2 | C5:4",
+   "dyn": 0.35
+  },
+  {
+   "bars": 2,
+   "chords": "Ab | Cm",
+   "melody": "Eb5:4 | C5:4",
+   "dyn": 0.2
+  }
+ ],
+ "title": "Thư cuối I3 (như người, biểu cảm hơn)",
+ "about": "Played as a person plays, as the user asked: measured against the references, the machine's pieces kept their tempo too even (tempo flex 7-9 %, the references 19-22 %), their eighths too alike (spread 5-9 %, theirs 13-15 %) and their bars too alike (loop 0.49-0.57, theirs 0.10-0.16). I3: I2 more freely (human 1.0).",
+ "human": {
+  "amount": 1.0,
+  "vary": true
+ }
+}

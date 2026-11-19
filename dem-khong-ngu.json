@@ -1,0 +1,54 @@
+{
+  "title": "Đêm không ngủ",
+  "about": "Round 24, song-tau (\"1. Piano + viola: Piano chơi giai điệu thưa; viola kéo những nốt trung trầm, chỉ xuất hiện cuối câu\"): F minor at 64 bpm, a sparse tune (two notes a bar, a held note every fourth bar), one soft deep note a chord, the violas only at each sentence's end; a middle section in A-flat major. An original tune.",
+  "style": "song-tau",
+  "bpm": 64,
+  "beats": 4,
+  "sections": [
+    {
+      "bars": 8,
+      "chords": "Fm | Db | Bbm | C | Fm | Db | Bbm6 | C7",
+      "melody": "C5:2 F5:2 | Ab5:3 r:1 | F5:2 Db5:2 | E5:3 r:1 | F5:2 Ab5:2 | Db5:3 r:1 | G4:2 Bb4:1 Db5:1 | C5:3 r:1",
+      "dyn": 0.34,
+      "layers": [
+        "viola-end"
+      ]
+    },
+    {
+      "bars": 8,
+      "chords": "Fm | Db | Bbm | C | Ab | Eb/G | Fm7 | C7",
+      "melody": "C5:2 F5:2 | Ab5:3 r:1 | F5:2 Db5:2 | E5:3 r:1 | C6:2 Ab5:2 | G5:3 r:1 | Eb5:2 C5:2 | E5:3 r:1",
+      "dyn": 0.42,
+      "layers": [
+        "viola-end"
+      ]
+    },
+    {
+      "bars": 8,
+      "chords": "Db | Ab/C | Bbm7 | Eb7 | Db | Ab/C | Bbm | C7",
+      "melody": "F5:2 Ab5:2 | C6:3 r:1 | Db6:2 Ab5:2 | G5:3 r:1 | Ab5:2 F5:2 | Eb5:3 r:1 | Db5:2 F5:2 | E5+G5:4",
+      "dyn": 0.6,
+      "layers": [
+        "viola-end"
+      ]
+    },
+    {
+      "bars": 8,
+      "chords": "Fm | Db | Bbm | C | Fm | Db | Bbm6:2 C7:2 | Fm",
+      "melody": "C5:2 F5:2 | Ab5:3 r:1 | F5:2 Db5:2 | E5:3 r:1 | F5:2 C5:2 | Db5:3 r:1 | Bb4:2 E5:2 | F5:4",
+      "rit": true,
+      "dyn": 0.3,
+      "layers": [
+        "viola-end"
+      ]
+    },
+    {
+      "bars": 2,
+      "chords": "Db | Fm",
+      "dyn": 0.18,
+      "layers": [
+        "viola-end"
+      ]
+    }
+  ]
+}

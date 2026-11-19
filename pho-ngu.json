@@ -1,0 +1,62 @@
+{
+  "title": "Phố ngủ",
+  "about": "Round 30, (\"tôi thích nhất là âm thanh bản R1, hãy sáng tạo thêm, tiếng piano và âm thanh ambient có thể thay đổi linh hoạt theo đề xuất của bạn, tôi muốn nhạc nghe dễ ngủ\"): the street asleep, B minor at 54 bpm, the slowest of the set. Its motif steps down the chord a bar at a time (F#-D-B, D-B-G, G-E-B), as lights go out one by one; the middle in D major. Written to be easy to sleep to: its tune moves mostly by step within about an octave and a half, low, its sentences come back with small changes, the left hand rocks in eighths (texture flow) through most of it, no chord is struck hard and the climax stays low. An original tune. Round 31 (\"tôi muốn nhạc ambient hơn, tiếng piano mờ ảo hơn\"): on ke-chuyen-mong, the piano a little further and hazier and through a soft echo; its own farther piano left behind (0.48 into the hall made it \"dark, scary ambient music\" 30 % to LAION CLAP, on the style's own 17 %). Round 32 (\"tôi vẫn thích tiếng piano gần tai hơn\"): on ke-chuyen-gan, the piano near again (as in ke-chuyen-relax), the hall, haze and echo kept.",
+  "style": "ke-chuyen-gan",
+  "bpm": 54,
+  "beats": 4,
+  "sections": [
+    {
+      "bars": 8,
+      "chords": "Bm | G | Em7 | F#7sus4:2 F#7:2 | Bm | Gmaj7 | Em7 | F#7",
+      "melody": "F#5:1 D5:1 B4:2 | D5:1 B4:1 G4:2 | G5:1 E5:1 B4:2 | B4:2 A#4:2 | F#5:1 D5:1 B4:2 | F#5:2 D5:1 B4:1 | E5:1 G5:1 B5:1.5 A5:0.5 | F#5:3 r:1",
+      "dyn": 0.26,
+      "layers": []
+    },
+    {
+      "bars": 16,
+      "chords": "Bm | G | Em7 | F#7sus4:2 F#7:2 | Bm | Gmaj7 | Em7 | F#7 | Bm | G | Em7 | F#7sus4:2 F#7:2 | D | A/C# | Bm7 | Em:2 F#7:2",
+      "melody": "F#5:1 D5:1 B4:2 | D5:1 B4:1 G4:2 | G5:1 E5:1 B4:2 | B4:2 A#4:2 | F#5:1 D5:1 B4:2 | F#5:2 D5:1 B4:1 | E5:1 G5:1 B5:1.5 A5:0.5 | F#5:3 r:1 | F#5:1 D5:1 B4:2 | D5:1 B4:1 G4:2 | G5:1 E5:1 B4:2 | B4:2 A#4:2 | A5:1 F#5:1 D5:2 | E5:1 C#5:1 A4:2 | D5:1 F#5:1 A5:1.5 G5:0.5 | G5:2 F#5:1 r:1",
+      "texture": "flow",
+      "dyn": 0.32,
+      "layers": [
+        "cello-counter"
+      ]
+    },
+    {
+      "bars": 8,
+      "chords": "G | D/F# | Em7 | A | G | D/F# | Em7 | F#7",
+      "melody": "B4:1 D5:1 G5:2 | A5:2 F#5:2 | E5:1 G5:1 B5:2 | A5:2 E5:2 | D5:1 G5:1 B5:2 | A5:1.5 G5:0.5 F#5:2 | E5:1 D5:1 B4:2 | C#5:3 r:1",
+      "texture": "flow",
+      "dyn": 0.4,
+      "layers": [
+        "strings",
+        "cello-counter"
+      ]
+    },
+    {
+      "bars": 16,
+      "chords": "Bm | G | Em7 | F#7sus4:2 F#7:2 | Bm | Gmaj7 | Em7 | F#7 | Bm | G | Em7 | F#7sus4:2 F#7:2 | D | A/C# | Bm7 | Em:2 F#7:2",
+      "melody": "F#5:1 D5:1 B4:2 | D5:1 B4:1 G4:2 | G5:1 E5:1 B4:2 | B4:2 A#4:2 | F#5:1 D5:1 B4:2 | F#5:2 D5:1 B4:1 | E5:1 G5:1 B5:1.5 A5:0.5 | F#5:3 r:1 | F#5:1 D5:1 B4:2 | D5:1 B4:1 G4:2 | G5:1 E5:1 B4:2 | B4:2 A#4:2 | A5:1 F#5:1 D5:2 | E5:1 C#5:1 A4:2 | D5:1 F#5:1 A5:1.5 G5:0.5 | G5:2 F#5:1 r:1",
+      "texture": "flow",
+      "dyn": 0.3,
+      "layers": [
+        "viola-end"
+      ]
+    },
+    {
+      "bars": 8,
+      "chords": "Bm | G | Em7 | F#7sus4:2 F#7:2 | Bm | Gmaj7 | Em7:2 F#7:2 | Bm",
+      "melody": "F#5:1 D5:1 B4:2 | D5:1 B4:1 G4:2 | G5:1 E5:1 B4:2 | B4:2 A#4:2 | F#5:1 D5:1 B4:2 | F#5:2 D5:1 B4:1 | G5:1 E5:1 C#5:1 A#4:1 | B4:4",
+      "dyn": 0.24,
+      "rit": true,
+      "layers": []
+    },
+    {
+      "bars": 2,
+      "chords": "Gmaj7 | Bm",
+      "melody": "F#5:1 D5:1 B4:2 | B4:4",
+      "dyn": 0.18,
+      "layers": []
+    }
+  ]
+}

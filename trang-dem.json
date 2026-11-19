@@ -1,0 +1,92 @@
+{
+  "title": "Trắng đêm",
+  "about": "Round 34, ke-chuyen-gan (\"hãy làm album và sáng tác album mới giai điệu nhanh hơn,dark hơn\"), for a new album, Trắng đêm: a sleepless night, the title piece, A minor at 80 bpm, its bass falling A-G-F-E as a lament under a tune that climbs the chord and turns; the left hand broken in eighths; the middle in C over a circling left hand, the climax through B-flat, the Neapolitan. Faster and darker than the sleep albums, on the same sound (ke-chuyen-gan: the piano near, a wide hall, a soft echo, here a little softer for the quicker tune): a minor key, the tune moving in eighths and sixteenths, the left hand in motion from a four-bar opening of its own, the cellos answering the tune (darker than their second line), the double basses under the middle, and at the climax the strings, the piano doubling its tune an octave down and the harmony turning through the Neapolitan chord; then back to the piano alone. An original tune. Round 35 (\"tôi chọn bản B, làm lại album\"): on ke-chuyen-khe, the piano struck softer and darker.",
+  "style": "ke-chuyen-khe",
+  "bpm": 80,
+  "beats": 4,
+  "piano_echo": {
+    "beats": 1.0,
+    "feedback": 0.35,
+    "mix": 0.18,
+    "lowpass": 2200
+  },
+  "sections": [
+    {
+      "bars": 4,
+      "chords": "Am | Am/G | F | E",
+      "melody": "",
+      "texture": "arp",
+      "dyn": 0.3,
+      "layers": []
+    },
+    {
+      "bars": 8,
+      "chords": "Am | Am/G | F | E | Am | C/G | Dm/F | E",
+      "melody": "A4:0.5 C5:0.5 E5:0.5 A5:0.5 G5:1 E5:1 | G5:0.5 E5:0.5 D5:0.5 C5:0.5 E5:1 A4:1 | A4:0.5 C5:0.5 F5:0.5 A5:0.5 G5:0.5 F5:0.5 C5:1 | G#5:1.5 E5:0.5 B4:2 | A4:0.5 C5:0.5 E5:0.5 A5:0.5 C6:1.5 B5:0.5 | G5:0.5 E5:0.5 C5:1 D5:0.5 E5:0.5 G5:1 | F5:0.5 A5:0.5 D5:1 E5:0.5 F5:0.5 A5:1 | G#5:3 r:1",
+      "texture": "arp",
+      "dyn": 0.34,
+      "layers": []
+    },
+    {
+      "bars": 16,
+      "chords": "Am | Am/G | F | E | Am | C/G | Dm/F | E | Am | Am/G | F | E | F | C/E | Dm7:2 E7:2 | Am",
+      "melody": "A4:0.5 C5:0.5 E5:0.5 A5:0.5 G5:1 E5:1 | G5:0.5 E5:0.5 D5:0.5 C5:0.5 E5:1 A4:1 | A4:0.5 C5:0.5 F5:0.5 A5:0.5 G5:0.5 F5:0.5 C5:1 | G#5:1.5 E5:0.5 B4:2 | A4:0.5 C5:0.5 E5:0.5 A5:0.5 C6:1.5 B5:0.5 | G5:0.5 E5:0.5 C5:1 D5:0.5 E5:0.5 G5:1 | F5:0.5 A5:0.5 D5:1 E5:0.5 F5:0.5 A5:1 | G#5:3 r:1 | A4:0.5 C5:0.5 E5:0.5 A5:0.5 G5:1 E5:1 | G5:0.5 E5:0.5 D5:0.5 C5:0.5 E5:1 A4:1 | A4:0.5 C5:0.5 F5:0.5 A5:0.5 G5:0.5 F5:0.5 C5:1 | G#5:1.5 E5:0.5 B4:2 | C5:0.5 F5:0.5 A5:0.5 C6:0.5 A5:1 F5:1 | G5:0.5 E5:0.5 C5:1 E5:1 G5:1 | F5:0.5 D5:0.5 A4:1 G#4:0.5 B4:0.5 D5:1 | C5:0.5 B4:0.5 A4:2 r:1",
+      "texture": "arp",
+      "dyn": 0.42,
+      "layers": [
+        "cello-answer"
+      ]
+    },
+    {
+      "bars": 8,
+      "chords": "C | G/B | Am | Em/G | F | C/E | Dm7 | E7",
+      "melody": "E5:0.5 G5:0.5 C6:1.5 B5:0.5 G5:1 | D5:0.5 G5:0.5 B5:1.5 A5:0.5 G5:1 | C6:0.5 B5:0.5 A5:0.5 E5:0.5 C5:2 | B4:3 r:1 | A4:0.5 C5:0.5 F5:1.5 E5:0.5 C5:1 | G5:1.5 E5:0.5 C5:2 | F5:0.5 A5:0.5 C6:1 A5:0.5 F5:0.5 D5:1 | E5:0.5 G#5:0.5 B5:0.5 G#5:0.5 E5:2",
+      "texture": "ostinato",
+      "dyn": 0.5,
+      "layers": [
+        "cello-counter",
+        "basses"
+      ]
+    },
+    {
+      "bars": 8,
+      "chords": "F | C/E | Dm | Am/C | Bb | F/A | Bm7b5 | E7",
+      "melody": "C5:0.5 F5:0.5 A5:0.5 C6:0.5 A5:1 F5:1 | G5:1.5 E5:0.5 C5:2 | D5:0.5 F5:0.5 A5:1.5 G5:0.5 F5:1 | E5:1.5 C5:0.5 A4:2 | Bb4:0.5 D5:0.5 F5:0.5 Bb5:0.5 F5:1 D5:1 | C6:1 A5:0.5 F5:0.5 C5:2 | D5:0.5 F5:0.5 A5:1 F5:0.5 D5:0.5 B4:1 | G#4:0.5 B4:0.5 D5:0.5 E5:0.5 G#5:2",
+      "texture": "arp",
+      "dyn": 0.6,
+      "layers": [
+        "strings",
+        "basses",
+        "octave"
+      ]
+    },
+    {
+      "bars": 16,
+      "chords": "Am | Am/G | F | E | Am | C/G | Dm/F | E | Am | Am/G | F | E | F | C/E | Dm7:2 E7:2 | Am",
+      "melody": "A4:0.5 C5:0.5 E5:0.5 A5:0.5 G5:1 E5:1 | G5:0.5 E5:0.5 D5:0.5 C5:0.5 E5:1 A4:1 | A4:0.5 C5:0.5 F5:0.5 A5:0.5 G5:0.5 F5:0.5 C5:1 | G#5:1.5 E5:0.5 B4:2 | A4:0.5 C5:0.5 E5:0.5 A5:0.5 C6:1.5 B5:0.5 | G5:0.5 E5:0.5 C5:1 D5:0.5 E5:0.5 G5:1 | F5:0.5 A5:0.5 D5:1 E5:0.5 F5:0.5 A5:1 | G#5:3 r:1 | A4:0.5 C5:0.5 E5:0.5 A5:0.5 G5:1 E5:1 | G5:0.5 E5:0.5 D5:0.5 C5:0.5 E5:1 A4:1 | A4:0.5 C5:0.5 F5:0.5 A5:0.5 G5:0.5 F5:0.5 C5:1 | G#5:1.5 E5:0.5 B4:2 | C5:0.5 F5:0.5 A5:0.5 C6:0.5 A5:1 F5:1 | G5:0.5 E5:0.5 C5:1 E5:1 G5:1 | F5:0.5 D5:0.5 A4:1 G#4:0.5 B4:0.5 D5:1 | C5:0.5 B4:0.5 A4:2 r:1",
+      "texture": "arp",
+      "dyn": 0.4,
+      "layers": [
+        "cello-answer",
+        "viola-end"
+      ]
+    },
+    {
+      "bars": 8,
+      "chords": "Am | Am/G | F | E | F | C/E | Dm7:2 E7:2 | Am",
+      "melody": "A4:0.5 C5:0.5 E5:0.5 A5:0.5 G5:1 E5:1 | G5:0.5 E5:0.5 D5:0.5 C5:0.5 E5:1 A4:1 | A4:0.5 C5:0.5 F5:0.5 A5:0.5 G5:0.5 F5:0.5 C5:1 | G#5:1.5 E5:0.5 B4:2 | C5:0.5 F5:0.5 A5:0.5 C6:0.5 A5:1 F5:1 | G5:0.5 E5:0.5 C5:1 E5:1 G5:1 | F5:0.5 D5:0.5 A4:1 G#4:0.5 B4:0.5 D5:1 | C5:0.5 B4:0.5 A4:2 r:1",
+      "texture": "flow",
+      "rit": true,
+      "dyn": 0.28,
+      "layers": []
+    },
+    {
+      "bars": 2,
+      "chords": "F | Am",
+      "melody": "A4:1 C5:1 F5:2 | E5:4",
+      "texture": "deep",
+      "dyn": 0.2,
+      "layers": []
+    }
+  ]
+}

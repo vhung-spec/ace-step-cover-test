@@ -1,0 +1,65 @@
+{
+  "title": "Chiếc ghế trống",
+  "about": "Round 26, ke-chuyen (\"làm luôn 7 bài cho đủ album\"): G minor in 3/4 at 60 bpm. It opens and closes on the cellos plucking softly, a heartbeat, under the piano's sparse chords. Its motif falls a sixth (G5-Bb4), from where someone was to the empty place, then climbs three steps back (C-D-Eb). The climax comes early, second, in B-flat with the strings and the piano's rolled chords, the sixth now falling from D6 and Eb6; then a long settling: the piano alone; the plucked heartbeat back with the violas at the sentences' ends, the tune low; the motif once more over the heartbeat. An original tune.",
+  "style": "ke-chuyen",
+  "bpm": 60,
+  "beats": 3,
+  "sections": [
+    {
+      "bars": 4,
+      "chords": "Gm | Eb | Cm | D7",
+      "texture": "sparse",
+      "dyn": 0.14,
+      "layers": [
+        "cello-pizz"
+      ]
+    },
+    {
+      "bars": 8,
+      "chords": "Gm | Cm | D7 | Gm | Eb | Cm | Am7b5 | D7",
+      "melody": "G5:2 Bb4:1 | C5:1 D5:1 Eb5:1 | D5:1.5 C5:0.5 A4:1 | Bb4:2 r:1 | G5:2 Bb4:1 | C5:1 D5:1 Eb5:1 | G5:1.5 F5:0.5 Eb5:1 | F#5:2 r:1",
+      "dyn": 0.32,
+      "layers": [
+        "cello-pizz"
+      ]
+    },
+    {
+      "bars": 8,
+      "chords": "Bb | Eb | F | Dm | Eb | F | Am7b5 | D7",
+      "melody": "D6:2 F5:1 | G5:1 A5:1 Bb5:1 | A5:3 | F5:2 r:1 | Eb6:2 G5:1 | A5:1 Bb5:1 C6:1 | Eb6:1.5 D6:0.5 C6:1 | F#5+A5:3",
+      "texture": "blocks",
+      "dyn": 0.7,
+      "layers": [
+        "strings",
+        "cello-counter"
+      ]
+    },
+    {
+      "bars": 8,
+      "chords": "Gm | Cm | D7 | Gm | Eb | Cm | Am7b5 | D7",
+      "melody": "G5:2 Bb4:1 | C5:1 D5:1 Eb5:1 | D5:1.5 C5:0.5 A4:1 | Bb4:2 r:1 | G5:2 Bb4:1 | C5:1 D5:1 Eb5:1 | Eb5:1.5 D5:0.5 C5:1 | A4:2 r:1",
+      "dyn": 0.3,
+      "layers": []
+    },
+    {
+      "bars": 8,
+      "chords": "Gm | Cm | D7 | Gm | Eb | Cm6 | D7 | Gm",
+      "melody": "G5:2 Bb4:1 | C5:1 D5:1 Eb5:1 | D5:1.5 C5:0.5 A4:1 | Bb4:2 r:1 | Eb5:2 G4:1 | A4:1 C5:1 Eb5:1 | D5:1.5 C5:0.5 F#4:1 | G4:3",
+      "dyn": 0.26,
+      "rit": true,
+      "layers": [
+        "viola-end",
+        "cello-pizz"
+      ]
+    },
+    {
+      "bars": 2,
+      "chords": "Eb | Gm",
+      "melody": "G5:2 Bb4:1 | D5:3",
+      "dyn": 0.2,
+      "layers": [
+        "cello-pizz"
+      ]
+    }
+  ]
+}

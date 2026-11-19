@@ -1,0 +1,80 @@
+{
+  "title": "Mặt hồ đêm",
+  "about": "Round 22, tam-tau-phim (\"hãy sáng tác thêm vài bài kiểu này nhưng hơi khác đi chút, đoạn mở đầu khác nhau\"): E-flat minor in 3/4 at 69 bpm. It opens on the strings alone, the cellos holding the bass and the violas a slow line, four bars before the piano comes in; four-bar sentences ending on a note held the whole bar, the next coming in after a beat's rest; a middle section in G-flat major sung twice. An original tune.",
+  "style": "tam-tau-phim",
+  "bpm": 69,
+  "beats": 3,
+  "sections": [
+    {
+      "bars": 4,
+      "chords": "Ebm | Cbmaj7 | Abm | Bb7",
+      "texture": "none",
+      "dyn": 0.3,
+      "layers": [
+        "cello-answer",
+        "viola-pad"
+      ]
+    },
+    {
+      "bars": 8,
+      "chords": "Ebm | Cb | Abm | Bb7 | Ebm | Gb | Abm6 | Bb7",
+      "melody": "Bb4:1 Eb5:1 Gb5:1 | Gb5:1.5 Eb5:0.5 Cb5:1 | Cb5:1 Eb5:1 Ab5:1 | F5:3 | r:1 Gb5:1 Bb5:1 | Ab5:1.5 Gb5:0.5 Db5:1 | F5:1 Eb5:1 Cb5:1 | D5:3",
+      "dyn": 0.36,
+      "layers": [
+        "cello-answer",
+        "viola-pad"
+      ]
+    },
+    {
+      "bars": 8,
+      "chords": "Ebm | Cb | Abm | Bb7 | Ebm/Db | Cbmaj7 | Fm7b5 | Bb7",
+      "melody": "r:1 Gb5:1 Bb5:1 | Eb5:1.5 Gb5:0.5 Cb5:1 | Eb5:1 Gb5:1 Cb6:1 | Bb5:3 | r:1 Bb5:1 Ab5:1 | Gb5:2 Bb4:1 | Cb5:1 Eb5:1 Ab5:1 | F5:3",
+      "dyn": 0.44,
+      "layers": [
+        "cello-answer",
+        "viola-pad"
+      ]
+    },
+    {
+      "bars": 8,
+      "chords": "Cb | Gb/Bb | Abm7 | Db7 | Gb | Ebm | Cb | Bb7",
+      "melody": "Eb5:1 Gb5:1 Bb5:1 | Bb5:3 | Cb6:1 Bb5:1 Ab5:1 | F5:3 | r:1 Bb5:1 Db6:1 | Gb5+Bb5:3 | Ab5:1 Gb5:1 Eb5:1 | D5+F5:3",
+      "dyn": 0.62,
+      "layers": [
+        "cello-answer",
+        "viola-pad"
+      ]
+    },
+    {
+      "bars": 8,
+      "chords": "Cb | Gb/Bb | Abm7 | Db7 | Gb | Ebm | Abm6 | Bb7",
+      "melody": "r:1 Gb5:1 Bb5:1 | Db6:3 | Cb6:1 Bb5:1 Ab5:1 | Ab5:3 | r:1 Db6:1 Bb5:1 | Gb5+Bb5:3 | F5:1 Ab5:1 Cb6:1 | D5+F5:3",
+      "dyn": 0.68,
+      "layers": [
+        "cello-answer",
+        "viola-pad"
+      ]
+    },
+    {
+      "bars": 8,
+      "chords": "Ebm | Cb | Abm | Bb7 | Ebm | Cbmaj7 | Abm6:1.5 Bb7:1.5 | Ebm",
+      "melody": "r:1 Bb4:1 Eb5:1 | Gb5:1.5 Eb5:0.5 Cb5:1 | Cb5:1 Eb5:1 Ab5:1 | F5:3 | r:1 Gb4:1 Bb4:1 | Eb5:2 Db5:1 | Cb5:1 Ab4:1 D5:1 | Eb5:3",
+      "rit": true,
+      "dyn": 0.32,
+      "layers": [
+        "cello-answer",
+        "viola-pad"
+      ]
+    },
+    {
+      "bars": 2,
+      "chords": "Cbmaj7 | Ebm",
+      "texture": "blocks",
+      "dyn": 0.18,
+      "layers": [
+        "cello-answer",
+        "viola-pad"
+      ]
+    }
+  ]
+}
