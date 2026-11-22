@@ -682,3 +682,9 @@ lần trở lại đổi một chút; mọi đoạn cùng một độ mạnh (0,
 
 Đã soát: không nốt nào dưới C3, không quãng tám trầm, không hai nốt cách nửa cung ngân cùng lúc quá một phách (một chỗ
 đã sửa: `o-cua-sang-den` ô cuối của A rút gọn, A4 trên hợp âm E, thành G#4 thay vì A4).
+
+Người dùng, sau khi nghe album 9 trên `ni-trung`: "tôi muốn sound piano nghe dễ chịu hơn giống các bài album trước" (vòng
+43). Cả mười bài sang `thu-vien`, âm thanh của album trước (Dạ khúc thư viện cũ): cây grand gần, phòng vang rộng 4,8 s,
+tiếng vọng nhẹ, không Rhodes, không nâng âm trầm, tay trái từ C3; giai điệu và cách đệm giữ nguyên. Với LAION CLAP, trên
+`ni-trung` cả mười bài là "a soft felt piano, intimate and muted" 100 %, "each note clear and distinct" 99-100 %, nhưng
+chín bài nghiêng về "tense and unsettling" (79-99 %).
