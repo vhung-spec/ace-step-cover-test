@@ -1,0 +1,74 @@
+{
+  "title": "Bài sonnet dang dở",
+  "about": "Round 41, thu-vien (\"tôi thấy không hay, bạn hãy sáng tác theo ý của bạn và dùng bộ sound phù hợp\"), Nocturnes for an Old Library, An Unfinished Sonnet: a sonnet left unfinished on the desk, F minor at 52 bpm: a question left hanging on C, an answer that turns aside to Db instead of home, then at last an answer that closes; the chord broken slowly upward in quarters (texture slowarp); the middle in Ab major. The piano alone, on thu-vien (ke-chuyen-gan's grand, hall and echo, with nothing heavy: no Rhodes, the lows not lifted, the left hand from C3 with no octave); a singing line in periods, a question and an answer, each return varied; soft, a gentle swell in the middle, no climax. An original tune.",
+  "style": "thu-vien",
+  "bpm": 52,
+  "beats": 4,
+  "sections": [
+    {
+      "bars": 2,
+      "chords": "Fm | Db",
+      "melody": "r:4 | r:4",
+      "texture": "slowarp",
+      "dyn": 0.22,
+      "layers": []
+    },
+    {
+      "bars": 8,
+      "chords": "Fm | Db | Bbm | C | Fm | Db | Bbm | Db",
+      "melody": "Ab4:1 C5:1 F5:2 | Eb5:1 Db5:1 C5:1 Ab4:1 | Bb4:1 C5:1 Db5:2 | C5:3 r:1 | Ab4:1 C5:1 F5:2 | F5:2 Eb5:1 Db5:1 | Db5:1 C5:1 Bb4:2 | Ab4:3 r:1",
+      "texture": "slowarp",
+      "dyn": 0.28,
+      "layers": []
+    },
+    {
+      "bars": 8,
+      "chords": "Fm | Db | Bbm | C | Fm | Bbm | C | Fm",
+      "melody": "Ab4:1 C5:1 F5:2 | Eb5:1 Db5:1 C5:1 Ab4:1 | Bb4:1 C5:1 Db5:2 | C5:3 r:1 | Ab4:1 C5:1 F5:2 | F5:1 Db5:1 Bb4:2 | C5:2 E4:2 | F4:4",
+      "texture": "slowarp",
+      "dyn": 0.3,
+      "layers": []
+    },
+    {
+      "bars": 8,
+      "chords": "Db | Ab/C | Bbm7 | Eb | Db | Ab/C | Bbm7 | C",
+      "melody": "F4:1 Ab4:1 Db5:2 | C5:2 Eb5:2 | Db5:1 C5:1 Bb4:2 | G4:3 r:1 | Ab4:1 Db5:1 F5:2 | Eb5:2 C5:2 | Db5:2 F4:2 | E4:3 r:1",
+      "texture": "slowarp",
+      "dyn": 0.32,
+      "layers": []
+    },
+    {
+      "bars": 8,
+      "chords": "Fm | Db | Bbm | C | Fm | Db | Bbm | Db",
+      "melody": "Ab4:1 C5:1 F5:2 | Eb5:1 Db5:1 C5:1 Ab4:1 | Bb4:1 C5:1 Db5:2 | C5:3 r:1 | Ab4:1 C5:1 F5:2 | F5:2 Eb5:1 Db5:1 | Db5:1 C5:1 Bb4:2 | Ab4:2 F4:2",
+      "texture": "slowarp",
+      "dyn": 0.28,
+      "layers": []
+    },
+    {
+      "bars": 8,
+      "chords": "Db | Ab/C | Bbm7 | Eb | Db | Ab/C | Bbm7 | C",
+      "melody": "F4:1 Ab4:1 Db5:2 | C5:2 Eb5:2 | Db5:1 C5:1 Bb4:2 | G4:2 Bb4:2 | Ab4:1 Db5:1 F5:2 | Eb5:2 C5:2 | Db5:2 F4:2 | G4:2 E4:2",
+      "texture": "slowarp",
+      "dyn": 0.32,
+      "layers": []
+    },
+    {
+      "bars": 8,
+      "chords": "Fm | Db | Bbm | C | Fm | Bbm | C | Fm",
+      "melody": "Ab4:2 F5:2 | Eb5:2 C5:2 | Db5:4 | C5:4 | Ab4:2 F5:2 | Db5:2 Bb4:2 | C5:2 E4:2 | F4:4",
+      "texture": "slowarp",
+      "dyn": 0.26,
+      "layers": []
+    },
+    {
+      "bars": 4,
+      "chords": "Db | Bbm | Fm | Fm",
+      "melody": "Ab4:2 C5:2 | Db5:2 Bb4:2 | C5:4 | r:4",
+      "texture": "slowarp",
+      "dyn": 0.22,
+      "layers": [],
+      "rit": true
+    }
+  ]
+}

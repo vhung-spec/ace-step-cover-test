@@ -421,6 +421,20 @@ STYLES["hoc-vien"] = {
     "tones": {"violas": {"attack": 0.9, "lowpass": 1800, "lowpass_order": 4},
               "cellos-pad": {"attack": 0.9, "lowpass": 1600, "lowpass_order": 4}}}
 
+# Nocturnes for an old library (the user, of the Dark Academia set: "tôi thấy không hay, bạn hãy sáng tác theo ý của
+# bạn và dùng bộ sound phù hợp"): the sound the user liked for sleep, ke-chuyen-gan (the grand near, a wide hall, a
+# soft echo), the piano alone, with nothing that made it heavy or muddy ("Không thích tiếng piano trầm, nặng và ù"):
+# no Rhodes under it, its lows no longer lifted (EQ_SOFT_MID: 3 dB down at 80 Hz, flat by 250, the highs eased as
+# before), the left hand from C3 with no octave, the last chord rolled from the middle; a lighter echo.
+EQ_SOFT_MID = [(80, -3), (150, -2), (250, -0.5), (400, 0.5), (700, 0), (1200, -1.5), (2000, -4.5), (3000, -8),
+               (5000, -12), (8000, -16)]
+STYLES["thu-vien"] = STYLES["ke-chuyen-gan"] | {
+    "piano_layer": None, "bass_low": 48, "ending_low": 48, "ending_octave": False,
+    "melody_velocity": [32, 54], "lh_soft": 4, "ending_velocity": 30,
+    "piano_tone": {"release_db": -60, "pedal_noise": False, "eq": [list(p) for p in EQ_SOFT_MID], "eq_amount": 1.0,
+                   "width": 0.8, "chorus": 0.15, "attack": 0.02, "lowpass": 4200},
+    "piano_echo": {"beats": 1.0, "feedback": 0.35, "mix": 0.16, "lowpass": 2000}}
+
 # How loud each part sits against the piano (dB while it plays).
 ROLES = {"piano": 0.0, "bass": -9.0, "melody2": -6.0, "pad": -12.0, "low": -13.0, "drone": -15.0}
 

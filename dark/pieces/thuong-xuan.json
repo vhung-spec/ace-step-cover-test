@@ -1,0 +1,90 @@
+{
+  "title": "Thường xuân trên đá",
+  "about": "Round 41, thu-vien (\"tôi thấy không hay, bạn hãy sáng tác theo ý của bạn và dùng bộ sound phù hợp\"), Nocturnes for an Old Library, Ivy on the Stone: ivy climbing an old stone wall, G minor in 3/4 at 54 bpm: a line climbing slowly by step from D4 to Eb5 over eight bars, then easing back down to G; the left hand rocking in the middle (texture flow); the middle in Bb major. The piano alone, on thu-vien (ke-chuyen-gan's grand, hall and echo, with nothing heavy: no Rhodes, the lows not lifted, the left hand from C3 with no octave); a singing line in periods, a question and an answer, each return varied; soft, a gentle swell in the middle, no climax. An original tune.",
+  "style": "thu-vien",
+  "bpm": 54,
+  "beats": 3,
+  "sections": [
+    {
+      "bars": 4,
+      "chords": "Gm | Eb | Cm | D",
+      "melody": "r:3 | r:3 | r:3 | r:3",
+      "texture": "flow",
+      "dyn": 0.22,
+      "layers": []
+    },
+    {
+      "bars": 8,
+      "chords": "Gm | Eb | Cm | D | Gm | Eb | Cm | D",
+      "melody": "D4:2 G4:1 | G4:2 Bb4:1 | C5:2 Bb4:1 | A4:3 | Bb4:2 D5:1 | Eb5:2 D5:1 | C5:1 D5:1 Eb5:1 | D5:3",
+      "texture": "flow",
+      "dyn": 0.26,
+      "layers": []
+    },
+    {
+      "bars": 8,
+      "chords": "Gm | Eb | Cm | D | Gm | Cm | D | Gm",
+      "melody": "D5:2 Bb4:1 | G5:2 F5:1 | Eb5:1 D5:1 C5:1 | D5:2 F#4:1 | G4:2 Bb4:1 | C5:2 Eb5:1 | D5:1 C5:1 A4:1 | G4:3",
+      "texture": "flow",
+      "dyn": 0.28,
+      "layers": []
+    },
+    {
+      "bars": 8,
+      "chords": "Eb | Bb/D | Cm | F | Bb | Gm | Cm | D",
+      "melody": "G4:2 Bb4:1 | F4:2 Bb4:1 | Eb5:2 C5:1 | C5:2 A4:1 | D5:2 F5:1 | D5:2 Bb4:1 | C5:1 Bb4:1 G4:1 | A4:3",
+      "texture": "flow",
+      "dyn": 0.32,
+      "layers": []
+    },
+    {
+      "bars": 8,
+      "chords": "Eb | Bb/D | Cm | F | Bb | Gm | Cm | D",
+      "melody": "G4:2 Bb4:1 | F4:2 Bb4:1 | Eb5:2 C5:1 | C5:2 A4:1 | D5:2 F5:1 | D5:2 Bb4:1 | Eb5:1 D5:1 C5:1 | D5:2 A4:1",
+      "texture": "flow",
+      "dyn": 0.32,
+      "layers": []
+    },
+    {
+      "bars": 8,
+      "chords": "Gm | Eb | Cm | D | Gm | Eb | Cm | D",
+      "melody": "D4:2 G4:1 | G4:2 Bb4:1 | C5:2 Bb4:1 | A4:3 | Bb4:1 C5:1 D5:1 | Eb5:2 D5:1 | C5:1 D5:1 Eb5:1 | D5:2 C5:1",
+      "texture": "flow",
+      "dyn": 0.28,
+      "layers": []
+    },
+    {
+      "bars": 8,
+      "chords": "Gm | Eb | Cm | D | Gm | Cm | D | Gm",
+      "melody": "D5:2 Bb4:1 | G5:2 F5:1 | Eb5:1 D5:1 C5:1 | D5:2 F#4:1 | G4:2 Bb4:1 | C5:2 Eb5:1 | D5:1 C5:1 A4:1 | G4:3",
+      "texture": "flow",
+      "dyn": 0.28,
+      "layers": []
+    },
+    {
+      "bars": 8,
+      "chords": "Gm | Eb | Cm | D | Gm | Eb | Cm | D",
+      "melody": "D4:2 G4:1 | G4:2 Bb4:1 | C5:2 Bb4:1 | A4:3 | Bb4:2 D5:1 | Eb5:2 D5:1 | C5:1 D5:1 Eb5:1 | D5:3",
+      "texture": "flow",
+      "dyn": 0.28,
+      "layers": []
+    },
+    {
+      "bars": 8,
+      "chords": "Gm | Eb | Cm | D | Gm | Cm | D | Gm",
+      "melody": "D4:3 | G4:3 | C5:3 | A4:3 | Bb4:3 | Eb5:3 | D5:2 A4:1 | G4:3",
+      "texture": "flow",
+      "dyn": 0.24,
+      "layers": []
+    },
+    {
+      "bars": 8,
+      "chords": "Eb | Cm | Gm | Gm | Eb | D | Gm | Gm",
+      "melody": "G4:2 Bb4:1 | C5:3 | Bb4:3 | r:3 | G4:3 | F#4:3 | G4:3 | r:3",
+      "texture": "flow",
+      "dyn": 0.22,
+      "layers": [],
+      "rit": true
+    }
+  ]
+}

@@ -1,0 +1,90 @@
+{
+  "title": "Hoa ép trong sách",
+  "about": "Round 41, thu-vien (\"tôi thấy không hay, bạn hãy sáng tác theo ý của bạn và dùng bộ sound phù hợp\"), Nocturnes for an Old Library, Pressed Flowers: flowers pressed in an old book, E minor in 3/4 at 56 bpm: a slow sway between C major (its seventh, B, in the tune) and E minor, long floating notes (B, then G-A-B rising to E), the waltz very light and all in the middle (texture waltz); the middle in G major. The piano alone, on thu-vien (ke-chuyen-gan's grand, hall and echo, with nothing heavy: no Rhodes, the lows not lifted, the left hand from C3 with no octave); a singing line in periods, a question and an answer, each return varied; soft, a gentle swell in the middle, no climax. An original tune.",
+  "style": "thu-vien",
+  "bpm": 56,
+  "beats": 3,
+  "sections": [
+    {
+      "bars": 4,
+      "chords": "C | Em | C | Em",
+      "melody": "r:3 | r:3 | r:3 | r:3",
+      "texture": "waltz",
+      "dyn": 0.22,
+      "layers": []
+    },
+    {
+      "bars": 8,
+      "chords": "C | Em | C | Em | Am7 | Bm7 | C | D",
+      "melody": "B4:3 | G4:1 A4:1 B4:1 | E5:3 | D5:2 B4:1 | E5:1.5 D5:0.5 C5:1 | D5:3 | B4:1 C5:1 G4:1 | A4:3",
+      "texture": "waltz",
+      "dyn": 0.28,
+      "layers": []
+    },
+    {
+      "bars": 8,
+      "chords": "C | Em | C | Em | Am7 | Bm7 | Am7 | Em",
+      "melody": "B4:3 | G4:1 A4:1 B4:1 | G5:2 E5:1 | F#5:2 E5:1 | E5:1.5 D5:0.5 C5:1 | D5:2 B4:1 | C5:1 B4:1 A4:1 | G4:3",
+      "texture": "waltz",
+      "dyn": 0.3,
+      "layers": []
+    },
+    {
+      "bars": 8,
+      "chords": "G | C | G | D/F# | Em | C | Am7 | D",
+      "melody": "D5:2 B4:1 | E5:3 | D5:1 B4:1 G4:1 | A4:3 | B4:1.5 C5:0.5 D5:1 | E5:2 G5:1 | E5:2 C5:1 | D5:2 A4:1",
+      "texture": "waltz",
+      "dyn": 0.32,
+      "layers": []
+    },
+    {
+      "bars": 8,
+      "chords": "G | C | G | D/F# | Em | C | Am7 | Bm7",
+      "melody": "D5:2 B4:1 | E5:2 G5:1 | F#5:1 E5:1 D5:1 | A4:3 | B4:1.5 C5:0.5 D5:1 | E5:3 | E5:1 D5:1 C5:1 | B4:3",
+      "texture": "waltz",
+      "dyn": 0.32,
+      "layers": []
+    },
+    {
+      "bars": 8,
+      "chords": "C | Em | C | Em | Am7 | Bm7 | C | D",
+      "melody": "B4:3 | G4:1 A4:1 B4:1 | E5:3 | D5:2 B4:1 | E5:2 C5:1 | D5:3 | B4:1 C5:1 G4:1 | A4:2 F#4:1",
+      "texture": "waltz",
+      "dyn": 0.28,
+      "layers": []
+    },
+    {
+      "bars": 8,
+      "chords": "C | Em | C | Em | Am7 | Bm7 | Am7 | Em",
+      "melody": "B4:3 | G4:1 A4:1 B4:1 | E5:3 | F#5:2 E5:1 | E5:1.5 D5:0.5 C5:1 | D5:2 B4:1 | C5:1 B4:1 A4:1 | G4:3",
+      "texture": "waltz",
+      "dyn": 0.28,
+      "layers": []
+    },
+    {
+      "bars": 8,
+      "chords": "G | C | G | D/F# | Em | C | Am7 | D",
+      "melody": "D5:2 B4:1 | E5:3 | D5:1 B4:1 G4:1 | A4:3 | B4:1.5 C5:0.5 D5:1 | E5:2 G5:1 | E5:2 C5:1 | D5:2 A4:1",
+      "texture": "waltz",
+      "dyn": 0.3,
+      "layers": []
+    },
+    {
+      "bars": 8,
+      "chords": "C | Em | C | Em | Am7 | Bm7 | Am7 | Em",
+      "melody": "B4:3 | G4:2 B4:1 | E5:3 | D5:3 | C5:3 | D5:3 | B4:2 A4:1 | G4:3",
+      "texture": "waltz",
+      "dyn": 0.26,
+      "layers": []
+    },
+    {
+      "bars": 8,
+      "chords": "C | Em | C | Em | Am7 | Bm7 | C | Em",
+      "melody": "B4:3 | r:3 | E5:3 | r:3 | C5:3 | D5:3 | B4:3 | r:3",
+      "texture": "waltz",
+      "dyn": 0.22,
+      "layers": [],
+      "rit": true
+    }
+  ]
+}

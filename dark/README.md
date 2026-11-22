@@ -623,3 +623,27 @@ B2, A rút bớt nốt, kết 4 ô (valse 8) chậm dần; 4:10-4:52. Đã soát
 không hai nốt cách nửa cung ngân cùng lúc quá một phách (giữa mọi bè). Ba chỗ đã sửa vì vậy: valse bỏ quãng bảy trưởng
 (Fmaj7, Cmaj7 thành F, C) cho dàn dây khỏi cọ; `phong-doc-vang` Ebmaj7 thành Eb (nốt D không nằm dưới bass Eb);
 `la-thu-chua-gui` ô kết thứ 3 đổi giai điệu (Eb-D cọ với Eb của tay trái).
+
+## Dạ khúc thư viện cũ: tám bài theo ý mình, chỉ piano, kiểu `thu-vien` (vòng 41)
+
+Người dùng về bộ Dark Academia (vòng 40): "tôi thấy không hay, bạn hãy sáng tác theo ý của bạn và dùng bộ sound phù hợp".
+Âm thanh: cây grand người dùng thích cho nhạc ngủ (`ke-chuyen-gan`: gần, phòng vang rộng, tiếng vọng nhẹ), piano một mình
+(kiểu người dùng thấy dễ nghe nhất ở album 7), bỏ những gì làm tiếng nặng, ù: không Rhodes, bỏ phần nâng âm trầm của
+`EQ_KEYS` (`EQ_SOFT_MID`: −3 dB ở 80 Hz, phẳng từ 250 Hz, phần cao dịu như trước), tay trái từ C3 không quãng tám, hợp âm
+cuối rải từ quãng trung, tiếng vọng nhẹ hơn. Giai điệu viết thành câu hát dài (câu hỏi, câu đáp), mỗi lần trở lại đổi một
+chút; khẽ, phồng nhẹ ở đoạn giữa, không cao trào.
+
+| Bài | Giọng, nhịp | Đệm | Ý |
+|---|---|---|---|
+| `hoa-ep` (Pressed Flowers) | Mi thứ, nhịp ba, 56 bpm | `waltz` | Đung đưa giữa C và Em, nốt dài trôi (B, rồi G-A-B lên E) |
+| `muc-da-kho` (Ink Gone Dry) | Rê thứ, 56 bpm | `flow` | Câu hát dạ khúc: A lên D rồi thở dài xuống; câu đáp lên G5 |
+| `buom-dem` (A Moth at the Window) | Si thứ, 56 bpm | `arp` | Hình chập chờn F#-E-F# rồi đậu trên D |
+| `thuong-xuan` (Ivy on the Stone) | Son thứ, nhịp ba, 54 bpm | `flow` | Leo từng bậc từ D4 tới Eb5 qua tám ô rồi lùi về G |
+| `sonnet-dang-do` (An Unfinished Sonnet) | Fa thứ, 52 bpm | `slowarp` | Câu hỏi dừng ở C, câu đáp rẽ sang Db, lần sau mới về nhà |
+| `gio-nhung` (Velvet Hours) | Đô thứ, 48 bpm | `chord` | Thánh ca chậm, giai điệu nốt trắng, nốt tròn |
+| `bui-phim-dan` (Dust on the Keys) | La thứ, 54 bpm | `flow` | Giai điệu nốt đen như hộp nhạc cũ (E-C-A-C) |
+| `ngu-ngon-thu-vien` (Goodnight, Old Library) | Đô thứ, 48 bpm | `flow` | Lời ru nốt trắng (Eb-G, Ab-C); hợp âm cuối Đô trưởng |
+
+Đã soát: không hai nốt cách nửa cung ngân cùng lúc quá một phách. Ba chỗ đã sửa vì vậy: `hoa-ep` Cmaj7 thành C (quãng bảy
+chỉ còn ở giai điệu, tay trái khỏi đặt B sát C), `buom-dem` Gmaj7 thành G và hình chập chờn F#-G-F# thành F#-E-F# (G5
+cọ với F#4 của tay trái), `gio-nhung` ô đầu Ab thành Bb (Ab4 trên G3).
