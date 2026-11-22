@@ -1,0 +1,74 @@
+{
+  "title": "Một ô cửa sáng đèn",
+  "about": "Round 42, ni-trung (\"Tôi muốn sáng tác nhạc dark piano độc tấu để nghe thư giãn trước khi ngủ. Toàn bộ bản nhạc chỉ sử dụng một tiếng Soft Felt Piano\"), album 9, Small Hours Alone: One Window Lit: one window still lit across the street, A minor at 54 bpm: a tune that waits on E and steps down to C, the chord broken slowly upward in quarters (texture slowarp); the middle in C major. A soft felt piano alone (ni-trung: the felt upright, its highs from 1.9 kHz, the lows eased, no echo, a soft 2.8 s room), the tune in the middle and now and then the upper middle, the left hand from C3 with no octave, sparse; few notes, slow; an even level, no climax; every return changed a little. An original tune.",
+  "style": "ni-trung",
+  "bpm": 54,
+  "beats": 4,
+  "sections": [
+    {
+      "bars": 2,
+      "chords": "Am | F",
+      "melody": "r:4 | r:4",
+      "texture": "slowarp",
+      "dyn": 0.24,
+      "layers": []
+    },
+    {
+      "bars": 8,
+      "chords": "Am | F | C | G | Am | F | Dm | E",
+      "melody": "E5:2 r:1 D5:1 | C5:3 r:1 | E5:2 G5:2 | D5:3 r:1 | E5:2 r:1 D5:1 | C5:2 A4:2 | F4:2 A4:2 | G#4:3 r:1",
+      "texture": "slowarp",
+      "dyn": 0.27,
+      "layers": []
+    },
+    {
+      "bars": 8,
+      "chords": "Am | F | C | G | Am | F | Dm | E",
+      "melody": "E5:2 r:1 D5:1 | C5:3 r:1 | E5:2 G5:2 | D5:3 r:1 | E5:2 r:1 C5:1 | C5:2 A4:2 | F4:2 A4:2 | B4:2 G#4:2",
+      "texture": "slowarp",
+      "dyn": 0.27,
+      "layers": []
+    },
+    {
+      "bars": 8,
+      "chords": "F | C/E | Dm | G | F | C/E | Dm | E",
+      "melody": "A4:2 C5:2 | G4:3 r:1 | F4:2 A4:2 | B4:3 r:1 | C5:2 F5:2 | E5:3 r:1 | D5:2 F5:2 | E5:2 B4:2",
+      "texture": "slowarp",
+      "dyn": 0.28,
+      "layers": []
+    },
+    {
+      "bars": 8,
+      "chords": "Am | F | C | G | Am | F | Dm | E",
+      "melody": "E5:2 r:1 D5:1 | C5:3 r:1 | E5:2 C5:2 | D5:3 r:1 | E5:2 r:1 D5:1 | C5:2 A4:2 | F4:2 A4:2 | G#4:3 r:1",
+      "texture": "slowarp",
+      "dyn": 0.27,
+      "layers": []
+    },
+    {
+      "bars": 8,
+      "chords": "F | C/E | Dm | G | F | C/E | Dm | E",
+      "melody": "A4:2 C5:2 | G4:2 E5:2 | F4:2 A4:2 | B4:3 r:1 | C5:2 F5:2 | E5:3 r:1 | D5:2 F5:2 | G#4:3 r:1",
+      "texture": "slowarp",
+      "dyn": 0.28,
+      "layers": []
+    },
+    {
+      "bars": 8,
+      "chords": "Am | F | C | G | Am | F | Dm | E",
+      "melody": "E5:4 | C5:4 | G4:4 | D5:4 | E5:2 C5:2 | A4:4 | F4:2 A4:2 | G#4:4",
+      "texture": "slowarp",
+      "dyn": 0.25,
+      "layers": []
+    },
+    {
+      "bars": 4,
+      "chords": "F | Dm | Am | Am",
+      "melody": "C5:2 A4:2 | F4:4 | E4:4 | r:4",
+      "texture": "slowarp",
+      "dyn": 0.23,
+      "layers": [],
+      "rit": true
+    }
+  ]
+}

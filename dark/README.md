@@ -651,3 +651,34 @@ cọ với F#4 của tay trái), `gio-nhung` ô đầu Ab thành Bb (Ab4 trên G
 Người dùng: "các bài ổn, bài 6 không hay". `gio-nhung` viết lại: bản đầu (thánh ca chậm ở Đô thứ, 48 bpm, nốt trắng và
 nốt tròn trên hợp âm rải một lần, `chord`) quá đứng yên; bản mới ở Fa thăng thứ, 54 bpm, `flow` như những bài người dùng
 thấy ổn, một câu hát rơi từ C# về F#, câu đáp bắt đầu cao hơn một quãng ba (F#5); đoạn giữa La trưởng; 4:10.
+
+## Album 9, "Small Hours Alone / Một mình giờ khuya": piano nỉ độc tấu, kiểu `ni-trung` (vòng 42)
+
+Người dùng: "Tôi muốn sáng tác nhạc dark piano độc tấu để nghe thư giãn trước khi ngủ. Toàn bộ bản nhạc chỉ sử dụng một
+tiếng Soft Felt Piano ... Piano chơi nhẹ chủ yếu ở quãng trung, đôi lúc lên trung cao; hạn chế nốt bass thấp ... Giai
+điệu ít nốt, chậm, buồn nhẹ và cô tịch, phần đệm thưa, âm lượng ổn định, không cao trào. Dùng reverb mềm vừa phải ...
+giữ từng nốt rõ và không gây ù."
+
+Kiểu `ni-trung`: cây piano đứng lót nỉ người dùng chọn ở album 7 (`ke-chuyen-ni`), rõ hơn một chút (cắt cao từ 1,9 kHz
+thay vì 1,5 kHz), bớt âm trầm (`EQ_SOFT_MID` 0,8), tay trái từ C3 không quãng tám, hợp âm cuối rải từ quãng trung; bỏ
+tiếng vọng để từng nốt rõ; phòng mềm hơn, ngắn hơn (2,8 s, gửi 0,24); đánh khẽ, đều (30-44).
+
+Mười khoảnh khắc một mình lúc khuya. Giai điệu ít nốt (phần lớn nốt trắng), chậm 50-56 bpm, câu hỏi và câu đáp, mỗi
+lần trở lại đổi một chút; mọi đoạn cùng một độ mạnh (0,23-0,28). Đệm thưa, mỗi bài một kiểu: `dyad`, `slowarp`, `waltz`,
+`deep`, `pair`, `chord`.
+
+| Bài | Giọng, nhịp | Đệm | Ý |
+|---|---|---|---|
+| `tra-mot-nguoi` (Tea for One) | Rê thứ, 52 bpm | `dyad` | A-F rồi lên D và xuống |
+| `o-cua-sang-den` (One Window Lit) | La thứ, 54 bpm | `slowarp` | Chờ trên E rồi bước xuống C |
+| `hoi-tho-tren-kinh` (Breath on the Glass) | Mi thứ, nhịp ba, 56 bpm | `waltz` | G-B lên E rồi lắng |
+| `den-duong-qua-rem` (Streetlight Through the Blinds) | Si thứ, 52 bpm | `deep` | Rơi D-C#-B, hợp âm át thứ |
+| `trang-tren-san-go` (Moonlight on the Floorboards) | Fa thăng thứ, nhịp ba, 54 bpm | `waltz` | A-C# vươn lên F# rồi xuống |
+| `bong-tren-tran` (Shadows on the Ceiling) | Son thứ, 50 bpm | `dyad` | D-Bb rồi G một mình, nghỉ dài |
+| `can-ho-lang-im` (The Quiet Apartment) | Đô thứ, 54 bpm | `slowarp` | Eb-D-C rồi một C dài |
+| `nha-ben-tat-den` (The Neighbor's Light Goes Out) | Fa thứ, 50 bpm | `pair` | C-Ab rồi F, nốt trắng |
+| `nghi-ngoi-truoc-ngu` (Thoughts Before Sleep) | Đô thăng thứ, nhịp ba, 52 bpm | `waltz` | Xoay quanh G#-E và C# |
+| `mot-minh-cung-on` (Alone, and Alright) | Son trưởng, 50 bpm | `chord` | D-B-G, bài trưởng duy nhất, đoạn giữa Mi thứ |
+
+Đã soát: không nốt nào dưới C3, không quãng tám trầm, không hai nốt cách nửa cung ngân cùng lúc quá một phách (một chỗ
+đã sửa: `o-cua-sang-den` ô cuối của A rút gọn, A4 trên hợp âm E, thành G#4 thay vì A4).

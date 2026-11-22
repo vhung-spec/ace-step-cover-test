@@ -1,0 +1,90 @@
+{
+  "title": "Trăng trên sàn gỗ",
+  "about": "Round 42, ni-trung (\"Tôi muốn sáng tác nhạc dark piano độc tấu để nghe thư giãn trước khi ngủ. Toàn bộ bản nhạc chỉ sử dụng một tiếng Soft Felt Piano\"), album 9, Small Hours Alone: Moonlight on the Floorboards: moonlight lying across the floorboards, F# minor in 3/4 at 54 bpm: a waltz, A-C# reaching up to F# and down, the left hand light and in the middle (texture waltz), the minor fifth chord; the middle in A major. A soft felt piano alone (ni-trung: the felt upright, its highs from 1.9 kHz, the lows eased, no echo, a soft 2.8 s room), the tune in the middle and now and then the upper middle, the left hand from C3 with no octave, sparse; few notes, slow; an even level, no climax; every return changed a little. An original tune.",
+  "style": "ni-trung",
+  "bpm": 54,
+  "beats": 3,
+  "sections": [
+    {
+      "bars": 4,
+      "chords": "F#m | D | F#m | D",
+      "melody": "r:3 | r:3 | r:3 | r:3",
+      "texture": "waltz",
+      "dyn": 0.24,
+      "layers": []
+    },
+    {
+      "bars": 8,
+      "chords": "F#m | D | Bm | C#m | F#m | D | Bm | C#m",
+      "melody": "A4:2 C#5:1 | F#5:3 | D5:2 B4:1 | C#5:3 | A4:2 C#5:1 | D5:2 F#5:1 | D5:2 B4:1 | G#4:3",
+      "texture": "waltz",
+      "dyn": 0.27,
+      "layers": []
+    },
+    {
+      "bars": 8,
+      "chords": "F#m | D | Bm | C#m | F#m | Bm | C#m | F#m",
+      "melody": "A4:2 C#5:1 | F#5:3 | D5:2 B4:1 | E5:3 | C#5:2 A4:1 | B4:2 D5:1 | C#5:2 E4:1 | F#4:3",
+      "texture": "waltz",
+      "dyn": 0.27,
+      "layers": []
+    },
+    {
+      "bars": 8,
+      "chords": "D | A/C# | Bm | E | D | A/C# | Bm | C#m",
+      "melody": "F#4:2 A4:1 | E4:2 A4:1 | D5:2 B4:1 | B4:3 | A4:2 D5:1 | C#5:2 E5:1 | D5:2 F#4:1 | E4:3",
+      "texture": "waltz",
+      "dyn": 0.28,
+      "layers": []
+    },
+    {
+      "bars": 8,
+      "chords": "D | A/C# | Bm | E | D | A/C# | Bm | C#m",
+      "melody": "F#4:2 A4:1 | E4:2 A4:1 | D5:2 B4:1 | G#4:3 | A4:2 D5:1 | C#5:2 E5:1 | D5:2 F#4:1 | G#4:3",
+      "texture": "waltz",
+      "dyn": 0.28,
+      "layers": []
+    },
+    {
+      "bars": 8,
+      "chords": "F#m | D | Bm | C#m | F#m | D | Bm | C#m",
+      "melody": "A4:2 C#5:1 | F#5:2 E5:1 | D5:2 B4:1 | C#5:3 | A4:2 C#5:1 | D5:2 F#5:1 | D5:2 B4:1 | G#4:3",
+      "texture": "waltz",
+      "dyn": 0.27,
+      "layers": []
+    },
+    {
+      "bars": 8,
+      "chords": "F#m | D | Bm | C#m | F#m | Bm | C#m | F#m",
+      "melody": "A4:2 C#5:1 | F#5:3 | D5:2 B4:1 | E5:3 | C#5:2 A4:1 | B4:2 D5:1 | C#5:2 E4:1 | F#4:3",
+      "texture": "waltz",
+      "dyn": 0.27,
+      "layers": []
+    },
+    {
+      "bars": 8,
+      "chords": "D | A/C# | Bm | E | D | A/C# | Bm | C#m",
+      "melody": "F#4:2 A4:1 | E4:2 A4:1 | D5:2 B4:1 | B4:3 | A4:2 D5:1 | C#5:2 E5:1 | D5:2 F#4:1 | E4:3",
+      "texture": "waltz",
+      "dyn": 0.28,
+      "layers": []
+    },
+    {
+      "bars": 8,
+      "chords": "F#m | D | Bm | C#m | F#m | Bm | C#m | F#m",
+      "melody": "A4:3 | F#5:3 | D5:3 | C#5:3 | A4:3 | B4:3 | C#5:3 | F#4:3",
+      "texture": "waltz",
+      "dyn": 0.25,
+      "layers": []
+    },
+    {
+      "bars": 8,
+      "chords": "D | Bm | F#m | F#m | D | C#m | F#m | F#m",
+      "melody": "F#4:2 A4:1 | B4:3 | A4:3 | r:3 | F#4:3 | E4:3 | F#4:3 | r:3",
+      "texture": "waltz",
+      "dyn": 0.23,
+      "layers": [],
+      "rit": true
+    }
+  ]
+}

@@ -1,0 +1,74 @@
+{
+  "title": "Một mình, cũng ổn",
+  "about": "Round 42, ni-trung (\"Tôi muốn sáng tác nhạc dark piano độc tấu để nghe thư giãn trước khi ngủ. Toàn bộ bản nhạc chỉ sử dụng một tiếng Soft Felt Piano\"), album 9, Small Hours Alone: Alone, and Alright: alone, and alright, G major at 50 bpm, the album's last and only major key, its middle in E minor: D-B-G, a plain tune of few notes over one soft chord a bar (texture chord). A soft felt piano alone (ni-trung: the felt upright, its highs from 1.9 kHz, the lows eased, no echo, a soft 2.8 s room), the tune in the middle and now and then the upper middle, the left hand from C3 with no octave, sparse; few notes, slow; an even level, no climax; every return changed a little. An original tune.",
+  "style": "ni-trung",
+  "bpm": 50,
+  "beats": 4,
+  "sections": [
+    {
+      "bars": 2,
+      "chords": "G | Em",
+      "melody": "r:4 | r:4",
+      "texture": "chord",
+      "dyn": 0.24,
+      "layers": []
+    },
+    {
+      "bars": 8,
+      "chords": "G | Em | C | D | G | Em | Am:2 D:2 | G",
+      "melody": "D5:2 B4:1 G4:1 | E5:2 D5:1 B4:1 | C5:3 E5:1 | D5:3 r:1 | D5:2 B4:1 G4:1 | G5:2 E5:2 | E5:1 C5:1 D5:1 F#4:1 | G4:4",
+      "texture": "chord",
+      "dyn": 0.27,
+      "layers": []
+    },
+    {
+      "bars": 8,
+      "chords": "G | Em | C | D | G | Em | Am:2 D:2 | G",
+      "melody": "D5:2 B4:1 G4:1 | E5:2 D5:1 B4:1 | C5:3 E5:1 | A4:3 r:1 | D5:2 B4:1 G4:1 | B4:2 E5:2 | E5:1 C5:1 D5:1 F#4:1 | G4:2 r:2",
+      "texture": "chord",
+      "dyn": 0.27,
+      "layers": []
+    },
+    {
+      "bars": 8,
+      "chords": "Em | Bm | C | G | Am | Em | C | D",
+      "melody": "G4:2 B4:2 | F#4:2 D5:2 | E5:2 C5:2 | B4:3 r:1 | C5:2 E5:2 | B4:2 G4:2 | E5:2 G4:2 | A4:3 r:1",
+      "texture": "chord",
+      "dyn": 0.28,
+      "layers": []
+    },
+    {
+      "bars": 8,
+      "chords": "G | Em | C | D | G | Em | Am:2 D:2 | G",
+      "melody": "D5:2 B4:1 G4:1 | E5:2 D5:1 B4:1 | C5:2 G4:2 | D5:3 r:1 | D5:2 B4:1 G4:1 | G5:2 E5:2 | E5:1 C5:1 D5:1 F#4:1 | G4:4",
+      "texture": "chord",
+      "dyn": 0.27,
+      "layers": []
+    },
+    {
+      "bars": 8,
+      "chords": "Em | Bm | C | G | Am | Em | C | D",
+      "melody": "G4:2 B4:2 | F#4:2 D5:2 | E5:2 C5:2 | D5:3 r:1 | C5:2 E5:2 | B4:2 G4:2 | E5:2 G4:2 | F#4:2 A4:2",
+      "texture": "chord",
+      "dyn": 0.28,
+      "layers": []
+    },
+    {
+      "bars": 8,
+      "chords": "G | Em | C | D | G | Em | Am:2 D:2 | G",
+      "melody": "D5:2 B4:2 | B4:4 | C5:4 | D5:4 | D5:2 G4:2 | E5:4 | C5:2 F#4:2 | G4:4",
+      "texture": "chord",
+      "dyn": 0.25,
+      "layers": []
+    },
+    {
+      "bars": 4,
+      "chords": "C | Am | G | G",
+      "melody": "E5:2 C5:2 | C5:2 A4:2 | B4:4 | r:4",
+      "texture": "chord",
+      "dyn": 0.23,
+      "layers": [],
+      "rit": true
+    }
+  ]
+}

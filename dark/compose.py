@@ -435,6 +435,17 @@ STYLES["thu-vien"] = STYLES["ke-chuyen-gan"] | {
                    "width": 0.8, "chorus": 0.15, "attack": 0.02, "lowpass": 4200},
     "piano_echo": {"beats": 1.0, "feedback": 0.35, "mix": 0.16, "lowpass": 2000}}
 
+# A soft felt piano alone, in the middle ("Toàn bộ bản nhạc chỉ sử dụng một tiếng Soft Felt Piano ... hạn chế nốt bass
+# thấp ... reverb mềm vừa phải để tạo không gian, giữ từng nốt rõ và không gây ù"): the felt upright the user chose
+# (ke-chuyen-ni) a little clearer (its highs from 1.9 kHz, not 1.5), its lows eased (EQ_SOFT_MID at 0.8), the left
+# hand from C3 with no octave, the last chord rolled from the middle; no echo, so each note stays clear; a softer,
+# shorter room (2.8 s, sent 0.24), struck softly and evenly (30-44).
+STYLES["ni-trung"] = STYLES["ke-chuyen-ni"] | {
+    "bass_low": 48, "ending_low": 48, "ending_octave": False, "piano_echo": None,
+    "room": {"rt60": 2.8, "wet": 0.85}, "piano_reverb": 0.24, "melody_velocity": [30, 44], "lh_soft": 5,
+    "ending_velocity": 26, "human": {"amount": 0.6, "vary": True},
+    "piano_tone": {"width": 0.7, "attack": 0.03, "lowpass": 1900, "eq": [list(p) for p in EQ_SOFT_MID], "eq_amount": 0.8}}
+
 # How loud each part sits against the piano (dB while it plays).
 ROLES = {"piano": 0.0, "bass": -9.0, "melody2": -6.0, "pad": -12.0, "low": -13.0, "drone": -15.0}
 
