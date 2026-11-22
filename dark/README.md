@@ -640,10 +640,14 @@ chút; khẽ, phồng nhẹ ở đoạn giữa, không cao trào.
 | `buom-dem` (A Moth at the Window) | Si thứ, 56 bpm | `arp` | Hình chập chờn F#-E-F# rồi đậu trên D |
 | `thuong-xuan` (Ivy on the Stone) | Son thứ, nhịp ba, 54 bpm | `flow` | Leo từng bậc từ D4 tới Eb5 qua tám ô rồi lùi về G |
 | `sonnet-dang-do` (An Unfinished Sonnet) | Fa thứ, 52 bpm | `slowarp` | Câu hỏi dừng ở C, câu đáp rẽ sang Db, lần sau mới về nhà |
-| `gio-nhung` (Velvet Hours) | Đô thứ, 48 bpm | `chord` | Thánh ca chậm, giai điệu nốt trắng, nốt tròn |
+| `gio-nhung` (Velvet Hours) | Fa thăng thứ, 54 bpm | `flow` | Viết lại (xem dưới): rơi từ C# về F#, câu đáp cao hơn một quãng ba |
 | `bui-phim-dan` (Dust on the Keys) | La thứ, 54 bpm | `flow` | Giai điệu nốt đen như hộp nhạc cũ (E-C-A-C) |
 | `ngu-ngon-thu-vien` (Goodnight, Old Library) | Đô thứ, 48 bpm | `flow` | Lời ru nốt trắng (Eb-G, Ab-C); hợp âm cuối Đô trưởng |
 
 Đã soát: không hai nốt cách nửa cung ngân cùng lúc quá một phách. Ba chỗ đã sửa vì vậy: `hoa-ep` Cmaj7 thành C (quãng bảy
 chỉ còn ở giai điệu, tay trái khỏi đặt B sát C), `buom-dem` Gmaj7 thành G và hình chập chờn F#-G-F# thành F#-E-F# (G5
 cọ với F#4 của tay trái), `gio-nhung` ô đầu Ab thành Bb (Ab4 trên G3).
+
+Người dùng: "các bài ổn, bài 6 không hay". `gio-nhung` viết lại: bản đầu (thánh ca chậm ở Đô thứ, 48 bpm, nốt trắng và
+nốt tròn trên hợp âm rải một lần, `chord`) quá đứng yên; bản mới ở Fa thăng thứ, 54 bpm, `flow` như những bài người dùng
+thấy ổn, một câu hát rơi từ C# về F#, câu đáp bắt đầu cao hơn một quãng ba (F#5); đoạn giữa La trưởng; 4:10.
