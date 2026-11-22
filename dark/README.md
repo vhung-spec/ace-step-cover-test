@@ -586,3 +586,40 @@ LAION CLAP, "peaceful, soothing music for sleep" (Ly sữa ấm / Con nước hi
 | Z: B, cello giữ nốt trầm | 1 % / 1 % | "melancholic, sad piano music" |
 
 Máy đo và tai người nghe khác nhau ở đây: người dùng thấy Y dễ nghe nhất. Từ nay, nhạc cụ nào thêm vào đứng nhỏ dưới piano.
+
+## Dark Academia, tám bản nhẹ để nghe trước khi ngủ: kiểu `hoc-vien` (vòng 40)
+
+Người dùng gửi một bản yêu cầu chi tiết ("8 BẢN DARK PIANO NHẸ NHÀNG ĐỂ NGHE TRƯỚC KHI NGỦ"): Dark Academia với ambient
+tối giản; cô tịch, hoài niệm, bí ẩn nhưng bình yên; piano ở quãng trung, không trầm nặng, không bass thấp hay quãng tám
+trầm; tối đa 1-2 nhạc cụ phụ nhỏ hơn piano; 48-60 bpm; giai điệu ngắn, ít nốt, có nghỉ; nhấn mềm, đều; hòa âm thứ chuyển
+chậm; không cao trào, không chạy ngón, không tăng tốc; mỗi lần lặp đổi một chút; 4-6 phút.
+
+Thêm vào mã (không đổi bài cũ):
+- Kiểu `hoc-vien`: tay trái từ D3 (`bass_low` 50), hợp âm cuối rải từ quãng trung, không quãng tám (`ending_low`,
+  `ending_octave`), giai điệu 34-46, ít rubato (`human` 0,5).
+- Năm cách đệm quãng trung: `dyad` (hai nốt nhẹ), `pair` (một nốt phách 1, một nốt cao hơn phách 3), `waltz` (một nốt
+  phách 1 không bass, hai nốt phách 2-3), `slowarp` (rải chậm bằng nốt đen), `chord` (ba nốt rải nhẹ một lần).
+- `lines` của một đoạn: câu viết tay cho viola giảm âm (`violas-muted`), clarinet (VSCO, CC0) hay guitar nylon, chỉ trong
+  khoảng nghỉ của piano; lớp `pad` (hai nốt mỗi hợp âm, G3 trở lên, dưới giai điệu, vào ra chậm).
+- `dark/soft_model.py` (dựng cùng `piano_model.py`): pad mềm và guitar dây nylon, làm từ âm bồi, không thu âm. Với LAION
+  CLAP: guitar "a classical nylon string guitar" 100 % (đàn hạc, hộp nhạc, piano 0 %); pad "a soft ambient synth pad"
+  100 % (organ nhà thờ, drone 0 %).
+- `render_samples.py`: `wow` (dao động cao độ của băng cũ, 3 cent, 0,31 Hz, cộng 0,6 cent rung nhanh), không hiss, không
+  crackle.
+
+| Bài | Giọng, nhịp | Piano, phối | Đệm | Mô-típ |
+|---|---|---|---|---|
+| `trang-sach-cuoi` (The Last Page) | Rê thứ, 54 bpm | Piano nỉ độc tấu | `dyad` | A-G-F rồi lắng, đáp thấp hơn một quãng năm |
+| `nha-sau-suong` (A House Beyond the Fog) | Fa thăng thứ, 48 bpm | Piano nỉ, pad rất mỏng | `deep` | Từng nốt, từng cụm hai nốt, ngân rồi nghỉ |
+| `la-thu-chua-gui` (Letters Never Sent) | Đô thứ, 56 bpm | Salamander dịu, viola giảm âm trong khoảng nghỉ | `flow` | G-Ab-G, Eb; viola giữ một nốt dài |
+| `phong-doc-vang` (The Empty Reading Room) | Son thứ, 52 bpm | Piano đứng gần, clarinet đáp 2-3 nốt ở hai đoạn | `sparse` | Bb-A-G, G |
+| `lang-sau-tuyet` (Stillness After Snow) | Mi thứ, 50 bpm | Salamander una corda (lớp nhẹ nhất, 2,6 kHz) | `pair` | Câu ngắn quãng trung-cao, đôi khi hai nốt cùng nhau |
+| `valse-lang-quen` (A Forgotten Waltz) | La thứ, nhịp ba, 58 bpm | Kawai dịu, dàn dây giảm âm rất mỏng ở vài đoạn | `waltz` | Hai, ba nốt mỗi ô, đung đưa |
+| `anh-phai` (Faded Photographs) | Si thứ, 55 bpm | Piano đứng dịu qua băng cũ rất nhẹ | `slowarp` | D-C#-B chấm dôi; trở lại trên hợp âm khác |
+| `den-con-sang` (The Lamp Left On) | Fa thứ, 53 bpm | Piano nỉ, guitar nylon 2-3 nốt cuối câu | `chord` | C-Ab-F, F; hợp âm Db, Ab ấm |
+
+Mỗi bài 56 ô (`valse-lang-quen` 84): mở đầu 4 ô, A, A2 (đổi nốt kết, khoảng nghỉ), B (đổi màu, cùng độ mạnh), A biến thể,
+B2, A rút bớt nốt, kết 4 ô (valse 8) chậm dần; 4:10-4:52. Đã soát: không nốt piano nào dưới D3, không quãng tám dưới C4,
+không hai nốt cách nửa cung ngân cùng lúc quá một phách (giữa mọi bè). Ba chỗ đã sửa vì vậy: valse bỏ quãng bảy trưởng
+(Fmaj7, Cmaj7 thành F, C) cho dàn dây khỏi cọ; `phong-doc-vang` Ebmaj7 thành Eb (nốt D không nằm dưới bass Eb);
+`la-thu-chua-gui` ô kết thứ 3 đổi giai điệu (Eb-D cọ với Eb của tay trái).

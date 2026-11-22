@@ -1,0 +1,92 @@
+{
+  "title": "Ngôi nhà sau màn sương",
+  "about": "Round 40, hoc-vien (\"8 BẢN DARK PIANO NHẸ NHÀNG ĐỂ NGHE TRƯỚC KHI NGỦ\"), the Dark Academia set, A House Beyond the Fog: a lone small house seen far off through the fog, F# minor at 48 bpm: a felt piano, single notes and small clusters that ring and rest, one soft note a chord under them (texture deep, from D3), a very thin pad (dark/soft_model.py) swelling in and out in the middle; each return changes one thing; the middle in D major. Written to the brief's rules: the piano leads in the middle, now and then the upper middle, never low or heavy (the left hand from D3, no octave under it, the last chord rolled from the middle); a short tune of few notes with rests; struck softly and evenly; minor harmony moving slowly; no climax, no fast notes, no speeding up; every return changed a little (its last note, a rest, the left hand). An original tune.",
+  "style": "hoc-vien",
+  "bpm": 48,
+  "beats": 4,
+  "piano": "felt",
+  "piano_tone": {
+    "lowpass": 1700,
+    "attack": 0.035,
+    "width": 0.85
+  },
+  "room": {
+    "rt60": 3.2,
+    "wet": 1.0
+  },
+  "piano_reverb": 0.32,
+  "texture": "deep",
+  "sections": [
+    {
+      "bars": 4,
+      "chords": "F#m | F#m | Dmaj7 | Dmaj7",
+      "melody": "r:4 | C#5:3 r:1 | r:4 | A4:3 r:1",
+      "dyn": 0.24,
+      "layers": [
+        "pad"
+      ]
+    },
+    {
+      "bars": 8,
+      "chords": "F#m | F#m | Dmaj7 | Dmaj7 | Bm7 | Bm7 | C#m | C#m",
+      "melody": "C#5:2 r:2 | A4:3 r:1 | A4+C#5:3 r:1 | r:4 | B4:2 r:1 A4:1 | F#4:3 r:1 | E4+G#4:3 r:1 | r:4",
+      "dyn": 0.26,
+      "layers": [
+        "pad"
+      ]
+    },
+    {
+      "bars": 8,
+      "chords": "F#m | F#m | Dmaj7 | Dmaj7 | Bm7 | Bm7 | C#m | C#m",
+      "melody": "C#5:2 r:2 | A4:3 r:1 | A4+C#5:3 r:1 | r:4 | B4:2 r:1 A4:1 | A4:3 r:1 | E4+G#4:3 r:1 | r:4",
+      "dyn": 0.26,
+      "layers": [
+        "pad"
+      ]
+    },
+    {
+      "bars": 8,
+      "chords": "Dmaj7 | Dmaj7 | A | A | Bm7 | Bm7 | Dmaj7 | C#m",
+      "melody": "F#4:2 r:2 | A4:2 C#5:2 | E4+A4:3 r:1 | r:4 | D5:2 r:2 | B4:3 r:1 | A4+C#5:3 r:1 | G#4:3 r:1",
+      "dyn": 0.26,
+      "layers": [
+        "pad"
+      ]
+    },
+    {
+      "bars": 8,
+      "chords": "F#m | F#m | Dmaj7 | Dmaj7 | Bm7 | Bm7 | C#m | C#m",
+      "melody": "C#5:2 r:1 B4:1 | A4:3 r:1 | A4+C#5:3 r:1 | r:4 | B4:2 r:1 A4:1 | F#4:3 r:1 | E4+G#4:3 r:1 | r:4",
+      "dyn": 0.26,
+      "layers": [
+        "pad"
+      ]
+    },
+    {
+      "bars": 8,
+      "chords": "Dmaj7 | Dmaj7 | A | A | Bm7 | Bm7 | Dmaj7 | C#m",
+      "melody": "F#4:2 r:2 | A4:3 r:1 | E4+A4:3 r:1 | r:4 | D5:2 r:2 | B4:2 r:2 | A4+C#5:3 r:1 | G#4:3 r:1",
+      "dyn": 0.26,
+      "layers": [
+        "pad"
+      ]
+    },
+    {
+      "bars": 8,
+      "chords": "F#m | F#m | Dmaj7 | Dmaj7 | Bm7 | Bm7 | C#m | C#m",
+      "melody": "C#5:3 r:1 | r:4 | A4+C#5:3 r:1 | r:4 | B4:3 r:1 | r:4 | E4+G#4:3 r:1 | r:4",
+      "dyn": 0.24,
+      "layers": []
+    },
+    {
+      "bars": 4,
+      "chords": "F#m | F#m | Dmaj7 | F#m",
+      "melody": "C#5:2 r:2 | A4:4 | r:4 | F#4:4",
+      "dyn": 0.22,
+      "layers": [
+        "pad"
+      ],
+      "rit": true
+    }
+  ]
+}

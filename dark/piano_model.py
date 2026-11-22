@@ -7,7 +7,8 @@ mixer (render_samples.py) plays it as it plays a sampled instrument:
 builds, in <out>, every model the arrangements' mix sheets name (library
 "model"), with the keys their parts play: <out>/<model>.sfz and
 <out>/<model>/k<key>_v<layer>.flac. `--all` builds every key. The modelled
-oboes (dark/oboe_model.py) are built here too.
+oboes (dark/oboe_model.py), and the pad and nylon guitar of dark/soft_model.py,
+are built here too.
 
 A note is the sound of its strings, struck:
 - partials at the string's own, slightly stretched frequencies: a stiff
@@ -55,6 +56,7 @@ import soundfile as sf
 from scipy.signal import butter, sosfilt
 
 import oboe_model  # dark/, beside this file
+import soft_model  # dark/, beside this file
 
 RATE = 44100
 KEYS = range(21, 109)  # A0 to C8
@@ -319,6 +321,8 @@ def main() -> None:
     for name, keys in wanted(args.arrangements).items():
         if name in oboe_model.MODELS:
             sfz = oboe_model.build(name, args.out, oboe_model.KEYS if args.all else keys)
+        elif name in soft_model.MODELS:
+            sfz = soft_model.build(name, args.out, soft_model.KEYS if args.all else keys)
         else:
             sfz = build(name, args.out, KEYS if args.all else keys)
         print(sfz, f"{len(keys)} keys", flush=True)

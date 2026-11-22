@@ -1,0 +1,78 @@
+{
+  "title": "Trang sách cuối",
+  "about": "Round 40, hoc-vien (\"8 BẢN DARK PIANO NHẸ NHÀNG ĐỂ NGHE TRƯỚC KHI NGỦ\"), the Dark Academia set, The Last Page: reading the last pages in a room late at night, D minor at 54 bpm: a soft felt piano alone, the most bare of the set. A four-note tune falling A-G-F and settling, answered a fifth lower; under it two soft notes a chord (texture dyad); each return ends on another note or leaves another rest; the middle in Bb major. Written to the brief's rules: the piano leads in the middle, now and then the upper middle, never low or heavy (the left hand from D3, no octave under it, the last chord rolled from the middle); a short tune of few notes with rests; struck softly and evenly; minor harmony moving slowly; no climax, no fast notes, no speeding up; every return changed a little (its last note, a rest, the left hand). An original tune.",
+  "style": "hoc-vien",
+  "bpm": 54,
+  "beats": 4,
+  "piano": "felt",
+  "piano_tone": {
+    "lowpass": 1800,
+    "attack": 0.03,
+    "width": 0.7
+  },
+  "room": {
+    "rt60": 1.6,
+    "wet": 0.7
+  },
+  "piano_reverb": 0.2,
+  "texture": "dyad",
+  "sections": [
+    {
+      "bars": 4,
+      "chords": "Dm | Bbmaj7 | Gm7 | Asus4:2 A:2",
+      "melody": "r:4 | r:4 | A4:2 G4:1 F4:1 | E4:3 r:1",
+      "dyn": 0.24,
+      "layers": []
+    },
+    {
+      "bars": 8,
+      "chords": "Dm | Bbmaj7 | Gm7 | A | Dm | Bbmaj7 | Gm7 | Asus4:2 A:2",
+      "melody": "A4:2 G4:1 F4:1 | D4:3 r:1 | F4:1 G4:1 A4:2 | E4:3 r:1 | A4:2 G4:1 F4:1 | F4:3 r:1 | G4:1 A4:1 Bb4:2 | A4:3 r:1",
+      "dyn": 0.28,
+      "layers": []
+    },
+    {
+      "bars": 8,
+      "chords": "Dm | Bbmaj7 | Gm7 | A | Dm | Bbmaj7 | Gm7:2 Asus4:2 | Dm",
+      "melody": "A4:2 G4:1 F4:1 | D4:2 r:2 | F4:1 G4:1 A4:2 | E4:3 r:1 | A4:2 G4:1 F4:1 | F4:2 D4:2 | G4:1 A4:1 E4:2 | D4:3 r:1",
+      "dyn": 0.28,
+      "layers": []
+    },
+    {
+      "bars": 8,
+      "chords": "Bbmaj7 | F/A | Gm7 | Dm | Bbmaj7 | F/A | Gm7 | Asus4:2 A:2",
+      "melody": "D5:2 C5:1 A4:1 | C5:3 r:1 | Bb4:1 A4:1 G4:2 | A4:3 r:1 | D5:2 C5:1 Bb4:1 | A4:2 F4:2 | G4:2 Bb4:1 A4:1 | E4:3 r:1",
+      "dyn": 0.28,
+      "layers": []
+    },
+    {
+      "bars": 8,
+      "chords": "Dm | Bbmaj7 | Gm7 | A | Dm | Bbmaj7 | Gm7 | Asus4:2 A:2",
+      "melody": "A4:2 G4:1 F4:1 | D4:3 r:1 | F4:1 G4:1 Bb4:2 | A4:3 r:1 | A4:2 G4:1 F4:1 | F4:3 r:1 | G4:1 A4:1 Bb4:2 | A4:3 r:1",
+      "dyn": 0.28,
+      "layers": []
+    },
+    {
+      "bars": 8,
+      "chords": "Bbmaj7 | F/A | Gm7 | Dm | Bbmaj7 | F/A | Gm7 | Asus4:2 A:2",
+      "melody": "D5:2 C5:1 A4:1 | C5:2 r:2 | Bb4:1 A4:1 G4:2 | F4:3 r:1 | D5:2 r:1 Bb4:1 | A4:3 r:1 | G4:2 F4:2 | E4:2 C#4:2",
+      "dyn": 0.28,
+      "layers": []
+    },
+    {
+      "bars": 8,
+      "chords": "Dm | Bbmaj7 | Gm7 | A | Dm | Bbmaj7 | Gm7:2 Asus4:2 | Dm",
+      "melody": "A4:3 r:1 | D4:3 r:1 | F4:2 A4:2 | E4:3 r:1 | A4:2 F4:2 | D4:3 r:1 | G4:2 E4:2 | D4:4",
+      "dyn": 0.26,
+      "layers": []
+    },
+    {
+      "bars": 4,
+      "chords": "Bbmaj7 | Gm7 | Dm | Dm",
+      "melody": "F4:3 r:1 | D4:2 r:2 | r:4 | r:4",
+      "dyn": 0.22,
+      "layers": [],
+      "rit": true
+    }
+  ]
+}

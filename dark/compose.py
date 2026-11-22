@@ -165,6 +165,11 @@ INSTRUMENTS = {
     # the Salamander Grand Piano (a Yamaha C5 grand, by Alexander Holm, CC-BY 3.0): sixteen strengths a
     # key, clean; its release noises and pedal left out
     "salamander": ("salamander", "Salamander Grand Piano V3.sfz", {"release_db": -60, "pedal_noise": False}),
+    # VSCO's clarinet, held: a few soft answers in its middle (chalumeau and throat) register, each note easing in
+    "clarinet": ("vsco", "ClarinetSus.sfz", {"attack": 0.1, "highpass": 150, "lowpass": 3000, "width": 0.5}),
+    # the violas as if muted (con sordino): darker (1.8 kHz, steep), each note swelling in (0.35 s), narrow
+    "violas-muted": ("vsco", "ViolaEnsSusVib-Quiet.sfz", TONES["violas"] | {"attack": 0.35, "lowpass": 1800,
+                                                                           "lowpass_order": 4, "width": 0.5}),
     "cellos": ("vsco", "CelloEnsSusVib-Quiet.sfz", dict(TONES["cellos"])),
     "violas": ("vsco", "ViolaEnsSusVib-Quiet.sfz", dict(TONES["violas"])),
     # the same, darker, for one thin line behind a bare tune: their soft samples hiss (alone in the quiet
@@ -208,6 +213,10 @@ INSTRUMENTS = {
     "model-bloom": ("model", "felt-bloom.sfz", {}),
     "model-wood": ("model", "felt-wood.sfz", {}),
     "model-glass": ("model", "felt-glass.sfz", {}),
+    # made here (dark/soft_model.py), no recording: a thin, soft pad in the middle register, and a nylon-string
+    # guitar plucked softly with the fingertip
+    "pad-soft": ("model", "pad-soft.sfz", {"width": 0.8}),
+    "guitar-nylon": ("model", "guitar-nylon.sfz", {"width": 0.6}),
 }
 # Named styles: a piece's "style" fills in every setting it does not give itself.
 STYLES = {
@@ -398,6 +407,19 @@ STYLES["ke-chuyen-ni"] = STYLES["ke-chuyen-gan"] | {
     "piano": "felt", "piano_tone": {"width": 0.7, "attack": 0.03, "lowpass": 1500},
     "melody_velocity": [28, 46], "lh_soft": 6, "ending_velocity": 26, "piano_layer": None, "piano_reverb": 0.22,
     "piano_echo": {"beats": 1.0, "feedback": 0.35, "mix": 0.16, "lowpass": 1800}}
+
+# Dark Academia, to sleep to (the user's brief: "8 bản dark piano nhẹ nhàng để nghe trước khi ngủ"): the piano in the
+# middle, never low or heavy ("Không thích tiếng piano trầm, nặng và ù"; the left hand from D3, no octave under
+# it, the last chord rolled from the middle), struck softly and evenly (34-46, the left hand 4 softer, little
+# rubato), a soft room; each piece sets its own piano, tone, room and texture, and at most two quiet instruments.
+STYLES["hoc-vien"] = {
+    "piano": "salamander", "bass_low": 50, "texture": "dyad", "pedal_beats": 2, "room": {"rt60": 1.8, "wet": 0.8},
+    "piano_reverb": 0.24, "loudness": -16, "melody_velocity": [34, 46], "lh_soft": 4, "ending_velocity": 30,
+    "ending_low": 50, "ending_octave": False, "human": {"amount": 0.5, "vary": True},
+    "piano_tone": {"release_db": -60, "pedal_noise": False, "attack": 0.02, "width": 0.75},
+    "gains": {"viola-line": -3.0, "clarinet": -3.0, "guitar": -3.0, "pad": -4.0, "violas": -8.0, "cellos-pad": -8.0},
+    "tones": {"violas": {"attack": 0.9, "lowpass": 1800, "lowpass_order": 4},
+              "cellos-pad": {"attack": 0.9, "lowpass": 1600, "lowpass_order": 4}}}
 
 # How loud each part sits against the piano (dB while it plays).
 ROLES = {"piano": 0.0, "bass": -9.0, "melody2": -6.0, "pad": -12.0, "low": -13.0, "drone": -15.0}
@@ -810,6 +832,45 @@ def left_hand(piece: Piece, piano: Part) -> None:
                     break
                 hold += more
             piano.add(tick + piece.jitter(4), low, velocity - 6, hold)
+        elif texture == "dyad":  # two soft tones of the chord in the middle, struck together; the upper touched
+            # again, softer, halfway through a chord of a whole bar or more
+            top = max(low + 9, min(ceiling, low + 16))
+            pair = voice(previous[:2], tones, low, top, count=2)
+            previous = pair + previous[2:]
+            again = length >= 4 * TICKS
+            for k, n in enumerate(pair):
+                hold = length // 2 if again and k == 1 else length
+                piano.add(tick + 35 * k + piece.jitter(4), n, velocity - 2 * k, hold)
+            if again:
+                piano.add(tick + length // 2 + piece.jitter(5), pair[1], velocity - 8, length - length // 2)
+        elif texture == "pair":  # a lone tone of the chord on its first beat and, if it lasts three beats or
+            # more, one higher on its third: two notes a bar, the sparsest moving left hand
+            upper = [n for n in range(low + 5, min(ceiling, low + 17)) if n % 12 in tones]
+            piano.add(tick + piece.jitter(4), low, velocity - 2, length)
+            if length >= 3 * TICKS and upper:
+                piano.add(tick + 2 * TICKS + piece.jitter(5), upper[0], velocity - 7, length - 2 * TICKS)
+        elif texture == "waltz":  # three to a bar, all in the middle: a lone tone on the first beat (no bass
+            # under it), two soft tones of the chord on the second and third
+            pair = voice(previous[:2], tones, low + 3, max(low + 12, min(ceiling, low + 16)), count=2)
+            previous = pair + previous[2:]
+            for beat in range(0, length, TICKS):
+                at = tick + beat
+                if (at % piece.bar) // TICKS == 0:
+                    piano.add(at + piece.jitter(4), low, velocity - 1, piece.bar)
+                else:
+                    for k, n in enumerate(pair):
+                        piano.add(at + 20 * k + piece.jitter(4), n, velocity - 8 - 2 * k, TICKS - 30)
+        elif texture == "slowarp":  # the chord broken slowly upward in quarters, each tone held to its end
+            tones_up = [n for n in range(low + 3, ceiling) if n % 12 in tones]
+            ladder = [low] + [n for k, n in enumerate(tones_up) if k == 0 or n - tones_up[k - 1] >= 3][:3]
+            for k in range(length // TICKS):
+                step = k % len(ladder)
+                piano.add(tick + k * TICKS + piece.jitter(5), ladder[step], velocity - 2 * step, length - k * TICKS)
+        elif texture == "chord":  # three tones of the chord in the middle, rolled gently once and held
+            trio = voice(previous, tones, low, max(low + 10, min(ceiling, low + 17)))
+            previous = trio
+            for k, n in enumerate(trio):
+                piano.add(tick + 40 * k + piece.jitter(4), n, velocity - 2 * k, length)
         elif texture == "pulse":
             for beat in range(0, length, TICKS * 2):
                 for k, offset in enumerate((0, round(0.75 * TICKS))):
@@ -886,6 +947,8 @@ def layers(piece: Piece) -> None:
                 for tick, notes, length in piece.tune:
                     if start <= tick < end:
                         piece.held(line, tick + 15, max(notes) + shift, velocity + 4, length)
+    section_lines(piece)
+    pad_layer(piece)
     oboe_line(piece)
     cello_tune(piece)
     cello_pizz(piece)
@@ -902,6 +965,70 @@ def layers(piece: Piece) -> None:
         clear = lambda tick, length: [n for a, b, n in answered if a < tick + length and b > tick]
         line, _ = held_voice(piece, spans, 6.5, low=58, high=72, avoid=clear, soft=30)
         play_held(piece, piece.part("viola", "violas-dark", "pad", 0.3, reverb=0.55), line, 6.5)
+
+
+# Lines a section may write for another instrument ("lines": {"viola": "...", ...}), read as the tune is (rests
+# as "r"): part, instrument, pan, legato (each note into the next), velocity at dyn 0 (+20 at dyn 1).
+LINES = {"viola": ("viola-line", "violas-muted", 0.25, True, 42),
+         "clarinet": ("clarinet", "clarinet", -0.2, True, 44),
+         "guitar": ("guitar", "guitar-nylon", 0.25, False, 46)}
+
+
+def section_lines(piece: Piece) -> None:
+    """Each section's written lines for the instruments that answer the piano: a viola holding long notes in the
+    piano's rests, a clarinet's two or three notes, a guitar's few notes at a sentence's end; legato ones each
+    into the next (60 ticks), the guitar's let ring a beat if its chord lasts."""
+    for key, (name, instrument, pan, legato, base) in LINES.items():
+        part = None
+        for start, end, section in piece.sections:
+            text = section.get("lines", {}).get(key, "")
+            if not text.strip():
+                continue
+            part = part or piece.part(name, instrument, "melody2", pan, reverb=0.5)
+            notes, tick = [], start
+            for index, bar in enumerate(text.split("|")):
+                bar_start = tick
+                for token in bar.split():
+                    pitches, _, beats = token.partition(":")
+                    length = round(float(beats or 1) * TICKS)
+                    if pitches != "r":
+                        notes += [(tick, note_number(p), length) for p in pitches.split("+")]
+                    tick += length
+                if tick - bar_start != piece.bar:
+                    raise ValueError(f"{key} line, bar {index + 1}: {(tick - bar_start) / TICKS} beats")
+            if tick != end:
+                raise ValueError(f"{key} line: {(tick - start) / piece.bar} bars, not {(end - start) / piece.bar}")
+            velocity = base + 20 * section.get("dyn", 0.4)
+            for k, (t, n, l) in enumerate(notes):
+                if legato:
+                    joined = k + 1 < len(notes) and notes[k + 1][0] == t + l
+                    piece.held(part, t + 15, n, velocity, l + (60 if joined else 0), most=6.5)
+                else:  # let ring a beat, but not into the next chord
+                    chord_end = next((a + b for a, b, _ in piece.spans if a <= t < a + b), t + l)
+                    part.add(t + piece.jitter(4), n, velocity, max(l, min(l + TICKS, chord_end - t + 30)))
+
+
+def pad_layer(piece: Piece) -> None:
+    """Layer pad: two tones of each chord held in the middle (G3 up, under the tune), very soft, a tone the next
+    chord keeps tied on; the pad's own samples swell in and fade slowly."""
+    spans = [(t, l, n) for t, l, n in piece.spans if "pad" in piece.section_at(t).get("layers", [])]
+    if not spans:
+        return
+    part = piece.part("pad", "pad-soft", "pad", 0.0, reverb=0.6)
+    held, previous = {}, [57, 64]
+    for tick, length, name in spans:
+        tune = piece.tune_between(tick, tick + length)
+        high = max(62, min(70, (min(tune) - 2) if tune else 70))
+        pair = voice(previous, chord(name)[1], 55, high, count=2)
+        previous = pair
+        for n in list(held):
+            if n not in pair or held[n][1] != tick:
+                start, stop = held.pop(n)
+                piece.held(part, start, n, 34 + 20 * piece.section_at(start).get("dyn", 0.3), stop - start, most=15)
+        for n in pair:
+            held[n] = (held[n][0], tick + length) if n in held else (tick, tick + length)
+    for n, (start, stop) in held.items():
+        piece.held(part, start, n, 34 + 20 * piece.section_at(start).get("dyn", 0.3), stop - start, most=15)
 
 
 def oboe_line(piece: Piece) -> None:
@@ -1156,12 +1283,15 @@ def cello_answers(piece: Piece) -> list:
 
 
 def ending(piece: Piece, piano: Part) -> None:
-    """The last chord rolled from the deep bass, held a bar longer, struck at
-    ending_velocity (52 unless the score asks; the tune's last notes 6 over)."""
+    """The last chord rolled from the deep bass (or, with ending_octave false, from ending_low in the middle, no
+    octave), held a bar longer, struck at ending_velocity (52 unless the score asks; the tune's last notes 6 over)."""
     tick, length, name = piece.spans[-1]
     bass, tones, _ = chord(name)
-    low = above(bass, piece.score.get("bass_low", 33) - 5)
-    roll = [low, low + 12] + [n for n in range(low + 13, low + 32) if n % 12 in tones][:4]
+    low = above(bass, piece.score.get("ending_low", piece.score.get("bass_low", 33) - 5))
+    if piece.score.get("ending_octave", True):
+        roll = [low, low + 12] + [n for n in range(low + 13, low + 32) if n % 12 in tones][:4]
+    else:  # the last chord from the middle up, no octave under it
+        roll = [low] + [n for n in range(low + 3, low + 20) if n % 12 in tones][:3]
     piano.notes = [n for n in piano.notes if n[0] < tick]
     strike = piece.score.get("ending_velocity", 52)
     for k, n in enumerate(roll):

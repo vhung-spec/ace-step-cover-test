@@ -1,0 +1,87 @@
+{
+  "title": "Phòng đọc vắng",
+  "about": "Round 40, hoc-vien (\"8 BẢN DARK PIANO NHẸ NHÀNG ĐỂ NGHE TRƯỚC KHI NGỦ\"), the Dark Academia set, The Empty Reading Room: an old reading room with most of its lamps out, G minor at 52 bpm: an intimate upright, sparse chords in the middle (texture sparse, from D3), a plain tune (Bb-A-G, G); in two sections a soft clarinet answers in two or three notes in its middle register, resting the rest of the time; the middle in Eb major. Written to the brief's rules: the piano leads in the middle, now and then the upper middle, never low or heavy (the left hand from D3, no octave under it, the last chord rolled from the middle); a short tune of few notes with rests; struck softly and evenly; minor harmony moving slowly; no climax, no fast notes, no speeding up; every return changed a little (its last note, a rest, the left hand). An original tune.",
+  "style": "hoc-vien",
+  "bpm": 52,
+  "beats": 4,
+  "piano": "upright",
+  "piano_tone": {
+    "lowpass": 3000,
+    "attack": 0.015,
+    "width": 0.6
+  },
+  "room": {
+    "rt60": 1.4,
+    "wet": 0.6
+  },
+  "piano_reverb": 0.18,
+  "texture": "sparse",
+  "sections": [
+    {
+      "bars": 4,
+      "chords": "Gm | Eb | Cm7 | Dsus4:2 D:2",
+      "melody": "r:4 | Bb4:2 G4:2 | r:4 | A4:3 r:1",
+      "dyn": 0.24,
+      "layers": []
+    },
+    {
+      "bars": 8,
+      "chords": "Gm | Eb | Cm7 | Dsus4:2 D:2 | Gm | Eb | Cm7:2 D:2 | Gm",
+      "melody": "Bb4:2 A4:1 G4:1 | G4:3 r:1 | C5:2 Bb4:2 | A4:2 r:2 | Bb4:2 A4:1 G4:1 | Bb4:3 r:1 | C5:1 Bb4:1 A4:2 | G4:2 r:2",
+      "dyn": 0.28,
+      "layers": []
+    },
+    {
+      "bars": 8,
+      "chords": "Gm | Eb | Cm7 | Dsus4:2 D:2 | Gm | Eb | Cm7:2 D:2 | Gm",
+      "melody": "Bb4:2 A4:1 G4:1 | G4:2 r:2 | C5:2 Bb4:2 | A4:2 r:2 | Bb4:2 A4:1 G4:1 | Bb4:2 r:2 | C5:1 Bb4:1 A4:2 | G4:2 r:2",
+      "dyn": 0.28,
+      "layers": [],
+      "lines": {
+        "clarinet": "r:4 | r:2 Bb4:1 G4:1 | r:4 | r:2 F#4:1 A4:1 | r:4 | r:2 G4:1 Eb4:1 | r:4 | r:2 Bb4:1 D4:1"
+      }
+    },
+    {
+      "bars": 8,
+      "chords": "Eb | Bb/D | Cm7 | F | Eb | Bb/D | Cm7 | Dsus4:2 D:2",
+      "melody": "G4:2 Bb4:2 | F4:3 r:1 | Eb4:1 F4:1 G4:2 | A4:3 r:1 | G4:2 Bb4:2 | D5:2 r:2 | C5:1 Bb4:1 G4:2 | A4:3 r:1",
+      "dyn": 0.28,
+      "layers": []
+    },
+    {
+      "bars": 8,
+      "chords": "Gm | Eb | Cm7 | Dsus4:2 D:2 | Gm | Eb | Cm7:2 D:2 | Gm",
+      "melody": "Bb4:2 A4:1 G4:1 | G4:3 r:1 | Eb4:1 F4:1 G4:2 | A4:2 r:2 | Bb4:2 A4:1 G4:1 | Bb4:3 r:1 | C5:2 A4:2 | G4:2 r:2",
+      "dyn": 0.28,
+      "layers": []
+    },
+    {
+      "bars": 8,
+      "chords": "Eb | Bb/D | Cm7 | F | Eb | Bb/D | Cm7 | Dsus4:2 D:2",
+      "melody": "G4:2 Bb4:2 | F4:2 r:2 | Eb4:1 F4:1 G4:2 | A4:2 r:2 | G4:2 Bb4:2 | D5:2 r:2 | C5:1 Bb4:1 G4:2 | A4:2 r:2",
+      "dyn": 0.28,
+      "layers": [],
+      "lines": {
+        "clarinet": "r:4 | r:2 D4:1 F4:1 | r:4 | r:2 C5:1 A4:1 | r:4 | r:2 F4:1 D4:1 | r:4 | r:2 F#4:1 A4:1"
+      }
+    },
+    {
+      "bars": 8,
+      "chords": "Gm | Eb | Cm7 | Dsus4:2 D:2 | Gm | Eb | Cm7:2 D:2 | Gm",
+      "melody": "Bb4:2 G4:2 | G4:3 r:1 | C5:2 Bb4:2 | A4:3 r:1 | Bb4:2 G4:2 | Bb4:3 r:1 | C5:2 A4:2 | G4:4",
+      "dyn": 0.26,
+      "layers": []
+    },
+    {
+      "bars": 4,
+      "chords": "Eb | Cm7 | Gm | Gm",
+      "melody": "G4:2 r:2 | Eb4:2 r:2 | D4:4 | r:4",
+      "dyn": 0.22,
+      "layers": [],
+      "lines": {
+        "clarinet": "r:4 | r:2 G4:2 | r:4 | r:4"
+      },
+      "rit": true
+    }
+  ]
+}

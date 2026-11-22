@@ -239,6 +239,21 @@ def echo(audio: np.ndarray, seconds: float, feedback: float = 0.35, mix: float =
     return out
 
 
+def wow(audio: np.ndarray, cents: float = 3.0, rate: float = 0.3, flutter: float = 0.0,
+        flutter_rate: float = 5.5) -> np.ndarray:
+    """An old tape's slow wobble in pitch, kept below notice: the part read
+    through a delay swept so its pitch drifts `cents` either way at `rate` Hz
+    (and, if asked, a faster flutter), both sides alike."""
+    n = audio.shape[1]
+    t = np.arange(n) / RATE
+    swing = lambda c, f: (2 ** (c / 1200) - 1) / (2 * np.pi * f)  # the sweep's depth (s) for c cents at f Hz
+    lag = 0.005 + swing(cents, rate) * np.sin(2 * np.pi * rate * t)
+    if flutter:
+        lag += swing(flutter, flutter_rate) * np.sin(2 * np.pi * flutter_rate * t + 1.0)
+    where = np.arange(n) - lag * RATE
+    return np.stack([np.interp(where, np.arange(n), side, left=0.0, right=0.0) for side in audio])
+
+
 def hiss(audio: np.ndarray) -> float:
     """How much hiss shows when the music is quiet: the level from 4 to 16 kHz
     over the quietest tenth of the 50 ms moments where it sounds (within 50 dB
@@ -417,6 +432,8 @@ def mix_folder(folder: Path, sfizz: str, libraries: dict, keep_parts: bool, prem
     for entry, audio in zip(sheet["parts"], audios):
         peak = 20 * np.log10(np.abs(audio).max() + 1e-12)
         audio, lean = image(apply_tone(audio, entry["tone"]), entry["tone"].get("width", 1.0))
+        if entry["tone"].get("wow"):
+            audio = wow(audio, **entry["tone"]["wow"])
         if entry["tone"].get("chorus"):
             audio = chorus(audio, entry["tone"]["chorus"])
         if entry["tone"].get("echo"):
