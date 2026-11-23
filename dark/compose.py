@@ -446,6 +446,13 @@ STYLES["ni-trung"] = STYLES["ke-chuyen-ni"] | {
     "ending_velocity": 26, "human": {"amount": 0.6, "vary": True},
     "piano_tone": {"width": 0.7, "attack": 0.03, "lowpass": 1900, "eq": [list(p) for p in EQ_SOFT_MID], "eq_amount": 0.8}}
 
+# Smoother, more like music to sleep to ("tôi muốn âm thanh nhẹ nhàng liền mạch hơn, giống nhạc để ngủ hơn"): thu-vien
+# with the soft echo of the sleep albums the user liked (ke-chuyen-gan's: a beat later, 0.22, each repeat 0.4, darker
+# from 2.2 kHz), so the notes run into one another, struck a little softer (30-50); its pieces' left hands rock
+# without a break (texture flow), as on those albums.
+STYLES["thu-vien-ngu"] = STYLES["thu-vien"] | {
+    "melody_velocity": [30, 50], "piano_echo": {"beats": 1.0, "feedback": 0.4, "mix": 0.22, "lowpass": 2200}}
+
 # How loud each part sits against the piano (dB while it plays).
 ROLES = {"piano": 0.0, "bass": -9.0, "melody2": -6.0, "pad": -12.0, "low": -13.0, "drone": -15.0}
 

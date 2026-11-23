@@ -688,3 +688,9 @@ Người dùng, sau khi nghe album 9 trên `ni-trung`: "tôi muốn sound piano 
 tiếng vọng nhẹ, không Rhodes, không nâng âm trầm, tay trái từ C3; giai điệu và cách đệm giữ nguyên. Với LAION CLAP, trên
 `ni-trung` cả mười bài là "a soft felt piano, intimate and muted" 100 %, "each note clear and distinct" 99-100 %, nhưng
 chín bài nghiêng về "tense and unsettling" (79-99 %).
+
+Người dùng: "tôi muốn âm thanh nhẹ nhàng liền mạch hơn, giống nhạc để ngủ hơn" (vòng 44). Kiểu mới `thu-vien-ngu`:
+`thu-vien` với tiếng vọng mềm của các album ngủ người dùng thích (của `ke-chuyen-gan`: một phách sau, 0,22, mỗi lần
+0,4, tối dần từ 2,2 kHz) để các nốt nối vào nhau, đánh khẽ hơn một chút (30-50). Mọi đoạn của mười bài đổi sang tay
+trái rải đều không ngắt (`flow`), như ở các album đó; giai điệu giữ nguyên. Đã soát lại: không nốt dưới C3, không hai
+nốt cách nửa cung ngân cùng lúc.
