@@ -694,3 +694,8 @@ Người dùng: "tôi muốn âm thanh nhẹ nhàng liền mạch hơn, giống 
 0,4, tối dần từ 2,2 kHz) để các nốt nối vào nhau, đánh khẽ hơn một chút (30-50). Mọi đoạn của mười bài đổi sang tay
 trái rải đều không ngắt (`flow`), như ở các album đó; giai điệu giữ nguyên. Đã soát lại: không nốt dưới C3, không hai
 nốt cách nửa cung ngân cùng lúc.
+
+Người dùng: "tôi muốn tiếng vọng ít hơn, nhẹ nhàng hơn" (vòng 45). `thu-vien-ngu` sửa lại: tiếng vọng còn một nửa (0,11,
+mỗi lần lặp 0,3, tối dần từ 1,8 kHz; `thu-vien` gốc là 0,16), đánh khẽ hơn nữa (giai điệu 28-46, tay trái khẽ hơn 6),
+đỉnh tiếng đàn tròn hơn một chút (lọc từ 3,6 kHz thay vì 4,2). Tay trái vẫn `flow`, giai điệu giữ nguyên. Đã soát lại:
+không hai nốt cách nửa cung ngân cùng lúc.

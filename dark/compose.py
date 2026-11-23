@@ -452,6 +452,13 @@ STYLES["ni-trung"] = STYLES["ke-chuyen-ni"] | {
 # without a break (texture flow), as on those albums.
 STYLES["thu-vien-ngu"] = STYLES["thu-vien"] | {
     "melody_velocity": [30, 50], "piano_echo": {"beats": 1.0, "feedback": 0.4, "mix": 0.22, "lowpass": 2200}}
+# Less echo, gentler ("tôi muốn tiếng vọng ít hơn, nhẹ nhàng hơn"): the echo half as loud (0.11, each repeat 0.3,
+# darker from 1.8 kHz; thu-vien's own was 0.16), struck softer still (28-46, the left hand 6 softer), the top rounded a
+# little more (3.6 kHz). The album's pieces play this way.
+STYLES["thu-vien-ngu"] = STYLES["thu-vien-ngu"] | {
+    "melody_velocity": [28, 46], "lh_soft": 6,
+    "piano_echo": {"beats": 1.0, "feedback": 0.3, "mix": 0.11, "lowpass": 1800},
+    "piano_tone": STYLES["thu-vien"]["piano_tone"] | {"lowpass": 3600}}
 
 # How loud each part sits against the piano (dB while it plays).
 ROLES = {"piano": 0.0, "bass": -9.0, "melody2": -6.0, "pad": -12.0, "low": -13.0, "drone": -15.0}
