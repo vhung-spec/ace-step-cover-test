@@ -1,0 +1,129 @@
+{
+  "title": "Lặng sau tuyết",
+  "about": "Round 40, hoc-vien (\"8 BẢN DARK PIANO NHẸ NHÀNG ĐỂ NGHE TRƯỚC KHI NGỦ\"), the Dark Academia set, Stillness After Snow: the snow has just stopped and all is still, E minor at 50 bpm: a soft una corda piano alone (the Salamander struck in its softest layers, rounded off at 2.6 kHz), the tune light in the middle and upper middle in short phrases between silences, now and then two notes together; under it the sparsest left hand, a note on the first beat and one higher on the third (texture pair, from E3); the middle in G major. Written to the brief's rules: the piano leads in the middle, now and then the upper middle, never low or heavy (the left hand from D3, no octave under it, the last chord rolled from the middle); a short tune of few notes with rests; struck softly and evenly; minor harmony moving slowly; no climax, no fast notes, no speeding up; every return changed a little (its last note, a rest, the left hand). An original tune.",
+  "style": "hoc-vien",
+  "bpm": 50,
+  "beats": 4,
+  "piano": "salamander",
+  "piano_tone": {
+    "release_db": -60,
+    "pedal_noise": false,
+    "eq": [
+      [
+        80,
+        2
+      ],
+      [
+        150,
+        3
+      ],
+      [
+        250,
+        2.5
+      ],
+      [
+        400,
+        1
+      ],
+      [
+        700,
+        0
+      ],
+      [
+        1200,
+        -2
+      ],
+      [
+        2000,
+        -6
+      ],
+      [
+        3000,
+        -10
+      ],
+      [
+        5000,
+        -14
+      ],
+      [
+        8000,
+        -18
+      ]
+    ],
+    "eq_amount": 0.6,
+    "lowpass": 2600,
+    "attack": 0.03,
+    "width": 0.9
+  },
+  "melody_velocity": [
+    30,
+    42
+  ],
+  "lh_soft": 6,
+  "bass_low": 52,
+  "room": {
+    "rt60": 2.6,
+    "wet": 0.9
+  },
+  "piano_reverb": 0.3,
+  "texture": "pair",
+  "sections": [
+    {
+      "bars": 4,
+      "chords": "Em | Cmaj7 | Am7 | Bsus4",
+      "melody": "r:4 | E5:2 D5:1 B4:1 | r:4 | B4+E5:3 r:1",
+      "dyn": 0.22,
+      "layers": []
+    },
+    {
+      "bars": 8,
+      "chords": "Em | Cmaj7 | Am7 | Bm7 | Em | Cmaj7 | Am7 | Bsus4",
+      "melody": "E5:2 D5:1 B4:1 | B4:3 r:1 | C5:1 D5:1 E5:2 | D5:2 r:2 | G5:2 F#5:1 E5:1 | E5:3 r:1 | C5:1 B4:1 A4:2 | B4+E5:3 r:1",
+      "dyn": 0.26,
+      "layers": []
+    },
+    {
+      "bars": 8,
+      "chords": "Em | Cmaj7 | Am7 | Bm7 | Em | Cmaj7 | Am7:2 Bm7:2 | Em",
+      "melody": "E5:2 D5:1 B4:1 | G4+B4:2 r:2 | C5:1 D5:1 E5:2 | D5:2 r:2 | G5:2 F#5:1 E5:1 | E5:2 D5:1 B4:1 | C5:2 D5:2 | B4+E5:3 r:1",
+      "dyn": 0.26,
+      "layers": []
+    },
+    {
+      "bars": 8,
+      "chords": "Cmaj7 | G/B | Am7 | D | Cmaj7 | G/B | Am7 | Bsus4:2 Bm:2",
+      "melody": "E5:2 r:2 | D5:2 B4:2 | C5:1 E5:1 A5:2 | F#5:2 r:2 | E5:2 G5:2 | D5:2 B4:2 | C5:2 A4:2 | B4:3 r:1",
+      "dyn": 0.26,
+      "layers": []
+    },
+    {
+      "bars": 8,
+      "chords": "Em | Cmaj7 | Am7 | Bm7 | Em | Cmaj7 | Am7 | Bsus4",
+      "melody": "E5:2 D5:1 B4:1 | B4:3 r:1 | C5:1 D5:1 E5:2 | D5:2 r:2 | G5:2 E5:2 | E5:3 r:1 | C5:2 B4:2 | B4+E5:3 r:1",
+      "dyn": 0.26,
+      "layers": []
+    },
+    {
+      "bars": 8,
+      "chords": "Cmaj7 | G/B | Am7 | D | Cmaj7 | G/B | Am7 | Bsus4:2 Bm:2",
+      "melody": "E5:2 r:2 | D5:3 r:1 | C5:1 E5:1 G5:2 | F#5:2 r:2 | E5:2 r:1 G5:1 | D5:2 r:2 | C5:2 E5:2 | B4+E5:2 B4+D5:1 r:1",
+      "dyn": 0.26,
+      "layers": []
+    },
+    {
+      "bars": 8,
+      "chords": "Em | Cmaj7 | Am7 | Bm7 | Em | Cmaj7 | Am7:2 Bm7:2 | Em",
+      "melody": "E5:2 r:2 | B4:3 r:1 | C5:2 E5:2 | D5:3 r:1 | G5:2 E5:2 | E5:3 r:1 | C5:2 B4:2 | B4+E5:4",
+      "dyn": 0.24,
+      "layers": []
+    },
+    {
+      "bars": 4,
+      "chords": "Cmaj7 | Am7 | Em | Em",
+      "melody": "E5:2 r:2 | C5:2 r:2 | B4+E5:4 | r:4",
+      "dyn": 0.2,
+      "layers": [],
+      "rit": true
+    }
+  ]
+}

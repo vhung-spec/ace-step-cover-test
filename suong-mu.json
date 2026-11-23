@@ -1,0 +1,16 @@
+{
+  "title": "Sương mù",
+  "about": "A Dorian (D major's F#), a few notes at a time on the upright over a drone, in a very long hall: ambient, almost still",
+  "bpm": 52, "beats": 4, "piano": "upright",
+  "room": {"rt60": 4.5, "wet": 1.2},
+  "sections": [
+    {"bars": 2, "chords": "Amadd9 | Amadd9", "melody": "r:4 | r:2 E5:2", "texture": "sparse", "dyn": 0.25, "layers": ["drone"]},
+    {"bars": 6, "chords": "Amadd9 | Fmaj7 | C | Em | Am | D/F#",
+     "melody": "C5:3 B4:1 | A4:4 | r:1 G4:1 E5:2 | D5:4 | C5:2 E5:2 | F#5:3 r:1",
+     "texture": "sparse", "dyn": 0.3, "layers": ["drone"]},
+    {"bars": 6, "chords": "Fmaj7 | G | Em7 | Am | Fmaj7 | Esus4:2 E:2",
+     "melody": "E5:4 | D5:2 B4:2 | G4:4 | r:2 A4:1 B4:1 | C5:4 | B4:2 G#4:2",
+     "texture": "sparse", "dyn": 0.35, "layers": ["drone"]},
+    {"bars": 2, "chords": "Amadd9 | Amadd9", "melody": "A4:4 | r:4", "texture": "sparse", "dyn": 0.2, "layers": ["drone"]}
+  ]
+}

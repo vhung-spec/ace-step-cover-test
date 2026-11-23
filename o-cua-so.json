@@ -1,0 +1,54 @@
+{
+  "title": "Ô cửa sổ",
+  "about": "Round 24, the first piece in song-tau (\"1. Piano + viola: Piano chơi giai điệu thưa; viola kéo những nốt trung trầm, chỉ xuất hiện cuối câu\"): A minor at 60 bpm, a sparse tune (two or three notes a bar, a held note at every fourth bar), one soft deep note a chord under it, the violas drawn in only at each sentence's end; a middle section in C major, the tune in thirds where it peaks. An original tune.",
+  "style": "song-tau",
+  "bpm": 60,
+  "beats": 4,
+  "sections": [
+    {
+      "bars": 8,
+      "chords": "Am | F | Dm | E | Am | F | Dm6 | E",
+      "melody": "A4:2 E5:2 | C5:3 r:1 | D5:1 F5:1 A5:2 | G#5:3 r:1 | A5:2 E5:2 | F5:2 C5:2 | B4:2 D5:1 F5:1 | E5:3 r:1",
+      "dyn": 0.34,
+      "layers": [
+        "viola-end"
+      ]
+    },
+    {
+      "bars": 8,
+      "chords": "Am | F | Dm | E | F | C/E | Dm7 | E7",
+      "melody": "A4:2 E5:2 | C5:3 r:1 | D5:1 F5:1 A5:2 | G#5:3 r:1 | A5:2 C6:2 | G5:3 r:1 | F5:1 E5:1 D5:2 | B4:3 r:1",
+      "dyn": 0.42,
+      "layers": [
+        "viola-end"
+      ]
+    },
+    {
+      "bars": 8,
+      "chords": "C | G/B | Am | Em | F | C/E | Dm | E",
+      "melody": "E5:2 G5:2 | D5:3 r:1 | C5:1 E5:1 A5:2 | G5:3 r:1 | A5:2 F5:2 | E5+G5:3 r:1 | F5:1 D5:1 A4:2 | G#4+B4:4",
+      "dyn": 0.6,
+      "layers": [
+        "viola-end"
+      ]
+    },
+    {
+      "bars": 8,
+      "chords": "Am | F | Dm | E | Am | F | Dm6:2 E:2 | Am",
+      "melody": "A4:2 E5:2 | C5:3 r:1 | D5:1 F5:1 A5:2 | G#5:3 r:1 | A4:2 C5:2 | A4:3 r:1 | F4:2 G#4:2 | A4:4",
+      "rit": true,
+      "dyn": 0.3,
+      "layers": [
+        "viola-end"
+      ]
+    },
+    {
+      "bars": 2,
+      "chords": "F | Am",
+      "dyn": 0.18,
+      "layers": [
+        "viola-end"
+      ]
+    }
+  ]
+}

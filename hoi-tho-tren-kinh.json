@@ -1,0 +1,90 @@
+{
+  "title": "Hơi thở trên kính",
+  "about": "Round 42, ni-trung (\"Tôi muốn sáng tác nhạc dark piano độc tấu để nghe thư giãn trước khi ngủ. Toàn bộ bản nhạc chỉ sử dụng một tiếng Soft Felt Piano\"), album 9, Small Hours Alone: Breath on the Glass: breath fogging a cold window, E minor in 3/4 at 56 bpm: a slow waltz, G-B rising to E and settling, the left hand a lone note and then two soft ones, all in the middle (texture waltz); the middle in G major. A soft felt piano alone (ni-trung: the felt upright, its highs from 1.9 kHz, the lows eased, no echo, a soft 2.8 s room), the tune in the middle and now and then the upper middle, the left hand from C3 with no octave, sparse; few notes, slow; an even level, no climax; every return changed a little. An original tune. Round 43 (\"tôi muốn sound piano nghe dễ chịu hơn giống các bài album trước\"): on thu-vien, the sound of the album before (Nocturnes for an Old Library): the grand near, a wide hall, a light echo, no Rhodes, the lows not lifted. Round 44 (\"tôi muốn âm thanh nhẹ nhàng liền mạch hơn, giống nhạc để ngủ hơn\"): on thu-vien-ngu (a softer echo that joins the notes, struck a little softer), the left hand rocking without a break in every section (texture flow).",
+  "style": "thu-vien-ngu",
+  "bpm": 56,
+  "beats": 3,
+  "sections": [
+    {
+      "bars": 4,
+      "chords": "Em | C | Em | C",
+      "melody": "r:3 | r:3 | r:3 | r:3",
+      "texture": "flow",
+      "dyn": 0.24,
+      "layers": []
+    },
+    {
+      "bars": 8,
+      "chords": "Em | C | Am | Bm | Em | C | Am | Bsus4",
+      "melody": "G4:2 B4:1 | E5:3 | C5:2 A4:1 | B4:3 | G4:2 B4:1 | G5:2 E5:1 | E5:2 C5:1 | B4:3",
+      "texture": "flow",
+      "dyn": 0.27,
+      "layers": []
+    },
+    {
+      "bars": 8,
+      "chords": "Em | C | Am | Bm | Em | C | Bm | Em",
+      "melody": "G4:2 B4:1 | E5:3 | C5:2 A4:1 | D5:3 | G4:2 B4:1 | C5:2 E5:1 | D5:2 F#4:1 | E4:3",
+      "texture": "flow",
+      "dyn": 0.27,
+      "layers": []
+    },
+    {
+      "bars": 8,
+      "chords": "C | G/B | Am | D | C | G/B | Am | Bsus4",
+      "melody": "E5:2 C5:1 | D5:2 B4:1 | C5:2 E5:1 | F#5:3 | G5:2 E5:1 | D5:3 | C5:2 A4:1 | B4:3",
+      "texture": "flow",
+      "dyn": 0.28,
+      "layers": []
+    },
+    {
+      "bars": 8,
+      "chords": "C | G/B | Am | D | C | G/B | Am | Bsus4",
+      "melody": "E5:2 C5:1 | D5:2 B4:1 | C5:2 E5:1 | D5:2 A4:1 | G5:2 E5:1 | D5:3 | C5:2 A4:1 | B4:2 E5:1",
+      "texture": "flow",
+      "dyn": 0.28,
+      "layers": []
+    },
+    {
+      "bars": 8,
+      "chords": "Em | C | Am | Bm | Em | C | Am | Bsus4",
+      "melody": "G4:2 B4:1 | E5:3 | C5:2 A4:1 | B4:3 | G4:2 B4:1 | E5:3 | E5:2 C5:1 | B4:3",
+      "texture": "flow",
+      "dyn": 0.27,
+      "layers": []
+    },
+    {
+      "bars": 8,
+      "chords": "Em | C | Am | Bm | Em | C | Bm | Em",
+      "melody": "G4:2 B4:1 | E5:3 | C5:2 A4:1 | D5:3 | G4:2 B4:1 | C5:2 E5:1 | D5:2 F#4:1 | E4:3",
+      "texture": "flow",
+      "dyn": 0.27,
+      "layers": []
+    },
+    {
+      "bars": 8,
+      "chords": "C | G/B | Am | D | C | G/B | Am | Bsus4",
+      "melody": "E5:2 C5:1 | D5:2 B4:1 | C5:2 E5:1 | F#5:3 | G5:2 E5:1 | D5:3 | C5:2 A4:1 | B4:3",
+      "texture": "flow",
+      "dyn": 0.28,
+      "layers": []
+    },
+    {
+      "bars": 8,
+      "chords": "Em | C | Am | Bm | Em | C | Bm | Em",
+      "melody": "B4:3 | E5:3 | C5:3 | D5:3 | B4:3 | E5:3 | D5:3 | E4:3",
+      "texture": "flow",
+      "dyn": 0.25,
+      "layers": []
+    },
+    {
+      "bars": 8,
+      "chords": "C | Am | Em | Em | C | Bm | Em | Em",
+      "melody": "E5:2 C5:1 | A4:3 | B4:3 | r:3 | G4:3 | F#4:3 | E4:3 | r:3",
+      "texture": "flow",
+      "dyn": 0.23,
+      "layers": [],
+      "rit": true
+    }
+  ]
+}

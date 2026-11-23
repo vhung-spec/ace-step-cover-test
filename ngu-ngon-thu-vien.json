@@ -1,0 +1,74 @@
+{
+  "title": "Chúc ngủ ngon, thư viện cũ",
+  "about": "Round 41, thu-vien (\"tôi thấy không hay, bạn hãy sáng tác theo ý của bạn và dùng bộ sound phù hợp\"), Nocturnes for an Old Library, Goodnight, Old Library: good night to the old library, C minor at 48 bpm: a lullaby in half notes (Eb-G, Ab-C), the left hand rocking in the middle (texture flow); the middle in Eb major; the last chord C major. The piano alone, on thu-vien (ke-chuyen-gan's grand, hall and echo, with nothing heavy: no Rhodes, the lows not lifted, the left hand from C3 with no octave); a singing line in periods, a question and an answer, each return varied; soft, a gentle swell in the middle, no climax. An original tune.",
+  "style": "thu-vien",
+  "bpm": 48,
+  "beats": 4,
+  "sections": [
+    {
+      "bars": 2,
+      "chords": "Cm | Fm",
+      "melody": "r:4 | r:4",
+      "texture": "flow",
+      "dyn": 0.22,
+      "layers": []
+    },
+    {
+      "bars": 8,
+      "chords": "Cm | Fm | Ab | G | Cm | Fm | Ab:2 G:2 | Cm",
+      "melody": "Eb4:2 G4:2 | Ab4:2 C5:2 | C5:2 Eb5:2 | D5:3 r:1 | Eb5:2 C5:2 | Ab4:2 F4:2 | C5:2 B4:2 | C5:4",
+      "texture": "flow",
+      "dyn": 0.26,
+      "layers": []
+    },
+    {
+      "bars": 8,
+      "chords": "Cm | Fm | Ab | G | Cm | Fm | Ab:2 G:2 | Cm",
+      "melody": "Eb4:2 G4:2 | Ab4:2 C5:2 | C5:1 Bb4:1 Ab4:2 | D5:3 r:1 | Eb5:2 C5:2 | Ab4:1 G4:1 F4:2 | C5:2 B4:2 | C5:4",
+      "texture": "flow",
+      "dyn": 0.28,
+      "layers": []
+    },
+    {
+      "bars": 8,
+      "chords": "Ab | Eb/G | Fm | Bb | Ab | Eb/G | Fm | G",
+      "melody": "C5:2 Ab4:2 | G4:2 Bb4:2 | Ab4:2 C5:2 | D5:3 r:1 | Eb5:2 C5:2 | Bb4:2 G4:2 | F4:2 Ab4:2 | G4:3 r:1",
+      "texture": "flow",
+      "dyn": 0.3,
+      "layers": []
+    },
+    {
+      "bars": 8,
+      "chords": "Cm | Fm | Ab | G | Cm | Fm | Ab:2 G:2 | Cm",
+      "melody": "Eb4:1 F4:1 G4:2 | Ab4:2 C5:2 | C5:2 Eb5:2 | D5:3 r:1 | Eb5:1 D5:1 C5:2 | Ab4:2 F4:2 | C5:2 B4:2 | C5:4",
+      "texture": "flow",
+      "dyn": 0.28,
+      "layers": []
+    },
+    {
+      "bars": 8,
+      "chords": "Ab | Eb/G | Fm | Bb | Ab | Eb/G | Fm | G",
+      "melody": "C5:2 Ab4:2 | G4:2 Bb4:2 | Ab4:2 C5:2 | D5:2 F4:2 | Eb5:2 C5:2 | Bb4:2 G4:2 | F4:2 Ab4:2 | B4:2 D5:2",
+      "texture": "flow",
+      "dyn": 0.3,
+      "layers": []
+    },
+    {
+      "bars": 8,
+      "chords": "Cm | Fm | Ab | G | Cm | Fm | Ab:2 G:2 | Cm",
+      "melody": "G4:4 | Ab4:2 C5:2 | Eb5:4 | D5:4 | C5:4 | Ab4:4 | C5:2 B4:2 | C5:4",
+      "texture": "flow",
+      "dyn": 0.24,
+      "layers": []
+    },
+    {
+      "bars": 6,
+      "chords": "Ab | Fm | Cm | G | Ab:2 G:2 | C",
+      "melody": "C5:2 Eb5:2 | Ab4:2 F4:2 | G4:4 | D5:2 B4:2 | C5:2 B4:2 | C5:4",
+      "texture": "flow",
+      "dyn": 0.2,
+      "layers": [],
+      "rit": true
+    }
+  ]
+}

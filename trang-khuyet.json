@@ -1,0 +1,70 @@
+{
+  "title": "Trăng khuyết",
+  "about": "Round 23, tam-tau-phim (\"hãy sáng tác thêm 2 bài nữa cho đủ 10 bài\"): B minor at 66 bpm. It opens on the violas alone singing the theme (F#-B-D, falling back), the cellos answering each sentence below; the piano then takes the same theme at the same pitch, low and warm, then an octave higher; a middle section in D major; at the close the violas sing the last words alone again. An original tune.",
+  "style": "tam-tau-phim",
+  "bpm": 66,
+  "beats": 4,
+  "sections": [
+    {
+      "bars": 4,
+      "chords": "Bm | G | Em | F#7",
+      "melody": "F#4:1 B4:1 D5:1.5 C#5:0.5 | B4:3 r:1 | G4:1 B4:1 E5:1.5 D5:0.5 | C#5:3 r:1",
+      "melody_on": "viola",
+      "dyn": 0.32,
+      "layers": [
+        "cello-answer"
+      ]
+    },
+    {
+      "bars": 8,
+      "chords": "Bm | G | Em | F#7 | Bm | G | Em6 | F#7",
+      "melody": "F#4:1 B4:1 D5:1.5 C#5:0.5 | B4:3 r:1 | G4:1 B4:1 E5:1.5 D5:0.5 | C#5:3 r:1 | D5:1 C#5:1 B4:1 F#4:1 | G4:2 B4:1 D5:1 | E5:1 C#5:1 G4:1 E4:1 | F#4:3 r:1",
+      "dyn": 0.36,
+      "layers": [
+        "cello-answer",
+        "viola-pad"
+      ]
+    },
+    {
+      "bars": 8,
+      "chords": "Bm | G | Em | F#7 | Bm/A | Gmaj7 | C#m7b5 | F#7",
+      "melody": "F#5:1 B5:1 D6:1.5 C#6:0.5 | B5:3 r:1 | G5:1 B5:1 E6:1.5 D6:0.5 | C#6:3 r:1 | D6:1 C#6:1 B5:1 A5:1 | F#5:3 r:1 | E5:1 G5:1 B5:1 C#6:1 | A#5:3 r:1",
+      "dyn": 0.46,
+      "layers": [
+        "cello-answer",
+        "viola-pad"
+      ]
+    },
+    {
+      "bars": 8,
+      "chords": "G | D/F# | Em7 | A7 | G | D/F# | Em | F#7",
+      "melody": "D5:1 G5:1 B5:1.5 A5:0.5 | A5:3 r:1 | G5:1 B5:1 E6:1 D6:1 | C#6:3 r:1 | B5:1.5 A5:0.5 G5:1 D5:1 | F#5+A5:3 r:1 | G5:1 E5:1 B4:1 E5:1 | C#5+E5:4",
+      "dyn": 0.64,
+      "layers": [
+        "cello-answer",
+        "viola-pad"
+      ]
+    },
+    {
+      "bars": 8,
+      "chords": "Bm | G | Em | F#7 | Bm | G | Em6:2 F#7:2 | Bm",
+      "melody": "F#4:1 B4:1 D5:1.5 C#5:0.5 | B4:3 r:1 | G4:1 B4:1 E5:1.5 D5:0.5 | C#5:3 r:1 | D5:1 C#5:1 B4:1 F#4:1 | G4:2 B4:2 | E4:1 G4:1 C#5:1 A#4:1 | B4:4",
+      "rit": true,
+      "dyn": 0.32,
+      "layers": [
+        "cello-answer",
+        "viola-pad"
+      ]
+    },
+    {
+      "bars": 2,
+      "chords": "Em | Bm",
+      "melody": "G4:2 E4:2 | F#4:4",
+      "melody_on": "viola",
+      "dyn": 0.2,
+      "layers": [
+        "cello-answer"
+      ]
+    }
+  ]
+}

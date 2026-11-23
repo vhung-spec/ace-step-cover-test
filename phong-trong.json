@@ -1,0 +1,63 @@
+{
+  "title": "Phòng trống",
+  "about": "Round 24, song-tau (\"1. Piano + viola: Piano chơi giai điệu thưa; viola kéo những nốt trung trầm, chỉ xuất hiện cuối câu\"): G minor in 3/4 at 60 bpm, a sparse tune (a dotted note and a single beat to a bar, the fourth bar held whole), one soft deep note a chord, the violas only where each sentence ends; a middle section in E-flat and B-flat sung twice. An original tune.",
+  "style": "song-tau",
+  "bpm": 60,
+  "beats": 3,
+  "sections": [
+    {
+      "bars": 8,
+      "chords": "Gm | Eb | Cm | D | Gm | Eb | Cm6 | D7",
+      "melody": "G4:2 D5:1 | Eb5:3 | C5:1 Eb5:1 G5:1 | F#5:3 | G5:2 D5:1 | Eb5:2 Bb4:1 | A4:1 C5:1 Eb5:1 | D5:3",
+      "dyn": 0.34,
+      "layers": [
+        "viola-end"
+      ]
+    },
+    {
+      "bars": 8,
+      "chords": "Gm | Eb | Cm | D | Bb | F/A | Gm | D7",
+      "melody": "G4:2 D5:1 | Eb5:3 | C5:1 Eb5:1 G5:1 | F#5:3 | F5:2 D5:1 | C5:3 | Bb4:1 D5:1 G5:1 | F#5:3",
+      "dyn": 0.42,
+      "layers": [
+        "viola-end"
+      ]
+    },
+    {
+      "bars": 8,
+      "chords": "Eb | Bb/D | Cm | Gm | Eb | F | Cm6 | D",
+      "melody": "G5:2 Bb5:1 | F5:3 | Eb5:1 G5:1 C6:1 | Bb5:3 | G5:2 Eb5:1 | C6:3 | A5:1 Eb5:1 C5:1 | F#5+A5:3",
+      "dyn": 0.6,
+      "layers": [
+        "viola-end"
+      ]
+    },
+    {
+      "bars": 8,
+      "chords": "Eb | Bb/D | Cm | Gm | Eb | F | Cm6 | D",
+      "melody": "Bb5:2 G5:1 | F5:3 | G5:1 Eb5:1 C5:1 | D5:3 | Eb5:2 G5:1 | A5:3 | C5:1 Eb5:1 A5:1 | F#5:3",
+      "dyn": 0.66,
+      "layers": [
+        "viola-end"
+      ]
+    },
+    {
+      "bars": 8,
+      "chords": "Gm | Eb | Cm | D | Gm | Eb | Cm6:1.5 D7:1.5 | Gm",
+      "melody": "G4:2 D5:1 | Eb5:3 | C5:1 Eb5:1 G5:1 | F#5:3 | G5:2 D5:1 | Eb5:2 C5:1 | C5:1 A4:1 F#4:1 | G4:3",
+      "rit": true,
+      "dyn": 0.3,
+      "layers": [
+        "viola-end"
+      ]
+    },
+    {
+      "bars": 2,
+      "chords": "Eb | Gm",
+      "dyn": 0.18,
+      "layers": [
+        "viola-end"
+      ]
+    }
+  ]
+}

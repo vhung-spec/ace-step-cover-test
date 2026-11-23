@@ -1,0 +1,74 @@
+{
+  "title": "Những giờ nhung",
+  "about": "Round 41, thu-vien (\"tôi thấy không hay, bạn hãy sáng tác theo ý của bạn và dùng bộ sound phù hợp\"), Nocturnes for an Old Library, Velvet Hours: the soft, slow hours of the night, F# minor at 54 bpm (written again: the first, a slow chorale in C minor, was too still): a singing line falling from C# to F#, answered a third higher from F#5, the left hand rocking in the middle (texture flow); the middle in A major. The piano alone, on thu-vien (ke-chuyen-gan's grand, hall and echo, with nothing heavy: no Rhodes, the lows not lifted, the left hand from C3 with no octave); a singing line in periods, a question and an answer, each return varied; soft, a gentle swell in the middle, no climax. An original tune.",
+  "style": "thu-vien",
+  "bpm": 54,
+  "beats": 4,
+  "sections": [
+    {
+      "bars": 2,
+      "chords": "F#m | D",
+      "melody": "r:4 | r:4",
+      "texture": "flow",
+      "dyn": 0.22,
+      "layers": []
+    },
+    {
+      "bars": 8,
+      "chords": "F#m | D | Bm | C#sus4:2 C#:2 | F#m | D | Bm:2 C#:2 | F#m",
+      "melody": "C#5:1.5 B4:0.5 A4:1 F#4:1 | A4:1 B4:1 D5:2 | F#5:1.5 E5:0.5 D5:1 B4:1 | C#5:2 G#4:2 | C#5:1.5 B4:0.5 A4:1 F#4:1 | A4:1 D5:1 F#5:2 | D5:1.5 C#5:0.5 B4:1 G#4:1 | A4:4",
+      "texture": "flow",
+      "dyn": 0.26,
+      "layers": []
+    },
+    {
+      "bars": 8,
+      "chords": "F#m | D | Bm | C#sus4:2 C#:2 | F#m | D | Bm:2 C#:2 | F#m",
+      "melody": "C#5:1.5 D5:0.5 C#5:1 A4:1 | A4:1 B4:1 D5:2 | F#5:2 D5:1 B4:1 | C#5:2 G#4:2 | C#5:1.5 B4:0.5 A4:1 F#4:1 | A4:1 D5:1 E5:1 F#5:1 | D5:1.5 C#5:0.5 B4:1 G#4:1 | F#4:4",
+      "texture": "flow",
+      "dyn": 0.28,
+      "layers": []
+    },
+    {
+      "bars": 8,
+      "chords": "D | A/C# | Bm7 | E | D | A/C# | Bm7 | C#sus4:2 C#:2",
+      "melody": "F#4:1 A4:1 D5:2 | C#5:1.5 B4:0.5 A4:2 | B4:1 D5:1 F#5:1.5 E5:0.5 | E5:3 r:1 | F#5:1.5 E5:0.5 D5:1 A4:1 | E5:2 C#5:2 | D5:1 C#5:1 B4:2 | C#5:2 G#4:2",
+      "texture": "flow",
+      "dyn": 0.32,
+      "layers": []
+    },
+    {
+      "bars": 8,
+      "chords": "F#m | D | Bm | C#sus4:2 C#:2 | F#m | D | Bm:2 C#:2 | F#m",
+      "melody": "C#5:1.5 B4:0.5 A4:1 F#4:1 | A4:1 B4:1 D5:2 | F#5:1.5 E5:0.5 D5:1 B4:1 | C#5:3 r:1 | C#5:1.5 B4:0.5 A4:1 F#4:1 | A4:1 D5:1 F#5:2 | D5:1.5 C#5:0.5 B4:1 G#4:1 | A4:2 r:2",
+      "texture": "flow",
+      "dyn": 0.28,
+      "layers": []
+    },
+    {
+      "bars": 8,
+      "chords": "D | A/C# | Bm7 | E | D | A/C# | Bm7 | C#sus4:2 C#:2",
+      "melody": "F#4:1 A4:1 D5:2 | C#5:1.5 B4:0.5 A4:2 | B4:1 D5:1 F#5:1.5 E5:0.5 | E5:2 G#4:2 | F#5:1.5 E5:0.5 D5:1 A4:1 | C#5:2 A4:2 | D5:1 C#5:1 B4:2 | C#5:3 r:1",
+      "texture": "flow",
+      "dyn": 0.32,
+      "layers": []
+    },
+    {
+      "bars": 8,
+      "chords": "F#m | D | Bm | C#sus4:2 C#:2 | F#m | D | Bm:2 C#:2 | F#m",
+      "melody": "C#5:2 A4:2 | A4:2 D5:2 | F#5:2 B4:2 | C#5:4 | C#5:2 F#4:2 | A4:2 F#5:2 | D5:2 C#5:2 | F#4:4",
+      "texture": "flow",
+      "dyn": 0.24,
+      "layers": []
+    },
+    {
+      "bars": 4,
+      "chords": "D | Bm | F#m | F#m",
+      "melody": "A4:2 F#4:2 | D5:2 B4:2 | C#5:4 | r:4",
+      "texture": "flow",
+      "dyn": 0.22,
+      "layers": [],
+      "rit": true
+    }
+  ]
+}

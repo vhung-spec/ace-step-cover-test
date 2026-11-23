@@ -1,0 +1,16 @@
+{
+  "title": "Mưa đêm",
+  "about": "D minor (Aeolian, the harmonic minor's A major as dominant), a felt upright rolling eighths under a slow tune, a cello under the second half, a faint hush, close by",
+  "bpm": 66, "beats": 4, "piano": "felt",
+  "room": {"rt60": 1.0, "wet": 0.5}, "noise_db": -30,
+  "sections": [
+    {"bars": 2, "chords": "Dm | Bb", "texture": "arp", "dyn": 0.3},
+    {"bars": 8, "chords": "Dm | Bb | F | C | Dm | Bb | Gm | A",
+     "melody": "r:1 A4:1 D5:1.5 E5:0.5 | F5:3 E5:0.5 D5:0.5 | C5:2 A4:1 C5:1 | G4:3 r:1 | r:1 A4:1 D5:1.5 F5:0.5 | G5:2 F5:1 D5:1 | Bb4:1.5 A4:0.5 G4:1 D5:1 | C#5:3 r:1",
+     "texture": "arp", "dyn": 0.35},
+    {"bars": 8, "chords": "Dm | Bb | F | C/E | Gm | Bb | Edim | A",
+     "melody": "r:1 D5:1 A5:1.5 G5:0.5 | F5:2 D5:1 F5:1 | E5:1.5 F5:0.5 C5:2 | G5:2 E5:2 | D5:2 Bb4:1 D5:1 | F5:2 E5:1 D5:1 | Bb4:1 A4:1 G4:1 E4:1 | C#5:4",
+     "texture": "arp", "dyn": 0.55, "layers": ["cello"]},
+    {"bars": 2, "chords": "Bb | Dm", "melody": "D5:4 | D5:4", "texture": "arp", "dyn": 0.3, "layers": ["cello"]}
+  ]
+}

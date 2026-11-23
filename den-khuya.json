@@ -1,0 +1,52 @@
+{
+ "title": "Đèn khuya",
+ "style": "dem-diu-h3",
+ "bpm": 76,
+ "beats": 4,
+ "about": "Mi thứ: i-VI-III-VII, một giai điệu đi lên rồi lắng xuống; cao trào theo vòng quãng năm i-iv-VII-III-VI-ii°-V-i.",
+ "sections": [
+  {
+   "bars": 2,
+   "chords": "Em | C",
+   "melody": "",
+   "dyn": 0.25
+  },
+  {
+   "bars": 8,
+   "chords": "Em | C | G | D | Em | C | Am | B",
+   "melody": "B4:1 E5:1 G5:2 | G5:1.5 F#5:0.5 E5:2 | D5:2 B4:1 D5:1 | A4:3 r:1 | B4:1 E5:1 G5:1 B5:1 | A5:2 G5:1 E5:1 | C5:1.5 B4:0.5 A4:1 E5:1 | D#5:3 r:1",
+   "dyn": 0.35
+  },
+  {
+   "bars": 8,
+   "chords": "Em | C | G | D | Em | C | Am:2 B:2 | Em",
+   "melody": "B4:1 E5:1 G5:2 | G5:1.5 F#5:0.5 E5:2 | D5:1 B4:1 G4:2 | A4:1 B4:1 C5:1 D5:1 | E5:3 G5:1 | E5:1 D5:1 C5:2 | C5:2 B4:1 D#5:1 | E5:4",
+   "dyn": 0.4
+  },
+  {
+   "bars": 8,
+   "chords": "C | G | D | Em | C | G | Am | B",
+   "melody": "G5:2 E5:1 G5:1 | B5:3 A5:1 | A5:2 F#5:1 D5:1 | E5:3 r:1 | G5:1 A5:1 G5:1 E5:1 | D5:2 G5:2 | A5:1.5 G5:0.5 E5:1 C5:1 | B4:2 D#5:2",
+   "dyn": 0.5
+  },
+  {
+   "bars": 8,
+   "chords": "Em | Am | D | G | C | F#m7b5 | B | Em",
+   "melody": "B5:2 G5:1 E5:1 | A5:3 E5:1 | F#5:2 A5:2 | G5:3 D5:1 | E5:2 G5:1 E5:1 | E5:2 C5:1 A4:1 | B4:1 D#5:1 F#5:2 | E5:4",
+   "dyn": 0.72,
+   "rit": true
+  },
+  {
+   "bars": 6,
+   "chords": "Em | C | Am | B | Em | C",
+   "melody": "B4:1 E5:1 G5:2 | E5:4 | C5:2 B4:1 A4:1 | D#5:3 r:1 | G4:1 B4:1 E5:2 | E5:3 r:1",
+   "dyn": 0.3
+  },
+  {
+   "bars": 2,
+   "chords": "Am | Em",
+   "melody": "C5:2 B4:2 | G4:4",
+   "dyn": 0.2
+  }
+ ]
+}

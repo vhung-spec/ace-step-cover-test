@@ -1,0 +1,153 @@
+{
+  "title": "Điệu valse bị lãng quên",
+  "about": "Round 40, hoc-vien (\"8 BẢN DARK PIANO NHẸ NHÀNG ĐỂ NGHE TRƯỚC KHI NGỦ\"), the Dark Academia set, A Forgotten Waltz: what is left of a dance in an empty manor, A minor in 3/4 at 58 bpm: a soft grand (VCSL's Kawai), the waltz very light and all in the middle, a lone note on the first beat with no bass under it and two soft notes on the second and third (texture waltz, from D3); in some sections a very thin, muted string chord beneath, never rising; a tune of two or three notes a bar, swaying, nothing fast; the middle in C major. Written to the brief's rules: the piano leads in the middle, now and then the upper middle, never low or heavy (the left hand from D3, no octave under it, the last chord rolled from the middle); a short tune of few notes with rests; struck softly and evenly; minor harmony moving slowly; no climax, no fast notes, no speeding up; every return changed a little (its last note, a rest, the left hand). An original tune.",
+  "style": "hoc-vien",
+  "bpm": 58,
+  "beats": 3,
+  "piano": "kawai",
+  "piano_tone": {
+    "release_db": -60,
+    "eq": [
+      [
+        80,
+        2
+      ],
+      [
+        150,
+        3
+      ],
+      [
+        250,
+        2.5
+      ],
+      [
+        400,
+        1
+      ],
+      [
+        700,
+        0
+      ],
+      [
+        1200,
+        -2
+      ],
+      [
+        2000,
+        -6
+      ],
+      [
+        3000,
+        -10
+      ],
+      [
+        5000,
+        -14
+      ],
+      [
+        8000,
+        -18
+      ]
+    ],
+    "eq_amount": 0.5,
+    "lowpass": 3200,
+    "attack": 0.02,
+    "width": 0.8
+  },
+  "room": {
+    "rt60": 2.4,
+    "wet": 0.9
+  },
+  "piano_reverb": 0.28,
+  "texture": "waltz",
+  "sections": [
+    {
+      "bars": 4,
+      "chords": "Am | Dm | Am | Em",
+      "melody": "r:3 | r:3 | C5:2 B4:1 | B4:3",
+      "dyn": 0.22,
+      "layers": []
+    },
+    {
+      "bars": 8,
+      "chords": "Am | Dm | G | C | F | Dm7 | Em | Am",
+      "melody": "C5:2 B4:1 | A4:3 | B4:2 G4:1 | E4:3 | A4:2 C5:1 | D5:2 C5:1 | B4:2 G4:1 | A4:3",
+      "dyn": 0.26,
+      "layers": []
+    },
+    {
+      "bars": 8,
+      "chords": "Am | Dm | G | C | F | Dm7 | Em | Am",
+      "melody": "C5:2 B4:1 | A4:3 | B4:2 D5:1 | C5:3 | A4:2 C5:1 | D5:2 F5:1 | E5:2 B4:1 | A4:3",
+      "dyn": 0.26,
+      "layers": [
+        "strings"
+      ]
+    },
+    {
+      "bars": 8,
+      "chords": "F | G | Em | Am | Dm7 | G | C | Esus4:2 E:1",
+      "melody": "A4:2 C5:1 | D5:2 B4:1 | G4:2 B4:1 | C5:2 A4:1 | F4:2 A4:1 | D5:2 B4:1 | C5:2 E5:1 | B4:2 G#4:1",
+      "dyn": 0.26,
+      "layers": [
+        "strings"
+      ]
+    },
+    {
+      "bars": 8,
+      "chords": "F | G | Em | Am | Dm7 | G | C | Esus4:2 E:1",
+      "melody": "A4:2 C5:1 | B4:2 D5:1 | E5:2 B4:1 | A4:3 | F4:2 A4:1 | B4:2 D5:1 | E5:2 C5:1 | B4:3",
+      "dyn": 0.26,
+      "layers": [
+        "strings"
+      ]
+    },
+    {
+      "bars": 8,
+      "chords": "Am | Dm | G | C | F | Dm7 | Em | Am",
+      "melody": "C5:2 B4:1 | A4:3 | B4:2 G4:1 | G4:3 | A4:2 C5:1 | D5:2 C5:1 | B4:2 G4:1 | A4:3",
+      "dyn": 0.26,
+      "layers": []
+    },
+    {
+      "bars": 8,
+      "chords": "Am | Dm | G | C | F | Dm7 | Em | Am",
+      "melody": "C5:2 B4:1 | A4:3 | B4:2 D5:1 | C5:3 | A4:2 C5:1 | D5:3 | E5:2 B4:1 | A4:3",
+      "dyn": 0.26,
+      "layers": [
+        "strings"
+      ]
+    },
+    {
+      "bars": 8,
+      "chords": "F | G | Em | Am | Dm7 | G | C | Esus4:2 E:1",
+      "melody": "A4:2 C5:1 | D5:2 B4:1 | G4:2 B4:1 | C5:2 A4:1 | F4:2 A4:1 | D5:2 B4:1 | C5:2 E5:1 | B4:3",
+      "dyn": 0.26,
+      "layers": []
+    },
+    {
+      "bars": 8,
+      "chords": "Am | Dm | G | C | F | Dm7 | Em | Am",
+      "melody": "C5:2 B4:1 | A4:3 | B4:3 | C5:3 | A4:2 C5:1 | D5:2 F5:1 | E5:2 B4:1 | A4:3",
+      "dyn": 0.26,
+      "layers": []
+    },
+    {
+      "bars": 8,
+      "chords": "Am | Dm | G | C | F | Dm7 | Em | Am",
+      "melody": "C5:3 | A4:3 | B4:3 | E4:3 | A4:2 C5:1 | D5:3 | B4:3 | A4:3",
+      "dyn": 0.24,
+      "layers": []
+    },
+    {
+      "bars": 8,
+      "chords": "F | Dm7 | Am | Am | F | Em | Am | Am",
+      "melody": "A4:2 C5:1 | D5:3 | C5:2 B4:1 | A4:3 | r:3 | B4:3 | A4:3 | r:3",
+      "dyn": 0.22,
+      "layers": [
+        "strings"
+      ],
+      "rit": true
+    }
+  ]
+}

@@ -1,0 +1,74 @@
+{
+  "title": "Trà cho một người",
+  "about": "Round 42, ni-trung (\"Tôi muốn sáng tác nhạc dark piano độc tấu để nghe thư giãn trước khi ngủ. Toàn bộ bản nhạc chỉ sử dụng một tiếng Soft Felt Piano\"), album 9, Small Hours Alone: Tea for One: tea for one, gone cold, D minor at 52 bpm: a tune of a few long notes (A-F, then up to D and down), two soft notes a chord under it (texture dyad); the middle in F major. A soft felt piano alone (ni-trung: the felt upright, its highs from 1.9 kHz, the lows eased, no echo, a soft 2.8 s room), the tune in the middle and now and then the upper middle, the left hand from C3 with no octave, sparse; few notes, slow; an even level, no climax; every return changed a little. An original tune. Round 43 (\"tôi muốn sound piano nghe dễ chịu hơn giống các bài album trước\"): on thu-vien, the sound of the album before (Nocturnes for an Old Library): the grand near, a wide hall, a light echo, no Rhodes, the lows not lifted. Round 44 (\"tôi muốn âm thanh nhẹ nhàng liền mạch hơn, giống nhạc để ngủ hơn\"): on thu-vien-ngu (a softer echo that joins the notes, struck a little softer), the left hand rocking without a break in every section (texture flow).",
+  "style": "thu-vien-ngu",
+  "bpm": 52,
+  "beats": 4,
+  "sections": [
+    {
+      "bars": 2,
+      "chords": "Dm | Bb",
+      "melody": "r:4 | r:4",
+      "texture": "flow",
+      "dyn": 0.24,
+      "layers": []
+    },
+    {
+      "bars": 8,
+      "chords": "Dm | Bb | Gm | A | Dm | Bb | Gm:2 A:2 | Dm",
+      "melody": "A4:2 F4:2 | D5:2 C5:1 Bb4:1 | Bb4:2 G4:2 | A4:3 r:1 | A4:2 F4:2 | F5:2 D5:2 | D5:2 C#5:2 | D5:4",
+      "texture": "flow",
+      "dyn": 0.27,
+      "layers": []
+    },
+    {
+      "bars": 8,
+      "chords": "Dm | Bb | Gm | A | Dm | Bb | Gm:2 A:2 | Dm",
+      "melody": "A4:2 F4:2 | D5:3 r:1 | Bb4:2 G4:2 | E4:3 r:1 | A4:2 F4:2 | F5:2 Bb4:2 | D5:2 C#5:2 | D5:2 r:2",
+      "texture": "flow",
+      "dyn": 0.27,
+      "layers": []
+    },
+    {
+      "bars": 8,
+      "chords": "F | C/E | Dm | Bb | F | C/E | Gm | A",
+      "melody": "C5:2 A4:2 | G4:2 C5:2 | A4:2 F4:2 | D5:3 r:1 | C5:2 F5:2 | E5:2 C5:2 | D5:2 Bb4:2 | C#5:3 r:1",
+      "texture": "flow",
+      "dyn": 0.28,
+      "layers": []
+    },
+    {
+      "bars": 8,
+      "chords": "Dm | Bb | Gm | A | Dm | Bb | Gm:2 A:2 | Dm",
+      "melody": "A4:2 F4:2 | D5:2 C5:1 Bb4:1 | Bb4:2 G4:2 | A4:3 r:1 | A4:2 D5:2 | F5:2 D5:2 | D5:2 C#5:2 | D5:4",
+      "texture": "flow",
+      "dyn": 0.27,
+      "layers": []
+    },
+    {
+      "bars": 8,
+      "chords": "F | C/E | Dm | Bb | F | C/E | Gm | A",
+      "melody": "C5:2 A4:2 | G4:2 C5:2 | A4:2 F4:2 | F4:3 r:1 | C5:2 F5:2 | E5:2 C5:2 | D5:2 Bb4:2 | E5:2 C#5:2",
+      "texture": "flow",
+      "dyn": 0.28,
+      "layers": []
+    },
+    {
+      "bars": 8,
+      "chords": "Dm | Bb | Gm | A | Dm | Bb | Gm:2 A:2 | Dm",
+      "melody": "A4:4 | D5:4 | Bb4:4 | A4:4 | F4:2 A4:2 | D5:4 | D5:2 C#5:2 | D5:4",
+      "texture": "flow",
+      "dyn": 0.25,
+      "layers": []
+    },
+    {
+      "bars": 4,
+      "chords": "Bb | Gm | Dm | Dm",
+      "melody": "F4:2 D5:2 | Bb4:4 | A4:4 | r:4",
+      "texture": "flow",
+      "dyn": 0.23,
+      "layers": [],
+      "rit": true
+    }
+  ]
+}

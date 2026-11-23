@@ -1,0 +1,46 @@
+{
+ "title": "Hành lang",
+ "style": "dem-diu-h3",
+ "bpm": 64,
+ "beats": 4,
+ "about": "Đô thứ, chậm (64 bpm): hợp âm trượt sang những giọng xa (Đô thứ - La giáng thứ - Mi thứ, La giáng - Mi trưởng) mà giai điệu giữ nguyên một nốt chung, nghe ma mị nhưng vẫn êm.",
+ "sections": [
+  {
+   "bars": 2,
+   "chords": "Cm | Abm",
+   "melody": "",
+   "dyn": 0.2
+  },
+  {
+   "bars": 8,
+   "chords": "Cm | Abm | Cm | Em | Fm | Abm | G | G",
+   "melody": "G5:3 Eb5:1 | Eb5:4 | G5:2 Eb5:2 | G5:2 B5:2 | Ab5:3 F5:1 | Eb5:2 B4:2 | D5:2 F5:2 | D5:4",
+   "dyn": 0.3
+  },
+  {
+   "bars": 8,
+   "chords": "Cm | Abm | Cm | Em | Ab | Fm | Dm7b5 | G",
+   "melody": "G5:3 Eb5:1 | Eb5:2 Gb5:2 | G5:4 | B5:2 G5:2 | C5:2 Eb5:2 | F5:3 Ab5:1 | Ab5:2 F5:2 | B4:4",
+   "dyn": 0.35
+  },
+  {
+   "bars": 8,
+   "chords": "Ab | E | Ab | E | Fm | Db | G | G",
+   "melody": "Ab5:2 Eb5:2 | G#5:4 | C5:2 Eb5:2 | B4:2 E5:2 | F5:2 Ab5:2 | F5:2 Db5:2 | D5:2 B4:2 | F5:4",
+   "dyn": 0.45
+  },
+  {
+   "bars": 8,
+   "chords": "Cm | Abm | Cm | Em | Fm | Abm | G | Cm",
+   "melody": "G5:2 Bb5:2 | B5:4 | G5:4 | B5:2 G5:2 | Ab5:2 C5:2 | Eb5:4 | D5:2 B4:2 | C5:4",
+   "dyn": 0.62,
+   "rit": true
+  },
+  {
+   "bars": 4,
+   "chords": "Abm | Cm | Em | Cm",
+   "melody": "Eb5:4 | Eb5:4 | G4:4 | G4:4",
+   "dyn": 0.2
+  }
+ ]
+}

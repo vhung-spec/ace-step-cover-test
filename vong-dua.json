@@ -1,0 +1,71 @@
+{
+  "title": "Võng đưa",
+  "about": "Round 36, ke-chuyen-gan (\"sáng tác album tiếp theo, album nghe nhẹ nhàng, dễ ngủ\"), for a new album, Khẽ khàng, chúc ngủ ngon (Softly, Goodnight): a hammock swaying on a veranda, A major in 3/4 at 54 bpm. Its motif swings up the chord and back (A-C#-E, F#-D, E-C#-A), as the hammock goes out and returns; the middle in F# minor reaches G#5. Written to sleep to, gentler than Những giấc mơ nhỏ, on the sound the user kept for sleep (ke-chuyen-gan: the piano near, a wide hall, a soft echo): its tune moves mostly by step and stays low, its sentences come back with small changes, the left hand rocks in eighths through most of it, every section played softer than before (0.24-0.36) and the climax kept low. An original tune. Rounds 37-39 (\"tôi nghĩ âm thanh piano kiểu Muted Piano sẽ hợp hơn\"; \"tôi chọn B nhưng thử bỏ tiếng viola đi\"; \"kiểu Y tôi thấy dễ nghe nhất\"): on ke-chuyen-ni, the felt upright alone, no strings.",
+  "style": "ke-chuyen-ni",
+  "bpm": 54,
+  "beats": 3,
+  "sections": [
+    {
+      "bars": 8,
+      "chords": "A | D/A | A | E | F#m | D | Bm7 | E",
+      "melody": "A4:1 C#5:1 E5:1 | F#5:2 D5:1 | E5:1 C#5:1 A4:1 | B4:3 | A4:1 C#5:1 F#5:1 | E5:2 D5:1 | D5:1 C#5:1 B4:1 | B4:2 G#4:1",
+      "dyn": 0.24,
+      "layers": []
+    },
+    {
+      "bars": 16,
+      "chords": "A | D/A | A | E | F#m | D | Bm7 | E | A | D/A | A | E | F#m | D | Bm7:1.5 E7:1.5 | A",
+      "melody": "A4:1 C#5:1 E5:1 | F#5:2 D5:1 | E5:1 C#5:1 A4:1 | B4:3 | A4:1 C#5:1 F#5:1 | E5:2 D5:1 | D5:1 C#5:1 B4:1 | B4:2 G#4:1 | A4:1 C#5:1 E5:1 | F#5:2 D5:1 | E5:1 C#5:1 A4:1 | B4:3 | A4:1 C#5:1 F#5:1 | F#5:1 E5:1 D5:1 | C#5:1.5 B4:1.5 | A4:3",
+      "texture": "flow",
+      "dyn": 0.3,
+      "layers": []
+    },
+    {
+      "bars": 8,
+      "chords": "D | E | C#m | F#m | Bm7 | E | A/C# | D:1.5 E:1.5",
+      "melody": "F#4:1 A4:1 D5:1 | E5:2 B4:1 | C#5:1 E5:1 G#5:1 | F#5:3 | D5:1 C#5:1 B4:1 | B4:2 E5:1 | E5:2 C#5:1 | D5:1.5 B4:1.5",
+      "texture": "flow",
+      "dyn": 0.36,
+      "layers": []
+    },
+    {
+      "bars": 16,
+      "chords": "A | D/A | A | E | F#m | D | Bm7 | E | A | D/A | A | E | F#m | D | Bm7:1.5 E7:1.5 | A",
+      "melody": "A4:1 C#5:1 E5:1 | F#5:2 D5:1 | E5:1 C#5:1 A4:1 | B4:3 | A4:1 C#5:1 F#5:1 | E5:2 D5:1 | D5:1 C#5:1 B4:1 | B4:2 G#4:1 | A4:1 C#5:1 E5:1 | F#5:2 D5:1 | E5:1 C#5:1 A4:1 | B4:3 | A4:1 C#5:1 F#5:1 | F#5:1 E5:1 D5:1 | C#5:1.5 B4:1.5 | A4:3",
+      "texture": "flow",
+      "dyn": 0.28,
+      "layers": []
+    },
+    {
+      "bars": 8,
+      "chords": "D | E | C#m | F#m | Bm7 | E | A/C# | D:1.5 E:1.5",
+      "melody": "A4:1 D5:1 F#5:1 | E5:1 D5:1 B4:1 | C#5:2 E5:1 | A4:3 | B4:1 D5:1 F#5:1 | E5:2 D5:1 | C#5:1 B4:1 A4:1 | F#4:1.5 G#4:1.5",
+      "texture": "flow",
+      "dyn": 0.34,
+      "layers": []
+    },
+    {
+      "bars": 16,
+      "chords": "A | D/A | A | E | F#m | D | Bm7 | E | A | D/A | A | E | F#m | D | Bm7:1.5 E7:1.5 | A",
+      "melody": "A4:1 C#5:1 E5:1 | F#5:2 D5:1 | E5:1 C#5:1 A4:1 | B4:3 | A4:1 C#5:1 F#5:1 | E5:2 D5:1 | D5:1 C#5:1 B4:1 | B4:2 G#4:1 | A4:1 C#5:1 E5:1 | F#5:2 D5:1 | E5:1 C#5:1 A4:1 | B4:3 | A4:1 C#5:1 F#5:1 | F#5:1 E5:1 D5:1 | C#5:1.5 B4:1.5 | A4:3",
+      "texture": "flow",
+      "dyn": 0.27,
+      "layers": []
+    },
+    {
+      "bars": 8,
+      "chords": "A | D/A | A | E | F#m | D | Bm7:1.5 E7:1.5 | A",
+      "melody": "A4:1 C#5:1 E5:1 | F#5:2 D5:1 | E5:1 C#5:1 A4:1 | B4:3 | A4:1 C#5:1 F#5:1 | F#5:1 E5:1 D5:1 | C#5:1.5 B4:1.5 | A4:3",
+      "rit": true,
+      "dyn": 0.22,
+      "layers": []
+    },
+    {
+      "bars": 2,
+      "chords": "D | A",
+      "melody": "F#4:2 G#4:1 | A4:3",
+      "dyn": 0.16,
+      "layers": []
+    }
+  ]
+}

@@ -1,0 +1,102 @@
+{
+  "title": "Ngọn đèn còn sáng",
+  "about": "Round 40, hoc-vien (\"8 BẢN DARK PIANO NHẸ NHÀNG ĐỂ NGHE TRƯỚC KHI NGỦ\"), the Dark Academia set, The Lamp Left On: a small lamp still lit when all else has gone quiet, F minor at 53 bpm, the gentlest of the set: a soft felt piano leads in the middle over one soft chord a bar (texture chord, from D3); a nylon-string guitar (dark/soft_model.py) answers with two or three notes in the middle at the sentences' ends, no bass, the two taking turns; warm Db and Ab chords in a minor key; the middle in Ab major. Written to the brief's rules: the piano leads in the middle, now and then the upper middle, never low or heavy (the left hand from D3, no octave under it, the last chord rolled from the middle); a short tune of few notes with rests; struck softly and evenly; minor harmony moving slowly; no climax, no fast notes, no speeding up; every return changed a little (its last note, a rest, the left hand). An original tune.",
+  "style": "hoc-vien",
+  "bpm": 53,
+  "beats": 4,
+  "piano": "felt",
+  "piano_tone": {
+    "lowpass": 1700,
+    "attack": 0.03,
+    "width": 0.7
+  },
+  "room": {
+    "rt60": 1.5,
+    "wet": 0.6
+  },
+  "piano_reverb": 0.2,
+  "texture": "chord",
+  "sections": [
+    {
+      "bars": 4,
+      "chords": "Fm | Dbmaj7 | Ab | Eb",
+      "melody": "r:4 | r:4 | C5:2 Ab4:1 F4:1 | G4:2 r:2",
+      "dyn": 0.24,
+      "layers": [],
+      "lines": {
+        "guitar": "r:2 Ab4:1 C5:1 | r:4 | r:4 | r:2 Eb4:1 G4:1"
+      }
+    },
+    {
+      "bars": 8,
+      "chords": "Fm | Dbmaj7 | Ab | Eb | Fm | Dbmaj7 | Bbm7 | Csus4:2 C:2",
+      "melody": "C5:2 Ab4:1 F4:1 | F4:2 r:2 | Eb4:1 F4:1 Ab4:2 | G4:2 r:2 | C5:2 Ab4:1 F4:1 | Ab4:2 r:2 | Db5:1 C5:1 Bb4:2 | G4:2 r:2",
+      "dyn": 0.28,
+      "layers": [],
+      "lines": {
+        "guitar": "r:4 | r:4 | r:4 | r:2 Eb4:1 G4:1 | r:4 | r:4 | r:4 | r:2 E4:1 G4:1"
+      }
+    },
+    {
+      "bars": 8,
+      "chords": "Fm | Dbmaj7 | Ab | Eb | Fm | Dbmaj7 | Bbm7:2 C:2 | Fm",
+      "melody": "C5:2 Ab4:1 F4:1 | F4:2 r:2 | Eb4:1 F4:1 Ab4:2 | G4:2 r:2 | C5:2 Bb4:1 Ab4:1 | Ab4:2 r:2 | Db5:1 C5:1 Bb4:1 G4:1 | F4:2 r:2",
+      "dyn": 0.28,
+      "layers": [],
+      "lines": {
+        "guitar": "r:4 | r:2 Ab4:1 F4:1 | r:4 | r:2 Eb4:1 G4:1 | r:4 | r:4 | r:4 | r:2 Ab4:1 C5:1"
+      }
+    },
+    {
+      "bars": 8,
+      "chords": "Dbmaj7 | Ab/C | Bbm7 | Eb | Dbmaj7 | Ab/C | Bbm7 | Csus4:2 C:2",
+      "melody": "F4:2 Ab4:2 | Eb4:2 r:2 | Bb4:1 Ab4:1 F4:2 | G4:2 r:2 | Ab4:2 C5:2 | C5:2 r:2 | Db5:2 Bb4:2 | G4:2 r:2",
+      "dyn": 0.28,
+      "layers": [],
+      "lines": {
+        "guitar": "r:4 | r:2 C4:1 Eb4:1 | r:4 | r:2 Bb3:1 Eb4:1 | r:4 | r:2 Eb4:1 Ab4:1 | r:4 | r:2 G4:1 C5:1"
+      }
+    },
+    {
+      "bars": 8,
+      "chords": "Fm | Dbmaj7 | Ab | Eb | Fm | Dbmaj7 | Bbm7 | Csus4:2 C:2",
+      "melody": "C5:2 Ab4:1 F4:1 | F4:2 r:2 | Eb4:2 Ab4:2 | G4:2 r:2 | C5:2 Ab4:1 F4:1 | Ab4:2 r:2 | Db5:2 Bb4:2 | G4:2 r:2",
+      "dyn": 0.28,
+      "layers": [],
+      "lines": {
+        "guitar": "r:4 | r:4 | r:4 | r:2 Eb4:1 G4:1 | r:4 | r:4 | r:4 | r:2 E4:1 G4:1"
+      }
+    },
+    {
+      "bars": 8,
+      "chords": "Dbmaj7 | Ab/C | Bbm7 | Eb | Dbmaj7 | Ab/C | Bbm7 | Csus4:2 C:2",
+      "melody": "F4:2 Ab4:2 | Eb4:3 r:1 | Bb4:1 Ab4:1 F4:2 | G4:3 r:1 | Ab4:2 C5:2 | C5:3 r:1 | Db5:2 Bb4:2 | G4:2 r:2",
+      "dyn": 0.28,
+      "layers": [],
+      "lines": {
+        "guitar": "r:4 | r:4 | r:4 | r:4 | r:4 | r:4 | r:4 | r:2 E4:1 G4:1"
+      }
+    },
+    {
+      "bars": 8,
+      "chords": "Fm | Dbmaj7 | Ab | Eb | Fm | Dbmaj7 | Bbm7:2 C:2 | Fm",
+      "melody": "C5:2 F4:2 | F4:3 r:1 | Ab4:2 Eb4:2 | G4:2 r:2 | C5:2 Ab4:2 | Ab4:3 r:1 | C5:2 Bb4:2 | F4:2 r:2",
+      "dyn": 0.26,
+      "layers": [],
+      "lines": {
+        "guitar": "r:4 | r:4 | r:4 | r:2 Eb4:1 G4:1 | r:4 | r:4 | r:4 | r:2 Ab4:1 C5:1"
+      }
+    },
+    {
+      "bars": 4,
+      "chords": "Dbmaj7 | Bbm7 | Fm | Fm",
+      "melody": "Ab4:2 r:2 | F4:2 r:2 | F4:4 | r:4",
+      "dyn": 0.22,
+      "layers": [],
+      "lines": {
+        "guitar": "r:2 F4:1 Ab4:1 | r:2 Db4:1 F4:1 | r:4 | r:4"
+      },
+      "rit": true
+    }
+  ]
+}

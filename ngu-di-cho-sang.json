@@ -1,0 +1,62 @@
+{
+  "title": "Ngủ đi, chờ sáng",
+  "about": "Round 30, (\"tôi thích nhất là âm thanh bản R1, hãy sáng tạo thêm, tiếng piano và âm thanh ambient có thể thay đổi linh hoạt theo đề xuất của bạn, tôi muốn nhạc nghe dễ ngủ\"), written to close the album of a year's waiting: a lullaby in C minor at 54 bpm that ends in C major, on R1's sound, with the violas' thin line under the middle. Its motif climbs the chord gently (G-C-Eb) and steps back down (D-C-Bb); the middle in E-flat reaches C6 once; the last sentence is the same tune in C major (E natural, Ab and Fm6 borrowed for their warmth), ending on E over C, as a night that has waited ends at morning. Written to be easy to sleep to: its tune moves mostly by step within about an octave and a half, low, its sentences come back with small changes, the left hand rocks in eighths (texture flow) through most of it, no chord is struck hard and the climax stays low. An original tune. Round 31 (\"tôi muốn nhạc ambient hơn, tiếng piano mờ ảo hơn\"): on ke-chuyen-mong, the piano a little further and hazier and through a soft echo. Round 32 (\"tôi vẫn thích tiếng piano gần tai hơn\"): on ke-chuyen-gan, the piano near again (as in ke-chuyen-relax), the hall, haze and echo kept.",
+  "style": "ke-chuyen-gan",
+  "bpm": 54,
+  "beats": 4,
+  "sections": [
+    {
+      "bars": 8,
+      "chords": "Cm | Bb | Ab | G7sus4:2 G7:2 | Cm | Fm | Dm7b5 | G7",
+      "melody": "G4:1 C5:1 Eb5:2 | D5:1.5 C5:0.5 Bb4:2 | Ab4:1 C5:1 Eb5:2 | C5:2 B4:1 r:1 | G4:1 C5:1 G5:2 | F5:1.5 Eb5:0.5 C5:2 | D5:1 F5:1 Ab5:1.5 G5:0.5 | F5:2 D5:1 r:1",
+      "dyn": 0.26,
+      "layers": []
+    },
+    {
+      "bars": 16,
+      "chords": "Cm | Bb | Ab | G7sus4:2 G7:2 | Cm | Fm | Dm7b5 | G7 | Cm | Bb | Ab | G7sus4:2 G7:2 | Ab | Eb/G | Fm7 | G7",
+      "melody": "G4:1 C5:1 Eb5:2 | D5:1.5 C5:0.5 Bb4:2 | Ab4:1 C5:1 Eb5:2 | C5:2 B4:1 r:1 | G4:1 C5:1 G5:2 | F5:1.5 Eb5:0.5 C5:2 | D5:1 F5:1 Ab5:1.5 G5:0.5 | F5:2 D5:1 r:1 | G4:1 C5:1 Eb5:2 | D5:1.5 C5:0.5 Bb4:2 | Ab4:1 C5:1 Eb5:2 | C5:2 B4:1 r:1 | C5:1 Eb5:1 Ab5:2 | G5:1.5 F5:0.5 Eb5:2 | Ab5:1 F5:1 C5:1.5 D5:0.5 | B4:3 r:1",
+      "texture": "flow",
+      "dyn": 0.32,
+      "layers": [
+        "cello-counter"
+      ]
+    },
+    {
+      "bars": 8,
+      "chords": "Ab | Eb/G | Fm7 | Bb | Ab | Eb/G | Fm7:2 G7:2 | G7",
+      "melody": "C5:1 Eb5:1 Ab5:2 | G5:2 Bb4:2 | Ab5:1.5 G5:0.5 F5:2 | D5:3 r:1 | Eb5:1 Ab5:1 C6:2 | Bb5:1.5 Ab5:0.5 G5:2 | Ab5:1 F5:1 D5:1 B4:1 | G5:3 r:1",
+      "texture": "flow",
+      "dyn": 0.4,
+      "layers": [
+        "strings",
+        "viola-pad"
+      ]
+    },
+    {
+      "bars": 8,
+      "chords": "Cm | Bb | Ab | G7sus4:2 G7:2 | Cm | Fm | Dm7b5 | G7",
+      "melody": "G4:1 C5:1 Eb5:2 | D5:1.5 C5:0.5 Bb4:2 | Ab4:1 C5:1 Eb5:2 | C5:2 B4:1 r:1 | G4:1 C5:1 G5:2 | F5:1.5 Eb5:0.5 C5:2 | D5:1 F5:1 Ab5:1.5 G5:0.5 | F5:2 D5:1 r:1",
+      "texture": "flow",
+      "dyn": 0.3,
+      "layers": [
+        "viola-end"
+      ]
+    },
+    {
+      "bars": 8,
+      "chords": "C | G/B | Ab | G7sus4:2 G7:2 | C | F | Fm6 | C",
+      "melody": "G4:1 C5:1 E5:2 | D5:1.5 C5:0.5 B4:2 | Ab4:1 C5:1 Eb5:2 | C5:2 B4:1 r:1 | G4:1 C5:1 G5:2 | F5:1.5 E5:0.5 C5:2 | Ab4:1 C5:1 D5:1.5 C5:0.5 | C5:4",
+      "dyn": 0.24,
+      "rit": true,
+      "layers": []
+    },
+    {
+      "bars": 2,
+      "chords": "Fm6 | C",
+      "melody": "Ab4:1 C5:1 D5:2 | E5:4",
+      "dyn": 0.18,
+      "layers": []
+    }
+  ]
+}

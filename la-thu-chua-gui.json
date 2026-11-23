@@ -1,0 +1,149 @@
+{
+  "title": "Những lá thư chưa gửi",
+  "about": "Round 40, hoc-vien (\"8 BẢN DARK PIANO NHẸ NHÀNG ĐỂ NGHE TRƯỚC KHI NGỦ\"), the Dark Academia set, Letters Never Sent: old letters never sent, C minor at 56 bpm: a mellow grand leads a short, soft, sad tune (G-Ab-G, Eb), the left hand rocking gently in the middle (texture flow, from D3); a muted viola holds one long note only where the piano rests, the two taking turns, never thick together; the middle in Eb major. Written to the brief's rules: the piano leads in the middle, now and then the upper middle, never low or heavy (the left hand from D3, no octave under it, the last chord rolled from the middle); a short tune of few notes with rests; struck softly and evenly; minor harmony moving slowly; no climax, no fast notes, no speeding up; every return changed a little (its last note, a rest, the left hand). An original tune.",
+  "style": "hoc-vien",
+  "bpm": 56,
+  "beats": 4,
+  "piano": "salamander",
+  "piano_tone": {
+    "release_db": -60,
+    "pedal_noise": false,
+    "eq": [
+      [
+        80,
+        2
+      ],
+      [
+        150,
+        3
+      ],
+      [
+        250,
+        2.5
+      ],
+      [
+        400,
+        1
+      ],
+      [
+        700,
+        0
+      ],
+      [
+        1200,
+        -2
+      ],
+      [
+        2000,
+        -6
+      ],
+      [
+        3000,
+        -10
+      ],
+      [
+        5000,
+        -14
+      ],
+      [
+        8000,
+        -18
+      ]
+    ],
+    "eq_amount": 0.8,
+    "lowpass": 3200,
+    "attack": 0.02,
+    "width": 0.8
+  },
+  "room": {
+    "rt60": 1.8,
+    "wet": 0.75
+  },
+  "piano_reverb": 0.26,
+  "texture": "flow",
+  "sections": [
+    {
+      "bars": 4,
+      "chords": "Cm | Abmaj7 | Fm7 | Gsus4:2 G:2",
+      "melody": "r:4 | r:4 | G4:1 Ab4:1 G4:2 | r:4",
+      "dyn": 0.24,
+      "layers": [],
+      "lines": {
+        "viola": "r:4 | r:4 | r:4 | r:2 B3:2"
+      }
+    },
+    {
+      "bars": 8,
+      "chords": "Cm | Abmaj7 | Fm7 | Gsus4:2 G:2 | Cm | Abmaj7 | Fm7:2 G:2 | Cm",
+      "melody": "G4:1 Ab4:1 G4:2 | Eb4:2 r:2 | F4:1 G4:1 Ab4:2 | G4:2 r:2 | G4:1 Ab4:1 Bb4:2 | C5:2 r:2 | Ab4:1 G4:1 F4:1 D4:1 | C4:1 r:3",
+      "dyn": 0.28,
+      "layers": [],
+      "lines": {
+        "viola": "r:4 | r:2 C4:2 | r:4 | r:2 B3:2 | r:4 | r:2 Eb4:2 | r:4 | r:1 G3:3"
+      }
+    },
+    {
+      "bars": 8,
+      "chords": "Cm | Abmaj7 | Fm7 | Gsus4:2 G:2 | Cm | Abmaj7 | Fm7:2 G:2 | Cm",
+      "melody": "G4:1 Ab4:1 G4:2 | Eb4:2 r:2 | F4:1 G4:1 Ab4:2 | G4:2 r:2 | G4:1 Ab4:1 Bb4:2 | Ab4:2 r:2 | G4:1 F4:1 D4:2 | C4:1 r:3",
+      "dyn": 0.28,
+      "layers": [],
+      "lines": {
+        "viola": "r:4 | r:2 C4:2 | r:4 | r:2 D4:2 | r:4 | r:2 C4:2 | r:4 | r:1 Eb4:3"
+      }
+    },
+    {
+      "bars": 8,
+      "chords": "Abmaj7 | Eb/G | Fm7 | Bb | Abmaj7 | Eb/G | Fm7 | Gsus4:2 G:2",
+      "melody": "C5:2 Bb4:1 Ab4:1 | G4:2 r:2 | Ab4:1 Bb4:1 C5:2 | D5:2 r:2 | C5:2 Bb4:1 Ab4:1 | Bb4:2 r:2 | Ab4:1 G4:1 F4:2 | G4:2 r:2",
+      "dyn": 0.28,
+      "layers": [],
+      "lines": {
+        "viola": "r:4 | r:2 Eb4:2 | r:4 | r:2 F4:2 | r:4 | r:2 G4:2 | r:4 | r:2 B3:2"
+      }
+    },
+    {
+      "bars": 8,
+      "chords": "Cm | Abmaj7 | Fm7 | Gsus4:2 G:2 | Cm | Abmaj7 | Fm7:2 G:2 | Cm",
+      "melody": "G4:1 Ab4:1 G4:2 | Eb4:2 r:2 | F4:1 G4:1 Ab4:2 | G4:2 r:2 | G4:1 Ab4:1 G4:1 F4:1 | Eb4:2 r:2 | Ab4:1 G4:1 F4:1 D4:1 | C4:1 r:3",
+      "dyn": 0.28,
+      "layers": [],
+      "lines": {
+        "viola": "r:4 | r:2 C4:2 | r:4 | r:2 B3:2 | r:4 | r:2 C4:2 | r:4 | r:1 G3:3"
+      }
+    },
+    {
+      "bars": 8,
+      "chords": "Abmaj7 | Eb/G | Fm7 | Bb | Abmaj7 | Eb/G | Fm7 | Gsus4:2 G:2",
+      "melody": "C5:2 Bb4:1 Ab4:1 | G4:3 r:1 | Ab4:1 Bb4:1 C5:2 | Bb4:2 r:2 | C5:2 Ab4:2 | G4:2 r:2 | F4:1 G4:1 Ab4:2 | G4:2 r:2",
+      "dyn": 0.28,
+      "layers": [],
+      "lines": {
+        "viola": "r:4 | r:4 | r:4 | r:2 D4:2 | r:4 | r:2 Eb4:2 | r:4 | r:2 D4:2"
+      }
+    },
+    {
+      "bars": 8,
+      "chords": "Cm | Abmaj7 | Fm7 | Gsus4:2 G:2 | Cm | Abmaj7 | Fm7:2 G:2 | Cm",
+      "melody": "G4:1 Ab4:1 G4:2 | Eb4:2 r:2 | F4:2 Ab4:2 | G4:2 r:2 | G4:2 Bb4:2 | C5:2 r:2 | Ab4:2 D4:2 | C4:2 r:2",
+      "texture": "dyad",
+      "dyn": 0.26,
+      "layers": [],
+      "lines": {
+        "viola": "r:4 | r:2 C4:2 | r:4 | r:2 B3:2 | r:4 | r:2 Eb4:2 | r:4 | r:2 G3:2"
+      }
+    },
+    {
+      "bars": 4,
+      "chords": "Abmaj7 | Fm7 | Cm | Cm",
+      "melody": "Eb4:2 r:2 | F4:2 r:2 | G4:2 Eb4:2 | r:4",
+      "texture": "dyad",
+      "dyn": 0.22,
+      "layers": [],
+      "lines": {
+        "viola": "r:2 C4:2 | r:2 Ab3:2 | r:4 | r:4"
+      },
+      "rit": true
+    }
+  ]
+}
